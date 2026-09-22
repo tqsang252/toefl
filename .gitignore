@@ -1,0 +1,60 @@
+# ====================================================================
+# TOEFL SMART 2026 - GIT IGNORE CONFIGURATION
+# ====================================================================
+
+# 1. Dependencies (Thư viện cài đặt)
+node_modules/
+.pnp
+.pnp.js
+
+# 2. Build Outputs (Thư mục build khi chạy npm run build)
+dist/
+dist-ssr/
+build/
+out/
+
+# 3. Environment Variables & Secret Keys (Bảo mật key Supabase / API)
+# TUYỆT ĐỐI không đẩy file chứa API key thật lên GitHub
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+!*.env.example
+
+# 4. Vercel deployment cache
+.vercel/
+
+# 5. Debug and error logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# 6. IDE / Code Editor Settings
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 7. OS Generated Files (Windows / MacOS)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 8. Temporary files
+*.local
+tmp/
+temp/
