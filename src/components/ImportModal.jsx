@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
-import { X, Sparkles, Upload, Copy, Check, FileCode, AlertCircle } from 'lucide-react';
+import { X, Sparkles, Upload, Copy, Check, FileCode, AlertCircle, Info } from 'lucide-react';
+import { jsonrepair } from 'jsonrepair';
 import { importBatchTests } from '../lib/supabase';
 
-const SAMPLE_READING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL READING gồm 2 Module thích ứng (Module 1 và Module 2), mỗi Module có đủ: Complete the Words (1-2 đoạn), Read in Daily Life (1 bài), và Academic Passage (1 bài), theo đúng chuẩn JSON sau:
+const SAMPLE_READING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL READING gồm 2 Module thích ứng (Module 1 và Module 2), mỗi Module có đủ: Complete the Words (1-2 đoạn), Read in Daily Life (1 bài), và Academic Passage (1 bài).
+
+⚠️ QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS:
+1. ĐÁP ÁN TRẮC NGHIỆM PHẢI PHÂN BỐ ĐỀU VÀ NGẪU NHIÊN:
+   - Các đáp án đúng ('correct_answer') BẮT BUỘC phải phân bố đều và ngẫu nhiên giữa các phương án A, B, C, D (mỗi phương án chiếm khoảng 25%).
+   - TUYỆT ĐỐI KHÔNG để tất cả hoặc đa số câu hỏi đều có đáp án là A. Phải xáo trộn ngẫu nhiên vị trí đáp án đúng vào B, C, D, A.
+2. VỚI DẠNG COMPLETE THE WORDS:
+   - Trong 'paragraph', các từ khuyết chữ cái PHẢI viết kèm ngoặc vuông [phần_đuôi_khuyết] (ví dụ: 'Solar energy is becom[ing] the most popu[lar] altern[ative] res[ources]...').
+
+Cấu trúc JSON chuẩn:
 [
   {
     "title": "Reading Full Test 02",
@@ -37,8 +47,8 @@ const SAMPLE_READING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL
                 {
                   "id": "q1",
                   "prompt": "When does the library close?",
-                  "options": { "A": "5 PM", "B": "8 PM", "C": "10 PM", "D": "Midnight" },
-                  "correct_answer": "A",
+                  "options": { "A": "Midnight", "B": "5 PM", "C": "10 PM", "D": "8 PM" },
+                  "correct_answer": "B",
                   "explanation": "Paragraph 1 mentions 5 PM."
                 }
               ]
@@ -55,8 +65,8 @@ const SAMPLE_READING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL
                 {
                   "id": "q2",
                   "prompt": "What triggers magma ascent?",
-                  "options": { "A": "Pressure differences", "B": "Tidal waves", "C": "Wind currents", "D": "Solar flares" },
-                  "correct_answer": "A",
+                  "options": { "A": "Tidal waves", "B": "Wind currents", "C": "Solar flares", "D": "Pressure differences" },
+                  "correct_answer": "D",
                   "explanation": "Magma rises due to buoyancy and pressure differences."
                 }
               ]
@@ -90,8 +100,8 @@ const SAMPLE_READING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL
                 {
                   "id": "q3",
                   "prompt": "Who is eligible?",
-                  "options": { "A": "Full-time students", "B": "Only faculty", "C": "Alumni only", "D": "Visitors" },
-                  "correct_answer": "A",
+                  "options": { "A": "Only faculty", "B": "Alumni only", "C": "Full-time students", "D": "Visitors" },
+                  "correct_answer": "C",
                   "explanation": "Eligible for all full-time registered students."
                 }
               ]
@@ -107,7 +117,7 @@ const SAMPLE_READING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL
                 {
                   "id": "q4",
                   "prompt": "What is neuroplasticity?",
-                  "options": { "A": "Brain adaptation", "B": "Bone growth", "C": "Blood flow", "D": "Muscle contraction" },
+                  "options": { "A": "Brain adaptation and neural rewiring", "B": "Bone growth", "C": "Blood flow", "D": "Muscle contraction" },
                   "correct_answer": "A",
                   "explanation": "Ability of neural networks to rewire."
                 }
@@ -119,9 +129,24 @@ const SAMPLE_READING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL
     ]
   }
 ]
-Chỉ trả về JSON thuần túy, không kèm văn bản nào khác.`;
+QUY TẮC BẮT BUỘC:
+1. Chỉ trả về JSON thuần túy, không kèm văn bản nào khác.
+2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong chuỗi (dùng ngoặc đơn ').
+3. Đáp án trắc nghiệm A, B, C, D phải phân bố đều và ngẫu nhiên (~25% mỗi chữ cái).`;
 
-const SAMPLE_WRITING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL WRITING chuẩn ETS 2026 gồm đúng 3 bài (Task 1: Build a Sentence 10 câu có câu ngữ cảnh ban đầu và từ bẫy, Task 2: Write an Email với 3 yêu cầu, và Task 3: Academic Discussion có ý kiến giáo sư và 2 sinh viên đối lập), theo đúng cấu trúc JSON sau:
+const SAMPLE_WRITING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL WRITING chuẩn ETS 2026 gồm đúng 3 bài (Task 1: Build a Sentence 10 câu có câu ngữ cảnh ban đầu và từ bẫy, Task 2: Write an Email với 3 yêu cầu, và Task 3: Academic Discussion có ý kiến giáo sư và 2 sinh viên đối lập).
+
+⚠️ CÁC QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS:
+1. QUY TẮC BẮT BUỘC CHO TASK 1 (BUILD A SENTENCE):
+   - TẤT CẢ các từ trong 'scrambled', 'correct_order', 'decoys' BẮT BUỘC PHẢI VIẾT THƯỜNG TOÀN BỘ (lowercase).
+   - TUYỆT ĐỐI KHÔNG viết hoa chữ cái đầu tiên của câu (ví dụ: viết 'the', 'she', 'because', 'although' chứ KHÔNG viết 'The', 'She', 'Because', 'Although') để không làm lộ từ mở đầu cho thí sinh!
+   - Thứ tự các từ trong mảng 'scrambled' BẮT BUỘC PHẢI ĐẢO LỘN XỘN NGẪU NHIÊN HOÀN TOÀN, TUYỆT ĐỐI KHÔNG được để các từ theo đúng thứ tự câu hay gần đúng thứ tự câu.
+   - Mỗi câu phải kèm 2-3 từ bẫy ('decoys') viết thường, có ngữ pháp hoặc nghĩa tương tự để thử thách học viên.
+2. CÚ PHÁP:
+   - Chỉ trả về JSON thuần túy, không kèm giải thích bên ngoài.
+   - Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').
+
+Cấu trúc JSON chuẩn:
 [
   {
     "title": "Writing Full Test 02",
@@ -144,10 +169,10 @@ const SAMPLE_WRITING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL
                   "id": "item1",
                   "context": "Professor: 'Why were several questions on the biology midterm exam revised this morning?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["materials", "ambiguous", "The", "contained", "questions", "wording", "the", "contain"],
-                  "correct_order": ["The", "questions", "contained", "ambiguous", "wording"],
-                  "correct_sentence": "The questions contained ambiguous wording.",
-                  "decoys": ["contain", "the", "materials"]
+                  "scrambled": ["ambiguous", "contain", "the", "wording", "materials", "contained", "questions", "a"],
+                  "correct_order": ["the", "questions", "contained", "ambiguous", "wording"],
+                  "correct_sentence": "the questions contained ambiguous wording.",
+                  "decoys": ["contain", "materials", "a"]
                 }
               ]
             }
@@ -199,15 +224,24 @@ const SAMPLE_WRITING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL
     ]
   }
 ]
-QUY TẮC BẮT BUỘC ĐỂ JSON KHÔNG BỊ LỖI CÚ PHÁP:
+QUY TẮC BẮT BUỘC:
 1. Chỉ trả về JSON thuần túy, không kèm giải thích.
-2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').`;
+2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').
+3. Task 1 Build a Sentence: 100% từ trong scrambled, correct_order, decoys PHẢI viết thường, và scrambled PHẢI đảo lộn xộn.`;
 
 const SAMPLE_LISTENING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL LISTENING chuẩn ETS 2026 gồm đúng 2 Module thích ứng (Module 1 và Module 2), mỗi Module đếm ngược 14.5 phút (870s), gồm đủ 4 dạng bài:
 - Task 1: Listen & Choose a Response (5 câu hỏi phản xạ với audio_text, prompt, options A-D)
 - Task 2: Campus Announcement (1 bài thông báo khuôn viên với audio_text, 2 câu hỏi)
 - Task 3: Campus Conversation (1 cuộc hội thoại sinh viên & giáo sư/cố vấn với audio_text, 3 câu hỏi)
 - Task 4: Academic Talk (1 bài giảng học thuật ngắn 120-200 từ với audio_text, 3 câu hỏi)
+
+⚠️ QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS:
+1. ĐÁP ÁN TRẮC NGHIỆM PHẢI PHÂN BỐ ĐỀU VÀ NGẪU NHIÊN:
+   - Các đáp án đúng ('correct_answer') BẮT BUỘC phải phân bố đều và ngẫu nhiên giữa các phương án A, B, C, D (mỗi phương án chiếm khoảng 25%).
+   - TUYỆT ĐỐI KHÔNG để tất cả hoặc đa số câu hỏi đều có đáp án là A. Phải xáo trộn ngẫu nhiên vị trí đáp án đúng vào B, C, D, A.
+2. CÚ PHÁP:
+   - Chỉ trả về JSON thuần túy, không kèm giải thích bên ngoài.
+   - Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').
 
 Cấu trúc JSON chuẩn:
 [
@@ -233,12 +267,12 @@ Cấu trúc JSON chuẩn:
                   "audio_text": "Do you know if the campus shuttle still stops at the north dormitory after 8 PM?",
                   "prompt": "Select the most appropriate response to what you heard:",
                   "options": {
-                    "A": "Yes, but it only runs every thirty minutes after eight.",
-                    "B": "The shuttle bus was purchased three years ago.",
+                    "A": "The shuttle bus was purchased three years ago.",
+                    "B": "Yes, but it only runs every thirty minutes after eight.",
                     "C": "The north dormitory has single and double rooms.",
                     "D": "I usually walk to the library in the morning."
                   },
-                  "correct_answer": "A",
+                  "correct_answer": "B",
                   "explanation": "Hỏi về lịch trình xe buýt sau 8 giờ tối ('shuttle stops... after 8 PM?'), câu trả lời thích hợp là 'Yes, but it only runs every thirty minutes after eight'."
                 }
               ]
@@ -257,12 +291,12 @@ Cấu trúc JSON chuẩn:
                   "id": "l2_t2_q1",
                   "prompt": "What is the primary purpose of the announcement?",
                   "options": {
-                    "A": "To notify students about temporary facility maintenance",
-                    "B": "To recruit student library assistants",
-                    "C": "To announce new book acquisition policies",
+                    "A": "To recruit student library assistants",
+                    "B": "To announce new book acquisition policies",
+                    "C": "To notify students about temporary facility maintenance",
                     "D": "To cancel upcoming final exams"
                   },
-                  "correct_answer": "A",
+                  "correct_answer": "C",
                   "explanation": "Thông báo thông tin về việc đóng cửa tạm thời một phần thư viện để bảo trì."
                 }
               ]
@@ -281,12 +315,12 @@ Cấu trúc JSON chuẩn:
                   "id": "l2_t3_q1",
                   "prompt": "Why did the student arrange the meeting with the advisor?",
                   "options": {
-                    "A": "To inquire about receiving academic credit for an internship",
-                    "B": "To withdraw from university classes",
-                    "C": "To change their academic major",
-                    "D": "To apply for campus housing"
+                    "A": "To withdraw from university classes",
+                    "B": "To change their academic major",
+                    "C": "To apply for campus housing",
+                    "D": "To inquire about receiving academic credit for an internship"
                   },
-                  "correct_answer": "A",
+                  "correct_answer": "D",
                   "explanation": "Sinh viên đến hỏi về thủ tục đổi tín chỉ học thuật từ kỳ thực tập mùa hè."
                 }
               ]
@@ -335,12 +369,12 @@ Cấu trúc JSON chuẩn:
                   "audio_text": "Has Professor Miller returned your draft for the economics thesis yet?",
                   "prompt": "Select the most appropriate response to what you heard:",
                   "options": {
-                    "A": "Not yet, she said she would send feedback by tomorrow afternoon.",
-                    "B": "Economics is a challenging subject for many undergraduates.",
-                    "C": "The textbook is available in the university bookstore.",
+                    "A": "Economics is a challenging subject for many undergraduates.",
+                    "B": "The textbook is available in the university bookstore.",
+                    "C": "Not yet, she said she would send feedback by tomorrow afternoon.",
                     "D": "I wrote forty pages on international trade."
                   },
-                  "correct_answer": "A",
+                  "correct_answer": "C",
                   "explanation": "Hỏi về phản hồi bài luận ('returned your draft yet?'), câu trả lời phù hợp là 'Not yet, she said she would send feedback by tomorrow afternoon'."
                 }
               ]
@@ -359,12 +393,12 @@ Cấu trúc JSON chuẩn:
                   "id": "l2_m2_t2_q1",
                   "prompt": "What should students bring to the career fair?",
                   "options": {
-                    "A": "Updated printed copies of their resumes and student IDs",
-                    "B": "Their official high school graduation diplomas",
+                    "A": "Their official high school graduation diplomas",
+                    "B": "Updated printed copies of their resumes and student IDs",
                     "C": "Receipts for their dormitory meal plan",
                     "D": "Letters of recommendation from their parents"
                   },
-                  "correct_answer": "A",
+                  "correct_answer": "B",
                   "explanation": "Học sinh được khuyên mang theo bản in CV và thẻ sinh viên khi đến hội chợ việc làm."
                 }
               ]
@@ -383,12 +417,12 @@ Cấu trúc JSON chuẩn:
                   "id": "l2_m2_t3_q1",
                   "prompt": "What problem is the student facing?",
                   "options": {
-                    "A": "A laboratory instrument is showing an error message",
-                    "B": "They forgot the combination to their lab locker",
-                    "C": "The chemical solutions have all evaporated",
-                    "D": "They arrived two hours late for lab section"
+                    "A": "They forgot the combination to their lab locker",
+                    "B": "The chemical solutions have all evaporated",
+                    "C": "They arrived two hours late for lab section",
+                    "D": "A laboratory instrument is showing an error message"
                   },
-                  "correct_answer": "A",
+                  "correct_answer": "D",
                   "explanation": "Máy quang phổ số trong phòng thí nghiệm hiện mã lỗi khiến thí sinh không thể đo kết quả."
                 }
               ]
@@ -407,12 +441,12 @@ Cấu trúc JSON chuẩn:
                   "id": "l2_m2_t4_q1",
                   "prompt": "How does the radial velocity method detect extrasolar planets?",
                   "options": {
-                    "A": "By detecting tiny Doppler shifts in the parent star's spectrum caused by gravitational wobble",
-                    "B": "By sending robotic probes directly to the alien planets",
+                    "A": "By sending robotic probes directly to the alien planets",
+                    "B": "By detecting tiny Doppler shifts in the parent star's spectrum caused by gravitational wobble",
                     "C": "By observing changes in the planet's atmospheric weather patterns",
                     "D": "By recording radio broadcast signals sent from the planet"
                   },
-                  "correct_answer": "A",
+                  "correct_answer": "B",
                   "explanation": "Phương pháp vận tốc xuyên tâm phát hiện hành tinh bằng cách đo độ lệch Doppler trong quang phổ của ngôi sao mẹ do dao động trọng lực."
                 }
               ]
@@ -423,9 +457,10 @@ Cấu trúc JSON chuẩn:
     ]
   }
 ]
-QUY TẮC BẮT BUỘC ĐỂ JSON KHÔNG BỊ LỖI CÚ PHÁP:
+QUY TẮC BẮT BUỘC:
 1. Chỉ trả về JSON thuần túy, không kèm giải thích.
-2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').`;
+2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').
+3. Đáp án trắc nghiệm A, B, C, D BẮT BUỘC phải phân bố đều và ngẫu nhiên (~25% mỗi chữ cái), không được để đáp án luôn ở A.`;
 
 const SAMPLE_SPEAKING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL SPEAKING chuẩn ETS 2026 gồm 8 phút, 11 câu hỏi chia làm đúng 2 dạng bài:
 - Task 1: Listen and Repeat (7 câu tăng dần độ dài từ 6 đến 15 từ, không có thời gian chuẩn bị)
@@ -493,7 +528,20 @@ QUY TẮC BẮT BUỘC ĐỂ JSON KHÔNG BỊ LỖI CÚ PHÁP:
 1. Chỉ trả về JSON thuần túy, không kèm giải thích.
 2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').`;
 
-const SAMPLE_FULL_TEST_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL TEST TOEFL iBT (4 Kỹ năng liên tục trong ~90 phút, theo đúng thứ tự: Reading -> Listening -> Writing -> Speaking), theo đúng cấu trúc JSON sau:
+const SAMPLE_FULL_TEST_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL TEST TOEFL iBT (4 Kỹ năng liên tục trong ~90 phút, theo đúng thứ tự: Reading -> Listening -> Writing -> Speaking), theo đúng cấu trúc JSON sau.
+
+⚠️ CÁC QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS 2026:
+1. ĐÁP ÁN TRẮC NGHIỆM (READING & LISTENING) PHẢI PHÂN BỐ ĐỀU VÀ NGẪU NHIÊN:
+   - Các đáp án đúng ('correct_answer') BẮT BUỘC phải phân bố đều và ngẫu nhiên giữa A, B, C, D (mỗi phương án chiếm khoảng 25%).
+   - TUYỆT ĐỐI KHÔNG để tất cả hoặc đa số câu hỏi đều có đáp án là A. Phải xáo trộn ngẫu nhiên vị trí đáp án đúng vào B, C, D, A.
+2. QUY TẮC BẮT BUỘC CHO WRITING TASK 1 (BUILD A SENTENCE):
+   - TẤT CẢ các từ trong 'scrambled', 'correct_order', 'decoys' BẮT BUỘC PHẢI VIẾT THƯỜNG TOÀN BỘ (lowercase).
+   - TUYỆT ĐỐI KHÔNG viết hoa chữ cái đầu tiên của câu (ví dụ: viết 'the', 'she', 'because', 'although' chứ KHÔNG viết 'The', 'She', 'Because', 'Although') để không làm lộ đáp án cho thí sinh!
+   - Thứ tự các từ trong mảng 'scrambled' BẮT BUỘC PHẢI ĐẢO LỘN XỘN NGẪU NHIÊN HOÀN TOÀN, TUYỆT ĐỐI KHÔNG được để các từ theo đúng thứ tự câu hay gần đúng thứ tự câu.
+3. VỚI DẠNG COMPLETE THE WORDS (READING):
+   - Trong 'paragraph', các từ khuyết chữ cái PHẢI viết kèm ngoặc vuông [phần_đuôi_khuyết] (ví dụ: 'Marine biolog[ists] study how ocean ecosys[tems] adap[t]...').
+
+Cấu trúc JSON chuẩn:
 [
   {
     "title": "TOEFL iBT Full Mock Test 02 (2026 Format)",
@@ -529,8 +577,8 @@ const SAMPLE_FULL_TEST_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOE
                 {
                   "id": "f_r1_q1",
                   "prompt": "When is the team registration deadline?",
-                  "options": { "A": "Friday at 5 PM", "B": "Sunday noon", "C": "Next month", "D": "Tomorrow morning" },
-                  "correct_answer": "A",
+                  "options": { "A": "Tomorrow morning", "B": "Friday at 5 PM", "C": "Next month", "D": "Sunday noon" },
+                  "correct_answer": "B",
                   "explanation": "Notice explicitly specifies Friday 5 PM."
                 }
               ]
@@ -547,8 +595,8 @@ const SAMPLE_FULL_TEST_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOE
                 {
                   "id": "f_r1_q2",
                   "prompt": "What characterized the Cambrian period?",
-                  "options": { "A": "Rapid diversification of major animal phyla", "B": "Extinction of marine life", "C": "Prolonged ice age", "D": "Disappearance of oceans" },
-                  "correct_answer": "A",
+                  "options": { "A": "Extinction of marine life", "B": "Prolonged ice age", "C": "Disappearance of oceans", "D": "Rapid diversification of major animal phyla" },
+                  "correct_answer": "D",
                   "explanation": "Text highlights rapid appearance of major animal phyla."
                 }
               ]
@@ -583,8 +631,8 @@ const SAMPLE_FULL_TEST_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOE
                 {
                   "id": "f_r2_q1",
                   "prompt": "Where can dietary allergen information be verified?",
-                  "options": { "A": "On the digital QR allergen tags", "B": "At the campus police office", "C": "Via postal catalog", "D": "In the local newspaper" },
-                  "correct_answer": "A",
+                  "options": { "A": "At the campus police office", "B": "Via postal catalog", "C": "On the digital QR allergen tags", "D": "In the local newspaper" },
+                  "correct_answer": "C",
                   "explanation": "Verified via QR allergen tags at each station."
                 }
               ]
@@ -625,8 +673,8 @@ const SAMPLE_FULL_TEST_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOE
                   "id": "f_l1_q1",
                   "audio_text": "Could you let me know if the biology lab write-up is due before or after the spring break?",
                   "prompt": "Select the most appropriate response:",
-                  "options": { "A": "Professor Davis announced it is due the Monday after break.", "B": "Biology is taught on the third floor.", "C": "I bought five test tubes yesterday.", "D": "The spring vacation lasts ten days." },
-                  "correct_answer": "A",
+                  "options": { "A": "Biology is taught on the third floor.", "B": "Professor Davis announced it is due the Monday after break.", "C": "I bought five test tubes yesterday.", "D": "The spring vacation lasts ten days." },
+                  "correct_answer": "B",
                   "explanation": "Accurately answers the due date inquiry."
                 }
               ]
@@ -644,8 +692,8 @@ const SAMPLE_FULL_TEST_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOE
                 {
                   "id": "f_l1_q2",
                   "prompt": "What is the reason for the closure?",
-                  "options": { "A": "Scheduled facility upgrade and furniture renovation", "B": "An unscheduled water leak", "C": "Student protest", "D": "Permanent department relocation" },
-                  "correct_answer": "A",
+                  "options": { "A": "An unscheduled water leak", "B": "Permanent department relocation", "C": "Scheduled facility upgrade and furniture renovation", "D": "Student protest" },
+                  "correct_answer": "C",
                   "explanation": "Announcement mentions scheduled three-week renovation."
                 }
               ]
@@ -663,8 +711,8 @@ const SAMPLE_FULL_TEST_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOE
                 {
                   "id": "f_l1_q3",
                   "prompt": "Why is the student visiting the registrar?",
-                  "options": { "A": "To request an official transcript transmission", "B": "To drop out of university", "C": "To pay dorm fines", "D": "To change degree programs" },
-                  "correct_answer": "A",
+                  "options": { "A": "To drop out of university", "B": "To pay dorm fines", "C": "To change degree programs", "D": "To request an official transcript transmission" },
+                  "correct_answer": "D",
                   "explanation": "The student requested an official electronic transcript."
                 }
               ]
@@ -707,8 +755,8 @@ const SAMPLE_FULL_TEST_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOE
                   "id": "f_l2_q1",
                   "audio_text": "Did you manage to reserve a private study room in the science library?",
                   "prompt": "Select the most appropriate response:",
-                  "options": { "A": "Yes, I booked room 304 from two to four this afternoon.", "B": "The science building was built fifty years ago.", "C": "I enjoy studying with four friends.", "D": "Chemistry textbooks are expensive." },
-                  "correct_answer": "A",
+                  "options": { "A": "The science building was built fifty years ago.", "B": "Chemistry textbooks are expensive.", "C": "Yes, I booked room 304 from two to four this afternoon.", "D": "I enjoy studying with four friends." },
+                  "correct_answer": "C",
                   "explanation": "Direct response specifying the reserved study room and time."
                 }
               ]
@@ -726,8 +774,8 @@ const SAMPLE_FULL_TEST_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOE
                 {
                   "id": "f_l2_q2",
                   "prompt": "What event is announced?",
-                  "options": { "A": "Free seasonal influenza immunization clinic", "B": "A campus marathon", "C": "Nutrition cooking class", "D": "Medical school open house" },
-                  "correct_answer": "A",
+                  "options": { "A": "A campus marathon", "B": "Free seasonal influenza immunization clinic", "C": "Nutrition cooking class", "D": "Medical school open house" },
+                  "correct_answer": "B",
                   "explanation": "Free flu vaccination clinic at Student Center."
                 }
               ]
@@ -745,8 +793,8 @@ const SAMPLE_FULL_TEST_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOE
                 {
                   "id": "f_l2_q3",
                   "prompt": "What issue did the student report?",
-                  "options": { "A": "Damaged laboratory glassware needing replacement", "B": "A missing lab textbook", "C": "Early departure from class", "D": "An incorrect homework grade" },
-                  "correct_answer": "A",
+                  "options": { "A": "A missing lab textbook", "B": "Early departure from class", "C": "An incorrect homework grade", "D": "Damaged laboratory glassware needing replacement" },
+                  "correct_answer": "D",
                   "explanation": "Student reported cracked glassware."
                 }
               ]
@@ -790,10 +838,10 @@ const SAMPLE_FULL_TEST_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOE
                   "id": "f_w_item1",
                   "context": "Professor: 'Why were several questions on the midterm revised?'",
                   "target_prompt": "Hoàn thiện câu trả lời:",
-                  "scrambled": ["materials", "ambiguous", "The", "contained", "questions", "wording", "the", "contain"],
-                  "correct_order": ["The", "questions", "contained", "ambiguous", "wording"],
-                  "correct_sentence": "The questions contained ambiguous wording.",
-                  "decoys": ["contain", "the", "materials"]
+                  "scrambled": ["ambiguous", "contain", "the", "wording", "materials", "contained", "questions", "a"],
+                  "correct_order": ["the", "questions", "contained", "ambiguous", "wording"],
+                  "correct_sentence": "the questions contained ambiguous wording.",
+                  "decoys": ["contain", "materials", "a"]
                 }
               ]
             }
@@ -888,13 +936,17 @@ const SAMPLE_FULL_TEST_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOE
     ]
   }
 ]
-QUY TẮC BẮT BUỘC:
+QUY TẮC BẮT BUỘC ĐỂ JSON KHÔNG BỊ LỖI CÚ PHÁP:
 1. Chỉ trả về JSON thuần túy, không kèm giải thích bên ngoài.
-2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có hãy dùng ngoặc đơn '...').
-3. Đúng 6 stages theo thứ tự: Reading M1 -> Reading M2 -> Listening M1 -> Listening M2 -> Writing -> Speaking.
-4. Với dạng complete_words: Trong 'paragraph', các từ khuyết chữ cái PHẢI viết kèm ngoặc vuông [phần_đuôi_khuyết] (ví dụ: 'Marine biolog[ists] study how ocean ecosys[tems] adap[t]...').`;
+2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').
+3. TUYỆT ĐỐI KHÔNG xuống dòng thực tế bên trong chuỗi text (dùng \\n nếu muốn xuống dòng trong passage).
+4. Đúng 6 stages theo thứ tự: Reading M1 -> Reading M2 -> Listening M1 -> Listening M2 -> Writing -> Speaking.
+5. Đáp án trắc nghiệm A, B, C, D BẮT BUỘC phải phân bố đều và ngẫu nhiên (~25% mỗi chữ cái), không được để đáp án luôn ở A.
+6. Task 1 Build a Sentence: 100% từ trong scrambled, correct_order, decoys PHẢI viết thường, và scrambled PHẢI đảo lộn xộn.
+7. Với dạng complete_words: Trong 'paragraph', các từ khuyết chữ cái PHẢI viết kèm ngoặc vuông [phần_đuôi_khuyết] (ví dụ: 'Marine biolog[ists] study how ocean ecosys[tems] adap[t]...').
+8. Đảm bảo đóng đủ tất cả các dấu ngoặc nhọn } và ngoặc vuông ] trước khi kết thúc câu trả lời.`;
 
-// Hàm làm sạch và sửa lỗi JSON tự động (xử lý unescaped quotes, trailing comma, markdown code block)
+// Hàm làm sạch và tự động sửa lỗi cú pháp JSON thông minh
 function cleanAndParseJson(rawInput) {
   if (!rawInput || !rawInput.trim()) {
     throw new Error('Dữ liệu JSON rỗng. Vui lòng dán mã JSON vào ô nhập.');
@@ -902,9 +954,9 @@ function cleanAndParseJson(rawInput) {
 
   let text = rawInput.trim();
 
-  // 1. Gỡ bỏ khối markdown ```json ... ```
+  // 1. Gỡ bỏ khối markdown ```json ... ``` (hỗ trợ cả trường hợp AI bị ngắt không kịp đóng ```)
   if (text.includes('```')) {
-    const blockMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+    const blockMatch = text.match(/```(?:json)?\s*([\s\S]*?)(?:```|$)/i);
     if (blockMatch) {
       text = blockMatch[1].trim();
     } else {
@@ -912,46 +964,35 @@ function cleanAndParseJson(rawInput) {
     }
   }
 
-  // 2. Chuyển đổi ngoặc kép cong thông minh (“ ”) sang ngoặc kép chuẩn (" ")
+  // 2. Chuyển đổi ngoặc kép cong thông minh (“ ”) sang (" ") và ngoặc đơn cong (‘ ’) sang (')
   text = text.replace(/[\u201C\u201D]/g, '"').replace(/[\u2018\u2019]/g, "'");
 
-  // 3. Thử parse trực tiếp trước
+  // 3. Thử parse trực tiếp tiêu chuẩn
   try {
-    return JSON.parse(text);
+    return { data: JSON.parse(text), repaired: false, truncated: false };
   } catch (err1) {
-    // 4. Nếu lỗi, tự động xử lý các lỗi cú pháp phổ biến của AI:
-    // A. Loại bỏ trailing commas (, } hoặc , ])
-    let cleaned = text.replace(/,\s*([\]}])/g, '$1');
-
+    // 4. Tự động sửa lỗi với jsonrepair (xử lý: unescaped newlines, trailing commas, unescaped quotes, thiếu ngoặc đóng do AI ngắt dòng)
     try {
-      return JSON.parse(cleaned);
+      const repairedText = jsonrepair(text);
+      const parsed = JSON.parse(repairedText);
+      const isTruncated = !text.endsWith('}') && !text.endsWith(']');
+      return { data: parsed, repaired: true, truncated: isTruncated };
     } catch (err2) {
-      // B. Tự động sửa lỗi unescaped double quotes bên trong chuỗi giá trị (nguyên nhân gây lỗi position 549)
-      const lines = cleaned.split('\n');
-      const fixedLines = lines.map((line) => {
-        // Khớp cấu trúc dòng JSON chuẩn:  "tên_thuộc_tính": "nội dung..."
-        const propMatch = line.match(/^(\s*"[^"]+"\s*:\s*")(.*)("(?:\s*,)?\s*)$/);
-        if (propMatch) {
-          const prefix = propMatch[1];
-          let inner = propMatch[2];
-          const suffix = propMatch[3];
-
-          // Nếu bên trong chuỗi có chứa dấu ngoặc kép không hợp lệ
-          if (inner.includes('"')) {
-            // Đổi tất cả dấu ngoặc kép bên trong thành ngoặc đơn '
-            inner = inner.replace(/\\"/g, "'").replace(/"/g, "'");
-            return `${prefix}${inner}${suffix}`;
-          }
-        }
-        return line;
-      });
-
-      const fixedText = fixedLines.join('\n').replace(/,\s*([\]}])/g, '$1');
-
+      // 5. Thử tiền xử lý: bỏ dấu phẩy thừa trước khi repair
       try {
-        return JSON.parse(fixedText);
+        const preprocessed = text.replace(/,\s*([\]}])/g, '$1');
+        const repairedText2 = jsonrepair(preprocessed);
+        const parsed2 = JSON.parse(repairedText2);
+        return { data: parsed2, repaired: true, truncated: true };
       } catch (err3) {
-        throw new Error(`${err1.message}. Gợi ý: Hãy kiểm tra các câu thoại bên trong xem có bị lồng dấu ngoặc kép "" không (hãy đổi thành ngoặc đơn '').`);
+        const isUnterminated = err1.message.includes('Unterminated string') || err1.message.includes('Unexpected end of JSON');
+        let hint = '';
+        if (isUnterminated) {
+          hint = '\n\n💡 NGUYÊN NHÂN LỖI:\nĐoạn JSON bạn copy bị AI (ChatGPT/Claude/Gemini) cắt ngang giữa chừng do quá dài, chạm giới hạn ký tự (token limit) của AI.\n\n👉 CÁCH KHẮC PHỤC HIỆU QUẢ:\n1. Vào lại ChatGPT/Claude, gõ: "viết tiếp từ đoạn bị cắt" hoặc "continue" rồi copy nối tiếp vào.\n2. HOẶC TỐT NHẤT: Tạo đề theo từng Kỹ năng riêng (Tab Reading 2M, Listening 2M, Writing 3T, Speaking) rồi import từng đề vào. Khi chia theo từng kỹ năng, AI sẽ không bao giờ bị cắt ngắn!';
+        } else {
+          hint = '\n\n💡 GỢI Ý:\nHãy kiểm tra xem bên trong các câu thoại, đoạn văn có bị lồng dấu ngoặc kép "" không (hãy đổi thành dấu ngoặc đơn \'\').';
+        }
+        throw new Error(`${err1.message}.${hint}`);
       }
     }
   }
@@ -1003,23 +1044,35 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess }) {
     try {
       setIsImporting(true);
       setErrorMsg('');
-      const parsed = cleanAndParseJson(jsonInput);
+      const parseResult = cleanAndParseJson(jsonInput);
+      const parsed = parseResult.data !== undefined ? parseResult.data : parseResult;
       const testsArray = Array.isArray(parsed) ? parsed : [parsed];
 
       // Validate cấu trúc tối thiểu
       for (const t of testsArray) {
+        if (!t || typeof t !== 'object') {
+          throw new Error('Định dạng đề thi không hợp lệ (cần là Object hoặc mảng [Object])');
+        }
         if (!t.title || !t.skill) {
           throw new Error('Đề thi thiếu trường title hoặc skill (full, reading, listening, writing, speaking)');
         }
       }
 
       const result = await importBatchTests(testsArray);
-      alert(`🎉 Đã import thành công ${result.count} đề thi vào ${result.destination}!`);
+      let successMsg = `🎉 Đã import thành công ${result.count} đề thi vào ${result.destination}!`;
+      if (parseResult.repaired) {
+        if (parseResult.truncated) {
+          successMsg += `\n\n⚠️ Lưu ý: Đoạn JSON do AI tạo có dấu hiệu bị cắt ngắn giữa chừng do chạm giới hạn token của AI (hệ thống đã tự động đóng ngoặc và khôi phục các phần đã tạo). Hãy kiểm tra lại số lượng câu hỏi trong đề!`;
+        } else {
+          successMsg += `\n\n✨ Hệ thống đã tự động sửa các lỗi cú pháp (dấu ngoặc, dòng ngắt) trong mã JSON do AI tạo.`;
+        }
+      }
+      alert(successMsg);
       onImportSuccess();
       onClose();
     } catch (err) {
       console.error(err);
-      setErrorMsg(`Lỗi JSON: ${err.message}`);
+      setErrorMsg(err.message.startsWith('Lỗi JSON:') ? err.message : `Lỗi JSON: ${err.message}`);
     } finally {
       setIsImporting(false);
     }
@@ -1122,6 +1175,16 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess }) {
             </p>
           </div>
 
+          {/* Tip hướng dẫn khi chọn Full Test */}
+          {selectedPromptType === 'full' && (
+            <div className="flex items-start gap-2.5 p-3 rounded-2xl bg-amber-50/80 border border-amber-200/80 text-amber-900 text-xs leading-relaxed">
+              <Info className="w-4 h-4 shrink-0 text-amber-600 mt-0.5" />
+              <div>
+                <span className="font-bold">Mẹo tạo Full Test (4 kỹ năng):</span> Do đề thi hoàn chỉnh có dung lượng rất lớn, nếu AI (ChatGPT/Claude) ngắt giữa chừng, bạn chỉ cần gõ <em>"tiếp tục"</em> trong AI. Hoặc tốt nhất, bạn có thể tạo đề theo từng tab kỹ năng riêng (<em>Reading</em>, <em>Listening</em>, <em>Writing</em>, <em>Speaking</em>) rồi import từng đề vào thì AI sẽ sinh nhanh và đầy đủ 100% không bao giờ bị cắt ngắn.
+              </div>
+            </div>
+          )}
+
           {/* Dán JSON */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
@@ -1143,15 +1206,15 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess }) {
                 setErrorMsg('');
               }}
               placeholder='[ { "title": "...", "skill": "reading", ... } ]'
-              rows={9}
+              rows={8}
               className="w-full p-3 font-mono text-xs text-slate-800 bg-slate-50 border border-slate-300 rounded-xl focus:border-indigo-600 focus:bg-white focus:outline-hidden leading-relaxed"
             />
           </div>
 
           {errorMsg && (
-            <div className="flex items-center gap-2 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs">
-              <AlertCircle className="w-4 h-4 shrink-0" />
-              <span>{errorMsg}</span>
+            <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs whitespace-pre-line leading-relaxed shadow-xs">
+              <AlertCircle className="w-4 h-4 shrink-0 text-rose-600 mt-0.5" />
+              <div className="flex-1 font-sans">{errorMsg}</div>
             </div>
           )}
 

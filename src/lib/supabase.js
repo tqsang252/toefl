@@ -1,16 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
-import { DEFAULT_TESTS } from '../data/defaultTests';
+import { DEFAULT_TESTS } from '../data/defaultTests.js';
 
 // Lấy config từ biến môi trường Vercel / Vite
 // Hỗ trợ cả tiền tố VITE_ (chuẩn Vite) và không có VITE_ (khi kết nối Supabase qua Vercel Integration)
 export const getEnvUrl = () => 
-  (import.meta.env.VITE_SUPABASE_URL || import.meta.env.SUPABASE_URL || '').trim();
+  (import.meta.env?.VITE_SUPABASE_URL || import.meta.env?.SUPABASE_URL || '').trim();
 
 export const getEnvKey = () => 
-  (import.meta.env.VITE_SUPABASE_ANON_KEY || 
-   import.meta.env.VITE_SUPABASE_KEY || 
-   import.meta.env.SUPABASE_ANON_KEY || 
-   import.meta.env.SUPABASE_KEY || 
+  (import.meta.env?.VITE_SUPABASE_ANON_KEY || 
+   import.meta.env?.VITE_SUPABASE_KEY || 
+   import.meta.env?.SUPABASE_ANON_KEY || 
+   import.meta.env?.SUPABASE_KEY || 
    '').trim();
 
 export function isEnvConfigured() {
@@ -21,14 +21,18 @@ export function isEnvConfigured() {
 // 1. Nếu người dùng tự cấu hình ghi đè trong SettingsModal (localStorage)
 // 2. Nếu không, tự động đọc từ Biến môi trường Vercel (import.meta.env)
 const getStoredUrl = () => {
-  const local = localStorage.getItem('toefl_supabase_url');
-  if (local && local.trim()) return local.trim();
+  if (typeof localStorage !== 'undefined') {
+    const local = localStorage.getItem('toefl_supabase_url');
+    if (local && local.trim()) return local.trim();
+  }
   return getEnvUrl();
 };
 
 const getStoredKey = () => {
-  const local = localStorage.getItem('toefl_supabase_key');
-  if (local && local.trim()) return local.trim();
+  if (typeof localStorage !== 'undefined') {
+    const local = localStorage.getItem('toefl_supabase_key');
+    if (local && local.trim()) return local.trim();
+  }
   return getEnvKey();
 };
 
@@ -100,8 +104,9 @@ export function getSupabaseConfig() {
 // 2. Có mảng blanks nhưng đoạn văn là chữ thường
 // 3. Đoạn văn thuần chưa có blanks: Tự động trích xuất theo quy chế ETS 2026
 // =================================================================
-export function normalizeCompleteWordsTask(task) {
+export function normalizeCompleteWordsTask(task, taskUniqueId) {
   if (!task || task.task_type !== 'complete_words') return task;
+  const taskId = taskUniqueId || task.id || 'cw';
 
   const content = task.content || {};
   let paragraph = content.paragraph || content.text || content.passage || '';
@@ -111,25 +116,18 @@ export function normalizeCompleteWordsTask(task) {
   let matches = [...paragraph.matchAll(bracketRegex)];
 
   if (matches.length > 0) {
-    if (!blanks || blanks.length === 0) {
-      blanks = matches.map((m, idx) => ({
-        id: `b_${task.id}_${idx + 1}`,
-        prefix: m[1],
-        missing: m[2],
-        full: `${m[1]}${m[2]}`
-      }));
-    } else {
-      blanks = blanks.map((b, idx) => ({
-        id: b.id || `b_${task.id}_${idx + 1}`,
-        prefix: b.prefix || (b.full ? b.full.slice(0, Math.ceil(b.full.length / 2)) : ''),
-        missing: b.missing || (b.full && b.prefix ? b.full.slice(b.prefix.length) : ''),
-        full: b.full || (b.prefix && b.missing ? `${b.prefix}${b.missing}` : '')
-      }));
-    }
+    // Luôn tạo danh sách blanks khớp 100% với số lượng ô trống [missing] thực tế trong đoạn văn
+    blanks = matches.map((m, idx) => ({
+      id: `${taskId}_b${idx + 1}`,
+      prefix: m[1],
+      missing: m[2],
+      full: `${m[1]}${m[2]}`
+    }));
   } else if (blanks && blanks.length > 0) {
     // Có mảng blanks nhưng đoạn văn chưa gắn dấu ngoặc [missing]
     blanks = blanks.map((b, idx) => {
-      const id = b.id || `b_${task.id}_${idx + 1}`;
+      const rawId = b.id || `b${idx + 1}`;
+      const id = rawId.startsWith(`${taskId}_`) ? rawId : `${taskId}_${rawId}`;
       const fullWord = b.full || (b.prefix && b.missing ? `${b.prefix}${b.missing}` : '');
       const prefix = b.prefix || (fullWord ? fullWord.slice(0, Math.ceil(fullWord.length / 2)) : '');
       const missing = b.missing || (fullWord && prefix ? fullWord.slice(prefix.length) : '');
@@ -181,7 +179,7 @@ export function normalizeCompleteWordsTask(task) {
             const prefix = word.slice(0, prefixLen);
             const missing = word.slice(prefixLen);
             newBlanks.push({
-              id: `b_${task.id}_${blankIdx}`,
+              id: `${taskId}_b${blankIdx}`,
               prefix,
               missing,
               full: word
@@ -201,10 +199,71 @@ export function normalizeCompleteWordsTask(task) {
 
   return {
     ...task,
+    id: taskId,
     content: {
       ...content,
       paragraph,
       blanks
+    }
+  };
+}
+
+// =================================================================
+// CHUẨN HÓA DẠNG BÀI BUILD A SENTENCE (WRITING TASK 1)
+// 1. Chuyển tất cả các từ trong scrambled, correct_order, decoys sang chữ thường (lowercase)
+//    để không lộ từ viết hoa đầu câu theo đúng yêu cầu đề thi TOEFL.
+// 2. Đảo lộn xộn ngẫu nhiên mảng scrambled nếu AI trả về đúng thứ tự hoặc gần đúng thứ tự.
+// =================================================================
+export function normalizeBuildSentenceTask(task, taskUniqueId) {
+  if (!task || task.task_type !== 'build_sentence') return task;
+  const taskId = taskUniqueId || task.id || 'bs';
+  const content = task.content || {};
+  const items = content.items || [];
+  if (!Array.isArray(items) || items.length === 0) return task;
+
+  const shuffleArray = (arr) => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  const normalizedItems = items.map((item, idx) => {
+    const baseId = item.id || `item${idx + 1}`;
+    const uniqueId = baseId.startsWith(`${taskId}_`) ? baseId : `${taskId}_${baseId}`;
+
+    // 1. Chuyển tất cả về lowercase
+    const correctOrder = (item.correct_order || []).map((w) => String(w).trim().toLowerCase());
+    const decoys = (item.decoys || []).map((w) => String(w).trim().toLowerCase());
+    
+    let rawScrambled = (item.scrambled && item.scrambled.length > 0)
+      ? item.scrambled.map((w) => String(w).trim().toLowerCase())
+      : [...correctOrder, ...decoys];
+
+    // 2. Luôn xáo trộn ngẫu nhiên toàn bộ mảng scrambled
+    let shuffled = shuffleArray(rawScrambled);
+    // Nếu vô tình xáo trộn mà vẫn giống thứ tự câu thì đảo lại
+    if (correctOrder.length > 1 && JSON.stringify(shuffled.slice(0, correctOrder.length)) === JSON.stringify(correctOrder)) {
+      shuffled = shuffleArray(rawScrambled);
+    }
+
+    return {
+      ...item,
+      id: uniqueId,
+      scrambled: shuffled,
+      correct_order: correctOrder,
+      decoys: decoys
+    };
+  });
+
+  return {
+    ...task,
+    id: taskId,
+    content: {
+      ...content,
+      items: normalizedItems
     }
   };
 }
@@ -267,20 +326,73 @@ export function normalizeTest(t) {
     }
   }
 
-  // Chuẩn hóa tất cả các tasks trong từng stage (đặc biệt là Complete the Words)
-  const normalizedStages = (stages || []).map((st) => ({
-    ...st,
-    tasks: (st.tasks || []).map((task) => {
-      if (task.task_type === 'complete_words') {
-        return normalizeCompleteWordsTask(task);
-      }
-      return task;
-    })
-  }));
+  // Chuẩn hóa tất cả các tasks trong từng stage (Complete the Words, Build a Sentence, Multiple Choice...)
+  const normalizedStages = (stages || []).map((st, sIdx) => {
+    const stageId = st.id && st.id.includes(String(sIdx + 1)) ? st.id : `stage_${sIdx + 1}_${st.id || 'module'}`;
+    const stageTasks = st.tasks || [];
+
+    return {
+      ...st,
+      id: stageId,
+      tasks: stageTasks.map((task, tIdx) => {
+        // Đảm bảo taskId là DUY NHẤT tuyệt đối giữa các stage và task
+        const baseTaskId = task.id || `task_${tIdx + 1}`;
+        const uniqueTaskId = baseTaskId.startsWith(`${stageId}_`) ? baseTaskId : `${stageId}_${baseTaskId}`;
+
+        let normalizedTask = {
+          ...task,
+          id: uniqueTaskId
+        };
+
+        if (normalizedTask.task_type === 'complete_words') {
+          normalizedTask = normalizeCompleteWordsTask(normalizedTask, uniqueTaskId);
+        } else if (normalizedTask.task_type === 'build_sentence') {
+          normalizedTask = normalizeBuildSentenceTask(normalizedTask, uniqueTaskId);
+        }
+
+        // Chuẩn hóa questions trong task (nếu có: Daily Life, Academic Passage, Choose Response, Announcement, Conversation, Talk, Interview)
+        const content = normalizedTask.content || {};
+        if (content.questions && Array.isArray(content.questions)) {
+          normalizedTask.content = {
+            ...content,
+            questions: content.questions.map((q, qIdx) => {
+              const baseQId = q.id || `q${qIdx + 1}`;
+              const uniqueQId = baseQId.startsWith(`${uniqueTaskId}_`) ? baseQId : `${uniqueTaskId}_${baseQId}`;
+              return {
+                ...q,
+                id: uniqueQId
+              };
+            })
+          };
+        }
+
+        // Chuẩn hóa items trong task (nếu có: Listen & Repeat...)
+        if (content.items && Array.isArray(content.items) && normalizedTask.task_type !== 'build_sentence') {
+          normalizedTask.content = {
+            ...normalizedTask.content,
+            items: content.items.map((it, iIdx) => {
+              const baseItId = it.id || `it${iIdx + 1}`;
+              const uniqueItId = baseItId.startsWith(`${uniqueTaskId}_`) ? baseItId : `${uniqueTaskId}_${baseItId}`;
+              return {
+                ...it,
+                id: uniqueItId
+              };
+            })
+          };
+        }
+
+        return normalizedTask;
+      })
+    };
+  });
 
   return {
     ...t,
     stages: normalizedStages,
+    content: {
+      ...(t.content || {}),
+      stages: normalizedStages
+    },
     modules: t.modules || t.content?.modules || []
   };
 }

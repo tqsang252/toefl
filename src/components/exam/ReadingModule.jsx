@@ -1,12 +1,16 @@
 import React, { useState, useRef } from 'react';
 import { BookOpen, RotateCcw } from 'lucide-react';
 import { normalizeCompleteWordsTask } from '../../lib/supabase';
+import HighlightablePassage from './HighlightablePassage';
 
 // =================================================================
 // SUB-COMPONENT 1: COMPLETE THE WORDS TASK
 // =================================================================
-function CompleteWordsTask({ test, answers, onAnswerChange }) {
-  const normTask = normalizeCompleteWordsTask(test);
+function CompleteWordsTask({ test, stageId, answers, onAnswerChange }) {
+  const effectiveTaskId = (stageId && !test.id?.startsWith(`${stageId}_`))
+    ? `${stageId}_${test.id || 'cw'}`
+    : (test.id || 'cw');
+  const normTask = normalizeCompleteWordsTask(test, effectiveTaskId);
   const content = normTask.content || {};
   const paragraph = content.paragraph || "";
   const blanks = content.blanks || [];
@@ -34,15 +38,15 @@ function CompleteWordsTask({ test, answers, onAnswerChange }) {
       const prefix = match[1];
       const missing = match[2];
       const blankMeta = blanks[blankIdx] || {
-        id: `b_${normTask.id || test.id}_${blankIdx + 1}`,
         prefix,
         missing,
         full: `${prefix}${missing}`
       };
+      const uniqueBlankId = `${effectiveTaskId}_b${blankIdx + 1}`;
 
       tokens.push({
         type: 'blank',
-        id: blankMeta.id,
+        id: uniqueBlankId,
         prefix: blankMeta.prefix || prefix,
         missing: blankMeta.missing || missing,
         full: blankMeta.full || `${prefix}${missing}`,
@@ -223,18 +227,13 @@ function PassageQuestionsTask({ test, answers, onAnswerChange }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
       
-      {/* Cột trái: Văn bản bài đọc */}
+      {/* Cột trái: Văn bản bài đọc kèm công cụ Tô sáng (Highlighter) */}
       <div className="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm max-h-[600px] overflow-y-auto">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-          <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-50 px-2.5 py-1 rounded">
-            {content.document_type || test.title || "Reading Passage"}
-          </span>
-          <span className="text-xs text-slate-400 font-medium">Cuộn để đọc toàn bộ</span>
-        </div>
-
-        <div className="prose prose-slate max-w-none text-slate-700 text-sm leading-relaxed whitespace-pre-line font-serif">
-          {content.passage || content.text || content.paragraph || "No passage provided."}
-        </div>
+        <HighlightablePassage
+          testId={test?.id}
+          documentType={content.document_type || test?.title || "Reading Passage"}
+          passageText={content.passage || content.text || content.paragraph || "No passage provided."}
+        />
       </div>
 
       {/* Cột phải: Câu hỏi & 4 lựa chọn */}

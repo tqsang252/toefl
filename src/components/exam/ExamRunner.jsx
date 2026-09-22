@@ -202,7 +202,9 @@ export default function ExamRunner({ test, onExit }) {
           taskTotal = content.items.length;
           content.items.forEach((item, idx) => {
             const userOrder = answers[item.id] || [];
-            const isCorrect = userOrder.length > 0 && JSON.stringify(userOrder) === JSON.stringify(item.correct_order);
+            const normUser = userOrder.map((w) => String(w).trim().toLowerCase());
+            const normCorrect = (item.correct_order || []).map((w) => String(w).trim().toLowerCase());
+            const isCorrect = normUser.length > 0 && JSON.stringify(normUser) === JSON.stringify(normCorrect);
             if (isCorrect) taskRaw++;
 
             taskItems.push({
@@ -256,13 +258,14 @@ export default function ExamRunner({ test, onExit }) {
 
         // 5. Dạng Complete the Words (Reading)
         } else if (task.task_type === 'complete_words') {
-          const normTask = normalizeCompleteWordsTask(task);
+          const normTask = normalizeCompleteWordsTask(task, task.id);
           const taskContent = normTask.content || {};
           let blanks = taskContent.blanks || [];
 
           taskTotal = blanks.length;
-          blanks.forEach((b) => {
-            const userVal = (answers[b.id] || '').trim().toLowerCase();
+          blanks.forEach((b, bIdx) => {
+            const uniqueBlankId = `${task.id}_b${bIdx + 1}`;
+            const userVal = (answers[uniqueBlankId] || answers[b.id] || '').trim().toLowerCase();
             const correctVal = (b.missing || '').trim().toLowerCase();
             const isCorrect = !!userVal && userVal === correctVal;
             if (isCorrect) taskRaw++;
@@ -578,8 +581,9 @@ export default function ExamRunner({ test, onExit }) {
           if (activeSkill === 'reading' && currentTask) {
             return (
               <ReadingModule
-                key={currentTask.id || `read_${currentStageIndex}_${currentTaskIndex}`}
+                key={`s${currentStageIndex}_${currentTask.id || currentTaskIndex}`}
                 test={currentTask}
+                stageId={currentStage?.id}
                 answers={answers}
                 onAnswerChange={handleAnswerChange}
               />
@@ -588,7 +592,7 @@ export default function ExamRunner({ test, onExit }) {
           if (activeSkill === 'listening' && currentTask) {
             return (
               <ListeningModule
-                key={currentTask.id || `list_${currentStageIndex}_${currentTaskIndex}`}
+                key={`s${currentStageIndex}_${currentTask.id || currentTaskIndex}`}
                 test={currentTask}
                 answers={answers}
                 onAnswerChange={handleAnswerChange}
@@ -598,7 +602,7 @@ export default function ExamRunner({ test, onExit }) {
           if (activeSkill === 'writing' && currentTask) {
             return (
               <WritingModule
-                key={currentTask.id || `writ_${currentStageIndex}_${currentTaskIndex}`}
+                key={`s${currentStageIndex}_${currentTask.id || currentTaskIndex}`}
                 test={currentTask}
                 answers={answers}
                 onAnswerChange={handleAnswerChange}
@@ -608,7 +612,7 @@ export default function ExamRunner({ test, onExit }) {
           if (activeSkill === 'speaking' && currentTask) {
             return (
               <SpeakingModule
-                key={currentTask.id || `spk_${currentStageIndex}_${currentTaskIndex}`}
+                key={`s${currentStageIndex}_${currentTask.id || currentTaskIndex}`}
                 test={currentTask}
                 answers={answers}
                 onAnswerChange={handleAnswerChange}
