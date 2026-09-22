@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Database, Check, AlertCircle, RefreshCw, UploadCloud } from 'lucide-react';
-import { getSupabaseConfig, saveSupabaseConfig, isSupabaseConfigured, seedDefaultsToSupabase } from '../lib/supabase';
+import { getSupabaseConfig, saveSupabaseConfig, isSupabaseConfigured, seedDefaultsToSupabase, seedVocabularyToSupabase } from '../lib/supabase';
 
 export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
   const currentConfig = getSupabaseConfig();
@@ -43,11 +43,35 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
 
     try {
       setIsSeeding(true);
+      setStatusMsg("Đang đồng bộ bộ đề mẫu lên Supabase...");
       const count = await seedDefaultsToSupabase();
-      alert(`🎉 Đã đẩy thành công ${count} bài thi mẫu 2026 lên Supabase của bạn!`);
-      onConfigSaved();
-    } catch (err) {
-      alert(`Lỗi khi đẩy đề lên Supabase: ${err.message}. Hãy đảm bảo bạn đã chạy file supabase_schema.sql trong SQL Editor!`);
+      setStatusMsg(`Đã nạp thành công ${count} bộ đề vào Supabase!`);
+      setTimeout(() => setStatusMsg(''), 4000);
+    } catch (e) {
+      alert("Lỗi khi nạp dữ liệu lên Supabase: " + e.message);
+      setStatusMsg("");
+    } finally {
+      setIsSeeding(false);
+    }
+  };
+
+  const handleSeedVocabulary = async () => {
+    if (!isSupabaseConfigured()) {
+      alert("Vui lòng lưu Supabase URL và Key trước khi tải từ vựng lên Cloud!");
+      return;
+    }
+
+    try {
+      setIsSeeding(true);
+      setStatusMsg("Đang đồng bộ hơn 1,000 từ vựng lên Supabase...");
+      await seedVocabularyToSupabase((current, total) => {
+        setStatusMsg(`Đang tải lên Supabase: ${current}/${total} từ vựng...`);
+      });
+      setStatusMsg("✓ Đã nạp thành công hơn 1,000 từ vựng vào Supabase!");
+      setTimeout(() => setStatusMsg(''), 4000);
+    } catch (e) {
+      alert("Lỗi khi nạp từ vựng lên Supabase: " + e.message);
+      setStatusMsg("");
     } finally {
       setIsSeeding(false);
     }
@@ -137,7 +161,7 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
             </div>
           )}
 
-          {/* Seed Defaults Button */}
+          {/* Seed Defaults and Vocabulary Buttons */}
           <div className="pt-2">
             <button
               onClick={handleSeedDefaults}
@@ -146,6 +170,15 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
             >
               <UploadCloud className="w-4 h-4 text-slate-600" />
               <span>{isSeeding ? "Đang đồng bộ..." : "Đồng bộ bộ đề mẫu 2026 lên Supabase của bạn"}</span>
+            </button>
+
+            <button
+              onClick={handleSeedVocabulary}
+              disabled={isSeeding}
+              className="w-full mt-2.5 py-2.5 px-4 bg-emerald-50 hover:bg-emerald-100 active:scale-98 text-emerald-900 font-bold text-xs rounded-xl border border-emerald-300 transition-all cursor-pointer flex items-center justify-center gap-2"
+            >
+              <UploadCloud className="w-4 h-4 text-emerald-700" />
+              <span>{isSeeding ? "Đang xử lý..." : "☁️ Đồng bộ 1,000+ từ vựng TOEFL 2026 (12 chủ đề) lên Supabase"}</span>
             </button>
           </div>
         </div>

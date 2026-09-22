@@ -1,10 +1,10 @@
 import React from 'react';
-import { Headphones, BookOpen, Mic, PenTool } from 'lucide-react';
+import { Headphones, BookOpen, Mic, PenTool, GraduationCap } from 'lucide-react';
 
 const SKILLS = [
   {
     id: 'listening',
-    label: '1) LISTENING',
+    label: 'LISTENING',
     icon: Headphones,
     borderColor: 'border-[#153e75]',
     activeBorder: 'border-[#153e75] ring-3 ring-blue-400/30 shadow-lg',
@@ -14,7 +14,7 @@ const SKILLS = [
   },
   {
     id: 'reading',
-    label: '2) READING',
+    label: 'READING',
     icon: BookOpen,
     borderColor: 'border-[#b45309]',
     activeBorder: 'border-[#b45309] ring-3 ring-amber-400/30 shadow-lg',
@@ -24,7 +24,7 @@ const SKILLS = [
   },
   {
     id: 'speaking',
-    label: '3) SPEAKING',
+    label: 'SPEAKING',
     icon: Mic,
     borderColor: 'border-[#4d7c0f]',
     activeBorder: 'border-[#4d7c0f] ring-3 ring-emerald-400/30 shadow-lg',
@@ -34,41 +34,54 @@ const SKILLS = [
   },
   {
     id: 'writing',
-    label: '4) WRITING',
+    label: 'WRITING',
     icon: PenTool,
     borderColor: 'border-[#881337]',
     activeBorder: 'border-[#881337] ring-3 ring-rose-400/30 shadow-lg',
     textColor: 'text-[#881337]',
     iconBg: 'bg-[#881337]',
     glow: 'shadow-rose-500/10'
+  },
+  {
+    id: 'vocabulary',
+    label: 'VOCABULARY',
+    icon: GraduationCap,
+    borderColor: 'border-[#6b21a8]',
+    activeBorder: 'border-[#6b21a8] ring-3 ring-purple-400/30 shadow-lg',
+    textColor: 'text-[#6b21a8]',
+    iconBg: 'bg-[#6b21a8]',
+    glow: 'shadow-purple-500/10'
   }
 ];
 
 export default function SkillTabs({ activeSkill, onSelectSkill }) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 my-6">
-      {SKILLS.map((skill) => {
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 my-6">
+      {SKILLS.map((skill, idx) => {
         const Icon = skill.icon;
         const isActive = activeSkill === skill.id;
+        const isFifthItem = idx === 4;
 
         return (
           <button
             key={skill.id}
             onClick={() => onSelectSkill(skill.id)}
-            className={`flex items-center gap-3.5 px-4 py-4 sm:py-5 rounded-2xl bg-white border-2 transition-all duration-200 cursor-pointer text-left ${
+            className={`flex items-center gap-2.5 sm:gap-3 px-3.5 sm:px-4 py-4 sm:py-4.5 rounded-2xl bg-white border-2 transition-all duration-200 cursor-pointer text-left ${
+              isFifthItem ? 'col-span-2 sm:col-span-1' : ''
+            } ${
               isActive 
                 ? `${skill.activeBorder} scale-[1.02] bg-white` 
                 : 'border-[#dfd8cc] hover:border-slate-400 hover:shadow-md opacity-85 hover:opacity-100'
             }`}
           >
             {/* Round Icon matching original design */}
-            <div className={`w-11 h-11 rounded-full ${skill.iconBg} text-white flex items-center justify-center shrink-0 shadow-xs`}>
-              <Icon className="w-5 h-5" />
+            <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${skill.iconBg} text-white flex items-center justify-center shrink-0 shadow-xs`}>
+              <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
 
             {/* Title */}
             <div className="flex-1 min-w-0">
-              <span className={`text-base sm:text-lg font-black tracking-wide ${skill.textColor}`}>
+              <span className={`text-xs sm:text-sm lg:text-sm xl:text-base font-black tracking-wider ${skill.textColor}`}>
                 {skill.label}
               </span>
             </div>

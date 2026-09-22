@@ -7,6 +7,7 @@ import WritingModule from './WritingModule';
 import SpeakingModule from './SpeakingModule';
 import ExamResults from './ExamResults';
 import { saveExamResult, normalizeTest, normalizeCompleteWordsTask } from '../../lib/supabase';
+import { convertRawToScale30, convert30ToBand6 } from '../../lib/gemini';
 
 export default function ExamRunner({ test, onExit }) {
   // Chuẩn hóa bài thi thành các Stage (Module 1, Module 2...) theo quy chế ETS 2026
@@ -126,6 +127,16 @@ export default function ExamRunner({ test, onExit }) {
       speaking: { raw: 0, total: 0 }
     };
 
+    let writingSubmissions = {
+      email: null,
+      discussion: null
+    };
+
+    let speakingSubmissions = {
+      repeat_items: [],
+      interview_items: []
+    };
+
     // Duyệt qua tất cả các Stage và các Task bên trong
     stages.forEach((stage, sIdx) => {
       let stageRaw = 0;
@@ -150,6 +161,15 @@ export default function ExamRunner({ test, onExit }) {
               const isAnswered = !!audioUrl;
               if (isAnswered) taskRaw++;
 
+              speakingSubmissions.repeat_items.push({
+                id: it.id,
+                text: it.audio_text,
+                prompt: it.audio_text,
+                phonetic_guide: it.phonetic_guide,
+                audio_url: audioUrl,
+                is_recorded: isAnswered
+              });
+
               taskItems.push({
                 prompt: `Câu ${idx + 1} (${it.context || 'Listen & Repeat'}): "${it.audio_text}"`,
                 user_choice: isAnswered ? 'Đã ghi âm lặp lại câu nói' : '(Chưa thu âm)',
@@ -170,6 +190,15 @@ export default function ExamRunner({ test, onExit }) {
               const audioUrl = answers[`spoken_interview_${q.id}`] || (idx === 0 ? answers['spoken_audio'] : null);
               const isAnswered = !!audioUrl;
               if (isAnswered) taskRaw++;
+
+              speakingSubmissions.interview_items.push({
+                id: q.id,
+                question: q.audio_text || q.prompt || q.question,
+                sample_answer: q.sample_answer,
+                key_points: q.key_points,
+                audio_url: audioUrl,
+                is_recorded: isAnswered
+              });
 
               taskItems.push({
                 prompt: `Câu phỏng vấn ${idx + 1}: "${q.audio_text || q.prompt || q.question}"`,
@@ -220,12 +249,24 @@ export default function ExamRunner({ test, onExit }) {
 
         // 3. Dạng Viết Email (Writing Task 2)
         } else if (task.task_type === 'write_email') {
-          const emailText = answers[`email_${task.id}`] || answers[task.id] || answers['email'] || answers['essay'] || '';
+          const emailText = answers[`email_${task.id}`] || answers['email_essay'] || (task.id && answers[task.id]) || answers['email'] || answers['essay'] || '';
           const wordCount = emailText.trim() ? emailText.trim().split(/\s+/).length : 0;
           const targetWords = content.min_words || 80;
           
           taskTotal = 1;
           taskRaw = wordCount >= targetWords ? 1 : wordCount > 0 ? Number((wordCount / targetWords).toFixed(2)) : 0;
+
+          const emailObj = {
+            task_id: task.id,
+            title: task.title || 'Task 2: Write an Email',
+            scenario: content.scenario,
+            requirements: content.requirements || [],
+            recipient: content.recipient,
+            min_words: targetWords,
+            essay_text: emailText,
+            word_count: wordCount
+          };
+          writingSubmissions.email = emailObj;
 
           taskItems.push({
             prompt: `Email gửi ${content.recipient || 'Professor'}`,
@@ -234,17 +275,34 @@ export default function ExamRunner({ test, onExit }) {
             is_correct: wordCount >= targetWords,
             explanation: wordCount >= targetWords 
               ? `Bài viết đạt yêu cầu độ dài (${wordCount} từ).` 
-              : `Chưa đạt số từ tối thiểu (${wordCount} / ${targetWords} từ).`
+              : `Chưa đạt số từ tối thiểu (${wordCount} / ${targetWords} từ).`,
+            essay_text: emailText,
+            task_type: 'write_email',
+            task_data: emailObj
           });
 
         // 4. Dạng Academic Discussion (Writing Task 3)
         } else if (task.task_type === 'academic_discussion') {
-          const discussText = answers[`discussion_${task.id}`] || answers[task.id] || answers['essay_discussion'] || answers['essay'] || '';
+          const discussText = answers[`discussion_${task.id}`] || answers['discussion_essay'] || answers['essay_discussion'] || (task.id && answers[task.id]) || '';
           const wordCount = discussText.trim() ? discussText.trim().split(/\s+/).length : 0;
           const targetWords = content.min_words || 100;
 
           taskTotal = 1;
           taskRaw = wordCount >= targetWords ? 1 : wordCount > 0 ? Number((wordCount / targetWords).toFixed(2)) : 0;
+
+          const discussObj = {
+            task_id: task.id,
+            title: task.title || 'Task 3: Academic Discussion',
+            topic: content.topic,
+            course: content.course,
+            professor_name: content.professor_prompt?.name,
+            professor_question: content.professor_prompt?.question || content.question || content.prompt,
+            peer_posts: content.peer_posts || content.peers || [],
+            min_words: targetWords,
+            essay_text: discussText,
+            word_count: wordCount
+          };
+          writingSubmissions.discussion = discussObj;
 
           taskItems.push({
             prompt: `Thảo luận: ${content.topic || 'Academic Discussion Board'}`,
@@ -253,7 +311,10 @@ export default function ExamRunner({ test, onExit }) {
             is_correct: wordCount >= targetWords,
             explanation: wordCount >= targetWords 
               ? `Bài viết đạt chuẩn độ dài (${wordCount} từ).` 
-              : `Chưa đạt số từ tối thiểu (${wordCount} / ${targetWords} từ).`
+              : `Chưa đạt số từ tối thiểu (${wordCount} / ${targetWords} từ).`,
+            essay_text: discussText,
+            task_type: 'academic_discussion',
+            task_data: discussObj
           });
 
         // 5. Dạng Complete the Words (Reading)
@@ -339,41 +400,44 @@ export default function ExamRunner({ test, onExit }) {
 
     const isFullTest = test.skill === 'full';
 
-    // Điểm quy đổi thang 0 - 30 cho từng kỹ năng
+    // Điểm quy đổi thang 0 - 30 cho từng kỹ năng chuẩn ETS TOEFL 2026
     const readingScore = skillCounters.reading.total > 0 
-      ? Math.min(30, Math.round((skillCounters.reading.raw / skillCounters.reading.total) * 30)) 
+      ? convertRawToScale30(skillCounters.reading.raw, skillCounters.reading.total, 'reading')
       : 26;
     const listeningScore = skillCounters.listening.total > 0 
-      ? Math.min(30, Math.round((skillCounters.listening.raw / skillCounters.listening.total) * 30)) 
+      ? convertRawToScale30(skillCounters.listening.raw, skillCounters.listening.total, 'listening')
       : 25;
     const writingScore = skillCounters.writing.total > 0 
-      ? Math.min(30, Math.round((skillCounters.writing.raw / skillCounters.writing.total) * 30)) 
+      ? convertRawToScale30(skillCounters.writing.raw, skillCounters.writing.total, 'writing')
       : 27;
     const speakingScore = skillCounters.speaking.total > 0 
-      ? Math.min(30, Math.round((skillCounters.speaking.raw / skillCounters.speaking.total) * 30)) 
+      ? convertRawToScale30(skillCounters.speaking.raw, skillCounters.speaking.total, 'speaking')
       : 26;
 
     const totalToefl120 = readingScore + listeningScore + writingScore + speakingScore;
 
-    // Quy đổi điểm Band (1.0 đến 6.0) theo tỷ lệ câu đúng toàn bộ phần thi
-    const ratio = isFullTest 
-      ? (totalToefl120 / 120) 
-      : (totalQuestionsCount > 0 ? totalScoreRaw / totalQuestionsCount : 0.8);
-
-    let scoreBand = 5.0;
-    if (ratio >= 0.9) scoreBand = 6.0;
-    else if (ratio >= 0.8) scoreBand = 5.5;
-    else if (ratio >= 0.7) scoreBand = 5.0;
-    else if (ratio >= 0.58) scoreBand = 4.5;
-    else if (ratio >= 0.45) scoreBand = 4.0;
-    else if (ratio >= 0.35) scoreBand = 3.5;
-    else scoreBand = 3.0;
+    // Quy đổi điểm Band (1.0 đến 6.0) theo chuẩn ETS TOEFL 2026
+    const scoreBand = isFullTest 
+      ? convert30ToBand6(totalToefl120 / 4)
+      : convert30ToBand6(
+          test.skill === 'reading' ? readingScore :
+          test.skill === 'listening' ? listeningScore :
+          test.skill === 'writing' ? writingScore :
+          test.skill === 'speaking' ? speakingScore :
+          convertRawToScale30(totalScoreRaw, totalQuestionsCount)
+        );
 
     const payload = {
       test_id: test.id,
       skill: test.skill,
       score_band: scoreBand,
-      score_raw: isFullTest ? totalToefl120 : Math.round(totalScoreRaw),
+      score_raw: isFullTest ? totalToefl120 : (
+        test.skill === 'reading' ? readingScore :
+        test.skill === 'listening' ? listeningScore :
+        test.skill === 'writing' ? writingScore :
+        test.skill === 'speaking' ? speakingScore :
+        Math.round(totalScoreRaw)
+      ),
       total_questions: isFullTest ? 120 : totalQuestionsCount,
       is_full_test: isFullTest,
       skill_scores: isFullTest ? {
@@ -384,11 +448,13 @@ export default function ExamRunner({ test, onExit }) {
         total: totalToefl120
       } : null,
       user_submission: stageResults, // Chi tiết theo từng Stage & Task
+      writing_submissions: writingSubmissions,
+      speaking_submissions: speakingSubmissions,
       time_spent_seconds: timeSpentSeconds
     };
 
-    await saveExamResult(payload);
-    setExamResults(payload);
+    const savedRecord = await saveExamResult(payload);
+    setExamResults(savedRecord || payload);
     setIsCompleted(true);
   };
 

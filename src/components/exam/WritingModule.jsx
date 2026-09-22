@@ -346,13 +346,9 @@ function WriteEmailTask({ test, answers, onAnswerChange }) {
     "Request an appointment during office hours"
   ];
 
-  // Lưu riêng theo ID của test
-  const answerKey = `email_${test.id}` in answers 
-    ? `email_${test.id}` 
-    : test.id in answers 
-    ? test.id 
-    : 'essay';
-  const textVal = answers[answerKey] || answers['essay'] || '';
+  // Lưu riêng theo ID của test để không bị trùng lặp với dạng bài khác
+  const answerKey = test.id ? `email_${test.id}` : 'email_essay';
+  const textVal = answers[answerKey] || answers['email_essay'] || (test.id && answers[test.id]) || '';
   const wordCount = textVal.trim() ? textVal.trim().split(/\s+/).length : 0;
   const minWords = content.min_words || 80;
   const isTargetMet = wordCount >= minWords;
@@ -433,7 +429,7 @@ function WriteEmailTask({ test, answers, onAnswerChange }) {
           value={textVal}
           onChange={(e) => {
             onAnswerChange(answerKey, e.target.value);
-            onAnswerChange('essay', e.target.value);
+            onAnswerChange('email_essay', e.target.value);
           }}
           placeholder="Dear Professor Vance,&#10;&#10;I am writing to respectfully inform you that..."
           className="w-full h-80 p-4 rounded-2xl border border-slate-300 focus:border-rose-600 focus:ring-2 focus:ring-rose-200 font-serif text-sm text-slate-800 resize-none leading-relaxed outline-hidden bg-[#fdfdfc]"
@@ -479,13 +475,9 @@ function AcademicDiscussionTask({ test, answers, onAnswerChange }) {
 
   const minWords = content.min_words || 100;
 
-  // Lưu riêng theo ID của test
-  const answerKey = `discussion_${test.id}` in answers 
-    ? `discussion_${test.id}` 
-    : test.id in answers 
-    ? test.id 
-    : 'essay_discussion';
-  const textVal = answers[answerKey] || answers['essay_discussion'] || answers['essay'] || '';
+  // Lưu riêng theo ID của test để không bị trùng lặp với Email
+  const answerKey = test.id ? `discussion_${test.id}` : 'discussion_essay';
+  const textVal = answers[answerKey] || answers['discussion_essay'] || (test.id && answers[test.id]) || '';
   const wordCount = textVal.trim() ? textVal.trim().split(/\s+/).length : 0;
   const isTargetMet = wordCount >= minWords;
 
@@ -570,6 +562,7 @@ function AcademicDiscussionTask({ test, answers, onAnswerChange }) {
           value={textVal}
           onChange={(e) => {
             onAnswerChange(answerKey, e.target.value);
+            onAnswerChange('discussion_essay', e.target.value);
             onAnswerChange('essay_discussion', e.target.value);
           }}
           placeholder="In my view, while both viewpoints raise valid points, I believe that..."

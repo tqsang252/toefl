@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { DEFAULT_TESTS } from '../data/defaultTests.js';
+import { VOCABULARY_DECKS } from '../data/vocabularyData.js';
 
 // Lấy config từ biến môi trường Vercel / Vite
 // Hỗ trợ cả tiền tố VITE_ (chuẩn Vite) và không có VITE_ (khi kết nối Supabase qua Vercel Integration)
@@ -484,12 +485,43 @@ export async function deleteTest(testId) {
   return true;
 }
 
-// 4. Lưu kết quả thi (Tự động lưu song song lên Cloud Database và LocalStorage)
+// Quản lý Dedicated Cache cho kết quả AI chấm điểm (Bảo đảm không bao giờ mất kết quả AI đã chấm)
+export function getStoredAIEvaluation(testId, resultId, completedAt) {
+  try {
+    const cache = JSON.parse(localStorage.getItem('toefl_ai_eval_cache') || '{}');
+    if (resultId && cache[resultId]) return cache[resultId];
+    if (testId && completedAt && cache[`${testId}_${completedAt}`]) return cache[`${testId}_${completedAt}`];
+    if (testId && cache[`${testId}_latest`]) return cache[`${testId}_latest`];
+  } catch (e) {
+    // ignore
+  }
+  return null;
+}
+
+export function storeAIEvaluation(testId, resultId, completedAt, evaluations) {
+  try {
+    const cache = JSON.parse(localStorage.getItem('toefl_ai_eval_cache') || '{}');
+    if (resultId) {
+      cache[resultId] = { ...(cache[resultId] || {}), ...evaluations };
+    }
+    if (testId && completedAt) {
+      cache[`${testId}_${completedAt}`] = { ...(cache[`${testId}_${completedAt}`] || {}), ...evaluations };
+    }
+    if (testId) {
+      cache[`${testId}_latest`] = { ...(cache[`${testId}_latest`] || {}), ...evaluations };
+    }
+    localStorage.setItem('toefl_ai_eval_cache', JSON.stringify(cache));
+  } catch (e) {
+    console.error('Lỗi khi lưu toefl_ai_eval_cache:', e);
+  }
+}
+
+// 4. Lưu kết quả thi (Tự động lưu song song lên Cloud Database, LocalStorage và AI Cache)
 export async function saveExamResult(resultPayload) {
   const resultRecord = {
     ...resultPayload,
     id: resultPayload.id || `res_${Date.now()}`,
-    completed_at: new Date().toISOString()
+    completed_at: resultPayload.completed_at || new Date().toISOString()
   };
 
   // 1. Luôn lưu vào LocalStorage để đảm bảo kết quả không bao giờ bị mất (kể cả khi mất mạng)
@@ -502,12 +534,60 @@ export async function saveExamResult(resultPayload) {
     console.error('Lỗi khi lưu kết quả vào LocalStorage:', e);
   }
 
-  // 2. Đồng bộ lên Cloud Supabase nếu người dùng đã cấu hình Project URL và Key
+  // 2. Lưu vào Dedicated AI Cache nếu có trường kết quả AI
+  const aiPayload = {
+    ai_writing_result: resultRecord.ai_writing_result || null,
+    ai_speaking_result: resultRecord.ai_speaking_result || null,
+    ai_objective_result: resultRecord.ai_objective_result || null,
+    ai_full_result: resultRecord.ai_full_result || null
+  };
+  if (aiPayload.ai_writing_result || aiPayload.ai_speaking_result || aiPayload.ai_objective_result || aiPayload.ai_full_result) {
+    storeAIEvaluation(resultRecord.test_id, resultRecord.id, resultRecord.completed_at, aiPayload);
+  }
+
+  // 3. Đồng bộ lên Cloud Supabase nếu người dùng đã cấu hình Project URL và Key
   if (isSupabaseConfigured()) {
     try {
-      const { error } = await supabaseInstance.from('test_results').insert([resultRecord]);
+      const sanitizedRecord = {
+        ...resultRecord,
+        skill_scores: {
+          ...(typeof resultRecord.skill_scores === 'object' && resultRecord.skill_scores !== null ? resultRecord.skill_scores : {}),
+          ai_writing_result: resultRecord.ai_writing_result || null,
+          ai_speaking_result: resultRecord.ai_speaking_result || null,
+          ai_objective_result: resultRecord.ai_objective_result || null,
+          ai_full_result: resultRecord.ai_full_result || null,
+          speaking_submissions: resultRecord.speaking_submissions || null,
+          writing_submissions: resultRecord.writing_submissions || null
+        }
+      };
+
+      // Thử upsert toàn bộ record lên Supabase
+      const { error } = await supabaseInstance
+        .from('test_results')
+        .upsert([sanitizedRecord], { onConflict: 'id' });
+
       if (error) {
-        console.warn('Lỗi khi lưu kết quả lên Supabase (đã lưu dự phòng trên LocalStorage):', error);
+        console.warn('Lỗi khi upsert kết quả lên Supabase, thử fallback cột chuẩn:', error.message);
+        // Fallback: Chỉ gửi các cột chuẩn có trong schema gốc của test_results
+        const standardRecord = {
+          id: sanitizedRecord.id,
+          test_id: sanitizedRecord.test_id,
+          skill: sanitizedRecord.skill,
+          score_band: sanitizedRecord.score_band,
+          score_raw: sanitizedRecord.score_raw,
+          total_questions: sanitizedRecord.total_questions,
+          is_full_test: sanitizedRecord.is_full_test || false,
+          skill_scores: sanitizedRecord.skill_scores,
+          user_submission: sanitizedRecord.user_submission,
+          time_spent_seconds: sanitizedRecord.time_spent_seconds,
+          completed_at: sanitizedRecord.completed_at
+        };
+        const { error: retryError } = await supabaseInstance
+          .from('test_results')
+          .upsert([standardRecord], { onConflict: 'id' });
+        if (retryError) {
+          console.warn('Fallback upsert Supabase cũng gặp lỗi:', retryError.message);
+        }
       }
     } catch (e) {
       console.warn('Không thể kết nối Supabase khi lưu kết quả:', e);
@@ -517,8 +597,10 @@ export async function saveExamResult(resultPayload) {
   return resultRecord;
 }
 
-// 5. Lấy lịch sử làm bài của 1 đề thi
+// 5. Lấy lịch sử làm bài của 1 đề thi (Hợp nhất thông minh Supabase + LocalStorage + AI Cache)
 export async function getExamHistory(testId) {
+  let supabaseRecords = [];
+
   if (isSupabaseConfigured()) {
     try {
       const { data, error } = await supabaseInstance
@@ -527,14 +609,63 @@ export async function getExamHistory(testId) {
         .eq('test_id', testId)
         .order('completed_at', { ascending: false });
 
-      if (!error && data && data.length > 0) return data;
+      if (!error && data && data.length > 0) {
+        supabaseRecords = data;
+      }
     } catch (e) {
       console.warn('Lỗi lấy lịch sử từ Supabase, chuyển sang đọc LocalStorage:', e);
     }
   }
 
-  const results = JSON.parse(localStorage.getItem('toefl_exam_results') || '[]');
-  return results.filter((r) => r.test_id === testId);
+  const localResults = JSON.parse(localStorage.getItem('toefl_exam_results') || '[]');
+  const localRecords = localResults.filter((r) => r.test_id === testId);
+
+  // Hợp nhất thông minh theo Map ID
+  const recordMap = new Map();
+
+  // 1. Nạp từ Supabase
+  supabaseRecords.forEach((r) => {
+    const aiCached = getStoredAIEvaluation(testId, r.id, r.completed_at);
+    recordMap.set(r.id, {
+      ...r,
+      ai_writing_result: r.ai_writing_result || r.skill_scores?.ai_writing_result || aiCached?.ai_writing_result || null,
+      ai_speaking_result: r.ai_speaking_result || r.skill_scores?.ai_speaking_result || aiCached?.ai_speaking_result || null,
+      ai_objective_result: r.ai_objective_result || r.skill_scores?.ai_objective_result || aiCached?.ai_objective_result || null,
+      ai_full_result: r.ai_full_result || r.skill_scores?.ai_full_result || aiCached?.ai_full_result || null,
+      speaking_submissions: r.speaking_submissions || r.skill_scores?.speaking_submissions || null,
+      writing_submissions: r.writing_submissions || r.skill_scores?.writing_submissions || null
+    });
+  });
+
+  // 2. Gộp từ LocalStorage (bổ sung hoặc cập nhật trường AI nếu LocalStorage có dữ liệu mới hơn)
+  localRecords.forEach((lr) => {
+    const existing = recordMap.get(lr.id);
+    const aiCached = getStoredAIEvaluation(testId, lr.id, lr.completed_at);
+    if (!existing) {
+      recordMap.set(lr.id, {
+        ...lr,
+        ai_writing_result: lr.ai_writing_result || aiCached?.ai_writing_result || null,
+        ai_speaking_result: lr.ai_speaking_result || aiCached?.ai_speaking_result || null,
+        ai_objective_result: lr.ai_objective_result || aiCached?.ai_objective_result || null,
+        ai_full_result: lr.ai_full_result || aiCached?.ai_full_result || null
+      });
+    } else {
+      recordMap.set(lr.id, {
+        ...existing,
+        ...lr,
+        ai_writing_result: lr.ai_writing_result || existing.ai_writing_result || aiCached?.ai_writing_result || null,
+        ai_speaking_result: lr.ai_speaking_result || existing.ai_speaking_result || aiCached?.ai_speaking_result || null,
+        ai_objective_result: lr.ai_objective_result || existing.ai_objective_result || aiCached?.ai_objective_result || null,
+        ai_full_result: lr.ai_full_result || existing.ai_full_result || aiCached?.ai_full_result || null,
+        score_band: lr.score_band || existing.score_band,
+        score_raw: lr.score_raw || existing.score_raw
+      });
+    }
+  });
+
+  const merged = Array.from(recordMap.values());
+  merged.sort((a, b) => new Date(b.completed_at || 0) - new Date(a.completed_at || 0));
+  return merged;
 }
 
 // 6. Đẩy toàn bộ bộ đề mẫu lên Supabase (Seed)
@@ -558,3 +689,315 @@ export async function seedDefaultsToSupabase() {
   if (error) throw error;
   return data.length;
 }
+
+// Đẩy toàn bộ 1000+ từ vựng học thuật lên Supabase theo từng đợt (chunks)
+export async function seedVocabularyToSupabase(onProgress) {
+  if (!isSupabaseConfigured()) throw new Error('Chưa cấu hình Supabase! Vui lòng kiểm tra cài đặt kết nối.');
+
+  // Lấy toàn bộ từ vựng từ VOCABULARY_DECKS
+  const allDecksWords = VOCABULARY_DECKS.flatMap((d) =>
+    d.words.map((w) => {
+      const en = String(w.meaningEn || w.meaning || '').trim();
+      const vi = String(w.meaningVi || '').trim();
+      const combinedMeaning = (en && vi) ? `${en} [VI: ${vi}]` : (en || vi);
+
+      return {
+        category: d.title,
+        word: w.word,
+        phonetic: w.phonetic || '',
+        part_of_speech: w.partOfSpeech || 'Word',
+        meaning: combinedMeaning,
+        example: w.example || '',
+        example_translation: w.exampleTranslation || '',
+        sentence_paraphrase: w.sentenceParaphrase || '',
+        paraphrases: w.paraphrases || [],
+        collocations: w.collocations || [],
+        word_family: w.wordFamily || [],
+        memory_tip: w.memoryTip || '',
+        created_at: new Date().toISOString()
+      };
+    })
+  );
+
+  const total = allDecksWords.length;
+  const chunkSize = 50;
+  let inserted = 0;
+
+  for (let i = 0; i < total; i += chunkSize) {
+    const chunk = allDecksWords.slice(i, i + chunkSize);
+    const { error } = await supabaseInstance
+      .from('vocabulary_words')
+      .upsert(chunk, { onConflict: 'category,word', ignoreDuplicates: false });
+
+    if (error) {
+      console.error('Lỗi khi seed từ vựng lên Supabase:', error);
+      throw error;
+    }
+
+    inserted += chunk.length;
+    if (typeof onProgress === 'function') {
+      onProgress(inserted, total);
+    }
+  }
+
+  return { success: true, totalInserted: inserted, total };
+}
+
+// =================================================================
+// 7. QUẢN LÝ TỪ VỰNG FLASHCARDS THEO CHỦ ĐỀ (VOCABULARY DATABASE)
+// =================================================================
+
+// Chuẩn hóa 1 mục từ vựng đảm bảo đủ 7 trường thông tin theo chuẩn thiết kế
+export function normalizeVocabularyWord(w, defaultCategory = 'Academic Life & Higher Education') {
+  const word = String(w.word || w.term || '').trim();
+  const category = String(w.category || defaultCategory).trim();
+  const phonetic = String(w.phonetic || w.ipa || '').trim();
+  const partOfSpeech = String(w.part_of_speech || w.partOfSpeech || w.pos || 'Word').trim();
+  
+  // 1. Nghĩa dễ nhớ: Tiếng Anh + Tiếng Việt
+  const rawMeaning = String(w.meaning || '').trim();
+  let meaningEn = String(w.meaning_en || w.meaningEn || w.definition || '').trim();
+  let meaningVi = String(w.meaning_vi || w.meaningVi || w.vietnamese || '').trim();
+
+  if (!meaningEn || !meaningVi) {
+    const viMatch = rawMeaning.match(/^(.*?)\s*(?:\[VI:\s*|\|\|\|\s*)(.*?)(?:\])?$/s);
+    if (viMatch && viMatch[2]) {
+      if (!meaningEn) meaningEn = viMatch[1].trim();
+      if (!meaningVi) meaningVi = viMatch[2].trim();
+    } else if (!meaningEn && !meaningVi) {
+      if (/[\u00C0-\u1EF9]/.test(rawMeaning)) {
+        meaningVi = rawMeaning;
+      } else {
+        meaningEn = rawMeaning;
+      }
+    }
+  }
+  const meaning = meaningEn || meaningVi || rawMeaning;
+  
+  // 2. Paraphrases
+  let paraphrases = w.paraphrases || w.synonyms || [];
+  if (typeof paraphrases === 'string') {
+    paraphrases = paraphrases.split(/\s*[\/,;•]\s*/).filter(Boolean);
+  }
+  
+  // 3. Cụm thường gặp (Collocations)
+  let collocations = w.collocations || [];
+  if (typeof collocations === 'string') {
+    collocations = collocations.split(/\s*[,;\n•]\s*/).filter(Boolean);
+  }
+  
+  // 4. Ví dụ TOEFL & Bản dịch tiếng Việt
+  const example = String(w.example || w.sentence || '').trim();
+  const exampleTranslation = String(w.example_translation || w.exampleTranslation || w.translation || w.example_vi || '').trim();
+  
+  // 5. Paraphrase cả câu
+  const sentenceParaphrase = String(w.sentence_paraphrase || w.sentenceParaphrase || w.sentence_paraphrased || '').trim();
+  
+  // 6. Word family
+  let wordFamily = w.word_family || w.wordFamily || [];
+  if (typeof wordFamily === 'string') {
+    wordFamily = wordFamily.split(/\s*[,;\n•]\s*/).filter(Boolean);
+  }
+  
+  // 7. Mẹo nhớ
+  const memoryTip = String(w.memory_tip || w.memoryTip || w.toeflTip || w.tip || '').trim();
+
+  return {
+    id: w.id || `voc_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+    category,
+    word,
+    phonetic,
+    partOfSpeech,
+    meaning,
+    meaningEn: meaningEn || meaning,
+    meaningVi,
+    paraphrases: Array.isArray(paraphrases) ? paraphrases : [paraphrases],
+    collocations: Array.isArray(collocations) ? collocations : [collocations],
+    example,
+    exampleTranslation,
+    sentenceParaphrase,
+    wordFamily: Array.isArray(wordFamily) ? wordFamily : [wordFamily],
+    memoryTip,
+    created_at: w.created_at || new Date().toISOString()
+  };
+}
+
+// Lấy danh sách toàn bộ từ vựng (kết hợp Supabase + LocalStorage + Bộ từ vựng mặc định)
+export async function getStoredVocabulary() {
+  let cloudWords = [];
+  
+  if (isSupabaseConfigured()) {
+    try {
+      const { data, error } = await supabaseInstance
+        .from('vocabulary_words')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      if (!error && data && data.length > 0) {
+        cloudWords = data.map((item) => normalizeVocabularyWord({
+          ...item,
+          partOfSpeech: item.part_of_speech,
+          exampleTranslation: item.example_translation,
+          sentenceParaphrase: item.sentence_paraphrase,
+          wordFamily: item.word_family,
+          memoryTip: item.memory_tip
+        }));
+      }
+    } catch (e) {
+      console.warn('Không thể load từ vựng từ Supabase, chuyển sang chế độ LocalStorage:', e);
+    }
+  }
+
+  // Từ vựng tùy chỉnh người dùng đã import ở LocalStorage
+  let localCustomWords = [];
+  try {
+    const local = JSON.parse(localStorage.getItem('toefl_custom_vocabulary') || '[]');
+    localCustomWords = local.map((w) => normalizeVocabularyWord(w));
+  } catch (e) {
+    console.error(e);
+  }
+
+  // Từ vựng mặc định chất lượng cao có sẵn
+  const defaultWords = VOCABULARY_DECKS.flatMap((d) => 
+    d.words.map((w) => normalizeVocabularyWord({ ...w, category: d.title }))
+  );
+
+  // Gộp lại bằng Map để đảm bảo không bị trùng lặp và giữ nguyên đầy đủ nghĩa song ngữ
+  const wordsMap = new Map();
+  defaultWords.forEach((w) => wordsMap.set(`${(w.category || '').toLowerCase()}:::${w.word.toLowerCase()}`, w));
+  localCustomWords.forEach((w) => {
+    const key = `${(w.category || '').toLowerCase()}:::${w.word.toLowerCase()}`;
+    const existing = wordsMap.get(key);
+    wordsMap.set(key, existing ? { 
+      ...existing, 
+      ...w, 
+      meaningEn: w.meaningEn || existing.meaningEn,
+      meaningVi: w.meaningVi || existing.meaningVi, 
+      exampleTranslation: w.exampleTranslation || existing.exampleTranslation 
+    } : w);
+  });
+  cloudWords.forEach((w) => {
+    const key = `${(w.category || '').toLowerCase()}:::${w.word.toLowerCase()}`;
+    const existing = wordsMap.get(key);
+    wordsMap.set(key, existing ? { 
+      ...existing, 
+      ...w, 
+      meaningEn: w.meaningEn || existing.meaningEn,
+      meaningVi: w.meaningVi || existing.meaningVi, 
+      exampleTranslation: w.exampleTranslation || existing.exampleTranslation 
+    } : w);
+  });
+
+  return Array.from(wordsMap.values());
+}
+
+// Import hàng loạt từ vựng (Tự động CHECK nếu có từ đó rồi thì BỎ QUA không import lại)
+export async function importVocabularyBatch(wordsArray, defaultCategory = 'Academic Life & Higher Education') {
+  if (!Array.isArray(wordsArray) || wordsArray.length === 0) {
+    return { success: false, message: 'Danh sách từ vựng trống' };
+  }
+
+  // Lấy danh sách từ vựng hiện có để đối chiếu
+  const currentList = await getStoredVocabulary();
+  const existingSet = new Set(
+    currentList.map((item) => `${(item.category || '').trim().toLowerCase()}:::${(item.word || '').trim().toLowerCase()}`)
+  );
+
+  const toInsert = [];
+  let skippedCount = 0;
+
+  for (const raw of wordsArray) {
+    const norm = normalizeVocabularyWord(raw, raw.category || defaultCategory);
+    if (!norm.word) continue;
+
+    const key = `${(norm.category || '').toLowerCase()}:::${norm.word.toLowerCase()}`;
+    if (existingSet.has(key)) {
+      skippedCount++;
+    } else {
+      existingSet.add(key);
+      toInsert.push(norm);
+    }
+  }
+
+  if (toInsert.length > 0) {
+    // 1. Lưu vào LocalStorage
+    try {
+      const local = JSON.parse(localStorage.getItem('toefl_custom_vocabulary') || '[]');
+      const updated = [...toInsert, ...local];
+      localStorage.setItem('toefl_custom_vocabulary', JSON.stringify(updated));
+    } catch (e) {
+      console.error('Lỗi khi lưu từ vựng vào LocalStorage:', e);
+    }
+
+    // 2. Lưu lên Supabase nếu có cấu hình
+    if (isSupabaseConfigured()) {
+      try {
+        const prepared = toInsert.map((w) => {
+          const en = String(w.meaningEn || w.meaning || '').trim();
+          const vi = String(w.meaningVi || '').trim();
+          const combinedMeaning = (en && vi) ? `${en} [VI: ${vi}]` : (en || vi);
+          return {
+            category: w.category,
+            word: w.word,
+            phonetic: w.phonetic,
+            part_of_speech: w.partOfSpeech,
+            meaning: combinedMeaning,
+            paraphrases: w.paraphrases,
+            collocations: w.collocations,
+            example: w.example,
+            example_translation: w.exampleTranslation,
+            sentence_paraphrase: w.sentenceParaphrase,
+            word_family: w.wordFamily,
+            memory_tip: w.memoryTip,
+            created_at: new Date().toISOString()
+          };
+        });
+
+        const { error } = await supabaseInstance
+          .from('vocabulary_words')
+          .upsert(prepared, { onConflict: 'category,word', ignoreDuplicates: true });
+
+        if (error) {
+          console.warn('Lỗi lưu từ vựng lên Supabase (đã lưu dự phòng LocalStorage):', error);
+        }
+      } catch (e) {
+        console.warn('Không thể kết nối Supabase khi lưu từ vựng:', e);
+      }
+    }
+  }
+
+  return {
+    success: true,
+    insertedCount: toInsert.length,
+    skippedCount,
+    total: wordsArray.length,
+    destination: isSupabaseConfigured() ? 'Supabase Cloud & Local Storage' : 'Local Storage'
+  };
+}
+
+// Xóa 1 từ vựng
+export async function deleteVocabularyWord(wordId, wordText, category) {
+  // Xóa khỏi LocalStorage
+  try {
+    const local = JSON.parse(localStorage.getItem('toefl_custom_vocabulary') || '[]');
+    const updated = local.filter((w) => w.id !== wordId && !(w.word === wordText && w.category === category));
+    localStorage.setItem('toefl_custom_vocabulary', JSON.stringify(updated));
+  } catch (e) {
+    console.error(e);
+  }
+
+  // Xóa khỏi Supabase
+  if (isSupabaseConfigured()) {
+    try {
+      await supabaseInstance.from('vocabulary_words').delete().match({ id: wordId });
+      if (wordText && category) {
+        await supabaseInstance.from('vocabulary_words').delete().match({ word: wordText, category });
+      }
+    } catch (e) {
+      console.warn('Lỗi xóa trên Supabase:', e);
+    }
+  }
+
+  return true;
+}
+

@@ -49,7 +49,7 @@ CREATE POLICY "Allow public delete tests"
 ON tests FOR DELETE 
 USING (true);
 
--- Cho phép lưu và đọc kết quả bài làm
+-- Cho phép lưu, cập nhật và đọc kết quả bài làm
 CREATE POLICY "Allow public insert results" 
 ON test_results FOR INSERT 
 WITH CHECK (true);
@@ -58,6 +58,57 @@ CREATE POLICY "Allow public select results"
 ON test_results FOR SELECT 
 USING (true);
 
+CREATE POLICY "Allow public update results" 
+ON test_results FOR UPDATE 
+USING (true);
+
+-- 3. Bảng lưu từ vựng Flashcards theo chủ đề (vocabulary_words)
+CREATE TABLE IF NOT EXISTS vocabulary_words (
+  id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+  category TEXT NOT NULL,          -- Chủ đề từ vựng (ví dụ: Academic Life, Ecology, History...)
+  word TEXT NOT NULL,              -- Từ vựng tiếng Anh (ví dụ: significant)
+  phonetic TEXT,                   -- Phiên âm IPA (ví dụ: /sɪɡˈnɪfɪkənt/)
+  part_of_speech TEXT,             -- Loại từ (Word, noun, adj, verb...)
+  meaning TEXT NOT NULL,           -- Nghĩa dễ nhớ (ví dụ: đáng kể, quan trọng)
+  paraphrases JSONB,               -- Danh sách từ paraphrase (considerable, substantial...)
+  collocations JSONB,              -- Cụm từ thường gặp (significant increase, significant impact...)
+  example TEXT,                    -- Ví dụ TOEFL (The study found a significant increase in productivity.)
+  example_translation TEXT,        -- Bản dịch ví dụ tiếng Việt
+  sentence_paraphrase TEXT,        -- Paraphrase cả câu
+  word_family JSONB,               -- Gia đình từ (significance (n.), significant (adj.)...)
+  memory_tip TEXT,                 -- Mẹo nhớ
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()),
+  UNIQUE(category, word)            -- Ràng buộc duy nhất: Chống trùng lặp từ trong cùng 1 chủ đề
+);
+
+-- Cấu hình Row Level Security (RLS) cho vocabulary_words
+ALTER TABLE vocabulary_words ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public read vocabulary_words" 
+ON vocabulary_words FOR SELECT 
+USING (true);
+
+CREATE POLICY "Allow public insert vocabulary_words" 
+ON vocabulary_words FOR INSERT 
+WITH CHECK (true);
+
+CREATE POLICY "Allow public update vocabulary_words" 
+ON vocabulary_words FOR UPDATE 
+USING (true);
+
+CREATE POLICY "Allow public delete vocabulary_words" 
+ON vocabulary_words FOR DELETE 
+USING (true);
+
+-- Cập nhật thêm các cột AI evaluations (chạy lệnh này nếu bảng test_results đã tạo từ trước)
+ALTER TABLE test_results ADD COLUMN IF NOT EXISTS ai_writing_result JSONB;
+ALTER TABLE test_results ADD COLUMN IF NOT EXISTS ai_speaking_result JSONB;
+ALTER TABLE test_results ADD COLUMN IF NOT EXISTS ai_objective_result JSONB;
+ALTER TABLE test_results ADD COLUMN IF NOT EXISTS ai_full_result JSONB;
+ALTER TABLE test_results ADD COLUMN IF NOT EXISTS speaking_submissions JSONB;
+ALTER TABLE test_results ADD COLUMN IF NOT EXISTS writing_submissions JSONB;
+
 -- ====================================================================
--- ĐÃ XONG! Giờ bạn có thể import đề thi trực tiếp từ web vào Supabase.
+-- ĐÃ XONG! Giờ bạn có thể import đề thi & từ vựng trực tiếp vào Supabase.
 -- ====================================================================
+

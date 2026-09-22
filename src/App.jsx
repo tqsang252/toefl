@@ -8,6 +8,7 @@ import SettingsModal from './components/SettingsModal';
 import ExamRunner from './components/exam/ExamRunner';
 import ExamResults from './components/exam/ExamResults';
 import ExamHistoryModal from './components/ExamHistoryModal';
+import VocabularyHub from './components/vocabulary/VocabularyHub';
 import { getTestsBySkill, getFullTests, deleteTest, getExamHistory } from './lib/supabase';
 import { MessageCircle, User } from 'lucide-react';
 
@@ -31,6 +32,10 @@ export default function App() {
 
   // Load danh sách đề thi theo chế độ hiện tại (Practice skill hoặc Full Test)
   const loadTests = async () => {
+    if (activeSkill === 'vocabulary' && currentView === 'practice') {
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
     try {
       let data = [];
@@ -126,6 +131,7 @@ export default function App() {
         <ExamResults
           test={reviewingTest}
           results={reviewingResult}
+          isReviewMode={true}
           onRetake={() => {
             handleExitReview();
             handleStartTest(reviewingTest);
@@ -175,7 +181,9 @@ export default function App() {
               onSelectSkill={(skillId) => setActiveSkill(skillId)}
             />
 
-            {isLoading ? (
+            {activeSkill === 'vocabulary' ? (
+              <VocabularyHub />
+            ) : isLoading ? (
               <div className="bg-white rounded-2xl border border-[#e5dfd5] p-12 text-center shadow-xs my-6">
                 <div className="w-8 h-8 border-3 border-teal-700 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
                 <p className="text-xs text-slate-500 font-medium">Đang tải danh sách đề thi...</p>
