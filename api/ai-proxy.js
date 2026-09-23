@@ -1,14 +1,14 @@
 /**
  * ====================================================================
- * VERCEL SERVERLESS FUNCTION — AI EXAM GENERATION PROXY
+ * VERCEL SERVERLESS FUNCTION — UNIVERSAL AI PROXY
  * File: api/ai-proxy.js
  *
- * Mục đích: Ẩn API key khỏi browser. Key chỉ tồn tại trên Vercel server.
- * Browser gọi POST /api/ai-proxy → Vercel Function → Gemini / OpenRouter
+ * Xử lý mọi yêu cầu AI trong hệ thống:
+ * 1. Sinh đề thi tự động (Reading, Listening, Writing, Speaking, Full Test)
+ * 2. Tra từ điển & dịch thuật học thuật (DictionaryWidget)
+ * 3. Chấm điểm & phân tích bài viết / bài nói / đề trắc nghiệm
  *
- * Setup Vercel Environment Variables (dashboard.vercel.com):
- *   GEMINI_API_KEY     = AIza...
- *   OPENROUTER_API_KEY = sk-or-...
+ * Bí mật API Key trên server: VITE_GEMINI_API_KEY / VITE_OPENROUTER_API_KEY
  * ====================================================================
  */
 
@@ -27,14 +27,12 @@ const OPENROUTER_MODELS = [
   'openai/gpt-4o-mini'
 ];
 
-const SYSTEM_INSTRUCTION =
+const DEFAULT_SYSTEM_INSTRUCTION =
   'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. ' +
   'Your task is to produce strictly valid, raw JSON tests matching the requested schema ' +
   'with 100% fidelity to ETS difficulty, structure, and quality standards (CEFR C1/C2 academic register). ' +
-  'NEVER truncate, omit, abbreviate, or use placeholders (such as "..." or shortened samples). ' +
-  'Generate EVERY single blank, question, option, decoy, and passage in full as mandated ' +
-  'by the quantitative criteria. Output strictly raw valid JSON only without markdown code ' +
-  'blocks, preamble, or outside commentary.';
+  'NEVER truncate, omit, abbreviate, or use placeholders. ' +
+  'Output strictly raw valid JSON only without markdown code blocks, preamble, or outside commentary.';
 
 export default async function handler(req, res) {
   // ── CORS Headers ──────────────────────────────────────────────────
@@ -51,19 +49,50 @@ export default async function handler(req, res) {
   }
 
   // ── Đọc request body ──────────────────────────────────────────────
-  const { prompt, skillType = 'full' } = req.body || {};
+  const {
+    prompt,
+    parts,
+    systemInstruction,
+    skillType,
+    temperature,
+    maxOutputTokens: customMaxTokens,
+    responseType = 'json'
+  } = req.body || {};
 
-  if (!prompt || !prompt.trim()) {
-    return res.status(400).json({ error: 'Thiếu tham số: prompt' });
+  // Hỗ trợ cả text prompt hoặc mảng parts
+  let effectivePrompt = prompt;
+  if (!effectivePrompt && parts) {
+    if (typeof parts === 'string') {
+      effectivePrompt = parts;
+    } else if (Array.isArray(parts)) {
+      effectivePrompt = parts.map(p => typeof p === 'string' ? p : p.text || '').join('\n');
+    }
   }
 
-  const maxOutputTokens = skillType === 'full' ? 16384 : 8192;
+  if (!effectivePrompt || !effectivePrompt.trim()) {
+    return res.status(400).json({ error: 'Thiếu nội dung yêu cầu (prompt/parts).' });
+  }
+
+  const effectiveSystemInstruction = systemInstruction || (skillType ? DEFAULT_SYSTEM_INSTRUCTION : '');
+  
+  // Xác định tokens và temperature phù hợp
+  let effectiveMaxTokens = customMaxTokens;
+  if (!effectiveMaxTokens) {
+    if (skillType === 'full') effectiveMaxTokens = 16384;
+    else if (skillType) effectiveMaxTokens = 8192;
+    else effectiveMaxTokens = 4096;
+  }
+
+  const effectiveTemperature = temperature !== undefined 
+    ? Number(temperature) 
+    : (skillType ? 0.7 : 0.2);
+
   const geminiKey = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || '';
   const openRouterKey = process.env.VITE_OPENROUTER_API_KEY || process.env.OPENROUTER_API_KEY || '';
 
   if (!geminiKey && !openRouterKey) {
     return res.status(500).json({
-      error: 'Server chưa cấu hình AI API Key. Liên hệ quản trị viên.'
+      error: 'Server chưa cấu hình AI API Key. Vui lòng cấu hình VITE_GEMINI_API_KEY trên Vercel Dashboard.'
     });
   }
 
@@ -75,18 +104,28 @@ export default async function handler(req, res) {
     for (const model of GEMINI_MODELS) {
       try {
         const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
+        const payload = {
+          contents: [{ role: 'user', parts: [{ text: effectivePrompt }] }],
+          generationConfig: {
+            temperature: effectiveTemperature,
+            maxOutputTokens: effectiveMaxTokens
+          }
+        };
+
+        if (responseType === 'json') {
+          payload.generationConfig.responseMimeType = 'application/json';
+        }
+
+        if (effectiveSystemInstruction) {
+          payload.systemInstruction = {
+            parts: [{ text: effectiveSystemInstruction }]
+          };
+        }
+
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ role: 'user', parts: [{ text: prompt }] }],
-            systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
-            generationConfig: {
-              responseMimeType: 'application/json',
-              temperature: 0.7,
-              maxOutputTokens
-            }
-          })
+          body: JSON.stringify(payload)
         });
 
         if (!response.ok) {
@@ -109,6 +148,23 @@ export default async function handler(req, res) {
   if (!rawText && openRouterKey) {
     for (const model of OPENROUTER_MODELS) {
       try {
+        const messages = [];
+        if (effectiveSystemInstruction) {
+          messages.push({ role: 'system', content: effectiveSystemInstruction });
+        }
+        messages.push({ role: 'user', content: effectivePrompt });
+
+        const openRouterPayload = {
+          model,
+          messages,
+          max_tokens: effectiveMaxTokens,
+          temperature: effectiveTemperature
+        };
+
+        if (responseType === 'json') {
+          openRouterPayload.response_format = { type: 'json_object' };
+        }
+
         const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
           method: 'POST',
           headers: {
@@ -117,16 +173,7 @@ export default async function handler(req, res) {
             'HTTP-Referer': 'https://toefl-smart.vercel.app',
             'X-Title': 'TOEFL Smart 2026'
           },
-          body: JSON.stringify({
-            model,
-            messages: [
-              { role: 'system', content: SYSTEM_INSTRUCTION },
-              { role: 'user', content: prompt }
-            ],
-            max_tokens: maxOutputTokens,
-            temperature: 0.7,
-            response_format: { type: 'json_object' }
-          })
+          body: JSON.stringify(openRouterPayload)
         });
 
         if (!response.ok) {
@@ -147,7 +194,7 @@ export default async function handler(req, res) {
 
   // ── 3. Trả kết quả ────────────────────────────────────────────────
   if (!rawText) {
-    const errMsg = lastError?.message || 'Không thể kết nối AI để sinh đề thi.';
+    const errMsg = lastError?.message || 'Không thể kết nối AI để xử lý yêu cầu.';
     console.error('[ai-proxy] Tất cả providers thất bại:', errMsg);
     return res.status(502).json({ error: errMsg });
   }
