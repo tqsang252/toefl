@@ -9,6 +9,7 @@ const readingTest01 = {
     id: "reading-full-01",
     title: "Reading Full Test 01 (Format 2026)",
     skill: "reading",
+    is_default: true,
     duration_seconds: 1800, // 30 phút tổng
     description: "TOEFL iBT 2026 chuẩn ETS: Mỗi Module gồm đầy đủ các phần Complete the Words (2 đoạn), Read in Daily Life, và Academic Passage.",
     stages: [
@@ -272,6 +273,7 @@ const listeningTest01 = {
     id: "listening-full-01",
     title: "Listening Full Test 01 (Format 2026)",
     skill: "listening",
+    is_default: true,
     duration_seconds: 1740, // 29 phút tổng chuẩn ETS 2026
     description: "Bộ đề TOEFL iBT 2026 chuẩn ETS: Module 1 (14.5 phút) và Module 2 (14.5 phút). Mỗi Module đều gồm đầy đủ 4 dạng bài: Phản xạ hội thoại (Choose a Response), Thông báo (Announcement), Hội thoại (Conversation) và Bài giảng (Academic Talk).",
     stages: [
@@ -744,6 +746,7 @@ const writingTest01 = {
     id: "writing-full-01",
     title: "Writing Full Test 01 (Format 2026)",
     skill: "writing",
+    is_default: true,
     duration_seconds: 1380, // 23 phút chuẩn TOEFL 2026
     description: "Cấu trúc TOEFL 2026 chuẩn ETS: Task 1 (10 câu Build a Sentence kéo thả có ngữ cảnh), Task 2 (Write an Email), và Task 3 (Academic Discussion).",
     stages: [
@@ -909,6 +912,7 @@ const writingSentenceTest01 = {
   id: "writing-sentence-01",
   title: "Writing: Hoàn Thiện Câu (Build a Sentence - 10 câu)",
   skill: "writing",
+  is_default: true,
   task_type: "build_sentence",
   duration_seconds: 420, // 7 phút chuẩn ETS
   description: "Luyện tập riêng Task 1: Ghép 10 câu hoàn chỉnh theo ngữ cảnh ban đầu (Conversational Context) và phân biệt từ bẫy chuẩn ETS 2026. Chấm điểm đúng/sai tức thì kèm phân tích ngữ pháp.",
@@ -926,6 +930,7 @@ const writingEmailTest01 = {
   id: "writing-email-01",
   title: "Writing: Viết Email (Write an Email - 7 Phút)",
   skill: "writing",
+  is_default: true,
   task_type: "write_email",
   duration_seconds: 420, // 7 phút chuẩn ETS
   description: "Luyện tập riêng Task 2: Soạn email học thuật gửi giáo sư giải quyết tình huống vắng mặt, đảm bảo 80 - 130 từ và đáp ứng đủ 3 yêu cầu đề bài. AI chấm điểm chi tiết và đề xuất bài mẫu Band 5.0 - 6.0.",
@@ -943,6 +948,7 @@ const writingDiscussionTest01 = {
   id: "writing-discussion-01",
   title: "Writing: Academic Discussion (10 Phút)",
   skill: "writing",
+  is_default: true,
   task_type: "academic_discussion",
   duration_seconds: 600, // 10 phút chuẩn ETS
   description: "Luyện tập riêng Task 3: Tham gia diễn đàn thảo luận lớp học về Trí tuệ nhân tạo (AI), bảo vệ quan điểm cá nhân và phản biện ý kiến bạn học đạt 100 - 150 từ. AI chấm điểm và chữa lỗi từng câu.",
@@ -963,6 +969,7 @@ const speakingTest01 = {
     id: "speaking-full-01",
     title: "Speaking Full Test 01 (Format 2026)",
     skill: "speaking",
+    is_default: true,
     duration_seconds: 480, // 8 phút chuẩn ETS 2026
     description: "Bộ đề Full Speaking chuẩn ETS 2026 gồm 2 dạng bài: Listen and Repeat (7 câu) và Take an Interview (4 câu). Hoàn toàn không có thời gian chuẩn bị (No Prep Time).",
     stages: [
@@ -1125,6 +1132,7 @@ const fullMockTest01 = {
   id: "toefl-full-mock-01",
   title: "TOEFL iBT Full Mock Exam 01 (Official 2026 Simulation)",
   skill: "full",
+  is_default: true,
   duration_seconds: 5400, // 90 phút (Reading 30m + Listening 29m + Writing 23m + Speaking 8m)
   description: "Thi thử trọn vẹn 4 kỹ năng chuẩn ETS 2026: Reading (30m) ➔ Listening (29m) ➔ Writing (23m) ➔ Speaking (8m). Đếm ngược độc lập từng phần, chấm điểm tổng 0 - 120 và Band 6.0.",
   stages: [

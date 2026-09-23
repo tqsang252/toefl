@@ -1167,14 +1167,23 @@ Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết 
       ? `TOEFL iBT Full Mock Test (#${timestamp.toString().slice(-4)})`
       : `${s.toUpperCase()} Practice Exam${subLabel} (#${timestamp.toString().slice(-4)})`;
 
+    const clientTimestamp = Date.now();
+    const clientIso = new Date(clientTimestamp).toISOString();
+
     return {
       ...t,
-      id: t.id || `test_ai_${timestamp}_${idx + 1}`,
+      id: t.id || `test_ai_${clientTimestamp}_${idx + 1}`,
       title: t.title || defaultTitle,
       skill: s,
       task_type: t.task_type || (skillType.startsWith('writing_') ? skillType.replace('writing_', '') : undefined),
       duration_seconds: t.duration_seconds || defaultDuration,
-      created_at: new Date().toISOString()
+      created_at: clientIso,
+      created_at_ms: clientTimestamp,
+      content: {
+        ...(t.content || {}),
+        created_at: clientIso,
+        created_at_ms: clientTimestamp
+      }
     };
   });
 

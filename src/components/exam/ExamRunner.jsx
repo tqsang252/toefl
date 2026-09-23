@@ -235,9 +235,15 @@ export default function ExamRunner({ test, onExit }) {
         } else if (task.task_type === 'build_sentence' && content.items) {
           taskTotal = content.items.length;
           content.items.forEach((item, idx) => {
+            const cleanToken = (token) =>
+              String(token || '')
+                .trim()
+                .replace(/^[^a-zA-Z0-9$€£%]+|[^a-zA-Z0-9$€£%]+$/g, '')
+                .toLowerCase();
+
             const userOrder = answers[item.id] || [];
-            const normUser = userOrder.map((w) => String(w).trim().toLowerCase());
-            const normCorrect = (item.correct_order || []).map((w) => String(w).trim().toLowerCase());
+            const normUser = userOrder.map(cleanToken).filter((w) => w.length > 0);
+            const normCorrect = (item.correct_order || []).map(cleanToken).filter((w) => w.length > 0);
             const isCorrect = normUser.length > 0 && JSON.stringify(normUser) === JSON.stringify(normCorrect);
             if (isCorrect) taskRaw++;
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Sparkles, Upload, Copy, Check, FileCode, AlertCircle, Info, Wand2, Database, PenTool } from 'lucide-react';
+import { X, Sparkles, Upload, Copy, Check, FileCode, AlertCircle, Info, Wand2, Database, PenTool, CheckCircle2 } from 'lucide-react';
 import { jsonrepair } from 'jsonrepair';
 import { importBatchTests } from '../lib/supabase';
 import { generateExamWithGemini, isGeminiConfigured, isOpenRouterConfigured } from '../lib/gemini';
@@ -144,6 +144,8 @@ const SAMPLE_WRITING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL
    - TUYỆT ĐỐI KHÔNG viết hoa chữ cái đầu tiên của câu (ví dụ: viết 'the', 'she', 'because', 'although' chứ KHÔNG viết 'The', 'She', 'Because', 'Although') để không làm lộ từ mở đầu cho thí sinh!
    - Thứ tự các từ trong mảng 'scrambled' BẮT BUỘC PHẢI ĐẢO LỘN XỘN NGẪU NHIÊN HOÀN TOÀN, TUYỆT ĐỐI KHÔNG được để các từ theo đúng thứ tự câu hay gần đúng thứ tự câu.
    - Mỗi câu phải kèm 2-3 từ bẫy ('decoys') viết thường, có ngữ pháp hoặc nghĩa tương tự để thử thách học viên.
+   - Các phần tử trong 'scrambled', 'correct_order', 'decoys' CHỈ LÀ TỪ VỰNG THUẦN TÚY, TUYỆT ĐỐI KHÔNG chứa dấu câu (không kèm '.', '?', '!', ',', '"'). Dấu kết câu đã có sẵn ở UI.
+   - TẤT CẢ các từ trong 'correct_order' BẮT BUỘC PHẢI CÓ MẶT trong mảng 'scrambled' (số lượng từ trong 'scrambled' = số từ trong 'correct_order' + số từ trong 'decoys').
 2. CÚ PHÁP:
    - Chỉ trả về JSON thuần túy, không kèm giải thích bên ngoài.
    - Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').
@@ -241,6 +243,9 @@ const SAMPLE_WRITING_SENTENCE_PROMPT = `Hãy đóng vai là chuyên gia luyện 
 4. Mỗi câu phải kèm 2-3 từ bẫy ('decoys') viết thường, có ngữ pháp hoặc nghĩa tương tự để thử thách học viên.
 5. Mỗi câu có 1 câu thoại ngữ cảnh ban đầu (Conversational / Situational Context).
 6. CÚ PHÁP: Chỉ trả về JSON thuần túy, không kèm giải thích. Dùng ngoặc đơn '...' thay vì ngoặc kép trong văn bản.
+7. QUY TẮC BẮT BUỘC VỀ DẤU CÂU & KHO TỪ:
+   - Các phần tử trong 'scrambled', 'correct_order', 'decoys' CHỈ LÀ TỪ VỰNG THUẦN TÚY, TUYỆT ĐỐI KHÔNG chứa dấu câu (không kèm '.', '?', '!', ',', '"'). Dấu kết câu đã được hệ thống cố định ở cuối.
+   - TẤT CẢ các từ trong 'correct_order' BẮT BUỘC PHẢI CÓ MẶT trong mảng 'scrambled' (số lượng từ trong 'scrambled' = số từ trong 'correct_order' + số từ trong 'decoys').
 
 Cấu trúc JSON chuẩn:
 [
@@ -1160,6 +1165,15 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
   const [aiProgressStatus, setAiProgressStatus] = useState('');
   const [customTopic, setCustomTopic] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const handleCloseSuccess = () => {
+    setShowSuccessModal(false);
+    if (onImportSuccess) {
+      onImportSuccess();
+    }
+    onClose();
+  };
 
   useEffect(() => {
     if (defaultSkill) {
@@ -1249,13 +1263,7 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
         setJsonInput(result.rawJson);
       }
 
-      const generatedTitle = result.tests?.[0]?.title || 'Bộ đề thi mới';
-      alert(`🎉 Đã tạo thành công đề thi: "${generatedTitle}" và tự động lưu vào ${result.destination}!`);
-
-      if (onImportSuccess) {
-        onImportSuccess();
-      }
-      onClose();
+      setShowSuccessModal(true);
     } catch (err) {
       console.error('Lỗi sinh đề bằng AI:', err);
       setErrorMsg(`Lỗi khi sinh đề: ${err.message}`);
@@ -1276,10 +1284,10 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
       setErrorMsg('');
       const parseResult = cleanAndParseJson(jsonInput);
       const parsed = parseResult.data !== undefined ? parseResult.data : parseResult;
-      const testsArray = Array.isArray(parsed) ? parsed : [parsed];
+      const rawArray = Array.isArray(parsed) ? parsed : [parsed];
 
       // Validate cấu trúc tối thiểu
-      for (const t of testsArray) {
+      for (const t of rawArray) {
         if (!t || typeof t !== 'object') {
           throw new Error('Định dạng đề thi không hợp lệ (cần là Object hoặc mảng [Object])');
         }
@@ -1288,18 +1296,23 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
         }
       }
 
-      const result = await importBatchTests(testsArray);
-      let successMsg = `🎉 Đã import thành công ${result.count} đề thi vào ${result.destination}!`;
-      if (parseResult.repaired) {
-        if (parseResult.truncated) {
-          successMsg += `\n\n⚠️ Lưu ý: Đoạn JSON do AI tạo có dấu hiệu bị cắt ngắn giữa chừng do chạm giới hạn token của AI (hệ thống đã tự động đóng ngoặc và khôi phục các phần đã tạo). Hãy kiểm tra lại số lượng câu hỏi trong đề!`;
-        } else {
-          successMsg += `\n\n✨ Hệ thống đã tự động sửa các lỗi cú pháp (dấu ngoặc, dòng ngắt) trong mã JSON do AI tạo.`;
+      // Đảm bảo lấy timestamp trực tiếp từ máy tính của người dùng
+      const clientNow = Date.now();
+      const clientIso = new Date(clientNow).toISOString();
+      const testsArray = rawArray.map((t, idx) => ({
+        ...t,
+        id: t.id || `test_import_${clientNow}_${idx + 1}`,
+        created_at: t.created_at || clientIso,
+        created_at_ms: t.created_at_ms || clientNow,
+        content: {
+          ...(t.content || {}),
+          created_at: t.created_at || clientIso,
+          created_at_ms: t.created_at_ms || clientNow
         }
-      }
-      alert(successMsg);
-      onImportSuccess();
-      onClose();
+      }));
+
+      await importBatchTests(testsArray);
+      setShowSuccessModal(true);
     } catch (err) {
       console.error(err);
       setErrorMsg(err.message.startsWith('Lỗi JSON:') ? err.message : `Lỗi JSON: ${err.message}`);
@@ -1552,6 +1565,42 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
         </div>
 
       </div>
+
+      {/* Modal Popup Tạo Thành Công (Đặt chính giữa trang web, bỏ hoàn toàn alert trình duyệt) */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 z-[70] bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-7 shadow-2xl border border-slate-100 text-center space-y-5 animate-in zoom-in-95 duration-200">
+            
+            {/* Biểu tượng thành công đẹp mắt */}
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center mx-auto shadow-lg shadow-teal-500/25">
+              <CheckCircle2 className="w-9 h-9 stroke-[2.5]" />
+            </div>
+
+            {/* Tiêu đề ngắn gọn theo đúng yêu cầu người dùng: chỉ cần ghi Tạo thành công */}
+            <div className="space-y-1.5">
+              <h3 className="text-xl font-black text-slate-900 tracking-tight">
+                Tạo thành công
+              </h3>
+              <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                Đề thi mới đã sẵn sàng trong danh sách bài luyện tập của bạn.
+              </p>
+            </div>
+
+            {/* Nút OK */}
+            <div className="pt-1">
+              <button
+                type="button"
+                autoFocus
+                onClick={handleCloseSuccess}
+                className="w-full py-3 px-6 bg-gradient-to-r from-teal-700 via-[#153e75] to-indigo-800 hover:opacity-95 text-white font-black text-sm rounded-2xl shadow-md cursor-pointer transition-all active:scale-95"
+              >
+                OK
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }

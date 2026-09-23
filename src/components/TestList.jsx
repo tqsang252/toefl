@@ -12,8 +12,67 @@ import {
   Mail,
   MessageSquare,
   Layers,
-  ChevronDown
+  ChevronDown,
+  Calendar
 } from 'lucide-react';
+
+const formatDateTime = (dateVal) => {
+  if (!dateVal) return null;
+  try {
+    const d = new Date(dateVal);
+    if (isNaN(d.getTime())) return null;
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${hours}:${minutes} • ${day}/${month}/${year}`;
+  } catch (e) {
+    return null;
+  }
+};
+
+const getTestCreatedAt = (t) => {
+  if (!t) return null;
+
+  // 1. Ưu tiên số timestamp mili-giây chính xác từ máy tính (created_at_ms)
+  const ms = t.created_at_ms || t.content?.created_at_ms;
+  if (ms && typeof ms === 'number') {
+    return new Date(ms).toISOString();
+  }
+
+  // 2. Trích xuất timestamp từ id nếu có dạng test_ai_1790139298569_1, test_1790139298569, v.v.
+  // Các ID này được tạo trực tiếp bằng Date.now() trên máy tính của người dùng
+  const match = String(t.id || '').match(/(\d{13})/);
+  if (match) {
+    const ts = parseInt(match[1], 10);
+    if (!isNaN(ts) && ts > 1600000000000 && ts < 2500000000000) {
+      return new Date(ts).toISOString();
+    }
+  }
+
+  // 3. Nếu t.created_at hoặc t.content?.created_at hợp lệ (loại trừ giá trị hardcoded cũ nếu còn lưu trong storage)
+  const rawDate = t.content?.created_at || t.created_at;
+  if (rawDate && rawDate !== '2026-09-22T08:00:00.000Z') {
+    const d = new Date(rawDate);
+    if (!isNaN(d.getTime())) {
+      return d.toISOString();
+    }
+  }
+
+  // 4. Nếu là đề mặc định của hệ thống hoặc đề chưa có timestamp,
+  // lấy thời điểm khởi tạo ứng dụng từ chính máy tính người dùng lưu trong localStorage
+  if (typeof localStorage !== 'undefined') {
+    let initTime = localStorage.getItem('toefl_system_tests_init_time');
+    if (!initTime) {
+      initTime = new Date().toISOString();
+      localStorage.setItem('toefl_system_tests_init_time', initTime);
+    }
+    return initTime;
+  }
+
+  return new Date().toISOString();
+};
 
 export default function TestList({ 
   skill, 
@@ -168,6 +227,7 @@ export default function TestList({
 
               const writingCat = skill === 'writing' ? getWritingCategory(test) : null;
               const isFullWriting = skill === 'writing' && writingCat === 'full';
+              const createdAtFormatted = formatDateTime(getTestCreatedAt(test));
 
               return (
                 <div 
@@ -224,6 +284,13 @@ export default function TestList({
                           <Clock className="w-3.5 h-3.5 text-slate-400" />
                           {durationMin} mins
                         </span>
+
+                        {createdAtFormatted && (
+                          <span className="flex items-center gap-1 font-medium text-slate-400" title="Thời gian tạo đề thi">
+                            <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                            <span>{createdAtFormatted}</span>
+                          </span>
+                        )}
 
                         {historyCount > 0 ? (
                           <div className="flex items-center gap-2 flex-wrap">

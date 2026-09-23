@@ -213,7 +213,10 @@ export function normalizeCompleteWordsTask(task, taskUniqueId) {
 // CHUẨN HÓA DẠNG BÀI BUILD A SENTENCE (WRITING TASK 1)
 // 1. Chuyển tất cả các từ trong scrambled, correct_order, decoys sang chữ thường (lowercase)
 //    để không lộ từ viết hoa đầu câu theo đúng yêu cầu đề thi TOEFL.
-// 2. Đảo lộn xộn ngẫu nhiên mảng scrambled nếu AI trả về đúng thứ tự hoặc gần đúng thứ tự.
+// 2. Loại bỏ sạch dấu câu thừa (như '.', '?', '!', ',', '"') khỏi các phần tử từ vựng (dấu kết câu đã có sẵn ở UI).
+// 3. ĐẢM BẢO TUYỆT ĐỐI: Toàn bộ các từ trong correct_order BẮT BUỘC phải có mặt trong kho từ (scrambled).
+//    Nếu AI bị sót từ trong scrambled, hệ thống tự động bù từ thiếu vào scrambled để không bị thiếu từ ghép.
+// 4. Đảo lộn xộn ngẫu nhiên mảng scrambled nếu AI trả về đúng thứ tự hoặc gần đúng thứ tự.
 // =================================================================
 export function normalizeBuildSentenceTask(task, taskUniqueId) {
   if (!task || task.task_type !== 'build_sentence') return task;
@@ -221,6 +224,14 @@ export function normalizeBuildSentenceTask(task, taskUniqueId) {
   const content = task.content || {};
   const items = content.items || [];
   if (!Array.isArray(items) || items.length === 0) return task;
+
+  const cleanToken = (token) => {
+    if (!token || typeof token !== 'string') return '';
+    return token
+      .trim()
+      .replace(/^[^a-zA-Z0-9$€£%]+|[^a-zA-Z0-9$€£%]+$/g, '')
+      .toLowerCase();
+  };
 
   const shuffleArray = (arr) => {
     const a = [...arr];
@@ -235,15 +246,57 @@ export function normalizeBuildSentenceTask(task, taskUniqueId) {
     const baseId = item.id || `item${idx + 1}`;
     const uniqueId = baseId.startsWith(`${taskId}_`) ? baseId : `${taskId}_${baseId}`;
 
-    // 1. Chuyển tất cả về lowercase
-    const correctOrder = (item.correct_order || []).map((w) => String(w).trim().toLowerCase());
-    const decoys = (item.decoys || []).map((w) => String(w).trim().toLowerCase());
-    
+    // 1. Chuẩn hóa correct_order (lọc bỏ dấu câu đứng riêng lẻ như '.', '?')
+    let correctOrder = (item.correct_order || [])
+      .map(cleanToken)
+      .filter((w) => w.length > 0);
+
+    // Fallback nếu correct_order rỗng nhưng có correct_sentence
+    if (correctOrder.length === 0 && item.correct_sentence) {
+      correctOrder = item.correct_sentence
+        .split(/\s+/)
+        .map(cleanToken)
+        .filter((w) => w.length > 0);
+    }
+
+    // 2. Chuẩn hóa decoys
+    const decoys = (item.decoys || [])
+      .map(cleanToken)
+      .filter((w) => w.length > 0);
+
+    // 3. Chuẩn hóa scrambled (kho từ)
     let rawScrambled = (item.scrambled && item.scrambled.length > 0)
-      ? item.scrambled.map((w) => String(w).trim().toLowerCase())
+      ? item.scrambled.map(cleanToken).filter((w) => w.length > 0)
       : [...correctOrder, ...decoys];
 
-    // 2. Luôn xáo trộn ngẫu nhiên toàn bộ mảng scrambled
+    // 4. KIỂM SOÁT TÍNH TOÀN VẸN: Đảm bảo kho từ rawScrambled chứa ĐẦY ĐỦ mọi từ trong correctOrder
+    const scrambledCounts = {};
+    rawScrambled.forEach((w) => {
+      scrambledCounts[w] = (scrambledCounts[w] || 0) + 1;
+    });
+
+    const correctCounts = {};
+    correctOrder.forEach((w) => {
+      correctCounts[w] = (correctCounts[w] || 0) + 1;
+    });
+
+    Object.entries(correctCounts).forEach(([word, neededCount]) => {
+      const currentCount = scrambledCounts[word] || 0;
+      if (currentCount < neededCount) {
+        for (let i = 0; i < neededCount - currentCount; i++) {
+          rawScrambled.push(word);
+        }
+      }
+    });
+
+    // Bổ sung các từ bẫy (decoys) nếu chưa có trong rawScrambled
+    decoys.forEach((decoy) => {
+      if (!rawScrambled.includes(decoy)) {
+        rawScrambled.push(decoy);
+      }
+    });
+
+    // 5. Luôn xáo trộn ngẫu nhiên toàn bộ mảng scrambled
     let shuffled = shuffleArray(rawScrambled);
     // Nếu vô tình xáo trộn mà vẫn giống thứ tự câu thì đảo lại
     if (correctOrder.length > 1 && JSON.stringify(shuffled.slice(0, correctOrder.length)) === JSON.stringify(correctOrder)) {
@@ -387,11 +440,18 @@ export function normalizeTest(t) {
     };
   });
 
+  const clientCreatedAt = t.created_at || t.content?.created_at;
+  const clientCreatedAtMs = t.created_at_ms || t.content?.created_at_ms;
+
   return {
     ...t,
+    created_at: clientCreatedAt,
+    created_at_ms: clientCreatedAtMs,
     stages: normalizedStages,
     content: {
       ...(t.content || {}),
+      created_at: clientCreatedAt,
+      created_at_ms: clientCreatedAtMs,
       stages: normalizedStages
     },
     modules: t.modules || t.content?.modules || []
@@ -421,11 +481,22 @@ export async function getTestsBySkill(skill) {
     }
   }
 
-  // Fallback: Lấy từ LocalStorage kết hợp bộ đề mẫu chuẩn (luôn ưu tiên bản mới nhất của DEFAULT_TESTS)
+  // Fallback: Lấy từ LocalStorage kết hợp bộ đề mẫu chuẩn
   const local = JSON.parse(localStorage.getItem('toefl_local_tests') || '[]');
   const testsMap = new Map(local.map((item) => [item.id, item]));
-  // Ghi đè bộ đề chuẩn ETS 2026 mới nhất để cập nhật dữ liệu nếu browser còn cache bản cũ
-  DEFAULT_TESTS.forEach((d) => testsMap.set(d.id, d));
+  // Bổ sung bộ đề chuẩn ETS 2026, bảo lưu timestamp nếu có
+  DEFAULT_TESTS.forEach((d) => {
+    if (!testsMap.has(d.id)) {
+      testsMap.set(d.id, d);
+    } else {
+      const existing = testsMap.get(d.id);
+      testsMap.set(d.id, {
+        ...d,
+        created_at: existing.created_at || existing.content?.created_at,
+        created_at_ms: existing.created_at_ms || existing.content?.created_at_ms
+      });
+    }
+  });
   const allTests = Array.from(testsMap.values());
   const filtered = allTests.filter((t) => t.skill === skill);
   return filtered.map(normalizeTest);
@@ -433,18 +504,31 @@ export async function getTestsBySkill(skill) {
 
 // 2. Import hàng loạt đề thi (hỗ trợ cả đề Full Section nhiều modules và bài đơn)
 export async function importBatchTests(testsArray) {
-  const preparedTests = testsArray.map((t) => {
+  const nowMs = Date.now();
+  const nowIso = new Date(nowMs).toISOString();
+
+  const preparedTests = testsArray.map((t, idx) => {
     const norm = normalizeTest(t);
     const taskType = t.task_type || (norm.stages[0]?.tasks[0]?.task_type) || 'multistage';
+    const createdAt = t.created_at || nowIso;
+    const createdAtMs = t.created_at_ms || (nowMs + idx);
+    const testId = t.id || `test_${createdAtMs}_${Math.random().toString(36).substr(2, 5)}`;
     const content = t.content || { stages: norm.stages, modules: norm.modules };
 
     return {
+      id: testId,
       title: t.title,
       skill: t.skill,
       task_type: taskType,
       duration_seconds: t.duration_seconds || 1800,
-      content: { ...content, stages: norm.stages },
-      created_at: new Date().toISOString()
+      content: { 
+        ...content, 
+        stages: norm.stages,
+        created_at: createdAt,
+        created_at_ms: createdAtMs
+      },
+      created_at: createdAt,
+      created_at_ms: createdAtMs
     };
   });
 

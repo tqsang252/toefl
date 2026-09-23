@@ -13,9 +13,52 @@ function BuildSentenceTask({ test, answers, onAnswerChange }) {
   const currentItem = items[activeItemIndex] || items[0] || {};
   const currentSelected = answers[currentItem.id] || [];
 
-  // Xác định các từ còn lại trong kho từ (Word Bank)
+  const cleanWord = (token) =>
+    String(token || '')
+      .trim()
+      .replace(/^[^a-zA-Z0-9$€£%]+|[^a-zA-Z0-9$€£%]+$/g, '')
+      .toLowerCase();
+
+  // 1. Chuẩn hóa danh sách từ trong đáp án đúng (loại bỏ dấu câu đứng riêng như '.', '?')
+  const validCorrectOrder = (currentItem.correct_order || [])
+    .map(cleanWord)
+    .filter((w) => w.length > 0);
+
+  // 2. Chuẩn hóa kho từ scrambled
+  let scrambledList = (currentItem.scrambled || [])
+    .map(cleanWord)
+    .filter((w) => w.length > 0);
+
+  // 3. Cơ chế tự động bù từ thiếu (Self-healing):
+  // Nếu kho từ scrambled bị thiếu từ so với correct_order (do AI vô tình sót từ),
+  // tự động bù các từ bị thiếu vào scrambledList để học viên LUÔN có đủ từ ghép!
+  const scrambledCounts = {};
+  scrambledList.forEach((w) => {
+    scrambledCounts[w] = (scrambledCounts[w] || 0) + 1;
+  });
+
+  const correctCounts = {};
+  validCorrectOrder.forEach((w) => {
+    correctCounts[w] = (correctCounts[w] || 0) + 1;
+  });
+
+  Object.entries(correctCounts).forEach(([word, neededCount]) => {
+    const currentCount = scrambledCounts[word] || 0;
+    if (currentCount < neededCount) {
+      for (let i = 0; i < neededCount - currentCount; i++) {
+        scrambledList.push(word);
+      }
+    }
+  });
+
+  // 4. Số vị trí gạch cần điền:
+  // Luôn bằng đúng số từ trong câu hoàn chỉnh (validCorrectOrder.length)
+  const targetSlotCount = validCorrectOrder.length > 0
+    ? validCorrectOrder.length
+    : Math.max(1, scrambledList.length - (currentItem.decoys?.length || 0));
+
+  // 5. Xác định các từ còn lại trong kho từ (Word Bank)
   // Xử lý cả trường hợp từ trùng lặp
-  const scrambledList = currentItem.scrambled || [];
   const availableWords = scrambledList.filter((w, idx) => {
     const totalCountInScrambled = scrambledList.slice(0, idx + 1).filter((x) => x === w).length;
     const countInSelected = currentSelected.filter((x) => x === w).length;
@@ -78,8 +121,6 @@ function BuildSentenceTask({ test, answers, onAnswerChange }) {
       console.error('Lỗi reorder từ:', err);
     }
   };
-
-  const targetSlotCount = currentItem.correct_order?.length || (currentItem.scrambled?.length - (currentItem.decoys?.length || 0)) || 7;
 
   const handleDropOnEmptySlot = (e, targetIdx) => {
     e.preventDefault();
