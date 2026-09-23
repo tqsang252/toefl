@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { X, Sparkles, Upload, Copy, Check, FileCode, AlertCircle, Info } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, Sparkles, Upload, Copy, Check, FileCode, AlertCircle, Info, Wand2, Database } from 'lucide-react';
 import { jsonrepair } from 'jsonrepair';
 import { importBatchTests } from '../lib/supabase';
+import { generateExamWithGemini, isGeminiConfigured, isOpenRouterConfigured } from '../lib/gemini';
 
 const SAMPLE_READING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL READING gồm 2 Module thích ứng (Module 1 và Module 2), mỗi Module có đủ: Complete the Words (1-2 đoạn), Read in Daily Life (1 bài), và Academic Passage (1 bài).
 
@@ -998,12 +999,21 @@ function cleanAndParseJson(rawInput) {
   }
 }
 
-export default function ImportModal({ isOpen, onClose, onImportSuccess }) {
+export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultSkill = 'full' }) {
   const [jsonInput, setJsonInput] = useState('');
-  const [selectedPromptType, setSelectedPromptType] = useState('full');
+  const [selectedPromptType, setSelectedPromptType] = useState(defaultSkill || 'full');
   const [copiedPrompt, setCopiedPrompt] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
+  const [isAiGenerating, setIsAiGenerating] = useState(false);
+  const [aiProgressStatus, setAiProgressStatus] = useState('');
+  const [customTopic, setCustomTopic] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+
+  useEffect(() => {
+    if (defaultSkill) {
+      setSelectedPromptType(defaultSkill);
+    }
+  }, [defaultSkill, isOpen]);
 
   if (!isOpen) return null;
 
@@ -1016,6 +1026,16 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess }) {
     : selectedPromptType === 'speaking'
     ? SAMPLE_SPEAKING_PROMPT
     : SAMPLE_READING_PROMPT;
+
+  const getSkillTitle = () => {
+    switch (selectedPromptType) {
+      case 'reading': return 'Reading (2 Module)';
+      case 'listening': return 'Listening (2 Module)';
+      case 'writing': return 'Writing (3 Bài)';
+      case 'speaking': return 'Speaking (2 Bài)';
+      default: return 'Full Test (4 Kỹ Năng)';
+    }
+  };
 
   const handleCopyPrompt = () => {
     navigator.clipboard.writeText(currentPromptText);
@@ -1033,6 +1053,46 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess }) {
       setErrorMsg('');
     };
     reader.readAsText(file);
+  };
+
+  // 1-Click: Tự động sinh đề bằng Gemini AI (Dự phòng OpenRouter) và đẩy thẳng lên Database
+  const handleGenerateWithAI = async () => {
+    if (!isGeminiConfigured() && !isOpenRouterConfigured()) {
+      setErrorMsg('Chưa cấu hình API Key (Gemini hoặc OpenRouter)! Vui lòng thêm trong file .env hoặc vào mục Cài Đặt (góc phải dưới) để kích hoạt sinh đề AI.');
+      return;
+    }
+
+    try {
+      setIsAiGenerating(true);
+      setErrorMsg('');
+      setAiProgressStatus('Đang kết nối AI chuẩn bị sinh đề thi...');
+
+      const result = await generateExamWithGemini({
+        skillType: selectedPromptType,
+        promptText: currentPromptText,
+        customTopic: customTopic.trim(),
+        onProgress: (status) => setAiProgressStatus(status)
+      });
+
+      if (result.rawJson) {
+        setJsonInput(result.rawJson);
+      }
+
+      const generatedTitle = result.tests?.[0]?.title || 'Bộ đề thi mới';
+      const providerLabel = result.provider === 'openrouter' ? 'OpenRouter (Dự phòng thông minh)' : 'Google Gemini';
+      alert(`🎉 Đã sinh thành công đề thi: "${generatedTitle}" qua ${providerLabel} và tự động lưu vào ${result.destination}!`);
+
+      if (onImportSuccess) {
+        onImportSuccess();
+      }
+      onClose();
+    } catch (err) {
+      console.error('Lỗi sinh đề bằng AI:', err);
+      setErrorMsg(`Lỗi khi sinh đề AI: ${err.message}`);
+    } finally {
+      setIsAiGenerating(false);
+      setAiProgressStatus('');
+    }
   };
 
   const handleProcessImport = async () => {
@@ -1080,20 +1140,23 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess }) {
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-slate-200">
+      <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-slate-200">
         
         {/* Header Modal */}
         <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-teal-600 text-white flex items-center justify-center shadow-xs">
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-bold text-slate-800 text-base">
-                Import Đề Thi do AI Tạo
+              <h3 className="font-bold text-slate-800 text-base flex items-center gap-2">
+                <span>Tạo & Import Đề Thi AI (TOEFL 2026)</span>
+                <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 border border-teal-200">
+                  Auto AI
+                </span>
               </h3>
               <p className="text-[11px] text-slate-500">
-                Nhập đề Full Test (4 kỹ năng ~90m) hoặc các đề lẻ theo format TOEFL 2026
+                Tự động sinh đề bằng Gemini AI hoặc dán mã JSON theo chuẩn đề thi ETS 2026
               </p>
             </div>
           </div>
@@ -1109,56 +1172,115 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess }) {
         {/* Nội dung Modal */}
         <div className="p-6 overflow-y-auto space-y-4 flex-1">
           
-          {/* Box Mẫu Prompt cho ChatGPT / Gemini */}
+          {/* Thanh chọn kỹ năng */}
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <span className="text-xs font-bold text-slate-700 uppercase tracking-wide flex items-center gap-1.5">
+              <span>Chọn dạng bài thi:</span>
+            </span>
+
+            <div className="inline-flex rounded-xl bg-slate-100 p-1 text-xs font-bold">
+              {[
+                { id: 'full', label: 'Full Mock (4 KN)' },
+                { id: 'reading', label: 'Reading (2M)' },
+                { id: 'listening', label: 'Listening (2M)' },
+                { id: 'writing', label: 'Writing (3T)' },
+                { id: 'speaking', label: 'Speaking (2T)' }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setSelectedPromptType(tab.id)}
+                  disabled={isAiGenerating}
+                  className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                    selectedPromptType === tab.id 
+                      ? 'bg-indigo-600 text-white shadow-2xs font-extrabold' 
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* KHỐI 1-CLICK TỰ ĐỘNG SINH ĐỀ BẰNG GEMINI AI */}
+          <div className="bg-gradient-to-br from-[#0f1f38] via-[#153e75] to-[#0f2e59] rounded-2xl p-5 text-white shadow-md border border-indigo-500/30 relative overflow-hidden">
+            <div className="relative z-10 space-y-3.5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-400 to-amber-200 text-slate-950 flex items-center justify-center font-black shadow-md shrink-0">
+                    <Sparkles className="w-5 h-5 text-amber-950" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h4 className="text-sm font-black tracking-tight text-white uppercase">
+                        Tự Động Sinh Đề {getSkillTitle()}
+                      </h4>
+                      <span className="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-teal-400/20 text-teal-300 border border-teal-400/30">
+                        Gemini 2.5 Flash
+                      </span>
+                      {isOpenRouterConfigured() && (
+                        <span className="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-400/20 text-purple-300 border border-purple-400/30 flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+                          OpenRouter Auto-Fallback
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[11px] text-indigo-200">
+                      Ưu tiên Google Gemini AI, tự động chuyển sang OpenRouter khi Gemini quá tải/hết quota và lưu thẳng vào Database
+                    </p>
+                  </div>
+                </div>
+
+                {/* Nút bấm Tạo Đề Bằng AI */}
+                <button
+                  onClick={handleGenerateWithAI}
+                  disabled={isAiGenerating || isImporting}
+                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-slate-950 font-black text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-102 active:scale-98 disabled:opacity-50 shrink-0 border border-teal-200"
+                >
+                  <Sparkles className={`w-3.5 h-3.5 text-slate-900 ${isAiGenerating ? 'animate-spin' : ''}`} />
+                  <span>
+                    {isAiGenerating 
+                      ? 'AI Đang Sinh Đề & Lưu DB...' 
+                      : `✨ Sinh Đề ${selectedPromptType === 'full' ? 'Full Test (4 KN)' : selectedPromptType.toUpperCase()} Ngay`}
+                  </span>
+                </button>
+              </div>
+
+              {/* Ô nhập chủ đề tùy chọn (Optional) */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-1 border-t border-indigo-600/40">
+                <label className="text-[11px] font-bold text-indigo-200 shrink-0">
+                  Chủ đề tùy chọn (không bắt buộc):
+                </label>
+                <input
+                  type="text"
+                  value={customTopic}
+                  onChange={(e) => setCustomTopic(e.target.value)}
+                  disabled={isAiGenerating}
+                  placeholder="VD: Khoa học môi trường, Tâm lý học, Đời sống sinh viên... (để trống: AI tự chọn)"
+                  className="flex-1 px-3 py-1.5 rounded-lg bg-indigo-950/60 border border-indigo-500/50 text-white placeholder-indigo-300/50 text-xs focus:outline-hidden focus:border-teal-400 transition-colors"
+                />
+              </div>
+
+              {/* Thanh tiến trình thời gian thực khi AI đang sinh đề */}
+              {isAiGenerating && (
+                <div className="p-3 rounded-xl bg-indigo-950/90 border border-teal-400/50 flex items-center gap-3 animate-pulse">
+                  <div className="w-4 h-4 border-2 border-teal-400 border-t-transparent rounded-full animate-spin shrink-0" />
+                  <div className="text-xs text-teal-300 font-semibold flex-1">
+                    {aiProgressStatus || 'Gemini AI đang soạn bộ đề theo format ETS 2026...'}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Box Mẫu Prompt cho ChatGPT / Gemini (Tùy chọn thủ công) */}
           <div className="bg-indigo-50/60 border border-indigo-200 rounded-2xl p-4">
-            <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
               <div className="flex items-center gap-2">
                 <FileCode className="w-3.5 h-3.5 text-indigo-600" />
-                <span className="text-xs font-bold text-indigo-900">Prompt AI sinh đề:</span>
-                
-                {/* Tabs chọn mẫu Prompt Full Test / Reading / Listening / Speaking / Writing */}
-                <div className="inline-flex rounded-lg bg-indigo-200/50 p-0.5 text-[11px] font-bold">
-                  <button
-                    onClick={() => setSelectedPromptType('full')}
-                    className={`px-2 py-0.5 rounded-md transition-all cursor-pointer ${
-                      selectedPromptType === 'full' ? 'bg-indigo-600 text-white shadow-2xs' : 'text-indigo-700 hover:text-indigo-950'
-                    }`}
-                  >
-                    Full Mock (4 Kỹ Năng)
-                  </button>
-                  <button
-                    onClick={() => setSelectedPromptType('reading')}
-                    className={`px-2 py-0.5 rounded-md transition-all cursor-pointer ${
-                      selectedPromptType === 'reading' ? 'bg-white text-indigo-900 shadow-2xs' : 'text-indigo-700 hover:text-indigo-950'
-                    }`}
-                  >
-                    Reading (2M)
-                  </button>
-                  <button
-                    onClick={() => setSelectedPromptType('listening')}
-                    className={`px-2 py-0.5 rounded-md transition-all cursor-pointer ${
-                      selectedPromptType === 'listening' ? 'bg-white text-indigo-900 shadow-2xs' : 'text-indigo-700 hover:text-indigo-950'
-                    }`}
-                  >
-                    Listening (2M)
-                  </button>
-                  <button
-                    onClick={() => setSelectedPromptType('writing')}
-                    className={`px-2 py-0.5 rounded-md transition-all cursor-pointer ${
-                      selectedPromptType === 'writing' ? 'bg-white text-indigo-900 shadow-2xs' : 'text-indigo-700 hover:text-indigo-950'
-                    }`}
-                  >
-                    Writing (3T)
-                  </button>
-                  <button
-                    onClick={() => setSelectedPromptType('speaking')}
-                    className={`px-2 py-0.5 rounded-md transition-all cursor-pointer ${
-                      selectedPromptType === 'speaking' ? 'bg-white text-indigo-900 shadow-2xs' : 'text-indigo-700 hover:text-indigo-950'
-                    }`}
-                  >
-                    Speaking (2T)
-                  </button>
-                </div>
+                <span className="text-xs font-bold text-indigo-900">
+                  Tùy chọn thủ công: Copy Prompt để dán vào ChatGPT/Gemini
+                </span>
               </div>
 
               <button
@@ -1170,20 +1292,10 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess }) {
               </button>
             </div>
 
-            <p className="text-[11px] text-indigo-950/80 leading-relaxed font-mono line-clamp-3 bg-white/70 p-2.5 rounded-lg border border-indigo-100">
+            <p className="text-[11px] text-indigo-950/80 leading-relaxed font-mono line-clamp-2 bg-white/70 p-2.5 rounded-lg border border-indigo-100">
               {currentPromptText}
             </p>
           </div>
-
-          {/* Tip hướng dẫn khi chọn Full Test */}
-          {selectedPromptType === 'full' && (
-            <div className="flex items-start gap-2.5 p-3 rounded-2xl bg-amber-50/80 border border-amber-200/80 text-amber-900 text-xs leading-relaxed">
-              <Info className="w-4 h-4 shrink-0 text-amber-600 mt-0.5" />
-              <div>
-                <span className="font-bold">Mẹo tạo Full Test (4 kỹ năng):</span> Do đề thi hoàn chỉnh có dung lượng rất lớn, nếu AI (ChatGPT/Claude) ngắt giữa chừng, bạn chỉ cần gõ <em>"tiếp tục"</em> trong AI. Hoặc tốt nhất, bạn có thể tạo đề theo từng tab kỹ năng riêng (<em>Reading</em>, <em>Listening</em>, <em>Writing</em>, <em>Speaking</em>) rồi import từng đề vào thì AI sẽ sinh nhanh và đầy đủ 100% không bao giờ bị cắt ngắn.
-              </div>
-            </div>
-          )}
 
           {/* Dán JSON */}
           <div>
@@ -1206,7 +1318,7 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess }) {
                 setErrorMsg('');
               }}
               placeholder='[ { "title": "...", "skill": "reading", ... } ]'
-              rows={8}
+              rows={6}
               className="w-full p-3 font-mono text-xs text-slate-800 bg-slate-50 border border-slate-300 rounded-xl focus:border-indigo-600 focus:bg-white focus:outline-hidden leading-relaxed"
             />
           </div>
@@ -1221,22 +1333,29 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess }) {
         </div>
 
         {/* Footer Modal */}
-        <div className="px-6 py-4 border-t border-slate-100 flex items-center justify-end gap-3 bg-slate-50">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 cursor-pointer"
-          >
-            Hủy
-          </button>
+        <div className="px-6 py-4 border-t border-slate-100 flex items-center justify-between gap-3 bg-slate-50">
+          <div className="text-[11px] text-slate-500 font-medium hidden sm:block">
+            {isAiGenerating ? 'Đang thực thi lệnh sinh đề qua AI...' : 'Chọn sinh bằng AI hoặc bấm nút bên phải để import JSON thủ công'}
+          </div>
 
-          <button
-            disabled={isImporting}
-            onClick={handleProcessImport}
-            className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-xs font-bold rounded-xl shadow-xs cursor-pointer active:scale-95 transition-all flex items-center gap-2"
-          >
-            <Sparkles className="w-4 h-4" />
-            <span>{isImporting ? 'Đang lưu vào Database...' : 'Tiến hành Import Đề'}</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onClose}
+              disabled={isAiGenerating}
+              className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 cursor-pointer disabled:opacity-50"
+            >
+              Đóng
+            </button>
+
+            <button
+              disabled={isImporting || isAiGenerating}
+              onClick={handleProcessImport}
+              className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-xs font-bold rounded-xl shadow-xs cursor-pointer active:scale-95 transition-all flex items-center gap-2"
+            >
+              <Upload className="w-4 h-4" />
+              <span>{isImporting ? 'Đang lưu vào Database...' : 'Import JSON Thủ Công'}</span>
+            </button>
+          </div>
         </div>
 
       </div>

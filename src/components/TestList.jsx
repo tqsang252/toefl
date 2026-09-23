@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Award, Trash2, ArrowRight, Play, CheckCircle2, History } from 'lucide-react';
+import { Clock, Award, Trash2, ArrowRight, Play, CheckCircle2, History, Sparkles } from 'lucide-react';
 
 export default function TestList({ 
   skill, 
@@ -7,7 +7,8 @@ export default function TestList({
   onStartTest, 
   onDeleteTest,
   onOpenHistory,
-  testHistories = {} 
+  testHistories = {},
+  onOpenImport
 }) {
   const skillNameUpper = skill.toUpperCase();
 
@@ -15,11 +16,21 @@ export default function TestList({
     <div className="bg-white rounded-2xl border border-[#e5dfd5] shadow-sm overflow-hidden my-6">
       
       {/* Header matching original screenshot */}
-      <div className="px-6 py-5 border-b border-[#eee8df] bg-[#faf8f4]">
+      <div className="px-6 py-4 border-b border-[#eee8df] bg-[#faf8f4] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <h2 className="text-base sm:text-lg font-extrabold tracking-tight text-slate-800 uppercase flex items-center gap-2">
           <span>PRACTICE EXAMS FOR CURRENT SKILL</span>
           <span className="text-teal-700">({skillNameUpper})</span>
         </h2>
+
+        {onOpenImport && (
+          <button
+            onClick={onOpenImport}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-xl transition-all cursor-pointer shadow-2xs self-start sm:self-auto"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse" />
+            <span>✨ Sinh Đề {skillNameUpper} Bằng AI</span>
+          </button>
+        )}
       </div>
 
       {/* Tests Grid */}
@@ -27,7 +38,7 @@ export default function TestList({
         {tests.length === 0 ? (
           <div className="text-center py-12 text-slate-500">
             <p className="text-base font-medium">Chưa có đề thi nào cho phần này.</p>
-            <p className="text-xs text-slate-400 mt-1">Bấm "Import Đề AI" để thêm đề thi mới nhanh chóng.</p>
+            <p className="text-xs text-slate-400 mt-1">Bấm "✨ Sinh Đề {skillNameUpper} Bằng AI" để tự động tạo đề thi mới ngay.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">

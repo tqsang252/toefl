@@ -196,6 +196,7 @@ export default function App() {
                 onDeleteTest={handleDeleteTest}
                 onOpenHistory={(t) => setHistoryModalTest(t)}
                 testHistories={testHistories}
+                onOpenImport={() => setIsImportOpen(true)}
               />
             )}
           </>
@@ -248,6 +249,7 @@ export default function App() {
         isOpen={isImportOpen}
         onClose={() => setIsImportOpen(false)}
         onImportSuccess={loadTests}
+        defaultSkill={currentView === 'full_test' ? 'full' : (activeSkill === 'vocabulary' ? 'reading' : activeSkill)}
       />
 
       <SettingsModal
