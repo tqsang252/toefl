@@ -184,10 +184,7 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
         onProgress: (status) => setAiProgressStatus(status)
       });
 
-      if (result.rawJson) {
-        setJsonInput(result.rawJson);
-      }
-
+      setJsonInput('');
       setLastImportedSkill(effectiveSkillType);
       setShowSuccessModal(true);
     } catch (err) {
