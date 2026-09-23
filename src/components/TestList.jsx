@@ -166,7 +166,7 @@ export default function TestList({
 
         {onOpenImport && (
           <button
-            onClick={onOpenImport}
+            onClick={() => onOpenImport(skill)}
             className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-xl transition-all cursor-pointer shadow-2xs self-start sm:self-auto"
           >
             <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse" />

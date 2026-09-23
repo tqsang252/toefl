@@ -14,7 +14,44 @@ import ExamCountdown from './components/ExamCountdown';
 import { getTestsBySkill, getFullTests, deleteTest, getExamHistory } from './lib/supabase';
 import { MessageCircle, X } from 'lucide-react';
 
-export default function App() {
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error('Lỗi ứng dụng:', error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-[#f7f5f0] flex items-center justify-center p-6 text-center font-sans">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-xl border border-slate-200 space-y-4">
+            <div className="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mx-auto text-2xl font-black">
+              ⚠️
+            </div>
+            <h3 className="text-lg font-black text-slate-900">Đã xảy ra sự cố hiển thị</h3>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              {this.state.error?.message || 'Có lỗi phát sinh trong quá trình hiển thị giao diện.'}
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="w-full py-2.5 px-4 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs"
+            >
+              Tải lại ứng dụng
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+function MainApp() {
   const [activeSkill, setActiveSkill] = useState('listening'); // Default to listening like screenshot
   const [currentView, setCurrentView] = useState('practice'); // 'practice' | 'full_test' | 'exam'
   const [lastViewBeforeExam, setLastViewBeforeExam] = useState('practice');
@@ -30,6 +67,7 @@ export default function App() {
 
   // Modals
   const [isImportOpen, setIsImportOpen] = useState(false);
+  const [importSkillModal, setImportSkillModal] = useState('reading');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const [historyModalTest, setHistoryModalTest] = useState(null);
@@ -37,18 +75,21 @@ export default function App() {
   const [reviewingResult, setReviewingResult] = useState(null);
 
   // Load danh sách đề thi theo chế độ hiện tại (Practice skill hoặc Full Test)
-  const loadTests = async () => {
-    if (activeSkill === 'vocabulary' && currentView === 'practice') {
+  const loadTests = async (overrideSkill, overrideView) => {
+    const viewToUse = overrideView !== undefined ? overrideView : currentView;
+    const skillToUse = overrideSkill !== undefined ? overrideSkill : activeSkill;
+
+    if (skillToUse === 'vocabulary' && viewToUse === 'practice') {
       setIsLoading(false);
       return;
     }
     setIsLoading(true);
     try {
       let data = [];
-      if (currentView === 'full_test') {
+      if (viewToUse === 'full_test' || skillToUse === 'full') {
         data = await getFullTests();
       } else {
-        data = await getTestsBySkill(activeSkill);
+        data = await getTestsBySkill(skillToUse);
       }
       setTests(data);
 
@@ -63,6 +104,34 @@ export default function App() {
       console.error('Lỗi load đề thi:', err);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Mở modal tạo đề với kỹ năng mong muốn
+  const handleOpenImport = (targetSkill) => {
+    const validSkill = typeof targetSkill === 'string' && targetSkill ? targetSkill : null;
+    if (validSkill) {
+      setImportSkillModal(validSkill);
+    } else if (currentView === 'full_test') {
+      setImportSkillModal('full');
+    } else {
+      setImportSkillModal(activeSkill === 'vocabulary' ? 'reading' : (activeSkill || 'reading'));
+    }
+    setIsImportOpen(true);
+  };
+
+  // Tự động chuyển tab và tải danh sách đề thi ngay khi tạo thành công
+  const handleImportSuccess = (createdSkill) => {
+    if (createdSkill === 'full') {
+      setCurrentView('full_test');
+      loadTests('full', 'full_test');
+    } else if (createdSkill) {
+      const targetSkill = createdSkill.startsWith('writing_') ? 'writing' : createdSkill;
+      setCurrentView('practice');
+      setActiveSkill(targetSkill);
+      loadTests(targetSkill, 'practice');
+    } else {
+      loadTests();
     }
   };
 
@@ -152,7 +221,7 @@ export default function App() {
           <Header
             currentView={currentView}
             setCurrentView={setCurrentView}
-            onOpenImport={() => setIsImportOpen(true)}
+            onOpenImport={() => handleOpenImport()}
             onOpenSettings={() => setIsSettingsOpen(true)}
           />
 
@@ -171,7 +240,7 @@ export default function App() {
               tests={tests}
               onStartTest={handleStartTest}
               onDeleteTest={handleDeleteTest}
-              onOpenImport={() => setIsImportOpen(true)}
+              onOpenImport={() => handleOpenImport('full')}
               onOpenHistory={(t) => setHistoryModalTest(t)}
               testHistories={testHistories}
             />
@@ -199,7 +268,7 @@ export default function App() {
                 onDeleteTest={handleDeleteTest}
                 onOpenHistory={(t) => setHistoryModalTest(t)}
                 testHistories={testHistories}
-                onOpenImport={() => setIsImportOpen(true)}
+                onOpenImport={(s) => handleOpenImport(typeof s === 'string' ? s : activeSkill)}
               />
             )}
           </>
@@ -268,14 +337,14 @@ export default function App() {
       <ImportModal
         isOpen={isImportOpen}
         onClose={() => setIsImportOpen(false)}
-        onImportSuccess={loadTests}
-        defaultSkill={currentView === 'full_test' ? 'full' : (activeSkill === 'vocabulary' ? 'reading' : activeSkill)}
+        onImportSuccess={handleImportSuccess}
+        defaultSkill={importSkillModal}
       />
 
       <SettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
-        onConfigSaved={loadTests}
+        onConfigSaved={() => loadTests()}
       />
 
       <ExamHistoryModal
@@ -287,5 +356,13 @@ export default function App() {
       />
 
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <MainApp />
+    </ErrorBoundary>
   );
 }

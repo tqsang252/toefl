@@ -2,1106 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { X, Sparkles, Upload, Copy, Check, FileCode, AlertCircle, Info, Wand2, Database, PenTool, CheckCircle2 } from 'lucide-react';
 import { jsonrepair } from 'jsonrepair';
 import { importBatchTests } from '../lib/supabase';
-import { generateExamWithGemini, isGeminiConfigured, isOpenRouterConfigured } from '../lib/gemini';
+import { generateExamWithGemini, isGeminiConfigured, isOpenRouterConfigured, formatExamTitle } from '../lib/gemini';
+import {
+  SAMPLE_READING_PROMPT,
+  SAMPLE_LISTENING_PROMPT,
+  SAMPLE_WRITING_PROMPT,
+  SAMPLE_WRITING_SENTENCE_PROMPT,
+  SAMPLE_WRITING_EMAIL_PROMPT,
+  SAMPLE_WRITING_DISCUSSION_PROMPT,
+  SAMPLE_SPEAKING_PROMPT,
+  SAMPLE_FULL_TEST_PROMPT,
+  getExamPrompt
+} from '../lib/examPrompts';
 
-const SAMPLE_READING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL READING gồm 2 Module thích ứng (Module 1 và Module 2), mỗi Module có đủ: Complete the Words (1-2 đoạn), Read in Daily Life (1 bài), và Academic Passage (1 bài).
-
-⚠️ QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS:
-1. ĐÁP ÁN TRẮC NGHIỆM PHẢI PHÂN BỐ ĐỀU VÀ NGẪU NHIÊN:
-   - Các đáp án đúng ('correct_answer') BẮT BUỘC phải phân bố đều và ngẫu nhiên giữa các phương án A, B, C, D (mỗi phương án chiếm khoảng 25%).
-   - TUYỆT ĐỐI KHÔNG để tất cả hoặc đa số câu hỏi đều có đáp án là A. Phải xáo trộn ngẫu nhiên vị trí đáp án đúng vào B, C, D, A.
-2. VỚI DẠNG COMPLETE THE WORDS:
-   - Trong 'paragraph', các từ khuyết chữ cái PHẢI viết kèm ngoặc vuông [phần_đuôi_khuyết] (ví dụ: 'Solar energy is becom[ing] the most popu[lar] altern[ative] res[ources]...').
-
-Cấu trúc JSON chuẩn:
-[
-  {
-    "title": "Reading Full Test 02",
-    "skill": "reading",
-    "duration_seconds": 1800,
-    "stages": [
-      {
-        "id": "stage_1",
-        "title": "Reading - Module 1 (Stage 1)",
-        "duration_seconds": 900,
-        "tasks": [
-          {
-            "id": "s1_t1",
-            "title": "Task 1: Complete the Words",
-            "task_type": "complete_words",
-            "content": {
-              "paragraph": "Solar energy is becom[ing] the most popu[lar] altern[ative] res[ources]...",
-              "blanks": [
-                { "id": "b1", "prefix": "becom", "missing": "ing", "full": "becoming" },
-                { "id": "b2", "prefix": "popu", "missing": "lar", "full": "popular" }
-              ]
-            }
-          },
-          {
-            "id": "s1_t2",
-            "title": "Task 2: Read in Daily Life",
-            "task_type": "daily_life",
-            "content": {
-              "document_type": "Campus Housing Notice",
-              "passage": "Library hours during holiday...",
-              "questions": [
-                {
-                  "id": "q1",
-                  "prompt": "When does the library close?",
-                  "options": { "A": "Midnight", "B": "5 PM", "C": "10 PM", "D": "8 PM" },
-                  "correct_answer": "B",
-                  "explanation": "Paragraph 1 mentions 5 PM."
-                }
-              ]
-            }
-          },
-          {
-            "id": "s1_t3",
-            "title": "Task 3: Academic Passage",
-            "task_type": "academic_passage",
-            "content": {
-              "document_type": "Geology Passage",
-              "passage": "Volcanic eruptions along tectonic plates...",
-              "questions": [
-                {
-                  "id": "q2",
-                  "prompt": "What triggers magma ascent?",
-                  "options": { "A": "Tidal waves", "B": "Wind currents", "C": "Solar flares", "D": "Pressure differences" },
-                  "correct_answer": "D",
-                  "explanation": "Magma rises due to buoyancy and pressure differences."
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "id": "stage_2",
-        "title": "Reading - Module 2 (Stage 2 - Adaptive)",
-        "duration_seconds": 900,
-        "tasks": [
-          {
-            "id": "s2_t1",
-            "title": "Task 1: Complete the Words",
-            "task_type": "complete_words",
-            "content": {
-              "paragraph": "Ancient civil[izations] built monumental archit[ecture]...",
-              "blanks": [
-                { "id": "b3", "prefix": "civil", "missing": "izations", "full": "civilizations" }
-              ]
-            }
-          },
-          {
-            "id": "s2_t2",
-            "title": "Task 2: Read in Daily Life",
-            "task_type": "daily_life",
-            "content": {
-              "passage": "Gym membership policies...",
-              "questions": [
-                {
-                  "id": "q3",
-                  "prompt": "Who is eligible?",
-                  "options": { "A": "Only faculty", "B": "Alumni only", "C": "Full-time students", "D": "Visitors" },
-                  "correct_answer": "C",
-                  "explanation": "Eligible for all full-time registered students."
-                }
-              ]
-            }
-          },
-          {
-            "id": "s2_t3",
-            "title": "Task 3: Academic Passage",
-            "task_type": "academic_passage",
-            "content": {
-              "passage": "Neural plasticity in adult primates...",
-              "questions": [
-                {
-                  "id": "q4",
-                  "prompt": "What is neuroplasticity?",
-                  "options": { "A": "Brain adaptation and neural rewiring", "B": "Bone growth", "C": "Blood flow", "D": "Muscle contraction" },
-                  "correct_answer": "A",
-                  "explanation": "Ability of neural networks to rewire."
-                }
-              ]
-            }
-          }
-        ]
-      }
-    ]
-  }
-]
-QUY TẮC BẮT BUỘC:
-1. Chỉ trả về JSON thuần túy, không kèm văn bản nào khác.
-2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong chuỗi (dùng ngoặc đơn ').
-3. Đáp án trắc nghiệm A, B, C, D phải phân bố đều và ngẫu nhiên (~25% mỗi chữ cái).`;
-
-// Full Writing (3 tasks - 23 Mins)
-const SAMPLE_WRITING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL WRITING chuẩn ETS 2026 gồm đúng 3 bài (Task 1: Build a Sentence 10 câu có câu ngữ cảnh ban đầu và từ bẫy, Task 2: Write an Email với 3 yêu cầu, và Task 3: Academic Discussion có ý kiến giáo sư và 2 sinh viên đối lập).
-
-⚠️ CÁC QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS:
-1. QUY TẮC BẮT BUỘC CHO TASK 1 (BUILD A SENTENCE):
-   - TẤT CẢ các từ trong 'scrambled', 'correct_order', 'decoys' BẮT BUỘC PHẢI VIẾT THƯỜNG TOÀN BỘ (lowercase).
-   - TUYỆT ĐỐI KHÔNG viết hoa chữ cái đầu tiên của câu (ví dụ: viết 'the', 'she', 'because', 'although' chứ KHÔNG viết 'The', 'She', 'Because', 'Although') để không làm lộ từ mở đầu cho thí sinh!
-   - Thứ tự các từ trong mảng 'scrambled' BẮT BUỘC PHẢI ĐẢO LỘN XỘN NGẪU NHIÊN HOÀN TOÀN, TUYỆT ĐỐI KHÔNG được để các từ theo đúng thứ tự câu hay gần đúng thứ tự câu.
-   - Mỗi câu phải kèm 2-3 từ bẫy ('decoys') viết thường, có ngữ pháp hoặc nghĩa tương tự để thử thách học viên.
-   - Các phần tử trong 'scrambled', 'correct_order', 'decoys' CHỈ LÀ TỪ VỰNG THUẦN TÚY, TUYỆT ĐỐI KHÔNG chứa dấu câu (không kèm '.', '?', '!', ',', '"'). Dấu kết câu đã có sẵn ở UI.
-   - TẤT CẢ các từ trong 'correct_order' BẮT BUỘC PHẢI CÓ MẶT trong mảng 'scrambled' (số lượng từ trong 'scrambled' = số từ trong 'correct_order' + số từ trong 'decoys').
-2. CÚ PHÁP:
-   - Chỉ trả về JSON thuần túy, không kèm giải thích bên ngoài.
-   - Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').
-
-Cấu trúc JSON chuẩn:
-[
-  {
-    "title": "Writing Full Test 02",
-    "skill": "writing",
-    "duration_seconds": 1380,
-    "stages": [
-      {
-        "id": "write_stage_1",
-        "title": "Writing Section (Linear - 23 Mins)",
-        "duration_seconds": 1380,
-        "tasks": [
-          {
-            "id": "w2_t1",
-            "title": "Task 1: Build a Sentence (10 câu)",
-            "task_type": "build_sentence",
-            "content": {
-              "instructions": "Mỗi câu có 1 câu ngữ cảnh ban đầu. Kéo thả hoặc bấm chọn các từ để ghép thành câu hoàn chỉnh đúng ngữ pháp.",
-              "items": [
-                {
-                  "id": "item1",
-                  "context": "Professor: 'Why were several questions on the biology midterm exam revised this morning?'",
-                  "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["ambiguous", "contain", "the", "wording", "materials", "contained", "questions", "a"],
-                  "correct_order": ["the", "questions", "contained", "ambiguous", "wording"],
-                  "correct_sentence": "the questions contained ambiguous wording.",
-                  "decoys": ["contain", "materials", "a"]
-                }
-              ]
-            }
-          },
-          {
-            "id": "w2_t2",
-            "title": "Task 2: Write an Email",
-            "task_type": "write_email",
-            "content": {
-              "recipient": "Professor Dr. Miller",
-              "subject_hint": "Request for Research Assistantship",
-              "scenario": "You want to apply for an undergraduate research assistant position in Dr. Miller's evolutionary biology laboratory for the upcoming summer semester.",
-              "requirements": [
-                "Express your strong interest in the lab's current projects",
-                "Highlight your relevant lab skills and coursework experience",
-                "Request a brief meeting to discuss potential openings"
-              ],
-              "min_words": 80,
-              "recommended_words": "100 - 130 words"
-            }
-          },
-          {
-            "id": "w2_t3",
-            "title": "Task 3: Academic Discussion",
-            "task_type": "academic_discussion",
-            "content": {
-              "topic": "Remote Work and Team Collaboration",
-              "professor_prompt": {
-                "name": "Dr. Angela Davies",
-                "title": "Professor of Organizational Behavior",
-                "question": "Some organizations are insisting on a full-time return to the physical office, while others maintain flexible hybrid or remote policies. Do you believe remote work primarily fosters or weakens team innovation and company culture? Support your viewpoint."
-              },
-              "peer_posts": [
-                {
-                  "student": "David",
-                  "stance": "Face-to-face interaction is indispensable for spontaneous brainstorming, mentoring junior members, and building informal trust."
-                },
-                {
-                  "student": "Jessica",
-                  "stance": "Remote flexibility minimizes commuting burnout and empowers employees to deliver deeper focus work while collaborating effectively via cloud tools."
-                }
-              ],
-              "min_words": 100,
-              "recommended_words": "100 - 150 words"
-            }
-          }
-        ]
-      }
-    ]
-  }
-]
-QUY TẮC BẮT BUỘC:
-1. Chỉ trả về JSON thuần túy, không kèm giải thích.
-2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').
-3. Task 1 Build a Sentence: 100% từ trong scrambled, correct_order, decoys PHẢI viết thường, và scrambled PHẢI đảo lộn xộn.`;
-
-// Modular Writing: Build a Sentence (10 items - 7 Mins)
-const SAMPLE_WRITING_SENTENCE_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề luyện tập riêng TASK 1: BUILD A SENTENCE (HOÀN THIỆN CÂU) chuẩn ETS 2026 gồm đúng 10 câu trắc nghiệm ghép từ.
-
-⚠️ CÁC QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS:
-1. TẤT CẢ các từ trong 'scrambled', 'correct_order', 'decoys' BẮT BUỘC PHẢI VIẾT THƯỜNG TOÀN BỘ (lowercase).
-2. TUYỆT ĐỐI KHÔNG viết hoa chữ cái đầu tiên của câu (ví dụ: viết 'the', 'she', 'because' chứ KHÔNG viết 'The', 'She', 'Because') để không làm lộ từ mở đầu cho thí sinh!
-3. Thứ tự các từ trong mảng 'scrambled' BẮT BUỘC PHẢI ĐẢO LỘN XỘN NGẪU NHIÊN HOÀN TOÀN.
-4. Mỗi câu phải kèm 2-3 từ bẫy ('decoys') viết thường, có ngữ pháp hoặc nghĩa tương tự để thử thách học viên.
-5. Mỗi câu có 1 câu thoại ngữ cảnh ban đầu (Conversational / Situational Context).
-6. CÚ PHÁP: Chỉ trả về JSON thuần túy, không kèm giải thích. Dùng ngoặc đơn '...' thay vì ngoặc kép trong văn bản.
-7. QUY TẮC BẮT BUỘC VỀ DẤU CÂU & KHO TỪ:
-   - Các phần tử trong 'scrambled', 'correct_order', 'decoys' CHỈ LÀ TỪ VỰNG THUẦN TÚY, TUYỆT ĐỐI KHÔNG chứa dấu câu (không kèm '.', '?', '!', ',', '"'). Dấu kết câu đã được hệ thống cố định ở cuối.
-   - TẤT CẢ các từ trong 'correct_order' BẮT BUỘC PHẢI CÓ MẶT trong mảng 'scrambled' (số lượng từ trong 'scrambled' = số từ trong 'correct_order' + số từ trong 'decoys').
-
-Cấu trúc JSON chuẩn:
-[
-  {
-    "title": "Writing: Hoàn Thiện Câu (Build a Sentence - 10 câu)",
-    "skill": "writing",
-    "task_type": "build_sentence",
-    "duration_seconds": 420,
-    "stages": [
-      {
-        "id": "stage_sentence",
-        "title": "Task 1: Build a Sentence (10 câu - 7 Phút)",
-        "duration_seconds": 420,
-        "tasks": [
-          {
-            "id": "w_t1_build_sentence",
-            "title": "Task 1: Build a Sentence (10 câu)",
-            "task_type": "build_sentence",
-            "content": {
-              "instructions": "Mỗi câu có 1 câu ngữ cảnh ban đầu. Kéo thả hoặc bấm chọn các từ để ghép thành câu phản hồi hoàn chỉnh đúng ngữ pháp.",
-              "items": [
-                {
-                  "id": "item1",
-                  "context": "Professor: 'Why were several questions on the biology midterm exam revised this morning?'",
-                  "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["ambiguous", "contain", "the", "wording", "materials", "contained", "questions", "a"],
-                  "correct_order": ["the", "questions", "contained", "ambiguous", "wording"],
-                  "correct_sentence": "the questions contained ambiguous wording.",
-                  "decoys": ["contain", "materials", "a"]
-                }
-              ]
-            }
-          }
-        ]
-      }
-    ]
-  }
-]`;
-
-// Modular Writing: Write an Email (1 task - 7 Mins)
-const SAMPLE_WRITING_EMAIL_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề luyện tập riêng TASK 2: WRITE AN EMAIL (VIẾT EMAIL) chuẩn ETS 2026 đếm ngược 7 phút.
-
-⚠️ CÁC QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS:
-1. Tình huống giao tiếp thực tế học thuật hoặc khuôn viên trường đại học (giáo sư, cố vấn, phòng đào tạo, câu lạc bộ).
-2. Phải có đúng 3 yêu cầu bắt buộc (requirements) rõ ràng mà thí sinh phải trả lời trong email.
-3. Người nhận (recipient) và gợi ý tiêu đề (subject_hint) cụ thể.
-4. Yêu cầu độ dài: tối thiểu 80 từ, khuyến nghị 100 - 130 từ.
-5. CÚ PHÁP: Chỉ trả về JSON thuần túy, không kèm giải thích.
-
-Cấu trúc JSON chuẩn:
-[
-  {
-    "title": "Writing: Viết Email (Write an Email - 7 Phút)",
-    "skill": "writing",
-    "task_type": "write_email",
-    "duration_seconds": 420,
-    "stages": [
-      {
-        "id": "stage_email",
-        "title": "Task 2: Write an Email (7 Phút)",
-        "duration_seconds": 420,
-        "tasks": [
-          {
-            "id": "w_t2_email",
-            "title": "Task 2: Write an Email",
-            "task_type": "write_email",
-            "content": {
-              "recipient": "Professor Dr. Miller",
-              "subject_hint": "Request for Research Assistantship",
-              "scenario": "You want to apply for an undergraduate research assistant position in Dr. Miller's evolutionary biology laboratory for the upcoming summer semester.",
-              "requirements": [
-                "Express your strong interest in the lab's current projects",
-                "Highlight your relevant lab skills and coursework experience",
-                "Request a brief meeting to discuss potential openings"
-              ],
-              "min_words": 80,
-              "recommended_words": "100 - 130 words"
-            }
-          }
-        ]
-      }
-    ]
-  }
-]`;
-
-// Modular Writing: Academic Discussion (1 task - 10 Mins)
-const SAMPLE_WRITING_DISCUSSION_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề luyện tập riêng TASK 3: ACADEMIC DISCUSSION (VIẾT BÀI THẢO LUẬN HỌC THUẬT) chuẩn ETS 2026 đếm ngược 10 phút.
-
-⚠️ CÁC QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS:
-1. Chủ đề thảo luận mang tính học thuật xã hội (công nghệ, giáo dục, môi trường, kinh tế...).
-2. Có giáo sư (professor_prompt) nêu câu hỏi thảo luận kích thích tư duy phản biện.
-3. Có 2 sinh viên (peer_posts) đưa ra 2 lập trường đối lập nhau (khoảng 30-50 từ mỗi người).
-4. Yêu cầu độ dài: tối thiểu 100 từ, khuyến nghị 100 - 150 từ.
-5. CÚ PHÁP: Chỉ trả về JSON thuần túy, không kèm giải thích.
-
-Cấu trúc JSON chuẩn:
-[
-  {
-    "title": "Writing: Academic Discussion (10 Phút)",
-    "skill": "writing",
-    "task_type": "academic_discussion",
-    "duration_seconds": 600,
-    "stages": [
-      {
-        "id": "stage_discussion",
-        "title": "Task 3: Academic Discussion (10 Phút)",
-        "duration_seconds": 600,
-        "tasks": [
-          {
-            "id": "w_t3_discussion",
-            "title": "Task 3: Academic Discussion",
-            "task_type": "academic_discussion",
-            "content": {
-              "topic": "Remote Work and Team Collaboration",
-              "course": "MGMT 320: Organizational Behavior",
-              "professor_prompt": {
-                "name": "Dr. Angela Davies",
-                "title": "Professor of Organizational Behavior",
-                "question": "Some organizations are insisting on a full-time return to the physical office, while others maintain flexible hybrid or remote policies. Do you believe remote work primarily fosters or weakens team innovation and company culture? Support your viewpoint."
-              },
-              "peer_posts": [
-                {
-                  "student": "David",
-                  "stance": "Face-to-face interaction is indispensable for spontaneous brainstorming, mentoring junior members, and building informal trust."
-                },
-                {
-                  "student": "Jessica",
-                  "stance": "Remote flexibility minimizes commuting burnout and empowers employees to deliver deeper focus work while collaborating effectively via cloud tools."
-                }
-              ],
-              "min_words": 100,
-              "recommended_words": "100 - 150 words"
-            }
-          }
-        ]
-      }
-    ]
-  }
-]`;
-
-const SAMPLE_LISTENING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL LISTENING chuẩn ETS 2026 gồm đúng 2 Module thích ứng (Module 1 và Module 2), mỗi Module đếm ngược 14.5 phút (870s), gồm đủ 4 dạng bài:
-- Task 1: Listen & Choose a Response (5 câu hỏi phản xạ với audio_text, prompt, options A-D)
-- Task 2: Campus Announcement (1 bài thông báo khuôn viên với audio_text, 2 câu hỏi)
-- Task 3: Campus Conversation (1 cuộc hội thoại sinh viên & giáo sư/cố vấn với audio_text, 3 câu hỏi)
-- Task 4: Academic Talk (1 bài giảng học thuật ngắn 120-200 từ với audio_text, 3 câu hỏi)
-
-⚠️ QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS:
-1. ĐÁP ÁN TRẮC NGHIỆM PHẢI PHÂN BỐ ĐỀU VÀ NGẪU NHIÊN:
-   - Các đáp án đúng ('correct_answer') BẮT BUỘC phải phân bố đều và ngẫu nhiên giữa các phương án A, B, C, D (mỗi phương án chiếm khoảng 25%).
-   - TUYỆT ĐỐI KHÔNG để tất cả hoặc đa số câu hỏi đều có đáp án là A. Phải xáo trộn ngẫu nhiên vị trí đáp án đúng vào B, C, D, A.
-2. CÚ PHÁP:
-   - Chỉ trả về JSON thuần túy, không kèm giải thích bên ngoài.
-   - Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').
-
-Cấu trúc JSON chuẩn:
-[
-  {
-    "title": "Listening Full Test 02",
-    "skill": "listening",
-    "duration_seconds": 1740,
-    "stages": [
-      {
-        "id": "list_stage_1",
-        "title": "Listening - Module 1 (Stage 1)",
-        "duration_seconds": 870,
-        "tasks": [
-          {
-            "id": "l2_t1",
-            "title": "Task 1: Listen & Choose a Response (5 câu)",
-            "task_type": "choose_response",
-            "content": {
-              "questions": [
-                {
-                  "id": "l2_q1",
-                  "type": "choose_response",
-                  "audio_text": "Do you know if the campus shuttle still stops at the north dormitory after 8 PM?",
-                  "prompt": "Select the most appropriate response to what you heard:",
-                  "options": {
-                    "A": "The shuttle bus was purchased three years ago.",
-                    "B": "Yes, but it only runs every thirty minutes after eight.",
-                    "C": "The north dormitory has single and double rooms.",
-                    "D": "I usually walk to the library in the morning."
-                  },
-                  "correct_answer": "B",
-                  "explanation": "Hỏi về lịch trình xe buýt sau 8 giờ tối ('shuttle stops... after 8 PM?'), câu trả lời thích hợp là 'Yes, but it only runs every thirty minutes after eight'."
-                }
-              ]
-            }
-          },
-          {
-            "id": "l2_t2",
-            "title": "Task 2: Campus Announcement",
-            "task_type": "announcement",
-            "content": {
-              "context_title": "Campus Notice: University Library Maintenance",
-              "speaker": "Campus Facilities Director",
-              "audio_text": "Attention students, the second floor reading room will be closed for routine electrical maintenance this Saturday...",
-              "questions": [
-                {
-                  "id": "l2_t2_q1",
-                  "prompt": "What is the primary purpose of the announcement?",
-                  "options": {
-                    "A": "To recruit student library assistants",
-                    "B": "To announce new book acquisition policies",
-                    "C": "To notify students about temporary facility maintenance",
-                    "D": "To cancel upcoming final exams"
-                  },
-                  "correct_answer": "C",
-                  "explanation": "Thông báo thông tin về việc đóng cửa tạm thời một phần thư viện để bảo trì."
-                }
-              ]
-            }
-          },
-          {
-            "id": "l2_t3",
-            "title": "Task 3: Campus Conversation",
-            "task_type": "conversation",
-            "content": {
-              "context_title": "Student & Academic Advisor: Internship Credit",
-              "speaker": "Student & Academic Advisor",
-              "audio_text": "Student: Hi, Mr. Thompson. I have a question about getting academic credits for my summer research internship...",
-              "questions": [
-                {
-                  "id": "l2_t3_q1",
-                  "prompt": "Why did the student arrange the meeting with the advisor?",
-                  "options": {
-                    "A": "To withdraw from university classes",
-                    "B": "To change their academic major",
-                    "C": "To apply for campus housing",
-                    "D": "To inquire about receiving academic credit for an internship"
-                  },
-                  "correct_answer": "D",
-                  "explanation": "Sinh viên đến hỏi về thủ tục đổi tín chỉ học thuật từ kỳ thực tập mùa hè."
-                }
-              ]
-            }
-          },
-          {
-            "id": "l2_t4",
-            "title": "Task 4: Academic Talk (Environmental Science)",
-            "task_type": "academic_talk",
-            "content": {
-              "context_title": "Lecture: Urban Heat Island Effect",
-              "speaker": "Professor of Urban Climatology",
-              "audio_text": "Good morning. Today we will explore the urban heat island effect, a phenomenon where metropolitan areas experience significantly warmer temperatures than surrounding rural regions...",
-              "questions": [
-                {
-                  "id": "l2_t4_q1",
-                  "prompt": "What is the main topic of the lecture?",
-                  "options": {
-                    "A": "Factors causing elevated temperatures in metropolitan areas",
-                    "B": "Methods for forecasting winter blizzards",
-                    "C": "Architectural styles of medieval European towns",
-                    "D": "Agricultural irrigation techniques in arid climates"
-                  },
-                  "correct_answer": "A",
-                  "explanation": "Bài giảng phân tích hiện tượng đảo nhiệt đô thị (Urban Heat Island Effect) và các nguyên nhân dẫn đến nhiệt độ cao ở thành phố."
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "id": "list_stage_2",
-        "title": "Listening - Module 2 (Stage 2 - Adaptive)",
-        "duration_seconds": 870,
-        "tasks": [
-          {
-            "id": "l2_m2_t1",
-            "title": "Task 1: Listen & Choose a Response (5 câu)",
-            "task_type": "choose_response",
-            "content": {
-              "questions": [
-                {
-                  "id": "l2_m2_q1",
-                  "type": "choose_response",
-                  "audio_text": "Has Professor Miller returned your draft for the economics thesis yet?",
-                  "prompt": "Select the most appropriate response to what you heard:",
-                  "options": {
-                    "A": "Economics is a challenging subject for many undergraduates.",
-                    "B": "The textbook is available in the university bookstore.",
-                    "C": "Not yet, she said she would send feedback by tomorrow afternoon.",
-                    "D": "I wrote forty pages on international trade."
-                  },
-                  "correct_answer": "C",
-                  "explanation": "Hỏi về phản hồi bài luận ('returned your draft yet?'), câu trả lời phù hợp là 'Not yet, she said she would send feedback by tomorrow afternoon'."
-                }
-              ]
-            }
-          },
-          {
-            "id": "l2_m2_t2",
-            "title": "Task 2: Campus Announcement",
-            "task_type": "announcement",
-            "content": {
-              "context_title": "Campus Notice: Career Fair Registration",
-              "speaker": "Director of Career Development",
-              "audio_text": "Good morning students, our annual Spring Career Fair will take place next Wednesday in the Grand Ballroom...",
-              "questions": [
-                {
-                  "id": "l2_m2_t2_q1",
-                  "prompt": "What should students bring to the career fair?",
-                  "options": {
-                    "A": "Their official high school graduation diplomas",
-                    "B": "Updated printed copies of their resumes and student IDs",
-                    "C": "Receipts for their dormitory meal plan",
-                    "D": "Letters of recommendation from their parents"
-                  },
-                  "correct_answer": "B",
-                  "explanation": "Học sinh được khuyên mang theo bản in CV và thẻ sinh viên khi đến hội chợ việc làm."
-                }
-              ]
-            }
-          },
-          {
-            "id": "l2_m2_t3",
-            "title": "Task 3: Campus Conversation",
-            "task_type": "conversation",
-            "content": {
-              "context_title": "Student & Lab Manager: Chemistry Equipment",
-              "speaker": "Student & Chemistry Lab Manager",
-              "audio_text": "Student: Excuse me, Dr. Vance. I am working on the titration experiment, but the digital spectrometer is displaying an error code...",
-              "questions": [
-                {
-                  "id": "l2_m2_t3_q1",
-                  "prompt": "What problem is the student facing?",
-                  "options": {
-                    "A": "They forgot the combination to their lab locker",
-                    "B": "The chemical solutions have all evaporated",
-                    "C": "They arrived two hours late for lab section",
-                    "D": "A laboratory instrument is showing an error message"
-                  },
-                  "correct_answer": "D",
-                  "explanation": "Máy quang phổ số trong phòng thí nghiệm hiện mã lỗi khiến thí sinh không thể đo kết quả."
-                }
-              ]
-            }
-          },
-          {
-            "id": "l2_m2_t4",
-            "title": "Task 4: Academic Talk (Astrophysics)",
-            "task_type": "academic_talk",
-            "content": {
-              "context_title": "Lecture: Exoplanet Detection via Radial Velocity",
-              "speaker": "Professor of Astrophysics",
-              "audio_text": "Today we will examine the radial velocity method, one of the foundational techniques astronomers use to discover extrasolar planets orbiting distant stars...",
-              "questions": [
-                {
-                  "id": "l2_m2_t4_q1",
-                  "prompt": "How does the radial velocity method detect extrasolar planets?",
-                  "options": {
-                    "A": "By sending robotic probes directly to the alien planets",
-                    "B": "By detecting tiny Doppler shifts in the parent star's spectrum caused by gravitational wobble",
-                    "C": "By observing changes in the planet's atmospheric weather patterns",
-                    "D": "By recording radio broadcast signals sent from the planet"
-                  },
-                  "correct_answer": "B",
-                  "explanation": "Phương pháp vận tốc xuyên tâm phát hiện hành tinh bằng cách đo độ lệch Doppler trong quang phổ của ngôi sao mẹ do dao động trọng lực."
-                }
-              ]
-            }
-          }
-        ]
-      }
-    ]
-  }
-]
-QUY TẮC BẮT BUỘC:
-1. Chỉ trả về JSON thuần túy, không kèm giải thích.
-2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').
-3. Đáp án trắc nghiệm A, B, C, D BẮT BUỘC phải phân bố đều và ngẫu nhiên (~25% mỗi chữ cái), không được để đáp án luôn ở A.`;
-
-const SAMPLE_SPEAKING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL SPEAKING chuẩn ETS 2026 gồm 8 phút, 11 câu hỏi chia làm đúng 2 dạng bài:
-- Task 1: Listen and Repeat (7 câu tăng dần độ dài từ 6 đến 15 từ, không có thời gian chuẩn bị)
-- Task 2: Take an Interview (4 câu hỏi phỏng vấn xoay quanh 1 chủ đề quen thuộc, 45 giây trả lời ngay lập tức, không có thời gian chuẩn bị)
-
-Cấu trúc JSON chuẩn:
-[
-  {
-    "title": "Speaking Full Test 02",
-    "skill": "speaking",
-    "duration_seconds": 480,
-    "stages": [
-      {
-        "id": "speak_stage_1",
-        "title": "Speaking Section (Linear - 8 Mins)",
-        "duration_seconds": 480,
-        "tasks": [
-          {
-            "id": "s2_t1",
-            "title": "Task 1: Listen and Repeat (7 câu)",
-            "task_type": "listen_and_repeat",
-            "content": {
-              "instructions": "Lắng nghe 7 câu nói một lần duy nhất và lặp lại chính xác từng từ vào micro. Không có thời gian chuẩn bị.",
-              "items": [
-                {
-                  "id": "s2_t1_i1",
-                  "context": "University Bookstore",
-                  "audio_text": "Textbooks for the semester can be purchased online.",
-                  "word_count": 8,
-                  "speak_seconds": 8,
-                  "phonetic_guide": "ˈtɛkstbʊks fɔː ðə sɪˈmɛstər kæn biː ˈpɜːtʃəst ˈɒnˌlaɪn."
-                }
-              ]
-            }
-          },
-          {
-            "id": "s2_t2",
-            "title": "Task 2: Take an Interview (4 câu)",
-            "task_type": "take_an_interview",
-            "content": {
-              "topic": "Campus Jobs and Professional Development",
-              "interviewer": {
-                "name": "Prof. David Clark",
-                "title": "Director of Career Advising",
-                "avatar_initials": "DC"
-              },
-              "questions": [
-                {
-                  "id": "s2_t2_q1",
-                  "question_number": 1,
-                  "audio_text": "Welcome! Could you share what type of on-campus job you would be most interested in having, and why?",
-                  "speak_seconds": 45,
-                  "sample_answer": "I would be most interested in working as a peer tutor in the university writing center. This position would allow me to assist fellow students with essay structuring while simultaneously reinforcing my own analytical and communication skills.",
-                  "key_points": ["Nêu công việc cụ thể", "Giải thích lý do cá nhân"]
-                }
-              ]
-            }
-          }
-        ]
-      }
-    ]
-  }
-]
-QUY TẮC BẮT BUỘC ĐỂ JSON KHÔNG BỊ LỖI CÚ PHÁP:
-1. Chỉ trả về JSON thuần túy, không kèm giải thích.
-2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').`;
-
-const SAMPLE_FULL_TEST_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL TEST TOEFL iBT (4 Kỹ năng liên tục trong ~90 phút, theo đúng thứ tự: Reading -> Listening -> Writing -> Speaking), theo đúng cấu trúc JSON sau.
-
-⚠️ CÁC QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS 2026:
-1. ĐÁP ÁN TRẮC NGHIỆM (READING & LISTENING) PHẢI PHÂN BỐ ĐỀU VÀ NGẪU NHIÊN:
-   - Các đáp án đúng ('correct_answer') BẮT BUỘC phải phân bố đều và ngẫu nhiên giữa A, B, C, D (mỗi phương án chiếm khoảng 25%).
-   - TUYỆT ĐỐI KHÔNG để tất cả hoặc đa số câu hỏi đều có đáp án là A. Phải xáo trộn ngẫu nhiên vị trí đáp án đúng vào B, C, D, A.
-2. QUY TẮC BẮT BUỘC CHO WRITING TASK 1 (BUILD A SENTENCE):
-   - TẤT CẢ các từ trong 'scrambled', 'correct_order', 'decoys' BẮT BUỘC PHẢI VIẾT THƯỜNG TOÀN BỘ (lowercase).
-   - TUYỆT ĐỐI KHÔNG viết hoa chữ cái đầu tiên của câu (ví dụ: viết 'the', 'she', 'because', 'although' chứ KHÔNG viết 'The', 'She', 'Because', 'Although') để không làm lộ đáp án cho thí sinh!
-   - Thứ tự các từ trong mảng 'scrambled' BẮT BUỘC PHẢI ĐẢO LỘN XỘN NGẪU NHIÊN HOÀN TOÀN, TUYỆT ĐỐI KHÔNG được để các từ theo đúng thứ tự câu hay gần đúng thứ tự câu.
-3. VỚI DẠNG COMPLETE THE WORDS (READING):
-   - Trong 'paragraph', các từ khuyết chữ cái PHẢI viết kèm ngoặc vuông [phần_đuôi_khuyết] (ví dụ: 'Marine biolog[ists] study how ocean ecosys[tems] adap[t]...').
-
-Cấu trúc JSON chuẩn:
-[
-  {
-    "title": "TOEFL iBT Full Mock Test 02 (2026 Format)",
-    "skill": "full",
-    "duration_seconds": 5400,
-    "stages": [
-      {
-        "id": "full_s1_read_m1",
-        "title": "Stage 1: Reading - Module 1",
-        "skill": "reading",
-        "duration_seconds": 900,
-        "tasks": [
-          {
-            "id": "f_r1_t1",
-            "title": "Task 1: Complete the Words",
-            "task_type": "complete_words",
-            "content": {
-              "paragraph": "Marine biolog[ists] study how ocean ecosys[tems] adap[t] to environmental variations...",
-              "blanks": [
-                { "id": "b1", "prefix": "biolog", "missing": "ists", "full": "biologists" },
-                { "id": "b2", "prefix": "ecosys", "missing": "tems", "full": "ecosystems" }
-              ]
-            }
-          },
-          {
-            "id": "f_r1_t2",
-            "title": "Task 2: Read in Daily Life",
-            "task_type": "daily_life",
-            "content": {
-              "document_type": "Campus Recreation Notice",
-              "passage": "Intramural sports registration will close this Friday at 5 PM. Team captains must submit roster forms.",
-              "questions": [
-                {
-                  "id": "f_r1_q1",
-                  "prompt": "When is the team registration deadline?",
-                  "options": { "A": "Tomorrow morning", "B": "Friday at 5 PM", "C": "Next month", "D": "Sunday noon" },
-                  "correct_answer": "B",
-                  "explanation": "Notice explicitly specifies Friday 5 PM."
-                }
-              ]
-            }
-          },
-          {
-            "id": "f_r1_t3",
-            "title": "Task 3: Academic Passage",
-            "task_type": "academic_passage",
-            "content": {
-              "document_type": "Paleontology Text",
-              "passage": "The Cambrian explosion represents a pivotal geological epoch characterized by the rapid emergence of major animal phyla...",
-              "questions": [
-                {
-                  "id": "f_r1_q2",
-                  "prompt": "What characterized the Cambrian period?",
-                  "options": { "A": "Extinction of marine life", "B": "Prolonged ice age", "C": "Disappearance of oceans", "D": "Rapid diversification of major animal phyla" },
-                  "correct_answer": "D",
-                  "explanation": "Text highlights rapid appearance of major animal phyla."
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "id": "full_s2_read_m2",
-        "title": "Stage 2: Reading - Module 2 (Adaptive)",
-        "skill": "reading",
-        "duration_seconds": 900,
-        "tasks": [
-          {
-            "id": "f_r2_t1",
-            "title": "Task 1: Complete the Words",
-            "task_type": "complete_words",
-            "content": {
-              "paragraph": "Cognitive psy[chology] expl[ores] how long-term memory is consol[idated]...",
-              "blanks": [
-                { "id": "b3", "prefix": "psy", "missing": "chology", "full": "psychology" }
-              ]
-            }
-          },
-          {
-            "id": "f_r2_t2",
-            "title": "Task 2: Read in Daily Life",
-            "task_type": "daily_life",
-            "content": {
-              "passage": "Campus dining services have implemented digital QR allergen tags at all hot food stations.",
-              "questions": [
-                {
-                  "id": "f_r2_q1",
-                  "prompt": "Where can dietary allergen information be verified?",
-                  "options": { "A": "At the campus police office", "B": "Via postal catalog", "C": "On the digital QR allergen tags", "D": "In the local newspaper" },
-                  "correct_answer": "C",
-                  "explanation": "Verified via QR allergen tags at each station."
-                }
-              ]
-            }
-          },
-          {
-            "id": "f_r2_t3",
-            "title": "Task 3: Academic Passage",
-            "task_type": "academic_passage",
-            "content": {
-              "passage": "Geomagnetic reversals occur when Earth inner dynamo flips orientation, altering solar radiation shielding...",
-              "questions": [
-                {
-                  "id": "f_r2_q2",
-                  "prompt": "What triggers geomagnetic reversals?",
-                  "options": { "A": "Dynamic fluctuations within Earth liquid outer core", "B": "Meteor impacts on the moon", "C": "Ocean tidal shifts", "D": "Atmospheric jet streams" },
-                  "correct_answer": "A",
-                  "explanation": "Driven by dynamic convective dynamo action in the core."
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "id": "full_s3_list_m1",
-        "title": "Stage 3: Listening - Module 1",
-        "skill": "listening",
-        "duration_seconds": 870,
-        "tasks": [
-          {
-            "id": "f_l1_t1",
-            "title": "Task 1: Listen & Choose a Response",
-            "task_type": "choose_response",
-            "content": {
-              "questions": [
-                {
-                  "id": "f_l1_q1",
-                  "audio_text": "Could you let me know if the biology lab write-up is due before or after the spring break?",
-                  "prompt": "Select the most appropriate response:",
-                  "options": { "A": "Biology is taught on the third floor.", "B": "Professor Davis announced it is due the Monday after break.", "C": "I bought five test tubes yesterday.", "D": "The spring vacation lasts ten days." },
-                  "correct_answer": "B",
-                  "explanation": "Accurately answers the due date inquiry."
-                }
-              ]
-            }
-          },
-          {
-            "id": "f_l1_t2",
-            "title": "Task 2: Campus Announcement",
-            "task_type": "announcement",
-            "content": {
-              "context_title": "Student Union Renovations",
-              "speaker": "Campus Dean",
-              "audio_text": "Starting next Monday, the student lounge on the lower level will undergo a three-week renovation...",
-              "questions": [
-                {
-                  "id": "f_l1_q2",
-                  "prompt": "What is the reason for the closure?",
-                  "options": { "A": "An unscheduled water leak", "B": "Permanent department relocation", "C": "Scheduled facility upgrade and furniture renovation", "D": "Student protest" },
-                  "correct_answer": "C",
-                  "explanation": "Announcement mentions scheduled three-week renovation."
-                }
-              ]
-            }
-          },
-          {
-            "id": "f_l1_t3",
-            "title": "Task 3: Campus Conversation",
-            "task_type": "conversation",
-            "content": {
-              "context_title": "Student & Registrar: Transcript Request",
-              "speaker": "Student & Registrar Assistant",
-              "audio_text": "Student: Hello, I need an official electronic transcript sent to a graduate admissions office...",
-              "questions": [
-                {
-                  "id": "f_l1_q3",
-                  "prompt": "Why is the student visiting the registrar?",
-                  "options": { "A": "To drop out of university", "B": "To pay dorm fines", "C": "To change degree programs", "D": "To request an official transcript transmission" },
-                  "correct_answer": "D",
-                  "explanation": "The student requested an official electronic transcript."
-                }
-              ]
-            }
-          },
-          {
-            "id": "f_l1_t4",
-            "title": "Task 4: Academic Talk (Archaeology)",
-            "task_type": "academic_talk",
-            "content": {
-              "context_title": "Lecture: Radiocarbon Dating",
-              "speaker": "Professor of Archaeology",
-              "audio_text": "Radiocarbon dating measures the exponential decay of carbon-14 in organic materials to estimate their historical age...",
-              "questions": [
-                {
-                  "id": "f_l1_q4",
-                  "prompt": "What is the primary utility of carbon-14 dating?",
-                  "options": { "A": "Determining the chronological age of organic artifacts", "B": "Locating crude oil deposits", "C": "Forecasting volcanic eruptions", "D": "Manufacturing synthetic fabrics" },
-                  "correct_answer": "A",
-                  "explanation": "Used to establish dates for organic remnants."
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "id": "full_s4_list_m2",
-        "title": "Stage 4: Listening - Module 2 (Adaptive)",
-        "skill": "listening",
-        "duration_seconds": 870,
-        "tasks": [
-          {
-            "id": "f_l2_t1",
-            "title": "Task 1: Listen & Choose a Response",
-            "task_type": "choose_response",
-            "content": {
-              "questions": [
-                {
-                  "id": "f_l2_q1",
-                  "audio_text": "Did you manage to reserve a private study room in the science library?",
-                  "prompt": "Select the most appropriate response:",
-                  "options": { "A": "The science building was built fifty years ago.", "B": "Chemistry textbooks are expensive.", "C": "Yes, I booked room 304 from two to four this afternoon.", "D": "I enjoy studying with four friends." },
-                  "correct_answer": "C",
-                  "explanation": "Direct response specifying the reserved study room and time."
-                }
-              ]
-            }
-          },
-          {
-            "id": "f_l2_t2",
-            "title": "Task 2: Campus Announcement",
-            "task_type": "announcement",
-            "content": {
-              "context_title": "Campus Health Center Flu Clinic",
-              "speaker": "Health Center Coordinator",
-              "audio_text": "Free annual flu vaccinations will be administered at the Student Center this Thursday and Friday from 9 AM to 3 PM...",
-              "questions": [
-                {
-                  "id": "f_l2_q2",
-                  "prompt": "What event is announced?",
-                  "options": { "A": "A campus marathon", "B": "Free seasonal influenza immunization clinic", "C": "Nutrition cooking class", "D": "Medical school open house" },
-                  "correct_answer": "B",
-                  "explanation": "Free flu vaccination clinic at Student Center."
-                }
-              ]
-            }
-          },
-          {
-            "id": "f_l2_t3",
-            "title": "Task 3: Campus Conversation",
-            "task_type": "conversation",
-            "content": {
-              "context_title": "Student & Lab Instructor: Titration Equipment",
-              "speaker": "Student & Lab Instructor",
-              "audio_text": "Student: Professor, our team titration burette has a hairline crack near the stopcock...",
-              "questions": [
-                {
-                  "id": "f_l2_q3",
-                  "prompt": "What issue did the student report?",
-                  "options": { "A": "A missing lab textbook", "B": "Early departure from class", "C": "An incorrect homework grade", "D": "Damaged laboratory glassware needing replacement" },
-                  "correct_answer": "D",
-                  "explanation": "Student reported cracked glassware."
-                }
-              ]
-            }
-          },
-          {
-            "id": "f_l2_t4",
-            "title": "Task 4: Academic Talk (Marine Ecology)",
-            "task_type": "academic_talk",
-            "content": {
-              "context_title": "Lecture: Coral Bleaching Mechanisms",
-              "speaker": "Professor of Marine Ecology",
-              "audio_text": "Prolonged thermal anomalies induce symbiotic zooxanthellae to depart coral tissue, precipitating widespread coral bleaching...",
-              "questions": [
-                {
-                  "id": "f_l2_q4",
-                  "prompt": "What triggers coral bleaching?",
-                  "options": { "A": "Elevated sea temperatures expelling symbiotic microalgae", "B": "Overfishing of coastal reefs", "C": "Lack of ocean salinity", "D": "Deep water currents" },
-                  "correct_answer": "A",
-                  "explanation": "Algae expulsion due to elevated ocean heat."
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "id": "full_s5_writing",
-        "title": "Stage 5: Writing Section (Linear - 23 Mins)",
-        "skill": "writing",
-        "duration_seconds": 1380,
-        "tasks": [
-          {
-            "id": "f_w_t1",
-            "title": "Task 1: Build a Sentence (10 câu)",
-            "task_type": "build_sentence",
-            "content": {
-              "instructions": "Sắp xếp từ thành câu hoàn chỉnh phù hợp ngữ cảnh ban đầu.",
-              "items": [
-                {
-                  "id": "f_w_item1",
-                  "context": "Professor: 'Why were several questions on the midterm revised?'",
-                  "target_prompt": "Hoàn thiện câu trả lời:",
-                  "scrambled": ["ambiguous", "contain", "the", "wording", "materials", "contained", "questions", "a"],
-                  "correct_order": ["the", "questions", "contained", "ambiguous", "wording"],
-                  "correct_sentence": "the questions contained ambiguous wording.",
-                  "decoys": ["contain", "materials", "a"]
-                }
-              ]
-            }
-          },
-          {
-            "id": "f_w_t2",
-            "title": "Task 2: Write an Email",
-            "task_type": "write_email",
-            "content": {
-              "recipient": "Professor Dr. Miller",
-              "subject_hint": "Request for Summer Research Assistantship",
-              "scenario": "You want to apply for a research assistantship in Dr. Miller laboratory for the summer.",
-              "requirements": [
-                "Express strong interest in the lab current projects",
-                "Highlight your lab coursework experience",
-                "Request a meeting to discuss potential openings"
-              ],
-              "min_words": 80,
-              "recommended_words": "100 - 130 words"
-            }
-          },
-          {
-            "id": "f_w_t3",
-            "title": "Task 3: Academic Discussion",
-            "task_type": "academic_discussion",
-            "content": {
-              "topic": "Remote Work and Team Innovation",
-              "professor_prompt": {
-                "name": "Dr. Angela Davies",
-                "title": "Professor of Organizational Behavior",
-                "question": "Do you believe remote work primarily fosters or weakens team innovation? Support your stance."
-              },
-              "peer_posts": [
-                { "student": "David", "stance": "In-person interaction builds informal trust and spontaneous ideas." },
-                { "student": "Jessica", "stance": "Remote flexibility eliminates commute stress and aids deep focus." }
-              ],
-              "min_words": 100,
-              "recommended_words": "100 - 150 words"
-            }
-          }
-        ]
-      },
-      {
-        "id": "full_s6_speaking",
-        "title": "Stage 6: Speaking Section (Linear - 8 Mins)",
-        "skill": "speaking",
-        "duration_seconds": 480,
-        "tasks": [
-          {
-            "id": "f_sp_t1",
-            "title": "Task 1: Listen and Repeat (7 câu)",
-            "task_type": "listen_and_repeat",
-            "content": {
-              "instructions": "Nghe 7 câu và lặp lại chính xác từng từ vào micro.",
-              "items": [
-                {
-                  "id": "f_sp_i1",
-                  "context": "University Bookstore",
-                  "audio_text": "Textbooks for the semester can be purchased online.",
-                  "word_count": 8,
-                  "speak_seconds": 8,
-                  "phonetic_guide": "ˈtɛkstbʊks fɔː ðə sɪˈmɛstər kæn biː ˈpɜːtʃəst ˈɒnˌlaɪn."
-                }
-              ]
-            }
-          },
-          {
-            "id": "f_sp_t2",
-            "title": "Task 2: Take an Interview (4 câu)",
-            "task_type": "take_an_interview",
-            "content": {
-              "topic": "Campus Jobs and Professional Development",
-              "interviewer": {
-                "name": "Prof. David Clark",
-                "title": "Director of Career Advising",
-                "avatar_initials": "DC"
-              },
-              "questions": [
-                {
-                  "id": "f_sp_q1",
-                  "question_number": 1,
-                  "audio_text": "Welcome! Could you share what type of on-campus job you would be most interested in having, and why?",
-                  "speak_seconds": 45,
-                  "sample_answer": "I would be most interested in working as a peer tutor in the writing center to guide other students while polishing my own communication skills.",
-                  "key_points": ["Nêu công việc cụ thể", "Lý do và lợi ích cá nhân"]
-                }
-              ]
-            }
-          }
-        ]
-      }
-    ]
-  }
-]
-QUY TẮC BẮT BUỘC ĐỂ JSON KHÔNG BỊ LỖI CÚ PHÁP:
-1. Chỉ trả về JSON thuần túy, không kèm giải thích bên ngoài.
-2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').
-3. TUYỆT ĐỐI KHÔNG xuống dòng thực tế bên trong chuỗi text (dùng \\n nếu muốn xuống dòng trong passage).
-4. Đúng 6 stages theo thứ tự: Reading M1 -> Reading M2 -> Listening M1 -> Listening M2 -> Writing -> Speaking.
-5. Đáp án trắc nghiệm A, B, C, D BẮT BUỘC phải phân bố đều và ngẫu nhiên (~25% mỗi chữ cái), không được để đáp án luôn ở A.
-6. Task 1 Build a Sentence: 100% từ trong scrambled, correct_order, decoys PHẢI viết thường, và scrambled PHẢI đảo lộn xộn.
-7. Với dạng complete_words: Trong 'paragraph', các từ khuyết chữ cái PHẢI viết kèm ngoặc vuông [phần_đuôi_khuyết] (ví dụ: 'Marine biolog[ists] study how ocean ecosys[tems] adap[t]...').
-8. Đảm bảo đóng đủ tất cả các dấu ngoặc nhọn } và ngoặc vuông ] trước khi kết thúc câu trả lời.`;
 
 // Hàm làm sạch và tự động sửa lỗi cú pháp JSON thông minh
 function cleanAndParseJson(rawInput) {
@@ -1156,8 +69,9 @@ function cleanAndParseJson(rawInput) {
 }
 
 export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultSkill = 'full' }) {
+  const sanitizeSkill = (s) => (typeof s === 'string' && s ? s.toLowerCase() : 'full');
   const [jsonInput, setJsonInput] = useState('');
-  const [selectedPromptType, setSelectedPromptType] = useState(defaultSkill || 'full');
+  const [selectedPromptType, setSelectedPromptType] = useState(() => sanitizeSkill(defaultSkill));
   const [selectedWritingSubtype, setSelectedWritingSubtype] = useState('full'); // 'full' | 'sentence' | 'email' | 'discussion'
   const [copiedPrompt, setCopiedPrompt] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
@@ -1166,33 +80,44 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
   const [customTopic, setCustomTopic] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [lastImportedSkill, setLastImportedSkill] = useState(null);
+
+  const activePromptType = typeof selectedPromptType === 'string' ? selectedPromptType.toLowerCase() : 'full';
 
   const handleCloseSuccess = () => {
+    const targetSkill = lastImportedSkill || effectiveSkillType || activePromptType;
     setShowSuccessModal(false);
     if (onImportSuccess) {
-      onImportSuccess();
+      onImportSuccess(targetSkill);
+    }
+    onClose();
+  };
+
+  const handleModalClose = () => {
+    if (lastImportedSkill && onImportSuccess) {
+      onImportSuccess(lastImportedSkill);
     }
     onClose();
   };
 
   useEffect(() => {
-    if (defaultSkill) {
-      setSelectedPromptType(defaultSkill);
+    if (typeof defaultSkill === 'string' && defaultSkill) {
+      setSelectedPromptType(defaultSkill.toLowerCase());
     }
   }, [defaultSkill, isOpen]);
 
   if (!isOpen) return null;
 
   let currentPromptText = SAMPLE_READING_PROMPT;
-  let effectiveSkillType = selectedPromptType;
+  let effectiveSkillType = activePromptType;
 
-  if (selectedPromptType === 'full') {
+  if (activePromptType === 'full') {
     currentPromptText = SAMPLE_FULL_TEST_PROMPT;
-  } else if (selectedPromptType === 'listening') {
+  } else if (activePromptType === 'listening') {
     currentPromptText = SAMPLE_LISTENING_PROMPT;
-  } else if (selectedPromptType === 'speaking') {
+  } else if (activePromptType === 'speaking') {
     currentPromptText = SAMPLE_SPEAKING_PROMPT;
-  } else if (selectedPromptType === 'writing') {
+  } else if (activePromptType === 'writing') {
     if (selectedWritingSubtype === 'sentence') {
       currentPromptText = SAMPLE_WRITING_SENTENCE_PROMPT;
       effectiveSkillType = 'writing_sentence';
@@ -1209,7 +134,7 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
   }
 
   const getSkillTitle = () => {
-    switch (selectedPromptType) {
+    switch (activePromptType) {
       case 'reading': return 'Reading (2 Module)';
       case 'listening': return 'Listening (2 Module)';
       case 'writing': 
@@ -1263,6 +188,7 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
         setJsonInput(result.rawJson);
       }
 
+      setLastImportedSkill(effectiveSkillType);
       setShowSuccessModal(true);
     } catch (err) {
       console.error('Lỗi sinh đề bằng AI:', err);
@@ -1283,7 +209,17 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
       setIsImporting(true);
       setErrorMsg('');
       const parseResult = cleanAndParseJson(jsonInput);
-      const parsed = parseResult.data !== undefined ? parseResult.data : parseResult;
+      let parsed = parseResult.data !== undefined ? parseResult.data : parseResult;
+
+      // Hỗ trợ tự động giải nén cấu trúc JSON bị lồng trong các key wrapper
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+        if (Array.isArray(parsed.tests)) parsed = parsed.tests;
+        else if (parsed.test && typeof parsed.test === 'object') parsed = [parsed.test];
+        else if (Array.isArray(parsed.data)) parsed = parsed.data;
+        else if (parsed.practice_test && typeof parsed.practice_test === 'object') parsed = [parsed.practice_test];
+        else if (parsed.exam && typeof parsed.exam === 'object') parsed = [parsed.exam];
+      }
+
       const rawArray = Array.isArray(parsed) ? parsed : [parsed];
 
       // Validate cấu trúc tối thiểu
@@ -1299,19 +235,36 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
       // Đảm bảo lấy timestamp trực tiếp từ máy tính của người dùng
       const clientNow = Date.now();
       const clientIso = new Date(clientNow).toISOString();
-      const testsArray = rawArray.map((t, idx) => ({
-        ...t,
-        id: t.id || `test_import_${clientNow}_${idx + 1}`,
-        created_at: t.created_at || clientIso,
-        created_at_ms: t.created_at_ms || clientNow,
-        content: {
-          ...(t.content || {}),
-          created_at: t.created_at || clientIso,
-          created_at_ms: t.created_at_ms || clientNow
+      const testsArray = rawArray.map((t, idx) => {
+        const itemCreatedAt = t.created_at || clientIso;
+        const itemCreatedAtMs = t.created_at_ms || (clientNow + idx);
+        const itemSkill = (t.skill || selectedPromptType || 'reading').toLowerCase();
+        const itemTaskType = t.task_type || effectiveSkillType;
+
+        let itemTitle = t.title;
+        // Nếu title chung chung hoặc là placeholder mẫu của prompt, chuẩn hóa thành: [Kỹ năng] Full Test - Ngày tạo - Giờ và phút tạo
+        if (!itemTitle || itemTitle.toLowerCase().includes('full test 02') || itemTitle.toLowerCase().includes('practice exam') || itemTitle.toLowerCase().includes('practice test') || itemTitle.toLowerCase().includes('sample')) {
+          itemTitle = formatExamTitle(itemSkill, itemTaskType, itemCreatedAtMs);
         }
-      }));
+
+        return {
+          ...t,
+          id: t.id || `test_import_${clientNow}_${idx + 1}`,
+          title: itemTitle,
+          skill: itemSkill,
+          task_type: itemTaskType,
+          created_at: itemCreatedAt,
+          created_at_ms: itemCreatedAtMs,
+          content: {
+            ...(t.content || {}),
+            created_at: itemCreatedAt,
+            created_at_ms: itemCreatedAtMs
+          }
+        };
+      });
 
       await importBatchTests(testsArray);
+      setLastImportedSkill(testsArray[0]?.skill || selectedPromptType);
       setShowSuccessModal(true);
     } catch (err) {
       console.error(err);
@@ -1345,7 +298,7 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
           </div>
 
           <button
-            onClick={onClose}
+            onClick={handleModalClose}
             className="text-slate-400 hover:text-slate-700 p-1.5 rounded-full hover:bg-slate-200/60 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
@@ -1447,7 +400,7 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
                   <span>
                     {isAiGenerating 
                       ? 'Đang tạo bài thi thử & Lưu...' 
-                      : `Tạo bài thi thử ${selectedPromptType === 'full' ? 'Full Test' : (selectedPromptType.charAt(0).toUpperCase() + selectedPromptType.slice(1).toLowerCase())}`}
+                      : `Tạo bài thi thử ${activePromptType === 'full' ? 'Full Test' : (activePromptType.charAt(0).toUpperCase() + activePromptType.slice(1).toLowerCase())}`}
                   </span>
                 </button>
               </div>
@@ -1546,7 +499,7 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
 
           <div className="flex items-center gap-2">
             <button
-              onClick={onClose}
+              onClick={handleModalClose}
               disabled={isAiGenerating}
               className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 cursor-pointer disabled:opacity-50"
             >

@@ -1,5 +1,6 @@
 import { jsonrepair } from 'jsonrepair';
 import { importBatchTests } from './supabase.js';
+import { getExamPrompt } from './examPrompts.js';
 
 // ====================================================================
 // GEMINI AI WRITING EVALUATION SERVICE (ETS TOEFL 2026 RUBRIC)
@@ -1004,6 +1005,51 @@ Provide a high-level, comprehensive executive diagnostic report in Vietnamese:
 }
 
 /**
+ * Chuẩn hóa Title của đề thi theo yêu cầu: [Reading,Speaking...] Full Test - Ngày tạo - Giờ và phút tạo
+ * Ví dụ: "Reading Full Test - 23/09/2026 - 12:10"
+ */
+export function formatExamTitle(skill = 'reading', taskType = '', dateVal = Date.now()) {
+  const d = dateVal ? new Date(dateVal) : new Date();
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  const hours = String(d.getHours()).padStart(2, '0');
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  const dateStr = `${day}/${month}/${year}`;
+  const timeStr = `${hours}:${minutes}`;
+
+  const s = (skill || '').toLowerCase();
+  
+  if (s === 'full' || s === 'full_test') {
+    return `Full Test - ${dateStr} - ${timeStr}`;
+  }
+  if (s === 'reading') {
+    return `Reading Full Test - ${dateStr} - ${timeStr}`;
+  }
+  if (s === 'listening') {
+    return `Listening Full Test - ${dateStr} - ${timeStr}`;
+  }
+  if (s === 'speaking') {
+    return `Speaking Full Test - ${dateStr} - ${timeStr}`;
+  }
+  if (s === 'writing') {
+    if (taskType === 'build_sentence' || taskType === 'sentence' || taskType === 'writing_sentence') {
+      return `Writing (Ghép câu) Full Test - ${dateStr} - ${timeStr}`;
+    }
+    if (taskType === 'write_email' || taskType === 'email' || taskType === 'writing_email') {
+      return `Writing (Email) Full Test - ${dateStr} - ${timeStr}`;
+    }
+    if (taskType === 'academic_discussion' || taskType === 'discussion' || taskType === 'writing_discussion') {
+      return `Writing (Discussion) Full Test - ${dateStr} - ${timeStr}`;
+    }
+    return `Writing Full Test - ${dateStr} - ${timeStr}`;
+  }
+
+  const capitalized = s.charAt(0).toUpperCase() + s.slice(1);
+  return `${capitalized} Full Test - ${dateStr} - ${timeStr}`;
+}
+
+/**
  * ====================================================================
  * GEMINI AI AUTOMATIC EXAM GENERATOR SERVICE (ETS TOEFL 2026)
  * Tự động tạo bộ đề thi TOEFL 2026 bằng Gemini AI và tự động lưu vào Database
@@ -1026,7 +1072,7 @@ export async function generateExamWithGemini({
 
   let finalPrompt = promptText;
   if (!finalPrompt || !finalPrompt.trim()) {
-    finalPrompt = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề thi ${skillType.toUpperCase()} theo chuẩn ETS 2026 định dạng JSON.`;
+    finalPrompt = getExamPrompt(skillType);
   }
 
   if (customTopic && customTopic.trim()) {
@@ -1036,13 +1082,6 @@ Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết 
 
   const isWritingSub = skillType.startsWith('writing_');
   const actualSkill = isWritingSub ? 'writing' : skillType;
-
-  finalPrompt += `\n\n⚠️ QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS VÀ KHÔNG LỖI:
-1. BẮT BUỘC chỉ trả về 1 mảng JSON chứa các đối tượng đề thi [ { ... } ], hoặc 1 đối tượng JSON đề thi duy nhất { ... }.
-2. TUYỆT ĐỐI không viết bất kỳ lời chào, lời giải thích hay ký tự nào ngoài JSON hợp lệ.
-3. Không sử dụng dấu ngoặc kép đôi "" bên trong các chuỗi văn bản (dùng dấu ngoặc đơn '...').
-4. Đáp án trắc nghiệm A, B, C, D BẮT BUỘC phải phân bố đều và ngẫu nhiên (~25% mỗi chữ cái), không được để đáp án dồn vào A.
-5. Trường 'skill' phải là "${actualSkill}".`;
 
   let lastError = null;
   let rawJsonText = '';
@@ -1066,9 +1105,12 @@ Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết 
                 parts: [{ text: finalPrompt }]
               }
             ],
+            systemInstruction: {
+              parts: [{ text: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Your task is to produce strictly valid, raw JSON tests matching the requested schema with 100% fidelity to ETS difficulty, structure, and quality standards (CEFR C1/C2 academic register). NEVER truncate, omit, abbreviate, or use placeholders (such as "..." or shortened samples). Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Output strictly raw valid JSON only without markdown code blocks, preamble, or outside commentary.' }]
+            },
             generationConfig: {
               responseMimeType: 'application/json',
-              temperature: 0.4,
+              temperature: 0.3,
               maxOutputTokens: skillType === 'full' ? 16384 : 8192
             }
           })
@@ -1099,9 +1141,9 @@ Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết 
     try {
       rawJsonText = await callOpenRouterChat({
         prompt: finalPrompt,
-        systemInstruction: 'You are an expert ETS TOEFL iBT 2026 exam architect. Respond strictly with valid JSON only matching the requested schema without any markdown formatting or commentary outside JSON.',
+        systemInstruction: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Adhere strictly to CEFR C1/C2 academic standards. NEVER truncate, omit, abbreviate, or use placeholders. Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Respond strictly with raw valid JSON matching the requested schema without any markdown formatting or commentary outside JSON.',
         maxTokens: skillType === 'full' ? 16384 : 8192,
-        temperature: 0.4,
+        temperature: 0.3,
         responseFormatJson: true,
         onProgress
       });
@@ -1140,7 +1182,16 @@ Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết 
     }
   }
 
-  let testsArray = Array.isArray(parsed) ? parsed : [parsed];
+  let actualData = parsed;
+  if (actualData && typeof actualData === 'object' && !Array.isArray(actualData)) {
+    if (Array.isArray(actualData.tests)) actualData = actualData.tests;
+    else if (actualData.test && typeof actualData.test === 'object') actualData = [actualData.test];
+    else if (Array.isArray(actualData.data)) actualData = actualData.data;
+    else if (actualData.practice_test && typeof actualData.practice_test === 'object') actualData = [actualData.practice_test];
+    else if (actualData.exam && typeof actualData.exam === 'object') actualData = [actualData.exam];
+  }
+
+  let testsArray = Array.isArray(actualData) ? actualData : [actualData];
   if (testsArray.length === 0) {
     throw new Error('Dữ liệu AI trả về không chứa đề thi hợp lệ.');
   }
@@ -1159,28 +1210,40 @@ Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết 
     else if (s === 'speaking') defaultDuration = 480;
 
     let subLabel = '';
-    if (skillType === 'writing_sentence' || t.task_type === 'build_sentence') subLabel = ' (Ghép câu 7p)';
-    else if (skillType === 'writing_email' || t.task_type === 'write_email') subLabel = ' (Viết Email 7p)';
-    else if (skillType === 'writing_discussion' || t.task_type === 'academic_discussion') subLabel = ' (Discussion 10p)';
-
-    const defaultTitle = s === 'full' 
-      ? `TOEFL iBT Full Mock Test (#${timestamp.toString().slice(-4)})`
-      : `${s.toUpperCase()} Practice Exam${subLabel} (#${timestamp.toString().slice(-4)})`;
+    let determinedTaskType = t.task_type;
+    if (skillType === 'writing_sentence' || t.task_type === 'build_sentence') {
+      subLabel = ' (Ghép câu 7p)';
+      determinedTaskType = 'build_sentence';
+    } else if (skillType === 'writing_email' || t.task_type === 'write_email') {
+      subLabel = ' (Viết Email 7p)';
+      determinedTaskType = 'write_email';
+    } else if (skillType === 'writing_discussion' || t.task_type === 'academic_discussion') {
+      subLabel = ' (Discussion 10p)';
+      determinedTaskType = 'academic_discussion';
+    }
 
     const clientTimestamp = Date.now();
     const clientIso = new Date(clientTimestamp).toISOString();
+    const testStages = t.stages || t.content?.stages;
+    const testModules = t.modules || t.content?.modules;
+
+    const formattedTitle = formatExamTitle(s, determinedTaskType, clientTimestamp);
 
     return {
       ...t,
       id: t.id || `test_ai_${clientTimestamp}_${idx + 1}`,
-      title: t.title || defaultTitle,
+      title: formattedTitle,
       skill: s,
-      task_type: t.task_type || (skillType.startsWith('writing_') ? skillType.replace('writing_', '') : undefined),
+      task_type: determinedTaskType,
       duration_seconds: t.duration_seconds || defaultDuration,
+      stages: testStages,
+      modules: testModules,
       created_at: clientIso,
       created_at_ms: clientTimestamp,
       content: {
         ...(t.content || {}),
+        stages: testStages,
+        modules: testModules,
         created_at: clientIso,
         created_at_ms: clientTimestamp
       }

@@ -322,6 +322,48 @@ export function normalizeBuildSentenceTask(task, taskUniqueId) {
   };
 }
 
+// Helper định dạng tiêu đề bài thi theo chuẩn ETS 2026: [Reading,Speaking...] Full Test - Ngày tạo - Giờ và phút tạo
+export function formatExamTitle(skill = 'reading', taskType = '', dateVal = Date.now()) {
+  const d = dateVal ? new Date(dateVal) : new Date();
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  const hours = String(d.getHours()).padStart(2, '0');
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  const dateStr = `${day}/${month}/${year}`;
+  const timeStr = `${hours}:${minutes}`;
+
+  const s = (skill || '').toLowerCase();
+  
+  if (s === 'full' || s === 'full_test') {
+    return `Full Test - ${dateStr} - ${timeStr}`;
+  }
+  if (s === 'reading') {
+    return `Reading Full Test - ${dateStr} - ${timeStr}`;
+  }
+  if (s === 'listening') {
+    return `Listening Full Test - ${dateStr} - ${timeStr}`;
+  }
+  if (s === 'speaking') {
+    return `Speaking Full Test - ${dateStr} - ${timeStr}`;
+  }
+  if (s === 'writing') {
+    if (taskType === 'build_sentence' || taskType === 'sentence' || taskType === 'writing_sentence') {
+      return `Writing (Ghép câu) Full Test - ${dateStr} - ${timeStr}`;
+    }
+    if (taskType === 'write_email' || taskType === 'email' || taskType === 'writing_email') {
+      return `Writing (Email) Full Test - ${dateStr} - ${timeStr}`;
+    }
+    if (taskType === 'academic_discussion' || taskType === 'discussion' || taskType === 'writing_discussion') {
+      return `Writing (Discussion) Full Test - ${dateStr} - ${timeStr}`;
+    }
+    return `Writing Full Test - ${dateStr} - ${timeStr}`;
+  }
+
+  const capitalized = s.charAt(0).toUpperCase() + s.slice(1);
+  return `${capitalized} Full Test - ${dateStr} - ${timeStr}`;
+}
+
 // Helper chuẩn hóa cấu trúc đề thi thành Stages (Module 1, Module 2...)
 export function normalizeTest(t) {
   let stages = t.stages || t.content?.stages;
@@ -443,13 +485,20 @@ export function normalizeTest(t) {
   const clientCreatedAt = t.created_at || t.content?.created_at;
   const clientCreatedAtMs = t.created_at_ms || t.content?.created_at_ms;
 
+  let title = t.title;
+  if (!t.is_default && title && (title.includes('Practice Exam (#') || title.includes('Full Test 02') || (title.includes('Practice Exam') && title.includes('(#')))) {
+    title = formatExamTitle(t.skill, t.task_type, clientCreatedAtMs || clientCreatedAt);
+  }
+
   return {
     ...t,
+    title,
     created_at: clientCreatedAt,
     created_at_ms: clientCreatedAtMs,
     stages: normalizedStages,
     content: {
       ...(t.content || {}),
+      title,
       created_at: clientCreatedAt,
       created_at_ms: clientCreatedAtMs,
       stages: normalizedStages
@@ -465,6 +514,7 @@ export async function getFullTests() {
 
 // 1. Lấy danh sách đề thi theo kỹ năng
 export async function getTestsBySkill(skill) {
+  let cloudTests = [];
   if (isSupabaseConfigured()) {
     try {
       const { data, error } = await supabaseInstance
@@ -473,32 +523,53 @@ export async function getTestsBySkill(skill) {
         .eq('skill', skill)
         .order('created_at', { ascending: false });
 
-      if (!error && data && data.length > 0) {
-        return data.map(normalizeTest);
+      if (!error && Array.isArray(data)) {
+        cloudTests = data;
       }
     } catch (e) {
       console.warn('Không thể kết nối Supabase, chuyển sang chế độ offline:', e);
     }
   }
 
-  // Fallback: Lấy từ LocalStorage kết hợp bộ đề mẫu chuẩn
+  // Kết hợp LocalStorage + Cloud Tests + Default Tests
   const local = JSON.parse(localStorage.getItem('toefl_local_tests') || '[]');
-  const testsMap = new Map(local.map((item) => [item.id, item]));
-  // Bổ sung bộ đề chuẩn ETS 2026, bảo lưu timestamp nếu có
+  const testsMap = new Map();
+
+  // 1. Nạp từ local storage trước
+  local.forEach((t) => {
+    if (t && t.id) testsMap.set(t.id, t);
+  });
+
+  // 2. Nạp từ Supabase Cloud (đồng bộ / ghi đè nếu mới hơn)
+  cloudTests.forEach((t) => {
+    if (t && t.id) testsMap.set(t.id, t);
+  });
+
+  // 3. Bổ sung bộ đề chuẩn ETS 2026 nếu chưa có và chưa bị xóa
+  const deletedTests = new Set(JSON.parse(localStorage.getItem('toefl_deleted_tests') || '[]'));
   DEFAULT_TESTS.forEach((d) => {
-    if (!testsMap.has(d.id)) {
+    if (!testsMap.has(d.id) && !deletedTests.has(d.id)) {
       testsMap.set(d.id, d);
-    } else {
-      const existing = testsMap.get(d.id);
-      testsMap.set(d.id, {
-        ...d,
-        created_at: existing.created_at || existing.content?.created_at,
-        created_at_ms: existing.created_at_ms || existing.content?.created_at_ms
-      });
     }
   });
-  const allTests = Array.from(testsMap.values());
-  const filtered = allTests.filter((t) => t.skill === skill);
+
+  const allTests = Array.from(testsMap.values()).filter((t) => !deletedTests.has(t.id));
+  const filtered = allTests.filter((t) => {
+    const s = (t.skill || '').toLowerCase();
+    const target = (skill || '').toLowerCase();
+    if (target === 'full') {
+      return s === 'full' || s === 'full_test';
+    }
+    return s === target;
+  });
+
+  // Sắp xếp bài thi mới nhất lên đầu danh sách để học viên nhìn thấy ngay
+  filtered.sort((a, b) => {
+    const timeA = a.created_at_ms || a.content?.created_at_ms || (a.created_at ? new Date(a.created_at).getTime() : 0);
+    const timeB = b.created_at_ms || b.content?.created_at_ms || (b.created_at ? new Date(b.created_at).getTime() : 0);
+    return timeB - timeA;
+  });
+
   return filtered.map(normalizeTest);
 }
 
@@ -515,12 +586,21 @@ export async function importBatchTests(testsArray) {
     const testId = t.id || `test_${createdAtMs}_${Math.random().toString(36).substr(2, 5)}`;
     const content = t.content || { stages: norm.stages, modules: norm.modules };
 
+    const skill = (t.skill || 'reading').toLowerCase();
+
+    let title = t.title;
+    if (!title || title.includes('Practice Exam (#') || title.includes('Full Test 02')) {
+      title = formatExamTitle(skill, taskType, createdAtMs);
+    }
+
     return {
       id: testId,
-      title: t.title,
-      skill: t.skill,
+      title: title,
+      skill: skill,
       task_type: taskType,
       duration_seconds: t.duration_seconds || 1800,
+      stages: norm.stages,
+      modules: norm.modules,
       content: { 
         ...content, 
         stages: norm.stages,
@@ -532,24 +612,40 @@ export async function importBatchTests(testsArray) {
     };
   });
 
+  // 1. Luôn lưu vào LocalStorage để đảm bảo có đề ngay lập tức
+  const local = JSON.parse(localStorage.getItem('toefl_local_tests') || '[]');
+  const localMap = new Map(local.map((item) => [item.id, item]));
+  preparedTests.forEach((t) => localMap.set(t.id, t));
+  const updated = Array.from(localMap.values());
+  localStorage.setItem('toefl_local_tests', JSON.stringify(updated));
+
+  // 2. Nếu có cấu hình Supabase Cloud, đồng bộ lên Cloud Database
   if (isSupabaseConfigured()) {
     try {
+      const preparedForSupabase = preparedTests.map((t) => ({
+        id: t.id,
+        title: t.title,
+        skill: t.skill,
+        task_type: t.task_type,
+        duration_seconds: t.duration_seconds,
+        content: t.content,
+        created_at: t.created_at
+      }));
+
       const { data, error } = await supabaseInstance
         .from('tests')
-        .insert(preparedTests)
+        .upsert(preparedForSupabase)
         .select();
 
-      if (error) throw error;
-      return { success: true, count: preparedTests.length, destination: 'Supabase Cloud' };
+      if (!error) {
+        return { success: true, count: preparedTests.length, destination: 'Supabase Cloud & Local' };
+      }
+      console.warn('Lỗi khi đẩy lên Supabase (đã lưu local an toàn):', error);
     } catch (e) {
-      console.error('Lỗi khi đẩy lên Supabase:', e);
+      console.error('Lỗi kết nối Supabase (đã lưu local an toàn):', e);
     }
   }
 
-  // Lưu vào LocalStorage
-  const local = JSON.parse(localStorage.getItem('toefl_local_tests') || '[]');
-  const updated = [...preparedTests, ...local];
-  localStorage.setItem('toefl_local_tests', JSON.stringify(updated));
   return { success: true, count: preparedTests.length, destination: 'Local Storage' };
 }
 
@@ -566,6 +662,13 @@ export async function deleteTest(testId) {
   const local = JSON.parse(localStorage.getItem('toefl_local_tests') || '[]');
   const updated = local.filter((t) => t.id !== testId);
   localStorage.setItem('toefl_local_tests', JSON.stringify(updated));
+
+  // Ghi nhận ID đã xóa để không bị bộ đề mặc định nạp lại
+  const deleted = JSON.parse(localStorage.getItem('toefl_deleted_tests') || '[]');
+  if (!deleted.includes(testId)) {
+    deleted.push(testId);
+    localStorage.setItem('toefl_deleted_tests', JSON.stringify(deleted));
+  }
   return true;
 }
 
