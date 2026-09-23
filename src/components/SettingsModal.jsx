@@ -217,14 +217,14 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
                 </div>
 
                 <p className="text-[11px] text-slate-500">
-                  Dùng model <code className="text-teal-700 font-mono font-bold">gemini-2.5-flash</code> chính thức để sinh đề và chấm bài chuẩn ETS 2026.
+                  Dùng model <code className="text-teal-700 font-mono font-bold">gemini-2.5-flash</code> chính thức. Hỗ trợ 1 key đơn lẻ, mảng JSON <code className="font-mono text-teal-800 font-semibold">["key1", "key2"]</code> hoặc phân tách bằng dấu phẩy. Hệ thống sẽ chọn ngẫu nhiên (tối đa 3 lần).
                 </p>
 
-                <input
-                  type="password"
+                <textarea
+                  rows={2}
                   value={geminiKeyInput}
                   onChange={(e) => setGeminiKeyInput(e.target.value)}
-                  placeholder={envGeminiKey ? "•••••••• (Đang dùng biến môi trường .env)" : "Nhập AIzaSy... (hoặc để trống nếu đã có trong .env)"}
+                  placeholder={envGeminiKey ? "•••••••• (Đang dùng biến môi trường .env / Vercel)" : "Nhập 1 key hoặc mảng [\"key1\", \"key2\"] (hoặc key1, key2)"}
                   className="w-full px-3 py-2 text-xs font-mono border rounded-xl border-slate-300 focus:outline-hidden focus:border-teal-600 focus:ring-1 focus:ring-teal-600"
                 />
               </div>
@@ -249,14 +249,14 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
                 </div>
 
                 <p className="text-[11px] text-slate-500 leading-relaxed">
-                  Khi Gemini trả về lỗi <em>"This model is currently experiencing high demand"</em> hoặc <em>429 Quota Exceeded</em>, ứng dụng sẽ ngay lập tức chuyển sang OpenRouter (hỗ trợ các model như Gemini Vertex, DeepSeek, GPT-4o-mini).
+                  Khi Gemini hết quota hoặc lỗi, hệ thống tự động đổi sang OpenRouter (thử ngẫu nhiên tối đa 3 key). Hỗ trợ 1 key, mảng JSON hoặc phân tách bằng dấu phẩy.
                 </p>
 
-                <input
-                  type="password"
+                <textarea
+                  rows={2}
                   value={openRouterKeyInput}
                   onChange={(e) => setOpenRouterKeyInput(e.target.value)}
-                  placeholder={envOpenRouterKey ? "•••••••• (Đang dùng biến môi trường .env)" : "Nhập sk-or-v1-... (Lấy từ openrouter.ai/keys)"}
+                  placeholder={envOpenRouterKey ? "•••••••• (Đang dùng biến môi trường .env / Vercel)" : "Nhập 1 key hoặc mảng [\"sk-or-1\", \"sk-or-2\"] (hoặc sk-or-1, sk-or-2)"}
                   className="w-full px-3 py-2 text-xs font-mono border rounded-xl border-purple-300 focus:outline-hidden focus:border-purple-600 focus:ring-1 focus:ring-purple-600 bg-white"
                 />
               </div>

@@ -12,44 +12,109 @@ import { getExamPrompt } from './examPrompts.js';
 
 /**
  * Kiểm tra xem app đang chạy trên localhost (dev) hay production (Vercel)
- * - Localhost: Gọi Gemini/OpenRouter trực tiếp bằng key từ .env.local
- * - Production: Gọi /api/ai-proxy (Vercel Function, key bí mật trên server)
- */
+// ====================================================================
+// ENVIRONMENT DETECTION & MULTI-KEY ARRAY MANAGEMENT
+// Hỗ trợ mảng API Keys: ["key1", "key2"] hoặc chuỗi phân tách bởi dấu phẩy
+// ====================================================================
+
 export const IS_PRODUCTION = import.meta.env.PROD === true;
 export const IS_DEV = import.meta.env.DEV === true;
 
-// Lấy API Key Gemini — chỉ dùng ở chế độ dev/localhost
+/**
+ * Phân tích chuỗi hoặc JSON thành mảng các API Key hợp lệ
+ */
+export function parseApiKeys(raw) {
+  if (!raw) return [];
+  if (Array.isArray(raw)) {
+    return Array.from(new Set(raw.map(k => String(k).trim()).filter(Boolean)));
+  }
+
+  const str = String(raw).trim();
+  if (!str) return [];
+
+  // 1. Nếu là định dạng mảng JSON [ "key1", "key2" ]
+  if (str.startsWith('[') && str.endsWith(']')) {
+    try {
+      const parsed = JSON.parse(str);
+      if (Array.isArray(parsed)) {
+        return Array.from(new Set(parsed.map(k => String(k).trim()).filter(Boolean)));
+      }
+    } catch {
+      // Fallback nếu JSON không hợp lệ
+    }
+  }
+
+  // 2. Tách theo dấu phẩy, chấm phẩy hoặc xuống dòng
+  const items = str
+    .split(/[\n,;]+/)
+    .map(k => k.trim().replace(/^['"]|['"]$/g, ''))
+    .filter(Boolean);
+
+  return Array.from(new Set(items));
+}
+
+/**
+ * Xáo trộn ngẫu nhiên mảng (Fisher-Yates)
+ */
+export function shuffleArray(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// Lấy danh sách tất cả các Gemini API Keys có sẵn
+export function getGeminiApiKeys() {
+  if (IS_PRODUCTION) return []; // Production: dùng server proxy Vercel
+  const localKey = typeof localStorage !== 'undefined' ? (localStorage.getItem('toefl_gemini_api_key') || '') : '';
+  const envKey = import.meta.env?.VITE_GEMINI_API_KEY || import.meta.env?.GEMINI_API_KEY || '';
+  const parsedLocal = parseApiKeys(localKey);
+  const parsedEnv = parseApiKeys(envKey);
+  return Array.from(new Set([...parsedLocal, ...parsedEnv]));
+}
+
+// Lấy ngẫu nhiên 1 Gemini API Key
 export function getGeminiApiKey() {
-  if (IS_PRODUCTION) return ''; // Production: không cần key phía client, dùng proxy
-  const localKey = typeof localStorage !== 'undefined' ? localStorage.getItem('toefl_gemini_api_key') : '';
-  if (localKey && localKey.trim()) return localKey.trim();
-  return (import.meta.env?.VITE_GEMINI_API_KEY || '').trim();
+  const keys = getGeminiApiKeys();
+  if (keys.length === 0) return '';
+  return keys[Math.floor(Math.random() * keys.length)];
 }
 
 // Lưu / Xóa Gemini API Key trong LocalStorage
 export function saveGeminiApiKey(key) {
   if (typeof localStorage !== 'undefined') {
-    if (key && key.trim()) {
-      localStorage.setItem('toefl_gemini_api_key', key.trim());
+    if (key && String(key).trim()) {
+      localStorage.setItem('toefl_gemini_api_key', String(key).trim());
     } else {
       localStorage.removeItem('toefl_gemini_api_key');
     }
   }
 }
 
-// Lấy API Key OpenRouter — chỉ dùng ở chế độ dev/localhost
+// Lấy danh sách tất cả các OpenRouter API Keys có sẵn
+export function getOpenRouterApiKeys() {
+  if (IS_PRODUCTION) return []; // Production: dùng server proxy Vercel
+  const localKey = typeof localStorage !== 'undefined' ? (localStorage.getItem('toefl_openrouter_api_key') || '') : '';
+  const envKey = import.meta.env?.VITE_OPENROUTER_API_KEY || import.meta.env?.OPENROUTER_API_KEY || '';
+  const parsedLocal = parseApiKeys(localKey);
+  const parsedEnv = parseApiKeys(envKey);
+  return Array.from(new Set([...parsedLocal, ...parsedEnv]));
+}
+
+// Lấy ngẫu nhiên 1 OpenRouter API Key
 export function getOpenRouterApiKey() {
-  if (IS_PRODUCTION) return ''; // Production: không cần key phía client, dùng proxy
-  const localKey = typeof localStorage !== 'undefined' ? localStorage.getItem('toefl_openrouter_api_key') : '';
-  if (localKey && localKey.trim()) return localKey.trim();
-  return (import.meta.env?.VITE_OPENROUTER_API_KEY || '').trim();
+  const keys = getOpenRouterApiKeys();
+  if (keys.length === 0) return '';
+  return keys[Math.floor(Math.random() * keys.length)];
 }
 
 // Lưu / Xóa OpenRouter API Key trong LocalStorage
 export function saveOpenRouterApiKey(key) {
   if (typeof localStorage !== 'undefined') {
-    if (key && key.trim()) {
-      localStorage.setItem('toefl_openrouter_api_key', key.trim());
+    if (key && String(key).trim()) {
+      localStorage.setItem('toefl_openrouter_api_key', String(key).trim());
     } else {
       localStorage.removeItem('toefl_openrouter_api_key');
     }
@@ -58,14 +123,14 @@ export function saveOpenRouterApiKey(key) {
 
 // Kiểm tra xem OpenRouter đã được cấu hình chưa
 export function isOpenRouterConfigured() {
-  if (IS_PRODUCTION) return true; // Proxy server luôn có key
-  return Boolean(getOpenRouterApiKey());
+  if (IS_PRODUCTION) return true; // Proxy server luôn có key trên Vercel
+  return getOpenRouterApiKeys().length > 0;
 }
 
 // Kiểm tra xem đã cấu hình ít nhất 1 AI Provider (Gemini hoặc OpenRouter) chưa
 export function isGeminiConfigured() {
-  if (IS_PRODUCTION) return true; // Proxy server luôn có key
-  return Boolean(getGeminiApiKey() || getOpenRouterApiKey());
+  if (IS_PRODUCTION) return true; // Proxy server luôn có key trên Vercel
+  return getGeminiApiKeys().length > 0 || getOpenRouterApiKeys().length > 0;
 }
 
 export function isAiConfigured() {
@@ -95,9 +160,10 @@ export async function callOpenRouterChat({
   maxTokens = 8192,
   temperature = 0.3,
   responseFormatJson = true,
-  onProgress = null
+  onProgress = null,
+  apiKeyOverride = null
 }) {
-  const apiKey = getOpenRouterApiKey();
+  const apiKey = apiKeyOverride || getOpenRouterApiKey();
   if (!apiKey) {
     throw new Error('Chưa cấu hình OpenRouter API Key dự phòng.');
   }
@@ -562,97 +628,115 @@ export async function generateGeminiJson(parts, systemInstruction = '', temperat
     }
   }
 
-  // 2. Chế độ Localhost (hoặc fallback): gọi trực tiếp bằng key
-  const geminiKey = getGeminiApiKey();
-  const openRouterKey = getOpenRouterApiKey();
+  // 2. Chế độ Localhost (hoặc fallback): gọi trực tiếp bằng key với thử ngẫu nhiên tối đa 3 lần
+  const geminiKeys = getGeminiApiKeys();
+  const openRouterKeys = getOpenRouterApiKeys();
 
-  if (!geminiKey && !openRouterKey) {
+  if (geminiKeys.length === 0 && openRouterKeys.length === 0) {
     throw new Error('Chưa cấu hình API Key (Gemini hoặc OpenRouter trong .env.local hoặc Cài đặt).');
   }
 
   let lastError = null;
 
-  // 1. Thử gọi Google Gemini trước nếu có key
-  if (geminiKey) {
-    const modelsToTry = [DEFAULT_GEMINI_MODEL, ...FALLBACK_MODELS];
-    for (const model of modelsToTry) {
-      try {
-        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
-        const bodyPayload = {
-          contents: [
-            {
-              role: 'user',
-              parts: Array.isArray(parts) ? parts : [{ text: String(parts) }]
-            }
-          ],
-          generationConfig: {
-            responseMimeType: 'application/json',
-            temperature: 0.2
-          }
-        };
+  // 1. Thử gọi Google Gemini trước (chọn ngẫu nhiên, tối đa 3 key)
+  if (geminiKeys.length > 0) {
+    const shuffledGemini = shuffleArray(geminiKeys);
+    const geminiAttempts = Math.min(shuffledGemini.length, 3);
 
-        if (systemInstruction) {
-          bodyPayload.systemInstruction = {
-            parts: [{ text: systemInstruction }]
+    for (let i = 0; i < geminiAttempts; i++) {
+      const activeKey = shuffledGemini[i];
+      const modelsToTry = [DEFAULT_GEMINI_MODEL, ...FALLBACK_MODELS];
+
+      for (const model of modelsToTry) {
+        try {
+          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${activeKey}`;
+          const bodyPayload = {
+            contents: [
+              {
+                role: 'user',
+                parts: Array.isArray(parts) ? parts : [{ text: String(parts) }]
+              }
+            ],
+            generationConfig: {
+              responseMimeType: 'application/json',
+              temperature: 0.2
+            }
           };
+
+          if (systemInstruction) {
+            bodyPayload.systemInstruction = {
+              parts: [{ text: systemInstruction }]
+            };
+          }
+
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(bodyPayload)
+          });
+
+          if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            throw new Error(errData?.error?.message || `HTTP ${response.status}: ${response.statusText}`);
+          }
+
+          const data = await response.json();
+          const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!rawText) throw new Error('Gemini API không trả về nội dung.');
+
+          const repaired = jsonrepair(rawText);
+          return JSON.parse(repaired);
+        } catch (err) {
+          lastError = err;
+          console.warn(`Lỗi khi gọi model ${model} với Gemini key #${i + 1}:`, err.message);
+          const lower = err.message.toLowerCase();
+          if (lower.includes('quota') || lower.includes('exhausted') || lower.includes('429') || lower.includes('503')) {
+            break; // Đổi key ngẫu nhiên tiếp theo ngay
+          }
+        }
+      }
+    }
+  }
+
+  // 2. Dự phòng OpenRouter khi Gemini lỗi hoặc quá tải (chọn ngẫu nhiên, tối đa 3 key)
+  if (openRouterKeys.length > 0) {
+    console.info('⚠️ Gemini JSON generation gặp sự cố, tự động chuyển sang OpenRouter dự phòng...');
+    const shuffledOpenRouter = shuffleArray(openRouterKeys);
+    const openRouterAttempts = Math.min(shuffledOpenRouter.length, 3);
+
+    for (let i = 0; i < openRouterAttempts; i++) {
+      const activeKey = shuffledOpenRouter[i];
+      try {
+        let textPrompt = '';
+        if (Array.isArray(parts)) {
+          textPrompt = parts.map(p => (typeof p === 'string' ? p : p.text || '')).filter(Boolean).join('\n\n');
+        } else {
+          textPrompt = String(parts);
         }
 
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(bodyPayload)
+        const rawContent = await callOpenRouterChat({
+          prompt: textPrompt,
+          systemInstruction,
+          temperature: 0.2,
+          responseFormatJson: true,
+          apiKeyOverride: activeKey
         });
 
-        if (!response.ok) {
-          const errData = await response.json().catch(() => ({}));
-          throw new Error(errData?.error?.message || `HTTP ${response.status}: ${response.statusText}`);
+        let cleaned = rawContent.trim();
+        if (cleaned.includes('```')) {
+          const blockMatch = cleaned.match(/```(?:json)?\s*([\s\S]*?)(?:```|$)/i);
+          if (blockMatch) cleaned = blockMatch[1].trim();
         }
-
-        const data = await response.json();
-        const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!rawText) throw new Error('Gemini API không trả về nội dung.');
-
-        const repaired = jsonrepair(rawText);
-        return JSON.parse(repaired);
-      } catch (err) {
-        lastError = err;
-        console.warn(`Lỗi khi gọi model ${model}:`, err.message);
+        cleaned = cleaned.replace(/[\u201C\u201D]/g, '"').replace(/[\u2018\u2019]/g, "'");
+        return JSON.parse(jsonrepair(cleaned));
+      } catch (openRouterErr) {
+        lastError = openRouterErr;
+        console.error(`Lỗi khi gọi OpenRouter key #${i + 1}:`, openRouterErr);
       }
     }
   }
 
-  // 2. Dự phòng OpenRouter khi Gemini lỗi hoặc quá tải
-  if (openRouterKey) {
-    console.info('⚠️ Gemini JSON generation gặp sự cố, tự động chuyển sang OpenRouter dự phòng...');
-    try {
-      let textPrompt = '';
-      if (Array.isArray(parts)) {
-        textPrompt = parts.map(p => (typeof p === 'string' ? p : p.text || '')).filter(Boolean).join('\n\n');
-      } else {
-        textPrompt = String(parts);
-      }
-
-      const rawContent = await callOpenRouterChat({
-        prompt: textPrompt,
-        systemInstruction,
-        temperature: 0.2,
-        responseFormatJson: true
-      });
-
-      let cleaned = rawContent.trim();
-      if (cleaned.includes('```')) {
-        const blockMatch = cleaned.match(/```(?:json)?\s*([\s\S]*?)(?:```|$)/i);
-        if (blockMatch) cleaned = blockMatch[1].trim();
-      }
-      cleaned = cleaned.replace(/[\u201C\u201D]/g, '"').replace(/[\u2018\u2019]/g, "'");
-      return JSON.parse(jsonrepair(cleaned));
-    } catch (openRouterErr) {
-      console.error('Lỗi khi gọi OpenRouter:', openRouterErr);
-      throw new Error(`AI xử lý thất bại: Gemini ("${lastError?.message || 'Quá tải'}"), OpenRouter ("${openRouterErr.message}").`);
-    }
-  }
-
-  throw lastError || new Error('Không thể kết nối đến Gemini API.');
+  throw lastError || new Error('Không thể kết nối đến hệ thống AI.');
 }
 
 /**
@@ -1140,11 +1224,11 @@ export async function generateExamWithGemini({
     }
 
   } else {
-    // ── Localhost / Dev: gọi Gemini & OpenRouter trực tiếp ────────
-    const geminiKey = getGeminiApiKey();
-    const openRouterKey = getOpenRouterApiKey();
+    // ── Localhost / Dev: gọi Gemini & OpenRouter trực tiếp với cơ chế chọn ngẫu nhiên tối đa 3 key ──
+    const geminiKeys = getGeminiApiKeys();
+    const openRouterKeys = getOpenRouterApiKeys();
 
-    if (!geminiKey && !openRouterKey) {
+    if (geminiKeys.length === 0 && openRouterKeys.length === 0) {
       throw new Error(
         'Chưa cấu hình API Key.\n' +
         'Trên localhost: Thêm VITE_GEMINI_API_KEY vào file .env.local\n' +
@@ -1154,61 +1238,84 @@ export async function generateExamWithGemini({
 
     let lastError = null;
 
-    // 1. Thử Gemini trước
-    if (geminiKey) {
+    // 1. Thử Gemini trước (chọn ngẫu nhiên tối đa 3 key)
+    if (geminiKeys.length > 0) {
       onProgress?.('Hệ thống đang soạn thảo nội dung đề thi & câu hỏi...');
       providerUsed = 'gemini';
-      for (const model of [DEFAULT_GEMINI_MODEL, ...FALLBACK_MODELS]) {
-        try {
-          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
-          const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ role: 'user', parts: [{ text: finalPrompt }] }],
-              systemInstruction: {
-                parts: [{ text: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Your task is to produce strictly valid, raw JSON tests matching the requested schema with 100% fidelity to ETS difficulty, structure, and quality standards (CEFR C1/C2 academic register). NEVER truncate, omit, abbreviate, or use placeholders (such as "..." or shortened samples). Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Output strictly raw valid JSON only without markdown code blocks, preamble, or outside commentary.' }]
-              },
-              generationConfig: {
-                responseMimeType: 'application/json',
-                temperature: 0.7,
-                maxOutputTokens
-              }
-            })
-          });
+      const shuffledGemini = shuffleArray(geminiKeys);
+      const geminiAttempts = Math.min(shuffledGemini.length, 3);
 
-          if (!response.ok) {
-            const errData = await response.json().catch(() => ({}));
-            throw new Error(errData?.error?.message || `HTTP ${response.status}: ${response.statusText}`);
+      for (let i = 0; i < geminiAttempts; i++) {
+        const activeKey = shuffledGemini[i];
+        let keySucceeded = false;
+
+        for (const model of [DEFAULT_GEMINI_MODEL, ...FALLBACK_MODELS]) {
+          try {
+            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${activeKey}`;
+            const response = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{ role: 'user', parts: [{ text: finalPrompt }] }],
+                systemInstruction: {
+                  parts: [{ text: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Your task is to produce strictly valid, raw JSON tests matching the requested schema with 100% fidelity to ETS difficulty, structure, and quality standards (CEFR C1/C2 academic register). NEVER truncate, omit, abbreviate, or use placeholders (such as "..." or shortened samples). Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Output strictly raw valid JSON only without markdown code blocks, preamble, or outside commentary.' }]
+                },
+                generationConfig: {
+                  responseMimeType: 'application/json',
+                  temperature: 0.7,
+                  maxOutputTokens
+                }
+              })
+            });
+
+            if (!response.ok) {
+              const errData = await response.json().catch(() => ({}));
+              throw new Error(errData?.error?.message || `HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            rawJsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (!rawJsonText) throw new Error('API không trả về nội dung đề thi.');
+            keySucceeded = true;
+            break;
+          } catch (err) {
+            lastError = err;
+            console.warn(`Lỗi khi gọi model ${model} với Gemini key #${i + 1}:`, err.message);
+            const lower = err.message.toLowerCase();
+            if (lower.includes('quota') || lower.includes('exhausted') || lower.includes('429') || lower.includes('503')) {
+              break; // Thử key ngẫu nhiên tiếp theo ngay
+            }
           }
-
-          const data = await response.json();
-          rawJsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (!rawJsonText) throw new Error('API không trả về nội dung đề thi.');
-          break;
-        } catch (err) {
-          lastError = err;
-          console.warn(`Lỗi khi gọi model ${model} để sinh đề:`, err.message);
         }
+
+        if (keySucceeded && rawJsonText) break;
       }
     }
 
-    // 2. Dự phòng OpenRouter
-    if (!rawJsonText && openRouterKey) {
+    // 2. Dự phòng OpenRouter (chọn ngẫu nhiên tối đa 3 key)
+    if (!rawJsonText && openRouterKeys.length > 0) {
       onProgress?.('Đang tự động chuyển sang luồng xử lý dự phòng...');
       providerUsed = 'openrouter';
-      try {
-        rawJsonText = await callOpenRouterChat({
-          prompt: finalPrompt,
-          systemInstruction: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Adhere strictly to CEFR C1/C2 academic standards. NEVER truncate, omit, abbreviate, or use placeholders. Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Respond strictly with raw valid JSON matching the requested schema without any markdown formatting or commentary outside JSON.',
-          maxTokens: maxOutputTokens,
-          temperature: 0.7,
-          responseFormatJson: true,
-          onProgress
-        });
-      } catch (openRouterErr) {
-        console.error('Lỗi khi gọi OpenRouter sinh đề:', openRouterErr);
-        throw new Error(`Không thể sinh đề thi do sự cố kết nối: ${openRouterErr.message}`);
+      const shuffledOpenRouter = shuffleArray(openRouterKeys);
+      const openRouterAttempts = Math.min(shuffledOpenRouter.length, 3);
+
+      for (let i = 0; i < openRouterAttempts; i++) {
+        const activeKey = shuffledOpenRouter[i];
+        try {
+          rawJsonText = await callOpenRouterChat({
+            prompt: finalPrompt,
+            systemInstruction: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Adhere strictly to CEFR C1/C2 academic standards. NEVER truncate, omit, abbreviate, or use placeholders. Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Respond strictly with raw valid JSON matching the requested schema without any markdown formatting or commentary outside JSON.',
+            maxTokens: maxOutputTokens,
+            temperature: 0.7,
+            responseFormatJson: true,
+            onProgress,
+            apiKeyOverride: activeKey
+          });
+          if (rawJsonText) break;
+        } catch (openRouterErr) {
+          lastError = openRouterErr;
+          console.error(`Lỗi khi gọi OpenRouter key #${i + 1} sinh đề:`, openRouterErr);
+        }
       }
     }
 
