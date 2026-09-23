@@ -1034,12 +1034,15 @@ export async function generateExamWithGemini({
 Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết xoay quanh chủ đề: "${customTopic.trim()}".`;
   }
 
+  const isWritingSub = skillType.startsWith('writing_');
+  const actualSkill = isWritingSub ? 'writing' : skillType;
+
   finalPrompt += `\n\n⚠️ QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS VÀ KHÔNG LỖI:
 1. BẮT BUỘC chỉ trả về 1 mảng JSON chứa các đối tượng đề thi [ { ... } ], hoặc 1 đối tượng JSON đề thi duy nhất { ... }.
 2. TUYỆT ĐỐI không viết bất kỳ lời chào, lời giải thích hay ký tự nào ngoài JSON hợp lệ.
 3. Không sử dụng dấu ngoặc kép đôi "" bên trong các chuỗi văn bản (dùng dấu ngoặc đơn '...').
 4. Đáp án trắc nghiệm A, B, C, D BẮT BUỘC phải phân bố đều và ngẫu nhiên (~25% mỗi chữ cái), không được để đáp án dồn vào A.
-5. Trường 'skill' phải là "${skillType}".`;
+5. Trường 'skill' phải là "${actualSkill}".`;
 
   let lastError = null;
   let rawJsonText = '';
@@ -1144,17 +1147,33 @@ Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết 
 
   const timestamp = Date.now();
   testsArray = testsArray.map((t, idx) => {
-    const s = (t.skill || skillType || 'full').toLowerCase();
+    let s = (t.skill || actualSkill || 'full').toLowerCase();
+    if (s.startsWith('writing_')) s = 'writing';
+
+    let defaultDuration = 1800;
+    if (s === 'full') defaultDuration = 5400;
+    else if (t.task_type === 'build_sentence' || skillType === 'writing_sentence') defaultDuration = 420;
+    else if (t.task_type === 'write_email' || skillType === 'writing_email') defaultDuration = 420;
+    else if (t.task_type === 'academic_discussion' || skillType === 'writing_discussion') defaultDuration = 600;
+    else if (s === 'writing') defaultDuration = 1380;
+    else if (s === 'speaking') defaultDuration = 480;
+
+    let subLabel = '';
+    if (skillType === 'writing_sentence' || t.task_type === 'build_sentence') subLabel = ' (Ghép câu 7p)';
+    else if (skillType === 'writing_email' || t.task_type === 'write_email') subLabel = ' (Viết Email 7p)';
+    else if (skillType === 'writing_discussion' || t.task_type === 'academic_discussion') subLabel = ' (Discussion 10p)';
+
     const defaultTitle = s === 'full' 
       ? `TOEFL iBT Full Mock Test (#${timestamp.toString().slice(-4)})`
-      : `${s.toUpperCase()} Practice Exam (#${timestamp.toString().slice(-4)})`;
+      : `${s.toUpperCase()} Practice Exam${subLabel} (#${timestamp.toString().slice(-4)})`;
 
     return {
       ...t,
       id: t.id || `test_ai_${timestamp}_${idx + 1}`,
       title: t.title || defaultTitle,
       skill: s,
-      duration_seconds: t.duration_seconds || (s === 'full' ? 5400 : 1800),
+      task_type: t.task_type || (skillType.startsWith('writing_') ? skillType.replace('writing_', '') : undefined),
+      duration_seconds: t.duration_seconds || defaultDuration,
       created_at: new Date().toISOString()
     };
   });

@@ -903,6 +903,60 @@ const writingTest01 = {
 };
 
 // =================================================================
+// 3.1 CÁC BÀI THI LUYỆN TẬP RIÊNG LẺ TỪNG PHẦN CHO WRITING
+// =================================================================
+const writingSentenceTest01 = {
+  id: "writing-sentence-01",
+  title: "Writing: Hoàn Thiện Câu (Build a Sentence - 10 câu)",
+  skill: "writing",
+  task_type: "build_sentence",
+  duration_seconds: 420, // 7 phút chuẩn ETS
+  description: "Luyện tập riêng Task 1: Ghép 10 câu hoàn chỉnh theo ngữ cảnh ban đầu (Conversational Context) và phân biệt từ bẫy chuẩn ETS 2026. Chấm điểm đúng/sai tức thì kèm phân tích ngữ pháp.",
+  stages: [
+    {
+      id: "stage_sentence_01",
+      title: "Task 1: Build a Sentence (10 câu - 7 Phút)",
+      duration_seconds: 420,
+      tasks: [writingTest01.stages[0].tasks[0]]
+    }
+  ]
+};
+
+const writingEmailTest01 = {
+  id: "writing-email-01",
+  title: "Writing: Viết Email (Write an Email - 7 Phút)",
+  skill: "writing",
+  task_type: "write_email",
+  duration_seconds: 420, // 7 phút chuẩn ETS
+  description: "Luyện tập riêng Task 2: Soạn email học thuật gửi giáo sư giải quyết tình huống vắng mặt, đảm bảo 80 - 130 từ và đáp ứng đủ 3 yêu cầu đề bài. AI chấm điểm chi tiết và đề xuất bài mẫu Band 5.0 - 6.0.",
+  stages: [
+    {
+      id: "stage_email_01",
+      title: "Task 2: Write an Email (7 Phút)",
+      duration_seconds: 420,
+      tasks: [writingTest01.stages[0].tasks[1]]
+    }
+  ]
+};
+
+const writingDiscussionTest01 = {
+  id: "writing-discussion-01",
+  title: "Writing: Academic Discussion (10 Phút)",
+  skill: "writing",
+  task_type: "academic_discussion",
+  duration_seconds: 600, // 10 phút chuẩn ETS
+  description: "Luyện tập riêng Task 3: Tham gia diễn đàn thảo luận lớp học về Trí tuệ nhân tạo (AI), bảo vệ quan điểm cá nhân và phản biện ý kiến bạn học đạt 100 - 150 từ. AI chấm điểm và chữa lỗi từng câu.",
+  stages: [
+    {
+      id: "stage_discussion_01",
+      title: "Task 3: Academic Discussion (10 Phút)",
+      duration_seconds: 600,
+      tasks: [writingTest01.stages[0].tasks[2]]
+    }
+  ]
+};
+
+// =================================================================
 // 4. FULL SPEAKING SECTION (ETS 2026: 8 PHÚT - 11 CÂU HỎI)
 // =================================================================
 const speakingTest01 = {
@@ -1136,6 +1190,9 @@ export const DEFAULT_TESTS = [
   readingTest01,
   listeningTest01,
   writingTest01,
+  writingSentenceTest01,
+  writingEmailTest01,
+  writingDiscussionTest01,
   speakingTest01
 ];
 

@@ -10,6 +10,7 @@ import ExamResults from './components/exam/ExamResults';
 import ExamHistoryModal from './components/ExamHistoryModal';
 import VocabularyHub from './components/vocabulary/VocabularyHub';
 import DictionaryWidget from './components/dictionary/DictionaryWidget';
+import ExamCountdown from './components/ExamCountdown';
 import { getTestsBySkill, getFullTests, deleteTest, getExamHistory } from './lib/supabase';
 import { MessageCircle, X } from 'lucide-react';
 
@@ -106,76 +107,54 @@ export default function App() {
     setCurrentView(lastViewBeforeExam || 'practice');
   };
 
-  // Nếu đang ở màn hình làm bài thi
-  if (currentView === 'exam' && currentTest) {
-    return <ExamRunner test={currentTest} onExit={handleExitExam} />;
-  }
-
-  // Nếu đang ở màn hình xem lại bài làm trong quá khứ
-  if (currentView === 'review' && reviewingResult && reviewingTest) {
-    return (
-      <div className="min-h-screen bg-[#f7f5f0] pb-20">
-        {/* Top bar cho chế độ xem lại */}
-        <div className="bg-slate-900 text-white px-4 sm:px-6 py-3 sticky top-0 z-40 shadow-md flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleExitReview}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white rounded-xl text-xs font-bold transition-all cursor-pointer border border-slate-700 active:scale-95"
-            >
-              ← Về danh sách đề thi
-            </button>
-            <span className="text-xs font-extrabold text-teal-400 hidden sm:inline">
-              [CHẾ ĐỘ XEM LẠI BÀI LÀM & ĐÁP ÁN ĐÃ LÀM]
-            </span>
-          </div>
-          <div className="text-xs text-slate-300 font-medium">
-            Thời gian nộp: {reviewingResult.completed_at ? new Date(reviewingResult.completed_at).toLocaleString('vi-VN') : 'Gần đây'}
-          </div>
-        </div>
-
-        <ExamResults
-          test={reviewingTest}
-          results={reviewingResult}
-          isReviewMode={true}
-          onRetake={() => {
-            handleExitReview();
-            handleStartTest(reviewingTest);
-          }}
-          onBackHome={handleExitReview}
-        />
-
-        {/* Floating Bottom-Right Dictionary / Translation Icon in Review Mode */}
-        <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-40">
-          <button 
-            onClick={() => setIsDictionaryOpen((prev) => !prev)}
-            className={`w-12 h-12 rounded-full text-white flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95 cursor-pointer ${
-              isDictionaryOpen ? 'bg-slate-800 hover:bg-slate-700' : 'bg-[#c6764d] hover:bg-[#b5653c]'
-            }`}
-            title="Từ điển & Dịch thuật thông minh"
-          >
-            {isDictionaryOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
-          </button>
-        </div>
-
-        <DictionaryWidget
-          isOpen={isDictionaryOpen}
-          onClose={() => setIsDictionaryOpen(false)}
-          onOpenSettings={() => setIsSettingsOpen(true)}
-        />
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen toefl-bg flex flex-col justify-between font-sans selection:bg-teal-100 selection:text-teal-900">
-      
-      {/* 1. Header */}
-      <Header
-        currentView={currentView}
-        setCurrentView={setCurrentView}
-        onOpenImport={() => setIsImportOpen(true)}
-        onOpenSettings={() => setIsSettingsOpen(true)}
-      />
+    <>
+      {/* 1. Màn hình làm bài thi */}
+      {currentView === 'exam' && currentTest ? (
+        <ExamRunner test={currentTest} onExit={handleExitExam} />
+      ) : currentView === 'review' && reviewingResult && reviewingTest ? (
+        /* 2. Màn hình xem lại bài làm trong quá khứ */
+        <div className="min-h-screen bg-[#f7f5f0] pb-20">
+          {/* Top bar cho chế độ xem lại */}
+          <div className="bg-slate-900 text-white px-4 sm:px-6 py-3 sticky top-0 z-40 shadow-md flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleExitReview}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white rounded-xl text-xs font-bold transition-all cursor-pointer border border-slate-700 active:scale-95"
+              >
+                ← Về danh sách đề thi
+              </button>
+              <span className="text-xs font-extrabold text-teal-400 hidden sm:inline">
+                [CHẾ ĐỘ XEM LẠI BÀI LÀM & ĐÁP ÁN ĐÃ LÀM]
+              </span>
+            </div>
+            <div className="text-xs text-slate-300 font-medium">
+              Thời gian nộp: {reviewingResult.completed_at ? new Date(reviewingResult.completed_at).toLocaleString('vi-VN') : 'Gần đây'}
+            </div>
+          </div>
+
+          <ExamResults
+            test={reviewingTest}
+            results={reviewingResult}
+            isReviewMode={true}
+            onRetake={() => {
+              handleExitReview();
+              handleStartTest(reviewingTest);
+            }}
+            onBackHome={handleExitReview}
+          />
+        </div>
+      ) : (
+        /* 3. Màn hình chính Dashboard */
+        <div className="min-h-screen toefl-bg flex flex-col justify-between font-sans selection:bg-teal-100 selection:text-teal-900">
+          
+          {/* 1. Header */}
+          <Header
+            currentView={currentView}
+            setCurrentView={setCurrentView}
+            onOpenImport={() => setIsImportOpen(true)}
+            onOpenSettings={() => setIsSettingsOpen(true)}
+          />
 
       {/* 2. Main Content Container */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 flex-1 w-full py-6">
@@ -228,10 +207,12 @@ export default function App() {
 
       </main>
 
-      {/* 3. Footer matching screenshot layout */}
-      <footer className="border-t border-[#e2ddd3] py-6 bg-[#f7f5f0]/80">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold text-slate-600">
-          <div className="flex items-center gap-6">
+      {/* 3. Footer with Center Exam Countdown */}
+      <footer className="border-t border-[#e2ddd3] py-5 bg-[#f7f5f0]/80">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-semibold text-slate-600">
+          
+          {/* Trái: Menu liên kết */}
+          <div className="flex items-center gap-5 order-2 md:order-1 flex-wrap justify-center">
             <a href="#contact" onClick={(e) => { e.preventDefault(); alert("Liên hệ hỗ trợ: support@toeflsmart.com"); }} className="hover:text-slate-950 transition-colors">
               Contact
             </a>
@@ -249,14 +230,22 @@ export default function App() {
             </button>
           </div>
 
-          <p className="text-slate-400 font-normal text-[11px]">
+          {/* CHÍNH GIỮA: Đồng hồ đếm ngược ngày thi TOEFL */}
+          <div className="order-1 md:order-2 flex justify-center w-full md:w-auto">
+            <ExamCountdown />
+          </div>
+
+          {/* Phải: Bản quyền */}
+          <p className="text-slate-400 font-normal text-[11px] order-3 text-center md:text-right">
             © 2026 TOEFL SMART. Adaptive Practice Simulator.
           </p>
         </div>
       </footer>
+        </div>
+      )}
 
-      {/* Floating Bottom-Right Dictionary / Translation Icon */}
-      <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-40">
+      {/* Floating Bottom-Right Dictionary / Translation Icon (HIỂN THỊ TRÊN TẤT CẢ CÁC MÀN HÌNH) */}
+      <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
         <button 
           onClick={() => setIsDictionaryOpen((prev) => !prev)}
           className={`w-12 h-12 rounded-full text-white flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95 cursor-pointer ${
@@ -297,6 +286,6 @@ export default function App() {
         onViewResultDetail={handleOpenReview}
       />
 
-    </div>
+    </>
   );
 }

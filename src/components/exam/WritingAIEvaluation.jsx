@@ -401,19 +401,19 @@ export default function WritingAIEvaluation({
           </div>
           <div className="space-y-2">
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300 uppercase">
-              Gemini AI Auto-Grader 2026
+              AI Auto-Grader 2026
             </span>
             <h3 className="text-lg font-black text-slate-900 tracking-tight">
-              Tự Động Chấm Điểm & Chữa Lỗi Bài Viết Bằng Gemini AI
+              Tự Động Chấm Điểm & Chữa Lỗi Bài Viết Bằng AI
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl">
               Để hệ thống tự động chấm điểm bài viết của bạn theo thang điểm ETS 2026, phân tích 4 tiêu chí rubric, chữa lỗi từng câu và đề xuất bài viết mẫu Band 5.0, bạn chỉ cần cấu hình biến môi trường:
             </p>
             <div className="p-3 rounded-xl bg-slate-900 text-emerald-400 font-mono text-xs max-w-lg select-all">
-              VITE_GEMINI_API_KEY=your_gemini_api_key_here
+              VITE_GEMINI_API_KEY=your_api_key_here
             </div>
             <p className="text-xs text-slate-500">
-              💡 Thêm dòng trên vào file <code className="font-bold text-slate-700">.env</code> (máy local) hoặc trong <code className="font-bold text-slate-700">Vercel Environment Variables</code>. File này được bảo vệ bởi <code className="text-rose-600 font-mono">.gitignore</code> nên an toàn tuyệt đối không bao giờ bị lộ lên GitHub.
+              💡 Thêm dòng trên vào file <code className="font-bold text-slate-700">.env</code> (máy local) hoặc trong <code className="font-bold text-slate-700">Cài Đặt</code> (chân trang).
             </p>
           </div>
         </div>
@@ -425,6 +425,11 @@ export default function WritingAIEvaluation({
   // TRƯỜNG HỢP 2: ĐANG TỰ ĐỘNG CHẤM ĐIỂM (LOADING STATE)
   // =========================================================================
   if (isLoading) {
+    const emailSub = writingSubmissions?.email;
+    const discussSub = writingSubmissions?.discussion;
+    const isSingleEmail = emailSub?.essay_text && !discussSub?.essay_text;
+    const isSingleDiscuss = !emailSub?.essay_text && discussSub?.essay_text;
+
     return (
       <div className="bg-white rounded-3xl border border-blue-200 p-8 sm:p-12 shadow-sm my-6 text-center space-y-4 animate-in fade-in duration-300">
         <div className="relative w-16 h-16 mx-auto">
@@ -436,10 +441,10 @@ export default function WritingAIEvaluation({
 
         <div className="space-y-1">
           <h4 className="text-lg font-black text-slate-900 tracking-tight">
-            🤖 Gemini AI Đang Tự Động Chấm 2 Bài Viết Của Bạn...
+            🤖 AI Đang Tự Động Chấm {isSingleEmail ? 'Bài Viết Email' : isSingleDiscuss ? 'Bài Thảo Luận Academic Discussion' : '2 Bài Viết Writing'} Của Bạn...
           </h4>
           <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
-            Đang đối chiếu bài làm với barem chuẩn ETS TOEFL 2026, phân tích 4 tiêu chí, tìm lỗi ngữ pháp & biên soạn bài mẫu Band 5.0. Vui lòng chờ 2-3 giây...
+            Đang đối chiếu bài làm với barem chuẩn ETS TOEFL 2026, phân tích 4 tiêu chí rubric, tìm lỗi ngữ pháp & biên soạn bài mẫu Band 5.0 - 6.0. Vui lòng chờ 2-3 giây...
           </p>
         </div>
 
@@ -461,7 +466,7 @@ export default function WritingAIEvaluation({
         <div className="flex items-start gap-3 text-rose-800">
           <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
           <div>
-            <h4 className="text-sm font-black">Không Thể Hoàn Tất Chấm Điểm Bằng Gemini AI</h4>
+            <h4 className="text-sm font-black">Không Thể Hoàn Tất Chấm Điểm Bằng AI</h4>
             <p className="text-xs text-rose-700 mt-1">{errorMessage}</p>
           </div>
         </div>
@@ -481,6 +486,10 @@ export default function WritingAIEvaluation({
   // TRƯỜNG HỢP 4: ĐÃ CÓ KẾT QUẢ CHẤM ĐIỂM (HIỂN THỊ ĐẦY ĐỦ)
   // =========================================================================
   if (evaluation) {
+    const hasEmail = !!emailRes;
+    const hasDiscuss = !!discussRes;
+    const hasBoth = hasEmail && hasDiscuss;
+
     return (
       <div className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-sm my-6 space-y-6">
         
@@ -493,14 +502,18 @@ export default function WritingAIEvaluation({
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
-                  Gemini AI Writing Grader (Chuẩn ETS 2026)
+                  AI Writing Grader (Chuẩn ETS 2026)
                 </h3>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800 border border-emerald-300">
                   AUTO GRADED
                 </span>
               </div>
               <p className="text-xs text-slate-500 font-medium">
-                Tự động phân tích điểm số, chữa lỗi chi tiết & bài viết mẫu cho 2 bài thi Writing
+                {hasBoth 
+                  ? 'Tự động phân tích điểm số, chữa lỗi chi tiết & bài viết mẫu cho 2 bài thi Writing'
+                  : hasEmail 
+                  ? 'Tự động phân tích điểm số, chữa lỗi chi tiết & bài viết mẫu cho bài thi Viết Email'
+                  : 'Tự động phân tích điểm số, chữa lỗi chi tiết & bài viết mẫu cho bài thi Academic Discussion'}
               </p>
             </div>
           </div>
@@ -509,162 +522,162 @@ export default function WritingAIEvaluation({
           <button
             onClick={runGrading}
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all cursor-pointer active:scale-95 shrink-0 self-start sm:self-center"
-            title="Gọi lại Gemini AI để chấm lại"
+            title="Gọi lại AI để chấm lại"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Chấm lại bằng AI</span>
           </button>
         </div>
 
-        {/* Thanh chuyển đổi Tab: Email (Task 2) | Discussion (Task 3) | Tổng Quan Cả 2 Bài */}
-        <div className="flex items-center gap-2 border-b border-slate-100 pb-3 overflow-x-auto text-xs font-bold">
-          <button
-            onClick={() => setActiveTab('email')}
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl transition-all cursor-pointer shrink-0 ${
-              activeTab === 'email'
-                ? 'bg-blue-50 text-blue-700 border border-blue-200 shadow-2xs'
-                : 'text-slate-600 hover:bg-slate-50'
-            }`}
-          >
-            <Mail className="w-4 h-4 text-blue-600" />
-            <span>Task 2: Write an Email</span>
-            {emailRes && (
-              <span className="px-1.5 py-0.5 rounded text-[10px] bg-blue-100 text-blue-800 font-mono font-bold">
-                {emailRes.score_30}/30
+        {/* Thanh chuyển đổi Tab (chỉ hiện khi có cả 2 bài) */}
+        {hasBoth && (
+          <div className="flex items-center gap-2 border-b border-slate-100 pb-3 overflow-x-auto text-xs font-bold">
+            <button
+              onClick={() => setActiveTab('email')}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl transition-all cursor-pointer shrink-0 ${
+                activeTab === 'email'
+                  ? 'bg-blue-50 text-blue-700 border border-blue-200 shadow-2xs'
+                  : 'text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <Mail className="w-4 h-4 text-blue-600" />
+              <span>Task 2: Write an Email</span>
+              {emailRes && (
+                <span className="px-1.5 py-0.5 rounded text-[10px] bg-blue-100 text-blue-800 font-mono font-bold">
+                  {emailRes.score_30}/30
+                </span>
+              )}
+            </button>
+
+            <button
+              onClick={() => setActiveTab('discussion')}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl transition-all cursor-pointer shrink-0 ${
+                activeTab === 'discussion'
+                  ? 'bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-2xs'
+                  : 'text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <MessageSquare className="w-4 h-4 text-indigo-600" />
+              <span>Task 3: Academic Discussion</span>
+              {discussRes && (
+                <span className="px-1.5 py-0.5 rounded text-[10px] bg-indigo-100 text-indigo-800 font-mono font-bold">
+                  {discussRes.score_30}/30
+                </span>
+              )}
+            </button>
+
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl transition-all cursor-pointer shrink-0 ${
+                activeTab === 'overview'
+                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs'
+                  : 'text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <Layers className="w-4 h-4 text-emerald-600" />
+              <span>Tổng Hợp Cả 2 Bài</span>
+              <span className="px-1.5 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-800 font-mono font-bold">
+                {evaluation.combined_score_30}/30
               </span>
-            )}
-          </button>
-
-          <button
-            onClick={() => setActiveTab('discussion')}
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl transition-all cursor-pointer shrink-0 ${
-              activeTab === 'discussion'
-                ? 'bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-2xs'
-                : 'text-slate-600 hover:bg-slate-50'
-            }`}
-          >
-            <MessageSquare className="w-4 h-4 text-indigo-600" />
-            <span>Task 3: Academic Discussion</span>
-            {discussRes && (
-              <span className="px-1.5 py-0.5 rounded text-[10px] bg-indigo-100 text-indigo-800 font-mono font-bold">
-                {discussRes.score_30}/30
-              </span>
-            )}
-          </button>
-
-          <button
-            onClick={() => setActiveTab('overview')}
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl transition-all cursor-pointer shrink-0 ${
-              activeTab === 'overview'
-                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs'
-                : 'text-slate-600 hover:bg-slate-50'
-            }`}
-          >
-            <Layers className="w-4 h-4 text-emerald-600" />
-            <span>Tổng Hợp Cả 2 Bài</span>
-            <span className="px-1.5 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-800 font-mono font-bold">
-              {evaluation.combined_score_30}/30
-            </span>
-          </button>
-        </div>
-
-        {/* Nội dung Tab đang chọn */}
-        {activeTab === 'email' && (
-          renderTaskEvaluation('email', emailSub, emailRes, 'Task 2: Write an Email')
-        )}
-
-        {activeTab === 'discussion' && (
-          renderTaskEvaluation('discussion', discussSub, discussRes, 'Task 3: Academic Discussion')
-        )}
-
-        {activeTab === 'overview' && (
-          <div className="space-y-6 animate-in fade-in duration-300">
-            {/* Banner Tổng hợp */}
-            <div className="p-6 rounded-2xl bg-gradient-to-r from-teal-700 via-[#153e75] to-indigo-800 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-              <div>
-                <span className="text-xs font-black text-teal-300 uppercase tracking-wider block mb-1">
-                  Tổng Hợp 2 Bài Viết TOEFL Writing (2026)
-                </span>
-                <h4 className="text-2xl font-black text-white">
-                  Điểm Đánh Giá Toàn Kỹ Năng Viết
-                </h4>
-                <p className="text-xs text-slate-200 mt-1 max-w-md leading-relaxed">
-                  Điểm trung bình được Gemini AI đối chiếu chuẩn xác theo tiêu chuẩn của ETS thế giới.
-                </p>
-              </div>
-
-              <div className="flex items-center gap-4 shrink-0">
-                <div className="p-4 rounded-xl bg-white/10 border border-white/10 text-center min-w-[110px]">
-                  <span className="text-[10px] uppercase font-bold text-teal-300 block">Thang 0 - 30</span>
-                  <div className="text-3xl font-black text-white font-mono">
-                    {evaluation.combined_score_30}
-                    <span className="text-sm text-slate-300 font-normal">/30</span>
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-xl bg-white/10 border border-white/10 text-center min-w-[110px]">
-                  <span className="text-[10px] uppercase font-bold text-amber-300 block">Band Score</span>
-                  <div className="text-3xl font-black text-amber-300 font-mono">
-                    {evaluation.combined_band?.toFixed(1) || '0.0'}
-                    <span className="text-sm text-slate-300 font-normal">/5.0</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* So sánh 2 Task */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              
-              {/* Thẻ Email */}
-              <div 
-                onClick={() => setActiveTab('email')}
-                className="p-5 rounded-2xl bg-slate-50 hover:bg-blue-50/50 border border-slate-200 hover:border-blue-300 transition-all cursor-pointer group"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <Mail className="w-5 h-5 text-blue-600" />
-                    <span className="font-bold text-slate-800 text-sm">Task 2: Write an Email</span>
-                  </div>
-                  <span className="text-lg font-black text-blue-700 font-mono">
-                    {emailRes?.score_30 || 0} / 30
-                  </span>
-                </div>
-                <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-3">
-                  {emailRes?.summary_feedback || 'Chưa có bài nộp hoặc chưa có đánh giá.'}
-                </p>
-                <span className="text-xs font-bold text-blue-600 group-hover:underline inline-flex items-center gap-1">
-                  <span>Xem chi tiết chữa lỗi & bài mẫu</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </span>
-              </div>
-
-              {/* Thẻ Academic Discussion */}
-              <div 
-                onClick={() => setActiveTab('discussion')}
-                className="p-5 rounded-2xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-300 transition-all cursor-pointer group"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <MessageSquare className="w-5 h-5 text-indigo-600" />
-                    <span className="font-bold text-slate-800 text-sm">Task 3: Academic Discussion</span>
-                  </div>
-                  <span className="text-lg font-black text-indigo-700 font-mono">
-                    {discussRes?.score_30 || 0} / 30
-                  </span>
-                </div>
-                <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-3">
-                  {discussRes?.summary_feedback || 'Chưa có bài nộp hoặc chưa có đánh giá.'}
-                </p>
-                <span className="text-xs font-bold text-indigo-600 group-hover:underline inline-flex items-center gap-1">
-                  <span>Xem chi tiết chữa lỗi & bài mẫu</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </span>
-              </div>
-
-            </div>
-
+            </button>
           </div>
         )}
+
+        {/* Nội dung kết quả */}
+        {hasBoth ? (
+          activeTab === 'email' ? (
+            renderTaskEvaluation('email', emailSub, emailRes, 'Task 2: Write an Email')
+          ) : activeTab === 'discussion' ? (
+            renderTaskEvaluation('discussion', discussSub, discussRes, 'Task 3: Academic Discussion')
+          ) : (
+            <div className="space-y-6 animate-in fade-in duration-300">
+              {/* Banner Tổng hợp */}
+              <div className="p-6 rounded-2xl bg-gradient-to-r from-teal-700 via-[#153e75] to-indigo-800 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                <div>
+                  <span className="text-xs font-black text-teal-300 uppercase tracking-wider block mb-1">
+                    Tổng Kết 2 Bài Viết TOEFL Writing (2026)
+                  </span>
+                  <h4 className="text-2xl font-black text-white">
+                    Điểm Đánh Giá Toàn Kỹ Năng Viết
+                  </h4>
+                  <p className="text-xs text-slate-200 mt-1 max-w-md leading-relaxed">
+                    Điểm trung bình được đối chiếu chuẩn xác theo thang điểm và tiêu chuẩn ETS (Task 2 Email 40% & Task 3 Academic Discussion 60%).
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-4 shrink-0">
+                  <div className="p-4 rounded-xl bg-white/10 border border-white/10 text-center min-w-[110px]">
+                    <span className="text-[10px] uppercase font-bold text-teal-300 block">Thang 0 - 30</span>
+                    <div className="text-3xl font-black text-white font-mono">
+                      {evaluation.combined_score_30}
+                      <span className="text-sm text-slate-300 font-normal">/30</span>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-white/10 border border-white/10 text-center min-w-[110px]">
+                    <span className="text-[10px] uppercase font-bold text-amber-300 block">Band Score</span>
+                    <div className="text-3xl font-black text-amber-300 font-mono">
+                      Band {evaluation.toefl_band_6 || evaluation.combined_band?.toFixed(1) || '5.0'}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* So sánh 2 Task */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Thẻ Email */}
+                <div 
+                  onClick={() => setActiveTab('email')}
+                  className="p-5 rounded-2xl bg-slate-50 hover:bg-blue-50/50 border border-slate-200 hover:border-blue-300 transition-all cursor-pointer group"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <Mail className="w-5 h-5 text-blue-600" />
+                      <span className="font-bold text-slate-800 text-sm">Task 2: Write an Email</span>
+                    </div>
+                    <span className="text-lg font-black text-blue-700 font-mono">
+                      {emailRes?.score_30 || 0} / 30
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-3">
+                    {emailRes?.summary_feedback || 'Chưa có bài nộp hoặc chưa có đánh giá.'}
+                  </p>
+                  <span className="text-xs font-bold text-blue-600 group-hover:underline inline-flex items-center gap-1">
+                    <span>Xem chi tiết chữa lỗi & bài mẫu</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+
+                {/* Thẻ Academic Discussion */}
+                <div 
+                  onClick={() => setActiveTab('discussion')}
+                  className="p-5 rounded-2xl bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-300 transition-all cursor-pointer group"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <MessageSquare className="w-5 h-5 text-indigo-600" />
+                      <span className="font-bold text-slate-800 text-sm">Task 3: Academic Discussion</span>
+                    </div>
+                    <span className="text-lg font-black text-indigo-700 font-mono">
+                      {discussRes?.score_30 || 0} / 30
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-3">
+                    {discussRes?.summary_feedback || 'Chưa có bài nộp hoặc chưa có đánh giá.'}
+                  </p>
+                  <span className="text-xs font-bold text-indigo-600 group-hover:underline inline-flex items-center gap-1">
+                    <span>Xem chi tiết chữa lỗi & bài mẫu</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+            </div>
+          )
+        ) : hasEmail ? (
+          renderTaskEvaluation('email', emailSub, emailRes, 'Task 2: Write an Email')
+        ) : hasDiscuss ? (
+          renderTaskEvaluation('discussion', discussSub, discussRes, 'Task 3: Academic Discussion')
+        ) : null}
 
       </div>
     );

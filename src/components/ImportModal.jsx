@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Sparkles, Upload, Copy, Check, FileCode, AlertCircle, Info, Wand2, Database } from 'lucide-react';
+import { X, Sparkles, Upload, Copy, Check, FileCode, AlertCircle, Info, Wand2, Database, PenTool } from 'lucide-react';
 import { jsonrepair } from 'jsonrepair';
 import { importBatchTests } from '../lib/supabase';
 import { generateExamWithGemini, isGeminiConfigured, isOpenRouterConfigured } from '../lib/gemini';
@@ -135,6 +135,7 @@ QUY TẮC BẮT BUỘC:
 2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong chuỗi (dùng ngoặc đơn ').
 3. Đáp án trắc nghiệm A, B, C, D phải phân bố đều và ngẫu nhiên (~25% mỗi chữ cái).`;
 
+// Full Writing (3 tasks - 23 Mins)
 const SAMPLE_WRITING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL WRITING chuẩn ETS 2026 gồm đúng 3 bài (Task 1: Build a Sentence 10 câu có câu ngữ cảnh ban đầu và từ bẫy, Task 2: Write an Email với 3 yêu cầu, và Task 3: Academic Discussion có ý kiến giáo sư và 2 sinh viên đối lập).
 
 ⚠️ CÁC QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS:
@@ -229,6 +230,156 @@ QUY TẮC BẮT BUỘC:
 1. Chỉ trả về JSON thuần túy, không kèm giải thích.
 2. Tuyệt đối KHÔNG dùng ngoặc kép đôi "" bên trong các chuỗi giá trị (nếu có câu thoại ngữ cảnh hãy dùng ngoặc đơn '...').
 3. Task 1 Build a Sentence: 100% từ trong scrambled, correct_order, decoys PHẢI viết thường, và scrambled PHẢI đảo lộn xộn.`;
+
+// Modular Writing: Build a Sentence (10 items - 7 Mins)
+const SAMPLE_WRITING_SENTENCE_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề luyện tập riêng TASK 1: BUILD A SENTENCE (HOÀN THIỆN CÂU) chuẩn ETS 2026 gồm đúng 10 câu trắc nghiệm ghép từ.
+
+⚠️ CÁC QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS:
+1. TẤT CẢ các từ trong 'scrambled', 'correct_order', 'decoys' BẮT BUỘC PHẢI VIẾT THƯỜNG TOÀN BỘ (lowercase).
+2. TUYỆT ĐỐI KHÔNG viết hoa chữ cái đầu tiên của câu (ví dụ: viết 'the', 'she', 'because' chứ KHÔNG viết 'The', 'She', 'Because') để không làm lộ từ mở đầu cho thí sinh!
+3. Thứ tự các từ trong mảng 'scrambled' BẮT BUỘC PHẢI ĐẢO LỘN XỘN NGẪU NHIÊN HOÀN TOÀN.
+4. Mỗi câu phải kèm 2-3 từ bẫy ('decoys') viết thường, có ngữ pháp hoặc nghĩa tương tự để thử thách học viên.
+5. Mỗi câu có 1 câu thoại ngữ cảnh ban đầu (Conversational / Situational Context).
+6. CÚ PHÁP: Chỉ trả về JSON thuần túy, không kèm giải thích. Dùng ngoặc đơn '...' thay vì ngoặc kép trong văn bản.
+
+Cấu trúc JSON chuẩn:
+[
+  {
+    "title": "Writing: Hoàn Thiện Câu (Build a Sentence - 10 câu)",
+    "skill": "writing",
+    "task_type": "build_sentence",
+    "duration_seconds": 420,
+    "stages": [
+      {
+        "id": "stage_sentence",
+        "title": "Task 1: Build a Sentence (10 câu - 7 Phút)",
+        "duration_seconds": 420,
+        "tasks": [
+          {
+            "id": "w_t1_build_sentence",
+            "title": "Task 1: Build a Sentence (10 câu)",
+            "task_type": "build_sentence",
+            "content": {
+              "instructions": "Mỗi câu có 1 câu ngữ cảnh ban đầu. Kéo thả hoặc bấm chọn các từ để ghép thành câu phản hồi hoàn chỉnh đúng ngữ pháp.",
+              "items": [
+                {
+                  "id": "item1",
+                  "context": "Professor: 'Why were several questions on the biology midterm exam revised this morning?'",
+                  "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
+                  "scrambled": ["ambiguous", "contain", "the", "wording", "materials", "contained", "questions", "a"],
+                  "correct_order": ["the", "questions", "contained", "ambiguous", "wording"],
+                  "correct_sentence": "the questions contained ambiguous wording.",
+                  "decoys": ["contain", "materials", "a"]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+]`;
+
+// Modular Writing: Write an Email (1 task - 7 Mins)
+const SAMPLE_WRITING_EMAIL_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề luyện tập riêng TASK 2: WRITE AN EMAIL (VIẾT EMAIL) chuẩn ETS 2026 đếm ngược 7 phút.
+
+⚠️ CÁC QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS:
+1. Tình huống giao tiếp thực tế học thuật hoặc khuôn viên trường đại học (giáo sư, cố vấn, phòng đào tạo, câu lạc bộ).
+2. Phải có đúng 3 yêu cầu bắt buộc (requirements) rõ ràng mà thí sinh phải trả lời trong email.
+3. Người nhận (recipient) và gợi ý tiêu đề (subject_hint) cụ thể.
+4. Yêu cầu độ dài: tối thiểu 80 từ, khuyến nghị 100 - 130 từ.
+5. CÚ PHÁP: Chỉ trả về JSON thuần túy, không kèm giải thích.
+
+Cấu trúc JSON chuẩn:
+[
+  {
+    "title": "Writing: Viết Email (Write an Email - 7 Phút)",
+    "skill": "writing",
+    "task_type": "write_email",
+    "duration_seconds": 420,
+    "stages": [
+      {
+        "id": "stage_email",
+        "title": "Task 2: Write an Email (7 Phút)",
+        "duration_seconds": 420,
+        "tasks": [
+          {
+            "id": "w_t2_email",
+            "title": "Task 2: Write an Email",
+            "task_type": "write_email",
+            "content": {
+              "recipient": "Professor Dr. Miller",
+              "subject_hint": "Request for Research Assistantship",
+              "scenario": "You want to apply for an undergraduate research assistant position in Dr. Miller's evolutionary biology laboratory for the upcoming summer semester.",
+              "requirements": [
+                "Express your strong interest in the lab's current projects",
+                "Highlight your relevant lab skills and coursework experience",
+                "Request a brief meeting to discuss potential openings"
+              ],
+              "min_words": 80,
+              "recommended_words": "100 - 130 words"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]`;
+
+// Modular Writing: Academic Discussion (1 task - 10 Mins)
+const SAMPLE_WRITING_DISCUSSION_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề luyện tập riêng TASK 3: ACADEMIC DISCUSSION (VIẾT BÀI THẢO LUẬN HỌC THUẬT) chuẩn ETS 2026 đếm ngược 10 phút.
+
+⚠️ CÁC QUY TẮC BẮT BUỘC ĐỂ ĐỀ THI ĐẠT CHUẨN THI THẬT ETS:
+1. Chủ đề thảo luận mang tính học thuật xã hội (công nghệ, giáo dục, môi trường, kinh tế...).
+2. Có giáo sư (professor_prompt) nêu câu hỏi thảo luận kích thích tư duy phản biện.
+3. Có 2 sinh viên (peer_posts) đưa ra 2 lập trường đối lập nhau (khoảng 30-50 từ mỗi người).
+4. Yêu cầu độ dài: tối thiểu 100 từ, khuyến nghị 100 - 150 từ.
+5. CÚ PHÁP: Chỉ trả về JSON thuần túy, không kèm giải thích.
+
+Cấu trúc JSON chuẩn:
+[
+  {
+    "title": "Writing: Academic Discussion (10 Phút)",
+    "skill": "writing",
+    "task_type": "academic_discussion",
+    "duration_seconds": 600,
+    "stages": [
+      {
+        "id": "stage_discussion",
+        "title": "Task 3: Academic Discussion (10 Phút)",
+        "duration_seconds": 600,
+        "tasks": [
+          {
+            "id": "w_t3_discussion",
+            "title": "Task 3: Academic Discussion",
+            "task_type": "academic_discussion",
+            "content": {
+              "topic": "Remote Work and Team Collaboration",
+              "course": "MGMT 320: Organizational Behavior",
+              "professor_prompt": {
+                "name": "Dr. Angela Davies",
+                "title": "Professor of Organizational Behavior",
+                "question": "Some organizations are insisting on a full-time return to the physical office, while others maintain flexible hybrid or remote policies. Do you believe remote work primarily fosters or weakens team innovation and company culture? Support your viewpoint."
+              },
+              "peer_posts": [
+                {
+                  "student": "David",
+                  "stance": "Face-to-face interaction is indispensable for spontaneous brainstorming, mentoring junior members, and building informal trust."
+                },
+                {
+                  "student": "Jessica",
+                  "stance": "Remote flexibility minimizes commuting burnout and empowers employees to deliver deeper focus work while collaborating effectively via cloud tools."
+                }
+              ],
+              "min_words": 100,
+              "recommended_words": "100 - 150 words"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]`;
 
 const SAMPLE_LISTENING_PROMPT = `Hãy đóng vai là chuyên gia luyện thi TOEFL iBT 2026. Tạo cho tôi 1 bộ đề FULL LISTENING chuẩn ETS 2026 gồm đúng 2 Module thích ứng (Module 1 và Module 2), mỗi Module đếm ngược 14.5 phút (870s), gồm đủ 4 dạng bài:
 - Task 1: Listen & Choose a Response (5 câu hỏi phản xạ với audio_text, prompt, options A-D)
@@ -1002,6 +1153,7 @@ function cleanAndParseJson(rawInput) {
 export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultSkill = 'full' }) {
   const [jsonInput, setJsonInput] = useState('');
   const [selectedPromptType, setSelectedPromptType] = useState(defaultSkill || 'full');
+  const [selectedWritingSubtype, setSelectedWritingSubtype] = useState('full'); // 'full' | 'sentence' | 'email' | 'discussion'
   const [copiedPrompt, setCopiedPrompt] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [isAiGenerating, setIsAiGenerating] = useState(false);
@@ -1017,21 +1169,40 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
 
   if (!isOpen) return null;
 
-  const currentPromptText = selectedPromptType === 'full'
-    ? SAMPLE_FULL_TEST_PROMPT
-    : selectedPromptType === 'listening' 
-    ? SAMPLE_LISTENING_PROMPT 
-    : selectedPromptType === 'writing' 
-    ? SAMPLE_WRITING_PROMPT 
-    : selectedPromptType === 'speaking'
-    ? SAMPLE_SPEAKING_PROMPT
-    : SAMPLE_READING_PROMPT;
+  let currentPromptText = SAMPLE_READING_PROMPT;
+  let effectiveSkillType = selectedPromptType;
+
+  if (selectedPromptType === 'full') {
+    currentPromptText = SAMPLE_FULL_TEST_PROMPT;
+  } else if (selectedPromptType === 'listening') {
+    currentPromptText = SAMPLE_LISTENING_PROMPT;
+  } else if (selectedPromptType === 'speaking') {
+    currentPromptText = SAMPLE_SPEAKING_PROMPT;
+  } else if (selectedPromptType === 'writing') {
+    if (selectedWritingSubtype === 'sentence') {
+      currentPromptText = SAMPLE_WRITING_SENTENCE_PROMPT;
+      effectiveSkillType = 'writing_sentence';
+    } else if (selectedWritingSubtype === 'email') {
+      currentPromptText = SAMPLE_WRITING_EMAIL_PROMPT;
+      effectiveSkillType = 'writing_email';
+    } else if (selectedWritingSubtype === 'discussion') {
+      currentPromptText = SAMPLE_WRITING_DISCUSSION_PROMPT;
+      effectiveSkillType = 'writing_discussion';
+    } else {
+      currentPromptText = SAMPLE_WRITING_PROMPT;
+      effectiveSkillType = 'writing';
+    }
+  }
 
   const getSkillTitle = () => {
     switch (selectedPromptType) {
       case 'reading': return 'Reading (2 Module)';
       case 'listening': return 'Listening (2 Module)';
-      case 'writing': return 'Writing (3 Bài)';
+      case 'writing': 
+        if (selectedWritingSubtype === 'sentence') return 'Writing: Hoàn Thiện Câu (7 Phút)';
+        if (selectedWritingSubtype === 'email') return 'Writing: Viết Email (7 Phút)';
+        if (selectedWritingSubtype === 'discussion') return 'Writing: Academic Discussion (10 Phút)';
+        return 'Writing Full (3 Bài - 23 Phút)';
       case 'speaking': return 'Speaking (2 Bài)';
       default: return 'Full Test (4 Kỹ Năng)';
     }
@@ -1068,7 +1239,7 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
       setAiProgressStatus('Đang kết nối chuẩn bị sinh đề thi...');
 
       const result = await generateExamWithGemini({
-        skillType: selectedPromptType,
+        skillType: effectiveSkillType,
         promptText: currentPromptText,
         customTopic: customTopic.trim(),
         onProgress: (status) => setAiProgressStatus(status)
@@ -1200,6 +1371,36 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
               ))}
             </div>
           </div>
+
+          {/* Sub-tabs riêng cho kỹ năng Writing để luyện tập từng phần */}
+          {selectedPromptType === 'writing' && (
+            <div className="flex items-center gap-1.5 p-1.5 bg-rose-50/80 border border-rose-200 rounded-2xl overflow-x-auto text-xs font-bold animate-in fade-in duration-150">
+              <span className="text-rose-900 px-2 flex items-center gap-1.5 shrink-0">
+                <PenTool className="w-3.5 h-3.5 text-rose-600" />
+                <span className="font-extrabold uppercase text-[11px] tracking-wide">Phần luyện tập:</span>
+              </span>
+              {[
+                { id: 'full', label: 'Full Test (3 Bài - 23p)' },
+                { id: 'sentence', label: '1. Ghép câu (10 câu - 7p)' },
+                { id: 'email', label: '2. Viết Email (7p)' },
+                { id: 'discussion', label: '3. Academic Discussion (10p)' }
+              ].map((sub) => (
+                <button
+                  key={sub.id}
+                  type="button"
+                  onClick={() => setSelectedWritingSubtype(sub.id)}
+                  disabled={isAiGenerating}
+                  className={`px-3 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap text-xs ${
+                    selectedWritingSubtype === sub.id
+                      ? 'bg-rose-600 text-white shadow-xs font-black ring-2 ring-rose-300'
+                      : 'text-rose-800 hover:bg-rose-100/70 font-semibold'
+                  }`}
+                >
+                  {sub.label}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* KHỐI 1-CLICK TỰ ĐỘNG TẠO BỘ ĐỀ */}
           <div className="bg-gradient-to-br from-[#0b1728] via-[#102a4e] to-[#0c1e38] rounded-2xl p-5 text-white shadow-lg border border-indigo-500/25 relative overflow-hidden">

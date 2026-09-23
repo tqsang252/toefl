@@ -545,53 +545,55 @@ export async function saveExamResult(resultPayload) {
     storeAIEvaluation(resultRecord.test_id, resultRecord.id, resultRecord.completed_at, aiPayload);
   }
 
-  // 3. Đồng bộ lên Cloud Supabase nếu người dùng đã cấu hình Project URL và Key
+  // 3. Đồng bộ lên Cloud Supabase nếu người dùng đã cấu hình Project URL và Key (chạy ngầm không chặn UI)
   if (isSupabaseConfigured()) {
-    try {
-      const sanitizedRecord = {
-        ...resultRecord,
-        skill_scores: {
-          ...(typeof resultRecord.skill_scores === 'object' && resultRecord.skill_scores !== null ? resultRecord.skill_scores : {}),
-          ai_writing_result: resultRecord.ai_writing_result || null,
-          ai_speaking_result: resultRecord.ai_speaking_result || null,
-          ai_objective_result: resultRecord.ai_objective_result || null,
-          ai_full_result: resultRecord.ai_full_result || null,
-          speaking_submissions: resultRecord.speaking_submissions || null,
-          writing_submissions: resultRecord.writing_submissions || null
-        }
-      };
-
-      // Thử upsert toàn bộ record lên Supabase
-      const { error } = await supabaseInstance
-        .from('test_results')
-        .upsert([sanitizedRecord], { onConflict: 'id' });
-
-      if (error) {
-        console.warn('Lỗi khi upsert kết quả lên Supabase, thử fallback cột chuẩn:', error.message);
-        // Fallback: Chỉ gửi các cột chuẩn có trong schema gốc của test_results
-        const standardRecord = {
-          id: sanitizedRecord.id,
-          test_id: sanitizedRecord.test_id,
-          skill: sanitizedRecord.skill,
-          score_band: sanitizedRecord.score_band,
-          score_raw: sanitizedRecord.score_raw,
-          total_questions: sanitizedRecord.total_questions,
-          is_full_test: sanitizedRecord.is_full_test || false,
-          skill_scores: sanitizedRecord.skill_scores,
-          user_submission: sanitizedRecord.user_submission,
-          time_spent_seconds: sanitizedRecord.time_spent_seconds,
-          completed_at: sanitizedRecord.completed_at
+    (async () => {
+      try {
+        const sanitizedRecord = {
+          ...resultRecord,
+          skill_scores: {
+            ...(typeof resultRecord.skill_scores === 'object' && resultRecord.skill_scores !== null ? resultRecord.skill_scores : {}),
+            ai_writing_result: resultRecord.ai_writing_result || null,
+            ai_speaking_result: resultRecord.ai_speaking_result || null,
+            ai_objective_result: resultRecord.ai_objective_result || null,
+            ai_full_result: resultRecord.ai_full_result || null,
+            speaking_submissions: resultRecord.speaking_submissions || null,
+            writing_submissions: resultRecord.writing_submissions || null
+          }
         };
-        const { error: retryError } = await supabaseInstance
+
+        // Thử upsert toàn bộ record lên Supabase
+        const { error } = await supabaseInstance
           .from('test_results')
-          .upsert([standardRecord], { onConflict: 'id' });
-        if (retryError) {
-          console.warn('Fallback upsert Supabase cũng gặp lỗi:', retryError.message);
+          .upsert([sanitizedRecord], { onConflict: 'id' });
+
+        if (error) {
+          console.warn('Lỗi khi upsert kết quả lên Supabase, thử fallback cột chuẩn:', error.message);
+          // Fallback: Chỉ gửi các cột chuẩn có trong schema gốc của test_results
+          const standardRecord = {
+            id: sanitizedRecord.id,
+            test_id: sanitizedRecord.test_id,
+            skill: sanitizedRecord.skill,
+            score_band: sanitizedRecord.score_band,
+            score_raw: sanitizedRecord.score_raw,
+            total_questions: sanitizedRecord.total_questions,
+            is_full_test: sanitizedRecord.is_full_test || false,
+            skill_scores: sanitizedRecord.skill_scores,
+            user_submission: sanitizedRecord.user_submission,
+            time_spent_seconds: sanitizedRecord.time_spent_seconds,
+            completed_at: sanitizedRecord.completed_at
+          };
+          const { error: retryError } = await supabaseInstance
+            .from('test_results')
+            .upsert([standardRecord], { onConflict: 'id' });
+          if (retryError) {
+            console.warn('Fallback upsert Supabase cũng gặp lỗi:', retryError.message);
+          }
         }
+      } catch (e) {
+        console.warn('Không thể kết nối Supabase khi lưu kết quả:', e);
       }
-    } catch (e) {
-      console.warn('Không thể kết nối Supabase khi lưu kết quả:', e);
-    }
+    })();
   }
 
   return resultRecord;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Send, CheckCircle2, ArrowRight, ArrowLeft, Lock, Layers, AlertCircle, Clock } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Send, CheckCircle2, ArrowRight, ArrowLeft, Lock, Layers, AlertCircle, Clock, Sparkles, Loader2 } from 'lucide-react';
 import ExamTimer from './ExamTimer';
 import ReadingModule from './ReadingModule';
 import ListeningModule from './ListeningModule';
@@ -22,6 +22,7 @@ export default function ExamRunner({ test, onExit }) {
   const [answers, setAnswers] = useState({});
   const [startTime] = useState(Date.now());
   const [isCompleted, setIsCompleted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [examResults, setExamResults] = useState(null);
 
   const currentStage = stages[currentStageIndex] || stages[0];
@@ -114,7 +115,11 @@ export default function ExamRunner({ test, onExit }) {
   // CHẤM ĐIỂM TỔNG HỢP TẤT CẢ CÁC MODULE VÀ THÀNH PHẦN
   // =================================================================
   const handleSubmitFullExam = async () => {
-    const timeSpentSeconds = Math.round((Date.now() - startTime) / 1000);
+    if (isSubmitting || isCompleted) return;
+    setIsSubmitting(true);
+
+    try {
+      const timeSpentSeconds = Math.round((Date.now() - startTime) / 1000);
     
     let totalScoreRaw = 0;
     let totalQuestionsCount = 0;
@@ -455,9 +460,18 @@ export default function ExamRunner({ test, onExit }) {
       time_spent_seconds: timeSpentSeconds
     };
 
-    const savedRecord = await saveExamResult(payload);
-    setExamResults(savedRecord || payload);
-    setIsCompleted(true);
+      const savedRecord = await saveExamResult(payload);
+      setExamResults(savedRecord || payload);
+      setIsCompleted(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      console.error('Lỗi khi nộp bài thi:', err);
+      // Fallback: Đảm bảo người dùng luôn chuyển qua trang kết quả ngay lập tức
+      setExamResults(payload);
+      setIsCompleted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Màn hình kết quả sau khi hoàn thành tất cả module
@@ -472,6 +486,7 @@ export default function ExamRunner({ test, onExit }) {
           setCurrentTaskIndex(0);
           setLockedStageIndices([]);
           setIsCompleted(false);
+          setIsSubmitting(false);
           setExamResults(null);
         }}
         onBackHome={onExit}
@@ -527,15 +542,29 @@ export default function ExamRunner({ test, onExit }) {
 
             {isLastStage ? (
               <button
+                disabled={isSubmitting}
                 onClick={() => {
-                  if (confirm("Bạn đang ở Module cuối cùng. Bạn có chắc muốn nộp toàn bộ bài thi để chấm điểm không?")) {
+                  if (isSubmitting) return;
+                  const confirmMsg = totalStages > 1
+                    ? "Bạn đang ở Module cuối cùng. Bạn có chắc muốn nộp toàn bộ bài thi để chấm điểm không?"
+                    : "Bạn có chắc muốn nộp bài thi để chấm điểm không?";
+                  if (confirm(confirmMsg)) {
                     handleSubmitFullExam();
                   }
                 }}
-                className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer flex items-center gap-1.5"
+                className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Send className="w-3.5 h-3.5" />
-                <span>Nộp bài</span>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Đang nộp...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-3.5 h-3.5" />
+                    <span>Nộp bài</span>
+                  </>
+                )}
               </button>
             ) : (
               <button
@@ -718,15 +747,29 @@ export default function ExamRunner({ test, onExit }) {
             </button>
           ) : isLastStage ? (
             <button
+              disabled={isSubmitting}
               onClick={() => {
-                if (confirm("Bạn đã hoàn thành các Module. Bạn có chắc muốn nộp bài thi để chấm điểm không?")) {
+                if (isSubmitting) return;
+                const confirmMsg = totalStages > 1
+                  ? "Bạn đã hoàn thành các Module. Bạn có chắc muốn nộp bài thi để chấm điểm không?"
+                  : "Bạn đã hoàn thành bài thi. Bạn có chắc muốn nộp bài để chấm điểm không?";
+                if (confirm(confirmMsg)) {
                   handleSubmitFullExam();
                 }
               }}
-              className="flex items-center gap-2 px-6 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl shadow-md cursor-pointer transition-all active:scale-95"
+              className="flex items-center gap-2 px-6 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl shadow-md cursor-pointer transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <CheckCircle2 className="w-4 h-4" />
-              <span>Hoàn thành tất cả & Chấm điểm</span>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Đang chấm điểm...</span>
+                </>
+              ) : (
+                <>
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>{totalStages > 1 ? 'Hoàn thành tất cả & Chấm điểm' : 'Nộp bài & Chấm điểm'}</span>
+                </>
+              )}
             </button>
           ) : (
             <button
@@ -741,6 +784,31 @@ export default function ExamRunner({ test, onExit }) {
         </div>
 
       </main>
+
+      {/* Overlay hiệu ứng khi đang nộp bài & chuyển sang trang chấm điểm */}
+      {isSubmitting && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex flex-col items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
+            <div className="w-14 h-14 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center mx-auto shadow-xs">
+              <Sparkles className="w-7 h-7 animate-spin" />
+            </div>
+            <div className="space-y-1">
+              <h3 className="text-base font-black text-slate-800">
+                Đang nộp bài thi & chấm điểm...
+              </h3>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Hệ thống đang lưu kết quả và chuyển bạn sang trang đánh giá chi tiết chuẩn ETS 2026.
+              </p>
+            </div>
+            {/* Dấu 3 chấm chuyển động */}
+            <div className="flex items-center justify-center gap-1.5 pt-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-teal-600 animate-bounce" style={{ animationDelay: '0ms' }} />
+              <span className="w-2.5 h-2.5 rounded-full bg-teal-600 animate-bounce" style={{ animationDelay: '150ms' }} />
+              <span className="w-2.5 h-2.5 rounded-full bg-teal-600 animate-bounce" style={{ animationDelay: '300ms' }} />
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

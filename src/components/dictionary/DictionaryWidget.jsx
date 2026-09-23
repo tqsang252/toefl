@@ -248,7 +248,7 @@ export default function DictionaryWidget({ isOpen, onClose, onOpenSettings }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-20 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[440px] max-w-[460px] h-[580px] max-h-[82vh] bg-white rounded-3xl shadow-2xl border border-slate-200/90 flex flex-col overflow-hidden z-50 animate-in fade-in slide-in-from-bottom-5 duration-200">
+    <div className="fixed bottom-20 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[440px] max-w-[460px] h-[580px] max-h-[82vh] bg-white rounded-3xl shadow-2xl border border-slate-200/90 flex flex-col overflow-hidden z-[60] animate-in fade-in slide-in-from-bottom-5 duration-200">
       
       {/* 1. Header Cửa sổ Từ điển */}
       <div className="px-5 py-3.5 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white flex items-center justify-between border-b border-slate-700 shadow-xs">

@@ -913,8 +913,8 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
         />
       )}
 
-      {/* 2. BÀI THI WRITING ĐƠN LẺ: CHẤM 2 BÀI VIẾT (EMAIL + DISCUSSION) */}
-      {isWritingExam && (
+      {/* 2. BÀI THI WRITING ĐƠN LẺ: CHẤM BÀI VIẾT (EMAIL HOẶC DISCUSSION HOẶC CẢ HAI) */}
+      {isWritingExam && (writingSubmissions?.email || writingSubmissions?.discussion) && (
         <WritingAIEvaluation 
           writingSubmissions={writingSubmissions} 
           autoStart={!isReviewMode && !hasStoredWriting && !aiWritingResult}
