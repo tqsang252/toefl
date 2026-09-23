@@ -24,6 +24,7 @@ export default function ExamRunner({ test, onExit }) {
   const [isCompleted, setIsCompleted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [examResults, setExamResults] = useState(null);
+  const [confirmDialog, setConfirmDialog] = useState(null);
 
   const currentStage = stages[currentStageIndex] || stages[0];
   const currentTasks = currentStage?.tasks || [];
@@ -92,9 +93,10 @@ export default function ExamRunner({ test, onExit }) {
   // Khi bấm nút thủ công chuyển Module
   const handleConfirmNextModule = () => {
     const nextStage = stages[currentStageIndex + 1];
-    if (confirm(`Bạn có chắc muốn kết thúc ${currentStage.title} để chuyển sang ${nextStage.title}?\n\n⚠️ LƯU Ý: Sau khi chuyển sang ${nextStage.title}, bạn sẽ KHÔNG thể quay lại sửa các câu trả lời ở ${currentStage.title} (đúng theo quy chế thi TOEFL thật).`)) {
-      advanceToNextModule('manual');
-    }
+    setConfirmDialog({
+      message: `Bạn có chắc muốn kết thúc ${currentStage.title} để chuyển sang ${nextStage.title}?\n\n⚠️ LƯU Ý: Sau khi chuyển sang ${nextStage.title}, bạn sẽ KHÔNG thể quay lại sửa các câu trả lời ở ${currentStage.title} (đúng theo quy chế thi TOEFL thật).`,
+      onConfirm: () => advanceToNextModule('manual')
+    });
   };
 
   // =================================================================
@@ -510,9 +512,10 @@ export default function ExamRunner({ test, onExit }) {
           {/* Nút thoát */}
           <button
             onClick={() => {
-              if (confirm("Bạn có chắc muốn thoát bài thi này? Kết quả đang làm sẽ không được lưu.")) {
-                onExit();
-              }
+              setConfirmDialog({
+                message: "Bạn có chắc muốn thoát bài thi này? Kết quả đang làm sẽ không được lưu.",
+                onConfirm: () => onExit()
+              });
             }}
             className="flex items-center gap-1 text-xs font-bold text-slate-500 hover:text-slate-900 cursor-pointer"
           >
@@ -554,9 +557,10 @@ export default function ExamRunner({ test, onExit }) {
                   const confirmMsg = totalStages > 1
                     ? "Bạn đang ở Module cuối cùng. Bạn có chắc muốn nộp toàn bộ bài thi để chấm điểm không?"
                     : "Bạn có chắc muốn nộp bài thi để chấm điểm không?";
-                  if (confirm(confirmMsg)) {
-                    handleSubmitFullExam();
-                  }
+                  setConfirmDialog({
+                    message: confirmMsg,
+                    onConfirm: () => handleSubmitFullExam()
+                  });
                 }}
                 className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -759,9 +763,10 @@ export default function ExamRunner({ test, onExit }) {
                 const confirmMsg = totalStages > 1
                   ? "Bạn đã hoàn thành các Module. Bạn có chắc muốn nộp bài thi để chấm điểm không?"
                   : "Bạn đã hoàn thành bài thi. Bạn có chắc muốn nộp bài để chấm điểm không?";
-                if (confirm(confirmMsg)) {
-                  handleSubmitFullExam();
-                }
+                setConfirmDialog({
+                  message: confirmMsg,
+                  onConfirm: () => handleSubmitFullExam()
+                });
               }}
               className="flex items-center gap-2 px-6 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl shadow-md cursor-pointer transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             >
@@ -812,6 +817,44 @@ export default function ExamRunner({ test, onExit }) {
               <span className="w-2.5 h-2.5 rounded-full bg-teal-600 animate-bounce" style={{ animationDelay: '150ms' }} />
               <span className="w-2.5 h-2.5 rounded-full bg-teal-600 animate-bounce" style={{ animationDelay: '300ms' }} />
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Popup Xác Nhận (Chính giữa màn hình, chỉ dòng chữ và 2 nút bấm, bỏ tên miền trang web) */}
+      {confirmDialog && (
+        <div className="fixed inset-0 z-[70] bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150">
+          <div className="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-7 shadow-2xl border border-slate-100 text-center space-y-5 animate-in zoom-in-95 duration-150">
+            
+            {/* Dòng chữ nội dung thông báo */}
+            <p className="text-sm sm:text-base font-semibold text-slate-800 leading-relaxed whitespace-pre-line px-1">
+              {confirmDialog.message}
+            </p>
+
+            {/* 2 nút bấm: OK và Cancel */}
+            <div className="flex items-center justify-center gap-3 pt-1">
+              <button
+                type="button"
+                autoFocus
+                onClick={() => {
+                  const onConfirmAction = confirmDialog.onConfirm;
+                  setConfirmDialog(null);
+                  if (onConfirmAction) onConfirmAction();
+                }}
+                className="flex-1 py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-2xl shadow-md transition-all cursor-pointer active:scale-95"
+              >
+                {confirmDialog.confirmText || 'OK'}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setConfirmDialog(null)}
+                className="flex-1 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-2xl transition-all cursor-pointer active:scale-95 border border-slate-200"
+              >
+                {confirmDialog.cancelText || 'Cancel'}
+              </button>
+            </div>
+
           </div>
         </div>
       )}
