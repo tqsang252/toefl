@@ -1052,6 +1052,70 @@ export function formatExamTitle(skill = 'reading', taskType = '', dateVal = Date
   return `${capitalized} Full Test - ${dateStr} - ${timeStr}`;
 }
 
+// ====================================================================
+// NGÂN HÀNG CHỦ ĐỀ HỌC THUẬT ĐA DẠNG CHO AI SINH ĐỀ (ROTATION TOPIC POOL)
+// Đảm bảo không bao giờ bị lặp lại các chủ đề quen thuộc như Quantum hay Paleoclimatology
+// ====================================================================
+export const CURATED_ACADEMIC_TOPICS = {
+  reading: [
+    "Biomimicry in Architecture and Passive Termite-Mound Ventilation Systems",
+    "Deep-Sea Hydrothermal Vents and Chemosynthetic Marine Archaea Ecosystems",
+    "Cognitive Linguistics: Conceptual Metaphors and Spatial Reasoning Architecture",
+    "The Collapse of the Late Bronze Age Civilizations in the Eastern Mediterranean (1200 BCE)",
+    "Epigenetics: Environmental Influences on Gene Expression and Evolutionary Phenotypes",
+    "Acoustic Engineering of Ancient Greek Theaters at Epidaurus",
+    "Behavioral Economics: The Sunk Cost Fallacy and Choice Architecture Nudges",
+    "The Decipherment of Linear B and Mycenaean Administrative Records",
+    "Subglacial Lake Vostok in Antarctica: Extreme Chemotrophy and Astrobiology",
+    "Mycorrhizal Fungal Networks and Nutrient Sharing in Temperate Forest Ecosystems",
+    "Urban Microclimates and Heat Island Mitigation via Reflective Photonic Materials",
+    "The Evolutionary Origin of Avian Feathers in Non-Avian Theropod Dinosaurs",
+    "Plate Tectonics: Subduction Zone Megathrust Earthquakes and Deep Mantle Water Recycling",
+    "Circadian Neurobiology: Memory Consolidation and Synaptic Pruning During Slow-Wave Sleep",
+    "Renaissance Double-Entry Bookkeeping and the Development of Global Mercantile Trade",
+    "Paleolithic Cave Art and the Cognitive Evolution of Symbolic Representation",
+    "Game Theory and the Evolution of Reciprocal Altruism in Social Primate Troops",
+    "Atmospheric Biosignatures and Spectroscopic Detection of Habitable Exoplanets",
+    "Dendrochronology and High-Precision Radiocarbon Calibration in Paleoclimatic Events",
+    "The Geodynamics of Volcanic Hotspot Tracks and Oceanic Island Formation"
+  ],
+  listening: [
+    "Marine Biology: Coral Bleaching Cellular Mechanisms and Symbiodinium Expulsion",
+    "Anthropological Archaeology: The Agricultural Transition in the Fertile Crescent",
+    "Renaissance Art History: Brunelleschi and Mathematical Linear Perspective",
+    "Astrophysics: Pulsar Timing Arrays and Low-Frequency Gravitational Wave Detection",
+    "Sociolinguistics: Language Contact, Creole Genesis, and Dialect Shift",
+    "Environmental Economics: Pigouvian Carbon Taxation vs Tradable Permit Schemes",
+    "Cognitive Psychology: The Stroop Effect and Dual-Process Decision Systems"
+  ],
+  writing: [
+    "Algorithmic Governance and the Ethics of Predictive Analytics in Criminal Justice",
+    "Universal Basic Income Trials and Labor Market Participation Dynamics",
+    "Commercial Space Exploration versus Public Investment in Basic Earth Science",
+    "The Impact of Generative Artificial Intelligence on Academic Integrity in Higher Education",
+    "Urban Density versus Suburban Expansion in Sustainable Metropolitan Planning"
+  ],
+  speaking: [
+    "Undergraduate Peer Mentorship and First-Year Student Retention Programs",
+    "Balancing Academic Rigor with Hands-on Experiential Lab Research",
+    "Campus Sustainability: Zero-Waste Initiatives and Renewable Microgrids",
+    "The Academic and Personal Value of International Student Exchange Programs"
+  ],
+  full: [
+    "Interdisciplinary: Deep-Sea Oceanography, Cognitive Linguistics, and Renaissance History",
+    "Interdisciplinary: Volcanic Seismology, Epigenetics, and Institutional Economics",
+    "Interdisciplinary: Astrobiology, Behavioral Game Theory, and Neolithic Archaeology"
+  ]
+};
+
+export function getRandomAcademicTopic(skillType = 'reading') {
+  let s = (skillType || 'reading').toLowerCase();
+  if (s.startsWith('writing_')) s = 'writing';
+  const list = CURATED_ACADEMIC_TOPICS[s] || CURATED_ACADEMIC_TOPICS.reading;
+  const randomIndex = Math.floor(Math.random() * list.length);
+  return list[randomIndex];
+}
+
 /**
  * ====================================================================
  * GEMINI AI AUTOMATIC EXAM GENERATOR SERVICE (ETS TOEFL 2026)
@@ -1071,9 +1135,15 @@ export async function generateExamWithGemini({
     finalPrompt = getExamPrompt(skillType);
   }
 
-  if (customTopic && customTopic.trim()) {
-    finalPrompt += `\n\n⚠️ YÊU CẦU ĐẶC BIỆT VỀ CHỦ ĐỀ NỘI DUNG:\nHãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết xoay quanh chủ đề: "${customTopic.trim()}".`;
-  }
+  // Tự động xoay tua chủ đề ngẫu nhiên nếu người dùng để trống, tránh lặp lại Quantum / Paleoclimatology
+  const assignedTopic = (customTopic && customTopic.trim()) 
+    ? customTopic.trim() 
+    : getRandomAcademicTopic(skillType);
+
+  finalPrompt += `\n\n🎯 YÊU CẦU CHỦ ĐỀ HỌC THUẬT ĐẶC BIỆT CHO LẦN THI NÀY (BẮT BUỘC TUÂN THỦ 100%):
+- Chủ đề chỉ định: "${assignedTopic}"
+- Yêu cầu: Hãy xây dựng toàn bộ đề thi (đặc biệt là Task 1: Complete the Words và Task 3: Academic Passage / Academic Talk) xoay quanh chủ đề này hoặc các phân ngành học thuật liên quan mật thiết.
+- TUYỆT ĐỐI KHÔNG lặp lại các chủ đề cũ như: Cơ học lượng tử (Quantum mechanics / Quantum computing), Cổ khí hậu học / Lõi băng (Paleoclimatology / Ice cores), hoặc Quang hợp (Photosynthesis).`;
 
   const isWritingSub = skillType.startsWith('writing_');
   const actualSkill = isWritingSub ? 'writing' : skillType;
@@ -1141,7 +1211,7 @@ export async function generateExamWithGemini({
               },
               generationConfig: {
                 responseMimeType: 'application/json',
-                temperature: 0.3,
+                temperature: 0.7,
                 maxOutputTokens
               }
             })
@@ -1172,7 +1242,7 @@ export async function generateExamWithGemini({
           prompt: finalPrompt,
           systemInstruction: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Adhere strictly to CEFR C1/C2 academic standards. NEVER truncate, omit, abbreviate, or use placeholders. Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Respond strictly with raw valid JSON matching the requested schema without any markdown formatting or commentary outside JSON.',
           maxTokens: maxOutputTokens,
-          temperature: 0.3,
+          temperature: 0.7,
           responseFormatJson: true,
           onProgress
         });

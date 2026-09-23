@@ -83,7 +83,7 @@ export default async function handler(req, res) {
             systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
             generationConfig: {
               responseMimeType: 'application/json',
-              temperature: 0.3,
+              temperature: 0.7,
               maxOutputTokens
             }
           })
@@ -124,7 +124,7 @@ export default async function handler(req, res) {
               { role: 'user', content: prompt }
             ],
             max_tokens: maxOutputTokens,
-            temperature: 0.3,
+            temperature: 0.7,
             response_format: { type: 'json_object' }
           })
         });

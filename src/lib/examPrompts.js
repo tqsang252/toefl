@@ -102,28 +102,27 @@ Cấu trúc TOEFL iBT Reading áp dụng trong năm 2026:
 
 Bạn PHẢI tự nghiên cứu và lựa chọn **CHỦ ĐỀ HOÀN TOÀN MỚI** từ ngân hàng chủ đề đề thi TOEFL thực tế dưới đây (chọn ngẫu nhiên, KHÔNG lặp lại chủ đề giữa Task 1, 2, 3):
 
-### Khoa học Tự nhiên & Vật lý:
-Vật lý thiên văn (dark matter, neutron stars, gravitational lensing), Cơ học lượng tử ứng dụng, Địa chấn học & cấu trúc vỏ Trái Đất, Khí hậu học đại dương (thermohaline circulation), Sinh học tiến hóa phân tử (horizontal gene transfer), Sinh thái học vùng cực, Địa chất học magma
+### Khoa học Tự nhiên & Sinh học:
+Sinh học biển sâu & khe thủy nhiệt (hydrothermal vents chemosynthesis), Sinh học tiến hóa phân tử (horizontal gene transfer), Địa chất học magma & núi lửa mảng kiến tạo, Khí hậu học hải lưu đại dương (thermohaline circulation), Mạng lưới nấm rễ rừng (mycorrhizal networks), Tiến hóa cấu trúc lông vũ từ khủng long Theropod
 
 ### Khoa học Nhận thức & Thần kinh học:
-Neuroplasticity và học ngôn ngữ thứ hai, Cognitive load theory, Memory consolidation during sleep, Embodied cognition, Decision-making under uncertainty (Kahneman), Mirror neurons controversy
+Neuroplasticity và khả năng phục hồi thần kinh, Cognitive load theory trong xử lý thông tin, Memory consolidation trong chu kỳ giấc ngủ REM, Ngôn ngữ học nhận thức (conceptual metaphors), Lý thuyết quyết định dưới rủi ro (prospect theory)
 
 ### Lịch sử, Khảo cổ & Nhân học:
-Sụp đổ các nền văn minh cổ đại (Bronze Age Collapse, Maya, Angkor), Khảo cổ học dưới nước, Nguồn gốc nông nghiệp ở nhiều trung tâm độc lập, Di cư của người Homo sapiens ra khỏi châu Phi, Giao thương Silk Road và truyền bá công nghệ
+Sụp đổ thời kỳ đồ đồng muộn ở Địa Trung Hải (Bronze Age Collapse), Giải mã cổ ngữ (Linear B và chữ tượng hình Maya), Khảo cổ học định cư thời đồ đá mới (Neolithic settlements), Di cư tiền sử và kỹ thuật hàng hải cổ đại, Giao thương Con đường Tơ lụa và lan tỏa luyện kim
 
 ### Kinh tế học & Xã hội học:
-Behavioral economics (nudge theory, loss aversion), Urban economics (gentrification, housing policy), Vốn xã hội và mạng lưới cộng đồng, Game theory ứng dụng chính sách công, Kinh tế học thể chế (Acemoglu - inclusive vs extractive institutions)
+Kinh tế học hành vi (nudge theory, loss aversion, sunk cost fallacy), Kinh tế học thể chế (Acemoglu - inclusive institutions), Đô thị học và vi khí hậu đảo nhiệt, Game theory và sự tiến hóa của hành vi vị tha
 
-### Triết học Khoa học & Lịch sử Tư tưởng:
-Scientific revolutions (Kuhn's paradigm shifts), Falsificationism (Popper), Ethics of AI and algorithmic decision-making, Philosophy of language (Chomsky vs Skinner), Logic of discovery vs justification
+### Kiến trúc & Nghệ thuật:
+Kiến trúc phỏng sinh học (biomimicry architecture - thông gió tự nhiên), Kỹ thuật âm học trong nhà hát Hy Lạp cổ đại Epidaurus, Phân tích hóa học bảo tồn sắc tố tranh thời Phục Hưng, Tiến hóa thị giác và tâm lý học thẩm mỹ
 
-### Nghệ thuật, Âm nhạc & Kiến trúc:
-Nguồn gốc ngôn ngữ âm nhạc phổ quát, Kiến trúc gothic và không gian thiêng liêng, Hội họa trừu tượng và nhận thức thẩm mỹ, Truyền thống truyền miệng và ký ức tập thể
+### Công nghệ & Môi trường:
+Lịch sử mật mã học từ Enigma đến khóa công khai, Công nghệ pin thể rắn và lưu trữ lưới điện, Giảm thiểu đảo nhiệt đô thị qua hạ tầng xanh, Thu giữ và cố định carbon sinh học
 
-### Công nghệ & Đổi mới:
-History of cryptography, CRISPR-Cas9 ethics, Renewable energy grid stability (intermittency problem), Machine learning bias in judicial systems, History of the internet protocol stack
-
-**YÊU CẦU BẮT BUỘC**: Hãy chọn **3 chủ đề khác nhau hoàn toàn** cho Module 1 (Task 1, 2, 3) và **3 chủ đề khác nhau hoàn toàn** cho Module 2. Đảm bảo 6 chủ đề được chọn không trùng lặp nhau.
+⚠️ **QUY TẮC CẤM LẶP LẠI (STRICT PROHIBITION)**:
+- TUYỆT ĐỐI KHÔNG chọn các chủ đề đã bị lặp lại nhiều lần như: Cơ học lượng tử (Quantum mechanics / Quantum computing), Cổ khí hậu học / Lõi băng (Paleoclimatology / Ice cores), hoặc Quang hợp (Photosynthesis).
+- BẮT BUỘC chọn **3 chủ đề khác nhau hoàn toàn** cho Module 1 (Task 1, 2, 3) và **3 chủ đề khác nhau hoàn toàn** cho Module 2. Đảm bảo 6 chủ đề được chọn không trùng lặp nhau.
 
 ---
 
