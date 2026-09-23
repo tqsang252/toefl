@@ -7,19 +7,23 @@ import { getExamPrompt } from './examPrompts.js';
 // ====================================================================
 
 // ====================================================================
-// API KEYS & PROVIDER MANAGEMENT (GEMINI PRIMARY + OPENROUTER FALLBACK)
+// ENVIRONMENT DETECTION — Localhost vs Production (Vercel)
 // ====================================================================
 
-// Lấy API Key Gemini từ LocalStorage hoặc Biến môi trường Vite (.env hoặc Vercel)
+/**
+ * Kiểm tra xem app đang chạy trên localhost (dev) hay production (Vercel)
+ * - Localhost: Gọi Gemini/OpenRouter trực tiếp bằng key từ .env.local
+ * - Production: Gọi /api/ai-proxy (Vercel Function, key bí mật trên server)
+ */
+export const IS_PRODUCTION = import.meta.env.PROD === true;
+export const IS_DEV = import.meta.env.DEV === true;
+
+// Lấy API Key Gemini — chỉ dùng ở chế độ dev/localhost
 export function getGeminiApiKey() {
+  if (IS_PRODUCTION) return ''; // Production: không cần key phía client, dùng proxy
   const localKey = typeof localStorage !== 'undefined' ? localStorage.getItem('toefl_gemini_api_key') : '';
   if (localKey && localKey.trim()) return localKey.trim();
-
-  return (
-    import.meta.env?.VITE_GEMINI_API_KEY ||
-    import.meta.env?.GEMINI_API_KEY ||
-    ''
-  ).trim();
+  return (import.meta.env?.VITE_GEMINI_API_KEY || '').trim();
 }
 
 // Lưu / Xóa Gemini API Key trong LocalStorage
@@ -33,16 +37,12 @@ export function saveGeminiApiKey(key) {
   }
 }
 
-// Lấy API Key OpenRouter dự phòng từ LocalStorage hoặc Biến môi trường Vite (.env hoặc Vercel)
+// Lấy API Key OpenRouter — chỉ dùng ở chế độ dev/localhost
 export function getOpenRouterApiKey() {
+  if (IS_PRODUCTION) return ''; // Production: không cần key phía client, dùng proxy
   const localKey = typeof localStorage !== 'undefined' ? localStorage.getItem('toefl_openrouter_api_key') : '';
   if (localKey && localKey.trim()) return localKey.trim();
-
-  return (
-    import.meta.env?.VITE_OPENROUTER_API_KEY ||
-    import.meta.env?.OPENROUTER_API_KEY ||
-    ''
-  ).trim();
+  return (import.meta.env?.VITE_OPENROUTER_API_KEY || '').trim();
 }
 
 // Lưu / Xóa OpenRouter API Key trong LocalStorage
@@ -58,17 +58,20 @@ export function saveOpenRouterApiKey(key) {
 
 // Kiểm tra xem OpenRouter đã được cấu hình chưa
 export function isOpenRouterConfigured() {
+  if (IS_PRODUCTION) return true; // Proxy server luôn có key
   return Boolean(getOpenRouterApiKey());
 }
 
 // Kiểm tra xem đã cấu hình ít nhất 1 AI Provider (Gemini hoặc OpenRouter) chưa
 export function isGeminiConfigured() {
+  if (IS_PRODUCTION) return true; // Proxy server luôn có key
   return Boolean(getGeminiApiKey() || getOpenRouterApiKey());
 }
 
 export function isAiConfigured() {
   return isGeminiConfigured();
 }
+
 
 // Model Gemini Google mặc định
 export const DEFAULT_GEMINI_MODEL = 'gemini-2.5-flash';
@@ -1061,13 +1064,6 @@ export async function generateExamWithGemini({
   customTopic = '',
   onProgress = null
 }) {
-  const geminiKey = getGeminiApiKey();
-  const openRouterKey = getOpenRouterApiKey();
-
-  if (!geminiKey && !openRouterKey) {
-    throw new Error('Chưa cấu hình API Key (Gemini hoặc OpenRouter trong .env hoặc Cài đặt).');
-  }
-
   onProgress?.('Đang chuẩn bị prompt chuẩn ETS 2026...');
 
   let finalPrompt = promptText;
@@ -1076,86 +1072,121 @@ export async function generateExamWithGemini({
   }
 
   if (customTopic && customTopic.trim()) {
-    finalPrompt += `\n\n⚠️ YÊU CẦU ĐẶC BIỆT VỀ CHỦ ĐỀ NỘI DUNG:
-Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết xoay quanh chủ đề: "${customTopic.trim()}".`;
+    finalPrompt += `\n\n⚠️ YÊU CẦU ĐẶC BIỆT VỀ CHỦ ĐỀ NỘI DUNG:\nHãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết xoay quanh chủ đề: "${customTopic.trim()}".`;
   }
 
   const isWritingSub = skillType.startsWith('writing_');
   const actualSkill = isWritingSub ? 'writing' : skillType;
+  const maxOutputTokens = skillType === 'full' ? 16384 : 8192;
 
-  let lastError = null;
   let rawJsonText = '';
-  let providerUsed = 'gemini';
+  let providerUsed = 'proxy';
 
-  // 1. Thử gọi Google Gemini trước nếu có key
-  if (geminiKey) {
+  // ================================================================
+  // PRODUCTION (Vercel): Gọi qua /api/ai-proxy — API key bí mật trên server
+  // LOCALHOST (Dev):     Gọi Gemini/OpenRouter trực tiếp — key từ .env.local
+  // ================================================================
+
+  if (IS_PRODUCTION) {
+    // ── Production: dùng Vercel Serverless Function proxy ─────────
     onProgress?.('Hệ thống đang soạn thảo nội dung đề thi & câu hỏi...');
-    const modelsToTry = [DEFAULT_GEMINI_MODEL, ...FALLBACK_MODELS];
+    try {
+      const response = await fetch('/api/ai-proxy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: finalPrompt, skillType })
+      });
 
-    for (const model of modelsToTry) {
-      try {
-        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [
-              {
-                role: 'user',
-                parts: [{ text: finalPrompt }]
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData?.error || `Proxy lỗi HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      rawJsonText = data?.text || '';
+      if (!rawJsonText) throw new Error('Proxy không trả về nội dung đề thi.');
+    } catch (proxyErr) {
+      throw new Error(`Không thể sinh đề thi: ${proxyErr.message}`);
+    }
+
+  } else {
+    // ── Localhost / Dev: gọi Gemini & OpenRouter trực tiếp ────────
+    const geminiKey = getGeminiApiKey();
+    const openRouterKey = getOpenRouterApiKey();
+
+    if (!geminiKey && !openRouterKey) {
+      throw new Error(
+        'Chưa cấu hình API Key.\n' +
+        'Trên localhost: Thêm VITE_GEMINI_API_KEY vào file .env.local\n' +
+        'hoặc vào Cài đặt trong ứng dụng.'
+      );
+    }
+
+    let lastError = null;
+
+    // 1. Thử Gemini trước
+    if (geminiKey) {
+      onProgress?.('Hệ thống đang soạn thảo nội dung đề thi & câu hỏi...');
+      providerUsed = 'gemini';
+      for (const model of [DEFAULT_GEMINI_MODEL, ...FALLBACK_MODELS]) {
+        try {
+          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts: [{ text: finalPrompt }] }],
+              systemInstruction: {
+                parts: [{ text: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Your task is to produce strictly valid, raw JSON tests matching the requested schema with 100% fidelity to ETS difficulty, structure, and quality standards (CEFR C1/C2 academic register). NEVER truncate, omit, abbreviate, or use placeholders (such as "..." or shortened samples). Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Output strictly raw valid JSON only without markdown code blocks, preamble, or outside commentary.' }]
+              },
+              generationConfig: {
+                responseMimeType: 'application/json',
+                temperature: 0.3,
+                maxOutputTokens
               }
-            ],
-            systemInstruction: {
-              parts: [{ text: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Your task is to produce strictly valid, raw JSON tests matching the requested schema with 100% fidelity to ETS difficulty, structure, and quality standards (CEFR C1/C2 academic register). NEVER truncate, omit, abbreviate, or use placeholders (such as "..." or shortened samples). Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Output strictly raw valid JSON only without markdown code blocks, preamble, or outside commentary.' }]
-            },
-            generationConfig: {
-              responseMimeType: 'application/json',
-              temperature: 0.3,
-              maxOutputTokens: skillType === 'full' ? 16384 : 8192
-            }
-          })
-        });
+            })
+          });
 
-        if (!response.ok) {
-          const errData = await response.json().catch(() => ({}));
-          throw new Error(errData?.error?.message || `HTTP ${response.status}: ${response.statusText}`);
-        }
+          if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            throw new Error(errData?.error?.message || `HTTP ${response.status}: ${response.statusText}`);
+          }
 
-        const data = await response.json();
-        rawJsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!rawJsonText) {
-          throw new Error('API không trả về nội dung đề thi.');
+          const data = await response.json();
+          rawJsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!rawJsonText) throw new Error('API không trả về nội dung đề thi.');
+          break;
+        } catch (err) {
+          lastError = err;
+          console.warn(`Lỗi khi gọi model ${model} để sinh đề:`, err.message);
         }
-        break;
-      } catch (err) {
-        lastError = err;
-        console.warn(`Lỗi khi gọi model ${model} để sinh đề:`, err.message);
       }
     }
-  }
 
-  // 2. Dự phòng OpenRouter: Khi Gemini quá tải (503 High demand/429 Quota) hoặc không có key
-  if (!rawJsonText && openRouterKey) {
-    onProgress?.('Đang tự động chuyển sang luồng xử lý dự phòng...');
-    providerUsed = 'openrouter';
-    try {
-      rawJsonText = await callOpenRouterChat({
-        prompt: finalPrompt,
-        systemInstruction: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Adhere strictly to CEFR C1/C2 academic standards. NEVER truncate, omit, abbreviate, or use placeholders. Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Respond strictly with raw valid JSON matching the requested schema without any markdown formatting or commentary outside JSON.',
-        maxTokens: skillType === 'full' ? 16384 : 8192,
-        temperature: 0.3,
-        responseFormatJson: true,
-        onProgress
-      });
-    } catch (openRouterErr) {
-      console.error('Lỗi khi gọi OpenRouter sinh đề:', openRouterErr);
-      throw new Error(`Không thể sinh đề thi do sự cố kết nối: ${openRouterErr.message}`);
+    // 2. Dự phòng OpenRouter
+    if (!rawJsonText && openRouterKey) {
+      onProgress?.('Đang tự động chuyển sang luồng xử lý dự phòng...');
+      providerUsed = 'openrouter';
+      try {
+        rawJsonText = await callOpenRouterChat({
+          prompt: finalPrompt,
+          systemInstruction: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Adhere strictly to CEFR C1/C2 academic standards. NEVER truncate, omit, abbreviate, or use placeholders. Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Respond strictly with raw valid JSON matching the requested schema without any markdown formatting or commentary outside JSON.',
+          maxTokens: maxOutputTokens,
+          temperature: 0.3,
+          responseFormatJson: true,
+          onProgress
+        });
+      } catch (openRouterErr) {
+        console.error('Lỗi khi gọi OpenRouter sinh đề:', openRouterErr);
+        throw new Error(`Không thể sinh đề thi do sự cố kết nối: ${openRouterErr.message}`);
+      }
+    }
+
+    if (!rawJsonText) {
+      throw new Error(lastError?.message || 'Không thể kết nối đến hệ thống AI để sinh đề.');
     }
   }
 
-  if (!rawJsonText) {
-    throw new Error(lastError?.message || 'Không thể kết nối đến hệ thống AI để sinh đề.');
-  }
 
   onProgress?.('Đang đối soát cấu trúc đề thi và ma trận câu hỏi...');
 
