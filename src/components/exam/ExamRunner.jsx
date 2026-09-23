@@ -107,8 +107,9 @@ export default function ExamRunner({ test, onExit }) {
       // Hết giờ Module 1 -> TỰ ĐỘNG CHUYỂN SANG MODULE 2 (KHÔNG NỘP BÀI)
       advanceToNextModule('timeup');
     } else {
-      // Hết giờ Module cuối cùng -> MỚI NỘP BÀI VÀ CHẤM ĐIỂM
-      alert(`⏱️ Hết giờ làm bài của ${currentStage.title}! Toàn bộ bài thi đã kết thúc. Hệ thống đang tiến hành chấm điểm...`);
+      // Hết giờ Module cuối cùng -> MỚI NỘP BÀI VÀ CHẤM ĐIỂM (Không dùng alert trình duyệt)
+      setTransitionMessage(null);
+      setConfirmDialog(null);
       handleSubmitFullExam();
     }
   };
@@ -545,6 +546,7 @@ export default function ExamRunner({ test, onExit }) {
               <ExamTimer
                 key={`timer_stage_${currentStageIndex}`}
                 durationSeconds={stageDurationSeconds}
+                isPaused={Boolean(transitionMessage || confirmDialog || isSubmitting || isCompleted)}
                 onTimeUp={handleStageTimeUp}
               />
             </div>
