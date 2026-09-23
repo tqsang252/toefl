@@ -151,7 +151,7 @@ export default function FullTestList({
             className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-xl transition-all cursor-pointer shadow-2xs self-start sm:self-auto"
           >
             <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse" />
-            <span>✨ Sinh Đề Full Test Bằng AI</span>
+            <span>Tạo bài thi thử Full Test</span>
           </button>
         </div>
 
@@ -161,7 +161,7 @@ export default function FullTestList({
             <div className="text-center py-12 text-slate-500">
               <Layers className="w-10 h-10 mx-auto mb-2 text-slate-300" />
               <p className="text-sm font-semibold">Chưa có đề Full Test nào trong danh sách.</p>
-              <p className="text-xs text-slate-400 mt-1">Bấm "✨ Sinh Đề Full Test Bằng AI" để tự động tạo bộ đề thi thử mới ngay.</p>
+              <p className="text-xs text-slate-400 mt-1">Bấm "Tạo bài thi thử Full Test" để tự động tạo bộ đề thi thử mới ngay.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6">

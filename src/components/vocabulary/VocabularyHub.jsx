@@ -19,7 +19,8 @@ import {
   ArrowRight,
   Layers,
   CloudUpload,
-  Star
+  Star,
+  RotateCw
 } from 'lucide-react';
 import { getStoredVocabulary, seedVocabularyToSupabase, isSupabaseConfigured } from '../../lib/supabase';
 import { VOCABULARY_DECKS } from '../../data/vocabularyData';
@@ -31,6 +32,7 @@ export default function VocabularyHub() {
   const [selectedDeck, setSelectedDeck] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [isFlipped, setIsFlipped] = useState(false); // Trạng thái lật mặt trước (false) / mặt sau (true)
   const [showAnswer, setShowAnswer] = useState(true);
   const [activeTab, setActiveTab] = useState('all'); // 'all' | 'meaning' | 'collocations' | 'example' | 'family' | 'tip'
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
@@ -236,14 +238,21 @@ export default function VocabularyHub() {
     }
   }, [totalCount, currentWordIndex]);
 
+  // Khi đổi từ hoặc đổi chủ đề, tự động lật về mặt trước
+  useEffect(() => {
+    setIsFlipped(false);
+  }, [currentWordIndex, selectedCategory]);
+
   // Điều hướng từ vựng (Previous / Next)
   const handlePrev = () => {
     if (totalCount === 0) return;
+    setIsFlipped(false);
     setCurrentWordIndex((prev) => (prev - 1 + totalCount) % totalCount);
   };
 
   const handleNext = () => {
     if (totalCount === 0) return;
+    setIsFlipped(false);
     setCurrentWordIndex((prev) => (prev + 1) % totalCount);
   };
 
@@ -262,7 +271,7 @@ export default function VocabularyHub() {
         handlePrev();
       } else if (e.code === 'Space') {
         e.preventDefault();
-        setShowAnswer((prev) => !prev);
+        setIsFlipped((prev) => !prev);
       }
     };
 
@@ -707,85 +716,171 @@ export default function VocabularyHub() {
         )
       ) : (
         <>
-          {/* 2. KHUNG FLASHCARD CHÍNH (THIẾT KẾ Y HỆT ẢNH CHỤP CỦA BẠN) */}
-          <div className="bg-white rounded-3xl border border-blue-100/90 p-8 sm:p-12 shadow-sm text-center relative overflow-hidden transition-all duration-300">
-            
-            {/* Top row: Counter '1 / 15' bên trái và Cụm Star + Badge 'Word' bên phải */}
-            <div className="flex items-center justify-between w-full mb-6">
-              <span className="px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold border border-blue-100">
-                {currentWordIndex + 1} / {totalCount}
-              </span>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => toggleStarWord(currentWord)}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer border active:scale-95 shadow-2xs ${
-                    isWordStarred(currentWord)
-                      ? 'bg-amber-100 text-amber-900 border-amber-300 hover:bg-amber-200'
-                      : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-amber-50 hover:text-amber-700 hover:border-amber-200'
-                  }`}
-                  title={isWordStarred(currentWord) ? "Bỏ đánh dấu sao (Unstar)" : "Đánh dấu sao từ vựng này (Star word)"}
-                >
-                  <Star className={`w-3.5 h-3.5 ${isWordStarred(currentWord) ? 'fill-amber-400 text-amber-500' : 'text-slate-400'}`} />
-                  <span>{isWordStarred(currentWord) ? 'Starred' : 'Star'}</span>
-                </button>
-
-                <span className="px-3.5 py-1 rounded-full bg-slate-100 text-blue-600 text-xs font-bold tracking-wide">
-                  {currentWord.partOfSpeech || 'Word'}
-                </span>
-              </div>
-            </div>
-
-            {/* Từ vựng chính (Word) + Nút Loa + Nút Star tròn + Phiên âm IPA */}
-            <div className="py-6 sm:py-8 my-auto">
-              
-              <div className="inline-flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
-                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#153e75] tracking-tight font-sans">
-                  {currentWord.word}
-                </h2>
-                
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => speakWord(currentWord.word)}
-                    className="w-11 h-11 rounded-full bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white flex items-center justify-center transition-all duration-150 cursor-pointer shadow-xs active:scale-90"
-                    title="Nghe phát âm chuẩn Mỹ (US Audio)"
-                  >
-                    <Volume2 className="w-6 h-6 stroke-[2.2]" />
-                  </button>
-
-                  <button
-                    onClick={() => toggleStarWord(currentWord)}
-                    className={`w-11 h-11 rounded-full flex items-center justify-center transition-all duration-150 cursor-pointer shadow-xs active:scale-90 border ${
-                      isWordStarred(currentWord)
-                        ? 'bg-amber-500 text-white border-amber-500 hover:bg-amber-600 shadow-amber-200'
-                        : 'bg-slate-50 hover:bg-amber-50 text-slate-400 hover:text-amber-500 border-slate-200 hover:border-amber-300'
-                    }`}
-                    title={isWordStarred(currentWord) ? "Bỏ đánh dấu sao (Unstar)" : "Đánh dấu sao từ vựng này (Star word)"}
-                  >
-                    <Star className={`w-5 h-5 ${isWordStarred(currentWord) ? 'fill-white stroke-[2.2]' : 'stroke-[2.2]'}`} />
-                  </button>
-                </div>
-              </div>
-
-              {currentWord.phonetic && (
-                <div className="mt-2 text-slate-500 font-mono text-base sm:text-lg font-medium">
-                  {currentWord.phonetic}
-                </div>
-              )}
-
-              {/* Dòng chữ gợi ý: Click to see the meaning and more details */}
-              <p 
-                onClick={() => setShowAnswer((prev) => !prev)}
-                className="mt-6 text-xs text-slate-400 font-medium cursor-pointer hover:text-blue-600 transition-colors select-none"
+          {/* 2. KHUNG FLASHCARD CHÍNH VỚI HIỆU ỨNG LẬT 3D XEM NGHĨA TIẾNG VIỆT */}
+          <div 
+            className="w-full cursor-pointer select-none group"
+            style={{ perspective: '1200px' }}
+            onClick={() => setIsFlipped((prev) => !prev)}
+            title="Bấm vào thẻ để lật mặt trước / mặt sau"
+          >
+            <div 
+              className="relative w-full rounded-3xl shadow-sm transition-transform duration-500 transform-gpu"
+              style={{
+                transformStyle: 'preserve-3d',
+                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                minHeight: '340px'
+              }}
+            >
+              {/* === MẶT TRƯỚC (FRONT): TỪ TIẾNG ANH + PHIÊN ÂM + NÚT LOA === */}
+              <div 
+                className={`w-full h-full min-h-[340px] bg-white rounded-3xl border-2 ${
+                  isWordStarred(currentWord) ? 'border-amber-300/90 bg-amber-50/10' : 'border-blue-100/90'
+                } p-6 sm:p-10 text-center flex flex-col justify-between transition-all group-hover:border-blue-400 group-hover:shadow-md ${
+                  isFlipped ? 'pointer-events-none' : ''
+                }`}
+                style={{
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden'
+                }}
               >
-                {showAnswer ? "Click to toggle meaning and more details" : "Click to see the meaning and more details"}
-              </p>
+                {/* Hàng trên: Counter + Nút Lật Thẻ + Cụm Star + PartOfSpeech */}
+                <div className="flex items-center justify-between w-full">
+                  <span className="px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold border border-blue-100">
+                    {currentWordIndex + 1} / {totalCount}
+                  </span>
+
+                  {/* Nút lật thẻ trực quan */}
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-50 hover:bg-blue-50 text-slate-600 hover:text-blue-600 border border-slate-200 transition-colors shadow-2xs">
+                    <RotateCw className="w-3.5 h-3.5 text-blue-500 animate-spin-slow" />
+                    <span>Lật xem nghĩa</span>
+                  </span>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleStarWord(currentWord);
+                      }}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer border active:scale-95 shadow-2xs ${
+                        isWordStarred(currentWord)
+                          ? 'bg-amber-100 text-amber-900 border-amber-300 hover:bg-amber-200'
+                          : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-amber-50 hover:text-amber-700 hover:border-amber-200'
+                      }`}
+                      title={isWordStarred(currentWord) ? "Bỏ đánh dấu sao (Unstar)" : "Đánh dấu sao (Star word)"}
+                    >
+                      <Star className={`w-3.5 h-3.5 ${isWordStarred(currentWord) ? 'fill-amber-400 text-amber-500' : 'text-slate-400'}`} />
+                      <span>{isWordStarred(currentWord) ? 'Starred' : 'Star'}</span>
+                    </button>
+
+                    <span className="px-3.5 py-1 rounded-full bg-slate-100 text-blue-600 text-xs font-bold tracking-wide">
+                      {currentWord.partOfSpeech || 'Word'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Từ vựng chính (Word) + Nút Loa + Nút Star tròn + Phiên âm IPA */}
+                <div className="py-6 sm:py-8 my-auto">
+                  <div className="inline-flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
+                    <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#153e75] tracking-tight font-sans">
+                      {currentWord.word}
+                    </h2>
+                    
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          speakWord(currentWord.word);
+                        }}
+                        className="w-11 h-11 rounded-full bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white flex items-center justify-center transition-all duration-150 cursor-pointer shadow-xs active:scale-90"
+                        title="Nghe phát âm chuẩn Mỹ (US Audio)"
+                      >
+                        <Volume2 className="w-6 h-6 stroke-[2.2]" />
+                      </button>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleStarWord(currentWord);
+                        }}
+                        className={`w-11 h-11 rounded-full flex items-center justify-center transition-all duration-150 cursor-pointer shadow-xs active:scale-90 border ${
+                          isWordStarred(currentWord)
+                            ? 'bg-amber-500 text-white border-amber-500 hover:bg-amber-600 shadow-amber-200'
+                            : 'bg-slate-50 hover:bg-amber-50 text-slate-400 hover:text-amber-500 border-slate-200 hover:border-amber-300'
+                        }`}
+                        title={isWordStarred(currentWord) ? "Bỏ đánh dấu sao (Unstar)" : "Đánh dấu sao (Star word)"}
+                      >
+                        <Star className={`w-5 h-5 ${isWordStarred(currentWord) ? 'fill-white stroke-[2.2]' : 'stroke-[2.2]'}`} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {currentWord.phonetic && (
+                    <div className="mt-2.5 text-slate-500 font-mono text-base sm:text-lg font-medium">
+                      {currentWord.phonetic}
+                    </div>
+                  )}
+                </div>
+
+                {/* Hàng dưới: Gợi ý bấm để lật thẻ */}
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-center gap-2 text-xs text-blue-600 font-semibold group-hover:text-blue-700">
+                  <RotateCw className="w-3.5 h-3.5" />
+                  <span>Chạm hoặc bấm vào thẻ để lật ra mặt sau xem nghĩa Tiếng Việt</span>
+                </div>
+              </div>
+
+              {/* === MẶT SAU (BACK): NGHĨA TIẾNG VIỆT NỔI BẬT + GIẢI NGHĨA ANH + VÍ DỤ === */}
+              <div 
+                className={`absolute inset-0 w-full h-full min-h-[340px] bg-gradient-to-br from-emerald-50/70 via-white to-teal-50/50 rounded-3xl border-2 border-emerald-300/80 p-6 sm:p-10 text-center flex flex-col justify-between shadow-md transition-all group-hover:border-emerald-400 ${
+                  !isFlipped ? 'pointer-events-none' : ''
+                }`}
+                style={{
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden',
+                  transform: 'rotateY(180deg)'
+                }}
+              >
+                {/* Hàng trên: Counter + Audio & PartOfSpeech */}
+                <div className="flex items-center justify-between w-full">
+                  <span className="px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-bold border border-emerald-200">
+                    {currentWordIndex + 1} / {totalCount}
+                  </span>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        speakWord(currentWord.word);
+                      }}
+                      className="w-8 h-8 rounded-full bg-white hover:bg-emerald-600 text-emerald-700 hover:text-white flex items-center justify-center transition-all cursor-pointer border border-emerald-200 shadow-2xs"
+                      title="Nghe lại phát âm"
+                    >
+                      <Volume2 className="w-4 h-4" />
+                    </button>
+
+                    <span className="px-3.5 py-1 rounded-full bg-white text-emerald-800 text-xs font-bold tracking-wide border border-emerald-200">
+                      {currentWord.partOfSpeech || 'Word'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Phần giữa mặt sau: CHỈ HIỂN THỊ NGHĨA TIẾNG VIỆT TO RÕ */}
+                <div className="py-8 my-auto px-4 max-w-3xl mx-auto flex items-center justify-center">
+                  <p className="text-3xl sm:text-4xl lg:text-5xl font-black text-emerald-950 leading-relaxed tracking-tight">
+                    {currentWord.meaningVi || currentWord.meaning || 'Chưa có bản dịch tiếng Việt'}
+                  </p>
+                </div>
+
+                {/* Hàng dưới mặt sau: Gợi ý lật lại */}
+                <div className="pt-4 border-t border-emerald-100 flex items-center justify-center gap-2 text-xs text-emerald-700 font-semibold group-hover:text-emerald-800">
+                  <RotateCw className="w-3.5 h-3.5" />
+                  <span>Bấm vào thẻ để lật lại mặt trước (Từ vựng tiếng Anh)</span>
+                </div>
+              </div>
 
             </div>
-
           </div>
 
-          {/* 3. THANH ĐIỀU HƯỚNG NÚT: < Previous | 👁️ Show Answer | Next > */}
+          {/* 3. THANH ĐIỀU HƯỚNG NÚT: < Previous | 👁️ Show Details | Next > */}
           <div className="flex items-center justify-between gap-4">
             
             <button
@@ -797,11 +892,17 @@ export default function VocabularyHub() {
             </button>
 
             <button
-              onClick={() => setShowAnswer((prev) => !prev)}
+              onClick={() => {
+                setShowAnswer((prev) => {
+                  const next = !prev;
+                  setIsFlipped(next);
+                  return next;
+                });
+              }}
               className="flex items-center justify-center gap-2 px-8 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all active:scale-95 cursor-pointer min-w-[160px]"
             >
               {showAnswer ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              <span>{showAnswer ? "Hide Answer" : "Show Answer"}</span>
+              <span>{showAnswer ? "Hide Details" : "Show Details"}</span>
             </button>
 
             <button

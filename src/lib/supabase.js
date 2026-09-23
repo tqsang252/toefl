@@ -966,6 +966,8 @@ export async function importVocabularyBatch(wordsArray, defaultCategory = 'Acade
     }
   }
 
+  invalidateVocabularyCache();
+
   return {
     success: true,
     insertedCount: toInsert.length,
@@ -998,6 +1000,109 @@ export async function deleteVocabularyWord(wordId, wordText, category) {
     }
   }
 
+  invalidateVocabularyCache();
   return true;
 }
+
+// ====================================================================
+// TRA CỨU TỪ ĐIỂN TỪ DATABASE (SUPABASE + LOCAL STORAGE + DEFAULT DECKS)
+// ====================================================================
+let cachedVocabularyMap = null;
+
+export function invalidateVocabularyCache() {
+  cachedVocabularyMap = null;
+}
+
+export async function lookupWordInDatabase(rawWord) {
+  if (!rawWord || typeof rawWord !== 'string') return { found: false, word: '' };
+  const clean = rawWord.trim().toLowerCase().replace(/^['"“‘.,;!?()\[\]{}]+|['"”’.,;!?()\[\]{}]+$/g, '');
+  if (!clean) return { found: false, word: '' };
+
+  // 1. Nạp cache nếu chưa có trong bộ nhớ
+  if (!cachedVocabularyMap) {
+    try {
+      const allWords = await getStoredVocabulary();
+      const map = new Map();
+      allWords.forEach((w) => {
+        if (w.word) {
+          const wLower = w.word.trim().toLowerCase();
+          if (!map.has(wLower)) {
+            map.set(wLower, w);
+          }
+        }
+      });
+      cachedVocabularyMap = map;
+    } catch (e) {
+      console.warn('Lỗi nạp cache từ điển:', e);
+      cachedVocabularyMap = new Map();
+    }
+  }
+
+  // A. So khớp chính xác 100%
+  let match = cachedVocabularyMap.get(clean);
+
+  // B. So khớp phái sinh hoặc biến thể từ ngữ pháp (s, es, ed, ing, ly)
+  if (!match) {
+    const candidates = [
+      clean.replace(/s$/, ''),
+      clean.replace(/es$/, ''),
+      clean.replace(/ed$/, ''),
+      clean.replace(/ing$/, ''),
+      clean.replace(/ly$/, '')
+    ].filter((c) => c && c.length >= 3 && c !== clean);
+
+    for (const cand of candidates) {
+      if (cachedVocabularyMap.has(cand)) {
+        match = cachedVocabularyMap.get(cand);
+        break;
+      }
+    }
+  }
+
+  // 2. Nếu vẫn chưa thấy và Supabase đang kết nối, thử query trực tiếp bảng vocabulary_words
+  if (!match && isSupabaseConfigured() && supabaseInstance) {
+    try {
+      const { data, error } = await supabaseInstance
+        .from('vocabulary_words')
+        .select('*')
+        .ilike('word', clean)
+        .limit(1)
+        .maybeSingle();
+
+      if (!error && data) {
+        match = normalizeVocabularyWord({
+          ...data,
+          partOfSpeech: data.part_of_speech,
+          exampleTranslation: data.example_translation,
+          sentenceParaphrase: data.sentence_paraphrase,
+          wordFamily: data.word_family,
+          memoryTip: data.memory_tip
+        });
+        if (match && match.word) {
+          cachedVocabularyMap.set(match.word.toLowerCase(), match);
+        }
+      }
+    } catch (err) {
+      console.warn('Lỗi query trực tiếp Supabase từ điển:', err);
+    }
+  }
+
+  if (match) {
+    return {
+      found: true,
+      word: match.word,
+      phonetic: match.phonetic || '',
+      partOfSpeech: match.partOfSpeech || '',
+      meaningVi: match.meaningVi || match.meaning || '',
+      meaningEn: match.meaningEn || match.meaning || '',
+      example: match.example || '',
+      exampleTranslation: match.exampleTranslation || '',
+      category: match.category || 'Academic Vocabulary',
+      source: 'database'
+    };
+  }
+
+  return { found: false, word: rawWord.trim() };
+}
+
 

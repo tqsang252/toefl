@@ -102,8 +102,7 @@ export async function callOpenRouterChat({
 
   for (const model of OPENROUTER_MODELS) {
     try {
-      const modelDisplayName = model.split('/')[1] || model;
-      onProgress?.(`Đang gọi OpenRouter dự phòng (${modelDisplayName})...`);
+      onProgress?.('Đang kết nối luồng xử lý dự phòng...');
 
       const messages = [];
       if (systemInstruction) {
@@ -822,14 +821,26 @@ export async function evaluateObjectiveSkillTest({
   testTitle = ''
 }) {
   const normSkill = skill.toLowerCase();
-  const scaledPrelim = convertRawToScale30(scoreRaw, totalQuestions, normSkill);
-  const bandPrelim = convert30ToBand6(scaledPrelim);
+
+  // Tự động tính toán lại số câu đúng chính xác từ userSubmission nếu có để đảm bảo 100% không lệch
+  let actualRaw = 0;
+  let actualTotal = 0;
+  let hasValidSubmission = false;
 
   const itemsList = [];
   if (Array.isArray(userSubmission)) {
     userSubmission.forEach((mod) => {
+      if (typeof mod.score_raw === 'number' && typeof mod.total_questions === 'number') {
+        actualRaw += mod.score_raw;
+        actualTotal += mod.total_questions;
+        hasValidSubmission = true;
+      }
       if (Array.isArray(mod.items)) {
         mod.items.forEach((it) => {
+          if (!hasValidSubmission) {
+            if (it.is_correct) actualRaw++;
+            actualTotal++;
+          }
           itemsList.push({
             index: itemsList.length + 1,
             module: mod.module_title || '',
@@ -839,16 +850,25 @@ export async function evaluateObjectiveSkillTest({
             is_correct: Boolean(it.is_correct)
           });
         });
+        if (!hasValidSubmission && mod.items.length > 0) {
+          hasValidSubmission = true;
+        }
       }
     });
   }
 
+  const effectiveScoreRaw = hasValidSubmission ? actualRaw : scoreRaw;
+  const effectiveTotalQuestions = hasValidSubmission && actualTotal > 0 ? actualTotal : totalQuestions;
+
+  const scaledPrelim = convertRawToScale30(effectiveScoreRaw, effectiveTotalQuestions, normSkill);
+  const bandPrelim = convert30ToBand6(scaledPrelim);
+
   const promptText = `
 You are an expert official ETS TOEFL iBT Test Examiner evaluating a student on the TOEFL iBT 2026 ${normSkill.toUpperCase()} section.
 Test Title: "${testTitle || 'TOEFL iBT 2026 Practice'}"
-- Total Questions: ${totalQuestions}
-- Correct Answers: ${scoreRaw}
-- Accuracy Rate: ${totalQuestions > 0 ? ((scoreRaw / totalQuestions) * 100).toFixed(1) : 0}%
+- Total Questions: ${effectiveTotalQuestions}
+- Correct Answers: ${effectiveScoreRaw}
+- Accuracy Rate: ${effectiveTotalQuestions > 0 ? ((effectiveScoreRaw / effectiveTotalQuestions) * 100).toFixed(1) : 0}%
 - Time Spent: ${Math.floor(timeSpentSeconds / 60)}m ${timeSpentSeconds % 60}s
 
 [STUDENT PERFORMANCE DETAILS]
@@ -865,7 +885,7 @@ Respond strictly with valid JSON:
   "skill": "${normSkill}",
   "scaled_score_30": ${scaledPrelim},
   "toefl_band_6": ${bandPrelim},
-  "accuracy_rate": ${totalQuestions > 0 ? Number(((scoreRaw / totalQuestions) * 100).toFixed(1)) : 0},
+  "accuracy_rate": ${effectiveTotalQuestions > 0 ? Number(((effectiveScoreRaw / effectiveTotalQuestions) * 100).toFixed(1)) : 0},
   "summary_assessment": "Nhận xét tổng quan bằng tiếng Việt về kỹ năng ${normSkill} của thí sinh...",
   "strengths": ["Điểm mạnh 1", "Điểm mạnh 2"],
   "weaknesses": ["Điểm cần khắc phục 1", "Điểm cần khắc phục 2"],
@@ -884,6 +904,9 @@ Respond strictly with valid JSON:
     const parsed = await generateGeminiJson(promptText);
     if (parsed.scaled_score_30 === undefined) parsed.scaled_score_30 = scaledPrelim;
     if (!parsed.toefl_band_6) parsed.toefl_band_6 = convert30ToBand6(parsed.scaled_score_30);
+    if (parsed.accuracy_rate === undefined) {
+      parsed.accuracy_rate = effectiveTotalQuestions > 0 ? Number(((effectiveScoreRaw / effectiveTotalQuestions) * 100).toFixed(1)) : 0;
+    }
     return parsed;
   } catch (err) {
     console.warn(`Fallback to calibrated score for ${normSkill}:`, err);
@@ -891,8 +914,8 @@ Respond strictly with valid JSON:
       skill: normSkill,
       scaled_score_30: scaledPrelim,
       toefl_band_6: bandPrelim,
-      accuracy_rate: totalQuestions > 0 ? Number(((scoreRaw / totalQuestions) * 100).toFixed(1)) : 0,
-      summary_assessment: `Thí sinh đạt ${scoreRaw}/${totalQuestions} câu đúng (${((scoreRaw / (totalQuestions || 1)) * 100).toFixed(0)}%). Quy đổi thang điểm TOEFL 2026 đạt ${scaledPrelim}/30 (Band ${bandPrelim.toFixed(1)}).`,
+      accuracy_rate: effectiveTotalQuestions > 0 ? Number(((effectiveScoreRaw / effectiveTotalQuestions) * 100).toFixed(1)) : 0,
+      summary_assessment: `Thí sinh đạt ${effectiveScoreRaw}/${effectiveTotalQuestions} câu đúng (${((effectiveScoreRaw / (effectiveTotalQuestions || 1)) * 100).toFixed(0)}%). Quy đổi thang điểm TOEFL 2026 đạt ${scaledPrelim}/30 (Band ${bandPrelim.toFixed(1)}).`,
       strengths: ['Đã hoàn thành toàn bộ các module trong thời gian quy định.'],
       weaknesses: ['Cần rà soát các câu hỏi chưa chính xác để nâng band điểm.'],
       question_type_mastery: [
@@ -1024,7 +1047,7 @@ Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết 
 
   // 1. Thử gọi Google Gemini trước nếu có key
   if (geminiKey) {
-    onProgress?.('Gemini AI đang soạn thảo nội dung đề thi & câu hỏi...');
+    onProgress?.('Hệ thống đang soạn thảo nội dung đề thi & câu hỏi...');
     const modelsToTry = [DEFAULT_GEMINI_MODEL, ...FALLBACK_MODELS];
 
     for (const model of modelsToTry) {
@@ -1056,7 +1079,7 @@ Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết 
         const data = await response.json();
         rawJsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
         if (!rawJsonText) {
-          throw new Error('Gemini API không trả về nội dung đề thi.');
+          throw new Error('API không trả về nội dung đề thi.');
         }
         break;
       } catch (err) {
@@ -1068,7 +1091,7 @@ Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết 
 
   // 2. Dự phòng OpenRouter: Khi Gemini quá tải (503 High demand/429 Quota) hoặc không có key
   if (!rawJsonText && openRouterKey) {
-    onProgress?.('⚠️ Gemini đang quá tải (High Demand/Limit), tự động kích hoạt OpenRouter dự phòng...');
+    onProgress?.('Đang tự động chuyển sang luồng xử lý dự phòng...');
     providerUsed = 'openrouter';
     try {
       rawJsonText = await callOpenRouterChat({
@@ -1081,18 +1104,15 @@ Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết 
       });
     } catch (openRouterErr) {
       console.error('Lỗi khi gọi OpenRouter sinh đề:', openRouterErr);
-      throw new Error(`Không thể sinh đề thi: Google Gemini gặp sự cố ("${lastError?.message || 'Quá tải'}"), và OpenRouter gặp lỗi ("${openRouterErr.message}").`);
+      throw new Error(`Không thể sinh đề thi do sự cố kết nối: ${openRouterErr.message}`);
     }
   }
 
   if (!rawJsonText) {
-    const hint = !openRouterKey 
-      ? ' (Mẹo: Bạn có thể nhập VITE_OPENROUTER_API_KEY trong file .env hoặc mục Cài Đặt góc dưới để hệ thống tự động dự phòng khi Gemini bị quá tải)' 
-      : '';
-    throw new Error((lastError?.message || 'Không thể kết nối đến AI API để sinh đề.') + hint);
+    throw new Error(lastError?.message || 'Không thể kết nối đến hệ thống AI để sinh đề.');
   }
 
-  onProgress?.('Đang đối soát cấu trúc JSON và ma trận câu hỏi...');
+  onProgress?.('Đang đối soát cấu trúc đề thi và ma trận câu hỏi...');
 
   let cleaned = rawJsonText.trim();
   if (cleaned.includes('```')) {
@@ -1126,8 +1146,8 @@ Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết 
   testsArray = testsArray.map((t, idx) => {
     const s = (t.skill || skillType || 'full').toLowerCase();
     const defaultTitle = s === 'full' 
-      ? `TOEFL iBT Full Mock Test (${providerUsed === 'openrouter' ? 'OpenRouter' : 'AI'} #${timestamp.toString().slice(-4)})`
-      : `${s.toUpperCase()} Practice Exam (${providerUsed === 'openrouter' ? 'OpenRouter' : 'AI'} #${timestamp.toString().slice(-4)})`;
+      ? `TOEFL iBT Full Mock Test (#${timestamp.toString().slice(-4)})`
+      : `${s.toUpperCase()} Practice Exam (#${timestamp.toString().slice(-4)})`;
 
     return {
       ...t,
@@ -1152,4 +1172,78 @@ Hãy xây dựng các bối cảnh, câu hỏi và bài đọc/nghe/nói/viết 
     rawJson: JSON.stringify(testsArray, null, 2)
   };
 }
+
+/**
+ * ====================================================================
+ * TỪ ĐIỂN & DỊCH THUẬT AI (SMART DICTIONARY & TRANSLATOR)
+ * Hỗ trợ dịch tự động dự phòng: Google Gemini -> OpenRouter
+ * ====================================================================
+ */
+
+/**
+ * Tra cứu nghĩa từ vựng tiếng Anh đơn lẻ bằng AI khi database chưa có
+ */
+export async function lookupWordWithAi(word) {
+  const cleanWord = (word || '').trim().replace(/^['"“‘.,;!?()\[\]{}]+|['"”’.,;!?()\[\]{}]+$/g, '');
+  if (!cleanWord) throw new Error('Từ vựng cần tra cứu không hợp lệ.');
+
+  const prompt = `Bạn là chuyên gia từ điển học thuật và luyện thi TOEFL iBT 2026.
+Hãy tra nghĩa và giải nghĩa từ tiếng Anh sau sang tiếng Việt:
+Từ vựng: "${cleanWord}"
+
+YÊU CẦU:
+1. Trả về đúng 1 đối tượng JSON duy nhất theo schema:
+{
+  "word": "${cleanWord}",
+  "phonetic": "/.../ (phiên âm chuẩn quốc tế IPA)",
+  "partOfSpeech": "loại từ (danh từ, động từ, tính từ, trạng từ...)",
+  "meaningVi": "Nghĩa tiếng Việt rõ ràng, chuẩn xác, ưu tiên ngữ cảnh học thuật nếu có",
+  "meaningEn": "Định nghĩa tiếng Anh ngắn gọn",
+  "example": "Một câu ví dụ học thuật tiếng Anh tự nhiên",
+  "exampleTranslation": "Bản dịch tiếng Việt của câu ví dụ"
+}
+2. TUYỆT ĐỐI không viết bất kỳ ký tự nào ngoài JSON hợp lệ.`;
+
+  const result = await generateGeminiJson(prompt, 'You are an expert bilingual academic English-Vietnamese dictionary. Respond strictly with a single JSON object.');
+  return {
+    found: true,
+    word: result.word || cleanWord,
+    phonetic: result.phonetic || '',
+    partOfSpeech: result.partOfSpeech || '',
+    meaningVi: result.meaningVi || result.meaning || '',
+    meaningEn: result.meaningEn || '',
+    example: result.example || '',
+    exampleTranslation: result.exampleTranslation || '',
+    source: 'ai'
+  };
+}
+
+/**
+ * Dịch cụm từ hoặc đoạn văn bản tiếng Anh sang tiếng Việt bằng AI
+ */
+export async function translateTextWithAi(text) {
+  const cleanText = (text || '').trim();
+  if (!cleanText) throw new Error('Văn bản cần dịch không được để trống.');
+
+  const prompt = `Bạn là chuyên gia dịch thuật Anh - Việt cao cấp, chuyên sâu học thuật và kỳ thi TOEFL.
+Hãy dịch cụm từ hoặc đoạn văn bản sau sang tiếng Việt tự nhiên, chuẩn xác, lưu loát và đúng văn phong:
+"${cleanText}"
+
+YÊU CẦU:
+1. Trả về đúng 1 đối tượng JSON duy nhất theo schema:
+{
+  "translatedText": "Nội dung bản dịch tiếng Việt hoàn chỉnh, tự nhiên",
+  "note": "Ghi chú ngắn về thành ngữ, thuật ngữ học thuật hoặc ngữ pháp đáng chú ý nếu có (để rỗng nếu không có)"
+}
+2. TUYỆT ĐỐI không viết bất kỳ ký tự nào ngoài JSON hợp lệ.`;
+
+  const result = await generateGeminiJson(prompt, 'You are an expert academic English-Vietnamese translator. Respond strictly with a single JSON object.');
+  return {
+    originalText: cleanText,
+    translatedText: result.translatedText || '',
+    note: result.note || '',
+    source: 'ai'
+  };
+}
+
 

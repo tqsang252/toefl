@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import confetti from 'canvas-confetti';
 import { Award, CheckCircle2, XCircle, Clock, RotateCcw, Home, HelpCircle, Layers, BookOpen, Headphones, PenTool, Mic, Zap, Sparkles } from 'lucide-react';
 import WritingAIEvaluation from './WritingAIEvaluation';
@@ -8,40 +8,23 @@ import FullExamAIEvaluation from './FullExamAIEvaluation';
 import { convert30ToBand6, convertRawToScale30, isGeminiConfigured } from '../../lib/gemini';
 import { saveExamResult, getStoredAIEvaluation, storeAIEvaluation } from '../../lib/supabase';
 
-// Component hiển thị dòng chữ Processing chạy động khi AI đang tính toán
+// Component hiển thị dấu 3 chấm chạy động khi AI đang tính toán
 function ProcessingScoreBadge({ color = 'teal', subtitle = 'AI đang tính toán chuẩn ETS 2026...' }) {
-  const [dots, setDots] = useState('.');
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDots((prev) => (prev.length >= 3 ? '.' : prev + '.'));
-    }, 450);
-    return () => clearInterval(interval);
-  }, []);
-
   const colorStyles = {
     teal: {
-      text: 'text-teal-700',
       dot: 'bg-teal-500',
-      icon: 'text-teal-600',
       sub: 'text-teal-700'
     },
     slate: {
-      text: 'text-slate-700',
       dot: 'bg-slate-500',
-      icon: 'text-slate-600',
       sub: 'text-slate-500'
     },
     rose: {
-      text: 'text-rose-700',
       dot: 'bg-rose-500',
-      icon: 'text-rose-600',
       sub: 'text-rose-600'
     },
     white: {
-      text: 'text-white',
-      dot: 'bg-teal-300',
-      icon: 'text-teal-300',
+      dot: 'bg-white',
       sub: 'text-teal-200'
     }
   };
@@ -49,20 +32,24 @@ function ProcessingScoreBadge({ color = 'teal', subtitle = 'AI đang tính toán
   const style = colorStyles[color] || colorStyles.teal;
 
   return (
-    <div className="py-2 flex flex-col items-center justify-center">
-      <div className="inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-xl transition-all">
-        <Sparkles className={`w-5 h-5 ${style.icon} animate-spin`} />
-        <span className={`text-2xl sm:text-3xl font-black font-mono tracking-wider uppercase ${style.text}`}>
-          Processing{dots}
-        </span>
-        <span className="flex items-center gap-1 ml-0.5">
-          <span className={`w-1.5 h-1.5 rounded-full ${style.dot} animate-bounce`} style={{ animationDelay: '0ms' }} />
-          <span className={`w-1.5 h-1.5 rounded-full ${style.dot} animate-bounce`} style={{ animationDelay: '150ms' }} />
-          <span className={`w-1.5 h-1.5 rounded-full ${style.dot} animate-bounce`} style={{ animationDelay: '300ms' }} />
-        </span>
+    <div className="py-2 flex flex-col items-center justify-center min-h-[56px]">
+      {/* Dấu 3 chấm chạy động */}
+      <div className="inline-flex items-center justify-center gap-1.5 h-9">
+        <span 
+          className={`w-2.5 h-2.5 rounded-full ${style.dot} animate-bounce`} 
+          style={{ animationDelay: '0ms' }} 
+        />
+        <span 
+          className={`w-2.5 h-2.5 rounded-full ${style.dot} animate-bounce`} 
+          style={{ animationDelay: '160ms' }} 
+        />
+        <span 
+          className={`w-2.5 h-2.5 rounded-full ${style.dot} animate-bounce`} 
+          style={{ animationDelay: '320ms' }} 
+        />
       </div>
       {subtitle && (
-        <span className={`text-[10px] sm:text-[11px] font-semibold block mt-1 text-center animate-pulse ${style.sub}`}>
+        <span className={`text-[10px] sm:text-[11px] font-semibold block mt-0.5 text-center animate-pulse ${style.sub}`}>
           {subtitle}
         </span>
       )}
@@ -85,19 +72,72 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
     }
   }, []);
 
+  if (!results) {
+    return (
+      <div className="max-w-4xl mx-auto py-12 px-4 text-center">
+        <p className="text-slate-500 font-semibold mb-4">Không tìm thấy dữ liệu kết quả bài thi.</p>
+        <button onClick={onBackHome} className="px-5 py-2.5 bg-[#153e75] text-white rounded-xl font-bold text-xs cursor-pointer">
+          Về danh sách bài thi
+        </button>
+      </div>
+    );
+  }
+
   const { score_band, score_raw, total_questions, time_spent_seconds, user_submission, skill, is_full_test, skill_scores } = results;
-  const currentSkill = (skill || test.skill || '').toLowerCase();
+  const currentSkill = (skill || test?.skill || '').toLowerCase();
   const isFullExam = is_full_test || currentSkill === 'full';
   const isWritingExam = currentSkill === 'writing';
   const isSpeakingExam = currentSkill === 'speaking';
   const isReadingExam = currentSkill === 'reading';
   const isListeningExam = currentSkill === 'listening';
 
+  // Tự động tính toán tổng số câu đúng thực tế từ user_submission để đảm bảo tuyệt đối chuẩn xác
+  const { effectiveScoreRaw, effectiveTotalQuestions } = useMemo(() => {
+    if (isFullExam) {
+      return {
+        effectiveScoreRaw: score_raw,
+        effectiveTotalQuestions: total_questions || 120
+      };
+    }
+
+    let calculatedRaw = 0;
+    let calculatedTotal = 0;
+    let hasSubmissionCount = false;
+
+    if (Array.isArray(user_submission) && user_submission.length > 0) {
+      user_submission.forEach((mod) => {
+        if (typeof mod.score_raw === 'number' && typeof mod.total_questions === 'number') {
+          calculatedRaw += mod.score_raw;
+          calculatedTotal += mod.total_questions;
+          hasSubmissionCount = true;
+        } else if (Array.isArray(mod.items) && mod.items.length > 0) {
+          mod.items.forEach((it) => {
+            if (it.is_correct) calculatedRaw++;
+            calculatedTotal++;
+            hasSubmissionCount = true;
+          });
+        }
+      });
+    }
+
+    if (hasSubmissionCount && calculatedTotal > 0) {
+      return {
+        effectiveScoreRaw: calculatedRaw,
+        effectiveTotalQuestions: calculatedTotal
+      };
+    }
+
+    return {
+      effectiveScoreRaw: score_raw,
+      effectiveTotalQuestions: total_questions
+    };
+  }, [user_submission, score_raw, total_questions, isFullExam]);
+
   const minutes = Math.floor((time_spent_seconds || 0) / 60);
   const seconds = (time_spent_seconds || 0) % 60;
   const timeFormatted = `${minutes}m ${seconds}s`;
 
-  const legacyScore30 = total_questions > 0 ? Math.round((score_raw / total_questions) * 30) : 26;
+  const legacyScore30 = effectiveTotalQuestions > 0 ? Math.round((effectiveScoreRaw / effectiveTotalQuestions) * 30) : 26;
 
   // Kiểm tra cấu trúc module
   const isModuleGrouped = Array.isArray(user_submission) && user_submission.length > 0 && (user_submission[0]?.module_title || user_submission[0]?.title);
@@ -172,22 +212,38 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
   // Lấy cache AI nếu có (bảo vệ trường hợp Supabase chưa kịp sync hoặc xem lại bài làm đã chấm)
   const cachedAi = getStoredAIEvaluation(test?.id, results?.id, results?.completed_at);
 
+  const isObjectiveCacheValid = (cachedObj) => {
+    if (!cachedObj) return false;
+    if (isReadingExam || isListeningExam) {
+      if (effectiveTotalQuestions > 0) {
+        const expectedRatio = effectiveScoreRaw / effectiveTotalQuestions;
+        const actualAcc = (cachedObj.accuracy_rate ?? 0) / 100;
+        // Nếu độ chính xác lưu lệch quá 15% so với thực tế (ví dụ bị lưu 100% thay vì 60%) -> cache bị sai do bug cũ
+        if (Math.abs(expectedRatio - actualAcc) > 0.15) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  const rawCachedObjective = results.ai_objective_result || results.skill_scores?.ai_objective_result || cachedAi?.ai_objective_result;
+  const validCachedObjective = isObjectiveCacheValid(rawCachedObjective) ? rawCachedObjective : null;
+
   const [aiWritingResult, setAiWritingResult] = useState(
     results.ai_writing_result || results.skill_scores?.ai_writing_result || cachedAi?.ai_writing_result || null
   );
   const [aiSpeakingResult, setAiSpeakingResult] = useState(
     results.ai_speaking_result || results.skill_scores?.ai_speaking_result || cachedAi?.ai_speaking_result || null
   );
-  const [aiObjectiveResult, setAiObjectiveResult] = useState(
-    results.ai_objective_result || results.skill_scores?.ai_objective_result || cachedAi?.ai_objective_result || null
-  );
+  const [aiObjectiveResult, setAiObjectiveResult] = useState(validCachedObjective);
   const [aiFullResult, setAiFullResult] = useState(
     results.ai_full_result || results.skill_scores?.ai_full_result || cachedAi?.ai_full_result || null
   );
 
   const hasStoredWriting = Boolean(results.ai_writing_result || results.skill_scores?.ai_writing_result || cachedAi?.ai_writing_result);
   const hasStoredSpeaking = Boolean(results.ai_speaking_result || results.skill_scores?.ai_speaking_result || cachedAi?.ai_speaking_result);
-  const hasStoredObjective = Boolean(results.ai_objective_result || results.skill_scores?.ai_objective_result || cachedAi?.ai_objective_result);
+  const hasStoredObjective = Boolean(validCachedObjective);
   const hasStoredFull = Boolean(results.ai_full_result || results.skill_scores?.ai_full_result || cachedAi?.ai_full_result);
 
   const [isAiGradingWriting, setIsAiGradingWriting] = useState(
@@ -197,7 +253,7 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
     !isReviewMode && !hasStoredSpeaking && (isSpeakingExam || isFullExam) && (speakingSubmissions.repeat_items?.length > 0 || speakingSubmissions.interview_items?.length > 0) && isConfigured
   );
   const [isAiGradingObjective, setIsAiGradingObjective] = useState(
-    !isReviewMode && !hasStoredObjective && (isReadingExam || isListeningExam) && total_questions > 0 && isConfigured
+    !isReviewMode && !hasStoredObjective && (isReadingExam || isListeningExam) && effectiveTotalQuestions > 0 && isConfigured
   );
   const [isAiGradingFull, setIsAiGradingFull] = useState(
     !isReviewMode && !hasStoredFull && isFullExam && isConfigured
@@ -205,8 +261,12 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
 
   // Khởi tạo điểm số chuẩn ETS cho 4 kỹ năng (hỗ trợ cập nhật động khi AI chấm xong hoặc lấy từ kết quả đã lưu)
   const [aiScores, setAiScores] = useState({
-    reading: results.skill_scores?.reading ?? (isReadingExam ? ((results.ai_objective_result || cachedAi?.ai_objective_result)?.scaled_score_30 ?? convertRawToScale30(score_raw, total_questions, 'reading')) : 26),
-    listening: results.skill_scores?.listening ?? (isListeningExam ? ((results.ai_objective_result || cachedAi?.ai_objective_result)?.scaled_score_30 ?? convertRawToScale30(score_raw, total_questions, 'listening')) : 25),
+    reading: (results.skill_scores?.reading && isObjectiveCacheValid(results.skill_scores?.ai_objective_result)) 
+      ? results.skill_scores.reading 
+      : (isReadingExam ? (validCachedObjective?.scaled_score_30 ?? convertRawToScale30(effectiveScoreRaw, effectiveTotalQuestions, 'reading')) : 26),
+    listening: (results.skill_scores?.listening && isObjectiveCacheValid(results.skill_scores?.ai_objective_result)) 
+      ? results.skill_scores.listening 
+      : (isListeningExam ? (validCachedObjective?.scaled_score_30 ?? convertRawToScale30(effectiveScoreRaw, effectiveTotalQuestions, 'listening')) : 25),
     writing: results.skill_scores?.writing ?? (isWritingExam ? ((results.ai_writing_result || cachedAi?.ai_writing_result)?.combined_score_30 ?? legacyScore30) : 26),
     speaking: results.skill_scores?.speaking ?? (isSpeakingExam ? ((results.ai_speaking_result || cachedAi?.ai_speaking_result)?.score_30 ?? 25) : 25),
   });
@@ -274,14 +334,19 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
           writing_submissions: writingSubmissions
         });
       } else {
-        const score30 = (newScore30 !== null && newScore30 !== undefined) ? newScore30 : (aiScores[currentSkill] ?? score_raw);
+        const score30 = (newScore30 !== null && newScore30 !== undefined) ? newScore30 : (aiScores[currentSkill] ?? 20);
         const band = (fullObj && fullObj.toefl_band_6) ? fullObj.toefl_band_6 : convert30ToBand6(score30);
 
         await saveExamResult({
           ...results,
           id: results.id,
           score_band: band,
-          score_raw: score30,
+          score_raw: effectiveScoreRaw,
+          total_questions: effectiveTotalQuestions,
+          skill_scores: {
+            ...(results.skill_scores || {}),
+            [currentSkill]: score30
+          },
           ai_writing_result: updatedWriting,
           ai_speaking_result: updatedSpeaking,
           ai_objective_result: updatedObjective,
@@ -331,7 +396,7 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
     : aiScores.speaking;
 
   // Điểm cho Single Reading / Listening Test
-  const objectiveScore = aiScores[currentSkill] ?? convertRawToScale30(score_raw, total_questions, currentSkill);
+  const objectiveScore = aiScores[currentSkill] ?? convertRawToScale30(effectiveScoreRaw, effectiveTotalQuestions, currentSkill);
   const finalObjectiveBand6 = aiObjectiveResult 
     ? (aiObjectiveResult.toefl_band_6 || convert30ToBand6(aiObjectiveResult.scaled_score_30))
     : convert30ToBand6(objectiveScore);
@@ -496,9 +561,10 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
                   )}
                 </div>
                 {isAiGradingWriting && !aiWritingResult ? (
-                  <div className="text-sm font-black text-rose-700 animate-pulse flex items-center gap-1 font-mono uppercase py-1">
-                    <Sparkles className="w-3 h-3 text-rose-600 animate-spin" />
-                    <span>Processing...</span>
+                  <div className="flex items-center gap-1.5 py-2">
+                    <span className="w-2 h-2 rounded-full bg-rose-500 animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="w-2 h-2 rounded-full bg-rose-500 animate-bounce" style={{ animationDelay: '160ms' }} />
+                    <span className="w-2 h-2 rounded-full bg-rose-500 animate-bounce" style={{ animationDelay: '320ms' }} />
                   </div>
                 ) : (
                   <div className="text-2xl font-black text-rose-900">
@@ -535,9 +601,10 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
                   )}
                 </div>
                 {isAiGradingSpeaking && !aiSpeakingResult ? (
-                  <div className="text-sm font-black text-emerald-700 animate-pulse flex items-center gap-1 font-mono uppercase py-1">
-                    <Sparkles className="w-3 h-3 text-emerald-600 animate-spin" />
-                    <span>Processing...</span>
+                  <div className="flex items-center gap-1.5 py-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce" style={{ animationDelay: '160ms' }} />
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce" style={{ animationDelay: '320ms' }} />
                   </div>
                 ) : (
                   <div className="text-2xl font-black text-emerald-900">
@@ -553,8 +620,8 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
           </div>
         ) : isWritingExam ? (
           /* ========================================================
-             GIAO DIỆN BẢNG ĐIỂM CHUẨN ETS 2026 CHO BÀI THI WRITING (AI GRADED)
-             ======================================================== */
+              GIAO DIỆN BẢNG ĐIỂM CHUẨN ETS 2026 CHO BÀI THI WRITING (AI GRADED)
+              ======================================================== */
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto mb-8">
             {/* Band Score 2026 */}
             <div className="p-5 rounded-2xl bg-gradient-to-b from-teal-50 to-emerald-50/60 border border-teal-200 text-center shadow-xs">
@@ -570,7 +637,7 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
                 ) : isAiGradingWriting ? (
                   <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-teal-100 text-teal-800 text-[9px] font-bold animate-pulse">
                     <Sparkles className="w-2.5 h-2.5 animate-spin" />
-                    Processing...
+                    Đang tính...
                   </span>
                 ) : null}
               </div>
@@ -578,7 +645,7 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
               {isAiGradingWriting && !aiWritingResult ? (
                 <ProcessingScoreBadge 
                   color="teal" 
-                  subtitle="Gemini AI đang chấm theo barem ETS 2026..." 
+                  subtitle="Hệ thống AI đang chấm theo barem ETS 2026..." 
                 />
               ) : (
                 <div>
@@ -791,10 +858,10 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
               </span>
               <div>
                 <div className="text-3xl font-black text-slate-800 mt-0.5">
-                  {score_raw}
-                  <span className="text-sm text-slate-400 font-medium ml-1">/ {total_questions}</span>
+                  {effectiveScoreRaw}
+                  <span className="text-sm text-slate-400 font-medium ml-1">/ {effectiveTotalQuestions}</span>
                   <span className="text-xs text-teal-600 font-bold ml-2">
-                    ({Math.round((score_raw / (total_questions || 1)) * 100)}%)
+                    ({Math.round((effectiveScoreRaw / (effectiveTotalQuestions || 1)) * 100)}%)
                   </span>
                 </div>
                 <span className="text-[10px] text-slate-500 font-medium block mt-2">
@@ -875,8 +942,8 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
         <ObjectiveAIEvaluation
           skill={currentSkill}
           userSubmission={user_submission}
-          scoreRaw={score_raw}
-          totalQuestions={total_questions}
+          scoreRaw={effectiveScoreRaw}
+          totalQuestions={effectiveTotalQuestions}
           timeSpentSeconds={time_spent_seconds}
           testTitle={test.title}
           autoStart={!isReviewMode && !hasStoredObjective && !aiObjectiveResult}
@@ -990,7 +1057,7 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
                           ) : isAiGradingWriting ? (
                             <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full animate-pulse">
                               <Sparkles className="w-3 h-3 text-amber-600 animate-spin" />
-                              Gemini đang chấm điểm...
+                              AI đang chấm điểm...
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-full">

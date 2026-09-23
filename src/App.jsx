@@ -9,8 +9,9 @@ import ExamRunner from './components/exam/ExamRunner';
 import ExamResults from './components/exam/ExamResults';
 import ExamHistoryModal from './components/ExamHistoryModal';
 import VocabularyHub from './components/vocabulary/VocabularyHub';
+import DictionaryWidget from './components/dictionary/DictionaryWidget';
 import { getTestsBySkill, getFullTests, deleteTest, getExamHistory } from './lib/supabase';
-import { MessageCircle, User } from 'lucide-react';
+import { MessageCircle, X } from 'lucide-react';
 
 export default function App() {
   const [activeSkill, setActiveSkill] = useState('listening'); // Default to listening like screenshot
@@ -21,6 +22,10 @@ export default function App() {
   const [tests, setTests] = useState([]);
   const [testHistories, setTestHistories] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+
+  // Dictionary Window state
+  const [isDictionaryOpen, setIsDictionaryOpen] = useState(false);
+
 
   // Modals
   const [isImportOpen, setIsImportOpen] = useState(false);
@@ -138,6 +143,25 @@ export default function App() {
           }}
           onBackHome={handleExitReview}
         />
+
+        {/* Floating Bottom-Right Dictionary / Translation Icon in Review Mode */}
+        <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-40">
+          <button 
+            onClick={() => setIsDictionaryOpen((prev) => !prev)}
+            className={`w-12 h-12 rounded-full text-white flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95 cursor-pointer ${
+              isDictionaryOpen ? 'bg-slate-800 hover:bg-slate-700' : 'bg-[#c6764d] hover:bg-[#b5653c]'
+            }`}
+            title="Từ điển & Dịch thuật thông minh"
+          >
+            {isDictionaryOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
+          </button>
+        </div>
+
+        <DictionaryWidget
+          isOpen={isDictionaryOpen}
+          onClose={() => setIsDictionaryOpen(false)}
+          onOpenSettings={() => setIsSettingsOpen(true)}
+        />
       </div>
     );
   }
@@ -217,6 +241,12 @@ export default function App() {
             <a href="#privacy" onClick={(e) => { e.preventDefault(); alert("Chính sách bảo mật: Dữ liệu bài làm của bạn được lưu an toàn trên Supabase / thiết bị."); }} className="hover:text-slate-950 transition-colors">
               Privacy Policy
             </a>
+            <button 
+              onClick={() => setIsSettingsOpen(true)}
+              className="hover:text-slate-950 transition-colors cursor-pointer text-slate-500 hover:underline"
+            >
+              Settings
+            </button>
           </div>
 
           <p className="text-slate-400 font-normal text-[11px]">
@@ -225,24 +255,25 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Floating Bottom-Right Icons matching screenshot */}
-      <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-30">
+      {/* Floating Bottom-Right Dictionary / Translation Icon */}
+      <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-40">
         <button 
-          onClick={() => setIsSettingsOpen(true)}
-          className="w-12 h-12 rounded-full bg-[#d7936a] hover:bg-[#c6825a] text-white flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95 cursor-pointer"
-          title="Tài khoản / Cấu hình"
+          onClick={() => setIsDictionaryOpen((prev) => !prev)}
+          className={`w-12 h-12 rounded-full text-white flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95 cursor-pointer ${
+            isDictionaryOpen ? 'bg-slate-800 hover:bg-slate-700' : 'bg-[#c6764d] hover:bg-[#b5653c]'
+          }`}
+          title="Từ điển & Dịch thuật thông minh"
         >
-          <User className="w-6 h-6" />
-        </button>
-
-        <button 
-          onClick={() => alert("Hộp thoại trợ giúp: Bạn có thể dán đề thi AI tạo vào mục 'Import Đề AI' để luyện tập bất kỳ dạng bài nào!")}
-          className="w-12 h-12 rounded-full bg-[#c6764d] hover:bg-[#b5653c] text-white flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95 cursor-pointer"
-          title="Trợ giúp & Hướng dẫn"
-        >
-          <MessageCircle className="w-6 h-6" />
+          {isDictionaryOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
         </button>
       </div>
+
+      {/* Cửa sổ Từ điển & Dịch thuật */}
+      <DictionaryWidget
+        isOpen={isDictionaryOpen}
+        onClose={() => setIsDictionaryOpen(false)}
+        onOpenSettings={() => setIsSettingsOpen(true)}
+      />
 
       {/* Modals */}
       <ImportModal

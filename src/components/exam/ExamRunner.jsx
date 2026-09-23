@@ -431,13 +431,7 @@ export default function ExamRunner({ test, onExit }) {
       test_id: test.id,
       skill: test.skill,
       score_band: scoreBand,
-      score_raw: isFullTest ? totalToefl120 : (
-        test.skill === 'reading' ? readingScore :
-        test.skill === 'listening' ? listeningScore :
-        test.skill === 'writing' ? writingScore :
-        test.skill === 'speaking' ? speakingScore :
-        Math.round(totalScoreRaw)
-      ),
+      score_raw: isFullTest ? totalToefl120 : Math.round(totalScoreRaw),
       total_questions: isFullTest ? 120 : totalQuestionsCount,
       is_full_test: isFullTest,
       skill_scores: isFullTest ? {
@@ -446,7 +440,15 @@ export default function ExamRunner({ test, onExit }) {
         writing: writingScore,
         speaking: speakingScore,
         total: totalToefl120
-      } : null,
+      } : {
+        [test.skill]: (
+          test.skill === 'reading' ? readingScore :
+          test.skill === 'listening' ? listeningScore :
+          test.skill === 'writing' ? writingScore :
+          test.skill === 'speaking' ? speakingScore :
+          26
+        )
+      },
       user_submission: stageResults, // Chi tiết theo từng Stage & Task
       writing_submissions: writingSubmissions,
       speaking_submissions: speakingSubmissions,

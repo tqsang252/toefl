@@ -196,7 +196,7 @@ export default function FullExamAIEvaluation({
             <div className="p-8 text-center bg-slate-50 rounded-2xl border border-slate-200 animate-pulse">
               <Sparkles className="w-8 h-8 text-teal-600 mx-auto mb-2 animate-spin" />
               <p className="text-sm font-bold text-slate-800">
-                Gemini AI đang tổng hợp dữ liệu 4 kỹ năng và xây dựng lộ trình học...
+                Hệ thống AI đang tổng hợp dữ liệu 4 kỹ năng và xây dựng lộ trình học...
               </p>
             </div>
           )}

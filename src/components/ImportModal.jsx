@@ -1055,17 +1055,17 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
     reader.readAsText(file);
   };
 
-  // 1-Click: Tự động sinh đề bằng Gemini AI (Dự phòng OpenRouter) và đẩy thẳng lên Database
+  // 1-Click: Tự động sinh đề và đẩy thẳng lên Database
   const handleGenerateWithAI = async () => {
     if (!isGeminiConfigured() && !isOpenRouterConfigured()) {
-      setErrorMsg('Chưa cấu hình API Key (Gemini hoặc OpenRouter)! Vui lòng thêm trong file .env hoặc vào mục Cài Đặt (góc phải dưới) để kích hoạt sinh đề AI.');
+      setErrorMsg('Chưa cấu hình API Key! Vui lòng cấu hình API Key trong file .env hoặc vào mục Cài Đặt (chân trang) để kích hoạt tính năng sinh đề tự động.');
       return;
     }
 
     try {
       setIsAiGenerating(true);
       setErrorMsg('');
-      setAiProgressStatus('Đang kết nối AI chuẩn bị sinh đề thi...');
+      setAiProgressStatus('Đang kết nối chuẩn bị sinh đề thi...');
 
       const result = await generateExamWithGemini({
         skillType: selectedPromptType,
@@ -1079,8 +1079,7 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
       }
 
       const generatedTitle = result.tests?.[0]?.title || 'Bộ đề thi mới';
-      const providerLabel = result.provider === 'openrouter' ? 'OpenRouter (Dự phòng thông minh)' : 'Google Gemini';
-      alert(`🎉 Đã sinh thành công đề thi: "${generatedTitle}" qua ${providerLabel} và tự động lưu vào ${result.destination}!`);
+      alert(`🎉 Đã tạo thành công đề thi: "${generatedTitle}" và tự động lưu vào ${result.destination}!`);
 
       if (onImportSuccess) {
         onImportSuccess();
@@ -1088,7 +1087,7 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
       onClose();
     } catch (err) {
       console.error('Lỗi sinh đề bằng AI:', err);
-      setErrorMsg(`Lỗi khi sinh đề AI: ${err.message}`);
+      setErrorMsg(`Lỗi khi sinh đề: ${err.message}`);
     } finally {
       setIsAiGenerating(false);
       setAiProgressStatus('');
@@ -1156,7 +1155,7 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
                 </span>
               </h3>
               <p className="text-[11px] text-slate-500">
-                Tự động sinh đề bằng Gemini AI hoặc dán mã JSON theo chuẩn đề thi ETS 2026
+                Tự động biên soạn bộ đề chuẩn ETS 2026 hoặc nhập mã JSON vào hệ thống
               </p>
             </div>
           </div>
@@ -1202,31 +1201,24 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
             </div>
           </div>
 
-          {/* KHỐI 1-CLICK TỰ ĐỘNG SINH ĐỀ BẰNG GEMINI AI */}
-          <div className="bg-gradient-to-br from-[#0f1f38] via-[#153e75] to-[#0f2e59] rounded-2xl p-5 text-white shadow-md border border-indigo-500/30 relative overflow-hidden">
+          {/* KHỐI 1-CLICK TỰ ĐỘNG TẠO BỘ ĐỀ */}
+          <div className="bg-gradient-to-br from-[#0b1728] via-[#102a4e] to-[#0c1e38] rounded-2xl p-5 text-white shadow-lg border border-indigo-500/25 relative overflow-hidden">
+            {/* Hiệu ứng ánh sáng nền tinh tế */}
+            <div className="absolute -top-12 -right-12 w-44 h-44 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-12 -left-12 w-44 h-44 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+
             <div className="relative z-10 space-y-3.5">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-400 to-amber-200 text-slate-950 flex items-center justify-center font-black shadow-md shrink-0">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-400 to-amber-200 text-slate-950 flex items-center justify-center font-black shadow-md shrink-0 ring-2 ring-amber-400/20">
                     <Sparkles className="w-5 h-5 text-amber-950" />
                   </div>
                   <div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h4 className="text-sm font-black tracking-tight text-white uppercase">
-                        Tự Động Sinh Đề {getSkillTitle()}
-                      </h4>
-                      <span className="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-teal-400/20 text-teal-300 border border-teal-400/30">
-                        Gemini 2.5 Flash
-                      </span>
-                      {isOpenRouterConfigured() && (
-                        <span className="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-400/20 text-purple-300 border border-purple-400/30 flex items-center gap-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
-                          OpenRouter Auto-Fallback
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-[11px] text-indigo-200">
-                      Ưu tiên Google Gemini AI, tự động chuyển sang OpenRouter khi Gemini quá tải/hết quota và lưu thẳng vào Database
+                    <h4 className="text-sm font-black tracking-tight text-white uppercase flex items-center gap-2">
+                      Tự Động Tạo Đề {getSkillTitle()}
+                    </h4>
+                    <p className="text-[12px] text-slate-300 mt-0.5 leading-snug">
+                      Hệ thống tự động biên soạn bộ đề chuẩn cấu trúc ETS TOEFL iBT và lưu trực tiếp vào cơ sở dữ liệu.
                     </p>
                   </div>
                 </div>
@@ -1240,14 +1232,14 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
                   <Sparkles className={`w-3.5 h-3.5 text-slate-900 ${isAiGenerating ? 'animate-spin' : ''}`} />
                   <span>
                     {isAiGenerating 
-                      ? 'AI Đang Sinh Đề & Lưu DB...' 
-                      : `✨ Sinh Đề ${selectedPromptType === 'full' ? 'Full Test (4 KN)' : selectedPromptType.toUpperCase()} Ngay`}
+                      ? 'Đang tạo bài thi thử & Lưu...' 
+                      : `Tạo bài thi thử ${selectedPromptType === 'full' ? 'Full Test' : (selectedPromptType.charAt(0).toUpperCase() + selectedPromptType.slice(1).toLowerCase())}`}
                   </span>
                 </button>
               </div>
 
               {/* Ô nhập chủ đề tùy chọn (Optional) */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-1 border-t border-indigo-600/40">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-2 border-t border-indigo-600/30">
                 <label className="text-[11px] font-bold text-indigo-200 shrink-0">
                   Chủ đề tùy chọn (không bắt buộc):
                 </label>
@@ -1256,7 +1248,7 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
                   value={customTopic}
                   onChange={(e) => setCustomTopic(e.target.value)}
                   disabled={isAiGenerating}
-                  placeholder="VD: Khoa học môi trường, Tâm lý học, Đời sống sinh viên... (để trống: AI tự chọn)"
+                  placeholder="VD: Khoa học môi trường, Tâm lý học, Đời sống sinh viên... (để trống: ngẫu nhiên)"
                   className="flex-1 px-3 py-1.5 rounded-lg bg-indigo-950/60 border border-indigo-500/50 text-white placeholder-indigo-300/50 text-xs focus:outline-hidden focus:border-teal-400 transition-colors"
                 />
               </div>
@@ -1266,20 +1258,20 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
                 <div className="p-3 rounded-xl bg-indigo-950/90 border border-teal-400/50 flex items-center gap-3 animate-pulse">
                   <div className="w-4 h-4 border-2 border-teal-400 border-t-transparent rounded-full animate-spin shrink-0" />
                   <div className="text-xs text-teal-300 font-semibold flex-1">
-                    {aiProgressStatus || 'Gemini AI đang soạn bộ đề theo format ETS 2026...'}
+                    {aiProgressStatus || 'Hệ thống đang soạn bộ đề theo format ETS 2026...'}
                   </div>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Box Mẫu Prompt cho ChatGPT / Gemini (Tùy chọn thủ công) */}
+          {/* Box Mẫu Prompt (Tùy chọn thủ công) */}
           <div className="bg-indigo-50/60 border border-indigo-200 rounded-2xl p-4">
             <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
               <div className="flex items-center gap-2">
                 <FileCode className="w-3.5 h-3.5 text-indigo-600" />
                 <span className="text-xs font-bold text-indigo-900">
-                  Tùy chọn thủ công: Copy Prompt để dán vào ChatGPT/Gemini
+                  Tùy chọn thủ công: Copy Prompt để dán vào công cụ AI
                 </span>
               </div>
 

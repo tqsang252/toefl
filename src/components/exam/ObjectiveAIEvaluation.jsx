@@ -27,25 +27,37 @@ export default function ObjectiveAIEvaluation({
   onGradingStart
 }) {
   const isConfigured = isGeminiConfigured();
-  const isReading = skill.toLowerCase() === 'reading';
+  const isReading = (skill || '').toLowerCase() === 'reading';
 
-  const [evaluation, setEvaluation] = useState(existingEvaluation);
+  // Kiểm tra nếu evaluation truyền vào bị lệch quá xa so với scoreRaw thực tế (do bug phiên bản trước lưu sai 100%)
+  const isStaleEvaluation = Boolean(
+    existingEvaluation &&
+    totalQuestions > 0 &&
+    typeof existingEvaluation.accuracy_rate === 'number' &&
+    Math.abs(existingEvaluation.accuracy_rate - (scoreRaw / totalQuestions) * 100) > 15
+  );
+
+  const [evaluation, setEvaluation] = useState(isStaleEvaluation ? null : existingEvaluation);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    if (existingEvaluation && !evaluation) {
-      setEvaluation(existingEvaluation);
+    if (existingEvaluation) {
+      if (isStaleEvaluation) {
+        setEvaluation(null);
+      } else {
+        setEvaluation(existingEvaluation);
+      }
     }
-  }, [existingEvaluation]);
+  }, [existingEvaluation, isStaleEvaluation]);
 
   useEffect(() => {
-    if (!autoStart || !isConfigured || evaluation || existingEvaluation || isLoading) return;
+    if (!autoStart || !isConfigured || evaluation || (existingEvaluation && !isStaleEvaluation) || isLoading) return;
 
     if (totalQuestions > 0) {
       runGrading();
     }
-  }, [skill, scoreRaw, totalQuestions, isConfigured, autoStart, existingEvaluation]);
+  }, [skill, scoreRaw, totalQuestions, isConfigured, autoStart, existingEvaluation, isStaleEvaluation]);
 
   const runGrading = async () => {
     setIsLoading(true);
@@ -66,7 +78,7 @@ export default function ObjectiveAIEvaluation({
       if (onEvaluationComplete) onEvaluationComplete(result);
     } catch (err) {
       console.error(`${skill} AI Grading Error:`, err);
-      setErrorMessage(err.message || `Lỗi khi gọi Gemini AI chấm phần thi ${skill}.`);
+      setErrorMessage(err.message || `Lỗi khi gọi AI chấm phần thi ${skill}.`);
     } finally {
       setIsLoading(false);
     }
@@ -136,7 +148,7 @@ export default function ObjectiveAIEvaluation({
             <SkillIcon className="w-6 h-6 animate-pulse" />
           </div>
           <h4 className="text-sm font-black text-slate-800 mb-1">
-            Gemini AI đang phân tích toàn bộ câu hỏi và tính điểm chuẩn ETS 2026...
+            Hệ thống AI đang phân tích toàn bộ câu hỏi và tính điểm chuẩn ETS 2026...
           </h4>
           <p className="text-xs text-slate-500 max-w-md mx-auto">
             Đang phân loại các câu hỏi theo dạng bài (Từ vựng, Ý chính, Suy luận, Chi tiết) để tìm ra điểm mạnh và lỗ hổng kiến thức.
@@ -183,7 +195,9 @@ export default function ObjectiveAIEvaluation({
               </span>
               <span className="text-3xl font-black text-slate-800">
                 {scoreRaw} <span className="text-sm font-normal text-slate-500">/ {totalQuestions}</span>
-                <span className="text-xs font-bold text-slate-400 ml-1">({evaluation.accuracy_rate}%)</span>
+                <span className="text-xs font-bold text-slate-400 ml-1">
+                  ({evaluation.accuracy_rate ?? (totalQuestions > 0 ? Math.round((scoreRaw / totalQuestions) * 100) : 0)}%)
+                </span>
               </span>
             </div>
           </div>
