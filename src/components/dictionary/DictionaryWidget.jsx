@@ -191,7 +191,7 @@ export default function DictionaryWidget({ isOpen, onClose, onOpenSettings }) {
       }
     } catch (err) {
       console.error('Lỗi tra cứu / dịch thuật:', err);
-      const isConfigError = !isAiConfigured() || err.message?.toLowerCase().includes('api key');
+      const isMissingConfig = !isAiConfigured();
 
       setHistory((prev) => [
         ...prev,
@@ -200,7 +200,7 @@ export default function DictionaryWidget({ isOpen, onClose, onOpenSettings }) {
           query,
           timestamp,
           type: isSingleWord ? 'word' : 'text',
-          error: isConfigError 
+          error: isMissingConfig
             ? 'Chưa cấu hình API Key để thực hiện tính năng dịch AI. Hãy bổ sung API Key trong phần Cài đặt.'
             : (err.message || 'Đã xảy ra lỗi khi kết nối hệ thống AI. Vui lòng thử lại.')
         }

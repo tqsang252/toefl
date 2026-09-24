@@ -44,10 +44,16 @@ const DEFAULT_SYSTEM_INSTRUCTION =
 function parseApiKeys(raw) {
   if (!raw) return [];
   if (Array.isArray(raw)) {
-    return Array.from(new Set(raw.map(k => String(k).trim()).filter(Boolean)));
+    return Array.from(
+      new Set(
+        raw
+          .map(k => String(k).trim().replace(/^['"`\[\]\s]+|['"`\[\]\s]+$/g, ''))
+          .filter(Boolean)
+      )
+    );
   }
 
-  const str = String(raw).trim();
+  let str = String(raw).trim();
   if (!str) return [];
 
   // 1. Nếu là định dạng mảng JSON [ "key1", "key2" ]
@@ -55,17 +61,28 @@ function parseApiKeys(raw) {
     try {
       const parsed = JSON.parse(str);
       if (Array.isArray(parsed)) {
-        return Array.from(new Set(parsed.map(k => String(k).trim()).filter(Boolean)));
+        return Array.from(
+          new Set(
+            parsed
+              .map(k => String(k).trim().replace(/^['"`\[\]\s]+|['"`\[\]\s]+$/g, ''))
+              .filter(Boolean)
+          )
+        );
       }
     } catch {
-      // Nếu parse JSON lỗi thì chuyển sang fallback split
+      // Nếu parse JSON lỗi (ví dụ [key1, key2] không có ngoặc kép quanh key), bóc ngoặc bên dưới
     }
   }
 
-  // 2. Tách theo dấu phẩy, chấm phẩy hoặc xuống dòng
+  // 2. Bỏ cặp dấu ngoặc vuông [ ... ] ở đầu và cuối nếu có
+  if (str.startsWith('[') && str.endsWith(']')) {
+    str = str.slice(1, -1).trim();
+  }
+
+  // 3. Tách theo dấu phẩy, chấm phẩy hoặc xuống dòng
   const items = str
-    .split(/[\n,;]+/)
-    .map(k => k.trim().replace(/^['"]|['"]$/g, ''))
+    .split(/[\n\r,;]+/)
+    .map(k => k.trim().replace(/^['"`\[\]\s]+|['"`\[\]\s]+$/g, ''))
     .filter(Boolean);
 
   return Array.from(new Set(items));
@@ -145,15 +162,28 @@ export default async function handler(req, res) {
     : (skillType ? 0.7 : 0.2);
 
   // ── Đọc và phân tích mảng API Keys ─────────────────────────────────
-  const rawGeminiEnv = process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || '';
-  const rawOpenRouterEnv = process.env.VITE_OPENROUTER_API_KEY || process.env.OPENROUTER_API_KEY || '';
+  const rawGeminiEnv =
+    process.env.VITE_GEMINI_API_KEY ||
+    process.env.GEMINI_API_KEY ||
+    process.env.VITE_GEMINI_API_KEYS ||
+    process.env.GEMINI_API_KEYS ||
+    process.env.VITE_API_KEY ||
+    process.env.API_KEY ||
+    '';
+
+  const rawOpenRouterEnv =
+    process.env.VITE_OPENROUTER_API_KEY ||
+    process.env.OPENROUTER_API_KEY ||
+    process.env.VITE_OPENROUTER_API_KEYS ||
+    process.env.OPENROUTER_API_KEYS ||
+    '';
 
   const geminiKeys = parseApiKeys(rawGeminiEnv);
   const openRouterKeys = parseApiKeys(rawOpenRouterEnv);
 
   if (geminiKeys.length === 0 && openRouterKeys.length === 0) {
     return res.status(500).json({
-      error: 'Server chưa cấu hình API Key. Vui lòng thêm VITE_GEMINI_API_KEY hoặc VITE_OPENROUTER_API_KEY trên Vercel Dashboard.'
+      error: 'Server chưa cấu hình API Key. Vui lòng thêm VITE_GEMINI_API_KEY hoặc VITE_API_KEY trên Vercel Dashboard.'
     });
   }
 

@@ -26,10 +26,16 @@ export const isDev = Boolean(import.meta.env.DEV);
 export function parseApiKeys(raw) {
   if (!raw) return [];
   if (Array.isArray(raw)) {
-    return Array.from(new Set(raw.map(k => String(k).trim()).filter(Boolean)));
+    return Array.from(
+      new Set(
+        raw
+          .map(k => String(k).trim().replace(/^['"`\[\]\s]+|['"`\[\]\s]+$/g, ''))
+          .filter(Boolean)
+      )
+    );
   }
 
-  const str = String(raw).trim();
+  let str = String(raw).trim();
   if (!str) return [];
 
   // 1. Nếu là định dạng mảng JSON [ "key1", "key2" ]
@@ -37,17 +43,28 @@ export function parseApiKeys(raw) {
     try {
       const parsed = JSON.parse(str);
       if (Array.isArray(parsed)) {
-        return Array.from(new Set(parsed.map(k => String(k).trim()).filter(Boolean)));
+        return Array.from(
+          new Set(
+            parsed
+              .map(k => String(k).trim().replace(/^['"`\[\]\s]+|['"`\[\]\s]+$/g, ''))
+              .filter(Boolean)
+          )
+        );
       }
     } catch {
-      // Fallback nếu JSON không hợp lệ
+      // Fallback nếu JSON không hợp lệ (ví dụ không có nháy kép)
     }
   }
 
-  // 2. Tách theo dấu phẩy, chấm phẩy hoặc xuống dòng
+  // 2. Bỏ cặp dấu ngoặc vuông [ ... ] ở đầu và cuối nếu có
+  if (str.startsWith('[') && str.endsWith(']')) {
+    str = str.slice(1, -1).trim();
+  }
+
+  // 3. Tách theo dấu phẩy, chấm phẩy hoặc xuống dòng
   const items = str
-    .split(/[\n,;]+/)
-    .map(k => k.trim().replace(/^['"]|['"]$/g, ''))
+    .split(/[\n\r,;]+/)
+    .map(k => k.trim().replace(/^['"`\[\]\s]+|['"`\[\]\s]+$/g, ''))
     .filter(Boolean);
 
   return Array.from(new Set(items));
@@ -67,9 +84,10 @@ export function shuffleArray(array) {
 
 // Lấy danh sách tất cả các Gemini API Keys có sẵn
 export function getGeminiApiKeys() {
-  if (import.meta.env.PROD) return []; // Production: dùng server proxy Vercel
   const localKey = typeof localStorage !== 'undefined' ? (localStorage.getItem('toefl_gemini_api_key') || '') : '';
-  const envKey = import.meta.env?.VITE_GEMINI_API_KEY || import.meta.env?.GEMINI_API_KEY || '';
+  const envKey = !import.meta.env.PROD 
+    ? (import.meta.env?.VITE_GEMINI_API_KEY || import.meta.env?.GEMINI_API_KEY || import.meta.env?.VITE_API_KEY || import.meta.env?.API_KEY || '')
+    : '';
   const parsedLocal = parseApiKeys(localKey);
   const parsedEnv = parseApiKeys(envKey);
   return Array.from(new Set([...parsedLocal, ...parsedEnv]));
@@ -95,9 +113,10 @@ export function saveGeminiApiKey(key) {
 
 // Lấy danh sách tất cả các OpenRouter API Keys có sẵn
 export function getOpenRouterApiKeys() {
-  if (import.meta.env.PROD) return []; // Production: dùng server proxy Vercel
   const localKey = typeof localStorage !== 'undefined' ? (localStorage.getItem('toefl_openrouter_api_key') || '') : '';
-  const envKey = import.meta.env?.VITE_OPENROUTER_API_KEY || import.meta.env?.OPENROUTER_API_KEY || '';
+  const envKey = !import.meta.env.PROD 
+    ? (import.meta.env?.VITE_OPENROUTER_API_KEY || import.meta.env?.OPENROUTER_API_KEY || '')
+    : '';
   const parsedLocal = parseApiKeys(localKey);
   const parsedEnv = parseApiKeys(envKey);
   return Array.from(new Set([...parsedLocal, ...parsedEnv]));
