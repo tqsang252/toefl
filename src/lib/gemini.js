@@ -17,8 +17,8 @@ import { getExamPrompt } from './examPrompts.js';
 // Hỗ trợ mảng API Keys: ["key1", "key2"] hoặc chuỗi phân tách bởi dấu phẩy
 // ====================================================================
 
-export const IS_PRODUCTION = import.meta.env.PROD === true;
-export const IS_DEV = import.meta.env.DEV === true;
+export const isProduction = Boolean(import.meta.env.PROD);
+export const isDev = Boolean(import.meta.env.DEV);
 
 /**
  * Phân tích chuỗi hoặc JSON thành mảng các API Key hợp lệ
@@ -67,7 +67,7 @@ export function shuffleArray(array) {
 
 // Lấy danh sách tất cả các Gemini API Keys có sẵn
 export function getGeminiApiKeys() {
-  if (IS_PRODUCTION) return []; // Production: dùng server proxy Vercel
+  if (import.meta.env.PROD) return []; // Production: dùng server proxy Vercel
   const localKey = typeof localStorage !== 'undefined' ? (localStorage.getItem('toefl_gemini_api_key') || '') : '';
   const envKey = import.meta.env?.VITE_GEMINI_API_KEY || import.meta.env?.GEMINI_API_KEY || '';
   const parsedLocal = parseApiKeys(localKey);
@@ -95,7 +95,7 @@ export function saveGeminiApiKey(key) {
 
 // Lấy danh sách tất cả các OpenRouter API Keys có sẵn
 export function getOpenRouterApiKeys() {
-  if (IS_PRODUCTION) return []; // Production: dùng server proxy Vercel
+  if (import.meta.env.PROD) return []; // Production: dùng server proxy Vercel
   const localKey = typeof localStorage !== 'undefined' ? (localStorage.getItem('toefl_openrouter_api_key') || '') : '';
   const envKey = import.meta.env?.VITE_OPENROUTER_API_KEY || import.meta.env?.OPENROUTER_API_KEY || '';
   const parsedLocal = parseApiKeys(localKey);
@@ -123,13 +123,13 @@ export function saveOpenRouterApiKey(key) {
 
 // Kiểm tra xem OpenRouter đã được cấu hình chưa
 export function isOpenRouterConfigured() {
-  if (IS_PRODUCTION) return true; // Proxy server luôn có key trên Vercel
+  if (import.meta.env.PROD) return true; // Proxy server luôn có key trên Vercel
   return getOpenRouterApiKeys().length > 0;
 }
 
 // Kiểm tra xem đã cấu hình ít nhất 1 AI Provider (Gemini hoặc OpenRouter) chưa
 export function isGeminiConfigured() {
-  if (IS_PRODUCTION) return true; // Proxy server luôn có key trên Vercel
+  if (import.meta.env.PROD) return true; // Proxy server luôn có key trên Vercel
   return getGeminiApiKeys().length > 0 || getOpenRouterApiKeys().length > 0;
 }
 
@@ -596,7 +596,7 @@ export async function generateGeminiJson(parts, systemInstruction = '', temperat
   }
 
   // 1. Nếu đang chạy trên Production (Vercel): chuyển qua Universal Serverless Proxy (/api/ai-proxy)
-  if (IS_PRODUCTION) {
+  if (import.meta.env.PROD) {
     try {
       const response = await fetch('/api/ai-proxy', {
         method: 'POST',
@@ -1201,7 +1201,7 @@ export async function generateExamWithGemini({
   // LOCALHOST (Dev):     Gọi Gemini/OpenRouter trực tiếp — key từ .env.local
   // ================================================================
 
-  if (IS_PRODUCTION) {
+  if (import.meta.env.PROD) {
     // ── Production: dùng Vercel Serverless Function proxy ─────────
     onProgress?.('Hệ thống đang soạn thảo nội dung đề thi & câu hỏi...');
     try {
