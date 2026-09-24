@@ -1016,7 +1016,7 @@ Tuyệt đối KHÔNG tạo một bài Writing chỉ mang phong cách TOEFL chun
 
 ## BƯỚC 1 — CẤU TRÚC 3 TASKS BẮT BUỘC (23 PHÚT / 1380 GIÂY)
 
-* **Task 1: Build a Sentence** (Hoàn thiện câu / Ghép câu: BẮT BUỘC ĐỦ **10 câu trắc nghiệm** tương tác sắp xếp từ, có câu thoại ngữ cảnh ban đầu và các từ bẫy decoys, thời lượng đề xuất ~7 phút).
+* **Task 1: Build a Sentence** (Hoàn thiện câu / Ghép câu: BẮT BUỘC ĐỦ **10 câu trắc nghiệm** tương tác sắp xếp từ, có câu thoại ngữ cảnh ban đầu; chỉ chọn ngẫu nhiên một số câu (khoảng 3-5 câu trong 10 câu) để gài từ bẫy decoys, các câu còn lại không cần từ bẫy; thời lượng đề xuất ~7 phút).
 * **Task 2: Write an Email** (Viết email phản hồi tình huống học thuật/khuôn viên trường, bắt buộc có đúng **3 yêu cầu cụ thể**, độ dài tối thiểu 80 từ, khuyến nghị 100 - 130 từ, thời lượng đề xuất ~7 phút).
 * **Task 3: Academic Discussion** (Thảo luận học thuật trực tuyến: có giáo sư nêu câu hỏi kích thích tư duy phản biện và **2 sinh viên** nêu quan điểm đối lập, độ dài tối thiểu 100 từ, khuyến nghị 100 - 150 từ, thời lượng đề xuất ~10 phút).
 
@@ -1029,9 +1029,9 @@ Tuyệt đối KHÔNG tạo một bài Writing chỉ mang phong cách TOEFL chun
 2. **TẤT CẢ các từ trong 'scrambled', 'correct_order', 'decoys' BẮT BUỘC PHẢI VIẾT THƯỜNG TOÀN BỘ (lowercase)**.
 3. **TUYỆT ĐỐI KHÔNG viết hoa chữ cái đầu tiên của câu** (ví dụ: viết 'the', 'she', 'because', 'although' chứ KHÔNG ĐƯỢC viết 'The', 'She', 'Because', 'Although') để không làm lộ từ mở đầu cho thí sinh!
 4. **Thứ tự các từ trong mảng 'scrambled' BẮT BUỘC PHẢI ĐẢO LỘN XỘN NGẪU NHIÊN HOÀN TOÀN**, tuyệt đối không để các từ theo thứ tự câu.
-5. **Mỗi câu phải kèm 2-3 từ bẫy ('decoys') viết thường**, có ngữ pháp hoặc nghĩa tương tự để thử thách học viên.
+5. **TỪ BẪY ('decoys') KHÔNG NHẤT THIẾT CÂU NÀO CŨNG CÓ**: Trong 10 câu, chỉ chọn ngẫu nhiên khoảng 3 đến 5 câu để gài 1-2 từ bẫy ('decoys' viết thường, có ngữ pháp hoặc dạng từ tương tự để thử thách học viên). Các câu còn lại để mảng decoys rỗng '"decoys": []', tuyệt đối không bắt buộc mọi câu đều phải có từ bẫy.
 6. **Các phần tử trong 'scrambled', 'correct_order', 'decoys' CHỈ LÀ TỪ VỰNG THUẦN TÚY, TUYỆT ĐỐI KHÔNG chứa dấu câu** (không kèm '.', '?', '!', ',', '"').
-7. **TẤT CẢ các từ trong 'correct_order' BẮT BUỘC PHẢI CÓ MẶT trong mảng 'scrambled'** (tổng số lượng từ trong 'scrambled' = số từ trong 'correct_order' + số từ trong 'decoys').
+7. **TẤT CẢ các từ trong 'correct_order' BẮT BUỘC PHẢI CÓ MẶT trong mảng 'scrambled'** (tổng số từ trong 'scrambled' = số từ trong 'correct_order' + số từ trong 'decoys' nếu câu đó có decoys).
 8. **10 CÂU PHẢI BAO GỒM 10 CẤU TRÚC NGỮ PHÁP HỌC THUẬT NÂNG CAO (CEFR B2-C1)**:
    - Câu 1: Mệnh đề quan hệ / Noun clause ('what surprised the researchers was...')
    - Câu 2: Đảo ngữ với phó từ phủ định ('seldom have scientists observed such...')
@@ -1118,10 +1118,10 @@ Xuất kết quả theo cấu trúc JSON chuẩn sau:
                   "id": "item2",
                   "context": "Lab Partner: 'Did the chemistry research team expect such an immediate reaction from the catalyst?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["witnessed", "such", "chemists", "have", "seldom", "rates", "accelerated", "reaction", "witnessing"],
+                  "scrambled": ["witnessed", "such", "chemists", "have", "seldom", "accelerated", "reaction", "rates"],
                   "correct_order": ["seldom", "have", "chemists", "witnessed", "such", "accelerated", "reaction", "rates"],
                   "correct_sentence": "seldom have chemists witnessed such accelerated reaction rates.",
-                  "decoys": ["rates", "witnessing"]
+                  "decoys": []
                 },
                 {
                   "id": "item3",
@@ -1136,10 +1136,10 @@ Xuất kết quả theo cấu trúc JSON chuẩn sau:
                   "id": "item4",
                   "context": "Dean: 'What prevented the department from expanding undergraduate research funding this term?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["allocated", "been", "were", "had", "adequate", "resources", "fellowships", "more", "offered", "would", "be", "allocating"],
+                  "scrambled": ["allocated", "been", "had", "adequate", "resources", "fellowships", "more", "offered", "would", "be"],
                   "correct_order": ["had", "adequate", "resources", "been", "allocated", "more", "fellowships", "would", "be", "offered"],
                   "correct_sentence": "had adequate resources been allocated more fellowships would be offered.",
-                  "decoys": ["were", "allocating"]
+                  "decoys": []
                 },
                 {
                   "id": "item5",
@@ -1163,10 +1163,10 @@ Xuất kết quả theo cấu trúc JSON chuẩn sau:
                   "id": "item7",
                   "context": "Mentor: 'What determines the credibility of an environmental impact study?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["the", "the", "methodology", "more", "rigorous", "findings", "reliable", "the", "more", "become", "became"],
+                  "scrambled": ["the", "the", "methodology", "more", "rigorous", "findings", "reliable", "the", "more", "become"],
                   "correct_order": ["the", "more", "rigorous", "the", "methodology", "the", "more", "reliable", "findings", "become"],
                   "correct_sentence": "the more rigorous the methodology the more reliable findings become.",
-                  "decoys": ["became"]
+                  "decoys": []
                 },
                 {
                   "id": "item8",
@@ -1181,10 +1181,10 @@ Xuất kết quả theo cấu trúc JSON chuẩn sau:
                   "id": "item9",
                   "context": "Instructor: 'What is the most difficult aspect of the computational modeling seminar?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["algorithmic", "mastering", "patience", "statistical", "enormous", "simulations", "requires", "mastered", "require"],
+                  "scrambled": ["algorithmic", "mastering", "patience", "statistical", "enormous", "simulations", "requires"],
                   "correct_order": ["mastering", "algorithmic", "statistical", "simulations", "requires", "enormous", "patience"],
                   "correct_sentence": "mastering algorithmic statistical simulations requires enormous patience.",
-                  "decoys": ["mastered", "require"]
+                  "decoys": []
                 },
                 {
                   "id": "item10",
@@ -1255,7 +1255,7 @@ Xuất kết quả theo cấu trúc JSON chuẩn sau:
 2. Không Markdown, không dùng \`\`\`json.
 3. Không giải thích.
 4. JSON phải parse được trực tiếp.
-5. Task 1 Build a Sentence: BẮT BUỘC đủ 10 items (item1 đến item10), 100% từ trong scrambled, correct_order, decoys VIẾT THƯỜNG TOÀN BỘ, không có dấu câu trong từ, mảng scrambled đảo lộn xộn.
+5. Task 1 Build a Sentence: BẮT BUỘC đủ 10 items (item1 đến item10), 100% từ trong scrambled, correct_order, decoys VIẾT THƯỜNG TOÀN BỘ, không có dấu câu trong từ, mảng scrambled đảo lộn xộn; từ bẫy decoys chỉ chọn ngẫu nhiên vài câu (khoảng 3-5 câu), các câu còn lại để mảng rỗng [].
 6. Task 2 Write an Email có đúng 3 yêu cầu cụ thể.
 7. Task 3 Academic Discussion có câu hỏi giáo sư và 2 sinh viên đối lập.`;
 
@@ -1269,9 +1269,9 @@ export const SAMPLE_WRITING_SENTENCE_PROMPT = `Hãy đóng vai **chuyên gia thi
 2. **TẤT CẢ các từ trong 'scrambled', 'correct_order', 'decoys' BẮT BUỘC PHẢI VIẾT THƯỜNG TOÀN BỘ (lowercase)**.
 3. **TUYỆT ĐỐI KHÔNG viết hoa chữ cái đầu tiên** (viết 'the', 'she', 'because' chứ KHÔNG ĐƯỢC viết 'The', 'She', 'Because') để không làm lộ từ mở đầu!
 4. **Thứ tự các từ trong mảng 'scrambled' BẮT BUỘC PHẢI ĐẢO LỘN XỘN NGẪU NHIÊN HOÀN TOÀN**.
-5. **Mỗi câu phải kèm 2-3 từ bẫy ('decoys') viết thường**, có ngữ pháp hoặc nghĩa tương tự để thử thách học viên.
+5. **TỪ BẪY ('decoys') KHÔNG NHẤT THIẾT CÂU NÀO CŨNG CÓ**: Trong 10 câu, chỉ chọn ngẫu nhiên khoảng 3-5 câu để gài 1-2 từ bẫy ('decoys' viết thường). Các câu còn lại để mảng decoys rỗng '"decoys": []' (kho từ 'scrambled' chỉ chứa các từ trong câu được đảo lộn xộn). Tuyệt đối không bắt buộc mọi câu đều phải có từ bẫy.
 6. **Các từ CHỈ LÀ TỪ VỰNG THUẦN TÚY, TUYỆT ĐỐI KHÔNG chứa dấu câu** (không '.', '?', '!', ',', '"').
-7. **TẤT CẢ các từ trong 'correct_order' BẮT BUỘC PHẢI CÓ MẶT trong 'scrambled'**.
+7. **TẤT CẢ các từ trong 'correct_order' BẮT BUỘC PHẢI CÓ MẶT trong 'scrambled'** (tổng số từ trong 'scrambled' = số từ trong 'correct_order' + số từ trong 'decoys' nếu câu đó có decoys).
 8. **10 câu phải đa dạng cấu trúc ngữ pháp học thuật (C1)**: Noun clauses, negative inversion, participle clauses, conditional inversion without if, cleft sentences, complex passives, double comparatives, concession clauses, gerund subjects.
 
 Cấu trúc JSON chuẩn:
@@ -1307,10 +1307,10 @@ Cấu trúc JSON chuẩn:
                   "id": "item2",
                   "context": "Lab Partner: 'Did the chemistry research team expect such an immediate reaction from the catalyst?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["witnessed", "such", "chemists", "have", "seldom", "rates", "accelerated", "reaction", "witnessing"],
+                  "scrambled": ["witnessed", "such", "chemists", "have", "seldom", "accelerated", "reaction", "rates"],
                   "correct_order": ["seldom", "have", "chemists", "witnessed", "such", "accelerated", "reaction", "rates"],
                   "correct_sentence": "seldom have chemists witnessed such accelerated reaction rates.",
-                  "decoys": ["rates", "witnessing"]
+                  "decoys": []
                 },
                 {
                   "id": "item3",
@@ -1325,10 +1325,10 @@ Cấu trúc JSON chuẩn:
                   "id": "item4",
                   "context": "Dean: 'What prevented the department from expanding undergraduate research funding this term?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["allocated", "been", "were", "had", "adequate", "resources", "fellowships", "more", "offered", "would", "be", "allocating"],
+                  "scrambled": ["allocated", "been", "had", "adequate", "resources", "fellowships", "more", "offered", "would", "be"],
                   "correct_order": ["had", "adequate", "resources", "been", "allocated", "more", "fellowships", "would", "be", "offered"],
                   "correct_sentence": "had adequate resources been allocated more fellowships would be offered.",
-                  "decoys": ["were", "allocating"]
+                  "decoys": []
                 },
                 {
                   "id": "item5",
@@ -1352,10 +1352,10 @@ Cấu trúc JSON chuẩn:
                   "id": "item7",
                   "context": "Mentor: 'What determines the credibility of an environmental impact study?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["the", "the", "methodology", "more", "rigorous", "findings", "reliable", "the", "more", "become", "became"],
+                  "scrambled": ["the", "the", "methodology", "more", "rigorous", "findings", "reliable", "the", "more", "become"],
                   "correct_order": ["the", "more", "rigorous", "the", "methodology", "the", "more", "reliable", "findings", "become"],
                   "correct_sentence": "the more rigorous the methodology the more reliable findings become.",
-                  "decoys": ["became"]
+                  "decoys": []
                 },
                 {
                   "id": "item8",
@@ -1370,10 +1370,10 @@ Cấu trúc JSON chuẩn:
                   "id": "item9",
                   "context": "Instructor: 'What is the most difficult aspect of the computational modeling seminar?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["algorithmic", "mastering", "patience", "statistical", "enormous", "simulations", "requires", "mastered", "require"],
+                  "scrambled": ["algorithmic", "mastering", "patience", "statistical", "enormous", "simulations", "requires"],
                   "correct_order": ["mastering", "algorithmic", "statistical", "simulations", "requires", "enormous", "patience"],
                   "correct_sentence": "mastering algorithmic statistical simulations requires enormous patience.",
-                  "decoys": ["mastered", "require"]
+                  "decoys": []
                 },
                 {
                   "id": "item10",
@@ -1733,7 +1733,7 @@ Tuyệt đối KHÔNG tạo một bài thi chung chung hoặc dễ hơn đề th
 2. **Stage 2: Reading - Module 2 (Adaptive Higher Route)** (900s / 15p) - Thích ứng nhánh khó C1/C2 với cùng 3 tasks tương tự.
 3. **Stage 3: Listening - Module 1** (870s / 14.5p) - Gồm Task 1: Choose Response (5 câu), Task 2: Announcement (90-130 từ, 2 câu hỏi), Task 3: Conversation (180-250 từ, 3 câu hỏi), Task 4: Academic Talk (180-260 từ, 3 câu hỏi). Tổng 13 câu.
 4. **Stage 4: Listening - Module 2 (Adaptive Higher Route)** (870s / 14.5p) - Thích ứng nhánh khó C1/C2 với đủ 4 tasks tương tự (13 câu).
-5. **Stage 5: Writing Section (Linear - 23 Mins)** (1380s / 23p) - Gồm Task 1: Build a Sentence (ĐÚNG 10 CÂU, 100% lowercase, scrambled, decoys, cấu trúc ngữ pháp nâng cao), Task 2: Write an Email (3 requirements), Task 3: Academic Discussion (Professor + 2 peers).
+5. **Stage 5: Writing Section (Linear - 23 Mins)** (1380s / 23p) - Gồm Task 1: Build a Sentence (ĐÚNG 10 CÂU, 100% lowercase, scrambled đảo lộn xộn, chỉ chọn ngẫu nhiên vài câu có decoys còn lại để []), Task 2: Write an Email (3 requirements), Task 3: Academic Discussion (Professor + 2 peers).
 6. **Stage 6: Speaking Section (Linear - 8 Mins)** (480s / 8p) - Gồm Task 1: Listen and Repeat (ĐÚNG 7 CÂU tăng dần 6-15 từ + IPA), Task 2: Take an Interview (ĐÚNG 4 CÂU phỏng vấn 45s + sample answers + key points).
 
 ---
@@ -1757,6 +1757,7 @@ Tuyệt đối KHÔNG tạo một bài thi chung chung hoặc dễ hơn đề th
    - 100% từ trong 'scrambled', 'correct_order', 'decoys' BẮT BUỘC PHẢI VIẾT THƯỜNG TOÀN BỘ (lowercase).
    - TUYỆT ĐỐI KHÔNG viết hoa chữ cái đầu tiên (không viết 'the', chứ không viết 'The').
    - Thứ tự các từ trong 'scrambled' BẮT BUỘC PHẢI ĐẢO LỘN XỘN NGẪU NHIÊN HOÀN TOÀN.
+   - Từ bẫy ('decoys') không nhất thiết câu nào cũng có: chỉ chọn ngẫu nhiên khoảng 3-5 câu để gài 1-2 từ bẫy, các câu còn lại để mảng decoys rỗng [].
    - Các từ CHỈ LÀ TỪ VỰNG THUẦN TÚY, TUYỆT ĐỐI KHÔNG chứa dấu câu.
 6. **SPEAKING**:
    - Task 1: Đủ đúng 7 câu tăng dần từ 6 đến 15 từ kèm 'phonetic_guide'.
@@ -2544,10 +2545,10 @@ Tuyệt đối KHÔNG tạo một bài thi chung chung hoặc dễ hơn đề th
                   "id": "f_w_item2",
                   "context": "Lab Partner: 'Did the chemistry research team expect such an immediate reaction from the catalyst?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["witnessed", "such", "chemists", "have", "seldom", "rates", "accelerated", "reaction", "witnessing"],
+                  "scrambled": ["witnessed", "such", "chemists", "have", "seldom", "accelerated", "reaction", "rates"],
                   "correct_order": ["seldom", "have", "chemists", "witnessed", "such", "accelerated", "reaction", "rates"],
                   "correct_sentence": "seldom have chemists witnessed such accelerated reaction rates.",
-                  "decoys": ["rates", "witnessing"]
+                  "decoys": []
                 },
                 {
                   "id": "f_w_item3",
@@ -2562,10 +2563,10 @@ Tuyệt đối KHÔNG tạo một bài thi chung chung hoặc dễ hơn đề th
                   "id": "f_w_item4",
                   "context": "Dean: 'What prevented the department from expanding undergraduate research funding this term?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["allocated", "been", "were", "had", "adequate", "resources", "fellowships", "more", "offered", "would", "be", "allocating"],
+                  "scrambled": ["allocated", "been", "had", "adequate", "resources", "fellowships", "more", "offered", "would", "be"],
                   "correct_order": ["had", "adequate", "resources", "been", "allocated", "more", "fellowships", "would", "be", "offered"],
                   "correct_sentence": "had adequate resources been allocated more fellowships would be offered.",
-                  "decoys": ["were", "allocating"]
+                  "decoys": []
                 },
                 {
                   "id": "f_w_item5",
@@ -2589,10 +2590,10 @@ Tuyệt đối KHÔNG tạo một bài thi chung chung hoặc dễ hơn đề th
                   "id": "f_w_item7",
                   "context": "Mentor: 'What determines the credibility of an environmental impact study?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["the", "the", "methodology", "more", "rigorous", "findings", "reliable", "the", "more", "become", "became"],
+                  "scrambled": ["the", "the", "methodology", "more", "rigorous", "findings", "reliable", "the", "more", "become"],
                   "correct_order": ["the", "more", "rigorous", "the", "methodology", "the", "more", "reliable", "findings", "become"],
                   "correct_sentence": "the more rigorous the methodology the more reliable findings become.",
-                  "decoys": ["became"]
+                  "decoys": []
                 },
                 {
                   "id": "f_w_item8",
@@ -2607,10 +2608,10 @@ Tuyệt đối KHÔNG tạo một bài thi chung chung hoặc dễ hơn đề th
                   "id": "f_w_item9",
                   "context": "Instructor: 'What is the most difficult aspect of the computational modeling seminar?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["algorithmic", "mastering", "patience", "statistical", "enormous", "simulations", "requires", "mastered", "require"],
+                  "scrambled": ["algorithmic", "mastering", "patience", "statistical", "enormous", "simulations", "requires"],
                   "correct_order": ["mastering", "algorithmic", "statistical", "simulations", "requires", "enormous", "patience"],
                   "correct_sentence": "mastering algorithmic statistical simulations requires enormous patience.",
-                  "decoys": ["mastered", "require"]
+                  "decoys": []
                 },
                 {
                   "id": "f_w_item10",
@@ -2803,7 +2804,7 @@ Tuyệt đối KHÔNG tạo một bài thi chung chung hoặc dễ hơn đề th
 3. Đúng 6 stages theo thứ tự: Reading M1 -> Reading M2 -> Listening M1 -> Listening M2 -> Writing -> Speaking.
 4. ĐẦY ĐỦ 100% CÁC CÂU HỎI VÀ ĐOẠN VĂN THEO ĐÚNG ĐỊNH LƯỢNG ĐÃ NÊU, TUYỆT ĐỐI KHÔNG CẮT BỚT.
 5. Đáp án trắc nghiệm A, B, C, D BẮT BUỘC phải phân bố đều và ngẫu nhiên (~25% mỗi chữ cái).
-6. Task 1 Build a Sentence: BẮT BUỘC đủ 10 items (item1 đến item10), 100% từ trong scrambled, correct_order, decoys PHẢI viết thường, và scrambled PHẢI đảo lộn xộn.
+6. Task 1 Build a Sentence: BẮT BUỘC đủ 10 items (item1 đến item10), 100% từ trong scrambled, correct_order, decoys PHẢI viết thường, scrambled PHẢI đảo lộn xộn; từ bẫy decoys chỉ chọn ngẫu nhiên một số câu (các câu khác để []).
 7. Complete the Words: Đoạn văn 80-110 từ, câu đầu nguyên vẹn, 10-12 blanks, từ khuyết chữ cái PHẢI viết kèm ngoặc vuông prefix[missing].
 8. Speaking Task 1 đủ 7 items (tăng dần 6-15 từ + IPA), Task 2 đủ 4 câu hỏi 45s.`;
 
