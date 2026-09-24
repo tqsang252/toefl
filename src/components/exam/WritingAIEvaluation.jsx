@@ -31,23 +31,47 @@ export default function WritingAIEvaluation({
 }) {
   const isConfigured = isGeminiConfigured();
 
-  const [evaluation, setEvaluation] = useState(existingEvaluation);
+  // Kiểm tra xem existingEvaluation có đúng là chấm cho bài viết hiện tại không
+  const isEvaluationMatchingCurrent = (evalObj) => {
+    if (!evalObj) return false;
+    const currentEmail = (writingSubmissions?.email?.essay_text || '').trim();
+    const currentDiscuss = (writingSubmissions?.discussion?.essay_text || '').trim();
+
+    // Nếu bài viết hiện tại có nội dung và kết quả cũ có lưu submitted_essay nhưng khác nhau
+    // -> chứng tỏ đây là bài làm mới ở lần làm bài thứ 2, thứ 3! Bắt buộc phải chấm mới.
+    if (currentEmail && evalObj.email?.submitted_essay) {
+      if (evalObj.email.submitted_essay.trim() !== currentEmail) return false;
+    }
+    if (currentDiscuss && evalObj.discussion?.submitted_essay) {
+      if (evalObj.discussion.submitted_essay.trim() !== currentDiscuss) return false;
+    }
+    return true;
+  };
+
+  const isMatching = isEvaluationMatchingCurrent(existingEvaluation);
+  const [evaluation, setEvaluation] = useState(isMatching ? existingEvaluation : null);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [activeTab, setActiveTab] = useState('email'); // 'email' | 'discussion' | 'overview'
   const [isOriginalExpanded, setIsOriginalExpanded] = useState(false);
   const [copiedTask, setCopiedTask] = useState(null);
 
-  // Đồng bộ existingEvaluation nếu được truyền từ bên ngoài
+  // Đồng bộ existingEvaluation nếu được truyền từ bên ngoài VÀ thực sự khớp với bài viết hiện tại
   useEffect(() => {
-    if (existingEvaluation && !evaluation) {
+    if (existingEvaluation && isEvaluationMatchingCurrent(existingEvaluation) && !evaluation) {
       setEvaluation(existingEvaluation);
     }
-  }, [existingEvaluation]);
+  }, [existingEvaluation, writingSubmissions]);
 
-  // Tự động kích hoạt chấm điểm ngay khi component mount (nếu đã có key và có bài viết)
+  // Tự động kích hoạt chấm điểm ngay khi component mount (hoặc khi phát hiện bài làm mới chưa được chấm)
   useEffect(() => {
-    if (!autoStart || !isConfigured || evaluation || existingEvaluation || isLoading) return;
+    if (!isConfigured || isLoading) return;
+
+    // Nếu đã có kết quả và kết quả đó khớp với bài hiện tại -> không cần chấm lại
+    const matchingExisting = isEvaluationMatchingCurrent(existingEvaluation);
+    const matchingCurrent = isEvaluationMatchingCurrent(evaluation);
+    if (evaluation && matchingCurrent) return;
+    if (existingEvaluation && matchingExisting && !autoStart) return;
 
     const emailSub = writingSubmissions?.email;
     const discussSub = writingSubmissions?.discussion;

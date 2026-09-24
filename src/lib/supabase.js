@@ -678,7 +678,9 @@ export function getStoredAIEvaluation(testId, resultId, completedAt) {
     const cache = JSON.parse(localStorage.getItem('toefl_ai_eval_cache') || '{}');
     if (resultId && cache[resultId]) return cache[resultId];
     if (testId && completedAt && cache[`${testId}_${completedAt}`]) return cache[`${testId}_${completedAt}`];
-    if (testId && cache[`${testId}_latest`]) return cache[`${testId}_latest`];
+    // CHỈ dùng fallback latest khi KHÔNG truyền resultId và KHÔNG truyền completedAt (ví dụ tra cứu chung cho đề).
+    // Tuyệt đối không trả về latest khi đang tra cứu một lượt thi cụ thể (để lượt làm bài mới lần 2, lần 3 không bị gán kết quả cũ của lần 1).
+    if (testId && !resultId && !completedAt && cache[`${testId}_latest`]) return cache[`${testId}_latest`];
   } catch (e) {
     // ignore
   }

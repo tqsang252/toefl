@@ -538,7 +538,10 @@ export async function evaluateSingleWritingEssay({ taskType, taskData, essayText
     parsed.score_30 = convertBandTo30(parsed.score_band);
   }
 
-  return parsed;
+  return {
+    ...parsed,
+    submitted_essay: essayText
+  };
 }
 
 /**
