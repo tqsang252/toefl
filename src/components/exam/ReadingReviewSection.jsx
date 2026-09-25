@@ -367,10 +367,10 @@ export default function ReadingReviewSection({ moduleData, test }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           
           {/* CỘT TRÁI (7/12): ĐOẠN VĂN GỐC & TỪ VỰNG TRONG NGỮ CẢNH */}
-          <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-xs sticky top-24">
+          <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-xs lg:sticky lg:top-24 max-h-[calc(100vh-140px)] overflow-y-auto custom-scrollbar">
             
             {/* Header Cột trái */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100">
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100 sticky top-0 bg-white z-10">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center">
                   <FileText className="w-4 h-4" />
@@ -482,16 +482,16 @@ export default function ReadingReviewSection({ moduleData, test }) {
 
           </div>
 
-          {/* CỘT PHẢI (5/12): CHI TIẾT TỪNG TỪ & HỌC TỪ VỰNG */}
-          <div className="lg:col-span-5 space-y-3.5">
-            <div className="flex items-center justify-between px-1">
+          {/* CỘT PHẢI (5/12): CHI TIẾT TỪNG TỪ & HỌC TỪ VỰNG - THANH CUỘN ĐỘC LẬP */}
+          <div className="lg:col-span-5 flex flex-col lg:sticky lg:top-24 max-h-[calc(100vh-140px)]">
+            <div className="flex items-center justify-between px-1 pb-2.5 shrink-0">
               <h4 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4 text-indigo-600" />
                 <span>Chi tiết đáp án & Học từ vựng ({cwTokens.filter(t => t.type === 'blank').length} câu)</span>
               </h4>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-3 overflow-y-auto pr-1.5 custom-scrollbar flex-1">
               {cwTokens.filter(t => t.type === 'blank').map((token) => {
                 const isSelected = activeItemIdx === token.index;
                 const isCorrect = token.isCorrect;
@@ -658,10 +658,10 @@ export default function ReadingReviewSection({ moduleData, test }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           
           {/* CỘT TRÁI (7/12): BÀI ĐỌC HỌC THUẬT & DẪN CHỨNG */}
-          <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-xs sticky top-24">
+          <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-xs lg:sticky lg:top-24 max-h-[calc(100vh-140px)] overflow-y-auto custom-scrollbar">
             
             {/* Header bài đọc */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100">
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100 sticky top-0 bg-white z-10">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
                   <FileText className="w-4 h-4" />
@@ -707,7 +707,7 @@ export default function ReadingReviewSection({ moduleData, test }) {
             </div>
 
             {/* Nội dung bài đọc chia đoạn có số đoạn [1], [2] */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#faf9f5] border border-amber-900/10 shadow-2xs space-y-4 max-h-[65vh] overflow-y-auto">
+            <div className="p-4 sm:p-5 rounded-2xl bg-[#faf9f5] border border-amber-900/10 shadow-2xs space-y-4">
               {passageText.split('\n\n').map((para, pIdx) => {
                 if (!para.trim()) return null;
 
@@ -756,16 +756,16 @@ export default function ReadingReviewSection({ moduleData, test }) {
 
           </div>
 
-          {/* CỘT PHẢI (5/12): CÂU HỎI TRẮC NGHIỆM & PHÂN TÍCH ĐÁP ÁN */}
-          <div className="lg:col-span-5 space-y-4">
-            <div className="flex items-center justify-between px-1">
+          {/* CỘT PHẢI (5/12): CÂU HỎI TRẮC NGHIỆM & PHÂN TÍCH ĐÁP ÁN - THANH CUỘN ĐỘC LẬP */}
+          <div className="lg:col-span-5 flex flex-col lg:sticky lg:top-24 max-h-[calc(100vh-140px)]">
+            <div className="flex items-center justify-between px-1 pb-2.5 shrink-0">
               <h4 className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
                 <HelpCircle className="w-4 h-4 text-amber-600" />
                 <span>Câu hỏi trắc nghiệm & Giải thích ({passageQuestions.length || passageItems.length} câu)</span>
               </h4>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 overflow-y-auto pr-1.5 custom-scrollbar flex-1">
               {(passageQuestions.length > 0 ? passageQuestions : passageItems).map((q, qIdx) => {
                 const isSelected = activeItemIdx === qIdx;
                 const matchedItem = passageItems[qIdx] || {};
@@ -899,64 +899,64 @@ export default function ReadingReviewSection({ moduleData, test }) {
                   </div>
                 );
               })}
-            </div>
 
-            {/* THẺ TỪ VỰNG CỐT LÕI CỦA BÀI ĐỌC (ACADEMIC VOCABULARY IN PASSAGE) */}
-            {(() => {
-              const vocabList = Object.values(wordDictMap).filter(w => w && w.word);
-              if (vocabList.length === 0) return null;
+              {/* THẺ TỪ VỰNG CỐT LÕI CỦA BÀI ĐỌC (ACADEMIC VOCABULARY IN PASSAGE) */}
+              {(() => {
+                const vocabList = Object.values(wordDictMap).filter(w => w && w.word);
+                if (vocabList.length === 0) return null;
 
-              return (
-                <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-50/60 to-orange-50/40 border border-amber-200 shadow-2xs">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Sparkles className="w-4 h-4 text-amber-600" />
-                    <h5 className="text-xs font-black uppercase tracking-wider text-amber-950">
-                      Từ vựng cốt lõi cần nhớ trong bài đọc
-                    </h5>
-                  </div>
+                return (
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-50/60 to-orange-50/40 border border-amber-200 shadow-2xs">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Sparkles className="w-4 h-4 text-amber-600" />
+                      <h5 className="text-xs font-black uppercase tracking-wider text-amber-950">
+                        Từ vựng cốt lõi cần nhớ trong bài đọc
+                      </h5>
+                    </div>
 
-                  <div className="space-y-2.5">
-                    {vocabList.map((vItem, vIdx) => {
-                      const isSaved = savedWords.has(vItem.word.toLowerCase());
+                    <div className="space-y-2.5">
+                      {vocabList.map((vItem, vIdx) => {
+                        const isSaved = savedWords.has(vItem.word.toLowerCase());
 
-                      return (
-                        <div key={vIdx} className="p-2.5 rounded-xl bg-white border border-amber-200/80 text-xs flex items-center justify-between gap-3">
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className="font-black text-slate-900">{vItem.word}</span>
-                              {vItem.phonetic && (
-                                <span className="font-mono text-[11px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.2 rounded border border-indigo-100">
-                                  {vItem.phonetic}
-                                </span>
-                              )}
-                              {vItem.partOfSpeech && (
-                                <span className="text-[10px] text-slate-500 font-semibold italic">
-                                  ({vItem.partOfSpeech})
-                                </span>
-                              )}
+                        return (
+                          <div key={vIdx} className="p-2.5 rounded-xl bg-white border border-amber-200/80 text-xs flex items-center justify-between gap-3">
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="font-black text-slate-900">{vItem.word}</span>
+                                {vItem.phonetic && (
+                                  <span className="font-mono text-[11px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.2 rounded border border-indigo-100">
+                                    {vItem.phonetic}
+                                  </span>
+                                )}
+                                {vItem.partOfSpeech && (
+                                  <span className="text-[10px] text-slate-500 font-semibold italic">
+                                    ({vItem.partOfSpeech})
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-[11px] text-slate-700 font-medium mt-0.5">
+                                {vItem.meaningVi || vItem.meaning}
+                              </p>
                             </div>
-                            <p className="text-[11px] text-slate-700 font-medium mt-0.5">
-                              {vItem.meaningVi || vItem.meaning}
-                            </p>
-                          </div>
 
-                          <button
-                            onClick={() => handleSaveToVocab(vItem.word, vItem.meaningVi || vItem.meaning)}
-                            className={`px-2 py-1 rounded-lg text-[10px] font-bold shrink-0 transition-all cursor-pointer border ${
-                              isSaved 
-                                ? 'bg-emerald-50 text-emerald-800 border-emerald-300' 
-                                : 'bg-slate-50 hover:bg-indigo-50 text-indigo-700 border-slate-200'
-                            }`}
-                          >
-                            {isSaved ? 'Đã lưu ✓' : '+ Lưu từ'}
-                          </button>
-                        </div>
-                      );
-                    })}
+                            <button
+                              onClick={() => handleSaveToVocab(vItem.word, vItem.meaningVi || vItem.meaning)}
+                              className={`px-2 py-1 rounded-lg text-[10px] font-bold shrink-0 transition-all cursor-pointer border ${
+                                isSaved 
+                                  ? 'bg-emerald-50 text-emerald-800 border-emerald-300' 
+                                  : 'bg-slate-50 hover:bg-indigo-50 text-indigo-700 border-slate-200'
+                              }`}
+                            >
+                              {isSaved ? 'Đã lưu ✓' : '+ Lưu từ'}
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              );
-            })()}
+                );
+              })()}
+            </div>
           </div>
 
         </div>
