@@ -1615,38 +1615,52 @@ export async function enhanceSentenceWithAi(rawSentence, taskContext = '') {
   const sentence = (rawSentence || '').trim();
   if (!sentence) throw new Error('Vui lòng nhập câu văn cần nâng cấp.');
 
-  const prompt = `You are a world-class official ETS TOEFL iBT Writing Examiner and Academic English Stylist with 15+ years of experience.
-Rewrite and elevate the following student's draft sentence into 3 escalating proficiency tiers according to the official TOEFL 2026 scoring rubrics:
+  const prompt = `You are a top-tier official ETS TOEFL iBT Writing Examiner and native English Writing Coach.
+Rewrite and elevate the following student's draft sentence into 3 escalating proficiency tiers according to the official TOEFL 2026 scoring rubrics.
+
+CRITICAL USER MANDATE & EXAM PHILOSOPHY:
+The student wants HIGH-SCORING sentences that are CLEAR, SHARP, ELEGANT, AND EASY TO MEMORIZE.
+Real ETS TOEFL Writing tests (Writing for an Academic Discussion & Email) reward clarity, fluid natural idiomatic flow, conciseness, and strong logic — NOT artificial thesaurus dumping or hyper-academic monstrosities!
 
 Student's Draft Sentence:
 "${sentence}"
 ${taskContext ? `Context / Task: ${taskContext}` : ''}
 
+STRICT CONSTRAINTS (MANDATORY):
+- ❌ ABSOLUTELY FORBIDDEN: NEVER use pretentious, overly pompous, robotic academic jargon or obscure GRE words (e.g., DO NOT write: "pedagogical imperative", "necessitates a paradigm shift", "technologically-mediated", "exponentially facilitate cognitive acquisition", "heterogeneous student needs", "multifaceted paradigm", "empirical substantiation"). Real human examiners dislike wordy pomposity and students CANNOT memorize or use such sentences under 10-minute exam pressure!
+- ✅ REQUIRED: Keep sentences CLEAN, NATURAL, PUNCHY, and EASY TO MEMORIZE.
+- Length guidelines:
+  * Level 1: ~12-18 words
+  * Level 2: ~16-24 words
+  * Level 3: ~18-26 words (crisp, elegant, native-like, zero fluff).
+
 REQUIREMENTS FOR EACH TIER:
-1. Level 1 - Band 3.5 - 4.0 (Clear & Accurate):
-   - Fix all grammatical errors, spelling mistakes, and awkward phrasing.
-   - Keep the sentence structure clean, direct, and grammatically impeccable.
-   - Clarify subject-verb agreement and word choice.
 
-2. Level 2 - Band 4.5 - 5.0 (Academic & Compound / Complex):
-   - Upgrade to sophisticated academic connectors / transitions (e.g., whereas, thereby, as it facilitates, not only... but also).
-   - Use relative clauses and variety in syntactic structures (compound/complex sentences).
-   - Elevate basic vocabulary to formal collegiate terms.
+1. Level 1 - Band 3.5 - 4.0 (Rõ ràng & Tự nhiên / Clear & Natural):
+   - Fix all grammar mistakes, subject-verb agreement, tense inconsistencies, and awkward word-by-word phrasing.
+   - Straightforward, clean, and grammatically flawless.
+   - Extremely easy for intermediate learners to understand and memorize.
 
-3. Level 3 - Band 5.5 - 6.0 (Elite ETS Academic Collocations):
-   - Utilize advanced nominalization, inverted structures, or participial phrases.
-   - Incorporate elite academic collocations and domain-specific lexicon (e.g., exponentially facilitates, cognitive acquisition, empirical substantiation, multifaceted implications).
-   - Natural, highly native-like collegiate flow found in Band 6.0 benchmark responses.
+2. Level 2 - Band 4.5 - 5.0 (Gãy gọn & Thuyết phục / Concise & Persuasive):
+   - Connect ideas smoothly with common, powerful connectors (e.g., "While...", "Not only... but also...", "allowing students to...", "Since...").
+   - Use high-frequency, practical words that native college students actually use (e.g., "vital", "flexible schedule", "prioritize", "balance work and study", "adapt to").
+   - Balanced sentence structure, strong persuasive tone, very easy to remember.
+
+3. Level 3 - Band 5.5 - 6.0 (Đắt giá & Dễ nhớ / Elegant & Native Flow):
+   - The ultimate Band 30/30 sentence: sounds like a thoughtful native speaker or top columnist (New York Times / The Economist style).
+   - Crisp, punchy, memorable, and elegant.
+   - Uses sharp, natural idioms and collocations (e.g., "strike a balance between X and Y", "tailor their education to their own pace", "open up valuable opportunities", "fosters independent learning").
+   - ZERO pompous academic jargon. A sentence that the student can read once or twice and immediately remember and apply!
 
 You MUST respond strictly with a valid JSON object matching this exact schema:
 {
   "original": "${sentence.replace(/"/g, '\\"')}",
   "level1": {
     "band": "Band 3.5 - 4.0",
-    "title": "Clear & Accurate",
-    "sentence": "Sentence rewritten for Level 1",
+    "title": "Rõ ràng & Tự nhiên",
+    "sentence": "Clean, natural rewritten sentence",
     "grammar_notes": [
-      "Điểm ngữ pháp chính được sửa hoặc làm rõ bằng tiếng Việt",
+      "Điểm ngữ pháp chính được sửa hoặc làm rõ bằng tiếng Việt ngắn gọn, dễ hiểu",
       "..."
     ],
     "vocab_changes": [
@@ -1655,10 +1669,10 @@ You MUST respond strictly with a valid JSON object matching this exact schema:
   },
   "level2": {
     "band": "Band 4.5 - 5.0",
-    "title": "Academic & Compound",
-    "sentence": "Sentence rewritten for Level 2",
+    "title": "Gãy gọn & Thuyết phục",
+    "sentence": "Concise, persuasive rewritten sentence",
     "grammar_notes": [
-      "Cấu trúc câu phức/ghép hoặc liên từ học thuật được bổ sung bằng tiếng Việt",
+      "Cấu trúc kết nối ý hoặc mệnh đề được tinh chỉnh bằng tiếng Việt",
       "..."
     ],
     "vocab_changes": [
@@ -1667,10 +1681,10 @@ You MUST respond strictly with a valid JSON object matching this exact schema:
   },
   "level3": {
     "band": "Band 5.5 - 6.0",
-    "title": "Elite ETS Collocations",
-    "sentence": "Sentence rewritten for Level 3",
+    "title": "Đắt giá & Dễ nhớ (Native)",
+    "sentence": "Elegant, memorable native-like rewritten sentence (simple yet high-scoring)",
     "grammar_notes": [
-      "Kỹ thuật câu học thuật cao cấp (danh từ hóa, phân từ, cấu trúc đảo ngữ) bằng tiếng Việt",
+      "Kỹ thuật diễn đạt đắt giá, thanh thoát, dễ nhớ bằng tiếng Việt",
       "..."
     ],
     "vocab_changes": [

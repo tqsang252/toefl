@@ -158,7 +158,7 @@ export default function SentenceEnhancerModal({
                 </span>
               </div>
               <p className="text-xs text-slate-300 mt-0.5">
-                Biến một câu diễn đạt ý tưởng mộc mạc thành 3 cấp độ thang điểm: Band 4.0 → Band 5.0 → Band 6.0
+                Nâng tầm câu văn tự nhiên, gãy gọn, dễ nhớ mà vẫn đạt điểm tối đa (Band 4.0 → Band 5.0 → Band 6.0)
               </p>
             </div>
           </div>
@@ -260,6 +260,13 @@ export default function SentenceEnhancerModal({
               {taskContext && (
                 <span className="italic text-slate-500">Ngữ cảnh: {taskContext}</span>
               )}
+            </div>
+
+            <div className="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200/80 text-[11px] text-amber-900 flex items-center gap-2">
+              <Lightbulb className="w-4 h-4 text-amber-600 shrink-0" />
+              <span>
+                <strong>Bí quyết điểm cao ETS 2026:</strong> Ưu tiên câu văn mạch lạc, tự nhiên, gãy gọn và dễ nhớ. Tránh dùng từ ngữ quá hàn lâm, rườm rà gây khó nhớ khi vào phòng thi.
+              </span>
             </div>
           </div>
 
@@ -411,7 +418,7 @@ export default function SentenceEnhancerModal({
                           {result.level2?.band || 'Band 4.5 - 5.0'}
                         </span>
                         <span className="text-[10px] text-indigo-600 font-semibold">
-                          {result.level2?.title || 'Academic & Compound'}
+                          {result.level2?.title || 'Gãy gọn & Thuyết phục'}
                         </span>
                       </div>
                     </div>
@@ -426,7 +433,7 @@ export default function SentenceEnhancerModal({
                       {result.level2?.grammar_notes && result.level2.grammar_notes.length > 0 && (
                         <div className="space-y-1">
                           <span className="text-[10px] font-bold text-indigo-800 uppercase tracking-wider block">
-                            ✓ Liên từ & Cấu trúc phức:
+                            ✓ Cách nối ý & Cấu trúc gãy gọn:
                           </span>
                           <ul className="space-y-1 text-[11px] text-slate-600 pl-3">
                             {result.level2.grammar_notes.map((note, nIdx) => (
@@ -441,7 +448,7 @@ export default function SentenceEnhancerModal({
                       {result.level2?.vocab_changes && result.level2.vocab_changes.length > 0 && (
                         <div className="pt-2 border-t border-slate-100 space-y-1">
                           <span className="text-[10px] font-bold text-indigo-800 uppercase tracking-wider block">
-                            ✓ Từ vựng học thuật:
+                            ✓ Từ vựng thực tế & đắt giá:
                           </span>
                           <div className="flex flex-wrap gap-1.5 pt-0.5">
                             {result.level2.vocab_changes.map((v, vIdx) => (
@@ -493,7 +500,7 @@ export default function SentenceEnhancerModal({
                 </div>
 
                 {/* ========================================================= */}
-                {/* CẤP ĐỘ 3: BAND 5.5 - 6.0 (ELITE ETS COLLOCATIONS)          */}
+                {/* CẤP ĐỘ 3: BAND 5.5 - 6.0 (ĐẮT GIÁ & DỄ NHỚ - NATIVE FLOW) */}
                 {/* ========================================================= */}
                 <div className="bg-gradient-to-br from-amber-50/50 via-white to-amber-50/20 rounded-3xl border-2 border-amber-300/90 shadow-sm p-5 flex flex-col justify-between transition-all hover:shadow-md hover:border-amber-400 relative group">
                   <div className="space-y-4">
@@ -507,7 +514,7 @@ export default function SentenceEnhancerModal({
                           {result.level3?.band || 'Band 5.5 - 6.0'}
                         </span>
                         <span className="text-[10px] text-amber-700 font-bold uppercase tracking-wider">
-                          {result.level3?.title || 'Elite ETS Collocations'}
+                          {result.level3?.title || 'Đắt giá & Dễ nhớ (Native)'}
                         </span>
                       </div>
                     </div>
@@ -522,7 +529,7 @@ export default function SentenceEnhancerModal({
                       {result.level3?.grammar_notes && result.level3.grammar_notes.length > 0 && (
                         <div className="space-y-1">
                           <span className="text-[10px] font-bold text-amber-900 uppercase tracking-wider block">
-                            ★ Danh từ hóa & Kỹ thuật đỉnh cao:
+                            ★ Kỹ thuật diễn đạt thanh thoát & Tự nhiên:
                           </span>
                           <ul className="space-y-1 text-[11px] text-slate-700 pl-3">
                             {result.level3.grammar_notes.map((note, nIdx) => (
@@ -537,7 +544,7 @@ export default function SentenceEnhancerModal({
                       {result.level3?.vocab_changes && result.level3.vocab_changes.length > 0 && (
                         <div className="pt-2 border-t border-amber-200/60 space-y-1">
                           <span className="text-[10px] font-bold text-amber-900 uppercase tracking-wider block">
-                            ★ Collocation tinh hoa ETS:
+                            ★ Cụm từ tự nhiên, dễ nhớ (Collocations):
                           </span>
                           <div className="flex flex-wrap gap-1.5 pt-0.5">
                             {result.level3.vocab_changes.map((v, vIdx) => (
