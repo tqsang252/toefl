@@ -143,6 +143,19 @@ export default function VocabularyHub() {
 
   useEffect(() => {
     loadVocabulary();
+
+    const handleVocabUpdated = () => {
+      loadVocabulary();
+      try {
+        const saved = localStorage.getItem('toefl_starred_words');
+        setStarredWordsList(saved ? JSON.parse(saved) : []);
+      } catch (e) {}
+    };
+
+    window.addEventListener('toefl_vocab_updated', handleVocabUpdated);
+    return () => {
+      window.removeEventListener('toefl_vocab_updated', handleVocabUpdated);
+    };
   }, []);
 
   // Tổng hợp danh sách Decks (kết hợp các chủ đề chuẩn và các chủ đề custom người dùng đã import)

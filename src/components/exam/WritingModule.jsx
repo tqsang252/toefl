@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PenTool, MessageSquare, Mail, CheckCircle2, RotateCcw, ChevronLeft, ChevronRight, HelpCircle, GripVertical, Check } from 'lucide-react';
+import QuickVocabPopover, { useTextSelectionLookup } from '../dictionary/QuickVocabPopover';
 
 // =================================================================
 // SUB-COMPONENT 1: BUILD A SENTENCE (FORMAT ETS 2026 - 10 ITEMS)
@@ -381,6 +382,7 @@ function BuildSentenceTask({ test, answers, onAnswerChange }) {
 // =================================================================
 function WriteEmailTask({ test, answers, onAnswerChange }) {
   const content = test.content || {};
+  const { selectionData, clearSelection, handleTextMouseUp } = useTextSelectionLookup();
   const requirements = content.requirements || [
     "Apologize for your absence and state the reason",
     "Inquire about review notes or slides",
@@ -398,10 +400,18 @@ function WriteEmailTask({ test, answers, onAnswerChange }) {
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start max-w-6xl mx-auto">
       
       {/* Cột trái: Tình huống & Yêu cầu đề bài */}
-      <div className="lg:col-span-5 bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-5">
-        <div className="flex items-center gap-2 text-rose-800 font-bold text-xs uppercase border-b pb-3">
-          <Mail className="w-4 h-4 text-rose-700" />
-          <span>TASK TYPE: WRITE AN EMAIL (FORMAT 2026)</span>
+      <div 
+        onMouseUp={handleTextMouseUp}
+        className="lg:col-span-5 bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-5"
+      >
+        <div className="flex items-center justify-between gap-2 text-rose-800 font-bold text-xs uppercase border-b pb-3">
+          <div className="flex items-center gap-2">
+            <Mail className="w-4 h-4 text-rose-700" />
+            <span>TASK TYPE: WRITE AN EMAIL (FORMAT 2026)</span>
+          </div>
+          <span className="text-[10px] text-amber-800 font-semibold bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 hidden sm:inline normal-case">
+            💡 Bôi đen từ để tra & lưu
+          </span>
         </div>
 
         {/* Tình huống (Scenario) */}
@@ -482,6 +492,14 @@ function WriteEmailTask({ test, answers, onAnswerChange }) {
 
       </div>
 
+      {/* Pop-up Tra & Lưu từ vựng 1-chạm khi bôi đen */}
+      {selectionData && (
+        <QuickVocabPopover
+          selection={selectionData}
+          onClose={clearSelection}
+        />
+      )}
+
     </div>
   );
 }
@@ -491,6 +509,7 @@ function WriteEmailTask({ test, answers, onAnswerChange }) {
 // =================================================================
 function AcademicDiscussionTask({ test, answers, onAnswerChange }) {
   const content = test.content || {};
+  const { selectionData, clearSelection, handleTextMouseUp } = useTextSelectionLookup();
 
   // Fallback thông minh để không bao giờ bị trắng thẻ bên trái
   const profObj = content.professor_prompt || content.professor || {};
@@ -526,16 +545,24 @@ function AcademicDiscussionTask({ test, answers, onAnswerChange }) {
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start max-w-6xl mx-auto">
       
       {/* Cột trái: Diễn đàn lớp học với Giáo sư & Bạn học (ĐẢM BẢO KHÔNG BAO GIỜ BỊ TRẮNG) */}
-      <div className="lg:col-span-6 bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-4 max-h-[640px] overflow-y-auto">
+      <div 
+        onMouseUp={handleTextMouseUp}
+        className="lg:col-span-6 bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-4 max-h-[640px] overflow-y-auto"
+      >
         
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2 text-rose-800 font-bold text-xs uppercase">
             <MessageSquare className="w-4 h-4 text-rose-700" />
             <span>ACADEMIC DISCUSSION BOARD</span>
           </div>
-          <span className="text-[10px] font-semibold text-slate-500 uppercase px-2 py-0.5 rounded bg-slate-100">
-            {courseTopic}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] text-amber-800 font-semibold bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 hidden sm:inline normal-case">
+              💡 Bôi đen từ để tra & lưu
+            </span>
+            <span className="text-[10px] font-semibold text-slate-500 uppercase px-2 py-0.5 rounded bg-slate-100">
+              {courseTopic}
+            </span>
+          </div>
         </div>
 
         {/* Bài đăng của Giáo sư */}
@@ -615,6 +642,14 @@ function AcademicDiscussionTask({ test, answers, onAnswerChange }) {
         </div>
 
       </div>
+
+      {/* Pop-up Tra & Lưu từ vựng 1-chạm khi bôi đen */}
+      {selectionData && (
+        <QuickVocabPopover
+          selection={selectionData}
+          onClose={clearSelection}
+        />
+      )}
 
     </div>
   );

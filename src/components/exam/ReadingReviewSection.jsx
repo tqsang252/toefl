@@ -18,6 +18,7 @@ import {
 import { normalizeCompleteWordsTask, importVocabularyBatch } from '../../lib/supabase';
 import { translateTextWithAi, lookupWordWithAi, enrichBatchVocabularyWords } from '../../lib/gemini';
 import { VOCABULARY_DECKS } from '../../data/vocabularyData';
+import QuickVocabPopover, { useTextSelectionLookup } from '../dictionary/QuickVocabPopover';
 
 // Chỉ mục tra cứu nhanh từ vựng có sẵn
 function getLocalVocabDetails(rawWord) {
@@ -240,6 +241,9 @@ export default function ReadingReviewSection({ moduleData, test }) {
 
   // Câu hỏi / từ đang được active highlight
   const [activeItemIdx, setActiveItemIdx] = useState(0);
+
+  // Hook tra cứu và lưu từ vựng 1-chạm khi bôi đen văn bản
+  const { selectionData, clearSelection, handleTextMouseUp } = useTextSelectionLookup();
 
   // Trạng thái dịch thuật (Task ID -> Chuỗi tiếng Việt)
   const [translations, setTranslations] = useState({});
@@ -576,7 +580,7 @@ export default function ReadingReviewSection({ moduleData, test }) {
                       Đoạn văn gốc & Từ vựng trong ngữ cảnh
                     </h4>
                     <p className="text-[11px] text-slate-500">
-                      Bấm vào từng từ để xem chi tiết đối chiếu & học từ vựng
+                      Bấm vào từng từ để đối chiếu • Bôi đen để tra & lưu từ vựng 1-chạm
                     </p>
                   </div>
                 </div>
@@ -613,7 +617,10 @@ export default function ReadingReviewSection({ moduleData, test }) {
             </div>
 
             {/* Thân bài đọc cuộn độc lập */}
-            <div className="flex-1 overflow-y-auto p-5 sm:p-6 custom-scrollbar min-h-0 space-y-4">
+            <div 
+              onMouseUp={handleTextMouseUp}
+              className="flex-1 overflow-y-auto p-5 sm:p-6 custom-scrollbar min-h-0 space-y-4"
+            >
               <div className="text-slate-800 font-serif text-sm sm:text-base leading-loose p-4 rounded-2xl bg-[#faf9f5] border border-amber-900/10 shadow-2xs">
                 {cwTokens.map((token, tIdx) => {
                   if (token.type === 'text') {
@@ -868,9 +875,14 @@ export default function ReadingReviewSection({ moduleData, test }) {
                     <FileText className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded-md">
-                      {passageDocType}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded-md">
+                        {passageDocType}
+                      </span>
+                      <span className="text-[10px] text-amber-800 font-semibold bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 hidden sm:inline">
+                        💡 Bôi đen từ bất kỳ để tra & lưu 1-chạm
+                      </span>
+                    </div>
                     <h4 className="text-xs font-black uppercase tracking-wider text-slate-800 mt-1">
                       Bài đọc học thuật & Dẫn chứng
                     </h4>
@@ -909,7 +921,10 @@ export default function ReadingReviewSection({ moduleData, test }) {
             </div>
 
             {/* Vùng bài đọc có thanh cuộn riêng - CÁCH BIỆT HOÀN TOÀN KHỎI HEADER VÀ FOOTER */}
-            <div className="flex-1 overflow-y-auto p-5 sm:p-6 custom-scrollbar min-h-0 space-y-4">
+            <div 
+              onMouseUp={handleTextMouseUp}
+              className="flex-1 overflow-y-auto p-5 sm:p-6 custom-scrollbar min-h-0 space-y-4"
+            >
               <div className="p-4 sm:p-5 rounded-2xl bg-[#faf9f5] border border-amber-900/10 shadow-2xs space-y-4">
                 {passageText.split('\n\n').map((para, pIdx) => {
                   if (!para.trim()) return null;
@@ -1299,6 +1314,14 @@ export default function ReadingReviewSection({ moduleData, test }) {
           </div>
 
         </div>
+      )}
+
+      {/* 4. Pop-up Tra cứu & 1-Chạm Lưu Từ Vựng khi Bôi Đen Văn Bản */}
+      {selectionData && (
+        <QuickVocabPopover
+          selection={selectionData}
+          onClose={clearSelection}
+        />
       )}
 
     </div>

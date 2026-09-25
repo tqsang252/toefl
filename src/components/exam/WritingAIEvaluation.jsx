@@ -21,6 +21,7 @@ import {
   isGeminiConfigured, 
   evaluateBothWritingSubmissions 
 } from '../../lib/gemini';
+import QuickVocabPopover, { useTextSelectionLookup } from '../dictionary/QuickVocabPopover';
 
 export default function WritingAIEvaluation({ 
   writingSubmissions, 
@@ -55,6 +56,7 @@ export default function WritingAIEvaluation({
   const [activeTab, setActiveTab] = useState('email'); // 'email' | 'discussion' | 'overview'
   const [isOriginalExpanded, setIsOriginalExpanded] = useState(false);
   const [copiedTask, setCopiedTask] = useState(null);
+  const { selectionData, clearSelection, handleTextMouseUp } = useTextSelectionLookup();
 
   // Đồng bộ existingEvaluation nếu được truyền từ bên ngoài VÀ thực sự khớp với bài viết hiện tại
   useEffect(() => {
@@ -180,7 +182,10 @@ export default function WritingAIEvaluation({
     const minWords = subData?.min_words || (taskKey === 'email' ? 80 : 100);
 
     return (
-      <div className="space-y-6 animate-in fade-in duration-300">
+      <div 
+        onMouseUp={handleTextMouseUp}
+        className="space-y-6 animate-in fade-in duration-300"
+      >
         
         {/* Điểm tổng quan của Task này */}
         <div className="p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
@@ -378,9 +383,14 @@ export default function WritingAIEvaluation({
                   <h6 className="text-sm font-black tracking-tight text-white">
                     Bản Viết Mẫu Nâng Cấp Band 5.0 Tuyệt Đối (30/30)
                   </h6>
-                  <span className="text-[10px] text-amber-300 font-bold uppercase tracking-wider">
-                    Giữ nguyên ý tưởng của bạn nhưng nâng tầm văn phong học thuật
-                  </span>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-[10px] text-amber-300 font-bold uppercase tracking-wider">
+                      Giữ nguyên ý tưởng của bạn nhưng nâng tầm văn phong học thuật
+                    </span>
+                    <span className="text-[10px] text-amber-200 font-semibold bg-white/10 px-2 py-0.5 rounded-md border border-white/20 hidden sm:inline normal-case">
+                      💡 Bôi đen từ để tra & lưu
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -702,6 +712,14 @@ export default function WritingAIEvaluation({
         ) : hasDiscuss ? (
           renderTaskEvaluation('discussion', discussSub, discussRes, 'Task 3: Academic Discussion')
         ) : null}
+
+        {/* Pop-up Tra & Lưu từ vựng 1-chạm khi bôi đen */}
+        {selectionData && (
+          <QuickVocabPopover
+            selection={selectionData}
+            onClose={clearSelection}
+          />
+        )}
 
       </div>
     );
