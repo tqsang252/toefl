@@ -16,7 +16,39 @@ import {
   Search
 } from 'lucide-react';
 import { normalizeCompleteWordsTask, importVocabularyBatch } from '../../lib/supabase';
-import { translateTextWithAi, lookupWordWithAi } from '../../lib/gemini';
+import { translateTextWithAi, lookupWordWithAi, enrichBatchVocabularyWords } from '../../lib/gemini';
+import { VOCABULARY_DECKS } from '../../data/vocabularyData';
+
+// Chỉ mục tra cứu nhanh từ vựng có sẵn
+function getLocalVocabDetails(rawWord) {
+  if (!rawWord) return null;
+  const clean = String(rawWord).trim().toLowerCase().replace(/^[^a-z]+|[^a-z]+$/gi, '');
+  if (!clean) return null;
+
+  // 1. Tra trong kho từ vựng VOCABULARY_DECKS (1,000+ từ chuẩn ETS)
+  for (const deck of VOCABULARY_DECKS) {
+    const found = deck.words?.find(w => w.word?.toLowerCase() === clean);
+    if (found) {
+      const fam = Array.isArray(found.wordFamily) ? found.wordFamily.join(', ') : (found.wordFamily || '');
+      return {
+        word: clean,
+        phonetic: found.phonetic || '',
+        partOfSpeech: found.partOfSpeech || '',
+        meaningVi: found.meaningVi || found.meaning || '',
+        wordFamily: fam,
+        explanation: found.exampleTranslation || found.example || ''
+      };
+    }
+  }
+
+  // 2. Tra trong localStorage cache đã lưu từ trước
+  try {
+    const cache = JSON.parse(localStorage.getItem('toefl_word_dictionary_cache') || '{}');
+    if (cache[clean]) return cache[clean];
+  } catch {}
+
+  return null;
+}
 
 export default function ReadingReviewSection({ moduleData, test }) {
   // 1. Thu thập danh sách tasks trong module này
@@ -75,10 +107,13 @@ export default function ReadingReviewSection({ moduleData, test }) {
   // Từ vựng đã lưu vào Sổ từ vựng
   const [savedWords, setSavedWords] = useState(new Set());
 
+  // Bản đồ từ điển chi tiết (IPA, Nghĩa tiếng Việt, Word family)
+  const [wordDictMap, setWordDictMap] = useState({});
+
   // Refs để cuộn tới card bên phải
   const cardRefs = useRef({});
 
-  // Reset trạng thái khi đổi task
+  // Tự động làm giàu dữ liệu từ điển (IPA, Nghĩa tiếng Việt, Word family) cho bài đọc hiện tại
   useEffect(() => {
     setActiveItemIdx(0);
     setShowTranslation(false);
@@ -86,7 +121,57 @@ export default function ReadingReviewSection({ moduleData, test }) {
       window.speechSynthesis.cancel();
       setIsSpeaking(false);
     }
-  }, [activeTaskIdx]);
+
+    if (!currentTask) return;
+
+    // 1. Trích xuất danh sách từ cần tra từ điển
+    const wordsToLookup = [];
+    if (currentTask.task_type === 'complete_words') {
+      const norm = normalizeCompleteWordsTask({ ...currentTask, content: currentTask.task_content }, currentTask.task_id);
+      const blanks = norm.content?.blanks || currentTask.task_content?.blanks || [];
+      blanks.forEach(b => {
+        const fullWord = b.full || `${b.prefix || ''}${b.missing || ''}`;
+        if (fullWord) wordsToLookup.push(fullWord);
+      });
+    } else {
+      // Đối với Passage: tìm các từ trong câu hỏi từ vựng (ví dụ: The word 'xyz' is closest...)
+      const questions = currentTask.task_content?.questions || [];
+      questions.forEach(q => {
+        const match = String(q.prompt || '').match(/['"“]([a-zA-Z]{3,20})['"”]/);
+        if (match && match[1]) wordsToLookup.push(match[1]);
+      });
+    }
+
+    if (wordsToLookup.length === 0) return;
+
+    // 2. Điền ngay lập tức các từ có sẵn trong từ điển nội bộ
+    const immediateMap = {};
+    const missingWords = [];
+
+    wordsToLookup.forEach(w => {
+      const clean = w.toLowerCase().trim();
+      const localData = getLocalVocabDetails(clean);
+      if (localData && localData.phonetic && localData.meaningVi) {
+        immediateMap[clean] = localData;
+      } else {
+        missingWords.push(clean);
+        if (localData) immediateMap[clean] = localData;
+      }
+    });
+
+    setWordDictMap(prev => ({ ...prev, ...immediateMap }));
+
+    // 3. Nếu còn từ chưa có hoặc thiếu thông tin, tự động gọi AI tra cứu song song trong nền
+    if (missingWords.length > 0) {
+      enrichBatchVocabularyWords(missingWords).then(enriched => {
+        if (enriched && typeof enriched === 'object' && Object.keys(enriched).length > 0) {
+          setWordDictMap(prev => ({ ...prev, ...enriched }));
+        }
+      }).catch(err => {
+        console.warn('Lỗi tự động tra từ vựng:', err);
+      });
+    }
+  }, [activeTaskIdx, currentTask]);
 
   // Hàm đọc phát âm tiếng Anh chuẩn
   const handleToggleSpeak = (textToSpeak) => {
@@ -425,56 +510,110 @@ export default function ReadingReviewSection({ moduleData, test }) {
                           : 'bg-rose-50/20 hover:bg-rose-50/40 border-rose-200'
                     }`}
                   >
-                    {/* Header Thẻ: Số câu + Status Badge */}
-                    <div className="flex items-center justify-between gap-2 mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="w-6 h-6 rounded-lg bg-slate-100 text-slate-700 text-xs font-black flex items-center justify-center">
-                          {token.index + 1}
-                        </span>
-                        <span className="text-xs font-bold text-slate-500">
-                          Từ khuyết: <code className="font-mono text-slate-800 bg-slate-100 px-1.5 py-0.5 rounded font-bold">{token.prefix}[...]</code>
-                        </span>
-                      </div>
+                    {/* Header Thẻ: Số câu + Tiêu đề từ + Status Badge */}
+                    {(() => {
+                      const cleanWord = token.full.toLowerCase().trim();
+                      const dictInfo = wordDictMap[cleanWord] || getLocalVocabDetails(cleanWord);
 
-                      {isCorrect ? (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                          Đúng
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full">
-                          <XCircle className="w-3.5 h-3.5 text-rose-600" />
-                          Chưa đúng
-                        </span>
-                      )}
-                    </div>
+                      return (
+                        <>
+                          <div className="flex items-center justify-between gap-2 mb-2.5">
+                            <div className="flex items-center gap-2">
+                              <span className="w-6 h-6 rounded-lg bg-slate-100 text-slate-800 text-xs font-black flex items-center justify-center shrink-0">
+                                {token.index + 1}
+                              </span>
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="text-xs sm:text-sm font-black text-slate-900">
+                                  {token.full}
+                                </span>
+                                {isCorrect ? (
+                                  <span className="text-emerald-700 text-[11px] font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                                    [✓ Đúng]
+                                  </span>
+                                ) : (
+                                  <span className="text-rose-700 text-[11px] font-bold bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
+                                    (sai) → <span className="text-emerald-700 font-black">{token.full}</span>
+                                  </span>
+                                )}
+                              </div>
+                            </div>
 
-                    {/* So sánh Đối chiếu đáp án */}
-                    <div className="grid grid-cols-2 gap-2 text-xs mb-3">
-                      <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
-                        <span className="text-[10px] uppercase font-bold text-slate-500 block mb-0.5">
-                          Đáp án của bạn:
-                        </span>
-                        <span className={`font-bold ${isCorrect ? 'text-emerald-700' : 'text-rose-600 line-through'}`}>
-                          {token.userChoice}
-                        </span>
-                      </div>
+                            {isCorrect ? (
+                              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full shrink-0">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                                Đúng
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full shrink-0">
+                                <XCircle className="w-3.5 h-3.5 text-rose-600" />
+                                Chưa đúng
+                              </span>
+                            )}
+                          </div>
 
-                      <div className="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-200">
-                        <span className="text-[10px] uppercase font-bold text-emerald-800 block mb-0.5">
-                          Đáp án chuẩn:
-                        </span>
-                        <span className="font-black text-emerald-800 text-sm">
-                          {token.full}
-                        </span>
-                      </div>
-                    </div>
+                          {/* Lưới 2x2: Câu trả lời vs Đáp án chuẩn | Phiên âm quốc tế vs Nghĩa tiếng Việt */}
+                          <div className="grid grid-cols-2 gap-2 text-xs mb-2.5">
+                            <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+                              <span className="text-[10px] uppercase font-bold text-slate-500 block mb-0.5">
+                                Câu trả lời của bạn:
+                              </span>
+                              <span className={`font-bold ${isCorrect ? 'text-emerald-700' : 'text-rose-600 line-through'}`}>
+                                {token.userChoice}
+                              </span>
+                            </div>
 
-                    {/* Lời giải thích */}
-                    <div className="text-xs text-slate-600 leading-relaxed bg-slate-50/70 p-2.5 rounded-xl border border-slate-200/80 mb-2.5">
-                      <strong className="text-slate-800 font-semibold">Giải thích: </strong>
-                      {token.explanation}
-                    </div>
+                            <div className="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-200">
+                              <span className="text-[10px] uppercase font-bold text-emerald-800 block mb-0.5">
+                                Đáp án chuẩn:
+                              </span>
+                              <span className="font-black text-emerald-800 text-sm">
+                                {token.full}
+                              </span>
+                            </div>
+
+                            {/* Phiên âm quốc tế IPA */}
+                            <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+                              <span className="text-[10px] uppercase font-bold text-slate-500 block mb-0.5">
+                                Phiên âm quốc tế:
+                              </span>
+                              <span className="font-mono font-bold text-indigo-700 text-xs">
+                                {dictInfo?.phonetic ? `IPA: ${dictInfo.phonetic}` : 'IPA: /.../'}
+                              </span>
+                            </div>
+
+                            {/* Nghĩa tiếng Việt */}
+                            <div className="p-2.5 rounded-xl bg-indigo-50/50 border border-indigo-100">
+                              <span className="text-[10px] uppercase font-bold text-indigo-900 block mb-0.5">
+                                Nghĩa tiếng Việt:
+                              </span>
+                              <span className="font-bold text-slate-800 text-xs line-clamp-2">
+                                {dictInfo?.meaningVi || dictInfo?.meaning || 'Đang tra nghĩa học thuật...'}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Từ gia đình (Word Family) */}
+                          {dictInfo?.wordFamily && (
+                            <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 mb-2.5 text-xs">
+                              <span className="text-[10px] uppercase font-bold text-slate-500 block mb-0.5">
+                                Từ gia đình (Word Family):
+                              </span>
+                              <span className="text-slate-700 font-medium">
+                                {dictInfo.wordFamily}
+                              </span>
+                            </div>
+                          )}
+
+                          {/* Lời giải thích */}
+                          <div className="text-xs text-slate-600 leading-relaxed bg-slate-50/70 p-2.5 rounded-xl border border-slate-200/80 mb-2.5">
+                            <strong className="text-slate-800 font-semibold">Giải thích chi tiết: </strong>
+                            {dictInfo?.explanation && dictInfo.explanation !== token.explanation 
+                              ? `${token.explanation} ${dictInfo.explanation}`
+                              : token.explanation}
+                          </div>
+                        </>
+                      );
+                    })()}
 
                     {/* Action: Lưu từ vựng & Phát âm từ */}
                     <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
@@ -761,6 +900,63 @@ export default function ReadingReviewSection({ moduleData, test }) {
                 );
               })}
             </div>
+
+            {/* THẺ TỪ VỰNG CỐT LÕI CỦA BÀI ĐỌC (ACADEMIC VOCABULARY IN PASSAGE) */}
+            {(() => {
+              const vocabList = Object.values(wordDictMap).filter(w => w && w.word);
+              if (vocabList.length === 0) return null;
+
+              return (
+                <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-50/60 to-orange-50/40 border border-amber-200 shadow-2xs">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Sparkles className="w-4 h-4 text-amber-600" />
+                    <h5 className="text-xs font-black uppercase tracking-wider text-amber-950">
+                      Từ vựng cốt lõi cần nhớ trong bài đọc
+                    </h5>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    {vocabList.map((vItem, vIdx) => {
+                      const isSaved = savedWords.has(vItem.word.toLowerCase());
+
+                      return (
+                        <div key={vIdx} className="p-2.5 rounded-xl bg-white border border-amber-200/80 text-xs flex items-center justify-between gap-3">
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-black text-slate-900">{vItem.word}</span>
+                              {vItem.phonetic && (
+                                <span className="font-mono text-[11px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.2 rounded border border-indigo-100">
+                                  {vItem.phonetic}
+                                </span>
+                              )}
+                              {vItem.partOfSpeech && (
+                                <span className="text-[10px] text-slate-500 font-semibold italic">
+                                  ({vItem.partOfSpeech})
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[11px] text-slate-700 font-medium mt-0.5">
+                              {vItem.meaningVi || vItem.meaning}
+                            </p>
+                          </div>
+
+                          <button
+                            onClick={() => handleSaveToVocab(vItem.word, vItem.meaningVi || vItem.meaning)}
+                            className={`px-2 py-1 rounded-lg text-[10px] font-bold shrink-0 transition-all cursor-pointer border ${
+                              isSaved 
+                                ? 'bg-emerald-50 text-emerald-800 border-emerald-300' 
+                                : 'bg-slate-50 hover:bg-indigo-50 text-indigo-700 border-slate-200'
+                            }`}
+                          >
+                            {isSaved ? 'Đã lưu ✓' : '+ Lưu từ'}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })()}
           </div>
 
         </div>

@@ -1527,4 +1527,80 @@ YÊU CẦU:
   };
 }
 
+/**
+ * Tra cứu & làm giàu dữ liệu từ điển hàng loạt (IPA, Nghĩa tiếng Việt, Loại từ, Gia đình từ)
+ */
+export async function enrichBatchVocabularyWords(wordsArray) {
+  if (!Array.isArray(wordsArray) || wordsArray.length === 0) return {};
+  
+  const uniqueWords = Array.from(new Set(
+    wordsArray.map(w => String(w || '').trim().toLowerCase().replace(/^[^a-z]+|[^a-z]+$/gi, '')).filter(Boolean)
+  ));
+  
+  if (uniqueWords.length === 0) return {};
+
+  // 1. Kiểm tra cache localStorage
+  let cache = {};
+  try {
+    cache = JSON.parse(localStorage.getItem('toefl_word_dictionary_cache') || '{}');
+  } catch {}
+
+  const missingWords = uniqueWords.filter(w => !cache[w]);
+
+  if (missingWords.length === 0) {
+    const res = {};
+    uniqueWords.forEach(w => { res[w] = cache[w]; });
+    return res;
+  }
+
+  // 2. Tra cứu bằng AI cho các từ chưa có
+  const prompt = `Bạn là chuyên gia từ điển học thuật TOEFL iBT 2026.
+Hãy cung cấp thông tin từ điển chi tiết cho danh sách các từ tiếng Anh sau:
+${JSON.stringify(missingWords)}
+
+YÊU CẦU:
+Trả về duy nhất 1 JSON Object với key là từ tiếng Anh (viết thường), value là object:
+{
+  "từ_tiếng_anh": {
+    "phonetic": "/.../ (phiên âm quốc tế IPA chuẩn)",
+    "partOfSpeech": "loại từ (verb, noun, adj...)",
+    "meaningVi": "Nghĩa tiếng Việt chuẩn ngữ cảnh học thuật",
+    "wordFamily": "danh sách gia đình từ ngắn gọn (ví dụ: treat (v), treatment (n), treatable (adj))",
+    "explanation": "Giải thích ngắn gọn cách dùng từ trong ngữ cảnh học thuật"
+  }
+}
+TUYỆT ĐỐI không viết bất kỳ ký tự nào ngoài JSON hợp lệ.`;
+
+  try {
+    const aiResult = await generateGeminiJson(prompt, 'You are an academic English-Vietnamese lexicographer. Output strictly valid JSON.');
+    if (aiResult && typeof aiResult === 'object') {
+      Object.entries(aiResult).forEach(([k, v]) => {
+        if (!v || typeof v !== 'object') return;
+        const cleanKey = k.toLowerCase().trim();
+        cache[cleanKey] = {
+          word: cleanKey,
+          phonetic: v.phonetic || '',
+          partOfSpeech: v.partOfSpeech || '',
+          meaningVi: v.meaningVi || v.meaning || '',
+          wordFamily: Array.isArray(v.wordFamily) ? v.wordFamily.join(', ') : (v.wordFamily || ''),
+          explanation: v.explanation || ''
+        };
+      });
+
+      try {
+        localStorage.setItem('toefl_word_dictionary_cache', JSON.stringify(cache));
+      } catch {}
+    }
+  } catch (err) {
+    console.warn('Lỗi khi tra từ điển AI hàng loạt:', err);
+  }
+
+  const finalResult = {};
+  uniqueWords.forEach(w => {
+    finalResult[w] = cache[w] || null;
+  });
+
+  return finalResult;
+}
+
 
