@@ -1084,24 +1084,11 @@ export default function ReadingReviewSection({ moduleData, test }) {
                           const isThisUserChoice = optKey.toUpperCase() === userChoice.toUpperCase();
 
                           let optStyle = "bg-slate-50/60 border-slate-200 text-slate-700";
-                          let badge = null;
 
                           if (isThisCorrect) {
                             optStyle = "bg-emerald-50 text-emerald-950 border-emerald-300 font-bold ring-1 ring-emerald-300";
-                            badge = (
-                              <span className="text-[10px] font-black text-emerald-800 bg-emerald-200 px-2 py-0.5 rounded ml-auto flex items-center gap-1 shrink-0">
-                                <CheckCircle2 className="w-3 h-3 text-emerald-700" />
-                                ĐÁP ÁN ĐÚNG
-                              </span>
-                            );
                           } else if (isThisUserChoice && !isCorrect) {
                             optStyle = "bg-rose-50 text-rose-950 border-rose-300 font-bold ring-1 ring-rose-300";
-                            badge = (
-                              <span className="text-[10px] font-black text-rose-800 bg-rose-200 px-2 py-0.5 rounded ml-auto flex items-center gap-1 shrink-0">
-                                <XCircle className="w-3 h-3 text-rose-700" />
-                                LỰA CHỌN CỦA BẠN - SAI
-                              </span>
-                            );
                           }
 
                           return (
@@ -1118,8 +1105,7 @@ export default function ReadingReviewSection({ moduleData, test }) {
                               }`}>
                                 {optKey}
                               </span>
-                              <span className="leading-snug">{optVal}</span>
-                              {badge}
+                              <span className="leading-snug flex-1">{optVal}</span>
                             </div>
                           );
                         })}
