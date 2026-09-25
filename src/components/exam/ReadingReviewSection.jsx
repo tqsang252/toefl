@@ -50,6 +50,93 @@ function getLocalVocabDetails(rawWord) {
   return null;
 }
 
+// Helper tìm câu dẫn chứng chính xác trong bài đọc cho câu hỏi trắc nghiệm
+function findEvidenceSentence(passage, qItem, qDef) {
+  if (!passage) return null;
+  const prompt = (qDef?.prompt || qDef?.question || qItem?.prompt || '').toLowerCase();
+  const explanation = (qDef?.explanation || qItem?.explanation || '');
+  const options = qDef?.options || qItem?.options || {};
+  const correctAnsKey = String(qDef?.correct_answer || qDef?.answer || qItem?.correct_answer || '').trim();
+  const correctOptText = (options[correctAnsKey] || options[correctAnsKey.toUpperCase()] || '').toLowerCase();
+
+  // Tách bài đọc thành các câu riêng biệt (dựa vào dấu ., ?, !, hoặc ngắt dòng)
+  const rawSentences = passage.match(/[^.!?\n]+[.!?]+(\s+|$)|[^.!?\n]+$/g) || [passage];
+  const sentences = rawSentences.map(s => s.trim()).filter(Boolean);
+  if (sentences.length === 0) return null;
+  if (sentences.length === 1) return { sentence: sentences[0], index: 0 };
+
+  // 1. Kiểm tra trích dẫn trực tiếp trong explanation (dấu nháy đơn hoặc nháy kép)
+  const quotes = explanation.match(/['"“]([^'"”]{5,})['"”]/g);
+  if (quotes) {
+    for (const rawQuote of quotes) {
+      const cleanQuote = rawQuote.replace(/['"“”]/g, '').trim().toLowerCase();
+      const matchIdx = sentences.findIndex(s => s.toLowerCase().includes(cleanQuote));
+      if (matchIdx !== -1) {
+        return { sentence: sentences[matchIdx], index: matchIdx, quote: cleanQuote };
+      }
+    }
+  }
+
+  // 2. Trích xuất từ khóa quan trọng loại trừ stop words
+  const stopWords = new Set([
+    'what', 'when', 'where', 'which', 'whose', 'whom', 'that', 'this', 'these', 'those',
+    'with', 'from', 'about', 'according', 'notice', 'passage', 'author', 'article',
+    'could', 'should', 'would', 'might', 'must', 'does', 'have', 'been', 'their',
+    'there', 'than', 'them', 'then', 'into', 'most', 'only', 'such', 'some', 'were', 'will',
+    'stated', 'indicated', 'suggests', 'implies', 'following', 'true', 'except', 'purpose'
+  ]);
+
+  const extractTokens = (str) => {
+    return str
+      .replace(/[^a-zA-Z0-9\s-]/g, ' ')
+      .split(/\s+/)
+      .map(w => w.toLowerCase())
+      .filter(w => w.length >= 4 && !stopWords.has(w));
+  };
+
+  const promptTokens = extractTokens(prompt);
+  const correctTokens = extractTokens(correctOptText);
+  const allTargetTokens = [...promptTokens, ...correctTokens];
+
+  // Bonus cho câu đầu tiên nếu hỏi về mục đích chính hoặc ý chính
+  const isMainIdeaQ = prompt.includes('primary purpose') || prompt.includes('main purpose') || prompt.includes('mainly about') || prompt.includes('best title') || prompt.includes('main topic');
+
+  let bestScore = -1;
+  let bestIdx = 0;
+
+  sentences.forEach((sent, sIdx) => {
+    const sLower = sent.toLowerCase();
+    let score = 0;
+
+    // Bonus cho câu mở đầu nếu là câu hỏi ý chính
+    if (isMainIdeaQ && sIdx === 0) score += 12;
+
+    // Đếm số từ khóa xuất hiện
+    for (const tok of allTargetTokens) {
+      if (sLower.includes(tok)) score += 2;
+    }
+
+    // Đếm cụm 2 từ (bigram) từ đáp án đúng
+    for (let i = 0; i < correctTokens.length - 1; i++) {
+      const bigram = `${correctTokens[i]} ${correctTokens[i+1]}`;
+      if (sLower.includes(bigram)) score += 8;
+    }
+
+    // Đếm cụm 2 từ từ câu hỏi
+    for (let i = 0; i < promptTokens.length - 1; i++) {
+      const bigram = `${promptTokens[i]} ${promptTokens[i+1]}`;
+      if (sLower.includes(bigram)) score += 6;
+    }
+
+    if (score > bestScore) {
+      bestScore = score;
+      bestIdx = sIdx;
+    }
+  });
+
+  return { sentence: sentences[bestIdx], index: bestIdx };
+}
+
 export default function ReadingReviewSection({ moduleData, test }) {
   // 1. Thu thập danh sách tasks trong module này
   const tasks = React.useMemo(() => {
@@ -110,8 +197,17 @@ export default function ReadingReviewSection({ moduleData, test }) {
   // Bản đồ từ điển chi tiết (IPA, Nghĩa tiếng Việt, Word family)
   const [wordDictMap, setWordDictMap] = useState({});
 
-  // Refs để cuộn tới card bên phải
+  // Refs để cuộn tới card bên phải và câu dẫn chứng bên trái
   const cardRefs = useRef({});
+  const evidenceRefs = useRef({});
+  const blankRefs = useRef({});
+
+  // Tự động cuộn tới câu dẫn chứng khi activeItemIdx thay đổi
+  useEffect(() => {
+    if (evidenceRefs.current[activeItemIdx]) {
+      evidenceRefs.current[activeItemIdx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [activeItemIdx]);
 
   // Tự động làm giàu dữ liệu từ điển (IPA, Nghĩa tiếng Việt, Word family) cho bài đọc hiện tại
   useEffect(() => {
@@ -240,11 +336,29 @@ export default function ReadingReviewSection({ moduleData, test }) {
     }
   };
 
-  // Cuộn tới câu hỏi khi bấm vào chip trong đoạn văn
+  // Cuộn tới câu hỏi khi bấm vào chip trong đoạn văn (Complete the Words)
   const handleSelectBlank = (idx) => {
     setActiveItemIdx(idx);
     if (cardRefs.current[idx]) {
       cardRefs.current[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  };
+
+  const handleSelectCardBlank = (idx) => {
+    setActiveItemIdx(idx);
+    if (blankRefs.current[idx]) {
+      blankRefs.current[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
+  // Chọn câu hỏi trong bài đọc hiểu (Passage) - đồng bộ 2 chiều
+  const handleSelectQuestion = (idx) => {
+    setActiveItemIdx(idx);
+    if (cardRefs.current[idx]) {
+      cardRefs.current[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    if (evidenceRefs.current[idx]) {
+      evidenceRefs.current[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   };
 
@@ -320,8 +434,20 @@ export default function ReadingReviewSection({ moduleData, test }) {
   const passageDocType = taskContent.document_type || (currentTask.task_type === 'daily_life' ? 'Read in Daily Life' : 'Academic Reading Passage');
   const passageQuestions = taskContent.questions || [];
   const passageItems = currentTask.items || [];
+  const questionsList = passageQuestions.length > 0 ? passageQuestions : passageItems;
 
-  // Tìm câu dẫn chứng trong bài đọc tương ứng với câu hỏi đang chọn
+  // Tính toán trước bản đồ dẫn chứng cho từng câu hỏi trong bài đọc
+  const evidenceMap = React.useMemo(() => {
+    const map = {};
+    questionsList.forEach((q, idx) => {
+      const qItem = passageItems[idx] || {};
+      const qDef = passageQuestions[idx] || q;
+      map[idx] = findEvidenceSentence(passageText, qItem, qDef);
+    });
+    return map;
+  }, [passageText, questionsList, passageItems, passageQuestions]);
+
+  const activeEvidence = evidenceMap[activeItemIdx] || null;
   const activeQuestionItem = passageItems[activeItemIdx] || {};
   const activeQuestionDef = passageQuestions[activeItemIdx] || {};
 
@@ -428,6 +554,7 @@ export default function ReadingReviewSection({ moduleData, test }) {
                 return (
                   <button
                     key={tIdx}
+                    ref={el => blankRefs.current[token.index] = el}
                     onClick={() => handleSelectBlank(token.index)}
                     className={`inline-flex items-center gap-1 px-2.5 py-0.5 mx-1 my-0.5 rounded-xl text-xs sm:text-sm font-bold font-sans transition-all cursor-pointer border ${
                       isSelected 
@@ -501,7 +628,7 @@ export default function ReadingReviewSection({ moduleData, test }) {
                   <div
                     key={token.index}
                     ref={el => cardRefs.current[token.index] = el}
-                    onClick={() => setActiveItemIdx(token.index)}
+                    onClick={() => handleSelectCardBlank(token.index)}
                     className={`p-4 rounded-2xl border transition-all cursor-pointer ${
                       isSelected 
                         ? 'bg-white border-indigo-400 ring-2 ring-indigo-200 shadow-md' 
@@ -706,32 +833,98 @@ export default function ReadingReviewSection({ moduleData, test }) {
               </div>
             </div>
 
-            {/* Nội dung bài đọc chia đoạn có số đoạn [1], [2] */}
+            {/* Nội dung bài đọc chia đoạn có số đoạn [1], [2] & đánh dấu dẫn chứng từng câu */}
             <div className="p-4 sm:p-5 rounded-2xl bg-[#faf9f5] border border-amber-900/10 shadow-2xs space-y-4">
               {passageText.split('\n\n').map((para, pIdx) => {
                 if (!para.trim()) return null;
 
-                // Kiểm tra xem đoạn này có chứa từ khóa hoặc dẫn chứng của câu hỏi đang chọn hay không
-                const activePrompt = activeQuestionItem?.prompt || activeQuestionDef?.prompt || '';
-                const activeExplanation = activeQuestionItem?.explanation || activeQuestionDef?.explanation || '';
-                const hasEvidence = (activeExplanation && activeExplanation.length > 10 && para.toLowerCase().includes(activePrompt.substring(0, 15).toLowerCase())) || false;
+                // Tách đoạn văn thành từng câu để highlight chính xác câu dẫn chứng
+                const sentences = para.match(/[^.!?\n]+[.!?]+(\s+|$)|[^.!?\n]+$/g) || [para];
+
+                // Kiểm tra xem đoạn này có chứa dẫn chứng của câu đang chọn không
+                const hasCurrentActiveEvidence = activeEvidence && activeEvidence.sentence && sentences.some(s => {
+                  const sTrim = s.trim().toLowerCase();
+                  const evTrim = activeEvidence.sentence.trim().toLowerCase();
+                  return sTrim === evTrim || sTrim.includes(evTrim) || evTrim.includes(sTrim);
+                });
 
                 return (
                   <div key={pIdx} className="relative group">
-                    <p className={`font-serif text-sm sm:text-base leading-relaxed text-slate-800 transition-all p-2 rounded-xl ${
-                      hasEvidence ? 'bg-amber-100/60 ring-2 ring-amber-300' : ''
+                    <p className={`font-serif text-sm sm:text-base leading-relaxed text-slate-800 transition-all p-3 rounded-2xl ${
+                      hasCurrentActiveEvidence ? 'bg-amber-100/50 ring-1 ring-amber-300' : ''
                     }`}>
                       <span className="font-sans font-bold text-xs text-slate-400 mr-2 select-none">
                         [{pIdx + 1}]
                       </span>
-                      {para}
-                    </p>
 
-                    {hasEvidence && (
-                      <span className="absolute -top-2.5 right-2 bg-amber-500 text-white text-[10px] font-black px-2 py-0.5 rounded-md shadow-xs animate-in zoom-in-95">
-                        Dẫn chứng Câu {activeItemIdx + 1}
-                      </span>
-                    )}
+                      {sentences.map((rawSentence, sIdx) => {
+                        const s = rawSentence.trim();
+                        if (!s) return null;
+
+                        const sLower = s.toLowerCase();
+                        const isCurrent = activeEvidence && activeEvidence.sentence && (
+                          sLower === activeEvidence.sentence.toLowerCase() ||
+                          sLower.includes(activeEvidence.sentence.toLowerCase()) ||
+                          activeEvidence.sentence.toLowerCase().includes(sLower)
+                        );
+
+                        // Tìm xem câu này có là dẫn chứng cho câu hỏi nào khác không
+                        const otherMatches = [];
+                        Object.entries(evidenceMap).forEach(([idxStr, ev]) => {
+                          const numIdx = Number(idxStr);
+                          if (numIdx !== activeItemIdx && ev && ev.sentence) {
+                            const otherEvLower = ev.sentence.toLowerCase();
+                            if (sLower === otherEvLower || sLower.includes(otherEvLower) || otherEvLower.includes(sLower)) {
+                              otherMatches.push(numIdx);
+                            }
+                          }
+                        });
+
+                        if (isCurrent) {
+                          return (
+                            <span
+                              key={sIdx}
+                              ref={el => evidenceRefs.current[activeItemIdx] = el}
+                              className="bg-amber-200/90 text-amber-950 font-medium px-2 py-1 my-0.5 rounded-xl ring-2 ring-amber-400 shadow-xs inline transition-all duration-300 animate-in fade-in"
+                            >
+                              <span className="font-semibold underline decoration-amber-500 decoration-2">
+                                {s}
+                              </span>
+                              <span className="inline-flex items-center gap-1 mx-1.5 px-2 py-0.5 rounded-md bg-amber-600 text-white text-[10px] font-black align-middle shadow-xs select-none">
+                                <CheckCircle2 className="w-3 h-3 text-amber-100" />
+                                📍 Dẫn chứng Câu {activeItemIdx + 1}
+                              </span>
+                              {' '}
+                            </span>
+                          );
+                        }
+
+                        if (otherMatches.length > 0) {
+                          return (
+                            <span key={sIdx} className="inline">
+                              <span>{s}</span>
+                              {otherMatches.map(oIdx => (
+                                <button
+                                  key={oIdx}
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleSelectQuestion(oIdx);
+                                  }}
+                                  title={`Bấm để chuyển sang đối chiếu Câu ${oIdx + 1}`}
+                                  className="inline-flex items-center gap-0.5 mx-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-amber-100/80 hover:bg-amber-300 text-amber-900 border border-amber-300 cursor-pointer transition-colors align-middle shadow-2xs select-none"
+                                >
+                                  <span>📍 C{oIdx + 1}</span>
+                                </button>
+                              ))}
+                              {' '}
+                            </span>
+                          );
+                        }
+
+                        return <span key={sIdx}>{rawSentence} </span>;
+                      })}
+                    </p>
                   </div>
                 );
               })}
@@ -750,8 +943,54 @@ export default function ReadingReviewSection({ moduleData, test }) {
               </div>
             )}
 
-            <div className="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500 font-medium flex items-center justify-between">
-              <span>💡 Gợi ý: Bấm vào từng câu hỏi bên phải để xem phân tích đáp án chi tiết</span>
+            {/* THANH ĐIỀU HƯỚNG VÀ TRẠNG THÁI ĐỐI CHIẾU DẪN CHỨNG */}
+            <div className="mt-4 p-3 bg-amber-50/70 border border-amber-200/80 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-xl bg-amber-500 text-white flex items-center justify-center font-black text-xs shrink-0 shadow-2xs">
+                  {activeItemIdx + 1}
+                </div>
+                <div>
+                  <span className="font-bold text-amber-950 block">
+                    Đang đối chiếu: Câu {activeItemIdx + 1}
+                  </span>
+                  <span className="text-[11px] text-amber-800">
+                    Dẫn chứng được tô sáng màu vàng trong bài đọc ở trên
+                  </span>
+                </div>
+              </div>
+
+              {/* Nút bấm chuyển nhanh từng câu hỏi */}
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="text-[11px] text-slate-500 font-bold mr-1">Chuyển câu:</span>
+                {questionsList.map((q, qIdx) => {
+                  const isSelected = activeItemIdx === qIdx;
+                  const matchedItem = passageItems[qIdx] || {};
+                  const isCorrect = matchedItem.is_correct ?? (matchedItem.user_choice === (q.correct_answer || q.answer));
+
+                  return (
+                    <button
+                      key={qIdx}
+                      type="button"
+                      onClick={() => handleSelectQuestion(qIdx)}
+                      className={`px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border ${
+                        isSelected
+                          ? 'bg-amber-500 text-white border-amber-600 shadow-xs ring-2 ring-amber-200'
+                          : isCorrect
+                            ? 'bg-white text-emerald-800 border-emerald-200 hover:bg-emerald-50'
+                            : 'bg-white text-rose-800 border-rose-200 hover:bg-rose-50'
+                      }`}
+                      title={`Xem phân tích và dẫn chứng Câu ${qIdx + 1}`}
+                    >
+                      <span>Câu {qIdx + 1}</span>
+                      {isCorrect ? (
+                        <CheckCircle2 className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-emerald-600'}`} />
+                      ) : (
+                        <XCircle className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-rose-600'}`} />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
           </div>
@@ -781,15 +1020,28 @@ export default function ReadingReviewSection({ moduleData, test }) {
                   <div
                     key={qIdx}
                     ref={el => cardRefs.current[qIdx] = el}
-                    onClick={() => setActiveItemIdx(qIdx)}
+                    onClick={() => handleSelectQuestion(qIdx)}
                     className={`p-5 rounded-2xl border transition-all cursor-pointer ${
                       isSelected 
-                        ? 'bg-white border-amber-400 ring-2 ring-amber-200 shadow-md' 
+                        ? 'bg-white border-amber-400 ring-2 ring-amber-300 shadow-md' 
                         : isCorrect 
                           ? 'bg-white hover:bg-slate-50 border-slate-200' 
                           : 'bg-rose-50/20 hover:bg-rose-50/40 border-rose-200'
                     }`}
                   >
+                    {/* Banner hiển thị trạng thái đang chọn đối chiếu */}
+                    {isSelected && (
+                      <div className="mb-3 px-3 py-1.5 rounded-xl bg-amber-50 text-amber-900 border border-amber-200 text-xs font-bold flex items-center justify-between animate-in fade-in">
+                        <span className="flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                          <span>Đang xem phân tích câu này • Dẫn chứng đã tô sáng bên trái</span>
+                        </span>
+                        <span className="text-[10px] text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded font-black shrink-0">
+                          Đang chọn
+                        </span>
+                      </div>
+                    )}
+
                     {/* Header câu hỏi */}
                     <div className="flex items-center justify-between gap-2 mb-2.5">
                       <span className="text-xs font-black text-slate-700 bg-slate-100 px-2 py-0.5 rounded-lg">
@@ -886,11 +1138,40 @@ export default function ReadingReviewSection({ moduleData, test }) {
 
                     {/* Dẫn chứng & Lời giải thích */}
                     {explanation && (
-                      <div className="p-3 rounded-xl bg-amber-50/60 border border-amber-200/80 text-xs text-amber-950 leading-relaxed font-sans">
-                        <strong className="text-amber-900 block font-bold mb-1">
-                          📖 Dẫn chứng & Giải thích:
-                        </strong>
-                        <p className="text-slate-700 leading-relaxed">
+                      <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200 text-xs text-amber-950 leading-relaxed font-sans space-y-2">
+                        <div className="flex items-center justify-between gap-2 flex-wrap">
+                          <strong className="text-amber-900 font-bold flex items-center gap-1.5">
+                            <BookOpen className="w-4 h-4 text-amber-700" />
+                            Dẫn chứng & Giải thích chi tiết:
+                          </strong>
+
+                          {evidenceMap[qIdx]?.sentence && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleToggleSpeak(evidenceMap[qIdx].sentence);
+                              }}
+                              className="flex items-center gap-1 text-[11px] font-bold text-amber-800 hover:text-amber-950 bg-amber-100/70 hover:bg-amber-200 px-2 py-0.5 rounded-lg transition-colors cursor-pointer"
+                              title="Nghe phát âm câu dẫn chứng trong bài đọc"
+                            >
+                              <Volume2 className="w-3 h-3 text-amber-700" />
+                              <span>Nghe câu dẫn chứng</span>
+                            </button>
+                          )}
+                        </div>
+
+                        {/* Trích dẫn câu gốc tiếng Anh trong bài đọc */}
+                        {evidenceMap[qIdx]?.sentence && (
+                          <div className="p-2.5 rounded-lg bg-white/80 border border-amber-200/80 font-serif italic text-slate-800 text-[11px] sm:text-xs leading-relaxed">
+                            <span className="font-sans font-bold not-italic text-amber-800 text-[10px] uppercase block mb-0.5">
+                              Trích câu gốc trong bài đọc:
+                            </span>
+                            "{evidenceMap[qIdx].sentence}"
+                          </div>
+                        )}
+
+                        <p className="text-slate-700 leading-relaxed whitespace-pre-line">
                           {explanation}
                         </p>
                       </div>
