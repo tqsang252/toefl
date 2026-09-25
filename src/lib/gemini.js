@@ -1603,4 +1603,89 @@ TUYỆT ĐỐI không viết bất kỳ ký tự nào ngoài JSON hợp lệ.`;
   return finalResult;
 }
 
+/**
+ * ====================================================================
+ * NÂNG CẤP CÂU VĂN WRITING 3 CẤP ĐỘ CHUẨN ETS 2026 (AI SENTENCE ENHANCER)
+ * Level 1: Band 3.5 - 4.0 (Clear & Accurate)
+ * Level 2: Band 4.5 - 5.0 (Academic & Compound)
+ * Level 3: Band 5.5 - 6.0 (Elite ETS Academic Collocations)
+ * ====================================================================
+ */
+export async function enhanceSentenceWithAi(rawSentence, taskContext = '') {
+  const sentence = (rawSentence || '').trim();
+  if (!sentence) throw new Error('Vui lòng nhập câu văn cần nâng cấp.');
+
+  const prompt = `You are a world-class official ETS TOEFL iBT Writing Examiner and Academic English Stylist with 15+ years of experience.
+Rewrite and elevate the following student's draft sentence into 3 escalating proficiency tiers according to the official TOEFL 2026 scoring rubrics:
+
+Student's Draft Sentence:
+"${sentence}"
+${taskContext ? `Context / Task: ${taskContext}` : ''}
+
+REQUIREMENTS FOR EACH TIER:
+1. Level 1 - Band 3.5 - 4.0 (Clear & Accurate):
+   - Fix all grammatical errors, spelling mistakes, and awkward phrasing.
+   - Keep the sentence structure clean, direct, and grammatically impeccable.
+   - Clarify subject-verb agreement and word choice.
+
+2. Level 2 - Band 4.5 - 5.0 (Academic & Compound / Complex):
+   - Upgrade to sophisticated academic connectors / transitions (e.g., whereas, thereby, as it facilitates, not only... but also).
+   - Use relative clauses and variety in syntactic structures (compound/complex sentences).
+   - Elevate basic vocabulary to formal collegiate terms.
+
+3. Level 3 - Band 5.5 - 6.0 (Elite ETS Academic Collocations):
+   - Utilize advanced nominalization, inverted structures, or participial phrases.
+   - Incorporate elite academic collocations and domain-specific lexicon (e.g., exponentially facilitates, cognitive acquisition, empirical substantiation, multifaceted implications).
+   - Natural, highly native-like collegiate flow found in Band 6.0 benchmark responses.
+
+You MUST respond strictly with a valid JSON object matching this exact schema:
+{
+  "original": "${sentence.replace(/"/g, '\\"')}",
+  "level1": {
+    "band": "Band 3.5 - 4.0",
+    "title": "Clear & Accurate",
+    "sentence": "Sentence rewritten for Level 1",
+    "grammar_notes": [
+      "Điểm ngữ pháp chính được sửa hoặc làm rõ bằng tiếng Việt",
+      "..."
+    ],
+    "vocab_changes": [
+      { "from": "từ cũ", "to": "từ mới", "reason": "giải thích ngắn tiếng Việt" }
+    ]
+  },
+  "level2": {
+    "band": "Band 4.5 - 5.0",
+    "title": "Academic & Compound",
+    "sentence": "Sentence rewritten for Level 2",
+    "grammar_notes": [
+      "Cấu trúc câu phức/ghép hoặc liên từ học thuật được bổ sung bằng tiếng Việt",
+      "..."
+    ],
+    "vocab_changes": [
+      { "from": "từ cũ", "to": "từ mới", "reason": "giải thích ngắn tiếng Việt" }
+    ]
+  },
+  "level3": {
+    "band": "Band 5.5 - 6.0",
+    "title": "Elite ETS Collocations",
+    "sentence": "Sentence rewritten for Level 3",
+    "grammar_notes": [
+      "Kỹ thuật câu học thuật cao cấp (danh từ hóa, phân từ, cấu trúc đảo ngữ) bằng tiếng Việt",
+      "..."
+    ],
+    "vocab_changes": [
+      { "from": "từ cũ", "to": "từ mới", "reason": "giải thích ngắn tiếng Việt" }
+    ]
+  }
+}
+NO markdown formatting or text outside the JSON object.`;
+
+  return await generateGeminiJson(
+    prompt,
+    'You are an expert bilingual academic writing coach for TOEFL iBT 2026. Respond strictly with a single JSON object.',
+    0.3
+  );
+}
+
+
 

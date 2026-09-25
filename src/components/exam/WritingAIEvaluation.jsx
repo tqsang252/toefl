@@ -22,6 +22,7 @@ import {
   evaluateBothWritingSubmissions 
 } from '../../lib/gemini';
 import QuickVocabPopover, { useTextSelectionLookup } from '../dictionary/QuickVocabPopover';
+import SentenceEnhancerModal from '../writing/SentenceEnhancerModal';
 
 export default function WritingAIEvaluation({ 
   writingSubmissions, 
@@ -57,6 +58,21 @@ export default function WritingAIEvaluation({
   const [isOriginalExpanded, setIsOriginalExpanded] = useState(false);
   const [copiedTask, setCopiedTask] = useState(null);
   const { selectionData, clearSelection, handleTextMouseUp } = useTextSelectionLookup();
+
+  // State Modal Nâng cấp câu 3 cấp độ
+  const [enhancerState, setEnhancerState] = useState({
+    isOpen: false,
+    initialSentence: '',
+    taskContext: ''
+  });
+
+  const openEnhancer = (sentence = '', context = '') => {
+    setEnhancerState({
+      isOpen: true,
+      initialSentence: sentence,
+      taskContext: context
+    });
+  };
 
   // Đồng bộ existingEvaluation nếu được truyền từ bên ngoài VÀ thực sự khớp với bài viết hiện tại
   useEffect(() => {
@@ -224,7 +240,7 @@ export default function WritingAIEvaluation({
 
         {/* Khung bài viết gốc của thí sinh (Thu gọn / Mở rộng) */}
         <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
-          <div className="flex items-center justify-between text-xs font-bold text-slate-700 mb-2">
+          <div className="flex items-center justify-between text-xs font-bold text-slate-700 mb-2 flex-wrap gap-2">
             <div className="flex items-center gap-2">
               <span>Bài viết gốc của bạn</span>
               <span className={`px-2 py-0.5 rounded-full text-[10px] border ${
@@ -236,13 +252,25 @@ export default function WritingAIEvaluation({
               </span>
             </div>
 
-            <button
-              onClick={() => setIsOriginalExpanded(!isOriginalExpanded)}
-              className="inline-flex items-center gap-1 text-slate-500 hover:text-blue-600 transition-colors cursor-pointer"
-            >
-              <span>{isOriginalExpanded ? 'Thu gọn' : 'Xem toàn bộ bài'}</span>
-              {isOriginalExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => openEnhancer('', taskKey === 'email' ? 'TOEFL Writing Task 2: Email' : 'TOEFL Writing Task 3: Academic Discussion')}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 text-[11px] font-bold transition-all cursor-pointer shadow-2xs active:scale-95"
+                title="Mở công cụ nâng cấp câu văn 3 cấp độ"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                <span>Nâng cấp câu văn (3 Cấp độ)</span>
+              </button>
+
+              <button
+                onClick={() => setIsOriginalExpanded(!isOriginalExpanded)}
+                className="inline-flex items-center gap-1 text-slate-500 hover:text-blue-600 transition-colors cursor-pointer"
+              >
+                <span>{isOriginalExpanded ? 'Thu gọn' : 'Xem toàn bộ bài'}</span>
+                {isOriginalExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+              </button>
+            </div>
           </div>
 
           <p className={`text-xs sm:text-sm font-serif text-slate-800 leading-relaxed italic bg-white p-3 rounded-xl border border-slate-200/80 ${
@@ -286,12 +314,24 @@ export default function WritingAIEvaluation({
                 return (
                   <div key={eIdx} className="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2">
                     <div className="flex items-center justify-between gap-2 flex-wrap">
-                      <span className="text-xs font-bold text-slate-700">
-                        Lỗi #{eIdx + 1}
-                      </span>
-                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold border uppercase ${badgeColor}`}>
-                        {err.type || 'Grammar'}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-slate-700">
+                          Lỗi #{eIdx + 1}
+                        </span>
+                        <span className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold border uppercase ${badgeColor}`}>
+                          {err.type || 'Grammar'}
+                        </span>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => openEnhancer(err.original || err.corrected, taskKey === 'email' ? 'TOEFL Writing Task 2: Email' : 'TOEFL Writing Task 3: Academic Discussion')}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 transition-all cursor-pointer shadow-2xs active:scale-95"
+                        title="Nâng cấp câu này lên 3 cấp độ (Band 3.5 -> 6.0)"
+                      >
+                        <Sparkles className="w-3 h-3 text-amber-600" />
+                        <span>Nâng cấp câu này (3 Cấp độ)</span>
+                      </button>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
@@ -715,6 +755,14 @@ export default function WritingAIEvaluation({
             onClose={clearSelection}
           />
         )}
+
+        {/* Modal Nâng cấp câu văn 3 cấp độ */}
+        <SentenceEnhancerModal
+          isOpen={enhancerState.isOpen}
+          onClose={() => setEnhancerState(prev => ({ ...prev, isOpen: false }))}
+          initialSentence={enhancerState.initialSentence}
+          taskContext={enhancerState.taskContext}
+        />
 
       </div>
     );

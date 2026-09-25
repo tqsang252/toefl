@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { PenTool, MessageSquare, Mail, CheckCircle2, RotateCcw, ChevronLeft, ChevronRight, HelpCircle, GripVertical, Check } from 'lucide-react';
+import { PenTool, MessageSquare, Mail, CheckCircle2, RotateCcw, ChevronLeft, ChevronRight, HelpCircle, GripVertical, Check, Sparkles } from 'lucide-react';
 import QuickVocabPopover, { useTextSelectionLookup } from '../dictionary/QuickVocabPopover';
+import SentenceEnhancerModal from '../writing/SentenceEnhancerModal';
 
 // =================================================================
 // SUB-COMPONENT 1: BUILD A SENTENCE (FORMAT ETS 2026 - 10 ITEMS)
@@ -383,6 +384,7 @@ function BuildSentenceTask({ test, answers, onAnswerChange }) {
 function WriteEmailTask({ test, answers, onAnswerChange }) {
   const content = test.content || {};
   const { selectionData, clearSelection, handleTextMouseUp } = useTextSelectionLookup();
+  const [isEnhancerOpen, setIsEnhancerOpen] = useState(false);
   const requirements = content.requirements || [
     "Apologize for your absence and state the reason",
     "Inquire about review notes or slides",
@@ -395,6 +397,12 @@ function WriteEmailTask({ test, answers, onAnswerChange }) {
   const wordCount = textVal.trim() ? textVal.trim().split(/\s+/).length : 0;
   const minWords = content.min_words || 80;
   const isTargetMet = wordCount >= minWords;
+
+  const handleAdoptSentence = (sentence) => {
+    const updated = textVal ? `${textVal.trim()} ${sentence}` : sentence;
+    onAnswerChange(answerKey, updated);
+    onAnswerChange('email_essay', updated);
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start max-w-6xl mx-auto">
@@ -442,20 +450,32 @@ function WriteEmailTask({ test, answers, onAnswerChange }) {
       {/* Cột phải: Khung soạn thảo Email */}
       <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
         
-        {/* Thanh trạng thái số từ */}
-        <div className="flex items-center justify-between border-b pb-4 mb-4">
+        {/* Thanh trạng thái số từ & Nút Nâng cấp câu */}
+        <div className="flex items-center justify-between border-b pb-4 mb-4 gap-2 flex-wrap">
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold text-slate-700 uppercase">Soạn thảo Email</span>
             <span className="text-[11px] text-slate-400 hidden sm:inline">• Thời gian đề xuất: ~7 phút</span>
           </div>
 
-          <span className={`text-xs font-bold px-3 py-1 rounded-full border transition-all ${
-            isTargetMet
-              ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
-              : 'bg-amber-50 text-amber-700 border-amber-300'
-          }`}>
-            Số từ: {wordCount} / {minWords} từ tối thiểu {isTargetMet && "✓"}
-          </span>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setIsEnhancerOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-xs shadow-2xs cursor-pointer active:scale-95 transition-all"
+              title="Nâng cấp câu văn tiếng Anh theo 3 cấp độ chuẩn ETS"
+            >
+              <Sparkles className="w-3.5 h-3.5 fill-white" />
+              <span>Nâng cấp câu (3 Cấp độ)</span>
+            </button>
+
+            <span className={`text-xs font-bold px-3 py-1 rounded-full border transition-all ${
+              isTargetMet
+                ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                : 'bg-amber-50 text-amber-700 border-amber-300'
+            }`}>
+              Số từ: {wordCount} / {minWords} từ tối thiểu {isTargetMet && "✓"}
+            </span>
+          </div>
         </div>
 
         {/* Form mô phỏng Client Email */}
@@ -495,6 +515,14 @@ function WriteEmailTask({ test, answers, onAnswerChange }) {
         />
       )}
 
+      {/* Modal Nâng Cấp Câu Văn 3 Cấp Độ */}
+      <SentenceEnhancerModal
+        isOpen={isEnhancerOpen}
+        onClose={() => setIsEnhancerOpen(false)}
+        taskContext="TOEFL Writing Task 2: Write an Email"
+        onAdoptSentence={handleAdoptSentence}
+      />
+
     </div>
   );
 }
@@ -505,6 +533,7 @@ function WriteEmailTask({ test, answers, onAnswerChange }) {
 function AcademicDiscussionTask({ test, answers, onAnswerChange }) {
   const content = test.content || {};
   const { selectionData, clearSelection, handleTextMouseUp } = useTextSelectionLookup();
+  const [isEnhancerOpen, setIsEnhancerOpen] = useState(false);
 
   // Fallback thông minh để không bao giờ bị trắng thẻ bên trái
   const profObj = content.professor_prompt || content.professor || {};
@@ -535,6 +564,13 @@ function AcademicDiscussionTask({ test, answers, onAnswerChange }) {
   const textVal = answers[answerKey] || answers['discussion_essay'] || (test.id && answers[test.id]) || '';
   const wordCount = textVal.trim() ? textVal.trim().split(/\s+/).length : 0;
   const isTargetMet = wordCount >= minWords;
+
+  const handleAdoptSentence = (sentence) => {
+    const updated = textVal ? `${textVal.trim()} ${sentence}` : sentence;
+    onAnswerChange(answerKey, updated);
+    onAnswerChange('discussion_essay', updated);
+    onAnswerChange('essay_discussion', updated);
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start max-w-6xl mx-auto">
@@ -598,19 +634,31 @@ function AcademicDiscussionTask({ test, answers, onAnswerChange }) {
       {/* Cột phải: Khung gõ bài của thí sinh */}
       <div className="lg:col-span-6 bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
         
-        <div className="flex items-center justify-between border-b pb-4 mb-4">
+        <div className="flex items-center justify-between border-b pb-4 mb-4 gap-2 flex-wrap">
           <div>
             <span className="text-xs font-bold text-slate-700 uppercase block">Bài đóng góp của bạn</span>
             <span className="text-[11px] text-slate-400">Thời gian đề xuất: ~10 phút</span>
           </div>
 
-          <span className={`text-xs font-bold px-3 py-1 rounded-full border transition-all ${
-            isTargetMet 
-              ? 'bg-emerald-50 text-emerald-700 border-emerald-300' 
-              : 'bg-amber-50 text-amber-700 border-amber-300'
-          }`}>
-            Số từ: {wordCount} / {minWords} từ tối thiểu {isTargetMet && "✓"}
-          </span>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setIsEnhancerOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-xs shadow-2xs cursor-pointer active:scale-95 transition-all"
+              title="Nâng cấp câu văn tiếng Anh theo 3 cấp độ chuẩn ETS"
+            >
+              <Sparkles className="w-3.5 h-3.5 fill-white" />
+              <span>Nâng cấp câu (3 Cấp độ)</span>
+            </button>
+
+            <span className={`text-xs font-bold px-3 py-1 rounded-full border transition-all ${
+              isTargetMet 
+                ? 'bg-emerald-50 text-emerald-700 border-emerald-300' 
+                : 'bg-amber-50 text-amber-700 border-amber-300'
+            }`}>
+              Số từ: {wordCount} / {minWords} từ tối thiểu {isTargetMet && "✓"}
+            </span>
+          </div>
         </div>
 
         <textarea
@@ -637,6 +685,14 @@ function AcademicDiscussionTask({ test, answers, onAnswerChange }) {
           onClose={clearSelection}
         />
       )}
+
+      {/* Modal Nâng Cấp Câu Văn 3 Cấp Độ */}
+      <SentenceEnhancerModal
+        isOpen={isEnhancerOpen}
+        onClose={() => setIsEnhancerOpen(false)}
+        taskContext="TOEFL Writing Task 3: Academic Discussion Board"
+        onAdoptSentence={handleAdoptSentence}
+      />
 
     </div>
   );
