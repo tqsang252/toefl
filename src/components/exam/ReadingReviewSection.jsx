@@ -493,112 +493,116 @@ export default function ReadingReviewSection({ moduleData, test }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           
           {/* CỘT TRÁI (7/12): ĐOẠN VĂN GỐC & TỪ VỰNG TRONG NGỮ CẢNH */}
-          <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-xs lg:sticky lg:top-24 max-h-[calc(100vh-140px)] overflow-y-auto custom-scrollbar">
+          <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200 shadow-xs lg:sticky lg:top-24 max-h-[calc(100vh-140px)] flex flex-col overflow-hidden">
             
-            {/* Header Cột trái */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100 sticky top-0 bg-white z-10">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center">
-                  <FileText className="w-4 h-4" />
+            {/* Header Cột trái - CỐ ĐỊNH Ở TRÊN CÙNG */}
+            <div className="p-5 sm:p-6 pb-4 border-b border-slate-100 shrink-0 bg-white z-10">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center">
+                    <FileText className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-black uppercase tracking-wider text-slate-800">
+                      Đoạn văn gốc & Từ vựng trong ngữ cảnh
+                    </h4>
+                    <p className="text-[11px] text-slate-500">
+                      Bấm vào từng từ để xem chi tiết đối chiếu & học từ vựng
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-xs font-black uppercase tracking-wider text-slate-800">
-                    Đoạn văn gốc & Từ vựng trong ngữ cảnh
-                  </h4>
-                  <p className="text-[11px] text-slate-500">
-                    Bấm vào từng từ để xem chi tiết đối chiếu & học từ vựng
+
+                {/* Action Toolbar */}
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => handleToggleTranslate(taskContent.paragraph || '', currentTask.task_id)}
+                    disabled={isTranslating}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+                      showTranslation 
+                        ? 'bg-indigo-50 text-indigo-700 border-indigo-200 shadow-2xs' 
+                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                    }`}
+                    title="Dịch toàn bộ đoạn văn sang tiếng Việt"
+                  >
+                    <Languages className="w-3.5 h-3.5 text-indigo-600" />
+                    <span>{isTranslating ? 'Đang dịch...' : showTranslation ? 'Ẩn bản dịch' : 'Dịch đoạn văn'}</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleToggleSpeak(taskContent.paragraph || '')}
+                    className={`p-1.5 rounded-xl border transition-all cursor-pointer ${
+                      isSpeaking 
+                        ? 'bg-rose-50 text-rose-700 border-rose-200 animate-pulse' 
+                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                    }`}
+                    title={isSpeaking ? 'Dừng đọc' : 'Nghe phát âm toàn bài'}
+                  >
+                    {isSpeaking ? <VolumeX className="w-4 h-4 text-rose-600" /> : <Volume2 className="w-4 h-4 text-slate-600" />}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Thân bài đọc cuộn độc lập */}
+            <div className="flex-1 overflow-y-auto p-5 sm:p-6 custom-scrollbar min-h-0 space-y-4">
+              <div className="text-slate-800 font-serif text-sm sm:text-base leading-loose p-4 rounded-2xl bg-[#faf9f5] border border-amber-900/10 shadow-2xs">
+                {cwTokens.map((token, tIdx) => {
+                  if (token.type === 'text') {
+                    return <span key={tIdx}>{token.content}</span>;
+                  }
+
+                  const isSelected = activeItemIdx === token.index;
+                  const isCorrect = token.isCorrect;
+
+                  return (
+                    <button
+                      key={tIdx}
+                      ref={el => blankRefs.current[token.index] = el}
+                      onClick={() => handleSelectBlank(token.index)}
+                      className={`inline-flex items-center gap-1 px-2.5 py-0.5 mx-1 my-0.5 rounded-xl text-xs sm:text-sm font-bold font-sans transition-all cursor-pointer border ${
+                        isSelected 
+                          ? 'ring-3 ring-indigo-400 shadow-md scale-105 z-10' 
+                          : 'shadow-2xs hover:scale-102'
+                      } ${
+                        isCorrect 
+                          ? 'bg-emerald-50 text-emerald-800 border-emerald-300' 
+                          : 'bg-rose-50 text-rose-800 border-rose-300'
+                      }`}
+                    >
+                      {isCorrect ? (
+                        <>
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                          <span>{token.full}</span>
+                        </>
+                      ) : (
+                        <>
+                          <XCircle className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+                          <span className="line-through text-rose-600 font-normal">{token.userChoice}</span>
+                          <span className="text-slate-400 text-[10px]">→</span>
+                          <span className="text-emerald-700 font-black">{token.full}</span>
+                        </>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Khung hiển thị bản dịch tiếng Việt nếu được bật */}
+              {showTranslation && (
+                <div className="mt-4 p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200 animate-in fade-in duration-200">
+                  <div className="flex items-center gap-2 mb-1.5 text-xs font-bold text-indigo-950">
+                    <Languages className="w-4 h-4 text-indigo-600" />
+                    <span>Bản dịch tiếng Việt tham khảo (Song ngữ):</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-sans">
+                    {translations[currentTask.task_id] || 'Đang tải bản dịch...'}
                   </p>
                 </div>
-              </div>
-
-              {/* Action Toolbar */}
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={() => handleToggleTranslate(taskContent.paragraph || '', currentTask.task_id)}
-                  disabled={isTranslating}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
-                    showTranslation 
-                      ? 'bg-indigo-50 text-indigo-700 border-indigo-200 shadow-2xs' 
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                  }`}
-                  title="Dịch toàn bộ đoạn văn sang tiếng Việt"
-                >
-                  <Languages className="w-3.5 h-3.5 text-indigo-600" />
-                  <span>{isTranslating ? 'Đang dịch...' : showTranslation ? 'Ẩn bản dịch' : 'Dịch đoạn văn'}</span>
-                </button>
-
-                <button
-                  onClick={() => handleToggleSpeak(taskContent.paragraph || '')}
-                  className={`p-1.5 rounded-xl border transition-all cursor-pointer ${
-                    isSpeaking 
-                      ? 'bg-rose-50 text-rose-700 border-rose-200 animate-pulse' 
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                  }`}
-                  title={isSpeaking ? 'Dừng đọc' : 'Nghe phát âm toàn bài'}
-                >
-                  {isSpeaking ? <VolumeX className="w-4 h-4 text-rose-600" /> : <Volume2 className="w-4 h-4 text-slate-600" />}
-                </button>
-              </div>
+              )}
             </div>
 
-            {/* Thân bài đọc với các Blanks nhúng trực tiếp */}
-            <div className="text-slate-800 font-serif text-sm sm:text-base leading-loose p-4 rounded-2xl bg-[#faf9f5] border border-amber-900/10 shadow-2xs">
-              {cwTokens.map((token, tIdx) => {
-                if (token.type === 'text') {
-                  return <span key={tIdx}>{token.content}</span>;
-                }
-
-                const isSelected = activeItemIdx === token.index;
-                const isCorrect = token.isCorrect;
-
-                return (
-                  <button
-                    key={tIdx}
-                    ref={el => blankRefs.current[token.index] = el}
-                    onClick={() => handleSelectBlank(token.index)}
-                    className={`inline-flex items-center gap-1 px-2.5 py-0.5 mx-1 my-0.5 rounded-xl text-xs sm:text-sm font-bold font-sans transition-all cursor-pointer border ${
-                      isSelected 
-                        ? 'ring-3 ring-indigo-400 shadow-md scale-105 z-10' 
-                        : 'shadow-2xs hover:scale-102'
-                    } ${
-                      isCorrect 
-                        ? 'bg-emerald-50 text-emerald-800 border-emerald-300' 
-                        : 'bg-rose-50 text-rose-800 border-rose-300'
-                    }`}
-                  >
-                    {isCorrect ? (
-                      <>
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                        <span>{token.full}</span>
-                      </>
-                    ) : (
-                      <>
-                        <XCircle className="w-3.5 h-3.5 text-rose-500 shrink-0" />
-                        <span className="line-through text-rose-600 font-normal">{token.userChoice}</span>
-                        <span className="text-slate-400 text-[10px]">→</span>
-                        <span className="text-emerald-700 font-black">{token.full}</span>
-                      </>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Khung hiển thị bản dịch tiếng Việt nếu được bật */}
-            {showTranslation && (
-              <div className="mt-4 p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200 animate-in fade-in duration-200">
-                <div className="flex items-center gap-2 mb-1.5 text-xs font-bold text-indigo-950">
-                  <Languages className="w-4 h-4 text-indigo-600" />
-                  <span>Bản dịch tiếng Việt tham khảo (Song ngữ):</span>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-sans">
-                  {translations[currentTask.task_id] || 'Đang tải bản dịch...'}
-                </p>
-              </div>
-            )}
-
-            {/* Mẹo học tập */}
-            <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-medium">
+            {/* Footer Mẹo học tập - CỐ ĐỊNH Ở DƯỚI CÙNG */}
+            <div className="p-4 sm:p-5 pt-3 border-t border-slate-100 shrink-0 bg-white z-10 flex items-center justify-between text-[11px] text-slate-500 font-medium">
               <span className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> Đúng: {cwTokens.filter(t => t.type === 'blank' && t.isCorrect).length} từ
               </span>
@@ -785,211 +789,217 @@ export default function ReadingReviewSection({ moduleData, test }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           
           {/* CỘT TRÁI (7/12): BÀI ĐỌC HỌC THUẬT & DẪN CHỨNG */}
-          <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-xs lg:sticky lg:top-24 max-h-[calc(100vh-140px)] overflow-y-auto custom-scrollbar">
+          <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200 shadow-xs lg:sticky lg:top-24 max-h-[calc(100vh-140px)] flex flex-col overflow-hidden">
             
-            {/* Header bài đọc */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100 sticky top-0 bg-white z-10">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
-                  <FileText className="w-4 h-4" />
-                </div>
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded-md">
-                    {passageDocType}
-                  </span>
-                  <h4 className="text-xs font-black uppercase tracking-wider text-slate-800 mt-1">
-                    Bài đọc học thuật & Dẫn chứng
-                  </h4>
-                </div>
-              </div>
-
-              {/* Action Toolbar */}
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={() => handleToggleTranslate(passageText, currentTask.task_id)}
-                  disabled={isTranslating}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
-                    showTranslation 
-                      ? 'bg-indigo-50 text-indigo-700 border-indigo-200 shadow-2xs' 
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                  }`}
-                  title="Dịch bài đọc sang tiếng Việt"
-                >
-                  <Languages className="w-3.5 h-3.5 text-indigo-600" />
-                  <span>{isTranslating ? 'Đang dịch...' : showTranslation ? 'Ẩn bản dịch' : 'Dịch bài đọc'}</span>
-                </button>
-
-                <button
-                  onClick={() => handleToggleSpeak(passageText)}
-                  className={`p-1.5 rounded-xl border transition-all cursor-pointer ${
-                    isSpeaking 
-                      ? 'bg-rose-50 text-rose-700 border-rose-200 animate-pulse' 
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                  }`}
-                  title={isSpeaking ? 'Dừng đọc' : 'Nghe phát âm bài đọc'}
-                >
-                  {isSpeaking ? <VolumeX className="w-4 h-4 text-rose-600" /> : <Volume2 className="w-4 h-4 text-slate-600" />}
-                </button>
-              </div>
-            </div>
-
-            {/* Nội dung bài đọc chia đoạn có số đoạn [1], [2] & đánh dấu dẫn chứng từng câu */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#faf9f5] border border-amber-900/10 shadow-2xs space-y-4">
-              {passageText.split('\n\n').map((para, pIdx) => {
-                if (!para.trim()) return null;
-
-                // Tách đoạn văn thành từng câu để highlight chính xác câu dẫn chứng
-                const sentences = para.match(/[^.!?\n]+[.!?]+(\s+|$)|[^.!?\n]+$/g) || [para];
-
-                // Kiểm tra xem đoạn này có chứa dẫn chứng của câu đang chọn không
-                const hasCurrentActiveEvidence = activeEvidence && activeEvidence.sentence && sentences.some(s => {
-                  const sTrim = s.trim().toLowerCase();
-                  const evTrim = activeEvidence.sentence.trim().toLowerCase();
-                  return sTrim === evTrim || sTrim.includes(evTrim) || evTrim.includes(sTrim);
-                });
-
-                return (
-                  <div key={pIdx} className="relative group">
-                    <p className={`font-serif text-sm sm:text-base leading-relaxed text-slate-800 transition-all p-3 rounded-2xl ${
-                      hasCurrentActiveEvidence ? 'bg-amber-100/50 ring-1 ring-amber-300' : ''
-                    }`}>
-                      <span className="font-sans font-bold text-xs text-slate-400 mr-2 select-none">
-                        [{pIdx + 1}]
-                      </span>
-
-                      {sentences.map((rawSentence, sIdx) => {
-                        const s = rawSentence.trim();
-                        if (!s) return null;
-
-                        const sLower = s.toLowerCase();
-                        const isCurrent = activeEvidence && activeEvidence.sentence && (
-                          sLower === activeEvidence.sentence.toLowerCase() ||
-                          sLower.includes(activeEvidence.sentence.toLowerCase()) ||
-                          activeEvidence.sentence.toLowerCase().includes(sLower)
-                        );
-
-                        // Tìm xem câu này có là dẫn chứng cho câu hỏi nào khác không
-                        const otherMatches = [];
-                        Object.entries(evidenceMap).forEach(([idxStr, ev]) => {
-                          const numIdx = Number(idxStr);
-                          if (numIdx !== activeItemIdx && ev && ev.sentence) {
-                            const otherEvLower = ev.sentence.toLowerCase();
-                            if (sLower === otherEvLower || sLower.includes(otherEvLower) || otherEvLower.includes(sLower)) {
-                              otherMatches.push(numIdx);
-                            }
-                          }
-                        });
-
-                        if (isCurrent) {
-                          return (
-                            <span
-                              key={sIdx}
-                              ref={el => evidenceRefs.current[activeItemIdx] = el}
-                              className="bg-amber-200/90 text-amber-950 font-medium px-2 py-1 my-0.5 rounded-xl ring-2 ring-amber-400 shadow-xs inline transition-all duration-300 animate-in fade-in"
-                            >
-                              <span className="font-semibold underline decoration-amber-500 decoration-2">
-                                {s}
-                              </span>
-                              <span className="inline-flex items-center gap-1 mx-1.5 px-2 py-0.5 rounded-md bg-amber-600 text-white text-[10px] font-black align-middle shadow-xs select-none">
-                                <CheckCircle2 className="w-3 h-3 text-amber-100" />
-                                📍 Dẫn chứng Câu {activeItemIdx + 1}
-                              </span>
-                              {' '}
-                            </span>
-                          );
-                        }
-
-                        if (otherMatches.length > 0) {
-                          return (
-                            <span key={sIdx} className="inline">
-                              <span>{s}</span>
-                              {otherMatches.map(oIdx => (
-                                <button
-                                  key={oIdx}
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleSelectQuestion(oIdx);
-                                  }}
-                                  title={`Bấm để chuyển sang đối chiếu Câu ${oIdx + 1}`}
-                                  className="inline-flex items-center gap-0.5 mx-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-amber-100/80 hover:bg-amber-300 text-amber-900 border border-amber-300 cursor-pointer transition-colors align-middle shadow-2xs select-none"
-                                >
-                                  <span>📍 C{oIdx + 1}</span>
-                                </button>
-                              ))}
-                              {' '}
-                            </span>
-                          );
-                        }
-
-                        return <span key={sIdx}>{rawSentence} </span>;
-                      })}
-                    </p>
+            {/* Header bài đọc - CỐ ĐỊNH Ở TRÊN CÙNG, KHÔNG BAO GIỜ BỊ ĐÈ */}
+            <div className="p-5 sm:p-6 pb-4 border-b border-slate-100 shrink-0 bg-white z-10">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+                    <FileText className="w-4 h-4" />
                   </div>
-                );
-              })}
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded-md">
+                      {passageDocType}
+                    </span>
+                    <h4 className="text-xs font-black uppercase tracking-wider text-slate-800 mt-1">
+                      Bài đọc học thuật & Dẫn chứng
+                    </h4>
+                  </div>
+                </div>
+
+                {/* Action Toolbar */}
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => handleToggleTranslate(passageText, currentTask.task_id)}
+                    disabled={isTranslating}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+                      showTranslation 
+                        ? 'bg-indigo-50 text-indigo-700 border-indigo-200 shadow-2xs' 
+                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                    }`}
+                    title="Dịch bài đọc sang tiếng Việt"
+                  >
+                    <Languages className="w-3.5 h-3.5 text-indigo-600" />
+                    <span>{isTranslating ? 'Đang dịch...' : showTranslation ? 'Ẩn bản dịch' : 'Dịch bài đọc'}</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleToggleSpeak(passageText)}
+                    className={`p-1.5 rounded-xl border transition-all cursor-pointer ${
+                      isSpeaking 
+                        ? 'bg-rose-50 text-rose-700 border-rose-200 animate-pulse' 
+                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                    }`}
+                    title={isSpeaking ? 'Dừng đọc' : 'Nghe phát âm bài đọc'}
+                  >
+                    {isSpeaking ? <VolumeX className="w-4 h-4 text-rose-600" /> : <Volume2 className="w-4 h-4 text-slate-600" />}
+                  </button>
+                </div>
+              </div>
             </div>
 
-            {/* Khung bản dịch tiếng Việt */}
-            {showTranslation && (
-              <div className="mt-4 p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200 animate-in fade-in duration-200">
-                <div className="flex items-center gap-2 mb-1.5 text-xs font-bold text-indigo-950">
-                  <Languages className="w-4 h-4 text-indigo-600" />
-                  <span>Bản dịch tiếng Việt bài đọc:</span>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-sans whitespace-pre-line">
-                  {translations[currentTask.task_id] || 'Đang tải bản dịch...'}
-                </p>
-              </div>
-            )}
+            {/* Vùng bài đọc có thanh cuộn riêng - CÁCH BIỆT HOÀN TOÀN KHỎI HEADER VÀ FOOTER */}
+            <div className="flex-1 overflow-y-auto p-5 sm:p-6 custom-scrollbar min-h-0 space-y-4">
+              <div className="p-4 sm:p-5 rounded-2xl bg-[#faf9f5] border border-amber-900/10 shadow-2xs space-y-4">
+                {passageText.split('\n\n').map((para, pIdx) => {
+                  if (!para.trim()) return null;
 
-            {/* THANH ĐIỀU HƯỚNG VÀ TRẠNG THÁI ĐỐI CHIẾU DẪN CHỨNG */}
-            <div className="mt-4 p-3 bg-amber-50/70 border border-amber-200/80 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs">
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-xl bg-amber-500 text-white flex items-center justify-center font-black text-xs shrink-0 shadow-2xs">
-                  {activeItemIdx + 1}
-                </div>
-                <div>
-                  <span className="font-bold text-amber-950 block">
-                    Đang đối chiếu: Câu {activeItemIdx + 1}
-                  </span>
-                  <span className="text-[11px] text-amber-800">
-                    Dẫn chứng được tô sáng màu vàng trong bài đọc ở trên
-                  </span>
-                </div>
-              </div>
+                  // Tách đoạn văn thành từng câu để highlight chính xác câu dẫn chứng
+                  const sentences = para.match(/[^.!?\n]+[.!?]+(\s+|$)|[^.!?\n]+$/g) || [para];
 
-              {/* Nút bấm chuyển nhanh từng câu hỏi */}
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="text-[11px] text-slate-500 font-bold mr-1">Chuyển câu:</span>
-                {questionsList.map((q, qIdx) => {
-                  const isSelected = activeItemIdx === qIdx;
-                  const matchedItem = passageItems[qIdx] || {};
-                  const isCorrect = matchedItem.is_correct ?? (matchedItem.user_choice === (q.correct_answer || q.answer));
+                  // Kiểm tra xem đoạn này có chứa dẫn chứng của câu đang chọn không
+                  const hasCurrentActiveEvidence = activeEvidence && activeEvidence.sentence && sentences.some(s => {
+                    const sTrim = s.trim().toLowerCase();
+                    const evTrim = activeEvidence.sentence.trim().toLowerCase();
+                    return sTrim === evTrim || sTrim.includes(evTrim) || evTrim.includes(sTrim);
+                  });
 
                   return (
-                    <button
-                      key={qIdx}
-                      type="button"
-                      onClick={() => handleSelectQuestion(qIdx)}
-                      className={`px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border ${
-                        isSelected
-                          ? 'bg-amber-500 text-white border-amber-600 shadow-xs ring-2 ring-amber-200'
-                          : isCorrect
-                            ? 'bg-white text-emerald-800 border-emerald-200 hover:bg-emerald-50'
-                            : 'bg-white text-rose-800 border-rose-200 hover:bg-rose-50'
-                      }`}
-                      title={`Xem phân tích và dẫn chứng Câu ${qIdx + 1}`}
-                    >
-                      <span>Câu {qIdx + 1}</span>
-                      {isCorrect ? (
-                        <CheckCircle2 className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-emerald-600'}`} />
-                      ) : (
-                        <XCircle className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-rose-600'}`} />
-                      )}
-                    </button>
+                    <div key={pIdx} className="relative group">
+                      <p className={`font-serif text-sm sm:text-base leading-relaxed text-slate-800 transition-all p-3 rounded-2xl ${
+                        hasCurrentActiveEvidence ? 'bg-amber-100/50 ring-1 ring-amber-300' : ''
+                      }`}>
+                        <span className="font-sans font-bold text-xs text-slate-400 mr-2 select-none">
+                          [{pIdx + 1}]
+                        </span>
+
+                        {sentences.map((rawSentence, sIdx) => {
+                          const s = rawSentence.trim();
+                          if (!s) return null;
+
+                          const sLower = s.toLowerCase();
+                          const isCurrent = activeEvidence && activeEvidence.sentence && (
+                            sLower === activeEvidence.sentence.toLowerCase() ||
+                            sLower.includes(activeEvidence.sentence.toLowerCase()) ||
+                            activeEvidence.sentence.toLowerCase().includes(sLower)
+                          );
+
+                          // Tìm xem câu này có là dẫn chứng cho câu hỏi nào khác không
+                          const otherMatches = [];
+                          Object.entries(evidenceMap).forEach(([idxStr, ev]) => {
+                            const numIdx = Number(idxStr);
+                            if (numIdx !== activeItemIdx && ev && ev.sentence) {
+                              const otherEvLower = ev.sentence.toLowerCase();
+                              if (sLower === otherEvLower || sLower.includes(otherEvLower) || otherEvLower.includes(sLower)) {
+                                otherMatches.push(numIdx);
+                              }
+                            }
+                          });
+
+                          if (isCurrent) {
+                            return (
+                              <span
+                                key={sIdx}
+                                ref={el => evidenceRefs.current[activeItemIdx] = el}
+                                className="bg-amber-200/90 text-amber-950 font-medium px-2 py-1 my-0.5 rounded-xl ring-2 ring-amber-400 shadow-xs inline transition-all duration-300 animate-in fade-in"
+                              >
+                                <span className="font-semibold underline decoration-amber-500 decoration-2">
+                                  {s}
+                                </span>
+                                <span className="inline-flex items-center gap-1 mx-1.5 px-2 py-0.5 rounded-md bg-amber-600 text-white text-[10px] font-black align-middle shadow-xs select-none">
+                                  <CheckCircle2 className="w-3 h-3 text-amber-100" />
+                                  📍 Dẫn chứng Câu {activeItemIdx + 1}
+                                </span>
+                                {' '}
+                              </span>
+                            );
+                          }
+
+                          if (otherMatches.length > 0) {
+                            return (
+                              <span key={sIdx} className="inline">
+                                <span>{s}</span>
+                                {otherMatches.map(oIdx => (
+                                  <button
+                                    key={oIdx}
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleSelectQuestion(oIdx);
+                                    }}
+                                    title={`Bấm để chuyển sang đối chiếu Câu ${oIdx + 1}`}
+                                    className="inline-flex items-center gap-0.5 mx-1 px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-amber-100/80 hover:bg-amber-300 text-amber-900 border border-amber-300 cursor-pointer transition-colors align-middle shadow-2xs select-none"
+                                  >
+                                    <span>📍 C{oIdx + 1}</span>
+                                  </button>
+                                ))}
+                                {' '}
+                              </span>
+                            );
+                          }
+
+                          return <span key={sIdx}>{rawSentence} </span>;
+                        })}
+                      </p>
+                    </div>
                   );
                 })}
+              </div>
+
+              {/* Khung bản dịch tiếng Việt */}
+              {showTranslation && (
+                <div className="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200 animate-in fade-in duration-200">
+                  <div className="flex items-center gap-2 mb-1.5 text-xs font-bold text-indigo-950">
+                    <Languages className="w-4 h-4 text-indigo-600" />
+                    <span>Bản dịch tiếng Việt bài đọc:</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-sans whitespace-pre-line">
+                    {translations[currentTask.task_id] || 'Đang tải bản dịch...'}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* THANH ĐIỀU HƯỚNG VÀ TRẠNG THÁI ĐỐI CHIẾU DẪN CHỨNG - CỐ ĐỊNH Ở DƯỚI CÙNG */}
+            <div className="p-3 sm:p-4 border-t border-slate-100 shrink-0 bg-white z-10">
+              <div className="p-3 bg-amber-50/70 border border-amber-200/80 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-xl bg-amber-500 text-white flex items-center justify-center font-black text-xs shrink-0 shadow-2xs">
+                    {activeItemIdx + 1}
+                  </div>
+                  <div>
+                    <span className="font-bold text-amber-950 block">
+                      Đang đối chiếu: Câu {activeItemIdx + 1}
+                    </span>
+                    <span className="text-[11px] text-amber-800">
+                      Dẫn chứng được tô sáng màu vàng trong bài đọc ở trên
+                    </span>
+                  </div>
+                </div>
+
+                {/* Nút bấm chuyển nhanh từng câu hỏi */}
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="text-[11px] text-slate-500 font-bold mr-1">Chuyển câu:</span>
+                  {questionsList.map((q, qIdx) => {
+                    const isSelected = activeItemIdx === qIdx;
+                    const matchedItem = passageItems[qIdx] || {};
+                    const isCorrect = matchedItem.is_correct ?? (matchedItem.user_choice === (q.correct_answer || q.answer));
+
+                    return (
+                      <button
+                        key={qIdx}
+                        type="button"
+                        onClick={() => handleSelectQuestion(qIdx)}
+                        className={`px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border ${
+                          isSelected
+                            ? 'bg-amber-500 text-white border-amber-600 shadow-xs ring-2 ring-amber-200'
+                            : isCorrect
+                              ? 'bg-white text-emerald-800 border-emerald-200 hover:bg-emerald-50'
+                              : 'bg-white text-rose-800 border-rose-200 hover:bg-rose-50'
+                        }`}
+                        title={`Xem phân tích và dẫn chứng Câu ${qIdx + 1}`}
+                      >
+                        <span>Câu {qIdx + 1}</span>
+                        {isCorrect ? (
+                          <CheckCircle2 className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-emerald-600'}`} />
+                        ) : (
+                          <XCircle className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-rose-600'}`} />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
