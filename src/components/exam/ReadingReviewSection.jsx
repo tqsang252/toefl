@@ -137,6 +137,64 @@ function findEvidenceSentence(passage, qItem, qDef) {
   return { sentence: sentences[bestIdx], index: bestIdx };
 }
 
+// Trích xuất các từ vựng học thuật quan trọng trong bài đọc (Passage)
+function extractPassageAcademicWords(passageText, questions = []) {
+  if (!passageText) return [];
+  const candidates = new Set();
+
+  // 1. Lấy từ vựng được hỏi trực tiếp trong câu hỏi nếu có
+  questions.forEach(q => {
+    const match = String(q.prompt || q.question || '').match(/['"“]([a-zA-Z]{3,20})['"”]/);
+    if (match && match[1]) candidates.add(match[1].toLowerCase());
+  });
+
+  // 2. Danh sách stopwords tiếng Anh phổ biến cần loại trừ
+  const commonWords = new Set([
+    'about', 'above', 'after', 'again', 'against', 'allow', 'almost', 'along', 'already', 'also', 'always', 'among',
+    'another', 'around', 'because', 'before', 'begin', 'between', 'both', 'center', 'close', 'could', 'during',
+    'each', 'every', 'first', 'final', 'floor', 'follow', 'found', 'from', 'great', 'have', 'having', 'host',
+    'house', 'into', 'just', 'know', 'large', 'later', 'learn', 'leave', 'light', 'little', 'make', 'meet',
+    'meeting', 'might', 'must', 'need', 'never', 'next', 'night', 'notice', 'number', 'often', 'online', 'other',
+    'people', 'place', 'point', 'provide', 'provided', 'right', 'room', 'same', 'school', 'second', 'session',
+    'should', 'since', 'small', 'start', 'starting', 'state', 'still', 'study', 'student', 'students', 'their',
+    'there', 'these', 'think', 'third', 'those', 'three', 'through', 'time', 'under', 'until', 'used', 'using',
+    'very', 'want', 'water', 'week', 'well', 'were', 'what', 'when', 'where', 'which', 'while', 'white',
+    'will', 'with', 'without', 'word', 'work', 'workshop', 'world', 'would', 'year', 'years', 'attend', 'within'
+  ]);
+
+  // Tách các từ trong bài đọc
+  const words = passageText
+    .replace(/[^a-zA-Z\s-]/g, ' ')
+    .split(/\s+/)
+    .map(w => w.toLowerCase().trim())
+    .filter(w => w.length >= 6 && !commonWords.has(w));
+
+  const priorityWords = [];
+  const otherAcademicWords = [];
+
+  const uniqueWords = Array.from(new Set(words));
+  for (const w of uniqueWords) {
+    if (candidates.has(w)) continue;
+    const local = getLocalVocabDetails(w);
+    if (local) {
+      priorityWords.push(w);
+    } else {
+      otherAcademicWords.push(w);
+    }
+  }
+
+  // Sắp xếp các từ học thuật theo độ dài
+  otherAcademicWords.sort((a, b) => b.length - a.length);
+
+  const combined = [
+    ...Array.from(candidates),
+    ...priorityWords,
+    ...otherAcademicWords
+  ];
+
+  return Array.from(new Set(combined)).slice(0, 6);
+}
+
 export default function ReadingReviewSection({ moduleData, test }) {
   // 1. Thu thập danh sách tasks trong module này
   const tasks = React.useMemo(() => {
@@ -194,8 +252,11 @@ export default function ReadingReviewSection({ moduleData, test }) {
   // Từ vựng đã lưu vào Sổ từ vựng
   const [savedWords, setSavedWords] = useState(new Set());
 
-  // Bản đồ từ điển chi tiết (IPA, Nghĩa tiếng Việt, Word family)
-  const [wordDictMap, setWordDictMap] = useState({});
+  // Bản đồ từ điển chi tiết phân tách theo từng Task ID: { [taskId]: { [word]: details } }
+  const [taskVocabMap, setTaskVocabMap] = useState({});
+
+  // Lấy từ điển của riêng task hiện tại
+  const currentTaskVocab = taskVocabMap[currentTask?.task_id] || {};
 
   // Refs để cuộn tới card bên phải và câu dẫn chứng bên trái
   const cardRefs = useRef({});
@@ -209,7 +270,7 @@ export default function ReadingReviewSection({ moduleData, test }) {
     }
   }, [activeItemIdx]);
 
-  // Tự động làm giàu dữ liệu từ điển (IPA, Nghĩa tiếng Việt, Word family) cho bài đọc hiện tại
+  // Tự động làm giàu dữ liệu từ điển cho bài đọc hiện tại theo từng Task độc lập
   useEffect(() => {
     setActiveItemIdx(0);
     setShowTranslation(false);
@@ -219,23 +280,25 @@ export default function ReadingReviewSection({ moduleData, test }) {
     }
 
     if (!currentTask) return;
+    const taskId = currentTask.task_id;
 
-    // 1. Trích xuất danh sách từ cần tra từ điển
-    const wordsToLookup = [];
+    // Nếu task này đã có từ điển rồi thì không cần quét lại
+    if (taskVocabMap[taskId] && Object.keys(taskVocabMap[taskId]).length > 0) return;
+
+    // 1. Trích xuất danh sách từ cần tra từ điển theo đúng loại task
+    let wordsToLookup = [];
     if (currentTask.task_type === 'complete_words') {
-      const norm = normalizeCompleteWordsTask({ ...currentTask, content: currentTask.task_content }, currentTask.task_id);
+      const norm = normalizeCompleteWordsTask({ ...currentTask, content: currentTask.task_content }, taskId);
       const blanks = norm.content?.blanks || currentTask.task_content?.blanks || [];
       blanks.forEach(b => {
         const fullWord = b.full || `${b.prefix || ''}${b.missing || ''}`;
         if (fullWord) wordsToLookup.push(fullWord);
       });
     } else {
-      // Đối với Passage: tìm các từ trong câu hỏi từ vựng (ví dụ: The word 'xyz' is closest...)
-      const questions = currentTask.task_content?.questions || [];
-      questions.forEach(q => {
-        const match = String(q.prompt || '').match(/['"“]([a-zA-Z]{3,20})['"”]/);
-        if (match && match[1]) wordsToLookup.push(match[1]);
-      });
+      // Đối với Passage: trích xuất các từ vựng học thuật cốt lõi trong bài đọc
+      const pText = currentTask.task_content?.passage || "";
+      const pQuestions = currentTask.task_content?.questions || [];
+      wordsToLookup = extractPassageAcademicWords(pText, pQuestions);
     }
 
     if (wordsToLookup.length === 0) return;
@@ -255,13 +318,19 @@ export default function ReadingReviewSection({ moduleData, test }) {
       }
     });
 
-    setWordDictMap(prev => ({ ...prev, ...immediateMap }));
+    setTaskVocabMap(prev => ({
+      ...prev,
+      [taskId]: { ...(prev[taskId] || {}), ...immediateMap }
+    }));
 
     // 3. Nếu còn từ chưa có hoặc thiếu thông tin, tự động gọi AI tra cứu song song trong nền
     if (missingWords.length > 0) {
       enrichBatchVocabularyWords(missingWords).then(enriched => {
         if (enriched && typeof enriched === 'object' && Object.keys(enriched).length > 0) {
-          setWordDictMap(prev => ({ ...prev, ...enriched }));
+          setTaskVocabMap(prev => ({
+            ...prev,
+            [taskId]: { ...(prev[taskId] || {}), ...enriched }
+          }));
         }
       }).catch(err => {
         console.warn('Lỗi tự động tra từ vựng:', err);
@@ -644,7 +713,7 @@ export default function ReadingReviewSection({ moduleData, test }) {
                     {/* Header Thẻ: Số câu + Tiêu đề từ + Status Badge */}
                     {(() => {
                       const cleanWord = token.full.toLowerCase().trim();
-                      const dictInfo = wordDictMap[cleanWord] || getLocalVocabDetails(cleanWord);
+                      const dictInfo = currentTaskVocab[cleanWord] || getLocalVocabDetails(cleanWord);
 
                       return (
                         <>
@@ -1179,7 +1248,7 @@ export default function ReadingReviewSection({ moduleData, test }) {
 
               {/* THẺ TỪ VỰNG CỐT LÕI CỦA BÀI ĐỌC (ACADEMIC VOCABULARY IN PASSAGE) */}
               {(() => {
-                const vocabList = Object.values(wordDictMap).filter(w => w && w.word);
+                const vocabList = Object.values(currentTaskVocab).filter(w => w && w.word);
                 if (vocabList.length === 0) return null;
 
                 return (
