@@ -622,20 +622,37 @@ export async function importBatchTests(testsArray) {
   // 2. Nếu có cấu hình Supabase Cloud, đồng bộ lên Cloud Database
   if (isSupabaseConfigured()) {
     try {
-      const preparedForSupabase = preparedTests.map((t) => ({
-        id: t.id,
-        title: t.title,
-        skill: t.skill,
-        task_type: t.task_type,
-        duration_seconds: t.duration_seconds,
-        content: t.content,
-        created_at: t.created_at
-      }));
+      const preparedForSupabase = preparedTests.map((t) => {
+        let skill = (t.skill || 'reading').toLowerCase();
+        if (skill === 'full_test') skill = 'full';
+        return {
+          id: t.id,
+          title: t.title,
+          skill: skill,
+          task_type: t.task_type,
+          duration_seconds: t.duration_seconds,
+          content: t.content,
+          created_at: t.created_at
+        };
+      });
 
-      const { data, error } = await supabaseInstance
+      let { data, error } = await supabaseInstance
         .from('tests')
         .upsert(preparedForSupabase)
         .select();
+
+      if (error) {
+        console.warn('Lỗi khi upsert lên Supabase (thử chèn bằng insert nếu thiếu quyền update):', error.message);
+        // Fallback: Thử insert trực tiếp
+        const insertRes = await supabaseInstance
+          .from('tests')
+          .insert(preparedForSupabase)
+          .select();
+        if (!insertRes.error) {
+          data = insertRes.data;
+          error = null;
+        }
+      }
 
       if (!error) {
         return { success: true, count: preparedTests.length, destination: 'Supabase Cloud & Local' };
@@ -879,6 +896,59 @@ export async function seedDefaultsToSupabase() {
 
   if (error) throw error;
   return data.length;
+}
+
+// 7. Đẩy toàn bộ đề thi hiện có trong LocalStorage (đề tự tạo + AI sinh) lên Supabase
+export async function syncAllLocalTestsToSupabase() {
+  if (!isSupabaseConfigured()) throw new Error('Chưa cấu hình Supabase! Vui lòng kiểm tra cài đặt kết nối.');
+
+  const local = JSON.parse(localStorage.getItem('toefl_local_tests') || '[]');
+  if (!local || local.length === 0) {
+    return { count: 0, total: 0 };
+  }
+
+  const prepared = local.map((t) => {
+    let skill = (t.skill || 'reading').toLowerCase();
+    if (skill === 'full_test') skill = 'full';
+    return {
+      id: t.id,
+      title: t.title,
+      skill: skill,
+      task_type: t.task_type || 'practice',
+      duration_seconds: t.duration_seconds || 1800,
+      content: t.content || { stages: t.stages, modules: t.modules },
+      created_at: t.created_at || new Date().toISOString()
+    };
+  });
+
+  // Thử upsert trước
+  const { data, error } = await supabaseInstance
+    .from('tests')
+    .upsert(prepared)
+    .select();
+
+  if (!error) {
+    return { count: data?.length || prepared.length, total: prepared.length };
+  }
+
+  console.warn('Lỗi upsert hàng loạt lên Supabase, chuyển sang chèn từng đề:', error);
+  let successCount = 0;
+  for (const item of prepared) {
+    const { error: insErr } = await supabaseInstance
+      .from('tests')
+      .upsert([item]);
+    if (!insErr) {
+      successCount++;
+    } else {
+      // Thử insert nếu upsert bị lỗi RLS do thiếu quyền UPDATE
+      const { error: pureInsErr } = await supabaseInstance
+        .from('tests')
+        .insert([item]);
+      if (!pureInsErr) successCount++;
+    }
+  }
+
+  return { count: successCount, total: prepared.length };
 }
 
 // Đẩy toàn bộ 1000+ từ vựng học thuật lên Supabase theo từng đợt (chunks)

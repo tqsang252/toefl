@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Database, Check, AlertCircle, RefreshCw, UploadCloud, Sparkles, Key, ShieldCheck, Zap } from 'lucide-react';
-import { getSupabaseConfig, saveSupabaseConfig, isSupabaseConfigured, seedDefaultsToSupabase, seedVocabularyToSupabase } from '../lib/supabase';
+import { getSupabaseConfig, saveSupabaseConfig, isSupabaseConfigured, seedDefaultsToSupabase, seedVocabularyToSupabase, syncAllLocalTestsToSupabase } from '../lib/supabase';
 import { getGeminiApiKey, saveGeminiApiKey, getOpenRouterApiKey, saveOpenRouterApiKey, isOpenRouterConfigured } from '../lib/gemini';
 
 export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
@@ -22,8 +22,37 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
   const [openRouterKeyInput, setOpenRouterKeyInput] = useState(localOpenRouterKey);
 
   const [statusMsg, setStatusMsg] = useState('');
+  
+  const [localTestCount, setLocalTestCount] = useState(() => {
+    try {
+      const local = JSON.parse(localStorage.getItem('toefl_local_tests') || '[]');
+      return local.length;
+    } catch {
+      return 0;
+    }
+  });
 
   if (!isOpen) return null;
+
+  const handleSyncLocalTests = async () => {
+    if (!isSupabaseConfigured()) {
+      alert("Vui lòng lưu Supabase URL và Key trước khi đồng bộ đề thi lên Cloud!");
+      return;
+    }
+
+    try {
+      setIsSeeding(true);
+      setStatusMsg(`Đang đồng bộ ${localTestCount} đề thi trên máy này lên Supabase...`);
+      const res = await syncAllLocalTestsToSupabase();
+      setStatusMsg(`✓ Đã đồng bộ thành công ${res.count}/${res.total} đề thi lên Supabase Cloud!`);
+      setTimeout(() => setStatusMsg(''), 4000);
+    } catch (e) {
+      alert("Lỗi khi đồng bộ đề lên Supabase: " + e.message);
+      setStatusMsg("");
+    } finally {
+      setIsSeeding(false);
+    }
+  };
 
   const handleSave = () => {
     // 1. Lưu Supabase
@@ -315,7 +344,18 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
               </div>
 
               {/* Seed Defaults and Vocabulary Buttons */}
-              <div className="pt-2">
+              <div className="pt-2 space-y-2">
+                {localTestCount > 0 && (
+                  <button
+                    onClick={handleSyncLocalTests}
+                    disabled={isSeeding}
+                    className="w-full py-2.5 px-4 bg-teal-700 hover:bg-teal-800 active:scale-98 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <UploadCloud className="w-4 h-4 text-teal-200" />
+                    <span>{isSeeding ? "Đang xử lý..." : `☁️ Đồng bộ ${localTestCount} đề thi trên máy này lên Supabase`}</span>
+                  </button>
+                )}
+
                 <button
                   onClick={handleSeedDefaults}
                   disabled={isSeeding}

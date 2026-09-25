@@ -44,6 +44,11 @@ CREATE POLICY "Allow public insert tests"
 ON tests FOR INSERT 
 WITH CHECK (true);
 
+-- Cho phép cập nhật đề thi công khai (bắt buộc để lệnh upsert hoạt động)
+CREATE POLICY "Allow public update tests" 
+ON tests FOR UPDATE 
+USING (true);
+
 -- Cho phép xóa đề thi (nếu cần quản lý)
 CREATE POLICY "Allow public delete tests" 
 ON tests FOR DELETE 
