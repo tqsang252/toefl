@@ -20,6 +20,8 @@ export default function ExamRunner({ test, onExit }) {
   const [transitionMessage, setTransitionMessage] = useState(null);
 
   const [answers, setAnswers] = useState({});
+  const [questionTimings, setQuestionTimings] = useState({});
+  const lastInteractionTimeRef = React.useRef(Date.now());
   const [startTime] = useState(Date.now());
   const [isCompleted, setIsCompleted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,8 +42,19 @@ export default function ExamRunner({ test, onExit }) {
   // Thời gian riêng của Module hiện tại (ví dụ: 15 phút = 900 giây)
   const stageDurationSeconds = currentStage?.duration_seconds || 900;
 
-  // Cập nhật câu trả lời
+  // Cập nhật câu trả lời & bấm giờ thời gian thực cho từng câu hỏi
   const handleAnswerChange = (key, value) => {
+    const now = Date.now();
+    const elapsedSec = Math.max(1, Math.min(300, Math.round((now - lastInteractionTimeRef.current) / 1000)));
+    lastInteractionTimeRef.current = now;
+
+    if (key) {
+      setQuestionTimings((prev) => ({
+        ...prev,
+        [key]: (prev[key] || 0) + elapsedSec
+      }));
+    }
+
     setAnswers((prev) => ({
       ...prev,
       [key]: value
@@ -251,13 +264,15 @@ export default function ExamRunner({ test, onExit }) {
             if (isCorrect) taskRaw++;
 
             taskItems.push({
+              id: item.id,
               prompt: `Câu ${idx + 1}: ${item.context}`,
               user_choice: userOrder.join(' ') || '(Chưa làm)',
               correct_answer: item.correct_sentence,
               is_correct: isCorrect,
               explanation: isCorrect 
                 ? 'Chính xác! Thứ tự từ và cấu trúc ngữ pháp chuẩn.' 
-                : `Thứ tự đúng: ${item.correct_sentence}`
+                : `Thứ tự đúng: ${item.correct_sentence}`,
+              time_spent_seconds: questionTimings[item.id] || undefined
             });
           });
 
@@ -346,11 +361,13 @@ export default function ExamRunner({ test, onExit }) {
             if (isCorrect) taskRaw++;
 
             taskItems.push({
+              id: uniqueBlankId,
               prompt: `Từ hoàn chỉnh: ${b.prefix}[${b.missing}]`,
               user_choice: userVal ? `${b.prefix}${userVal}` : '(Chưa điền)',
               correct_answer: b.full || `${b.prefix}${b.missing}`,
               is_correct: isCorrect,
-              explanation: `Chữ cái còn thiếu là "${b.missing}" để tạo thành từ "${b.full || b.prefix + b.missing}".`
+              explanation: `Chữ cái còn thiếu là "${b.missing}" để tạo thành từ "${b.full || b.prefix + b.missing}".`,
+              time_spent_seconds: questionTimings[uniqueBlankId] || questionTimings[b.id] || undefined
             });
           });
 
@@ -368,11 +385,13 @@ export default function ExamRunner({ test, onExit }) {
             if (isCorrect) taskRaw++;
 
             taskItems.push({
+              id: q.id,
               prompt: q.prompt || q.question || 'Câu hỏi',
               user_choice: userChoice || '(Bỏ trống)',
               correct_answer: correctAns || '(Chưa có đáp án)',
               is_correct: isCorrect,
-              explanation: q.explanation || (correctAns ? `Đáp án đúng là ${correctAns}.` : 'Không có giải thích.')
+              explanation: q.explanation || (correctAns ? `Đáp án đúng là ${correctAns}.` : 'Không có giải thích.'),
+              time_spent_seconds: questionTimings[q.id] || undefined
             });
           });
         }
@@ -468,6 +487,7 @@ export default function ExamRunner({ test, onExit }) {
       user_submission: stageResults, // Chi tiết theo từng Stage & Task
       writing_submissions: writingSubmissions,
       speaking_submissions: speakingSubmissions,
+      question_timings: questionTimings,
       time_spent_seconds: timeSpentSeconds
     };
 

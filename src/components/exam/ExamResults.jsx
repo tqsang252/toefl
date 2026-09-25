@@ -6,6 +6,7 @@ import SpeakingAIEvaluation from './SpeakingAIEvaluation';
 import ObjectiveAIEvaluation from './ObjectiveAIEvaluation';
 import FullExamAIEvaluation from './FullExamAIEvaluation';
 import ReadingReviewSection from './ReadingReviewSection';
+import PacingAnalyticsSection from './PacingAnalyticsSection';
 import { convert30ToBand6, convertRawToScale30, isGeminiConfigured } from '../../lib/gemini';
 import { saveExamResult, getStoredAIEvaluation, storeAIEvaluation } from '../../lib/supabase';
 
@@ -953,6 +954,12 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
           onEvaluationComplete={(res) => handleSkillScoreUpdate(currentSkill, res.scaled_score_30, res)}
         />
       )}
+
+      {/* 5. PHÂN TÍCH TỐC ĐỘ LÀM BÀI TỪNG CÂU (PACING & TIME ANALYTICS) */}
+      <PacingAnalyticsSection
+        results={results}
+        selectedSkill={isFullExam ? selectedSkillFilter : (currentSkill || 'all')}
+      />
 
       {/* Bộ lọc kỹ năng nếu là Full Test (để xem lại bài làm từng câu) */}
       {isFullExam && isModuleGrouped && (
