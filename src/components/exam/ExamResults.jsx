@@ -5,6 +5,7 @@ import WritingAIEvaluation from './WritingAIEvaluation';
 import SpeakingAIEvaluation from './SpeakingAIEvaluation';
 import ObjectiveAIEvaluation from './ObjectiveAIEvaluation';
 import FullExamAIEvaluation from './FullExamAIEvaluation';
+import ReadingReviewSection from './ReadingReviewSection';
 import { convert30ToBand6, convertRawToScale30, isGeminiConfigured } from '../../lib/gemini';
 import { saveExamResult, getStoredAIEvaluation, storeAIEvaluation } from '../../lib/supabase';
 
@@ -1024,105 +1025,110 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
                 )}
               </div>
 
-              {/* Danh sách câu hỏi trong module này */}
-              <div className="space-y-4">
-                {mod.items && mod.items.map((item, itemIdx) => {
-                  const isCorrect = item.is_correct;
-                  const isWritingItem = item.task_type === 'write_email' || item.task_type === 'academic_discussion';
-                  const writingItemEval = isWritingItem
-                    ? (item.task_type === 'write_email' ? aiWritingResult?.email : aiWritingResult?.discussion)
-                    : null;
+              {/* Nếu là kỹ năng Reading: Sử dụng ReadingReviewSection chuyên sâu có đoạn văn & từ vựng */}
+              {((mod.module_skill || '').toLowerCase() === 'reading' || (test?.skill || '').toLowerCase() === 'reading' || mod.module_title?.toLowerCase().includes('reading')) ? (
+                <ReadingReviewSection moduleData={mod} test={test} />
+              ) : (
+                /* Danh sách câu hỏi cho các kỹ năng khác (Listening, Speaking, Writing) */
+                <div className="space-y-4">
+                  {mod.items && mod.items.map((item, itemIdx) => {
+                    const isCorrect = item.is_correct;
+                    const isWritingItem = item.task_type === 'write_email' || item.task_type === 'academic_discussion';
+                    const writingItemEval = isWritingItem
+                      ? (item.task_type === 'write_email' ? aiWritingResult?.email : aiWritingResult?.discussion)
+                      : null;
 
-                  return (
-                    <div 
-                      key={itemIdx}
-                      className={`p-4 sm:p-5 rounded-2xl border transition-all ${
-                        isWritingItem
-                          ? 'bg-rose-50/20 border-rose-200'
-                          : isCorrect 
-                            ? 'bg-emerald-50/40 border-emerald-200' 
-                            : 'bg-rose-50/40 border-rose-200'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-xs font-bold text-slate-500">
-                          {isWritingItem ? (item.task_type === 'write_email' ? 'Task 2 (Email)' : 'Task 3 (Discussion)') : `Câu ${itemIdx + 1}`}
-                        </span>
-                        {isWritingItem ? (
-                          writingItemEval ? (
-                            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full">
-                              <Sparkles className="w-3 h-3 text-rose-600" />
-                              Điểm AI: {writingItemEval.score_30} / 30 (Band {writingItemEval.score_band?.toFixed(1) || '0.0'})
-                            </span>
-                          ) : isAiGradingWriting ? (
-                            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full animate-pulse">
-                              <Sparkles className="w-3 h-3 text-amber-600 animate-spin" />
-                              AI đang chấm điểm...
+                    return (
+                      <div 
+                        key={itemIdx}
+                        className={`p-4 sm:p-5 rounded-2xl border transition-all ${
+                          isWritingItem
+                            ? 'bg-rose-50/20 border-rose-200'
+                            : isCorrect 
+                              ? 'bg-emerald-50/40 border-emerald-200' 
+                              : 'bg-rose-50/40 border-rose-200'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-xs font-bold text-slate-500">
+                            {isWritingItem ? (item.task_type === 'write_email' ? 'Task 2 (Email)' : 'Task 3 (Discussion)') : `Câu ${itemIdx + 1}`}
+                          </span>
+                          {isWritingItem ? (
+                            writingItemEval ? (
+                              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full">
+                                <Sparkles className="w-3 h-3 text-rose-600" />
+                                Điểm AI: {writingItemEval.score_30} / 30 (Band {writingItemEval.score_band?.toFixed(1) || '0.0'})
+                              </span>
+                            ) : isAiGradingWriting ? (
+                              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full animate-pulse">
+                                <Sparkles className="w-3 h-3 text-amber-600 animate-spin" />
+                                AI đang chấm điểm...
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-full">
+                                {item.user_choice}
+                              </span>
+                            )
+                          ) : isCorrect ? (
+                            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+                              <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                              Đúng
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-full">
-                              {item.user_choice}
+                            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full">
+                              <XCircle className="w-3 h-3 text-rose-600" />
+                              Chưa đúng
                             </span>
-                          )
-                        ) : isCorrect ? (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
-                            <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                            Đúng
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full">
-                            <XCircle className="w-3 h-3 text-rose-600" />
-                            Chưa đúng
-                          </span>
+                          )}
+                        </div>
+
+                        <p className="text-sm font-semibold text-slate-900 mb-3">
+                          {item.prompt}
+                        </p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs mb-3">
+                          <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                            <span className="text-slate-500 block text-[10px] uppercase font-bold">
+                              {isWritingItem ? 'Bài viết của bạn:' : item.audio_url ? 'Bài nói của bạn:' : 'Đáp án của bạn:'}
+                            </span>
+                            <span className={`font-bold ${isWritingItem ? 'text-slate-800 line-clamp-3' : isCorrect ? 'text-emerald-700' : 'text-rose-600'}`}>
+                              {isWritingItem ? (item.essay_text || item.user_choice || '(Bỏ trống)') : (item.user_choice || '(Bỏ trống)')}
+                            </span>
+                          </div>
+
+                          <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                            <span className="text-slate-500 block text-[10px] uppercase font-bold">
+                              {isWritingItem ? 'Nhận xét từ AI Examiner:' : item.audio_url ? 'Nội dung câu nói / Đáp án mẫu:' : 'Đáp án chuẩn:'}
+                            </span>
+                            <span className={`font-bold ${isWritingItem ? 'text-rose-800 line-clamp-3 font-normal' : 'text-emerald-700'}`}>
+                              {isWritingItem 
+                                ? (writingItemEval?.summary_feedback || item.correct_answer || '(Theo hướng dẫn đề bài)')
+                                : (item.correct_answer && item.correct_answer !== 'undefined' ? item.correct_answer : '(Theo hướng dẫn đề bài)')}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Trình phát nghe lại bản thu âm của thí sinh (Speaking) */}
+                        {item.audio_url && (
+                          <div className="mb-3 p-3 bg-white rounded-xl border border-slate-200">
+                            <span className="text-[10px] font-bold uppercase text-slate-500 block mb-1.5 flex items-center gap-1.5">
+                              <span>🎧 Nghe lại bài nói của bạn:</span>
+                            </span>
+                            <audio controls src={item.audio_url} className="w-full h-8" />
+                          </div>
+                        )}
+
+                        {item.explanation && !item.explanation.includes('undefined') && (
+                          <div className="text-xs text-slate-600 bg-white/80 p-3 rounded-lg border border-slate-200/80 leading-relaxed font-serif">
+                            <strong className="text-slate-800 font-sans">Giải thích: </strong>
+                            {item.explanation}
+                          </div>
                         )}
                       </div>
-
-                      <p className="text-sm font-semibold text-slate-900 mb-3">
-                        {item.prompt}
-                      </p>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs mb-3">
-                        <div className="p-2.5 rounded-lg bg-white border border-slate-200">
-                          <span className="text-slate-500 block text-[10px] uppercase font-bold">
-                            {isWritingItem ? 'Bài viết của bạn:' : item.audio_url ? 'Bài nói của bạn:' : 'Đáp án của bạn:'}
-                          </span>
-                          <span className={`font-bold ${isWritingItem ? 'text-slate-800 line-clamp-3' : isCorrect ? 'text-emerald-700' : 'text-rose-600'}`}>
-                            {isWritingItem ? (item.essay_text || item.user_choice || '(Bỏ trống)') : (item.user_choice || '(Bỏ trống)')}
-                          </span>
-                        </div>
-
-                        <div className="p-2.5 rounded-lg bg-white border border-slate-200">
-                          <span className="text-slate-500 block text-[10px] uppercase font-bold">
-                            {isWritingItem ? 'Nhận xét từ AI Examiner:' : item.audio_url ? 'Nội dung câu nói / Đáp án mẫu:' : 'Đáp án chuẩn:'}
-                          </span>
-                          <span className={`font-bold ${isWritingItem ? 'text-rose-800 line-clamp-3 font-normal' : 'text-emerald-700'}`}>
-                            {isWritingItem 
-                              ? (writingItemEval?.summary_feedback || item.correct_answer || '(Theo hướng dẫn đề bài)')
-                              : (item.correct_answer && item.correct_answer !== 'undefined' ? item.correct_answer : '(Theo hướng dẫn đề bài)')}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Trình phát nghe lại bản thu âm của thí sinh (Speaking) */}
-                      {item.audio_url && (
-                        <div className="mb-3 p-3 bg-white rounded-xl border border-slate-200">
-                          <span className="text-[10px] font-bold uppercase text-slate-500 block mb-1.5 flex items-center gap-1.5">
-                            <span>🎧 Nghe lại bài nói của bạn:</span>
-                          </span>
-                          <audio controls src={item.audio_url} className="w-full h-8" />
-                        </div>
-                      )}
-
-                      {item.explanation && !item.explanation.includes('undefined') && (
-                        <div className="text-xs text-slate-600 bg-white/80 p-3 rounded-lg border border-slate-200/80 leading-relaxed font-serif">
-                          <strong className="text-slate-800 font-sans">Giải thích: </strong>
-                          {item.explanation}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           ))}
         </div>

@@ -394,7 +394,9 @@ export default function ExamRunner({ test, onExit }) {
           task_skill: taskSkill,
           score_raw: taskRaw,
           total_questions: taskTotal,
-          items: taskItems
+          items: taskItems,
+          task_content: task.content || {},
+          task_data: task
         });
       });
 
