@@ -422,17 +422,6 @@ export function QuickVocabPopover({ selection, onClose, onSaveSuccess }) {
               </div>
             )}
 
-            {/* Ngữ cảnh từ bài đọc thực tế */}
-            {contextSentence && contextSentence !== cleanText && (
-              <div className="p-2.5 rounded-xl bg-blue-50/70 border border-blue-100 text-[11px] space-y-1">
-                <div className="text-[10px] font-bold text-blue-800 flex items-center gap-1">
-                  <span>📌 Ngữ cảnh trong bài thi:</span>
-                </div>
-                <p className="text-slate-700 italic font-serif leading-relaxed line-clamp-2">
-                  "{contextSentence}"
-                </p>
-              </div>
-            )}
 
             {/* Ghi chú ngữ pháp nếu có */}
             {data?.note && (

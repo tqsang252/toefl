@@ -383,14 +383,9 @@ export default function WritingAIEvaluation({
                   <h6 className="text-sm font-black tracking-tight text-white">
                     Bản Viết Mẫu Nâng Cấp Band 5.0 Tuyệt Đối (30/30)
                   </h6>
-                  <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-[10px] text-amber-300 font-bold uppercase tracking-wider">
-                      Giữ nguyên ý tưởng của bạn nhưng nâng tầm văn phong học thuật
-                    </span>
-                    <span className="text-[10px] text-amber-200 font-semibold bg-white/10 px-2 py-0.5 rounded-md border border-white/20 hidden sm:inline normal-case">
-                      💡 Bôi đen từ để tra & lưu
-                    </span>
-                  </div>
+                  <span className="text-[10px] text-amber-300 font-bold uppercase tracking-wider block mt-0.5">
+                    Giữ nguyên ý tưởng của bạn nhưng nâng tầm văn phong học thuật
+                  </span>
                 </div>
               </div>
 

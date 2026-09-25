@@ -580,7 +580,7 @@ export default function ReadingReviewSection({ moduleData, test }) {
                       Đoạn văn gốc & Từ vựng trong ngữ cảnh
                     </h4>
                     <p className="text-[11px] text-slate-500">
-                      Bấm vào từng từ để đối chiếu • Bôi đen để tra & lưu từ vựng 1-chạm
+                      Bấm vào từng từ để xem chi tiết đối chiếu & học từ vựng
                     </p>
                   </div>
                 </div>
@@ -875,14 +875,9 @@ export default function ReadingReviewSection({ moduleData, test }) {
                     <FileText className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded-md">
-                        {passageDocType}
-                      </span>
-                      <span className="text-[10px] text-amber-800 font-semibold bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 hidden sm:inline">
-                        💡 Bôi đen từ bất kỳ để tra & lưu 1-chạm
-                      </span>
-                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded-md">
+                      {passageDocType}
+                    </span>
                     <h4 className="text-xs font-black uppercase tracking-wider text-slate-800 mt-1">
                       Bài đọc học thuật & Dẫn chứng
                     </h4>

@@ -404,14 +404,9 @@ function WriteEmailTask({ test, answers, onAnswerChange }) {
         onMouseUp={handleTextMouseUp}
         className="lg:col-span-5 bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-5"
       >
-        <div className="flex items-center justify-between gap-2 text-rose-800 font-bold text-xs uppercase border-b pb-3">
-          <div className="flex items-center gap-2">
-            <Mail className="w-4 h-4 text-rose-700" />
-            <span>TASK TYPE: WRITE AN EMAIL (FORMAT 2026)</span>
-          </div>
-          <span className="text-[10px] text-amber-800 font-semibold bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 hidden sm:inline normal-case">
-            💡 Bôi đen từ để tra & lưu
-          </span>
+        <div className="flex items-center gap-2 text-rose-800 font-bold text-xs uppercase border-b pb-3">
+          <Mail className="w-4 h-4 text-rose-700" />
+          <span>TASK TYPE: WRITE AN EMAIL (FORMAT 2026)</span>
         </div>
 
         {/* Tình huống (Scenario) */}
@@ -554,14 +549,6 @@ function AcademicDiscussionTask({ test, answers, onAnswerChange }) {
           <div className="flex items-center gap-2 text-rose-800 font-bold text-xs uppercase">
             <MessageSquare className="w-4 h-4 text-rose-700" />
             <span>ACADEMIC DISCUSSION BOARD</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] text-amber-800 font-semibold bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 hidden sm:inline normal-case">
-              💡 Bôi đen từ để tra & lưu
-            </span>
-            <span className="text-[10px] font-semibold text-slate-500 uppercase px-2 py-0.5 rounded bg-slate-100">
-              {courseTopic}
-            </span>
           </div>
         </div>
 
