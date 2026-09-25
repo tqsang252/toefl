@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Play, 
   Clock, 
@@ -14,8 +14,41 @@ import {
   Mic,
   ShieldCheck,
   Zap,
-  History
+  History,
+  Search,
+  X,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
+
+const getTestTimestamp = (t) => {
+  if (!t) return 0;
+  const ms = t.created_at_ms || t.content?.created_at_ms;
+  if (ms && typeof ms === 'number') return ms;
+
+  const match = String(t.id || '').match(/(\d{13})/);
+  if (match) {
+    const ts = parseInt(match[1], 10);
+    if (!isNaN(ts) && ts > 1600000000000 && ts < 2500000000000) {
+      return ts;
+    }
+  }
+
+  const rawDate = t.content?.created_at || t.created_at;
+  if (rawDate && rawDate !== '2026-09-22T08:00:00.000Z') {
+    const d = new Date(rawDate);
+    if (!isNaN(d.getTime())) {
+      return d.getTime();
+    }
+  }
+
+  const numMatch = String(t.id || '').match(/(\d+)/);
+  if (numMatch) {
+    return parseInt(numMatch[1], 10);
+  }
+
+  return 0;
+};
 
 export default function FullTestList({ 
   tests = [], 
@@ -25,6 +58,44 @@ export default function FullTestList({
   onOpenHistory,
   testHistories = {} 
 }) {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 8;
+
+  // Sắp xếp bài thi theo thời gian tạo gần nhất (Newest first)
+  const sortedTests = useMemo(() => {
+    return [...(tests || [])].sort((a, b) => {
+      const timeA = getTestTimestamp(a);
+      const timeB = getTestTimestamp(b);
+      if (timeB !== timeA) {
+        return timeB - timeA;
+      }
+      return String(b.id || '').localeCompare(String(a.id || ''));
+    });
+  }, [tests]);
+
+  // Lọc theo từ khóa tìm kiếm (Title)
+  const filteredTests = useMemo(() => {
+    if (!searchQuery.trim()) return sortedTests;
+    const query = searchQuery.trim().toLowerCase();
+    return sortedTests.filter((t) => {
+      const titleMatch = (t.title || '').toLowerCase().includes(query);
+      const descMatch = (t.description || '').toLowerCase().includes(query);
+      return titleMatch || descMatch;
+    });
+  }, [sortedTests, searchQuery]);
+
+  // Reset trang khi thay đổi từ khóa tìm kiếm
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
+
+  // Phân trang
+  const totalItems = filteredTests.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
+  const safePage = Math.min(currentPage, totalPages);
+  const startIndex = (safePage - 1) * PAGE_SIZE;
+  const paginatedTests = filteredTests.slice(startIndex, startIndex + PAGE_SIZE);
   return (
     <div className="space-y-6 my-6">
       
@@ -138,17 +209,41 @@ export default function FullTestList({
       {/* 2. Tiêu Đề Danh Sách Đề Full Test & Nút Import */}
       <div className="bg-white rounded-2xl border border-[#e5dfd5] shadow-xs overflow-hidden">
         
-        <div className="px-6 py-4 border-b border-[#eee8df] bg-[#faf8f4] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
+        <div className="px-6 py-4 border-b border-[#eee8df] bg-[#faf8f4] flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
+          <div className="flex items-center gap-2 shrink-0">
             <div className="w-2.5 h-2.5 rounded-full bg-teal-600" />
             <h2 className="text-base font-extrabold text-slate-800 uppercase tracking-tight">
               DANH SÁCH BỘ ĐỀ FULL TEST MÔ PHỎNG (4 KỸ NĂNG)
             </h2>
           </div>
 
+          {/* Khung tìm kiếm ở vị trí khung đỏ */}
+          <div className="flex-1 max-w-sm w-full relative">
+            <div className="relative flex items-center">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 pointer-events-none" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Tìm kiếm tên bài thi Full Test..."
+                className="w-full pl-9 pr-8 py-2 text-xs font-medium rounded-xl border border-slate-300 bg-white focus:outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20 text-slate-800 placeholder:text-slate-400 transition-all shadow-2xs"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-2.5 p-1 text-slate-400 hover:text-slate-600 rounded-md cursor-pointer"
+                  title="Xóa tìm kiếm"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+          </div>
+
           <button
             onClick={onOpenImport}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-xl transition-all cursor-pointer shadow-2xs self-start sm:self-auto"
+            className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-xl transition-all cursor-pointer shadow-2xs self-start md:self-auto shrink-0"
           >
             <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse" />
             <span>Tạo bài thi thử Full Test</span>
@@ -157,15 +252,36 @@ export default function FullTestList({
 
         {/* Lưới các đề Full Test */}
         <div className="p-6">
-          {tests.length === 0 ? (
+          {totalItems === 0 ? (
             <div className="text-center py-12 text-slate-500">
-              <Layers className="w-10 h-10 mx-auto mb-2 text-slate-300" />
-              <p className="text-sm font-semibold">Chưa có đề Full Test nào trong danh sách.</p>
-              <p className="text-xs text-slate-400 mt-1">Bấm "Tạo bài thi thử Full Test" để tự động tạo bộ đề thi thử mới ngay.</p>
+              {searchQuery.trim() ? (
+                <div className="space-y-2">
+                  <Search className="w-8 h-8 mx-auto text-slate-300" />
+                  <p className="text-base font-semibold text-slate-700">
+                    Không tìm thấy bài thi Full Test nào phù hợp với từ khóa "{searchQuery}"
+                  </p>
+                  <p className="text-xs text-slate-400">
+                    Hãy thử kiểm tra lại chính tả hoặc tìm với từ khóa ngắn hơn.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    className="mt-2 px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all cursor-pointer shadow-2xs"
+                  >
+                    Xóa tìm kiếm
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <Layers className="w-10 h-10 mx-auto mb-2 text-slate-300" />
+                  <p className="text-sm font-semibold">Chưa có đề Full Test nào trong danh sách.</p>
+                  <p className="text-xs text-slate-400 mt-1">Bấm "Tạo bài thi thử Full Test" để tự động tạo bộ đề thi thử mới ngay.</p>
+                </div>
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6">
-              {tests.map((test) => {
+              {paginatedTests.map((test) => {
                 const totalMinutes = Math.round((test.duration_seconds || 5400) / 60);
                 const history = testHistories[test.id];
 
@@ -282,6 +398,71 @@ export default function FullTestList({
             </div>
           )}
         </div>
+
+        {/* Phân trang (Pagination) */}
+        {totalItems > 0 && (
+          <div className="px-6 py-4 bg-[#faf8f4] border-t border-[#eee8df] flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="text-xs text-slate-500 font-medium">
+              Hiển thị <span className="font-bold text-slate-800">{startIndex + 1} - {Math.min(startIndex + PAGE_SIZE, totalItems)}</span> trên tổng số <span className="font-bold text-slate-800">{totalItems}</span> bài thi {searchQuery.trim() && `(khớp với "${searchQuery.trim()}")`}
+            </div>
+
+            {totalPages > 1 && (
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                  disabled={safePage === 1}
+                  className="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-white hover:text-slate-900 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer flex items-center gap-1 shadow-2xs"
+                >
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                  <span>Trước</span>
+                </button>
+
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
+                    if (totalPages > 7) {
+                      if (
+                        pageNum !== 1 && 
+                        pageNum !== totalPages && 
+                        Math.abs(pageNum - safePage) > 1
+                      ) {
+                        if (pageNum === 2 && safePage > 3) return <span key={pageNum} className="px-1 text-slate-400 text-xs">...</span>;
+                        if (pageNum === totalPages - 1 && safePage < totalPages - 2) return <span key={pageNum} className="px-1 text-slate-400 text-xs">...</span>;
+                        return null;
+                      }
+                    }
+
+                    const isActive = pageNum === safePage;
+                    return (
+                      <button
+                        key={pageNum}
+                        type="button"
+                        onClick={() => setCurrentPage(pageNum)}
+                        className={`w-8 h-8 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center ${
+                          isActive
+                            ? 'bg-teal-700 text-white shadow-xs'
+                            : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 hover:text-slate-900'
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                  disabled={safePage === totalPages}
+                  className="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-white hover:text-slate-900 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer flex items-center gap-1 shadow-2xs"
+                >
+                  <span>Sau</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
       </div>
 
