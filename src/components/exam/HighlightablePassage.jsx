@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Highlighter, Trash2, Check } from 'lucide-react';
+import QuickVocabPopover from '../dictionary/QuickVocabPopover';
 
 const HIGHLIGHT_COLORS = {
   yellow: {
@@ -65,9 +66,13 @@ export default function HighlightablePassage({ passageText, documentType, testId
   const [selectedColor, setSelectedColor] = useState('yellow');
   const [isHighlightEnabled, setIsHighlightEnabled] = useState(true);
 
-  // Khi đổi bài đọc (testId đổi) -> reset lại highlight
+  // Trạng thái hiển thị Pop-up Từ điển Tra & Lưu 1-chạm
+  const [selectionData, setSelectionData] = useState(null);
+
+  // Khi đổi bài đọc (testId đổi) -> reset lại highlight & đóng pop-up
   useEffect(() => {
     setHighlights([]);
+    setSelectionData(null);
   }, [testId]);
 
   // Tính toán vị trí ký tự (character offset) của vùng bôi đen bên trong passageRef
@@ -89,35 +94,55 @@ export default function HighlightablePassage({ passageText, documentType, testId
     return { start, end };
   };
 
-  // TỰ ĐỘNG TÔ MÀU NGAY LẬP TỨC khi người dùng bôi đen văn bản
+  // TỰ ĐỘNG BẬT TỪ ĐIỂN VÀ TÔ MÀU KHI NGƯỜI DÙNG BÔI ĐEN VĂN BẢN
   const handleMouseUp = () => {
-    if (!isHighlightEnabled) return;
-
     setTimeout(() => {
-      const offsets = getSelectionOffsets();
-      if (!offsets || offsets.start >= offsets.end) return;
+      const sel = window.getSelection();
+      if (!sel || sel.rangeCount === 0 || sel.isCollapsed || !passageRef.current) return;
 
-      const text = rawText.substring(offsets.start, offsets.end).trim();
-      if (!text) return;
+      const range = sel.getRangeAt(0);
+      if (!passageRef.current.contains(range.startContainer) || !passageRef.current.contains(range.endContainer)) {
+        return;
+      }
 
-      // Tô màu đã chọn LUÔN, không bắt người dùng bấm chọn lại
-      const newHighlight = {
-        id: `hl_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
-        start: offsets.start,
-        end: offsets.end,
-        color: selectedColor
-      };
+      const raw = sel.toString().trim();
+      if (!raw || raw.length < 2 || raw.length > 180) return;
+      const words = raw.split(/\s+/).filter(Boolean);
+      if (words.length > 16) return;
 
-      setHighlights((prev) => addHighlightRange(prev, newHighlight));
-      
-      // Xóa vệt xanh bôi đen mặc định của trình duyệt để hiển thị màu highlight đẹp mắt
-      window.getSelection()?.removeAllRanges();
+      const rect = range.getBoundingClientRect();
+      if (!rect || (rect.width === 0 && rect.height === 0)) return;
+
+      const cleanWord = raw.replace(/^['"“‘.,;:!?()\[\]{}]+|['"”’.,;:!?()\[\]{}]+$/g, '').trim();
+      if (!cleanWord) return;
+
+      // 1. Kích hoạt Pop-up Từ điển Tra & Lưu 1-chạm cho bài đọc
+      setSelectionData({
+        rawText: raw,
+        cleanText: cleanWord,
+        rect
+      });
+
+      // 2. Nếu Bút highlight đang BẬT -> Tự động tô màu dải chữ
+      if (isHighlightEnabled) {
+        const offsets = getSelectionOffsets();
+        if (offsets && offsets.start < offsets.end) {
+          const newHighlight = {
+            id: `hl_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+            start: offsets.start,
+            end: offsets.end,
+            color: selectedColor
+          };
+          setHighlights((prev) => addHighlightRange(prev, newHighlight));
+        }
+      }
     }, 20);
   };
 
   // Xóa trực tiếp 1 highlight khi nhấp vào từ đó
   const handleRemoveSingleHighlight = (id) => {
     setHighlights((prev) => prev.filter((h) => h.id !== id));
+    setSelectionData(null);
   };
 
   // Xóa toàn bộ highlight của bài đọc
@@ -181,7 +206,7 @@ export default function HighlightablePassage({ passageText, documentType, testId
             {documentType || "Reading Passage"}
           </span>
           <span className="text-[11px] text-slate-400 hidden sm:inline">
-            (Bôi đen là tự tô màu • Nhấp vào từ để xóa)
+            (Bôi đen để tra từ & tô màu • Nhấp vào từ để xóa)
           </span>
         </div>
 
@@ -196,7 +221,7 @@ export default function HighlightablePassage({ passageText, documentType, testId
                 ? 'bg-amber-100/90 text-amber-900 border-amber-300 shadow-2xs'
                 : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200'
             }`}
-            title={isHighlightEnabled ? 'Bút highlight đang BẬT: Bôi đen là tự tô màu' : 'Bút highlight đang TẮT (Chế độ chọn văn bản bình thường)'}
+            title={isHighlightEnabled ? 'Bút highlight đang BẬT: Bôi đen là tự tô màu' : 'Bút highlight đang TẮT (Chế độ tra từ điển bình thường)'}
           >
             <Highlighter className={`w-3.5 h-3.5 ${isHighlightEnabled ? 'text-amber-700' : 'text-slate-400'}`} />
             <span>{isHighlightEnabled ? 'Bút highlight: BẬT' : 'Bút: TẮT'}</span>
@@ -247,6 +272,14 @@ export default function HighlightablePassage({ passageText, documentType, testId
       >
         {renderHighlightedContent()}
       </div>
+
+      {/* 3. Pop-up Tra cứu & 1-Chạm Lưu từ vựng */}
+      {selectionData && (
+        <QuickVocabPopover
+          selection={selectionData}
+          onClose={() => setSelectionData(null)}
+        />
+      )}
 
     </div>
   );
