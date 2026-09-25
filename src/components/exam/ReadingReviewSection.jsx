@@ -1262,39 +1262,32 @@ export default function ReadingReviewSection({ moduleData, test }) {
 
                     <div className="space-y-2.5">
                       {vocabList.map((vItem, vIdx) => {
-                        const isSaved = savedWords.has(vItem.word.toLowerCase());
-
                         return (
-                          <div key={vIdx} className="p-2.5 rounded-xl bg-white border border-amber-200/80 text-xs flex items-center justify-between gap-3">
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <span className="font-black text-slate-900">{vItem.word}</span>
-                                {vItem.phonetic && (
-                                  <span className="font-mono text-[11px] font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.2 rounded border border-indigo-100">
-                                    {vItem.phonetic}
-                                  </span>
-                                )}
-                                {vItem.partOfSpeech && (
-                                  <span className="text-[10px] text-slate-500 font-semibold italic">
-                                    ({vItem.partOfSpeech})
-                                  </span>
-                                )}
-                              </div>
-                              <p className="text-[11px] text-slate-700 font-medium mt-0.5">
-                                {vItem.meaningVi || vItem.meaning}
-                              </p>
+                          <div key={vIdx} className="p-3 rounded-xl bg-white border border-amber-200/80 text-xs shadow-2xs hover:border-amber-300 transition-colors">
+                            <div className="flex items-center gap-2 flex-wrap mb-1">
+                              <span className="font-black text-slate-900 text-xs sm:text-sm">{vItem.word}</span>
+                              {vItem.phonetic && (
+                                <span className="font-mono text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100 whitespace-nowrap">
+                                  {vItem.phonetic}
+                                </span>
+                              )}
+                              {vItem.partOfSpeech && (
+                                <span className="text-[10px] text-slate-500 font-semibold italic">
+                                  ({vItem.partOfSpeech})
+                                </span>
+                              )}
+                              <button
+                                type="button"
+                                onClick={() => handleToggleSpeak(vItem.word)}
+                                className="p-1 text-slate-400 hover:text-indigo-600 rounded-md hover:bg-slate-100 transition-colors cursor-pointer ml-auto"
+                                title="Nghe phát âm từ này"
+                              >
+                                <Volume2 className="w-3.5 h-3.5" />
+                              </button>
                             </div>
-
-                            <button
-                              onClick={() => handleSaveToVocab(vItem.word, vItem.meaningVi || vItem.meaning)}
-                              className={`px-2 py-1 rounded-lg text-[10px] font-bold shrink-0 transition-all cursor-pointer border ${
-                                isSaved 
-                                  ? 'bg-emerald-50 text-emerald-800 border-emerald-300' 
-                                  : 'bg-slate-50 hover:bg-indigo-50 text-indigo-700 border-slate-200'
-                              }`}
-                            >
-                              {isSaved ? 'Đã lưu ✓' : '+ Lưu từ'}
-                            </button>
+                            <p className="text-[11px] sm:text-xs text-slate-700 font-medium leading-relaxed">
+                              {vItem.meaningVi || vItem.meaning}
+                            </p>
                           </div>
                         );
                       })}
