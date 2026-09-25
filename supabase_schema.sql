@@ -8,7 +8,7 @@
 CREATE TABLE IF NOT EXISTS tests (
   id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
   title TEXT NOT NULL,
-  skill TEXT NOT NULL CHECK (skill IN ('listening', 'reading', 'speaking', 'writing', 'full')),
+  skill TEXT NOT NULL CHECK (skill IN ('listening', 'reading', 'speaking', 'writing', 'full', 'full_test')),
   task_type TEXT NOT NULL,
   duration_seconds INTEGER NOT NULL DEFAULT 600,
   content JSONB NOT NULL,

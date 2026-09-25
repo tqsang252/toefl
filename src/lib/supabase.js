@@ -933,6 +933,7 @@ export async function syncAllLocalTestsToSupabase() {
 
   console.warn('Lỗi upsert hàng loạt lên Supabase, chuyển sang chèn từng đề:', error);
   let successCount = 0;
+  let lastErrorMessage = error.message;
   for (const item of prepared) {
     const { error: insErr } = await supabaseInstance
       .from('tests')
@@ -940,12 +941,21 @@ export async function syncAllLocalTestsToSupabase() {
     if (!insErr) {
       successCount++;
     } else {
+      lastErrorMessage = insErr.message;
       // Thử insert nếu upsert bị lỗi RLS do thiếu quyền UPDATE
       const { error: pureInsErr } = await supabaseInstance
         .from('tests')
         .insert([item]);
-      if (!pureInsErr) successCount++;
+      if (!pureInsErr) {
+        successCount++;
+      } else {
+        lastErrorMessage = pureInsErr.message;
+      }
     }
+  }
+
+  if (successCount === 0 && prepared.length > 0) {
+    throw new Error(lastErrorMessage || 'Không thể lưu đề thi vào Supabase.');
   }
 
   return { count: successCount, total: prepared.length };
