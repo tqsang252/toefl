@@ -143,6 +143,15 @@ function BuildSentenceTask({ test, answers, onAnswerChange }) {
     }
   };
 
+  // Chuyển câu hỏi & tự động đồng bộ thời gian thao tác cho câu vừa rời đi
+  const handleSwitchItem = (targetIdx) => {
+    if (targetIdx === activeItemIndex || targetIdx < 0 || targetIdx >= totalItems) return;
+    if (currentItem?.id) {
+      onAnswerChange(currentItem.id, currentSelected);
+    }
+    setActiveItemIndex(targetIdx);
+  };
+
   const slots = Array.from({ length: targetSlotCount }).map((_, slotIdx) => ({
     slotIdx,
     isFilled: slotIdx < currentSelected.length,
@@ -186,7 +195,7 @@ function BuildSentenceTask({ test, answers, onAnswerChange }) {
             return (
               <button
                 key={it.id || idx}
-                onClick={() => setActiveItemIndex(idx)}
+                onClick={() => handleSwitchItem(idx)}
                 className={`w-8 h-8 rounded-xl font-bold text-xs flex items-center justify-center transition-all cursor-pointer ${
                   isCurrent
                     ? 'bg-rose-700 text-white shadow-xs ring-2 ring-rose-300'
@@ -353,7 +362,7 @@ function BuildSentenceTask({ test, answers, onAnswerChange }) {
       <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-5">
         <button
           disabled={activeItemIndex === 0}
-          onClick={() => setActiveItemIndex((prev) => Math.max(0, prev - 1))}
+          onClick={() => handleSwitchItem(activeItemIndex - 1)}
           className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 disabled:opacity-30 cursor-pointer"
         >
           <ChevronLeft className="w-4 h-4" />
@@ -366,7 +375,7 @@ function BuildSentenceTask({ test, answers, onAnswerChange }) {
 
         <button
           disabled={activeItemIndex === totalItems - 1}
-          onClick={() => setActiveItemIndex((prev) => Math.min(totalItems - 1, prev + 1))}
+          onClick={() => handleSwitchItem(activeItemIndex + 1)}
           className="flex items-center gap-1.5 px-5 py-2 rounded-xl text-xs font-bold bg-rose-700 hover:bg-rose-800 text-white disabled:opacity-30 shadow-2xs cursor-pointer transition-all active:scale-95"
         >
           <span>Câu tiếp theo</span>

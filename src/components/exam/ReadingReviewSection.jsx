@@ -13,7 +13,8 @@ import {
   ChevronRight,
   HelpCircle,
   FileText,
-  Search
+  Search,
+  Clock
 } from 'lucide-react';
 import { normalizeCompleteWordsTask, importVocabularyBatch } from '../../lib/supabase';
 import { translateTextWithAi, lookupWordWithAi, enrichBatchVocabularyWords } from '../../lib/gemini';
@@ -1133,9 +1134,17 @@ export default function ReadingReviewSection({ moduleData, test }) {
 
                     {/* Header câu hỏi */}
                     <div className="flex items-center justify-between gap-2 mb-2.5">
-                      <span className="text-xs font-black text-slate-700 bg-slate-100 px-2 py-0.5 rounded-lg">
-                        Câu {qIdx + 1}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-black text-slate-700 bg-slate-100 px-2 py-0.5 rounded-lg">
+                          Câu {qIdx + 1}
+                        </span>
+                        {typeof matchedItem.time_spent_seconds === 'number' && matchedItem.time_spent_seconds > 0 && (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">
+                            <Clock className="w-2.5 h-2.5 text-slate-500" />
+                            <span>{matchedItem.time_spent_seconds < 60 ? `${matchedItem.time_spent_seconds}s` : `${Math.floor(matchedItem.time_spent_seconds / 60)}m ${matchedItem.time_spent_seconds % 60}s`}</span>
+                          </span>
+                        )}
+                      </div>
 
                       {isCorrect ? (
                         <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">

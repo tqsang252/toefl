@@ -7,6 +7,7 @@ import ObjectiveAIEvaluation from './ObjectiveAIEvaluation';
 import FullExamAIEvaluation from './FullExamAIEvaluation';
 import ReadingReviewSection from './ReadingReviewSection';
 import PacingAnalyticsSection from './PacingAnalyticsSection';
+import { calculatePacingAnalytics } from '../../lib/pacingCalculator';
 import { convert30ToBand6, convertRawToScale30, isGeminiConfigured } from '../../lib/gemini';
 import { saveExamResult, getStoredAIEvaluation, storeAIEvaluation } from '../../lib/supabase';
 
@@ -248,8 +249,11 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
   const hasStoredObjective = Boolean(validCachedObjective);
   const hasStoredFull = Boolean(results.ai_full_result || results.skill_scores?.ai_full_result || cachedAi?.ai_full_result);
 
+  const hasWritingEssays = Boolean(writingSubmissions?.email?.essay_text || writingSubmissions?.discussion?.essay_text);
+  const isSentenceOnlyWriting = isWritingExam && !hasWritingEssays;
+
   const [isAiGradingWriting, setIsAiGradingWriting] = useState(
-    !isReviewMode && !hasStoredWriting && (isWritingExam || (isFullExam && hasWritingContent)) && isConfigured
+    !isReviewMode && !hasStoredWriting && ((isWritingExam && hasWritingEssays) || (isFullExam && hasWritingContent)) && isConfigured
   );
   const [isAiGradingSpeaking, setIsAiGradingSpeaking] = useState(
     !isReviewMode && !hasStoredSpeaking && (isSpeakingExam || isFullExam) && (speakingSubmissions.repeat_items?.length > 0 || speakingSubmissions.interview_items?.length > 0) && isConfigured
@@ -260,6 +264,21 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
   const [isAiGradingFull, setIsAiGradingFull] = useState(
     !isReviewMode && !hasStoredFull && isFullExam && isConfigured
   );
+
+  // Bảng phân tích Pacing & Time map sẵn cho từng câu hỏi
+  const pacingAnalytics = useMemo(() => {
+    return calculatePacingAnalytics(results, isFullExam ? selectedSkillFilter : (currentSkill || 'all'));
+  }, [results, isFullExam, selectedSkillFilter, currentSkill]);
+
+  const pacingQuestionMap = useMemo(() => {
+    const map = new Map();
+    if (pacingAnalytics?.questions) {
+      pacingAnalytics.questions.forEach((q) => {
+        if (q.id) map.set(q.id, q);
+      });
+    }
+    return map;
+  }, [pacingAnalytics]);
 
   // Khởi tạo điểm số chuẩn ETS cho 4 kỹ năng (hỗ trợ cập nhật động khi AI chấm xong hoặc lấy từ kết quả đã lưu)
   const [aiScores, setAiScores] = useState({
@@ -621,8 +640,59 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
             </div>
           </div>
         ) : isWritingExam ? (
+          isSentenceOnlyWriting ? (
+            /* Bài thi luyện tập riêng Task 1: Build a Sentence (Ghép câu trắc nghiệm nhị phân) */
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto mb-8">
+              {/* Band Score 2026 */}
+              <div className="p-5 rounded-2xl bg-gradient-to-b from-teal-50 to-emerald-50/60 border border-teal-200 text-center shadow-xs">
+                <span className="text-[11px] font-extrabold text-teal-900 uppercase tracking-wider block mb-1.5">
+                  TOEFL Band (2026)
+                </span>
+                <div>
+                  <div className="text-4xl sm:text-5xl font-black text-teal-700">
+                    {convert30ToBand6(legacyScore30)?.toFixed(1) || '0.0'}
+                    <span className="text-sm text-teal-600 font-medium ml-1">/ 6.0</span>
+                  </div>
+                  <span className="text-[10px] text-teal-700 font-semibold block mt-1.5">
+                    Đúng {effectiveScoreRaw} / {effectiveTotalQuestions} câu chuẩn ETS
+                  </span>
+                </div>
+              </div>
+
+              {/* Quy đổi thang 30 */}
+              <div className="p-5 rounded-2xl bg-gradient-to-br from-rose-50/50 to-white border border-rose-200 text-center shadow-xs">
+                <span className="text-[11px] font-extrabold text-rose-900 uppercase tracking-wider block mb-1.5">
+                  Điểm Quy Đổi (0 - 30)
+                </span>
+                <div>
+                  <div className="text-4xl sm:text-5xl font-black text-rose-700">
+                    {legacyScore30}
+                    <span className="text-sm text-rose-400 font-medium ml-1">/ 30</span>
+                  </div>
+                  <span className="text-[10px] text-rose-600 font-medium block mt-1.5">
+                    Task 1: Build a Sentence (10 câu)
+                  </span>
+                </div>
+              </div>
+
+              {/* Tốc độ & thời gian */}
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-center flex flex-col justify-between shadow-xs">
+                <span className="text-[11px] font-extrabold text-slate-700 uppercase tracking-wider block mb-1">
+                  Tốc Độ & Thời Gian
+                </span>
+                <div>
+                  <div className="text-3xl font-black text-slate-800 my-0.5">
+                    {timeFormatted}
+                  </div>
+                  <span className="text-[10px] text-slate-500 font-medium block mt-1">
+                    TB: {effectiveTotalQuestions > 0 ? Math.round((time_spent_seconds || 420) / effectiveTotalQuestions) : 42}s / câu (ETS: 42s)
+                  </span>
+                </div>
+              </div>
+            </div>
+          ) : (
           /* ========================================================
-              GIAO DIỆN BẢNG ĐIỂM CHUẨN ETS 2026 CHO BÀI THI WRITING (AI GRADED)
+              GIAO DIỆN BẢNG ĐIỂM CHUẨN ETS 2026 CHO BÀI THI WRITING CÓ BÀI TỰ LUẬN (AI GRADED)
               ======================================================== */
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto mb-8">
             {/* Band Score 2026 */}
@@ -731,6 +801,7 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
               )}
             </div>
           </div>
+          )
         ) : isSpeakingExam ? (
           /* ========================================================
              GIAO DIỆN BẢNG ĐIỂM CHUẨN ETS 2026 CHO BÀI THI SPEAKING (AI GRADED)
@@ -1056,37 +1127,60 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
                               : 'bg-rose-50/40 border-rose-200'
                         }`}
                       >
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="text-xs font-bold text-slate-500">
-                            {isWritingItem ? (item.task_type === 'write_email' ? 'Task 2 (Email)' : 'Task 3 (Discussion)') : `Câu ${itemIdx + 1}`}
-                          </span>
-                          {isWritingItem ? (
-                            writingItemEval ? (
-                              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full">
-                                <Sparkles className="w-3 h-3 text-rose-600" />
-                                Điểm AI: {writingItemEval.score_30} / 30 (Band {writingItemEval.score_band?.toFixed(1) || '0.0'})
-                              </span>
-                            ) : isAiGradingWriting ? (
-                              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full animate-pulse">
-                                <Sparkles className="w-3 h-3 text-amber-600 animate-spin" />
-                                AI đang chấm điểm...
+                        <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-xs font-bold text-slate-500">
+                              {isWritingItem ? (item.task_type === 'write_email' ? 'Task 2 (Email)' : 'Task 3 (Discussion)') : `Câu ${itemIdx + 1}`}
+                            </span>
+                            {isWritingItem ? (
+                              writingItemEval ? (
+                                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full">
+                                  <Sparkles className="w-3 h-3 text-rose-600" />
+                                  Điểm AI: {writingItemEval.score_30} / 30 (Band {writingItemEval.score_band?.toFixed(1) || '0.0'})
+                                </span>
+                              ) : isAiGradingWriting ? (
+                                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full animate-pulse">
+                                  <Sparkles className="w-3 h-3 text-amber-600 animate-spin" />
+                                  AI đang chấm điểm...
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-full">
+                                  {item.user_choice}
+                                </span>
+                              )
+                            ) : isCorrect ? (
+                              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+                                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                                Đúng
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-full">
-                                {item.user_choice}
+                              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full">
+                                <XCircle className="w-3 h-3 text-rose-600" />
+                                Chưa đúng
                               </span>
-                            )
-                          ) : isCorrect ? (
-                            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">
-                              <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                              Đúng
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full">
-                              <XCircle className="w-3 h-3 text-rose-600" />
-                              Chưa đúng
-                            </span>
-                          )}
+                            )}
+                          </div>
+
+                          {/* Badge thời gian làm bài của câu hỏi */}
+                          {!isWritingItem && (() => {
+                            const pInfo = (item.id && pacingQuestionMap.get(item.id)) || pacingAnalytics?.questions?.[itemIdx];
+                            const timeSec = item.time_spent_seconds || pInfo?.time_spent_seconds;
+                            if (!timeSec) return null;
+                            const cat = pInfo?.classification;
+                            const timeText = timeSec < 60 ? `${timeSec}s` : `${Math.floor(timeSec / 60)}m ${timeSec % 60}s`;
+
+                            return (
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                                <Clock className="w-3 h-3 text-slate-500" />
+                                <span>{timeText}</span>
+                                {cat && (
+                                  <span className={`px-1.5 py-0.2 rounded text-[9px] font-extrabold border ${cat.badgeColor}`}>
+                                    {cat.icon} {cat.label}
+                                  </span>
+                                )}
+                              </span>
+                            );
+                          })()}
                         </div>
 
                         <p className="text-sm font-semibold text-slate-900 mb-3">

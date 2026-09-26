@@ -25,14 +25,22 @@ export function extractQuestionsForPacing(results, selectedSkill = 'all') {
   const scanItems = (items, moduleSkill, moduleTitle) => {
     if (!Array.isArray(items)) return;
     items.forEach((item, idx) => {
-      // Bỏ qua các task tự luận dài như Email hay Discussion khi tính pacing trắc nghiệm
+      // Bỏ qua các task tự luận dài như Email hay Discussion khi tính pacing trắc nghiệm / ghép câu
       if (item.task_type === 'write_email' || item.task_type === 'academic_discussion') return;
 
-      const qSkill = (moduleSkill || results.skill || 'reading').toLowerCase();
+      const itemSkill = item.skill || moduleSkill || results.skill || 'reading';
+      const qSkill = itemSkill.toLowerCase();
       if (selectedSkill !== 'all' && qSkill !== selectedSkill.toLowerCase()) return;
 
+      const itemId = item.id || `q_${rawQuestions.length + 1}`;
+      const recTime = (typeof item.time_spent_seconds === 'number' && item.time_spent_seconds > 0)
+        ? item.time_spent_seconds
+        : (typeof questionTimings[itemId] === 'number' && questionTimings[itemId] > 0)
+        ? questionTimings[itemId]
+        : null;
+
       rawQuestions.push({
-        id: item.id || `q_${rawQuestions.length + 1}`,
+        id: itemId,
         number: rawQuestions.length + 1,
         skill: qSkill,
         module_title: moduleTitle || 'Module',
@@ -40,7 +48,7 @@ export function extractQuestionsForPacing(results, selectedSkill = 'all') {
         user_choice: item.user_choice || '(Bỏ trống)',
         correct_answer: item.correct_answer || '',
         is_correct: !!item.is_correct,
-        recorded_time: item.time_spent_seconds || questionTimings[item.id] || null,
+        recorded_time: recTime,
         explanation: item.explanation || ''
       });
     });
@@ -48,7 +56,13 @@ export function extractQuestionsForPacing(results, selectedSkill = 'all') {
 
   if (Array.isArray(submission)) {
     submission.forEach((mod) => {
-      scanItems(mod.items, mod.module_skill || mod.skill, mod.module_title || mod.title);
+      if (Array.isArray(mod.items) && mod.items.length > 0) {
+        scanItems(mod.items, mod.module_skill || mod.skill, mod.module_title || mod.title);
+      } else if (Array.isArray(mod.tasks)) {
+        mod.tasks.forEach((t) => {
+          scanItems(t.items, t.task_skill || mod.module_skill || mod.skill, t.task_title || mod.module_title);
+        });
+      }
     });
   }
 
@@ -58,9 +72,10 @@ export function extractQuestionsForPacing(results, selectedSkill = 'all') {
   const hasLiveTimings = rawQuestions.some((q) => typeof q.recorded_time === 'number' && q.recorded_time > 0);
 
   if (hasLiveTimings) {
+    const defaultAvg = Math.max(10, Math.round(totalTestTime / rawQuestions.length));
     return rawQuestions.map((q) => ({
       ...q,
-      time_spent_seconds: Math.max(5, q.recorded_time || Math.round(totalTestTime / rawQuestions.length))
+      time_spent_seconds: Math.max(5, q.recorded_time || defaultAvg)
     }));
   }
 
