@@ -204,13 +204,25 @@ export default function SpeakingLab() {
 // =========================================================================
 function ListenAndRepeatLab({ bank }) {
   // Lọc & Tìm kiếm
-  const [levelFilter, setLevelFilter] = useState('all'); // 'all' | '1' | '2' | '3'
+  const [levelFilter, setLevelFilter] = useState(() => {
+    return localStorage.getItem('toefl_repeat_last_level') || 'all';
+  });
   const [topicFilter, setTopicFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [starredOnly, setStarredOnly] = useState(false);
+  const [unlearnedOnly, setUnlearnedOnly] = useState(false);
+
   const [starredIds, setStarredIds] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('toefl_repeat_starred') || '[]');
+    } catch {
+      return [];
+    }
+  });
+
+  const [learnedIds, setLearnedIds] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('toefl_repeat_learned_ids') || '[]');
     } catch {
       return [];
     }
@@ -222,12 +234,33 @@ function ListenAndRepeatLab({ bank }) {
   const [showIpa, setShowIpa] = useState(true);
   const [showMeaning, setShowMeaning] = useState(true);
 
+  // Thống kê tiến độ đã học theo từng level
+  const statsByLevel = useMemo(() => {
+    const stats = {
+      all: { total: bank.length, learned: 0 },
+      '1': { total: 0, learned: 0 },
+      '2': { total: 0, learned: 0 },
+      '3': { total: 0, learned: 0 },
+    };
+    bank.forEach((item) => {
+      const isItemLearned = learnedIds.includes(item.id);
+      if (isItemLearned) stats.all.learned++;
+      const lvlStr = String(item.level);
+      if (stats[lvlStr]) {
+        stats[lvlStr].total++;
+        if (isItemLearned) stats[lvlStr].learned++;
+      }
+    });
+    return stats;
+  }, [bank, learnedIds]);
+
   // Danh sách đã lọc
   const filteredList = useMemo(() => {
     return bank.filter((item) => {
       if (levelFilter !== 'all' && String(item.level) !== String(levelFilter)) return false;
       if (topicFilter !== 'all' && item.topic !== topicFilter) return false;
       if (starredOnly && !starredIds.includes(item.id)) return false;
+      if (unlearnedOnly && learnedIds.includes(item.id)) return false;
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
         const matchText = item.text.toLowerCase().includes(q);
@@ -237,9 +270,25 @@ function ListenAndRepeatLab({ bank }) {
       }
       return true;
     });
-  }, [bank, levelFilter, topicFilter, starredOnly, starredIds, searchQuery]);
+  }, [bank, levelFilter, topicFilter, starredOnly, starredIds, unlearnedOnly, learnedIds, searchQuery]);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // Khởi tạo index câu: Bắt đầu từ câu chưa học đầu tiên của level đã chọn (hoặc câu đầu tiên nếu đã xong hết)
+  const [currentIndex, setCurrentIndex] = useState(() => {
+    const savedLevel = localStorage.getItem('toefl_repeat_last_level') || 'all';
+    let savedLearned = [];
+    try {
+      savedLearned = JSON.parse(localStorage.getItem('toefl_repeat_learned_ids') || '[]');
+    } catch {}
+
+    const initialList = bank.filter((item) => {
+      if (savedLevel !== 'all' && String(item.level) !== String(savedLevel)) return false;
+      return true;
+    });
+
+    const firstUnlearnedIndex = initialList.findIndex((item) => !savedLearned.includes(item.id));
+    return firstUnlearnedIndex !== -1 ? firstUnlearnedIndex : 0;
+  });
+
   const currentItem = filteredList[currentIndex] || filteredList[0] || bank[0];
 
   // Trạng thái thu âm & phát âm
@@ -282,6 +331,33 @@ function ListenAndRepeatLab({ bank }) {
       return next;
     });
   };
+
+  // Đánh dấu câu đã học / chưa học
+  const markAsLearned = (id) => {
+    if (!id) return;
+    setLearnedIds((prev) => {
+      if (prev.includes(id)) return prev;
+      const next = [...prev, id];
+      localStorage.setItem('toefl_repeat_learned_ids', JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const toggleLearned = (id) => {
+    if (!id) return;
+    setLearnedIds((prev) => {
+      const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
+      localStorage.setItem('toefl_repeat_learned_ids', JSON.stringify(next));
+      return next;
+    });
+  };
+
+  // Đảm bảo currentIndex luôn hợp lệ khi danh sách lọc thay đổi
+  useEffect(() => {
+    if (filteredList.length > 0 && currentIndex >= filteredList.length) {
+      setCurrentIndex(0);
+    }
+  }, [filteredList.length, currentIndex]);
 
   // Reset khi đổi câu
   useEffect(() => {
@@ -423,6 +499,11 @@ function ListenAndRepeatLab({ bank }) {
     const percent = Math.min(100, Math.round((matchCount / cleanOrig.length) * 100));
     setAccuracyScore(percent);
 
+    // Tự động đánh dấu câu này đã học
+    if (currentItem?.id) {
+      markAsLearned(currentItem.id);
+    }
+
     // Lưu vào lịch sử
     saveSpeakingPracticeHistory({
       type: 'repeat',
@@ -454,6 +535,11 @@ function ListenAndRepeatLab({ bank }) {
       });
 
       setAiEvaluationResult(result);
+
+      // Tự động đánh dấu câu này đã học
+      if (currentItem?.id) {
+        markAsLearned(currentItem.id);
+      }
 
       // Lưu kết quả chấm AI vào lịch sử
       saveSpeakingPracticeHistory({
@@ -644,14 +730,60 @@ function ListenAndRepeatLab({ bank }) {
     setCurrentIndex(randomIdx);
   };
 
+  // Chọn Level: Tự động lưu level và bắt đầu từ câu chưa học tiếp theo trong level đó
+  const handleSelectLevel = (newLevel) => {
+    setLevelFilter(newLevel);
+    localStorage.setItem('toefl_repeat_last_level', newLevel);
+
+    const listForNewLevel = bank.filter((item) => {
+      if (newLevel !== 'all' && String(item.level) !== String(newLevel)) return false;
+      if (topicFilter !== 'all' && item.topic !== topicFilter) return false;
+      if (starredOnly && !starredIds.includes(item.id)) return false;
+      return true;
+    });
+
+    const firstUnlearnedIndex = listForNewLevel.findIndex(
+      (item) => !learnedIds.includes(item.id)
+    );
+
+    if (firstUnlearnedIndex !== -1) {
+      setCurrentIndex(firstUnlearnedIndex);
+    } else {
+      setCurrentIndex(0);
+    }
+  };
+
+  // Nhảy ngay sang câu chưa học tiếp theo trong danh sách đang lọc
+  const handleJumpToNextUnlearned = () => {
+    const nextIdx = filteredList.findIndex(
+      (item, idx) => idx > currentIndex && !learnedIds.includes(item.id)
+    );
+    if (nextIdx !== -1) {
+      setCurrentIndex(nextIdx);
+      return;
+    }
+    const fromStartIdx = filteredList.findIndex(
+      (item) => !learnedIds.includes(item.id)
+    );
+    if (fromStartIdx !== -1) {
+      setCurrentIndex(fromStartIdx);
+    } else {
+      alert('Tuyệt vời! Bạn đã hoàn thành tất cả các câu trong danh mục này!');
+    }
+  };
+
   const isStarred = currentItem ? starredIds.includes(currentItem.id) : false;
+  const isCurrentLearned = currentItem ? learnedIds.includes(currentItem.id) : false;
+  const hasUnlearnedInFilter = useMemo(() => {
+    return filteredList.some((item) => !learnedIds.includes(item.id));
+  }, [filteredList, learnedIds]);
 
   return (
     <div className="space-y-5">
       {/* Thanh Bộ Lọc & Tìm Kiếm */}
       <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
-          {/* Lọc theo Cấp độ */}
+          {/* Lọc theo Cấp độ kèm số lượng câu đã học */}
           <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-bold text-slate-700">
             <span className="px-2 py-0.5 text-slate-400">Level:</span>
             {[
@@ -659,19 +791,40 @@ function ListenAndRepeatLab({ bank }) {
               { id: '1', label: 'Level 1 (Dễ)' },
               { id: '2', label: 'Level 2 (Trung)' },
               { id: '3', label: 'Level 3 (Khó)' }
-            ].map((lvl) => (
-              <button
-                key={lvl.id}
-                onClick={() => { setLevelFilter(lvl.id); setCurrentIndex(0); }}
-                className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                  levelFilter === lvl.id
-                    ? 'bg-emerald-700 text-white shadow-xs'
-                    : 'hover:bg-slate-200 text-slate-600'
-                }`}
-              >
-                {lvl.label}
-              </button>
-            ))}
+            ].map((lvl) => {
+              const stat = statsByLevel[lvl.id] || { total: 0, learned: 0 };
+              const isSelected = levelFilter === lvl.id;
+              const isCompleted = stat.total > 0 && stat.learned >= stat.total;
+              return (
+                <button
+                  key={lvl.id}
+                  onClick={() => handleSelectLevel(lvl.id)}
+                  className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
+                    isSelected
+                      ? 'bg-emerald-700 text-white shadow-xs'
+                      : 'hover:bg-slate-200 text-slate-600'
+                  }`}
+                  title={`${lvl.label}: Đã học ${stat.learned}/${stat.total} câu`}
+                >
+                  <span>{lvl.label}</span>
+                  {stat.total > 0 && (
+                    <span
+                      className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full ${
+                        isSelected
+                          ? isCompleted
+                            ? 'bg-emerald-500 text-white'
+                            : 'bg-emerald-800 text-emerald-100'
+                          : isCompleted
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : 'bg-slate-200 text-slate-600'
+                      }`}
+                    >
+                      {stat.learned}/{stat.total}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           {/* Lọc theo Chủ đề */}
@@ -698,6 +851,20 @@ function ListenAndRepeatLab({ bank }) {
           >
             <Bookmark className={`w-3.5 h-3.5 ${starredOnly ? 'fill-amber-600 text-amber-600' : ''}`} />
             <span>Câu khó ({starredIds.length})</span>
+          </button>
+
+          {/* Lọc câu chưa học */}
+          <button
+            onClick={() => { setUnlearnedOnly(!unlearnedOnly); setCurrentIndex(0); }}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+              unlearnedOnly
+                ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
+                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+            }`}
+            title="Chỉ hiển thị các câu chưa hoàn thành"
+          >
+            <CheckCircle2 className={`w-3.5 h-3.5 ${unlearnedOnly ? 'text-emerald-700 fill-emerald-100' : 'text-slate-400'}`} />
+            <span>Chưa học ({bank.length - learnedIds.length > 0 ? bank.length - learnedIds.length : 0})</span>
           </button>
         </div>
 
@@ -743,7 +910,7 @@ function ListenAndRepeatLab({ bank }) {
                 Level {currentItem.level} ({currentItem.word_count} từ)
               </span>
 
-              {/* Nút Câu Tiếp Theo & Câu Trước chuyển lên đây theo yêu cầu */}
+              {/* Nút Câu Tiếp Theo & Câu Trước */}
               <div className="flex items-center gap-1 sm:ml-1">
                 <button
                   type="button"
@@ -774,10 +941,37 @@ function ListenAndRepeatLab({ bank }) {
                   <span>Câu tiếp theo</span>
                   <ChevronRight className="w-4 h-4" />
                 </button>
+
+                {/* Nếu câu hiện tại đã học, hiện thêm nút nhảy nhanh sang câu chưa học tiếp theo */}
+                {isCurrentLearned && hasUnlearnedInFilter && (
+                  <button
+                    type="button"
+                    onClick={handleJumpToNextUnlearned}
+                    className="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-white transition-all flex items-center gap-1 cursor-pointer shadow-xs active:scale-95 ml-1"
+                    title="Chuyển ngay sang câu chưa học tiếp theo"
+                  >
+                    <span>Tiếp câu chưa học</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                )}
               </div>
             </div>
 
             <div className="flex items-center gap-2">
+              {/* Nút Đánh dấu Đã học / Chưa học */}
+              <button
+                onClick={() => toggleLearned(currentItem.id)}
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+                  isCurrentLearned
+                    ? 'bg-emerald-50 text-emerald-800 border-emerald-300 shadow-2xs'
+                    : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100 hover:text-slate-700'
+                }`}
+                title={isCurrentLearned ? 'Đã học (Bấm để chuyển về Chưa học)' : 'Chưa học (Bấm để đánh dấu Đã học)'}
+              >
+                <CheckCircle2 className={`w-3.5 h-3.5 ${isCurrentLearned ? 'text-emerald-700 fill-emerald-100' : 'text-slate-400'}`} />
+                <span>{isCurrentLearned ? 'Đã học' : 'Chưa học'}</span>
+              </button>
+
               {/* Nút bật tắt hiển thị chữ để tự thử thách */}
               <button
                 onClick={() => setShowText(!showText)}
