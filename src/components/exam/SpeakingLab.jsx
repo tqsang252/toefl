@@ -1084,6 +1084,7 @@ function IndependentSpeakingStudio({ bank }) {
   const [prepSecondsLeft, setPrepSecondsLeft] = useState(15);
   const [speakSecondsLeft, setSpeakSecondsLeft] = useState(45);
   const [userAudioUrl, setUserAudioUrl] = useState(null);
+  const [task1Transcript, setTask1Transcript] = useState('');
   const [isSampleOpen, setIsSampleOpen] = useState(false);
   const [isPlayingSampleAudio, setIsPlayingSampleAudio] = useState(false);
 
@@ -1094,6 +1095,8 @@ function IndependentSpeakingStudio({ bank }) {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const timerRef = useRef(null);
+  const speechRecognizer45sRef = useRef(null);
+  const sampleTextareaRef = useRef(null);
 
   // Đổi đề thi -> reset trạng thái
   useEffect(() => {
@@ -1108,6 +1111,9 @@ function IndependentSpeakingStudio({ bank }) {
       if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
         mediaRecorderRef.current.stop();
       }
+      if (speechRecognizer45sRef.current) {
+        try { speechRecognizer45sRef.current.stop(); } catch (e) {}
+      }
     };
   }, []);
 
@@ -1117,10 +1123,14 @@ function IndependentSpeakingStudio({ bank }) {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
       try { mediaRecorderRef.current.stop(); } catch (e) {}
     }
+    if (speechRecognizer45sRef.current) {
+      try { speechRecognizer45sRef.current.stop(); } catch (e) {}
+    }
     setExamPhase('idle');
     setPrepSecondsLeft(15);
     setSpeakSecondsLeft(45);
     setUserAudioUrl(null);
+    setTask1Transcript('');
     setAiFeedback(null);
     setIsPlayingSampleAudio(false);
     setIsEditingSample(false);
@@ -1147,11 +1157,35 @@ function IndependentSpeakingStudio({ bank }) {
     }, 1000);
   };
 
-  // 2. Chuyển sang 45s nói & Ghi âm Micro
+  // 2. Chuyển sang 45s nói & Ghi âm Micro & Nhận diện giọng nói
   const startSpeakingPhase = async () => {
     setExamPhase('speaking');
     setSpeakSecondsLeft(45);
+    setTask1Transcript('');
     playExamBeep(850, 400); // Beep to start speaking
+
+    // Khởi động nhận diện giọng nói STT (Speech-to-Text) trong 45s nếu trình duyệt hỗ trợ
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      try {
+        const recognizer = new SpeechRecognition();
+        recognizer.lang = 'en-US';
+        recognizer.continuous = true;
+        recognizer.interimResults = true;
+        recognizer.onresult = (event) => {
+          let trans = '';
+          for (let i = 0; i < event.results.length; i++) {
+            trans += event.results[i][0].transcript + ' ';
+          }
+          setTask1Transcript(trans.trim());
+        };
+        recognizer.onerror = (e) => console.warn('SpeechRecognition 45s error:', e);
+        recognizer.start();
+        speechRecognizer45sRef.current = recognizer;
+      } catch (err) {
+        console.warn('SpeechRecognition 45s init error:', err);
+      }
+    }
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -1184,6 +1218,9 @@ function IndependentSpeakingStudio({ bank }) {
       }, 1000);
     } catch (err) {
       alert('Không thể mở micro để ghi âm: ' + err.message);
+      if (speechRecognizer45sRef.current) {
+        try { speechRecognizer45sRef.current.stop(); } catch (e) {}
+      }
       setExamPhase('idle');
     }
   };
@@ -1193,6 +1230,9 @@ function IndependentSpeakingStudio({ bank }) {
     if (timerRef.current) clearInterval(timerRef.current);
     if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
       mediaRecorderRef.current.stop();
+    }
+    if (speechRecognizer45sRef.current) {
+      try { speechRecognizer45sRef.current.stop(); } catch (e) {}
     }
     playExamBeep(500, 500); // Beep to end speaking
     setExamPhase('finished');
@@ -1238,10 +1278,45 @@ function IndependentSpeakingStudio({ bank }) {
 
   // Mở form chỉnh sửa / đưa bài của người dùng vào làm bài mẫu
   const handleOpenEditSample = () => {
-    setCustomTextDraft(isUsingCustom ? currentCustomSample.custom_answer : (currentTask?.sample_answer || ''));
+    // 1. Nếu người dùng đã lưu bài tùy chỉnh trước đó: giữ nguyên bài đó để tiếp tục sửa
+    if (isUsingCustom && currentCustomSample?.custom_answer) {
+      setCustomTextDraft(currentCustomSample.custom_answer);
+    } 
+    // 2. Nếu có bài transcript từ bản ghi âm vừa rồi:
+    else if (task1Transcript && task1Transcript.trim()) {
+      setCustomTextDraft(task1Transcript.trim());
+    }
+    // 3. NẾU KHÔNG CÓ BÀI TRANSCRIPT: HIỆN KHUNG VĂN BẢN TRỐNG ĐỂ DÁN (PASTE) BÀI VÀO
+    else {
+      setCustomTextDraft('');
+    }
     setCustomSampleError(null);
     setIsEditingSample(true);
     setIsSampleOpen(true);
+
+    // Tự động focus vào khung nhập văn bản để người dùng dán (Ctrl + V) ngay
+    setTimeout(() => {
+      if (sampleTextareaRef.current) {
+        sampleTextareaRef.current.focus();
+      }
+    }, 120);
+  };
+
+  // Dán nội dung nhanh từ Clipboard của người dùng
+  const handlePasteFromClipboard = async () => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.readText) {
+        const text = await navigator.clipboard.readText();
+        if (text && text.trim()) {
+          setCustomTextDraft(text.trim());
+          if (sampleTextareaRef.current) sampleTextareaRef.current.focus();
+          return;
+        }
+      }
+    } catch (err) {
+      console.warn('Lỗi đọc clipboard:', err);
+    }
+    if (sampleTextareaRef.current) sampleTextareaRef.current.focus();
   };
 
   // Lưu bài của người dùng làm bài mẫu (không gọi AI)
@@ -1537,6 +1612,31 @@ function IndependentSpeakingStudio({ bank }) {
                 </span>
                 <audio src={userAudioUrl} controls className="w-full h-9" />
 
+                {/* Hiển thị transcript nếu thu được từ mic */}
+                {task1Transcript && (
+                  <div className="bg-white/90 border border-emerald-200 rounded-xl p-3 text-xs space-y-1.5 shadow-2xs">
+                    <div className="flex items-center justify-between text-slate-500">
+                      <span className="font-bold text-emerald-950 flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>Văn bản nhận diện giọng nói (Transcript):</span>
+                      </span>
+                      <button
+                        onClick={() => {
+                          setCustomTextDraft(task1Transcript);
+                          setIsEditingSample(true);
+                          setIsSampleOpen(true);
+                        }}
+                        className="text-[11px] font-bold text-purple-700 hover:text-purple-900 underline cursor-pointer"
+                      >
+                        Đưa bài nói này sang làm bài mẫu ➔
+                      </button>
+                    </div>
+                    <p className="text-slate-800 italic leading-relaxed bg-slate-50/70 p-2.5 rounded-lg border border-slate-100">
+                      "{task1Transcript}"
+                    </p>
+                  </div>
+                )}
+
                 <div className="pt-2 flex flex-wrap items-center justify-between gap-2">
                   <button
                     onClick={handleAiEvaluation}
@@ -1630,7 +1730,7 @@ function IndependentSpeakingStudio({ bank }) {
                     <span>Tùy Chỉnh Bài Mẫu Của Bạn</span>
                   </h4>
                   <p className="text-[11px] text-purple-700 mt-0.5">
-                    Nhập bài nói của bạn vào đây. Sau khi lưu, hệ thống sẽ dùng bài này làm bài mẫu chính thức cho câu hỏi này.
+                    Dán (paste) hoặc nhập bài nói của bạn vào đây. Sau khi lưu, hệ thống sẽ dùng bài này làm bài mẫu chính thức cho câu hỏi này.
                   </p>
                 </div>
                 <button
@@ -1642,26 +1742,84 @@ function IndependentSpeakingStudio({ bank }) {
               </div>
 
               {/* Textarea nhập bài */}
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-slate-700">Nội dung bài nói của bạn:</span>
-                  {speechTranscript && (
+              <div className="space-y-2">
+                <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                  <span className="font-bold text-slate-700 flex items-center gap-1.5">
+                    <span>Nội dung bài nói của bạn:</span>
+                    {!customTextDraft && (
+                      <span className="text-[11px] font-normal text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                        Khung văn bản đang trống — hãy dán (paste) bài vào bên dưới
+                      </span>
+                    )}
+                  </span>
+
+                  <div className="flex items-center gap-1.5">
+                    {/* Nút dán từ Clipboard */}
                     <button
-                      onClick={() => setCustomTextDraft(speechTranscript)}
-                      className="text-[11px] font-bold text-purple-700 hover:text-purple-900 underline cursor-pointer"
+                      type="button"
+                      onClick={handlePasteFromClipboard}
+                      className="text-[11px] font-bold text-purple-700 hover:text-purple-900 bg-purple-100/80 hover:bg-purple-200 px-2.5 py-1 rounded-lg border border-purple-200 cursor-pointer flex items-center gap-1 transition-all"
+                      title="Dán nhanh nội dung từ bộ nhớ tạm (Clipboard)"
                     >
-                      Điền từ bản ghi âm vừa rồi ➔
+                      <Copy className="w-3 h-3 text-purple-600" />
+                      <span>Dán bài (Paste)</span>
                     </button>
-                  )}
+
+                    {/* Nút điền từ transcript nếu có */}
+                    {task1Transcript && task1Transcript.trim() && (
+                      <button
+                        type="button"
+                        onClick={() => setCustomTextDraft(task1Transcript.trim())}
+                        className="text-[11px] font-bold text-emerald-800 hover:text-emerald-950 bg-emerald-100/70 hover:bg-emerald-200 px-2.5 py-1 rounded-lg border border-emerald-300 cursor-pointer flex items-center gap-1 transition-all"
+                        title="Điền nội dung từ bản ghi âm 45s vừa nói"
+                      >
+                        <Sparkles className="w-3 h-3 text-emerald-600" />
+                        <span>Lấy từ bài nói 45s ({task1Transcript.trim().split(/\s+/).length} từ) ➔</span>
+                      </button>
+                    )}
+
+                    {/* Nút xóa trắng */}
+                    {customTextDraft && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCustomTextDraft('');
+                          if (sampleTextareaRef.current) sampleTextareaRef.current.focus();
+                        }}
+                        className="text-[11px] font-semibold text-slate-400 hover:text-rose-600 px-1.5 py-0.5 rounded cursor-pointer"
+                        title="Xóa trắng để dán lại"
+                      >
+                        <Trash2 className="w-3 h-3 inline mr-0.5" />
+                        Xóa
+                      </button>
+                    )}
+                  </div>
                 </div>
 
-                <textarea
-                  value={customTextDraft}
-                  onChange={(e) => setCustomTextDraft(e.target.value)}
-                  placeholder="Nhập hoặc dán bài nói của bạn vào đây (khoảng 100 - 130 từ để vừa vặn 45 giây nói)..."
-                  rows={6}
-                  className="w-full p-4 rounded-xl border border-purple-200 bg-white text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium leading-relaxed resize-y"
-                />
+                <div className="relative">
+                  <textarea
+                    ref={sampleTextareaRef}
+                    value={customTextDraft}
+                    onChange={(e) => setCustomTextDraft(e.target.value)}
+                    placeholder="Dán (Paste) bài nói của bạn vào đây hoặc gõ trực tiếp (khoảng 100 - 130 từ để vừa vặn 45 giây nói)..."
+                    rows={6}
+                    className="w-full p-4 rounded-xl border border-purple-300 bg-white text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium leading-relaxed resize-y shadow-inner"
+                  />
+                  {!customTextDraft && (
+                    <div 
+                      onClick={handlePasteFromClipboard}
+                      className="absolute inset-0 m-3 flex flex-col items-center justify-center border-2 border-dashed border-purple-200 hover:border-purple-400 rounded-xl bg-purple-50/50 hover:bg-purple-50/90 cursor-pointer transition-all group pointer-events-auto"
+                    >
+                      <Copy className="w-5 h-5 text-purple-400 group-hover:text-purple-600 mb-1 transition-colors" />
+                      <p className="text-xs font-bold text-purple-900">
+                        Bấm vào đây để Dán (Paste) bài nói của bạn
+                      </p>
+                      <p className="text-[11px] text-purple-600 mt-0.5">
+                        hoặc nhấn phím Ctrl + V / gõ trực tiếp
+                      </p>
+                    </div>
+                  )}
+                </div>
 
                 <div className="flex items-center justify-between text-xs text-slate-500 px-1">
                   <span>
