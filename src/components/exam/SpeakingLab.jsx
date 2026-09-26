@@ -414,12 +414,15 @@ function ListenAndRepeatLab({ bank }) {
   // 2. Bắt đầu thu âm giọng người học & kích hoạt STT
   const startUserRecording = async () => {
     try {
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+
+      // Kích hoạt Micro trước khi chuyển đổi trạng thái để tránh nhấp nháy giao diện
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
       setUserAudioUrl(null);
       setSpeechTranscript('');
       setAccuracyScore(null);
 
-      // Kích hoạt Micro
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const recorder = new MediaRecorder(stream);
       mediaRecorderRef.current = recorder;
       audioChunksRef.current = [];
@@ -1117,10 +1120,66 @@ function ListenAndRepeatLab({ bank }) {
             </div>
           </div>
 
-          {/* Vùng Hiển Thị Kết Quả Đọc Lại & So Sánh STT */}
-          {(userAudioUrl || accuracyScore !== null || speechTranscript) && (
-            <div className="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-5 space-y-4">
-              <div className="flex items-center justify-between border-b border-emerald-100 pb-3">
+          {/* Vùng Thu Âm & Kết Quả Luyện Nói Cố Định (Ngăn chặn giật UI & biến mất khi ghi âm) */}
+          {isRecording ? (
+            /* Trạng thái 1: Đang thu âm trực tiếp (Live Recording Mode) */
+            <div className="bg-gradient-to-r from-rose-50/90 to-amber-50/80 border-2 border-rose-300 rounded-2xl p-5 space-y-3 shadow-xs animate-fadeIn transition-all">
+              <div className="flex items-center justify-between border-b border-rose-200/80 pb-3">
+                <span className="text-xs font-black text-rose-900 uppercase tracking-wide flex items-center gap-2">
+                  <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-rose-600"></span>
+                  </span>
+                  <span>ĐANG GHI ÂM GIỌNG ĐỌC CỦA BẠN...</span>
+                </span>
+
+                <div className="flex items-center gap-2">
+                  <span className="px-3 py-1 bg-rose-600 text-white text-xs font-mono font-bold rounded-full shadow-2xs">
+                    REC {recordSeconds < 10 ? `0:0${recordSeconds}` : `0:${recordSeconds}`}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => stopUserRecording(true)}
+                    className="px-3 py-1 bg-slate-900 hover:bg-black text-white text-xs font-bold rounded-xl cursor-pointer shadow-xs active:scale-95 transition-all"
+                  >
+                    Dừng thu âm
+                  </button>
+                </div>
+              </div>
+
+              {/* Sóng âm visualizer & Hướng dẫn */}
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 py-1">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1 h-6">
+                    <span className="w-1.5 h-3 bg-rose-500 rounded-full animate-pulse" style={{ animationDuration: '600ms' }} />
+                    <span className="w-1.5 h-5 bg-rose-500 rounded-full animate-pulse" style={{ animationDuration: '400ms' }} />
+                    <span className="w-1.5 h-6 bg-rose-600 rounded-full animate-pulse" style={{ animationDuration: '800ms' }} />
+                    <span className="w-1.5 h-4 bg-rose-500 rounded-full animate-pulse" style={{ animationDuration: '500ms' }} />
+                    <span className="w-1.5 h-2 bg-rose-400 rounded-full animate-pulse" style={{ animationDuration: '700ms' }} />
+                  </div>
+                  <span className="text-xs font-bold text-rose-800">
+                    Micro đang nhận giọng: Hãy đọc to rõ từng từ theo câu mẫu ở trên
+                  </span>
+                </div>
+                <span className="text-[11px] text-slate-500">
+                  Bấm "Dừng thu âm" khi bạn đọc xong
+                </span>
+              </div>
+
+              {/* Transcription hiển thị trực tiếp (Live STT) nếu có */}
+              {speechTranscript && (
+                <div className="bg-white/90 rounded-xl p-3 border border-rose-200 text-xs">
+                  <span className="text-rose-500 block mb-0.5 font-bold text-[11px]">Đang nhận diện giọng nói:</span>
+                  <p className="text-slate-900 font-semibold text-sm italic">
+                    "{speechTranscript}"
+                  </p>
+                </div>
+              )}
+            </div>
+          ) : userAudioUrl || accuracyScore !== null || speechTranscript ? (
+            /* Trạng thái 2: Đã có kết quả ghi âm (Result Review Mode) */
+            <div className="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-5 space-y-4 transition-all">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-emerald-100 pb-3">
                 <span className="text-xs font-black text-emerald-900 uppercase tracking-wide flex items-center gap-1.5">
                   <Sparkles className="w-4 h-4 text-emerald-600" />
                   <span>KẾT QUẢ GHI ÂM CỦA BẠN</span>
@@ -1155,14 +1214,24 @@ function ListenAndRepeatLab({ bank }) {
               {/* Nghe lại file ghi âm của học viên */}
               {userAudioUrl && (
                 <div className="flex flex-col sm:flex-row items-center gap-3">
-                  <span className="text-xs font-bold text-slate-700">Nghe lại giọng đọc của bạn:</span>
+                  <span className="text-xs font-bold text-slate-700 shrink-0">Nghe lại giọng đọc của bạn:</span>
                   <audio src={userAudioUrl} controls className="h-9 w-full sm:w-72" />
-                  <button
-                    onClick={handlePlaySample}
-                    className="text-xs font-bold text-emerald-800 hover:text-emerald-950 underline cursor-pointer"
-                  >
-                    Nghe lại câu mẫu để so sánh ➔
-                  </button>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={handlePlaySample}
+                      className="text-xs font-bold text-emerald-800 hover:text-emerald-950 underline cursor-pointer"
+                    >
+                      Nghe lại câu mẫu để so sánh ➔
+                    </button>
+                    <button
+                      type="button"
+                      onClick={startUserRecording}
+                      className="text-xs font-bold text-rose-700 hover:text-rose-900 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-2.5 py-1 rounded-lg cursor-pointer transition-all flex items-center gap-1"
+                    >
+                      <Mic className="w-3 h-3 text-rose-600" />
+                      <span>Ghi âm lại</span>
+                    </button>
+                  </div>
                 </div>
               )}
 
@@ -1175,6 +1244,30 @@ function ListenAndRepeatLab({ bank }) {
                   </p>
                 </div>
               )}
+            </div>
+          ) : (
+            /* Trạng thái 3: Chưa thu âm (Idle Placeholder - Giữ vị trí cố định) */
+            <div className="bg-slate-50/80 border border-dashed border-slate-200 rounded-2xl p-4 transition-all">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-slate-200/70 text-slate-500 flex items-center justify-center shrink-0">
+                    <Mic className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="font-extrabold text-slate-800 block text-xs">Khu vực ghi âm & nhận diện giọng nói</span>
+                    <span className="text-[11px] text-slate-400">Bấm nút "2. Bắt đầu đọc lại (Ghi âm)" ở trên để thu âm giọng đọc và kiểm tra độ chính xác</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={startUserRecording}
+                  disabled={isPlayingAudio}
+                  className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-2xs transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+                >
+                  <Mic className="w-3.5 h-3.5" />
+                  <span>Bắt đầu thu âm</span>
+                </button>
+              </div>
             </div>
           )}
 
