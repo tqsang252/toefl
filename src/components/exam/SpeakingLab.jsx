@@ -28,7 +28,11 @@ import {
   BookOpen,
   ArrowRight,
   HelpCircle,
-  FileText
+  FileText,
+  Edit3,
+  Save,
+  Copy,
+  Trash2
 } from 'lucide-react';
 import SPEAKING_REPEAT_BANK from '../../data/speakingRepeatData.js';
 import SPEAKING_45S_BANK from '../../data/speaking45sData.js';
@@ -39,7 +43,12 @@ import {
   saveSpeakingPracticeHistory,
   isSupabaseConfigured
 } from '../../lib/supabase.js';
-import { getGeminiApiKey, evaluateSpeakingTest, evaluateSentencePronunciationAndStress } from '../../lib/gemini.js';
+import {
+  getGeminiApiKey,
+  evaluateSpeakingTest,
+  evaluateSentencePronunciationAndStress,
+  analyzeAndEnrichCustomSpeakingSample
+} from '../../lib/gemini.js';
 
 // Âm thanh tiếng bíp chuẩn phòng thi ETS
 function playExamBeep(freq = 650, duration = 300) {
@@ -1050,6 +1059,26 @@ function IndependentSpeakingStudio({ bank }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentTask = filteredTasks[currentIndex] || filteredTasks[0] || bank[0];
 
+  // Quản lý bài mẫu tùy chỉnh (Custom Samples do người dùng tự soạn/thay thế)
+  const [customSamples, setCustomSamples] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('toefl_custom_speaking_samples') || '{}');
+    } catch {
+      return {};
+    }
+  });
+
+  const [isEditingSample, setIsEditingSample] = useState(false);
+  const [customTextDraft, setCustomTextDraft] = useState('');
+  const [isAnalyzingCustomSample, setIsAnalyzingCustomSample] = useState(false);
+  const [customSampleError, setCustomSampleError] = useState(null);
+  const [appliedPolishedNotice, setAppliedPolishedNotice] = useState(false);
+
+  const currentCustomSample = currentTask ? customSamples[currentTask.id] : null;
+  const isUsingCustom = Boolean(currentCustomSample?.custom_answer);
+  const activeSampleText = isUsingCustom ? currentCustomSample.custom_answer : (currentTask?.sample_answer || '');
+  const activeWordCount = activeSampleText ? activeSampleText.trim().split(/\s+/).length : 0;
+
   // Trạng thái Bộ bấm giờ chuẩn ETS: 'idle' | 'prep' (15s) | 'speaking' (45s) | 'finished'
   const [examPhase, setExamPhase] = useState('idle');
   const [prepSecondsLeft, setPrepSecondsLeft] = useState(15);
@@ -1094,6 +1123,9 @@ function IndependentSpeakingStudio({ bank }) {
     setUserAudioUrl(null);
     setAiFeedback(null);
     setIsPlayingSampleAudio(false);
+    setIsEditingSample(false);
+    setCustomSampleError(null);
+    setAppliedPolishedNotice(false);
   };
 
   // 1. Bắt đầu quy trình thi ETS: 15s Chuẩn bị -> 45s Nói
@@ -1175,9 +1207,10 @@ function IndependentSpeakingStudio({ bank }) {
     });
   };
 
-  // 4. Phát audio bài mẫu chuẩn ETS
-  const handlePlaySampleAudio = () => {
-    if (!currentTask?.sample_answer || !window.speechSynthesis) return;
+  // 4. Phát audio bài mẫu (chuẩn ETS hoặc bài mẫu tùy chỉnh của học viên)
+  const handlePlaySampleAudio = (textToPlay = null) => {
+    const text = textToPlay || activeSampleText;
+    if (!text || !window.speechSynthesis) return;
     if (isPlayingSampleAudio) {
       window.speechSynthesis.cancel();
       setIsPlayingSampleAudio(false);
@@ -1187,7 +1220,7 @@ function IndependentSpeakingStudio({ bank }) {
     window.speechSynthesis.cancel();
     setIsPlayingSampleAudio(true);
 
-    const utterance = new SpeechSynthesisUtterance(currentTask.sample_answer);
+    const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
     utterance.rate = 0.95;
 
@@ -1201,6 +1234,98 @@ function IndependentSpeakingStudio({ bank }) {
     utterance.onerror = () => setIsPlayingSampleAudio(false);
 
     window.speechSynthesis.speak(utterance);
+  };
+
+  // Mở form chỉnh sửa / đưa bài của người dùng vào làm bài mẫu
+  const handleOpenEditSample = () => {
+    setCustomTextDraft(isUsingCustom ? currentCustomSample.custom_answer : (currentTask?.sample_answer || ''));
+    setCustomSampleError(null);
+    setIsEditingSample(true);
+    setIsSampleOpen(true);
+  };
+
+  // Lưu bài của người dùng làm bài mẫu (không gọi AI)
+  const handleSaveCustomSampleOnly = () => {
+    if (!customTextDraft.trim()) {
+      alert('Vui lòng nhập nội dung bài nói của bạn.');
+      return;
+    }
+    const updated = {
+      ...customSamples,
+      [currentTask.id]: {
+        custom_answer: customTextDraft.trim(),
+        ai_analysis: currentCustomSample?.ai_analysis || null,
+        updated_at: new Date().toISOString()
+      }
+    };
+    setCustomSamples(updated);
+    localStorage.setItem('toefl_custom_speaking_samples', JSON.stringify(updated));
+    setIsEditingSample(false);
+  };
+
+  // Lưu bài của người dùng & nhờ AI phân tích, ước tính điểm và gợi ý từ vựng
+  const handleSaveAndAnalyzeCustomSample = async () => {
+    if (!customTextDraft.trim()) {
+      alert('Vui lòng nhập nội dung bài nói của bạn trước khi nhờ AI phân tích.');
+      return;
+    }
+
+    try {
+      setIsAnalyzingCustomSample(true);
+      setCustomSampleError(null);
+
+      const aiAnalysis = await analyzeAndEnrichCustomSpeakingSample({
+        prompt: currentTask.prompt,
+        questionType: currentTask.question_type,
+        userSampleText: customTextDraft.trim()
+      });
+
+      const updated = {
+        ...customSamples,
+        [currentTask.id]: {
+          custom_answer: customTextDraft.trim(),
+          ai_analysis: aiAnalysis,
+          updated_at: new Date().toISOString()
+        }
+      };
+
+      setCustomSamples(updated);
+      localStorage.setItem('toefl_custom_speaking_samples', JSON.stringify(updated));
+      setIsEditingSample(false);
+    } catch (err) {
+      console.error('Lỗi khi phân tích bài mẫu tùy chỉnh:', err);
+      setCustomSampleError(err.message || 'Không thể kết nối AI để phân tích bài mẫu.');
+    } finally {
+      setIsAnalyzingCustomSample(false);
+    }
+  };
+
+  // Khôi phục bài mẫu gốc ban đầu của ETS
+  const handleResetToDefaultSample = () => {
+    if (window.confirm('Bạn có chắc muốn khôi phục lại bài mẫu gốc của ETS cho đề thi này?')) {
+      const updated = { ...customSamples };
+      delete updated[currentTask.id];
+      setCustomSamples(updated);
+      localStorage.setItem('toefl_custom_speaking_samples', JSON.stringify(updated));
+      setIsEditingSample(false);
+    }
+  };
+
+  // Áp dụng phiên bản nâng cao Band 30 do AI trau chuốt làm bài mẫu
+  const handleApplyPolishedVersion = () => {
+    if (!currentCustomSample?.ai_analysis?.polished_band30_version) return;
+    const updated = {
+      ...customSamples,
+      [currentTask.id]: {
+        ...currentCustomSample,
+        custom_answer: currentCustomSample.ai_analysis.polished_band30_version,
+        updated_at: new Date().toISOString()
+      }
+    };
+    setCustomSamples(updated);
+    localStorage.setItem('toefl_custom_speaking_samples', JSON.stringify(updated));
+    setAppliedPolishedNotice(true);
+    setTimeout(() => setAppliedPolishedNotice(false), 4000);
   };
 
   // 5. Gửi Gemini AI chấm điểm & feedback
@@ -1444,99 +1569,393 @@ function IndependentSpeakingStudio({ bank }) {
           </div>
         </div>
 
-        {/* CỘT PHẢI (6 Cột): BÀI MẪU 26-30 ĐIỂM + PHÂN TÍCH TỪ VỰNG & DÀN Ý */}
+        {/* CỘT PHẢI (6 Cột): BÀI MẪU (CHUẨN ETS HOẶC BÀI CỦA NGƯỜI DÙNG) + PHÂN TÍCH AI */}
         <div className="lg:col-span-6 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm flex flex-col min-h-[580px] space-y-5">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          {/* Header Thẻ Bài Mẫu */}
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3 flex-wrap gap-2">
             <div className="flex items-center gap-2">
-              <Award className="w-5 h-5 text-amber-500" />
-              <h3 className="font-extrabold text-slate-900 text-base">
-                Bài Mẫu Chuẩn ETS (Band 26–30/30)
-              </h3>
+              {isUsingCustom ? (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-900 border border-purple-300 text-xs font-black shadow-2xs">
+                  <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                  <span>Bài Mẫu Của Bạn (Đã Lưu)</span>
+                </span>
+              ) : (
+                <div className="flex items-center gap-1.5">
+                  <Award className="w-5 h-5 text-amber-500" />
+                  <h3 className="font-extrabold text-slate-900 text-base">
+                    Bài Mẫu Chuẩn ETS (Band 26–30/30)
+                  </h3>
+                </div>
+              )}
             </div>
 
-            <button
-              onClick={() => setIsSampleOpen(!isSampleOpen)}
-              className="text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-3 py-1 rounded-xl border border-emerald-200 cursor-pointer"
-            >
-              {isSampleOpen ? 'Thu gọn bài mẫu' : 'Xem chi tiết bài mẫu'}
-            </button>
-          </div>
+            <div className="flex items-center gap-2">
+              {isUsingCustom && !isEditingSample && (
+                <button
+                  onClick={handleResetToDefaultSample}
+                  className="text-xs font-semibold text-slate-500 hover:text-rose-600 px-2.5 py-1 rounded-lg border border-slate-200 hover:border-rose-200 cursor-pointer transition-all"
+                  title="Khôi phục lại bài mẫu chuẩn ban đầu của ETS"
+                >
+                  Khôi phục gốc ETS
+                </button>
+              )}
 
-          {/* Bài Mẫu Hoàn Chỉnh & Trình Phát Audio */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-500">
-                Độ dài: <strong className="text-slate-800">{currentTask.word_count || 115} từ</strong> (~43 giây nói tự nhiên)
-              </span>
+              {!isEditingSample && (
+                <button
+                  onClick={handleOpenEditSample}
+                  className="text-xs font-bold text-purple-800 bg-purple-50 hover:bg-purple-100 px-3 py-1 rounded-xl border border-purple-200 cursor-pointer flex items-center gap-1 transition-all shadow-2xs"
+                  title="Thay thế bằng bài của bạn để lưu mẫu và nhờ AI phân tích"
+                >
+                  <Edit3 className="w-3.5 h-3.5 text-purple-600" />
+                  <span>{isUsingCustom ? 'Sửa bài của tôi' : 'Thay thế bằng bài của tôi'}</span>
+                </button>
+              )}
 
               <button
-                onClick={handlePlaySampleAudio}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
-                  isPlayingSampleAudio
-                    ? 'bg-emerald-700 text-white border-emerald-800 animate-pulse'
-                    : 'bg-emerald-50 text-emerald-900 border-emerald-300 hover:bg-emerald-100'
-                }`}
+                onClick={() => setIsSampleOpen(!isSampleOpen)}
+                className="text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-3 py-1 rounded-xl border border-emerald-200 cursor-pointer"
               >
-                <Volume2 className="w-3.5 h-3.5" />
-                <span>{isPlayingSampleAudio ? 'Đang đọc mẫu...' : 'Nghe audio bài mẫu'}</span>
+                {isSampleOpen ? 'Thu gọn' : 'Chi tiết'}
               </button>
             </div>
-
-            {/* Khung nội dung bài mẫu */}
-            <div className="bg-amber-50/50 border border-amber-200/80 rounded-2xl p-5 text-slate-800 leading-relaxed text-sm font-medium">
-              <p className="whitespace-pre-line">
-                {currentTask.sample_answer}
-              </p>
-            </div>
           </div>
 
-          {/* Dàn Ý Lập Luận (Outline Breakdown) */}
-          {currentTask.outline && (
-            <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-2.5">
-              <span className="text-[11px] font-black uppercase text-slate-500 tracking-wider block">
-                🧠 DÀN Ý LẬP LUẬN LOGIC (OUTLINE STRATEGY):
-              </span>
-              <ul className="text-xs space-y-1.5 text-slate-700">
-                <li className="flex items-start gap-2">
-                  <span className="font-bold text-emerald-700 shrink-0">1. Stance:</span>
-                  <span>{currentTask.outline.stance}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="font-bold text-emerald-700 shrink-0">2. Reason 1:</span>
-                  <span>{currentTask.outline.reason1} (<em>{currentTask.outline.example1}</em>)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="font-bold text-emerald-700 shrink-0">3. Reason 2:</span>
-                  <span>{currentTask.outline.reason2} (<em>{currentTask.outline.example2}</em>)</span>
-                </li>
-              </ul>
-            </div>
-          )}
-
-          {/* Từ Vựng & Collocations Đắt Giá */}
-          {currentTask.vocabulary_highlights && currentTask.vocabulary_highlights.length > 0 && (
-            <div className="border-t border-slate-100 pt-3 space-y-2">
-              <span className="text-[11px] font-black uppercase text-teal-800 tracking-wider block">
-                ✨ TỪ VỰNG & COLLOCATIONS GHI ĐIỂM CAO:
-              </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {currentTask.vocabulary_highlights.map((voc, i) => (
-                  <div key={i} className="bg-teal-50/60 border border-teal-200 rounded-xl p-2.5 text-xs">
-                    <span className="font-bold text-teal-950 block">"{voc.phrase}"</span>
-                    <span className="text-slate-500 text-[11px]">{voc.meaning}</span>
-                  </div>
-                ))}
+          {/* FORM CHỈNH SỬA / NHẬP BÀI CỦA NGƯỜI DÙNG */}
+          {isEditingSample ? (
+            <div className="bg-purple-50/70 border-2 border-purple-300 rounded-2xl p-5 space-y-4 animate-fadeIn">
+              <div className="flex items-center justify-between border-b border-purple-200/80 pb-3">
+                <div>
+                  <h4 className="font-extrabold text-sm text-purple-950 flex items-center gap-2">
+                    <Edit3 className="w-4 h-4 text-purple-700" />
+                    <span>Tùy Chỉnh Bài Mẫu Của Bạn</span>
+                  </h4>
+                  <p className="text-[11px] text-purple-700 mt-0.5">
+                    Nhập bài nói của bạn vào đây. Sau khi lưu, hệ thống sẽ dùng bài này làm bài mẫu chính thức cho câu hỏi này.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setIsEditingSample(false)}
+                  className="p-1 rounded-lg text-slate-400 hover:text-slate-600 cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
-            </div>
-          )}
 
-          {/* Mẹo Phân Bổ Thời Gian Chuẩn ETS */}
-          <div className="bg-blue-50/60 border border-blue-200 rounded-2xl p-4 text-xs text-blue-950 flex items-start gap-2.5">
-            <HelpCircle className="w-4 h-4 text-blue-700 shrink-0 mt-0.5" />
-            <div className="leading-relaxed">
-              <strong>Mẹo phòng thi ETS:</strong> {currentTask.delivery_tips || 'Dành 6-8s mở đầu nêu trực diện lập trường, 15-18s cho mỗi luận điểm có kèm ví dụ cụ thể, và 3-5s chốt lại.'}
+              {/* Textarea nhập bài */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-slate-700">Nội dung bài nói của bạn:</span>
+                  {speechTranscript && (
+                    <button
+                      onClick={() => setCustomTextDraft(speechTranscript)}
+                      className="text-[11px] font-bold text-purple-700 hover:text-purple-900 underline cursor-pointer"
+                    >
+                      Điền từ bản ghi âm vừa rồi ➔
+                    </button>
+                  )}
+                </div>
+
+                <textarea
+                  value={customTextDraft}
+                  onChange={(e) => setCustomTextDraft(e.target.value)}
+                  placeholder="Nhập hoặc dán bài nói của bạn vào đây (khoảng 100 - 130 từ để vừa vặn 45 giây nói)..."
+                  rows={6}
+                  className="w-full p-4 rounded-xl border border-purple-200 bg-white text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium leading-relaxed resize-y"
+                />
+
+                <div className="flex items-center justify-between text-xs text-slate-500 px-1">
+                  <span>
+                    Độ dài: <strong className="text-purple-950 font-bold">{customTextDraft.trim() ? customTextDraft.trim().split(/\s+/).length : 0} từ</strong>
+                    {' '}(Ước tính nói trong ~{Math.round(((customTextDraft.trim() ? customTextDraft.trim().split(/\s+/).length : 0) / 120) * 45)}s)
+                  </span>
+                  <span className="text-[11px] text-slate-400">
+                    Mục tiêu chuẩn 45s: 110 – 125 từ
+                  </span>
+                </div>
+              </div>
+
+              {/* Nút hành động */}
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-purple-200/60">
+                <button
+                  onClick={() => setIsEditingSample(false)}
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-purple-100 cursor-pointer"
+                >
+                  Hủy
+                </button>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleSaveCustomSampleOnly}
+                    disabled={isAnalyzingCustomSample}
+                    className="px-4 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-bold text-xs rounded-xl shadow-2xs cursor-pointer flex items-center gap-1.5"
+                  >
+                    <Save className="w-3.5 h-3.5 text-slate-500" />
+                    <span>Chỉ Lưu Bài</span>
+                  </button>
+
+                  <button
+                    onClick={handleSaveAndAnalyzeCustomSample}
+                    disabled={isAnalyzingCustomSample}
+                    className="px-5 py-2 bg-purple-700 hover:bg-purple-800 text-white font-extrabold text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center gap-2 disabled:opacity-50"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                    <span>{isAnalyzingCustomSample ? 'AI đang phân tích & gợi ý...' : 'Lưu & AI Phân Tích Gợi Ý'}</span>
+                  </button>
+                </div>
+              </div>
+
+              {customSampleError && (
+                <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                  <span>{customSampleError}</span>
+                </div>
+              )}
             </div>
-          </div>
+          ) : (
+            <>
+              {/* Thông báo khi áp dụng thành công bản nâng cao */}
+              {appliedPolishedNotice && (
+                <div className="p-3 rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-900 text-xs font-bold flex items-center gap-2 animate-fadeIn">
+                  <Check className="w-4 h-4 text-emerald-700" />
+                  <span>✓ Đã cập nhật bài mẫu của bạn thành phiên bản Band 30 do AI nâng cấp!</span>
+                </div>
+              )}
+
+              {/* Bài Mẫu Đang Hoạt Động & Nút Nghe Audio */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-slate-500">
+                    Độ dài: <strong className="text-slate-800">{activeWordCount} từ</strong> (~{Math.round((activeWordCount / 120) * 45)} giây nói tự nhiên)
+                  </span>
+
+                  <button
+                    onClick={() => handlePlaySampleAudio()}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+                      isPlayingSampleAudio
+                        ? 'bg-emerald-700 text-white border-emerald-800 animate-pulse'
+                        : isUsingCustom
+                        ? 'bg-purple-50 text-purple-900 border-purple-300 hover:bg-purple-100'
+                        : 'bg-emerald-50 text-emerald-900 border-emerald-300 hover:bg-emerald-100'
+                    }`}
+                  >
+                    <Volume2 className="w-3.5 h-3.5" />
+                    <span>{isPlayingSampleAudio ? 'Đang đọc...' : isUsingCustom ? 'Nghe audio bài của bạn' : 'Nghe audio bài mẫu'}</span>
+                  </button>
+                </div>
+
+                {/* Khung nội dung bài mẫu */}
+                <div className={`rounded-2xl p-5 text-slate-800 leading-relaxed text-sm font-medium border ${
+                  isUsingCustom
+                    ? 'bg-purple-50/40 border-purple-200/90 shadow-2xs'
+                    : 'bg-amber-50/50 border-amber-200/80'
+                }`}>
+                  <p className="whitespace-pre-line">
+                    {activeSampleText}
+                  </p>
+                </div>
+              </div>
+
+              {/* PHÂN TÍCH & GỢI Ý NÂNG CẤP TỪ AI DÀNH CHO BÀI CỦA NGƯỜI DÙNG */}
+              {isUsingCustom && currentCustomSample?.ai_analysis ? (
+                <div className="space-y-4 animate-fadeIn">
+                  {/* 1. Thẻ Điểm Ước Tính & Nhịp Điệu */}
+                  <div className="bg-gradient-to-r from-purple-900 to-indigo-950 rounded-2xl p-5 text-white space-y-3 shadow-sm">
+                    <div className="flex items-center justify-between border-b border-purple-800 pb-2.5">
+                      <span className="text-xs font-black uppercase text-purple-200 flex items-center gap-1.5">
+                        <Sparkles className="w-4 h-4 text-amber-300" />
+                        <span>AI ĐÁNH GIÁ BÀI MẪU CỦA BẠN</span>
+                      </span>
+
+                      <span className="text-xs font-black px-3 py-1 rounded-full bg-amber-400 text-slate-900 shadow-2xs">
+                        Điểm ước tính: ~{currentCustomSample.ai_analysis.estimated_score || 26}/30 ({currentCustomSample.ai_analysis.estimated_band || 'Band 5.0'})
+                      </span>
+                    </div>
+
+                    {currentCustomSample.ai_analysis.pacing_evaluation && (
+                      <p className="text-xs text-purple-100 leading-relaxed">
+                        ⏱️ <strong className="text-amber-300">Đánh giá thời lượng:</strong> {currentCustomSample.ai_analysis.pacing_evaluation}
+                      </p>
+                    )}
+
+                    {currentCustomSample.ai_analysis.strengths && currentCustomSample.ai_analysis.strengths.length > 0 && (
+                      <div className="pt-1">
+                        <span className="text-[11px] font-bold text-emerald-300 block mb-1">🌟 Điểm mạnh nổi bật:</span>
+                        <ul className="text-xs space-y-1 text-slate-200">
+                          {currentCustomSample.ai_analysis.strengths.map((str, idx) => (
+                            <li key={idx} className="flex items-start gap-1.5">
+                              <span className="text-emerald-400">✓</span>
+                              <span>{str}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 2. Bảng Gợi Ý Nâng Cấp Từ Vựng (Vocabulary Upgrades) */}
+                  {currentCustomSample.ai_analysis.vocabulary_upgrades && currentCustomSample.ai_analysis.vocabulary_upgrades.length > 0 && (
+                    <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-4 space-y-2.5">
+                      <span className="text-xs font-black uppercase text-amber-900 flex items-center gap-1.5 tracking-wide">
+                        <span>💎 GỢI Ý NÂNG CẤP TỪ VỰNG & COLLOCATIONS BAND 28-30:</span>
+                      </span>
+
+                      <div className="space-y-2">
+                        {currentCustomSample.ai_analysis.vocabulary_upgrades.map((upg, i) => (
+                          <div key={i} className="bg-white rounded-xl p-3 border border-amber-200 text-xs space-y-1">
+                            <div className="flex items-center justify-between font-bold">
+                              <span className="text-slate-600 line-through">"{upg.original}"</span>
+                              <span className="text-emerald-700 font-extrabold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md">
+                                ➔ "{upg.suggested}"
+                              </span>
+                            </div>
+                            <p className="text-slate-600 text-[11px] leading-relaxed">
+                              {upg.reason}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 3. Phiên Bản Nâng Cao Trau Chuốt Band 30 (Polished Version) */}
+                  {currentCustomSample.ai_analysis.polished_band30_version && (
+                    <div className="bg-gradient-to-br from-indigo-50/80 via-white to-purple-50/80 border-2 border-indigo-200 rounded-2xl p-5 space-y-3 shadow-2xs">
+                      <div className="flex items-center justify-between border-b border-indigo-100 pb-2.5 flex-wrap gap-2">
+                        <div>
+                          <span className="text-xs font-black uppercase text-indigo-950 flex items-center gap-1.5">
+                            <Award className="w-4 h-4 text-indigo-600" />
+                            <span>PHIÊN BẢN TRAU CHUỐT BAND 30 (AI POLISHED VERSION)</span>
+                          </span>
+                          <span className="text-[11px] text-slate-500 block">
+                            (Giữ nguyên 100% ý tưởng của bạn nhưng từ ngữ mượt mà và học thuật hơn)
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handlePlaySampleAudio(currentCustomSample.ai_analysis.polished_band30_version)}
+                            className="px-3 py-1 bg-indigo-100 hover:bg-indigo-200 text-indigo-900 font-bold text-xs rounded-xl border border-indigo-300 cursor-pointer flex items-center gap-1.5"
+                          >
+                            <Volume2 className="w-3.5 h-3.5" />
+                            <span>Nghe đọc bản này</span>
+                          </button>
+
+                          <button
+                            onClick={handleApplyPolishedVersion}
+                            className="px-3 py-1 bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-xs rounded-xl shadow-xs cursor-pointer flex items-center gap-1.5"
+                            title="Áp dụng bản này thành bài mẫu chính thức của bạn"
+                          >
+                            <Check className="w-3.5 h-3.5" />
+                            <span>Áp dụng làm bài mẫu</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <p className="text-slate-800 text-xs sm:text-sm leading-relaxed whitespace-pre-line bg-white/80 p-3.5 rounded-xl border border-indigo-100">
+                        {currentCustomSample.ai_analysis.polished_band30_version}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* 4. Dàn Ý Triển Khai Logic Của Bạn */}
+                  {currentCustomSample.ai_analysis.outline_breakdown && (
+                    <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-2">
+                      <span className="text-[11px] font-black uppercase text-slate-600 tracking-wider block">
+                        🧠 DÀN Ý LẬP LUẬN BÀI NÓI CỦA BẠN:
+                      </span>
+                      <ul className="text-xs space-y-1.5 text-slate-700">
+                        {currentCustomSample.ai_analysis.outline_breakdown.stance && (
+                          <li className="flex items-start gap-2">
+                            <span className="font-bold text-purple-800 shrink-0">1. Stance:</span>
+                            <span>{currentCustomSample.ai_analysis.outline_breakdown.stance}</span>
+                          </li>
+                        )}
+                        {currentCustomSample.ai_analysis.outline_breakdown.reason1 && (
+                          <li className="flex items-start gap-2">
+                            <span className="font-bold text-purple-800 shrink-0">2. Reason 1:</span>
+                            <span>{currentCustomSample.ai_analysis.outline_breakdown.reason1}</span>
+                          </li>
+                        )}
+                        {currentCustomSample.ai_analysis.outline_breakdown.reason2 && (
+                          <li className="flex items-start gap-2">
+                            <span className="font-bold text-purple-800 shrink-0">3. Reason 2:</span>
+                            <span>{currentCustomSample.ai_analysis.outline_breakdown.reason2}</span>
+                          </li>
+                        )}
+                        {currentCustomSample.ai_analysis.outline_breakdown.conclusion && (
+                          <li className="flex items-start gap-2">
+                            <span className="font-bold text-purple-800 shrink-0">4. Wrap-up:</span>
+                            <span>{currentCustomSample.ai_analysis.outline_breakdown.conclusion}</span>
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* 5. Mẹo Phân Bổ Thời Gian */}
+                  {currentCustomSample.ai_analysis.delivery_tips && (
+                    <div className="bg-blue-50/70 border border-blue-200 rounded-2xl p-4 text-xs text-blue-950 flex items-start gap-2.5">
+                      <HelpCircle className="w-4 h-4 text-blue-700 shrink-0 mt-0.5" />
+                      <div className="leading-relaxed">
+                        <strong>Mẹo cho bài nói của bạn:</strong> {currentCustomSample.ai_analysis.delivery_tips}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* HIỂN THỊ NỘI DUNG MẶC ĐỊNH ETS (DÀN Ý, TỪ VỰNG, MẸO PHÒNG THI) */
+                <>
+                  {/* Dàn Ý Lập Luận (Outline Breakdown) */}
+                  {currentTask.outline && (
+                    <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-2.5">
+                      <span className="text-[11px] font-black uppercase text-slate-500 tracking-wider block">
+                        🧠 DÀN Ý LẬP LUẬN LOGIC (OUTLINE STRATEGY):
+                      </span>
+                      <ul className="text-xs space-y-1.5 text-slate-700">
+                        <li className="flex items-start gap-2">
+                          <span className="font-bold text-emerald-700 shrink-0">1. Stance:</span>
+                          <span>{currentTask.outline.stance}</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="font-bold text-emerald-700 shrink-0">2. Reason 1:</span>
+                          <span>{currentTask.outline.reason1} (<em>{currentTask.outline.example1}</em>)</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="font-bold text-emerald-700 shrink-0">3. Reason 2:</span>
+                          <span>{currentTask.outline.reason2} (<em>{currentTask.outline.example2}</em>)</span>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Từ Vựng & Collocations Đắt Giá */}
+                  {currentTask.vocabulary_highlights && currentTask.vocabulary_highlights.length > 0 && (
+                    <div className="border-t border-slate-100 pt-3 space-y-2">
+                      <span className="text-[11px] font-black uppercase text-teal-800 tracking-wider block">
+                        ✨ TỪ VỰNG & COLLOCATIONS GHI ĐIỂM CAO:
+                      </span>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {currentTask.vocabulary_highlights.map((voc, i) => (
+                          <div key={i} className="bg-teal-50/60 border border-teal-200 rounded-xl p-2.5 text-xs">
+                            <span className="font-bold text-teal-950 block">"{voc.phrase}"</span>
+                            <span className="text-slate-500 text-[11px]">{voc.meaning}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Mẹo Phân Bổ Thời Gian Chuẩn ETS */}
+                  <div className="bg-blue-50/60 border border-blue-200 rounded-2xl p-4 text-xs text-blue-950 flex items-start gap-2.5">
+                    <HelpCircle className="w-4 h-4 text-blue-700 shrink-0 mt-0.5" />
+                    <div className="leading-relaxed">
+                      <strong>Mẹo phòng thi ETS:</strong> {currentTask.delivery_tips || 'Dành 6-8s mở đầu nêu trực diện lập trường, 15-18s cho mỗi luận điểm có kèm ví dụ cụ thể, và 3-5s chốt lại.'}
+                    </div>
+                  </div>
+                </>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

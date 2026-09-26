@@ -986,6 +986,77 @@ Respond strictly with valid JSON with this exact schema:
 
 /**
  * ====================================================================
+ * GEMINI AI CUSTOM SPEAKING SAMPLE ANALYZER & COACH
+ * Phân tích bài mẫu do người dùng tự soạn, ước tính điểm, gợi ý nâng cấp từ vựng và phiên bản trau chuốt Band 30
+ * ====================================================================
+ */
+export async function analyzeAndEnrichCustomSpeakingSample({
+  prompt = '',
+  questionType = 'Paired Choice',
+  userSampleText = ''
+}) {
+  if (!userSampleText || !userSampleText.trim()) {
+    throw new Error('Vui lòng nhập nội dung bài mẫu của bạn trước khi nhờ AI phân tích.');
+  }
+
+  const wordCount = userSampleText.trim().split(/\s+/).length;
+
+  const promptText = `
+You are an expert official ETS TOEFL Speaking Master Examiner and Speech Coach.
+
+A student has written their own customized sample response for the following TOEFL Speaking Task 1 (Independent Speaking - 45 seconds limit):
+
+[QUESTION PROMPT]:
+"${prompt}"
+
+[QUESTION TYPE]:
+${questionType}
+
+[STUDENT'S CUSTOM SAMPLE ANSWER] (Word count: ${wordCount} words):
+"${userSampleText}"
+
+TASK:
+1. Estimate the score this response would achieve in the actual TOEFL exam (0 - 30 scale and Band 1.0 - 6.0).
+2. Analyze the structure and outline: Did they clearly state a stance? Did they provide 2 distinct reasons with concrete personal examples?
+3. Identify strong vocabulary and phrases already used well by the student.
+4. Provide high-impact vocabulary and collocation upgrade recommendations (replace plain/repetitive words with academic equivalents).
+5. Provide an upgraded, polished "Band 30 Master Version" that strictly preserves the student's exact personal story and ideas, but elevates the discourse markers, grammar precision, and flow so it can be spoken comfortably in ~42-45 seconds (110-125 words).
+6. Give actionable delivery and pacing tips tailored to this specific response.
+
+Respond strictly in valid JSON with this exact schema:
+{
+  "estimated_score": 26,
+  "estimated_band": "Band 5.0 (26-28)",
+  "pacing_evaluation": "Đánh giá tốc độ nói dựa trên số từ (${wordCount} từ: nói trong bao nhiêu giây là chuẩn)...",
+  "outline_breakdown": {
+    "stance": "Lập trường được xác định...",
+    "reason1": "Luận điểm 1 và ví dụ...",
+    "reason2": "Luận điểm 2 và ví dụ...",
+    "conclusion": "Câu kết thúc..."
+  },
+  "strengths": [
+    "Điểm mạnh 1 về cách triển khai ý...",
+    "Điểm mạnh 2 về từ vựng hoặc ví dụ..."
+  ],
+  "vocabulary_upgrades": [
+    {
+      "original": "từ/cụm từ trong bài của bạn",
+      "suggested": "cụm từ nâng cấp chuẩn Band 28-30",
+      "reason": "Giải thích tại sao nên thay thế bằng tiếng Việt"
+    }
+  ],
+  "polished_band30_version": "Phiên bản được AI nâng cấp trau chuốt, giữ nguyên 100% ý tưởng của bạn nhưng từ ngữ sang và mượt hơn...",
+  "polished_word_count": 118,
+  "delivery_tips": "Lời khuyên về ngữ điệu, ngắt nhịp và phân bổ 45 giây cho bài nói này bằng tiếng Việt."
+}
+`;
+
+  const parsed = await generateGeminiJson(promptText, 'You are an elite ETS TOEFL Speaking coach and assessment director.');
+  return parsed;
+}
+
+/**
+ * ====================================================================
  * GEMINI AI READING & LISTENING EVALUATION SERVICE (ETS MSAT 2026)
  * ====================================================================
  */
