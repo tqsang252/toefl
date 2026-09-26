@@ -148,20 +148,8 @@ export default function SpeakingLab() {
             </h1>
 
             <p className="text-xs sm:text-sm text-emerald-100/80 max-w-2xl leading-relaxed">
-              Rèn luyện toàn diện với <strong>1,000 câu Listen & Repeat</strong> (nhại giọng, phản xạ ngữ điệu, ghi âm đối chiếu STT) và <strong>50 đề thi 45s Independent Speaking</strong> bao trọn 6 chủ đề kèm bài mẫu 26–30 điểm.
+              Rèn luyện toàn diện với <strong>Listen & Repeat</strong> (nhại giọng, phản xạ ngữ điệu, ghi âm đối chiếu STT) và <strong>Independent Speaking (45s)</strong> bao trọn các chủ đề kèm bài mẫu 26–30 điểm.
             </p>
-          </div>
-
-          {/* Nút đồng bộ Cloud */}
-          <div className="shrink-0 flex flex-col sm:flex-row items-start sm:items-center gap-2.5">
-            <button
-              onClick={handleQuickSyncToCloud}
-              className="px-4 py-2.5 bg-emerald-700/80 hover:bg-emerald-600 border border-emerald-400/40 text-white rounded-xl text-xs font-bold transition-all shadow-md flex items-center gap-2 cursor-pointer active:scale-95"
-              title="Đẩy 1,000 câu Listen & Repeat và 50 đề 45s lên cơ sở dữ liệu Supabase"
-            >
-              <UploadCloud className="w-4 h-4 text-emerald-200" />
-              <span>Đồng bộ lên Database</span>
-            </button>
           </div>
         </div>
 
@@ -183,12 +171,7 @@ export default function SpeakingLab() {
             }`}
           >
             <Headphones className="w-4 h-4" />
-            <span>1. Listen and Repeat (1,000 Câu Chuẩn)</span>
-            <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
-              activeTab === 'repeat' ? 'bg-emerald-100 text-emerald-900' : 'bg-emerald-950 text-emerald-300'
-            }`}>
-              {repeatBank.length} items
-            </span>
+            <span>1. Listen and Repeat</span>
           </button>
 
           <button
@@ -201,11 +184,6 @@ export default function SpeakingLab() {
           >
             <Clock className="w-4 h-4" />
             <span>2. Câu Hỏi Trả Lời 45s (ETS Topics & Samples)</span>
-            <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
-              activeTab === '45s' ? 'bg-emerald-100 text-emerald-900' : 'bg-emerald-950 text-emerald-300'
-            }`}>
-              {tasks45sBank.length} đề thi
-            </span>
           </button>
         </div>
       </div>
@@ -578,7 +556,7 @@ function ListenAndRepeatLab({ bank }) {
           <div className="flex items-center justify-between border-b border-slate-100 pb-4">
             <div className="flex items-center gap-2.5 flex-wrap">
               <span className="text-xs font-black text-slate-400 uppercase tracking-wider">
-                CÂU {currentIndex + 1} / {filteredList.length}
+                CÂU #{currentIndex + 1}
               </span>
               <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
                 {currentItem.topic}
@@ -1008,7 +986,7 @@ function ListenAndRepeatLab({ bank }) {
             </button>
 
             <span className="text-xs font-bold text-slate-500">
-              Tiến trình: {currentIndex + 1} / {filteredList.length}
+              Câu #{currentIndex + 1}
             </span>
 
             <button
@@ -1475,7 +1453,7 @@ function IndependentSpeakingStudio({ bank }) {
             <ChevronLeft className="w-4 h-4" />
           </button>
           <span className="text-xs font-black text-slate-700 px-2">
-            Đề {currentIndex + 1} / {filteredTasks.length}
+            Đề #{currentIndex + 1}
           </span>
           <button
             onClick={() => setCurrentIndex((p) => Math.min(filteredTasks.length - 1, p + 1))}

@@ -332,7 +332,7 @@ export default function ContextVocabTrainer() {
     return (
       <div className="bg-white rounded-3xl border border-[#e5dfd5] p-16 text-center shadow-xs my-6 max-w-5xl mx-auto">
         <div className="w-10 h-10 border-3 border-teal-700 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <h3 className="text-base font-bold text-slate-800">Đang chuẩn bị 50 bài đọc & câu hỏi Context Vocab...</h3>
+        <h3 className="text-base font-bold text-slate-800">Đang tải bài đọc & câu hỏi Context Vocab...</h3>
         <p className="text-xs text-slate-500 mt-1">Đồng bộ từ Supabase và ETS Past Papers</p>
       </div>
     );
@@ -571,34 +571,6 @@ export default function ContextVocabTrainer() {
             </select>
             <Filter className="w-3.5 h-3.5 text-slate-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
-
-          {/* Trạng thái Supabase Cloud Sync */}
-          {cloudSynced ? (
-            <span
-              className="text-[11px] font-semibold text-teal-800 bg-teal-50 px-2.5 py-1 rounded-xl border border-teal-200 flex items-center gap-1 shadow-2xs"
-              title="Đã đồng bộ an toàn với Supabase Cloud"
-            >
-              <Check className="w-3.5 h-3.5 text-teal-600" />
-              <span>Cloud Sync</span>
-            </span>
-          ) : isSupabaseConfigured() ? (
-            <button
-              onClick={async () => {
-                const res = await seedContextVocabToSupabase(bank);
-                if (res && res.success) {
-                  setCloudSynced(true);
-                  showToast("✓ Đã đồng bộ thành công 50 đề lên Supabase Cloud!");
-                } else {
-                  showToast("Lỗi đồng bộ: " + (res?.error || "Vui lòng kiểm tra Supabase"));
-                }
-              }}
-              className="text-[11px] font-bold text-teal-800 bg-teal-50 hover:bg-teal-100 px-2.5 py-1 rounded-xl border border-teal-300 transition-colors flex items-center gap-1 cursor-pointer"
-              title="Bấm để đồng bộ 50 đề thi lên Supabase Cloud"
-            >
-              <UploadCloud className="w-3.5 h-3.5 text-teal-700" />
-              <span>Đồng bộ Supabase</span>
-            </button>
-          ) : null}
 
           {/* Đổi đề / Shuffle */}
           <button
