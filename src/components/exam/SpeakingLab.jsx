@@ -563,21 +563,21 @@ function ListenAndRepeatLab({ bank }) {
 
   // --- 6. CÁC HÀM CHO TÍNH NĂNG LUYỆN ĐỌC & AI CHẤM RIÊNG TỪNG TỪ ---
   const handleSelectWordForPractice = (wordObj, idx) => {
-    // Nếu bấm lại đúng từ đang mở -> đóng lại
-    if (selectedWordForPractice?.word === wordObj.word && selectedWordForPractice?.idx === idx) {
-      setSelectedWordForPractice(null);
+    // Chỉ reset kết quả thu âm riêng khi chuyển sang từ khác
+    const isSameWord =
+      selectedWordForPractice &&
+      selectedWordForPractice.idx === idx &&
+      selectedWordForPractice.word?.toLowerCase() === wordObj.word?.toLowerCase();
+
+    if (!isSameWord) {
       stopWordRecording(false);
+      setSelectedWordForPractice({ ...wordObj, idx });
       setWordAudioUrl(null);
       setWordAiResult(null);
       setWordSpokenTranscript('');
-      return;
     }
-    stopWordRecording(false);
-    setSelectedWordForPractice({ ...wordObj, idx });
-    setWordAudioUrl(null);
-    setWordAiResult(null);
-    setWordSpokenTranscript('');
-    // Phát âm mẫu 1 lần để người học nghe chuẩn
+
+    // Luôn phát âm mẫu mỗi khi người học bấm vào (kể cả bấm liên tiếp nhiều lần vào cùng 1 từ)
     handlePlaySingleWordAudio(wordObj.word);
   };
 
@@ -1009,13 +1009,15 @@ function ListenAndRepeatLab({ bank }) {
               <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 leading-snug tracking-tight max-w-3xl mx-auto flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
                 {currentItem.text.split(/\s+/).map((wordItem, idx) => {
                   const clean = wordItem.replace(/[^a-zA-Z']/g, '');
-                  const isSelected = selectedWordForPractice?.word?.toLowerCase() === clean.toLowerCase();
+                  const isSelected = selectedWordForPractice?.idx !== undefined
+                    ? selectedWordForPractice.idx === idx
+                    : selectedWordForPractice?.word?.toLowerCase() === clean.toLowerCase();
                   return (
                     <span
                       key={idx}
                       onClick={() => handleSelectWordForPractice({ word: clean, target_ipa: '' }, idx)}
                       className={`cursor-pointer transition-all inline-block hover:text-purple-700 hover:scale-105 active:scale-95 ${
-                        isSelected ? 'text-purple-700 underline font-black scale-105' : ''
+                        isSelected ? 'text-purple-700 underline font-black scale-105 decoration-2 underline-offset-4' : ''
                       }`}
                       title={`Bấm để luyện đọc riêng từ "${clean}" và nhờ AI chấm điểm`}
                     >
