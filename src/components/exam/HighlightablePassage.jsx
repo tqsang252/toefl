@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Highlighter, Trash2, Check } from 'lucide-react';
 import QuickVocabPopover from '../dictionary/QuickVocabPopover';
 
@@ -57,7 +57,14 @@ function addHighlightRange(ranges, newR) {
   return result;
 }
 
-export default function HighlightablePassage({ passageText, documentType, testId }) {
+export default function HighlightablePassage({
+  passageText,
+  documentType,
+  testId,
+  targetWord = null,
+  targetParagraph = null,
+  topicTitle = null
+}) {
   const rawText = (passageText || '').replace(/\r\n/g, '\n');
   const passageRef = useRef(null);
   
@@ -68,6 +75,47 @@ export default function HighlightablePassage({ passageText, documentType, testId
 
   // Trạng thái hiển thị Pop-up Từ điển Tra & Lưu 1-chạm
   const [selectionData, setSelectionData] = useState(null);
+
+  // Xác định vị trí của targetWord trong rawText (nếu có)
+  const targetWordRange = useMemo(() => {
+    if (!targetWord || !rawText) return null;
+    const cleanWord = targetWord.trim();
+    if (!cleanWord) return null;
+
+    const escaped = cleanWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`\\b${escaped}\\b`, 'i');
+
+    if (targetParagraph && typeof targetParagraph === 'number') {
+      const paras = rawText.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
+      let offset = 0;
+      for (let i = 0; i < paras.length; i++) {
+        const p = paras[i];
+        const pNum = i + 1;
+        const pIdx = rawText.indexOf(p, offset);
+        if (pNum === targetParagraph) {
+          const match = regex.exec(p);
+          if (match) {
+            return {
+              start: pIdx + match.index,
+              end: pIdx + match.index + match[0].length,
+              text: match[0]
+            };
+          }
+        }
+        offset = pIdx + p.length;
+      }
+    }
+
+    const match = regex.exec(rawText);
+    if (match) {
+      return {
+        start: match.index,
+        end: match.index + match[0].length,
+        text: match[0]
+      };
+    }
+    return null;
+  }, [rawText, targetWord, targetParagraph]);
 
   // Khi đổi bài đọc (testId đổi) -> reset lại highlight & đóng pop-up
   useEffect(() => {
@@ -161,37 +209,79 @@ export default function HighlightablePassage({ passageText, documentType, testId
     }
   };
 
+  // Kết hợp dải highlight của người dùng và từ khóa mục tiêu (nếu có)
+  const allRanges = useMemo(() => {
+    const list = [...highlights];
+    if (targetWordRange) {
+      const nonOverlapping = [];
+      for (const h of list) {
+        if (h.end <= targetWordRange.start || h.start >= targetWordRange.end) {
+          nonOverlapping.push(h);
+        } else {
+          if (h.start < targetWordRange.start) {
+            nonOverlapping.push({ ...h, id: `${h.id}_pre`, end: targetWordRange.start });
+          }
+          if (h.end > targetWordRange.end) {
+            nonOverlapping.push({ ...h, id: `${h.id}_post`, start: targetWordRange.end });
+          }
+        }
+      }
+      nonOverlapping.push({
+        id: '__target_word__',
+        start: targetWordRange.start,
+        end: targetWordRange.end,
+        isTargetWord: true
+      });
+      nonOverlapping.sort((a, b) => a.start - b.start);
+      return nonOverlapping;
+    }
+    list.sort((a, b) => a.start - b.start);
+    return list;
+  }, [highlights, targetWordRange]);
+
   // Render văn bản kèm các thẻ <mark> tô màu
   const renderHighlightedContent = () => {
-    if (!highlights || highlights.length === 0) {
+    if (!allRanges || allRanges.length === 0) {
       return rawText;
     }
 
     const elements = [];
     let cur = 0;
 
-    for (let i = 0; i < highlights.length; i++) {
-      const h = highlights[i];
+    for (let i = 0; i < allRanges.length; i++) {
+      const h = allRanges[i];
       if (h.start > cur) {
         elements.push(rawText.substring(cur, h.start));
       }
 
-      const colorCfg = HIGHLIGHT_COLORS[h.color] || HIGHLIGHT_COLORS.yellow;
       const textPiece = rawText.substring(h.start, h.end);
 
-      elements.push(
-        <mark
-          key={h.id || `hl_${h.start}_${h.end}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            handleRemoveSingleHighlight(h.id);
-          }}
-          title="Nhấp để xóa highlight này"
-          className={`${colorCfg.bgClass} ${colorCfg.hoverClass} rounded-xs px-0.5 py-0.5 cursor-pointer transition-all duration-150 inline font-serif select-text hover:opacity-85`}
-        >
-          {textPiece}
-        </mark>
-      );
+      if (h.isTargetWord) {
+        elements.push(
+          <mark
+            key="__target_word__"
+            className="bg-amber-200/95 text-amber-950 font-bold px-1.5 py-0.5 rounded border-b-2 border-amber-600 shadow-2xs ring-2 ring-amber-400/40 select-text cursor-help inline"
+            title={`Từ vựng câu hỏi: "${textPiece}"`}
+          >
+            {textPiece}
+          </mark>
+        );
+      } else {
+        const colorCfg = HIGHLIGHT_COLORS[h.color] || HIGHLIGHT_COLORS.yellow;
+        elements.push(
+          <mark
+            key={h.id || `hl_${h.start}_${h.end}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRemoveSingleHighlight(h.id);
+            }}
+            title="Nhấp để xóa highlight này"
+            className={`${colorCfg.bgClass} ${colorCfg.hoverClass} rounded-xs px-0.5 py-0.5 cursor-pointer transition-all duration-150 inline font-serif select-text hover:opacity-85`}
+          >
+            {textPiece}
+          </mark>
+        );
+      }
 
       cur = h.end;
     }
@@ -209,11 +299,21 @@ export default function HighlightablePassage({ passageText, documentType, testId
       {/* 1. Header Toolbar cho Bài đọc & Công cụ Highlight */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3 mb-4">
         
-        {/* Nhãn loại bài đọc */}
-        <div className="flex items-center gap-2">
+        {/* Nhãn loại bài đọc & Chủ đề */}
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs font-bold uppercase tracking-wider text-amber-900 bg-amber-100/80 px-2.5 py-1 rounded-lg border border-amber-200">
             {documentType || "Reading Passage"}
           </span>
+          {topicTitle && (
+            <span className="text-xs font-semibold text-teal-800 bg-teal-50 px-2.5 py-1 rounded-lg border border-teal-200">
+              {topicTitle}
+            </span>
+          )}
+          {targetWord && (
+            <span className="text-xs font-black text-amber-950 bg-amber-100 px-2.5 py-1 rounded-lg border border-amber-300 flex items-center gap-1 shadow-2xs">
+              "{targetWord}" {targetParagraph && <span className="text-[11px] font-semibold text-amber-800">(Para {targetParagraph})</span>}
+            </span>
+          )}
         </div>
 
         {/* Thanh công cụ Bút dạ quang (Highlighter Tools) */}
@@ -280,7 +380,7 @@ export default function HighlightablePassage({ passageText, documentType, testId
       <div
         ref={passageRef}
         onMouseUp={handleMouseUp}
-        className="prose prose-slate max-w-none text-slate-800 text-sm leading-relaxed whitespace-pre-wrap font-serif select-text relative focus:outline-none"
+        className="prose prose-slate max-w-none text-slate-800 text-[15px] sm:text-[16px] leading-relaxed whitespace-pre-wrap font-serif select-text relative focus:outline-none"
       >
         {renderHighlightedContent()}
       </div>

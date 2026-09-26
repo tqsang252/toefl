@@ -20,8 +20,10 @@ import {
   Play,
   Share2,
   Check,
-  AlertCircle
+  AlertCircle,
+  UploadCloud
 } from 'lucide-react';
+import HighlightablePassage from './HighlightablePassage';
 import {
   getContextVocabQuestions,
   saveContextVocabHistory,
@@ -318,61 +320,12 @@ export default function ContextVocabTrainer() {
     return found > 0 ? found : (currentItem.paragraph_index || 1);
   }, [currentItem]);
 
-  // --- Render Đoạn văn & Highlight Từ vựng ---
-  const renderPassageWithHighlight = (passage, targetWord, targetParagraphIdx) => {
-    if (!passage) return null;
-    const paragraphs = passage.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
-
-    return (
-      <div className="space-y-4 text-[15px] sm:text-[16px] leading-relaxed text-slate-800 font-serif">
-        {paragraphs.map((para, pIdx) => {
-          const paraNum = pIdx + 1;
-          const isTargetParagraph = paraNum === targetParagraphIdx;
-
-          if (!isTargetParagraph) {
-            return (
-              <p key={pIdx} className="text-justify text-slate-700">
-                <span className="inline-block text-[10px] font-sans font-semibold uppercase tracking-wider text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded mr-2 mb-1">
-                  Paragraph {paraNum}
-                </span>
-                {para}
-              </p>
-            );
-          }
-
-          // Đoạn chứa từ cần đoán nghĩa: Highlight từ khóa nổi bật
-          const escapedWord = targetWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-          const regex = new RegExp(`\\b(${escapedWord})\\b`, 'gi');
-          const parts = para.split(regex);
-
-          return (
-            <p
-              key={pIdx}
-              className="text-justify bg-amber-50/50 p-3.5 rounded-2xl border-l-4 border-amber-500 transition-colors shadow-2xs"
-            >
-              <span className="inline-block text-[11px] font-sans font-bold uppercase tracking-wider text-amber-900 bg-amber-200/80 px-2 py-0.5 rounded mr-2 mb-1 shadow-2xs">
-                Paragraph {targetParagraphIdx}
-              </span>
-              {parts.map((chunk, cIdx) => {
-                if (chunk.toLowerCase() === targetWord.toLowerCase()) {
-                  return (
-                    <mark
-                      key={cIdx}
-                      className="bg-amber-200/90 text-amber-950 font-bold px-1.5 py-0.5 rounded border-b-2 border-amber-600 shadow-2xs ring-2 ring-amber-400/40 cursor-help"
-                      title={`Từ cần đoán nghĩa: "${chunk}"`}
-                    >
-                      {chunk}
-                    </mark>
-                  );
-                }
-                return <span key={cIdx}>{chunk}</span>;
-              })}
-            </p>
-          );
-        })}
-      </div>
-    );
-  };
+  // --- Định Dạng Bài Đọc (Thêm nhãn [Paragraph X] cho từng đoạn văn) ---
+  const formattedPassageText = useMemo(() => {
+    if (!currentItem?.passage) return '';
+    const cleanParas = currentItem.passage.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
+    return cleanParas.map((p, idx) => `[Paragraph ${idx + 1}]\n${p.trim()}`).join('\n\n');
+  }, [currentItem]);
 
   // --- Loading State ---
   if (isLoading) {
@@ -619,6 +572,34 @@ export default function ContextVocabTrainer() {
             <Filter className="w-3.5 h-3.5 text-slate-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
 
+          {/* Trạng thái Supabase Cloud Sync */}
+          {cloudSynced ? (
+            <span
+              className="text-[11px] font-semibold text-teal-800 bg-teal-50 px-2.5 py-1 rounded-xl border border-teal-200 flex items-center gap-1 shadow-2xs"
+              title="Đã đồng bộ an toàn với Supabase Cloud"
+            >
+              <Check className="w-3.5 h-3.5 text-teal-600" />
+              <span>Cloud Sync</span>
+            </span>
+          ) : isSupabaseConfigured() ? (
+            <button
+              onClick={async () => {
+                const res = await seedContextVocabToSupabase(bank);
+                if (res && res.success) {
+                  setCloudSynced(true);
+                  showToast("✓ Đã đồng bộ thành công 50 đề lên Supabase Cloud!");
+                } else {
+                  showToast("Lỗi đồng bộ: " + (res?.error || "Vui lòng kiểm tra Supabase"));
+                }
+              }}
+              className="text-[11px] font-bold text-teal-800 bg-teal-50 hover:bg-teal-100 px-2.5 py-1 rounded-xl border border-teal-300 transition-colors flex items-center gap-1 cursor-pointer"
+              title="Bấm để đồng bộ 50 đề thi lên Supabase Cloud"
+            >
+              <UploadCloud className="w-3.5 h-3.5 text-teal-700" />
+              <span>Đồng bộ Supabase</span>
+            </button>
+          ) : null}
+
           {/* Đổi đề / Shuffle */}
           <button
             onClick={() => initializeSet(activeSetSize, selectedTopic)}
@@ -703,12 +684,12 @@ export default function ContextVocabTrainer() {
       {/* 3. MÀN HÌNH CHÍNH: 2 CỘT SPLIT SCREEN */}
       {currentItem && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-          {/* CỘT TRÁI (7 Cột): BÀI ĐỌC TOÀN VĂN (FULL READING PASSAGE) */}
-          <div className="lg:col-span-7 bg-white rounded-3xl border border-[#e5dfd5] p-6 sm:p-8 shadow-xs flex flex-col min-h-[580px]">
+          {/* CỘT TRÁI (7 Cột): BÀI ĐỌC TOÀN VĂN KÈM HIGHLIGHT & BÔI ĐEN TRA TỪ */}
+          <div className="lg:col-span-7 bg-white rounded-3xl border border-[#e5dfd5] p-5 sm:p-7 shadow-xs flex flex-col min-h-[580px]">
             {/* Header bài đọc */}
-            <div className="border-b border-slate-100 pb-4 mb-5 flex items-start justify-between gap-3">
+            <div className="border-b border-slate-100 pb-3 mb-4 flex items-start justify-between gap-3">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-teal-800 bg-teal-50 border border-teal-200/80 px-2.5 py-0.5 rounded-full inline-block mb-1.5">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-teal-800 bg-teal-50 border border-teal-200/80 px-2.5 py-0.5 rounded-full inline-block mb-1">
                   {currentItem.topic}
                 </span>
                 <h3 className="text-lg sm:text-xl font-bold text-slate-900 leading-snug">
@@ -717,27 +698,30 @@ export default function ContextVocabTrainer() {
               </div>
 
               <div className="shrink-0 text-right">
-                <span className="text-[11px] text-slate-400 block font-medium">Từ khóa kiểm tra</span>
-                <span className="text-sm font-black text-amber-900 bg-amber-100 px-2.5 py-1 rounded-lg border border-amber-300 inline-block mt-0.5">
+                <span className="text-[11px] text-slate-400 block font-medium">Từ khóa cần đoán</span>
+                <span className="text-sm font-black text-amber-900 bg-amber-100 px-2.5 py-1 rounded-lg border border-amber-300 inline-block mt-0.5 shadow-2xs">
                   "{currentItem.target_word}"
                 </span>
               </div>
             </div>
 
-            {/* Nội dung bài đọc đầy đủ */}
-            <div className="flex-1 overflow-y-auto max-h-[620px] pr-2 scrollbar-thin">
-              {renderPassageWithHighlight(
-                currentItem.passage,
-                currentItem.target_word,
-                effectiveParaIdx
-              )}
+            {/* Bài đọc với đầy đủ chức năng Highlight 4 màu & Bôi đen dịch nghĩa / Tra từ điển */}
+            <div className="flex-1 overflow-y-auto max-h-[560px] pr-1 scrollbar-thin">
+              <HighlightablePassage
+                testId={`${currentItem.id}_${currentIndex}`}
+                documentType="Reading Passage"
+                topicTitle={currentItem.topic}
+                targetWord={currentItem.target_word}
+                targetParagraph={effectiveParaIdx}
+                passageText={formattedPassageText}
+              />
             </div>
 
             {/* Ghi chú chân trang bài đọc */}
             <div className="border-t border-slate-100 pt-3 mt-4 flex items-center justify-between text-xs text-slate-400">
               <span>Đoạn văn học thuật chuẩn ETS TOEFL iBT</span>
               <span className="text-[11px] text-slate-500">
-                Tìm từ <strong>"{currentItem.target_word}"</strong> ở Paragraph {effectiveParaIdx}
+                Từ khóa <strong>"{currentItem.target_word}"</strong> nằm ở [Paragraph {effectiveParaIdx}]
               </span>
             </div>
           </div>
