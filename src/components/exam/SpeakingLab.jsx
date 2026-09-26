@@ -742,6 +742,39 @@ function ListenAndRepeatLab({ bank }) {
               <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
                 Level {currentItem.level} ({currentItem.word_count} từ)
               </span>
+
+              {/* Nút Câu Tiếp Theo & Câu Trước chuyển lên đây theo yêu cầu */}
+              <div className="flex items-center gap-1 sm:ml-1">
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  disabled={currentIndex === 0}
+                  className={`p-1.5 px-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1 border cursor-pointer ${
+                    currentIndex === 0
+                      ? 'bg-slate-100 text-slate-300 border-slate-200 cursor-not-allowed'
+                      : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200 shadow-2xs'
+                  }`}
+                  title="Về câu trước"
+                >
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Trước</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  disabled={currentIndex >= filteredList.length - 1}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1 cursor-pointer shadow-xs active:scale-95 ${
+                    currentIndex >= filteredList.length - 1
+                      ? 'bg-slate-100 text-slate-300 border border-slate-200 cursor-not-allowed'
+                      : 'bg-emerald-700 hover:bg-emerald-800 text-white shadow-emerald-700/20'
+                  }`}
+                  title="Chuyển sang câu tiếp theo"
+                >
+                  <span>Câu tiếp theo</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             <div className="flex items-center gap-2">
