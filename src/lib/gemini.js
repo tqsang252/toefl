@@ -1210,7 +1210,8 @@ export async function generateExamWithGemini({
   finalPrompt += `\n\n🎯 YÊU CẦU CHỦ ĐỀ HỌC THUẬT ĐẶC BIỆT CHO LẦN THI NÀY (BẮT BUỘC TUÂN THỦ 100%):
 - Chủ đề chỉ định: "${assignedTopic}"
 - Yêu cầu: Hãy xây dựng toàn bộ đề thi (đặc biệt là Task 1: Complete the Words và Task 3: Academic Passage / Academic Talk) xoay quanh chủ đề này hoặc các phân ngành học thuật liên quan mật thiết.
-- TUYỆT ĐỐI KHÔNG lặp lại các chủ đề cũ như: Cơ học lượng tử (Quantum mechanics / Quantum computing), Cổ khí hậu học / Lõi băng (Paleoclimatology / Ice cores), hoặc Quang hợp (Photosynthesis).`;
+- TUYỆT ĐỐI KHÔNG lặp lại các chủ đề cũ như: Cơ học lượng tử (Quantum mechanics / Quantum computing), Cổ khí hậu học / Lõi băng (Paleoclimatology / Ice cores), hoặc Quang hợp (Photosynthesis).
+- LƯU Ý BẮT BUỘC: File JSON đã cho CHỈ để tham khảo cấu trúc (schema keys/fields), tuyệt đối KHÔNG ĐƯỢC sao chép hay paraphrase chủ đề của JSON ví dụ ra mà PHẢI TỰ CHỌN LỰA CHỦ ĐỀ TỪNG CÂU, TỪNG BÀI CHO MỖI LẦN RA ĐỀ.`;
 
   const isWritingSub = skillType.startsWith('writing_');
   const actualSkill = isWritingSub ? 'writing' : skillType;

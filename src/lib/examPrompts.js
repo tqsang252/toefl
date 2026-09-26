@@ -85,8 +85,9 @@ Cấu trúc TOEFL iBT Reading áp dụng trong năm 2026:
 
 # BƯỚC 4.5 — ⚠️ QUY TẮC TỐI QUAN TRỌNG: CHỦ ĐỀ & NỘI DUNG PHẢI HOÀN TOÀN MỚI
 
-## 🚨 JSON MẪU DƯỚI ĐÂY CHỈ LÀ THAM CHIẾU CẤU TRÚC SCHEMA — TUYỆT ĐỐI KHÔNG ĐƯỢC SAO CHÉP, PARAPHRASE, HAY VIẾT LẠI NỘI DUNG TỪ JSON MẪU
+## 🚨 FILE JSON ĐÃ CHO CHỈ ĐỂ THAM KHẢO CẤU TRÚC (SCHEMA) — TUYỆT ĐỐI KHÔNG PARAPHRASE HAY SAO CHÉP CHỦ ĐỀ
 
+* **File JSON đã cho CHỈ để tham khảo cấu trúc (schema keys/fields), tuyệt đối KHÔNG ĐƯỢC sao chép hay paraphrase chủ đề của JSON ví dụ ra mà PHẢI TỰ CHỌN LỰA CHỦ ĐỀ TỪNG CÂU, TỪNG BÀI CHO MỖI LẦN RA ĐỀ.**
 * Nội dung JSON mẫu bên dưới (đoạn văn về Paleoclimatology, Ice cores, v.v.) **CHỈ để bạn hiểu định dạng dữ liệu cần trả về**, KHÔNG phải nguồn nội dung đề bài.
 * **Mọi đoạn văn, câu hỏi, đáp án bạn tạo ra phải hoàn toàn khác biệt, độc lập, không liên quan đến bất kỳ chủ đề nào trong JSON mẫu.**
 
@@ -503,8 +504,9 @@ Mỗi Module (Module 1 và Module 2) BẮT BUỘC gồm đúng 4 tasks theo đú
 
 # BƯỚC 3.5 — ⚠️ QUY TẮC TỐI QUAN TRỌNG: CHỦ ĐỀ & NỘI DUNG PHẢI HOÀN TOÀN MỚI
 
-## 🚨 JSON MẪU DƯỚI ĐÂY CHỈ LÀ THAM CHIẾU CẤU TRÚC SCHEMA — TUYỆT ĐỐI KHÔNG SAO CHÉP, PARAPHRASE HAY VIẾT LẠI NỘI DUNG TỪ JSON MẪU
+## 🚨 FILE JSON ĐÃ CHO CHỈ ĐỂ THAM KHẢO CẤU TRÚC (SCHEMA) — TUYỆT ĐỐI KHÔNG PARAPHRASE HAY SAO CHÉP CHỦ ĐỀ
 
+* **File JSON đã cho CHỈ để tham khảo cấu trúc (schema keys/fields), tuyệt đối KHÔNG ĐƯỢC sao chép hay paraphrase chủ đề của JSON ví dụ ra mà PHẢI TỰ CHỌN LỰA CHỦ ĐỀ TỪNG CÂU, TỪNG BÀI CHO MỖI LẦN RA ĐỀ.**
 * Nội dung JSON mẫu bên dưới (hội thoại về thư viện, autoclave, history seminar...) **CHỈ để bạn hiểu định dạng dữ liệu keys/fields**, KHÔNG phải nội dung đề bài.
 * **Mọi audio_text, hội thoại, bài giảng và câu hỏi phải hoàn toàn khác biệt, mới mẻ, không liên quan đến bất kỳ chủ đề hay tình huống nào trong JSON mẫu.**
 
@@ -1044,8 +1046,9 @@ Tuyệt đối KHÔNG tạo một bài Writing chỉ mang phong cách TOEFL chun
 
 # BƯỚC 3.5 — ⚠️ QUY TẮC TỐI QUAN TRỌNG: CHỦ ĐỀ & NỘI DUNG PHẢI HOÀN TOÀN MỚI
 
-## 🚨 JSON MẪU DƯỚI ĐÂY CHỈ LÀ THAM CHIẾU CẤU TRÚC SCHEMA — TUYỆT ĐỐI KHÔNG SAO CHÉP, PARAPHRASE HAY VIẾT LẠI NỘI DUNG TỪ JSON MẪU
+## 🚨 FILE JSON ĐÃ CHO CHỈ ĐỂ THAM KHẢO CẤU TRÚC (SCHEMA) — TUYỆT ĐỐI KHÔNG PARAPHRASE HAY SAO CHÉP CHỦ ĐỀ
 
+* **File JSON đã cho CHỈ để tham khảo cấu trúc (schema keys/fields), tuyệt đối KHÔNG ĐƯỢC sao chép hay paraphrase chủ đề của JSON ví dụ ra mà PHẢI TỰ CHỌN LỰA CHỦ ĐỀ TỪNG CÂU, TỪNG BÀI CHO MỖI LẦN RA ĐỀ.**
 * Nội dung JSON mẫu bên dưới (các câu ghép từ, email mẫu, bài thảo luận mẫu...) **CHỈ để bạn hiểu định dạng dữ liệu keys/fields**, KHÔNG phải nội dung đề bài.
 * **Mọi câu ghép từ, đề email, câu hỏi thảo luận và bài mẫu phải hoàn toàn khác biệt, mới mẻ, không liên quan đến bất kỳ chủ đề hay tình huống nào trong JSON mẫu.**
 
@@ -1259,6 +1262,13 @@ export const SAMPLE_WRITING_SENTENCE_PROMPT = `Hãy đóng vai **chuyên gia thi
    - Sử dụng các mẫu câu học thuật thực tế thường gặp trong các đề thi chính thức TOEFL iBT (câu ghép, câu phức, mệnh đề quan hệ, câu bị động, mệnh đề danh từ, mệnh đề chỉ thời gian/nguyên nhân/nhượng bộ, câu điều kiện, so sánh, cụm giới từ, động từ khuyết thiếu modal verbs, to-infinitive/gerund).
    - Nội dung xoay quanh ngữ cảnh giao tiếp và học thuật tự nhiên trong trường đại học (thảo luận bài giảng, làm việc nhóm, trao đổi với giáo sư, hoạt động phòng lab, thư viện, quy chế học vụ), không gò ép các cấu trúc cổ kính, kỳ dị hay cố tình làm khó thí sinh ngoài phạm vi thi thật.
 
+---
+
+## 🚨 QUY TẮC TỐI QUAN TRỌNG — FILE JSON ĐÃ CHO CHỈ ĐỂ THAM KHẢO CẤU TRÚC (SCHEMA):
+* **File JSON đã cho CHỈ để tham khảo cấu trúc (schema keys/fields), tuyệt đối KHÔNG ĐƯỢC sao chép hay paraphrase chủ đề của JSON ví dụ ra mà PHẢI TỰ CHỌN LỰA CHỦ ĐỀ TỪNG CÂU, TỪNG BÀI CHO MỖI LẦN RA ĐỀ.**
+* Mỗi câu trong 10 câu phải là một ngữ cảnh giao tiếp học thuật mới mẻ độc lập (thảo luận đề tài, giờ trực văn phòng của giáo sư, thông báo ký túc xá, thực tập viện nghiên cứu, thủ tục thư viện, dự án nhóm công nghệ, bảo vệ đề cương...).
+* Tuyệt đối không sao chép lại ngữ cảnh hay nội dung các câu ví dụ trong JSON mẫu bên dưới.
+
 Cấu trúc JSON chuẩn:
 [
   {
@@ -1391,6 +1401,13 @@ export const SAMPLE_WRITING_EMAIL_PROMPT = `Hãy đóng vai **chuyên gia thiế
 3. Người nhận ('recipient') và gợi ý tiêu đề ('subject_hint') cụ thể, trang trọng.
 4. Yêu cầu độ dài: 'min_words: 80', 'recommended_words: "100 - 130 words"'.
 
+---
+
+## 🚨 QUY TẮC TỐI QUAN TRỌNG — FILE JSON ĐÃ CHO CHỈ ĐỂ THAM KHẢO CẤU TRÚC (SCHEMA):
+* **File JSON đã cho CHỈ để tham khảo cấu trúc (schema keys/fields), tuyệt đối KHÔNG ĐƯỢC sao chép hay paraphrase chủ đề của JSON ví dụ ra mà PHẢI TỰ CHỌN LỰA CHỦ ĐỀ TỪNG CÂU, TỪNG BÀI CHO MỖI LẦN RA ĐỀ.**
+* Tự chọn ngẫu nhiên một tình huống giao tiếp học thuật mới mẻ trong trường đại học (xin hoãn nộp báo cáo nghiên cứu vì hỏng thiết bị, xin xem lại điểm đồ án cuối kỳ, đề xuất đề tài luận văn tốt nghiệp, xin thư giới thiệu học bổng sau đại học, thông báo rút môn và xin tư vấn môn thay thế, báo cáo sự cố an toàn phòng lab...).
+* Tuyệt đối không sao chép lại kịch bản "xin làm trợ lý lab tiến hóa sinh học" của JSON mẫu bên dưới.
+
 Cấu trúc JSON chuẩn:
 [
   {
@@ -1441,10 +1458,11 @@ export const SAMPLE_WRITING_DISCUSSION_PROMPT = `Hãy đóng vai **chuyên gia t
 4. Yêu cầu độ dài: 'min_words: 100', 'recommended_words: "100 - 150 words"'.
 
 
-⚠️ **QUY TẮc TỐI QUAN TRỌNG — CHỦ ĐỀ & NỘI DUNG PHẢI HOÀN TOÀN MỚI**:
-- JSON mẩu dưới đây **CHỈ là tham chiếu cấu trúc schema keys/fields**. TUYỆT ĐỐI không sao chép hay paraphrase câu hỏi giáo sư hay bài viết sinh viên mẩu.
+⚠️ **QUY TẮC TỐI QUAN TRỌNG — FILE JSON ĐÃ CHO CHỈ ĐỂ THAM KHẢO CẤU TRÚC (SCHEMA)**:
+- **File JSON đã cho CHỈ để tham khảo cấu trúc (schema keys/fields), tuyệt đối KHÔNG ĐƯỢC sao chép hay paraphrase chủ đề của JSON ví dụ ra mà PHẢI TỰ CHỌN LỰA CHỦ ĐỀ TỪNG CÂU, TỪNG BÀI CHO MỖI LẦN RA ĐỀ.**
 - **Tự chọn ngẫu nhiên 1 chủ đề tranh luận học thuật mới** từ danh sách: AI thay thế giám khảo nghệ thuật, đại học miễn phí, công nghệ gen CRISPR, remote work vs văn phòng, tăng trưởng kinh tế vs bảo vệ môi trường, mạng xã hội và sức khỏe tâm thần, du lịch không gian thương mại, tiêm chủng bắt buộc, AI trong xét xử pháp luật, nghĩa vụ quân sự bắt buộc, quyền riêng tư kỹ thuật số vs an ninh quốc gia, học phí đại học và công bằng xã hội.
 - Giáo sư đặt câu hỏi mở kích thích tư duy phân tích bậc cao. 2 sinh viên phải có quan điểm đối lập sắc bén, lập luận học thuật thực chất.
+- Tuyệt đối không sao chép lại chủ đề hoặc lập luận trong JSON mẫu bên dưới.
 
 Cấu trúc JSON chuẩn:
 [
@@ -1532,8 +1550,9 @@ Tuyệt đối KHÔNG tạo một bài Speaking chỉ mang phong cách TOEFL chu
 
 # BƯỚC 1.5 — ⚠️ QUY TẮC TỐI QUAN TRỌNG: CHỦ ĐỀ & NỘI DUNG PHẢI HOÀN TOÀN MỚI
 
-## 🚨 JSON MẪU DƯỚI ĐÂY CHỈ LÀ THAM CHIẾU CẤU TRÚC SCHEMA — TUYỆT ĐỐI KHÔNG SAO CHÉP, PARAPHRASE HAY VIẾT LẠI NỘI DUNG TỪ JSON MẪU
+## 🚨 FILE JSON ĐÃ CHO CHỈ ĐỂ THAM KHẢO CẤU TRÚC (SCHEMA) — TUYỆT ĐỐI KHÔNG PARAPHRASE HAY SAO CHÉP CHỦ ĐỀ
 
+* **File JSON đã cho CHỈ để tham khảo cấu trúc (schema keys/fields), tuyệt đối KHÔNG ĐƯỢC sao chép hay paraphrase chủ đề của JSON ví dụ ra mà PHẢI TỰ CHỌN LỰA CHỦ ĐỀ TỪNG CÂU, TỪNG BÀI CHO MỖI LẦN RA ĐỀ.**
 * Nội dung JSON mẫu bên dưới (câu lặp lại mẫu, câu hỏi phỏng vấn mẫu...) **CHỈ để bạn hiểu định dạng dữ liệu keys/fields**, KHÔNG phải nội dung đề bài.
 * **Mọi câu phát âm, câu hỏi phỏng vấn, câu trả lời mẫu và ý chính phải hoàn toàn khác biệt, mới mẻ, không liên quan đến bất kỳ chủ đề hay tình huống nào trong JSON mẫu.**
 
@@ -1751,11 +1770,12 @@ Tuyệt đối KHÔNG tạo một bài thi chung chung hoặc dễ hơn đề th
 
 ---
 
-## QUY TẮc TỐI QUAN TRỌNG — CHỦ ĐỀ & NỘI DUNG PHẢI HOÀN TOÀN MỚI CHO TẤT CẢ 6 STAGES
+## QUY TẮC TỐI QUAN TRỌNG — CHỦ ĐỀ & NỘI DUNG PHẢI HOÀN TOÀN MỚI CHO TẤT CẢ 6 STAGES
 
-🚨 **JSON MẦU DƯỚI ĐÂY CHỈ LÀ THAM CHIẾu CẤU TRÚC SCHEMA — TUYỆT ĐỐI KHÔNG SAO CHÉP, PARAPHRASE HAY DÙNG LẠI BẤT KỲ ĐOẠN VĂN, HỘI THOẠI, BÀI GIẢNG HAY CÂU Hỏi NÀO TỪ JSON MẦU**
+🚨 **FILE JSON ĐÃ CHO CHỈ ĐỂ THAM KHẢO CẤU TRÚC (SCHEMA) — TUYỆT ĐỐI KHÔNG PARAPHRASE HAY DÙNG LẠI BẤT KỲ CHỦ ĐỀ NÀO**
 
-* Mọi stage, task, đoạn văn, hội thoại, bài giảng, câu hỏi, đáp án phải hoàn toàn nguyên bản, khác biệt hoàn toàn với mọi nội dung trong JSON mẩu.
+* **File JSON đã cho CHỈ để tham khảo cấu trúc (schema keys/fields), tuyệt đối KHÔNG ĐƯỢC sao chép hay paraphrase chủ đề của JSON ví dụ ra mà PHẢI TỰ CHỌN LỰA CHỦ ĐỀ TỪNG CÂU, TỪNG BÀI CHO MỖI LẦN RA ĐỀ.**
+* Mọi stage, task, đoạn văn, hội thoại, bài giảng, câu hỏi, đáp án phải hoàn toàn nguyên bản, khác biệt hoàn toàn với mọi nội dung trong JSON mẫu.
 * **Phân bổ 6 chủ đề hoàn toàn khác nhau** cho 6 stages, không lặp lại chủ đề giữa bất kỳ 2 stage nào:
   - **Reading M1**: Chọn từ thiên văn vật lý, nhân học khảo cổ, hoặc kinh tế học thể chế
   - **Reading M2**: Chọn từ thần kinh học nhận thức, sinh thái học biển, hoặc triết học khoa học
