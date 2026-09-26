@@ -38,13 +38,13 @@ Cấu trúc TOEFL iBT Reading áp dụng trong năm 2026:
 * **CÂU ĐẦU TIÊN CỦA ĐOẠN VĂN: BẮT BUỘC 100% NGUYÊN VẸN, KHÔNG CÓ BẤT KỲ BLANK NÀO (0 BLANKS)** để thiết lập chủ đề và bối cảnh học thuật cho thí sinh.
 * **TỪ CÂU THỨ 2 ĐẾN CÂU CUỐI**: Phải tạo **CHÍNH XÁC từ 10 đến 12 blanks** ('b1' đến 'b10' hoặc 'b12'). TUYỆT ĐỐI KHÔNG CHỈ TẠO 2-3 CÂU ĐƠN GIẢN!
 * **Quy tắc xóa từ**: Xóa nửa sau của từ nội dung: 'prefix[missing]' (ví dụ: 'gla[cial]', 'pro[vide]', 'insi[ghts]', 'compo[sition]', 'temper[ature]', 'extraor[dinary]').
-* **Loại từ được chọn**: CHỈ chọn từ vựng nội dung học thuật (Academic Word List - AWL C1/C2) gồm danh từ, động từ, tính từ, trạng từ. TUYỆT ĐỐI KHÔNG xóa hư từ ngữ pháp ngắn ('in', 'of', 'to', 'is', 'the', 'at', 'on', 'by').
-* **NGHIÊM CẤM CHỦ ĐỀ SƠ CẤP**: TUYỆT ĐỐI KHÔNG dùng chủ đề khoa học cấp 2 phổ thông (quang hợp/photosynthesis, chu trình nước/water cycle, pin mặt trời gia đình). PHẢI chọn chủ đề học thuật chuyên sâu đại học (Cổ khí hậu học - Paleoclimatology, Thần kinh học nhận thức - Cognitive Neuroscience, Địa hóa sinh - Geochemistry, Tiến hóa phôi học, Kinh tế học hành vi).
+* **Loại từ được chọn**: CHỈ chọn từ vựng nội dung học thuật (Academic Word List - AWL chuẩn bài đọc TOEFL iBT) gồm danh từ, động từ, tính từ, trạng từ. TUYỆT ĐỐI KHÔNG xóa hư từ ngữ pháp ngắn ('in', 'of', 'to', 'is', 'the', 'at', 'on', 'by').
+* **Chủ đề bám sát đề thi thật TOEFL iBT**: Chọn các chủ đề học thuật đại học đa dạng thường xuất hiện trong đề thi TOEFL chính thức (Sinh thái học, Lịch sử nghệ thuật, Khảo cổ học, Địa chất học, Khoa học hành vi, Thiên văn học, Tiến hóa sinh học). Tránh các chủ đề quá sơ cấp phổ thông, nhưng đồng thời không dùng các thuật ngữ quá hàn lâm xa rời thực tế đề thi thật ETS.
 * 'paragraph', 'prefix', 'missing', và 'full' trong mảng 'blanks' phải hoàn toàn khớp chính xác 100%.
 
 ### 2. TASK 2: READ IN DAILY LIFE (VĂN BẢN KHUÔN VIÊN ĐẠI HỌC)
 * **Độ dài văn bản**: BẮT BUỘC từ **120 đến 160 từ**.
-* **Bối cảnh**: Văn bản quy chuẩn trong khuôn viên đại học Bắc Mỹ thực tế (Quy định an toàn sinh học phòng thí nghiệm, chính sách rút môn / hoàn học phí của phòng đào tạo, quy chế lưu chiểu luận văn sau đại học, thông báo bảo trì cơ sở hạ tầng nghiên cứu).
+* **Bối cảnh**: Văn bản quy chuẩn trong khuôn viên đại học Bắc Mỹ thực tế (Quy định an toàn phòng thí nghiệm, chính sách rút môn / hoàn học phí của phòng đào tạo, quy chế lưu chiểu luận văn sau đại học, thông báo bảo trì cơ sở hạ tầng nghiên cứu).
 * **Số lượng câu hỏi**: BẮT BUỘC có **từ 3 đến 4 câu hỏi trắc nghiệm** (mỗi câu có 4 options A, B, C, D) bao gồm:
   - 1 câu hỏi Mục đích chính (Primary Communicative Purpose)
   - 1 câu hỏi Chi tiết quy định / Điều kiện tiên quyết (Specific Operational Detail / Requirement)
@@ -53,7 +53,7 @@ Cấu trúc TOEFL iBT Reading áp dụng trong năm 2026:
 
 ### 3. TASK 3: ACADEMIC PASSAGE (BÀI ĐỌC HỌC THUẬT CHUYÊN SÂU)
 * **Độ dài văn bản**: BẮT BUỘC từ **250 đến 320 từ** (chia thành 2-3 đoạn văn học thuật đa tầng, có lập luận, dẫn chứng và luận điểm phản biện).
-* **Văn phong**: Ngôn ngữ học thuật chuẩn mực (CEFR C1/C2), cấu trúc câu phức tạp (mệnh đề quan hệ, đảo ngữ, cấu trúc nhượng bộ, bị động nâng cao).
+* **Văn phong**: Ngôn ngữ học thuật chuẩn mực bám sát các bài đọc trong đề thi thật TOEFL iBT, cấu trúc câu tự nhiên, chặt chẽ (mệnh đề quan hệ, câu bị động, cấu trúc nhượng bộ, câu phức học thuật).
 * **Số lượng câu hỏi**: BẮT BUỘC có **từ 5 đến 6 câu hỏi trắc nghiệm** (mỗi câu 4 options A, B, C, D) bao gồm các dạng ETS kinh điển:
   - 1 câu hỏi Ý chính toàn bài (Main Idea / Central Argument)
   - 2 câu hỏi Thông tin thực tế (Factual Information có paraphrasing cao, không chép nguyên văn)
@@ -65,17 +65,9 @@ Cấu trúc TOEFL iBT Reading áp dụng trong năm 2026:
 
 # BƯỚC 3 — ADAPTIVE DESIGN: MODULE 1 & MODULE 2
 
-### Module 1 (Chuẩn phân hóa - CEFR B2/C1)
-* Độ khó chuẩn ETS, phân loại rõ rệt học viên. Đủ 3 tasks theo đúng định lượng ở Bước 2.
-
-### Module 2 (Nhánh khó - Higher-Difficulty Route - CEFR C1/C2)
-* Dành cho thí sinh đạt điểm cao ở Module 1.
-* Phải thực sự khó hơn Module 1 thông qua:
-  * Từ vựng C1-C2 học thuật trừu tượng hơn;
-  * Cấu trúc câu có nhiều tầng phụ thuộc (syntactic complexity);
-  * Mật độ thông tin dày đặc hơn (information density);
-  * Câu hỏi suy luận đòi hỏi xâu chuỗi thông tin giữa các đoạn văn;
-  * Phương án nhiễu (distractors) tinh vi hơn nhiều.
+### Module 1 & Module 2 (Bám sát độ khó chuẩn của đề thi thật TOEFL iBT)
+* **Module 1**: Độ khó chuẩn ETS, phân loại rõ rệt khả năng đọc hiểu của thí sinh. Đủ 3 tasks theo đúng định lượng ở Bước 2.
+* **Module 2**: Bám sát cách ra đề nhánh thích ứng của TOEFL iBT. Tăng chiều sâu lập luận, tính liên kết giữa các đoạn và các phương án nhiễu (distractors) tinh tế bám sát cách ra đề của ETS, không tạo bẫy câu chữ vô lý.
 
 ---
 
@@ -504,8 +496,7 @@ Mỗi Module (Module 1 và Module 2) BẮT BUỘC gồm đúng 4 tasks theo đú
 
 # BƯỚC 3 — ADAPTIVE DESIGN & DISTRACTOR QUALITY
 
-* **Module 1**: Chuẩn CEFR B2/C1, tốc độ nói tự nhiên, câu hỏi rõ ràng.
-* **Module 2 (Nhánh khó - Higher Route)**: Đạt chuẩn CEFR C1/C2. Mật độ thông tin bài giảng dày đặc hơn, hàm ý hội thoại tinh tế hơn, và các phương án nhiễu có bẫy bắt từ khóa (word-spotting traps) cực kỳ khéo léo. Thí sinh chỉ nghe lướt từ khóa mà không hiểu ý toàn câu chắc chắn sẽ chọn sai.
+* **Module 1 & Module 2**: Bám sát cách ra đề chuẩn của đề thi thật TOEFL iBT. Tốc độ nói và ngữ điệu tự nhiên của người bản xứ trong môi trường học thuật Bắc Mỹ. Module 2 tăng chiều sâu hàm ý hội thoại và các phương án nhiễu (distractors) bám sát bẫy thường gặp trong đề thi thật ETS, không tạo bẫy câu chữ phi lý hay cố tình đánh đố vượt quá chuẩn đề thi thật.
 * **Phân bố đáp án**: 'correct_answer' phải được phân bố cân bằng giữa A, B, C, D (~25% mỗi chữ cái).
 
 ---
@@ -1032,17 +1023,9 @@ Tuyệt đối KHÔNG tạo một bài Writing chỉ mang phong cách TOEFL chun
 5. **TỪ BẪY ('decoys') KHÔNG NHẤT THIẾT CÂU NÀO CŨNG CÓ**: Trong 10 câu, chỉ chọn ngẫu nhiên khoảng 3 đến 5 câu để gài 1-2 từ bẫy ('decoys' viết thường, có ngữ pháp hoặc dạng từ tương tự để thử thách học viên). Các câu còn lại để mảng decoys rỗng '"decoys": []', tuyệt đối không bắt buộc mọi câu đều phải có từ bẫy.
 6. **Các phần tử trong 'scrambled', 'correct_order', 'decoys' CHỈ LÀ TỪ VỰNG THUẦN TÚY, TUYỆT ĐỐI KHÔNG chứa dấu câu** (không kèm '.', '?', '!', ',', '"').
 7. **TẤT CẢ các từ trong 'correct_order' BẮT BUỘC PHẢI CÓ MẶT trong mảng 'scrambled'** (tổng số từ trong 'scrambled' = số từ trong 'correct_order' + số từ trong 'decoys' nếu câu đó có decoys).
-8. **10 CÂU PHẢI BAO GỒM 10 CẤU TRÚC NGỮ PHÁP HỌC THUẬT NÂNG CAO (CEFR B2-C1)**:
-   - Câu 1: Mệnh đề quan hệ / Noun clause ('what surprised the researchers was...')
-   - Câu 2: Đảo ngữ với phó từ phủ định ('seldom have scientists observed such...')
-   - Câu 3: Mệnh đề phân từ rút gọn ('having analyzed the chromatographic data thoroughly, she...')
-   - Câu 4: Đảo ngữ câu điều kiện không dùng if ('had the equipment been calibrated accurately...')
-   - Câu 5: Cleft sentence nhấn mạnh ('it was the sudden atmospheric pressure drop that...')
-   - Câu 6: Câu bị động phức với động từ tường thuật ('the artifact is widely considered to represent...')
-   - Câu 7: Cấu trúc so sánh kép ('the more rigorous the methodology, the more reliable...')
-   - Câu 8: Mệnh đề nhượng bộ nâng cao ('despite having encountered severe budget restrictions...')
-   - Câu 9: Cụm danh động từ / phân từ làm chủ ngữ ('mastering multivariate regression models requires...')
-   - Câu 10: Mệnh đề danh từ làm bổ ngữ ('the committee reached the consensus that...')
+8. **10 CÂU PHẢI ĐA DẠNG CẤU TRÚC NGỮ PHÁP HỌC THUẬT, THẬT LÀ SÁT VỚI CÁC ĐỀ THI THẬT SẴN CÓ CỦA TOEFL, TÌM HIỂU KĨ ĐỀ THI CŨ TRƯỚC KHI RA ĐỀ**:
+   - Sử dụng các mẫu câu học thuật thực tế thường gặp trong các đề thi chính thức TOEFL iBT (câu ghép, câu phức, mệnh đề quan hệ, câu bị động, mệnh đề danh từ, mệnh đề chỉ thời gian/nguyên nhân/nhượng bộ, câu điều kiện, so sánh, cụm giới từ, động từ khuyết thiếu modal verbs, to-infinitive/gerund).
+   - Nội dung xoay quanh ngữ cảnh giao tiếp và học thuật tự nhiên trong trường đại học (thảo luận bài giảng, làm việc nhóm, trao đổi với giáo sư, hoạt động phòng lab, thư viện, quy chế học vụ), không gò ép các cấu trúc cổ kính, kỳ dị hay cố tình làm khó thí sinh ngoài phạm vi thi thật.
 
 ---
 
@@ -1116,84 +1099,84 @@ Xuất kết quả theo cấu trúc JSON chuẩn sau:
                 },
                 {
                   "id": "item2",
-                  "context": "Lab Partner: 'Did the chemistry research team expect such an immediate reaction from the catalyst?'",
+                  "context": "Teaching Assistant: 'How should undergraduate candidates submit their departmental grant proposals?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["witnessed", "such", "chemists", "have", "seldom", "accelerated", "reaction", "rates"],
-                  "correct_order": ["seldom", "have", "chemists", "witnessed", "such", "accelerated", "reaction", "rates"],
-                  "correct_sentence": "seldom have chemists witnessed such accelerated reaction rates.",
+                  "scrambled": ["application", "must", "the", "submit", "completed", "form", "students", "online"],
+                  "correct_order": ["students", "must", "submit", "the", "completed", "application", "form", "online"],
+                  "correct_sentence": "students must submit the completed application form online.",
                   "decoys": []
                 },
                 {
                   "id": "item3",
-                  "context": "Advisor: 'How did Elena manage to identify the data anomaly so rapidly?'",
+                  "context": "Lab Partner: 'Why was the afternoon chemistry experiment postponed until tomorrow morning?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["the", "the", "discrepancy", "analyzed", "having", "spreadsheet", "thoroughly", "she", "spotted", "analyzing"],
-                  "correct_order": ["having", "analyzed", "the", "spreadsheet", "thoroughly", "she", "spotted", "the", "discrepancy"],
-                  "correct_sentence": "having analyzed the spreadsheet thoroughly she spotted the discrepancy.",
-                  "decoys": ["analyzing"]
+                  "scrambled": ["because", "damaged", "it", "equipment", "repaired", "laboratory", "was", "the", "was", "repairing"],
+                  "correct_order": ["the", "laboratory", "equipment", "was", "repaired", "because", "it", "was", "damaged"],
+                  "correct_sentence": "the laboratory equipment was repaired because it was damaged.",
+                  "decoys": ["repairing"]
                 },
                 {
                   "id": "item4",
-                  "context": "Dean: 'What prevented the department from expanding undergraduate research funding this term?'",
+                  "context": "Student: 'Did the department chair mention any reason for the sudden schedule change?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["allocated", "been", "had", "adequate", "resources", "fellowships", "more", "offered", "would", "be"],
-                  "correct_order": ["had", "adequate", "resources", "been", "allocated", "more", "fellowships", "would", "be", "offered"],
-                  "correct_sentence": "had adequate resources been allocated more fellowships would be offered.",
+                  "scrambled": ["the", "why", "postponed", "professor", "was", "assignment", "explained", "the"],
+                  "correct_order": ["the", "professor", "explained", "why", "the", "assignment", "was", "postponed"],
+                  "correct_sentence": "the professor explained why the assignment was postponed.",
                   "decoys": []
                 },
                 {
                   "id": "item5",
-                  "context": "Investigator: 'What caused the power failure throughout the entire engineering wing?'",
+                  "context": "Advisor: 'What announcement did the registrar make concerning next year tuition rates?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["the", "grid", "thermal", "overload", "that", "tripped", "was", "it", "circuit", "trip"],
-                  "correct_order": ["it", "was", "the", "thermal", "overload", "that", "tripped", "the", "circuit"],
-                  "correct_sentence": "it was the thermal overload that tripped the circuit.",
-                  "decoys": ["grid", "trip"]
+                  "scrambled": ["fee", "the", "unchanged", "announced", "that", "tuition", "would", "remain", "university", "the", "changing"],
+                  "correct_order": ["the", "university", "announced", "that", "the", "tuition", "fee", "would", "remain", "unchanged"],
+                  "correct_sentence": "the university announced that the tuition fee would remain unchanged.",
+                  "decoys": ["changing"]
                 },
                 {
                   "id": "item6",
-                  "context": "Colleague: 'Why is Dr. Vance fossil discovery attracting so much international attention?'",
+                  "context": "Counselor: 'What are the main benefits for students participating in the summer internship program?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["to", "have", "proven", "the", "specimen", "is", "transitional", "widely", "considered", "proves", "specimens"],
-                  "correct_order": ["the", "specimen", "is", "widely", "considered", "to", "have", "proven", "transitional"],
-                  "correct_sentence": "the specimen is widely considered to have proven transitional.",
-                  "decoys": ["proves", "specimens"]
+                  "scrambled": ["who", "internship", "credits", "receive", "students", "academic", "the", "complete", "will"],
+                  "correct_order": ["students", "who", "complete", "the", "internship", "will", "receive", "academic", "credits"],
+                  "correct_sentence": "students who complete the internship will receive academic credits.",
+                  "decoys": []
                 },
                 {
                   "id": "item7",
-                  "context": "Mentor: 'What determines the credibility of an environmental impact study?'",
+                  "context": "Classmate: 'Were you able to find a good spot to prepare for the midterm exam yesterday?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["the", "the", "methodology", "more", "rigorous", "findings", "reliable", "the", "more", "become"],
-                  "correct_order": ["the", "more", "rigorous", "the", "methodology", "the", "more", "reliable", "findings", "become"],
-                  "correct_sentence": "the more rigorous the methodology the more reliable findings become.",
-                  "decoys": []
+                  "scrambled": ["crowded", "library", "quiet", "found", "a", "she", "workspace", "was", "although", "the", "crowd"],
+                  "correct_order": ["although", "the", "library", "was", "crowded", "she", "found", "a", "quiet", "workspace"],
+                  "correct_sentence": "although the library was crowded she found a quiet workspace.",
+                  "decoys": ["crowd"]
                 },
                 {
                   "id": "item8",
-                  "context": "Director: 'Did the field team complete the geological survey on schedule?'",
+                  "context": "Director: 'Has the environmental science team finished testing the river reservoir samples?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["severe", "blizzards", "despite", "facing", "mapping", "finished", "they", "the", "boundary", "faced", "blizzard"],
-                  "correct_order": ["despite", "facing", "severe", "blizzards", "they", "finished", "the", "boundary", "mapping"],
-                  "correct_sentence": "despite facing severe blizzards they finished the boundary mapping.",
-                  "decoys": ["faced", "blizzard"]
-                },
-                {
-                  "id": "item9",
-                  "context": "Instructor: 'What is the most difficult aspect of the computational modeling seminar?'",
-                  "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["algorithmic", "mastering", "patience", "statistical", "enormous", "simulations", "requires"],
-                  "correct_order": ["mastering", "algorithmic", "statistical", "simulations", "requires", "enormous", "patience"],
-                  "correct_sentence": "mastering algorithmic statistical simulations requires enormous patience.",
+                  "scrambled": ["team", "the", "water", "collected", "has", "analyzed", "research", "samples", "the"],
+                  "correct_order": ["the", "research", "team", "has", "analyzed", "the", "collected", "water", "samples"],
+                  "correct_sentence": "the research team has analyzed the collected water samples.",
                   "decoys": []
                 },
                 {
-                  "id": "item10",
-                  "context": "Librarian: 'What did the archival committee decide concerning rare historical manuscripts?'",
+                  "id": "item9",
+                  "context": "Instructor: 'What is essential for undergraduates hoping to pass the laboratory module?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["be", "manuscripts", "they", "fragile", "agreed", "must", "digitized", "promptly", "agreeing", "digitize"],
-                  "correct_order": ["they", "agreed", "fragile", "manuscripts", "must", "be", "digitized", "promptly"],
-                  "correct_sentence": "they agreed fragile manuscripts must be digitized promptly.",
-                  "decoys": ["agreeing", "digitize"]
+                  "scrambled": ["for", "is", "report", "on", "the", "completing", "time", "lab", "required", "course", "this", "complete"],
+                  "correct_order": ["completing", "the", "lab", "report", "on", "time", "is", "required", "for", "this", "course"],
+                  "correct_sentence": "completing the lab report on time is required for this course.",
+                  "decoys": ["complete"]
+                },
+                {
+                  "id": "item10",
+                  "context": "Peer Tutor: 'What should incoming freshmen do if they encounter difficulties with physics assignments?'",
+                  "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
+                  "scrambled": ["center", "if", "extra", "help", "visit", "the", "tutoring", "you", "need", "please"],
+                  "correct_order": ["if", "you", "need", "extra", "help", "please", "visit", "the", "tutoring", "center"],
+                  "correct_sentence": "if you need extra help please visit the tutoring center.",
+                  "decoys": []
                 }
               ]
             }
@@ -1272,7 +1255,9 @@ export const SAMPLE_WRITING_SENTENCE_PROMPT = `Hãy đóng vai **chuyên gia thi
 5. **TỪ BẪY ('decoys') KHÔNG NHẤT THIẾT CÂU NÀO CŨNG CÓ**: Trong 10 câu, chỉ chọn ngẫu nhiên khoảng 3-5 câu để gài 1-2 từ bẫy ('decoys' viết thường). Các câu còn lại để mảng decoys rỗng '"decoys": []' (kho từ 'scrambled' chỉ chứa các từ trong câu được đảo lộn xộn). Tuyệt đối không bắt buộc mọi câu đều phải có từ bẫy.
 6. **Các từ CHỈ LÀ TỪ VỰNG THUẦN TÚY, TUYỆT ĐỐI KHÔNG chứa dấu câu** (không '.', '?', '!', ',', '"').
 7. **TẤT CẢ các từ trong 'correct_order' BẮT BUỘC PHẢI CÓ MẶT trong 'scrambled'** (tổng số từ trong 'scrambled' = số từ trong 'correct_order' + số từ trong 'decoys' nếu câu đó có decoys).
-8. **10 câu phải đa dạng cấu trúc ngữ pháp học thuật (C1)**: Noun clauses, negative inversion, participle clauses, conditional inversion without if, cleft sentences, complex passives, double comparatives, concession clauses, gerund subjects.
+8. **10 câu phải đa dạng cấu trúc ngữ pháp học thuật, thật là sát với các đề thi thật sẵn có của TOEFL, tìm hiểu kĩ đề thi cũ trước khi ra đề**:
+   - Sử dụng các mẫu câu học thuật thực tế thường gặp trong các đề thi chính thức TOEFL iBT (câu ghép, câu phức, mệnh đề quan hệ, câu bị động, mệnh đề danh từ, mệnh đề chỉ thời gian/nguyên nhân/nhượng bộ, câu điều kiện, so sánh, cụm giới từ, động từ khuyết thiếu modal verbs, to-infinitive/gerund).
+   - Nội dung xoay quanh ngữ cảnh giao tiếp và học thuật tự nhiên trong trường đại học (thảo luận bài giảng, làm việc nhóm, trao đổi với giáo sư, hoạt động phòng lab, thư viện, quy chế học vụ), không gò ép các cấu trúc cổ kính, kỳ dị hay cố tình làm khó thí sinh ngoài phạm vi thi thật.
 
 Cấu trúc JSON chuẩn:
 [
@@ -1305,84 +1290,84 @@ Cấu trúc JSON chuẩn:
                 },
                 {
                   "id": "item2",
-                  "context": "Lab Partner: 'Did the chemistry research team expect such an immediate reaction from the catalyst?'",
+                  "context": "Teaching Assistant: 'How should undergraduate candidates submit their departmental grant proposals?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["witnessed", "such", "chemists", "have", "seldom", "accelerated", "reaction", "rates"],
-                  "correct_order": ["seldom", "have", "chemists", "witnessed", "such", "accelerated", "reaction", "rates"],
-                  "correct_sentence": "seldom have chemists witnessed such accelerated reaction rates.",
+                  "scrambled": ["application", "must", "the", "submit", "completed", "form", "students", "online"],
+                  "correct_order": ["students", "must", "submit", "the", "completed", "application", "form", "online"],
+                  "correct_sentence": "students must submit the completed application form online.",
                   "decoys": []
                 },
                 {
                   "id": "item3",
-                  "context": "Advisor: 'How did Elena manage to identify the data anomaly so rapidly?'",
+                  "context": "Lab Partner: 'Why was the afternoon chemistry experiment postponed until tomorrow morning?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["the", "the", "discrepancy", "analyzed", "having", "spreadsheet", "thoroughly", "she", "spotted", "analyzing"],
-                  "correct_order": ["having", "analyzed", "the", "spreadsheet", "thoroughly", "she", "spotted", "the", "discrepancy"],
-                  "correct_sentence": "having analyzed the spreadsheet thoroughly she spotted the discrepancy.",
-                  "decoys": ["analyzing"]
+                  "scrambled": ["because", "damaged", "it", "equipment", "repaired", "laboratory", "was", "the", "was", "repairing"],
+                  "correct_order": ["the", "laboratory", "equipment", "was", "repaired", "because", "it", "was", "damaged"],
+                  "correct_sentence": "the laboratory equipment was repaired because it was damaged.",
+                  "decoys": ["repairing"]
                 },
                 {
                   "id": "item4",
-                  "context": "Dean: 'What prevented the department from expanding undergraduate research funding this term?'",
+                  "context": "Student: 'Did the department chair mention any reason for the sudden schedule change?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["allocated", "been", "had", "adequate", "resources", "fellowships", "more", "offered", "would", "be"],
-                  "correct_order": ["had", "adequate", "resources", "been", "allocated", "more", "fellowships", "would", "be", "offered"],
-                  "correct_sentence": "had adequate resources been allocated more fellowships would be offered.",
+                  "scrambled": ["the", "why", "postponed", "professor", "was", "assignment", "explained", "the"],
+                  "correct_order": ["the", "professor", "explained", "why", "the", "assignment", "was", "postponed"],
+                  "correct_sentence": "the professor explained why the assignment was postponed.",
                   "decoys": []
                 },
                 {
                   "id": "item5",
-                  "context": "Investigator: 'What caused the power failure throughout the entire engineering wing?'",
+                  "context": "Advisor: 'What announcement did the registrar make concerning next year tuition rates?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["the", "grid", "thermal", "overload", "that", "tripped", "was", "it", "circuit", "trip"],
-                  "correct_order": ["it", "was", "the", "thermal", "overload", "that", "tripped", "the", "circuit"],
-                  "correct_sentence": "it was the thermal overload that tripped the circuit.",
-                  "decoys": ["grid", "trip"]
+                  "scrambled": ["fee", "the", "unchanged", "announced", "that", "tuition", "would", "remain", "university", "the", "changing"],
+                  "correct_order": ["the", "university", "announced", "that", "the", "tuition", "fee", "would", "remain", "unchanged"],
+                  "correct_sentence": "the university announced that the tuition fee would remain unchanged.",
+                  "decoys": ["changing"]
                 },
                 {
                   "id": "item6",
-                  "context": "Colleague: 'Why is Dr. Vance fossil discovery attracting so much international attention?'",
+                  "context": "Counselor: 'What are the main benefits for students participating in the summer internship program?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["to", "have", "proven", "the", "specimen", "is", "transitional", "widely", "considered", "proves", "specimens"],
-                  "correct_order": ["the", "specimen", "is", "widely", "considered", "to", "have", "proven", "transitional"],
-                  "correct_sentence": "the specimen is widely considered to have proven transitional.",
-                  "decoys": ["proves", "specimens"]
+                  "scrambled": ["who", "internship", "credits", "receive", "students", "academic", "the", "complete", "will"],
+                  "correct_order": ["students", "who", "complete", "the", "internship", "will", "receive", "academic", "credits"],
+                  "correct_sentence": "students who complete the internship will receive academic credits.",
+                  "decoys": []
                 },
                 {
                   "id": "item7",
-                  "context": "Mentor: 'What determines the credibility of an environmental impact study?'",
+                  "context": "Classmate: 'Were you able to find a good spot to prepare for the midterm exam yesterday?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["the", "the", "methodology", "more", "rigorous", "findings", "reliable", "the", "more", "become"],
-                  "correct_order": ["the", "more", "rigorous", "the", "methodology", "the", "more", "reliable", "findings", "become"],
-                  "correct_sentence": "the more rigorous the methodology the more reliable findings become.",
-                  "decoys": []
+                  "scrambled": ["crowded", "library", "quiet", "found", "a", "she", "workspace", "was", "although", "the", "crowd"],
+                  "correct_order": ["although", "the", "library", "was", "crowded", "she", "found", "a", "quiet", "workspace"],
+                  "correct_sentence": "although the library was crowded she found a quiet workspace.",
+                  "decoys": ["crowd"]
                 },
                 {
                   "id": "item8",
-                  "context": "Director: 'Did the field team complete the geological survey on schedule?'",
+                  "context": "Director: 'Has the environmental science team finished testing the river reservoir samples?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["severe", "blizzards", "despite", "facing", "mapping", "finished", "they", "the", "boundary", "faced", "blizzard"],
-                  "correct_order": ["despite", "facing", "severe", "blizzards", "they", "finished", "the", "boundary", "mapping"],
-                  "correct_sentence": "despite facing severe blizzards they finished the boundary mapping.",
-                  "decoys": ["faced", "blizzard"]
-                },
-                {
-                  "id": "item9",
-                  "context": "Instructor: 'What is the most difficult aspect of the computational modeling seminar?'",
-                  "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["algorithmic", "mastering", "patience", "statistical", "enormous", "simulations", "requires"],
-                  "correct_order": ["mastering", "algorithmic", "statistical", "simulations", "requires", "enormous", "patience"],
-                  "correct_sentence": "mastering algorithmic statistical simulations requires enormous patience.",
+                  "scrambled": ["team", "the", "water", "collected", "has", "analyzed", "research", "samples", "the"],
+                  "correct_order": ["the", "research", "team", "has", "analyzed", "the", "collected", "water", "samples"],
+                  "correct_sentence": "the research team has analyzed the collected water samples.",
                   "decoys": []
                 },
                 {
-                  "id": "item10",
-                  "context": "Librarian: 'What did the archival committee decide concerning rare historical manuscripts?'",
+                  "id": "item9",
+                  "context": "Instructor: 'What is essential for undergraduates hoping to pass the laboratory module?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["be", "manuscripts", "they", "fragile", "agreed", "must", "digitized", "promptly", "agreeing", "digitize"],
-                  "correct_order": ["they", "agreed", "fragile", "manuscripts", "must", "be", "digitized", "promptly"],
-                  "correct_sentence": "they agreed fragile manuscripts must be digitized promptly.",
-                  "decoys": ["agreeing", "digitize"]
+                  "scrambled": ["for", "is", "report", "on", "the", "completing", "time", "lab", "required", "course", "this", "complete"],
+                  "correct_order": ["completing", "the", "lab", "report", "on", "time", "is", "required", "for", "this", "course"],
+                  "correct_sentence": "completing the lab report on time is required for this course.",
+                  "decoys": ["complete"]
+                },
+                {
+                  "id": "item10",
+                  "context": "Peer Tutor: 'What should incoming freshmen do if they encounter difficulties with physics assignments?'",
+                  "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
+                  "scrambled": ["center", "if", "extra", "help", "visit", "the", "tutoring", "you", "need", "please"],
+                  "correct_order": ["if", "you", "need", "extra", "help", "please", "visit", "the", "tutoring", "center"],
+                  "correct_sentence": "if you need extra help please visit the tutoring center.",
+                  "decoys": []
                 }
               ]
             }
@@ -1556,13 +1541,13 @@ Tuyệt đối KHÔNG tạo một bài Speaking chỉ mang phong cách TOEFL chu
 
 ### Task 1 - Listen and Repeat (Các lĩnh vực câu đa dạng):
 Phát biểu học thuật về môi trường, kinh tế học, y tế công cộng, công nghệ, giáo dục, xã hội học, lịch sử văn minh, nhân quyền, biến đổi khí hậu, quản trị đô thị
-Sử dụng cấu trúc phức tạp: mệnh đề quan hệ phi hạn định, đảo ngữ nhấn mạnh, cấu trúc nhượng bộ (Although/Despite/While), câu điều kiện hỗn hợp, cụm động từ phân từ
+Sử dụng các cấu trúc câu giao tiếp và học thuật tự nhiên: mệnh đề quan hệ, câu bị động, cấu trúc nhượng bộ (Although/Despite/While), câu điều kiện, câu trần thuật học thuật chuẩn ETS.
 
 ### Task 2 - Take an Interview (Chủ đề phỏng vấn đa dạng):
 Trải nghiệm làm việc nhóm trong dự án học thuật, tham gia câu lạc bộ hoặc tổ chức sinh viên, quản lý thời gian trong học kỳ bận rộn, vai trò lãnh đạo nhóm bạn đã từng đảm nhận, kinh nghiệm tình nguyện hoặc phục vụ cộng đồng, cách tiếp cận học kỹ năng mới, quyết định lựa chọn chuyên ngành, xử lý bất đồng quan điểm với bạn học, dự án nghiên cứu độc lập ấn tượng nhất, kế hoạch sự nghiệp và mục tiêu nghề nghiệp
 
 **YÊU CẦU BẮT BUỘC**:
-- Task 1: 7 câu, độ dài tăng dần từ 6-8 từ đến 13-15 từ, phải dùng từ vựng C1/C2 thực sự, có phonetic_guide IPA chính xác.
+- Task 1: 7 câu, độ dài tăng dần từ 6-8 từ đến 13-15 từ, bám sát các câu phát ngôn thực tế trong các đề thi TOEFL iBT chính thức, có phonetic_guide IPA chính xác.
 - Task 2: 4 câu hỏi liên kết logic theo một chủ đề thống nhất (trải nghiệm -> ý nghĩa -> thách thức -> bài học/phẩm chất).
 
 ---
@@ -1730,9 +1715,9 @@ Tuyệt đối KHÔNG tạo một bài thi chung chung hoặc dễ hơn đề th
 ## CẤU TRÚC 6 STAGES BẮT BUỘC THEO THỨ TỰ THI THẬT ETS 2026:
 
 1. **Stage 1: Reading - Module 1** (900s / 15p) - Gồm Task 1: Complete the Words (80-110 từ, câu đầu nguyên vẹn, 10-12 blanks), Task 2: Read in Daily Life (120-160 từ, 3 câu hỏi), Task 3: Academic Passage (250-320 từ, 5 câu hỏi).
-2. **Stage 2: Reading - Module 2 (Adaptive Higher Route)** (900s / 15p) - Thích ứng nhánh khó C1/C2 với cùng 3 tasks tương tự.
+2. **Stage 2: Reading - Module 2 (Adaptive Module 2)** (900s / 15p) - Bám sát cách ra đề chuẩn của TOEFL iBT thích ứng theo đề thi thật ETS với cùng 3 tasks tương tự.
 3. **Stage 3: Listening - Module 1** (870s / 14.5p) - Gồm Task 1: Choose Response (5 câu), Task 2: Announcement (90-130 từ, 2 câu hỏi), Task 3: Conversation (180-250 từ, 3 câu hỏi), Task 4: Academic Talk (180-260 từ, 3 câu hỏi). Tổng 13 câu.
-4. **Stage 4: Listening - Module 2 (Adaptive Higher Route)** (870s / 14.5p) - Thích ứng nhánh khó C1/C2 với đủ 4 tasks tương tự (13 câu).
+4. **Stage 4: Listening - Module 2 (Adaptive Module 2)** (870s / 14.5p) - Bám sát cách ra đề chuẩn của TOEFL iBT thích ứng theo đề thi thật ETS với đủ 4 tasks tương tự (13 câu).
 5. **Stage 5: Writing Section (Linear - 23 Mins)** (1380s / 23p) - Gồm Task 1: Build a Sentence (ĐÚNG 10 CÂU, 100% lowercase, scrambled đảo lộn xộn, chỉ chọn ngẫu nhiên vài câu có decoys còn lại để []), Task 2: Write an Email (3 requirements), Task 3: Academic Discussion (Professor + 2 peers).
 6. **Stage 6: Speaking Section (Linear - 8 Mins)** (480s / 8p) - Gồm Task 1: Listen and Repeat (ĐÚNG 7 CÂU tăng dần 6-15 từ + IPA), Task 2: Take an Interview (ĐÚNG 4 CÂU phỏng vấn 45s + sample answers + key points).
 
@@ -1750,10 +1735,11 @@ Tuyệt đối KHÔNG tạo một bài thi chung chung hoặc dễ hơn đề th
 4. **COMPLETE THE WORDS (READING)**:
    - Trong 'paragraph', các từ khuyết chữ cái PHẢI viết kèm ngoặc vuông 'prefix[missing]'.
    - Câu đầu tiên của đoạn văn 100% nguyên vẹn (0 blank).
-   - Từ câu 2 trở đi có đúng 10 đến 12 blanks trên các từ vựng học thuật C1/C2 (không xóa hư từ).
+   - Từ câu 2 trở đi có đúng 10 đến 12 blanks trên các từ vựng học thuật chuẩn đề thi TOEFL iBT (không xóa hư từ).
    - 'blanks' phải có đủ id, prefix, missing, full khớp 100% với đoạn văn.
 5. **BUILD A SENTENCE (WRITING TASK 1)**:
    - Bắt buộc tạo đủ 10 items từ 'item1' đến 'item10'.
+   - 10 câu phải đa dạng cấu trúc ngữ pháp học thuật, thật là sát với các đề thi thật sẵn có của TOEFL, tìm hiểu kĩ đề thi cũ trước khi ra đề.
    - 100% từ trong 'scrambled', 'correct_order', 'decoys' BẮT BUỘC PHẢI VIẾT THƯỜNG TOÀN BỘ (lowercase).
    - TUYỆT ĐỐI KHÔNG viết hoa chữ cái đầu tiên (không viết 'the', chứ không viết 'The').
    - Thứ tự các từ trong 'scrambled' BẮT BUỘC PHẢI ĐẢO LỘN XỘN NGẪU NHIÊN HOÀN TOÀN.
@@ -2543,84 +2529,84 @@ Tuyệt đối KHÔNG tạo một bài thi chung chung hoặc dễ hơn đề th
                 },
                 {
                   "id": "f_w_item2",
-                  "context": "Lab Partner: 'Did the chemistry research team expect such an immediate reaction from the catalyst?'",
+                  "context": "Teaching Assistant: 'How should undergraduate candidates submit their departmental grant proposals?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["witnessed", "such", "chemists", "have", "seldom", "accelerated", "reaction", "rates"],
-                  "correct_order": ["seldom", "have", "chemists", "witnessed", "such", "accelerated", "reaction", "rates"],
-                  "correct_sentence": "seldom have chemists witnessed such accelerated reaction rates.",
+                  "scrambled": ["application", "must", "the", "submit", "completed", "form", "students", "online"],
+                  "correct_order": ["students", "must", "submit", "the", "completed", "application", "form", "online"],
+                  "correct_sentence": "students must submit the completed application form online.",
                   "decoys": []
                 },
                 {
                   "id": "f_w_item3",
-                  "context": "Advisor: 'How did Elena manage to identify the data anomaly so rapidly?'",
+                  "context": "Lab Partner: 'Why was the afternoon chemistry experiment postponed until tomorrow morning?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["the", "the", "discrepancy", "analyzed", "having", "spreadsheet", "thoroughly", "she", "spotted", "analyzing"],
-                  "correct_order": ["having", "analyzed", "the", "spreadsheet", "thoroughly", "she", "spotted", "the", "discrepancy"],
-                  "correct_sentence": "having analyzed the spreadsheet thoroughly she spotted the discrepancy.",
-                  "decoys": ["analyzing"]
+                  "scrambled": ["because", "damaged", "it", "equipment", "repaired", "laboratory", "was", "the", "was", "repairing"],
+                  "correct_order": ["the", "laboratory", "equipment", "was", "repaired", "because", "it", "was", "damaged"],
+                  "correct_sentence": "the laboratory equipment was repaired because it was damaged.",
+                  "decoys": ["repairing"]
                 },
                 {
                   "id": "f_w_item4",
-                  "context": "Dean: 'What prevented the department from expanding undergraduate research funding this term?'",
+                  "context": "Student: 'Did the department chair mention any reason for the sudden schedule change?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["allocated", "been", "had", "adequate", "resources", "fellowships", "more", "offered", "would", "be"],
-                  "correct_order": ["had", "adequate", "resources", "been", "allocated", "more", "fellowships", "would", "be", "offered"],
-                  "correct_sentence": "had adequate resources been allocated more fellowships would be offered.",
+                  "scrambled": ["the", "why", "postponed", "professor", "was", "assignment", "explained", "the"],
+                  "correct_order": ["the", "professor", "explained", "why", "the", "assignment", "was", "postponed"],
+                  "correct_sentence": "the professor explained why the assignment was postponed.",
                   "decoys": []
                 },
                 {
                   "id": "f_w_item5",
-                  "context": "Investigator: 'What caused the power failure throughout the entire engineering wing?'",
+                  "context": "Advisor: 'What announcement did the registrar make concerning next year tuition rates?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["the", "grid", "thermal", "overload", "that", "tripped", "was", "it", "circuit", "trip"],
-                  "correct_order": ["it", "was", "the", "thermal", "overload", "that", "tripped", "the", "circuit"],
-                  "correct_sentence": "it was the thermal overload that tripped the circuit.",
-                  "decoys": ["grid", "trip"]
+                  "scrambled": ["fee", "the", "unchanged", "announced", "that", "tuition", "would", "remain", "university", "the", "changing"],
+                  "correct_order": ["the", "university", "announced", "that", "the", "tuition", "fee", "would", "remain", "unchanged"],
+                  "correct_sentence": "the university announced that the tuition fee would remain unchanged.",
+                  "decoys": ["changing"]
                 },
                 {
                   "id": "f_w_item6",
-                  "context": "Colleague: 'Why is Dr. Vance fossil discovery attracting so much international attention?'",
+                  "context": "Counselor: 'What are the main benefits for students participating in the summer internship program?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["to", "have", "proven", "the", "specimen", "is", "transitional", "widely", "considered", "proves", "specimens"],
-                  "correct_order": ["the", "specimen", "is", "widely", "considered", "to", "have", "proven", "transitional"],
-                  "correct_sentence": "the specimen is widely considered to have proven transitional.",
-                  "decoys": ["proves", "specimens"]
+                  "scrambled": ["who", "internship", "credits", "receive", "students", "academic", "the", "complete", "will"],
+                  "correct_order": ["students", "who", "complete", "the", "internship", "will", "receive", "academic", "credits"],
+                  "correct_sentence": "students who complete the internship will receive academic credits.",
+                  "decoys": []
                 },
                 {
                   "id": "f_w_item7",
-                  "context": "Mentor: 'What determines the credibility of an environmental impact study?'",
+                  "context": "Classmate: 'Were you able to find a good spot to prepare for the midterm exam yesterday?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["the", "the", "methodology", "more", "rigorous", "findings", "reliable", "the", "more", "become"],
-                  "correct_order": ["the", "more", "rigorous", "the", "methodology", "the", "more", "reliable", "findings", "become"],
-                  "correct_sentence": "the more rigorous the methodology the more reliable findings become.",
-                  "decoys": []
+                  "scrambled": ["crowded", "library", "quiet", "found", "a", "she", "workspace", "was", "although", "the", "crowd"],
+                  "correct_order": ["although", "the", "library", "was", "crowded", "she", "found", "a", "quiet", "workspace"],
+                  "correct_sentence": "although the library was crowded she found a quiet workspace.",
+                  "decoys": ["crowd"]
                 },
                 {
                   "id": "f_w_item8",
-                  "context": "Director: 'Did the field team complete the geological survey on schedule?'",
+                  "context": "Director: 'Has the environmental science team finished testing the river reservoir samples?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["severe", "blizzards", "despite", "facing", "mapping", "finished", "they", "the", "boundary", "faced", "blizzard"],
-                  "correct_order": ["despite", "facing", "severe", "blizzards", "they", "finished", "the", "boundary", "mapping"],
-                  "correct_sentence": "despite facing severe blizzards they finished the boundary mapping.",
-                  "decoys": ["faced", "blizzard"]
-                },
-                {
-                  "id": "f_w_item9",
-                  "context": "Instructor: 'What is the most difficult aspect of the computational modeling seminar?'",
-                  "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["algorithmic", "mastering", "patience", "statistical", "enormous", "simulations", "requires"],
-                  "correct_order": ["mastering", "algorithmic", "statistical", "simulations", "requires", "enormous", "patience"],
-                  "correct_sentence": "mastering algorithmic statistical simulations requires enormous patience.",
+                  "scrambled": ["team", "the", "water", "collected", "has", "analyzed", "research", "samples", "the"],
+                  "correct_order": ["the", "research", "team", "has", "analyzed", "the", "collected", "water", "samples"],
+                  "correct_sentence": "the research team has analyzed the collected water samples.",
                   "decoys": []
                 },
                 {
-                  "id": "f_w_item10",
-                  "context": "Librarian: 'What did the archival committee decide concerning rare historical manuscripts?'",
+                  "id": "f_w_item9",
+                  "context": "Instructor: 'What is essential for undergraduates hoping to pass the laboratory module?'",
                   "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
-                  "scrambled": ["be", "manuscripts", "they", "fragile", "agreed", "must", "digitized", "promptly", "agreeing", "digitize"],
-                  "correct_order": ["they", "agreed", "fragile", "manuscripts", "must", "be", "digitized", "promptly"],
-                  "correct_sentence": "they agreed fragile manuscripts must be digitized promptly.",
-                  "decoys": ["agreeing", "digitize"]
+                  "scrambled": ["for", "is", "report", "on", "the", "completing", "time", "lab", "required", "course", "this", "complete"],
+                  "correct_order": ["completing", "the", "lab", "report", "on", "time", "is", "required", "for", "this", "course"],
+                  "correct_sentence": "completing the lab report on time is required for this course.",
+                  "decoys": ["complete"]
+                },
+                {
+                  "id": "f_w_item10",
+                  "context": "Peer Tutor: 'What should incoming freshmen do if they encounter difficulties with physics assignments?'",
+                  "target_prompt": "Hoàn thiện câu phản hồi của bạn:",
+                  "scrambled": ["center", "if", "extra", "help", "visit", "the", "tutoring", "you", "need", "please"],
+                  "correct_order": ["if", "you", "need", "extra", "help", "please", "visit", "the", "tutoring", "center"],
+                  "correct_sentence": "if you need extra help please visit the tutoring center.",
+                  "decoys": []
                 }
               ]
             }

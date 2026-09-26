@@ -1281,7 +1281,7 @@ export async function generateExamWithGemini({
               body: JSON.stringify({
                 contents: [{ role: 'user', parts: [{ text: finalPrompt }] }],
                 systemInstruction: {
-                  parts: [{ text: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Your task is to produce strictly valid, raw JSON tests matching the requested schema with 100% fidelity to ETS difficulty, structure, and quality standards (CEFR C1/C2 academic register). NEVER truncate, omit, abbreviate, or use placeholders (such as "..." or shortened samples). Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Output strictly raw valid JSON only without markdown code blocks, preamble, or outside commentary.' }]
+                  parts: [{ text: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Your task is to produce strictly valid, raw JSON tests matching the requested schema with 100% fidelity to official ETS TOEFL iBT standards, referencing authentic TOEFL iBT past exams and official guidelines to ensure natural academic difficulty without artificial exaggeration. NEVER truncate, omit, abbreviate, or use placeholders (such as "..." or shortened samples). Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Output strictly raw valid JSON only without markdown code blocks, preamble, or outside commentary.' }]
                 },
                 generationConfig: {
                   responseMimeType: 'application/json',
@@ -1327,7 +1327,7 @@ export async function generateExamWithGemini({
         try {
           rawJsonText = await callOpenRouterChat({
             prompt: finalPrompt,
-            systemInstruction: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Adhere strictly to CEFR C1/C2 academic standards. NEVER truncate, omit, abbreviate, or use placeholders. Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Respond strictly with raw valid JSON matching the requested schema without any markdown formatting or commentary outside JSON.',
+            systemInstruction: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Adhere strictly to official ETS TOEFL iBT standards, referencing authentic TOEFL iBT past exams and official guidelines to ensure natural academic difficulty without artificial exaggeration. NEVER truncate, omit, abbreviate, or use placeholders. Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Respond strictly with raw valid JSON matching the requested schema without any markdown formatting or commentary outside JSON.',
             maxTokens: maxOutputTokens,
             temperature: 0.7,
             responseFormatJson: true,
