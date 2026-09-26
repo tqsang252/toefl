@@ -687,7 +687,7 @@ export default function ContextVocabTrainer() {
           {/* CỘT TRÁI (7 Cột): BÀI ĐỌC TOÀN VĂN KÈM HIGHLIGHT & BÔI ĐEN TRA TỪ */}
           <div className="lg:col-span-7 bg-white rounded-3xl border border-[#e5dfd5] p-5 sm:p-7 shadow-xs flex flex-col min-h-[580px]">
             {/* Header bài đọc */}
-            <div className="border-b border-slate-100 pb-3 mb-4 flex items-start justify-between gap-3">
+            <div className="border-b border-slate-100 pb-3 mb-4">
               <div>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-teal-800 bg-teal-50 border border-teal-200/80 px-2.5 py-0.5 rounded-full inline-block mb-1">
                   {currentItem.topic}
@@ -695,13 +695,6 @@ export default function ContextVocabTrainer() {
                 <h3 className="text-lg sm:text-xl font-bold text-slate-900 leading-snug">
                   {currentItem.title}
                 </h3>
-              </div>
-
-              <div className="shrink-0 text-right">
-                <span className="text-[11px] text-slate-400 block font-medium">Từ khóa cần đoán</span>
-                <span className="text-sm font-black text-amber-900 bg-amber-100 px-2.5 py-1 rounded-lg border border-amber-300 inline-block mt-0.5 shadow-2xs">
-                  "{currentItem.target_word}"
-                </span>
               </div>
             </div>
 

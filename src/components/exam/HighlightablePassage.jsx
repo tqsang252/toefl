@@ -309,11 +309,6 @@ export default function HighlightablePassage({
               {topicTitle}
             </span>
           )}
-          {targetWord && (
-            <span className="text-xs font-black text-amber-950 bg-amber-100 px-2.5 py-1 rounded-lg border border-amber-300 flex items-center gap-1 shadow-2xs">
-              "{targetWord}" {targetParagraph && <span className="text-[11px] font-semibold text-amber-800">(Para {targetParagraph})</span>}
-            </span>
-          )}
         </div>
 
         {/* Thanh công cụ Bút dạ quang (Highlighter Tools) */}
