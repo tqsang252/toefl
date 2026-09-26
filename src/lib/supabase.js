@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { DEFAULT_TESTS } from '../data/defaultTests.js';
 import { VOCABULARY_DECKS } from '../data/vocabularyData.js';
+import EXTENDED_CONTEXT_VOCAB_BANK from '../data/contextVocabData.js';
 
 // Lấy config từ biến môi trường Vercel / Vite
 // Hỗ trợ cả tiền tố VITE_ (chuẩn Vite) và không có VITE_ (khi kết nối Supabase qua Vercel Integration)
@@ -1374,6 +1375,260 @@ export async function lookupWordInDatabase(rawWord) {
   }
 
   return { found: false, word: rawWord.trim() };
+}
+
+// =================================================================
+// TỪ VỰNG TRONG NGỮ CẢNH (VOCABULARY IN CONTEXT - VIC)
+// Quản lý ngân hàng 50 bài đọc & câu hỏi context vocab chuẩn ETS TOEFL
+// Đồng bộ giữa Supabase và LocalStorage
+// =================================================================
+
+/**
+ * Lấy toàn bộ 50 câu hỏi Từ vựng trong Ngữ cảnh (kèm bài đọc hoàn chỉnh)
+ * Tự động đồng bộ Supabase Cloud + LocalStorage + Bộ đề chuẩn EXTENDED_CONTEXT_VOCAB_BANK
+ */
+export async function getContextVocabQuestions() {
+  let cloudItems = [];
+
+  if (isSupabaseConfigured() && supabaseInstance) {
+    try {
+      // 1. Thử lấy từ bảng riêng context_vocab_questions nếu đã tạo
+      const { data, error } = await supabaseInstance
+        .from('context_vocab_questions')
+        .select('*')
+        .order('id', { ascending: true });
+
+      if (!error && Array.isArray(data) && data.length > 0) {
+        cloudItems = data;
+      } else {
+        // 2. Fallback: Kiểm tra bảng tests với skill = 'context_vocab'
+        const { data: testData, error: testErr } = await supabaseInstance
+          .from('tests')
+          .select('content')
+          .eq('skill', 'context_vocab')
+          .limit(1);
+
+        if (!testErr && testData && testData[0]?.content?.items) {
+          cloudItems = testData[0].content.items;
+        }
+      }
+    } catch (err) {
+      console.warn('Lỗi đọc ngân hàng Context Vocab từ Supabase:', err);
+    }
+  }
+
+  // 3. Đọc từ LocalStorage (nếu có tùy biến/offline)
+  let localItems = [];
+  if (typeof localStorage !== 'undefined') {
+    try {
+      const raw = localStorage.getItem('toefl_context_vocab_bank');
+      if (raw) localItems = JSON.parse(raw);
+    } catch (err) {
+      console.warn('Lỗi đọc LocalStorage context vocab:', err);
+    }
+  }
+
+  // 4. Kết hợp dữ liệu: EXTENDED_CONTEXT_VOCAB_BANK làm nền móng vững chắc, merge cloud/local
+  const map = new Map();
+  // Nạp 50 bài đọc chuẩn
+  EXTENDED_CONTEXT_VOCAB_BANK.forEach((item) => {
+    if (item && item.id) map.set(item.id, item);
+  });
+  // Ghi đè hoặc bổ sung từ local
+  localItems.forEach((item) => {
+    if (item && item.id) map.set(item.id, { ...map.get(item.id), ...item });
+  });
+  // Ghi đè hoặc bổ sung từ cloud
+  cloudItems.forEach((item) => {
+    if (item && item.id) map.set(item.id, { ...map.get(item.id), ...item });
+  });
+
+  return Array.from(map.values());
+}
+
+/**
+ * Đẩy ngân hàng câu hỏi lên Supabase và lưu offline vào LocalStorage
+ */
+export async function seedContextVocabToSupabase(customItems = null) {
+  const itemsToSeed = Array.isArray(customItems) && customItems.length > 0
+    ? customItems
+    : EXTENDED_CONTEXT_VOCAB_BANK;
+
+  // 1. Luôn lưu vào LocalStorage
+  if (typeof localStorage !== 'undefined') {
+    try {
+      localStorage.setItem('toefl_context_vocab_bank', JSON.stringify(itemsToSeed));
+    } catch (e) {
+      console.error('Lỗi lưu LocalStorage toefl_context_vocab_bank:', e);
+    }
+  }
+
+  // 2. Đẩy lên Supabase nếu có cấu hình
+  if (isSupabaseConfigured() && supabaseInstance) {
+    try {
+      // Thử upsert vào bảng context_vocab_questions
+      const { error } = await supabaseInstance
+        .from('context_vocab_questions')
+        .upsert(
+          itemsToSeed.map((item) => ({
+            id: item.id,
+            title: item.title,
+            topic: item.topic,
+            target_word: item.target_word,
+            paragraph_index: item.paragraph_index,
+            passage: item.passage,
+            question: item.question,
+            options: item.options,
+            correct_answer: item.correct_answer,
+            clue_type: item.clue_type,
+            clue_signal: item.clue_signal,
+            explanation: item.explanation,
+            updated_at: new Date().toISOString()
+          })),
+          { onConflict: 'id' }
+        );
+
+      if (error) {
+        // Nếu chưa tạo bảng context_vocab_questions, lưu dưới dạng 1 bản ghi trong bảng tests
+        console.warn('Bảng context_vocab_questions chưa tồn tại hoặc lỗi, lưu vào tests table:', error.message);
+        await supabaseInstance
+          .from('tests')
+          .upsert({
+            id: 'context_vocab_master_bank_50',
+            title: 'TOEFL Vocabulary-in-Context Bank (50 Questions)',
+            skill: 'context_vocab',
+            task_type: 'context_vocab_drill',
+            content: {
+              items: itemsToSeed,
+              count: itemsToSeed.length,
+              updated_at: new Date().toISOString()
+            }
+          }, { onConflict: 'id' });
+      }
+      return { success: true, count: itemsToSeed.length };
+    } catch (err) {
+      console.error('Lỗi khi seed context vocab lên Supabase:', err);
+      return { success: false, error: err.message };
+    }
+  }
+
+  return { success: true, count: itemsToSeed.length, mode: 'local' };
+}
+
+/**
+ * Lưu lịch sử kết quả ôn luyện Vocabulary in Context
+ */
+export async function saveContextVocabHistory(sessionData) {
+  const record = {
+    id: `vic_hist_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+    timestamp: new Date().toISOString(),
+    score: sessionData.score || 0,
+    total: sessionData.total || 0,
+    accuracy: sessionData.total > 0 ? Math.round((sessionData.score / sessionData.total) * 100) : 0,
+    avgTimePerQuestion: sessionData.avgTimePerQuestion || 0,
+    timeSpent: sessionData.timeSpent || 0,
+    answers: sessionData.answers || {},
+    mistakes: sessionData.mistakes || []
+  };
+
+  // 1. Lưu LocalStorage
+  if (typeof localStorage !== 'undefined') {
+    try {
+      const raw = localStorage.getItem('toefl_context_vocab_history');
+      const list = raw ? JSON.parse(raw) : [];
+      list.unshift(record);
+      localStorage.setItem('toefl_context_vocab_history', JSON.stringify(list.slice(0, 50)));
+    } catch (err) {
+      console.error('Lỗi lưu lịch sử context vocab vào LocalStorage:', err);
+    }
+  }
+
+  // 2. Lưu Supabase nếu có cấu hình
+  if (isSupabaseConfigured() && supabaseInstance) {
+    try {
+      await supabaseInstance.from('exam_history').insert({
+        test_id: 'context_vocab_drill',
+        created_at: record.timestamp,
+        score: record.score,
+        total: record.total,
+        details: record
+      });
+    } catch (e) {
+      // Bỏ qua nếu bảng không khớp schema
+    }
+  }
+
+  return record;
+}
+
+/**
+ * Lấy lịch sử làm bài Context Vocab
+ */
+export function getContextVocabHistory() {
+  if (typeof localStorage !== 'undefined') {
+    try {
+      const raw = localStorage.getItem('toefl_context_vocab_history');
+      return raw ? JSON.parse(raw) : [];
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
+  }
+  return [];
+}
+
+/**
+ * 1-click lưu từ vựng đang làm vào Danh sách Starred & Thư viện Flashcards
+ */
+export async function saveStarredContextWord(item) {
+  if (!item || !item.target_word) return false;
+
+  const word = item.target_word.trim();
+  const meaningVi = item.explanation?.meaning || '';
+  const clueSignal = item.clue_signal || '';
+  const synonyms = item.explanation?.synonyms || [];
+
+  // 1. Lưu vào toefl_starred_words
+  if (typeof localStorage !== 'undefined') {
+    try {
+      const rawStarred = localStorage.getItem('toefl_starred_words');
+      const starredList = rawStarred ? JSON.parse(rawStarred) : [];
+      const exists = starredList.some((w) => (typeof w === 'string' ? w : w.word).toLowerCase() === word.toLowerCase());
+      
+      if (!exists) {
+        starredList.unshift({
+          word,
+          meaningVi,
+          clueType: item.clue_type,
+          clueSignal,
+          topic: item.topic,
+          synonyms,
+          dateAdded: new Date().toISOString()
+        });
+        localStorage.setItem('toefl_starred_words', JSON.stringify(starredList));
+      }
+    } catch (e) {
+      console.error('Lỗi lưu toefl_starred_words:', e);
+    }
+  }
+
+  // 2. Lưu vào kho từ vựng cá nhân Flashcards (toefl_custom_vocabulary + Supabase)
+  try {
+    await saveVocabularyWords([{
+      category: `Context Vocab: ${item.topic || 'General Academic'}`,
+      word,
+      meaningVi,
+      meaningEn: item.question || '',
+      paraphrases: synonyms,
+      example: clueSignal,
+      exampleTranslation: `[Manh mối: ${item.clue_type}] ${clueSignal}`,
+      memoryTip: `Phương pháp thế: ${item.explanation?.substitution || ''}`
+    }]);
+  } catch (e) {
+    console.warn('Lỗi lưu từ vựng vào custom vocabulary:', e);
+  }
+
+  return true;
 }
 
 

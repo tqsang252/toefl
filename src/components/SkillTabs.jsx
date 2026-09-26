@@ -1,5 +1,5 @@
 import React from 'react';
-import { Headphones, BookOpen, Mic, PenTool, GraduationCap } from 'lucide-react';
+import { Headphones, BookOpen, Mic, PenTool, GraduationCap, Target } from 'lucide-react';
 
 const SKILLS = [
   {
@@ -51,24 +51,31 @@ const SKILLS = [
     textColor: 'text-[#6b21a8]',
     iconBg: 'bg-[#6b21a8]',
     glow: 'shadow-purple-500/10'
+  },
+  {
+    id: 'context_vocab',
+    label: 'CONTEXT VOCAB',
+    icon: Target,
+    borderColor: 'border-[#0f766e]',
+    activeBorder: 'border-[#0f766e] ring-3 ring-teal-500/30 shadow-lg',
+    textColor: 'text-[#0f766e]',
+    iconBg: 'bg-[#0f766e]',
+    glow: 'shadow-teal-500/10'
   }
 ];
 
 export default function SkillTabs({ activeSkill, onSelectSkill }) {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 my-6">
-      {SKILLS.map((skill, idx) => {
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 my-6">
+      {SKILLS.map((skill) => {
         const Icon = skill.icon;
         const isActive = activeSkill === skill.id;
-        const isFifthItem = idx === 4;
 
         return (
           <button
             key={skill.id}
             onClick={() => onSelectSkill(skill.id)}
-            className={`flex items-center gap-2.5 sm:gap-3 px-3.5 sm:px-4 py-4 sm:py-4.5 rounded-2xl bg-white border-2 transition-all duration-200 cursor-pointer text-left ${
-              isFifthItem ? 'col-span-2 sm:col-span-1' : ''
-            } ${
+            className={`flex items-center gap-2 sm:gap-2.5 px-3 sm:px-3.5 py-4 rounded-2xl bg-white border-2 transition-all duration-200 cursor-pointer text-left ${
               isActive 
                 ? `${skill.activeBorder} scale-[1.02] bg-white` 
                 : 'border-[#dfd8cc] hover:border-slate-400 hover:shadow-md opacity-85 hover:opacity-100'
