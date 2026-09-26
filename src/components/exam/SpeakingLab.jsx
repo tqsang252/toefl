@@ -47,6 +47,7 @@ import {
   getGeminiApiKey,
   evaluateSpeakingTest,
   evaluateSentencePronunciationAndStress,
+  evaluateSingleWordPronunciation,
   analyzeAndEnrichCustomSpeakingSample
 } from '../../lib/gemini.js';
 
@@ -249,15 +250,29 @@ function ListenAndRepeatLab({ bank }) {
   const [speechTranscript, setSpeechTranscript] = useState('');
   const [accuracyScore, setAccuracyScore] = useState(null);
 
-  // Trạng thái Chấm phát âm & Nhấn âm bằng AI
+  // Trạng thái Chấm phát âm & Nhấn âm bằng AI cho cả câu
   const [isAiEvaluating, setIsAiEvaluating] = useState(false);
   const [aiEvaluationResult, setAiEvaluationResult] = useState(null);
   const [aiEvaluationError, setAiEvaluationError] = useState(null);
+
+  // Trạng thái Luyện đọc & Chấm điểm riêng từng từ (Single-word Practice)
+  const [selectedWordForPractice, setSelectedWordForPractice] = useState(null);
+  const [isRecordingWord, setIsRecordingWord] = useState(false);
+  const [wordRecordSeconds, setWordRecordSeconds] = useState(0);
+  const [wordAudioUrl, setWordAudioUrl] = useState(null);
+  const [wordSpokenTranscript, setWordSpokenTranscript] = useState('');
+  const [isAiGradingWord, setIsAiGradingWord] = useState(false);
+  const [wordAiResult, setWordAiResult] = useState(null);
 
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const speechRecognizerRef = useRef(null);
   const timerRef = useRef(null);
+
+  const wordMediaRecorderRef = useRef(null);
+  const wordAudioChunksRef = useRef([]);
+  const wordTimerRef = useRef(null);
+  const wordRecognizerRef = useRef(null);
 
   // Bookmark câu khó
   const toggleStar = (id) => {
@@ -272,12 +287,17 @@ function ListenAndRepeatLab({ bank }) {
   useEffect(() => {
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     stopUserRecording(false);
+    stopWordRecording(false);
     setUserAudioUrl(null);
     setSpeechTranscript('');
     setAccuracyScore(null);
     setAiEvaluationResult(null);
     setAiEvaluationError(null);
     setIsAiEvaluating(false);
+    setSelectedWordForPractice(null);
+    setWordAudioUrl(null);
+    setWordAiResult(null);
+    setWordSpokenTranscript('');
   }, [currentIndex, currentItem?.id]);
 
   // Clean-up khi unmount
@@ -285,6 +305,7 @@ function ListenAndRepeatLab({ bank }) {
     return () => {
       if (window.speechSynthesis) window.speechSynthesis.cancel();
       stopUserRecording(false);
+      stopWordRecording(false);
     };
   }, []);
 
@@ -451,6 +472,160 @@ function ListenAndRepeatLab({ bank }) {
     }
   };
 
+  // --- 6. CÁC HÀM CHO TÍNH NĂNG LUYỆN ĐỌC & AI CHẤM RIÊNG TỪNG TỪ ---
+  const handleSelectWordForPractice = (wordObj, idx) => {
+    // Nếu bấm lại đúng từ đang mở -> đóng lại
+    if (selectedWordForPractice?.word === wordObj.word && selectedWordForPractice?.idx === idx) {
+      setSelectedWordForPractice(null);
+      stopWordRecording(false);
+      setWordAudioUrl(null);
+      setWordAiResult(null);
+      setWordSpokenTranscript('');
+      return;
+    }
+    stopWordRecording(false);
+    setSelectedWordForPractice({ ...wordObj, idx });
+    setWordAudioUrl(null);
+    setWordAiResult(null);
+    setWordSpokenTranscript('');
+    // Phát âm mẫu 1 lần để người học nghe chuẩn
+    handlePlaySingleWordAudio(wordObj.word);
+  };
+
+  // Phát âm mẫu cho 1 từ đơn (có thể chỉnh tốc độ)
+  const handlePlaySingleWordAudio = (word, rate = 0.85) => {
+    if (!word || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const cleanWord = word.replace(/[^a-zA-Z']/g, '');
+    const utterance = new SpeechSynthesisUtterance(cleanWord);
+    utterance.lang = 'en-US';
+    utterance.rate = rate;
+    const voices = window.speechSynthesis.getVoices();
+    const usVoice = voices.find(
+      (v) => v.lang === 'en-US' && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha'))
+    );
+    if (usVoice) utterance.voice = usVoice;
+    window.speechSynthesis.speak(utterance);
+  };
+
+  // Bắt đầu thu âm giọng người học cho từ đơn
+  const startWordRecording = async () => {
+    try {
+      if (wordTimerRef.current) clearInterval(wordTimerRef.current);
+      setWordAudioUrl(null);
+      setWordAiResult(null);
+      setWordSpokenTranscript('');
+      setWordRecordSeconds(0);
+      setIsRecordingWord(true);
+      playExamBeep(750, 150);
+
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      wordMediaRecorderRef.current = recorder;
+      wordAudioChunksRef.current = [];
+
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) wordAudioChunksRef.current.push(e.data);
+      };
+
+      recorder.onstop = () => {
+        const audioBlob = new Blob(wordAudioChunksRef.current, { type: 'audio/webm' });
+        const url = URL.createObjectURL(audioBlob);
+        setWordAudioUrl(url);
+        stream.getTracks().forEach((t) => t.stop());
+      };
+
+      recorder.start();
+
+      wordTimerRef.current = setInterval(() => {
+        setWordRecordSeconds((p) => {
+          if (p >= 4) {
+            stopWordRecording();
+            return 4;
+          }
+          return p + 1;
+        });
+      }, 1000);
+
+      // Kích hoạt nhận diện giọng nói cho từ đơn
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        try {
+          const recognizer = new SpeechRecognition();
+          recognizer.lang = 'en-US';
+          recognizer.continuous = false;
+          recognizer.interimResults = false;
+          recognizer.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            setWordSpokenTranscript(transcript);
+          };
+          recognizer.onerror = (e) => console.warn('Word recognizer err:', e);
+          recognizer.start();
+          wordRecognizerRef.current = recognizer;
+        } catch (e) {
+          console.warn('Word recognizer start error:', e);
+        }
+      }
+    } catch (err) {
+      alert('Không thể mở micro: ' + err.message);
+      setIsRecordingWord(false);
+    }
+  };
+
+  // Dừng thu âm từ đơn
+  const stopWordRecording = (playSound = true) => {
+    if (wordTimerRef.current) clearInterval(wordTimerRef.current);
+    if (wordMediaRecorderRef.current && wordMediaRecorderRef.current.state === 'recording') {
+      wordMediaRecorderRef.current.stop();
+    }
+    if (wordRecognizerRef.current) {
+      try { wordRecognizerRef.current.stop(); } catch (e) {}
+    }
+    setIsRecordingWord(false);
+    if (playSound) playExamBeep(450, 180);
+  };
+
+  // AI Chấm Điểm Phát Âm Cho Riêng Từ Này
+  const handleGradeSingleWordWithAi = async () => {
+    if (!wordAudioUrl && !wordSpokenTranscript) {
+      alert('Vui lòng thu âm giọng đọc của bạn cho từ này trước khi chấm.');
+      return;
+    }
+    try {
+      setIsAiGradingWord(true);
+      const res = await evaluateSingleWordPronunciation({
+        targetWord: selectedWordForPractice.word,
+        targetIpa: selectedWordForPractice.target_ipa,
+        audioUrl: wordAudioUrl,
+        spokenTranscript: wordSpokenTranscript,
+        contextSentence: currentItem.text
+      });
+
+      setWordAiResult(res);
+
+      // Nếu AI đánh giá đạt (is_correct === true) -> Cập nhật trực tiếp từ đó trong bảng đánh giá sang màu xanh!
+      if (res?.is_correct && selectedWordForPractice?.idx !== undefined && aiEvaluationResult?.words_analysis) {
+        const updated = [...aiEvaluationResult.words_analysis];
+        if (updated[selectedWordForPractice.idx]) {
+          updated[selectedWordForPractice.idx] = {
+            ...updated[selectedWordForPractice.idx],
+            status: 'correct',
+            error_detail: '',
+            how_to_fix: ''
+          };
+          setAiEvaluationResult((prev) => ({
+            ...prev,
+            words_analysis: updated
+          }));
+        }
+      }
+    } catch (err) {
+      alert('Lỗi chấm từ AI: ' + err.message);
+    } finally {
+      setIsAiGradingWord(false);
+    }
+  };
+
   // Điều hướng
   const handleNext = () => {
     if (currentIndex < filteredList.length - 1) {
@@ -601,8 +776,23 @@ function ListenAndRepeatLab({ bank }) {
           {/* Vùng Câu Nói Tiếng Anh & Phiên Âm */}
           <div className="py-4 text-center space-y-3">
             {showText ? (
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 leading-snug tracking-tight max-w-3xl mx-auto">
-                {currentItem.text}
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 leading-snug tracking-tight max-w-3xl mx-auto flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+                {currentItem.text.split(/\s+/).map((wordItem, idx) => {
+                  const clean = wordItem.replace(/[^a-zA-Z']/g, '');
+                  const isSelected = selectedWordForPractice?.word?.toLowerCase() === clean.toLowerCase();
+                  return (
+                    <span
+                      key={idx}
+                      onClick={() => handleSelectWordForPractice({ word: clean, target_ipa: '' }, idx)}
+                      className={`cursor-pointer transition-all inline-block hover:text-purple-700 hover:scale-105 active:scale-95 ${
+                        isSelected ? 'text-purple-700 underline font-black scale-105' : ''
+                      }`}
+                      title={`Bấm để luyện đọc riêng từ "${clean}" và nhờ AI chấm điểm`}
+                    >
+                      {wordItem}
+                    </span>
+                  );
+                })}
               </h2>
             ) : (
               <div className="py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-300 max-w-xl mx-auto text-slate-500 text-sm">
@@ -859,11 +1049,18 @@ function ListenAndRepeatLab({ bank }) {
 
               {/* Trực Quan Hóa Từng Từ Trong Câu (Word-by-word Visualizer) */}
               {aiEvaluationResult.words_analysis && aiEvaluationResult.words_analysis.length > 0 && (
-                <div className="bg-white rounded-2xl p-4 border border-purple-100 space-y-3">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-extrabold text-slate-800 uppercase tracking-wide">
-                      Đánh giá chi tiết từng từ trong câu:
-                    </span>
+                <div className="bg-white rounded-2xl p-4 sm:p-5 border border-purple-100 space-y-4 shadow-xs">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                    <div>
+                      <span className="font-extrabold text-slate-900 uppercase tracking-wide flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                        <span>Đánh giá chi tiết từng từ trong câu:</span>
+                      </span>
+                      <p className="text-[11px] text-purple-700 mt-0.5">
+                        👉 <strong>Bấm vào bất kỳ từ nào</strong> (đặc biệt là các từ đỏ/vàng) để luyện đọc riêng và nhờ AI chấm điểm!
+                      </p>
+                    </div>
+
                     <div className="flex items-center gap-3 text-[11px] font-medium text-slate-500">
                       <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block" /> Chuẩn</span>
                       <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block" /> Nhấn sai</span>
@@ -876,28 +1073,240 @@ function ListenAndRepeatLab({ bank }) {
                       const isCorrect = w.status === 'correct';
                       const isStressErr = w.status === 'stress_error';
                       const isPronErr = w.status === 'pronunciation_error' || w.status === 'missing';
+                      const isSelected = selectedWordForPractice?.word === w.word && selectedWordForPractice?.idx === idx;
 
                       return (
-                        <div
+                        <button
                           key={idx}
-                          className={`px-3 py-1.5 rounded-xl border text-xs flex flex-col items-center gap-0.5 transition-all ${
+                          type="button"
+                          onClick={() => handleSelectWordForPractice(w, idx)}
+                          className={`px-3.5 py-2 rounded-xl border text-xs flex flex-col items-center gap-0.5 transition-all cursor-pointer hover:scale-105 active:scale-95 text-center ${
+                            isSelected
+                              ? 'ring-3 ring-purple-600 ring-offset-1 scale-105 shadow-md bg-purple-100/90'
+                              : 'hover:shadow-sm'
+                          } ${
                             isCorrect
-                              ? 'bg-emerald-50 text-emerald-950 border-emerald-300'
+                              ? 'bg-emerald-50 hover:bg-emerald-100/80 text-emerald-950 border-emerald-300'
                               : isStressErr
-                              ? 'bg-amber-50 text-amber-950 border-amber-300 shadow-xs'
-                              : 'bg-rose-50 text-rose-950 border-rose-300 shadow-xs'
+                              ? 'bg-amber-50 hover:bg-amber-100 text-amber-950 border-amber-300 shadow-xs'
+                              : 'bg-rose-50 hover:bg-rose-100 text-rose-950 border-rose-300 shadow-xs'
                           }`}
-                          title={w.error_detail || (isCorrect ? 'Phát âm chuẩn' : '')}
+                          title={`Bấm vào đây để luyện đọc riêng từ "${w.word}"`}
                         >
                           <span className="font-extrabold text-sm">{w.word}</span>
                           <span className="text-[10px] font-mono opacity-75">{w.target_ipa || ''}</span>
                           {isStressErr && <span className="text-[9px] font-black text-amber-800 bg-amber-200/80 px-1.5 rounded-md mt-0.5">⚡ Nhấn sai</span>}
                           {isPronErr && <span className="text-[9px] font-black text-rose-800 bg-rose-200/80 px-1.5 rounded-md mt-0.5">⚠️ Sai âm</span>}
                           {isCorrect && <span className="text-[9px] font-black text-emerald-700">✓ Đạt</span>}
-                        </div>
+                        </button>
                       );
                     })}
                   </div>
+
+                  {/* KHUNG LUYỆN ĐỌC & AI CHẤM ĐIỂM RIÊNG TỪ ĐANG CHỌN */}
+                  {selectedWordForPractice && (
+                    <div className="bg-gradient-to-br from-purple-50/90 via-white to-indigo-50/80 rounded-2xl border-2 border-purple-300 p-5 shadow-lg space-y-4 animate-fadeIn mt-3">
+                      {/* Tiêu đề từ đang chọn */}
+                      <div className="flex items-center justify-between border-b border-purple-200/80 pb-3">
+                        <div className="flex items-center gap-2.5 flex-wrap">
+                          <span className="text-xs font-black uppercase text-purple-900 bg-purple-100 px-2.5 py-1 rounded-lg border border-purple-200">
+                            Luyện Phát Âm Từ:
+                          </span>
+                          <span className="text-xl font-black text-purple-950 underline underline-offset-4 tracking-wide">
+                            {selectedWordForPractice.word}
+                          </span>
+                          {selectedWordForPractice.target_ipa && (
+                            <span className="text-sm font-mono font-bold text-slate-700 bg-white px-2.5 py-0.5 rounded-md border border-slate-200 shadow-2xs">
+                              {selectedWordForPractice.target_ipa}
+                            </span>
+                          )}
+                        </div>
+
+                        <button
+                          onClick={() => setSelectedWordForPractice(null)}
+                          className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer transition-colors"
+                          title="Đóng bảng luyện từ"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
+                      </div>
+
+                      {/* Thanh công cụ: Nghe mẫu + Ghi âm từ */}
+                      <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-purple-100 shadow-2xs">
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handlePlaySingleWordAudio(selectedWordForPractice.word)}
+                            className="px-3.5 py-2 rounded-xl bg-purple-100 hover:bg-purple-200 text-purple-950 font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-all border border-purple-300 shadow-2xs"
+                            title="Nghe giọng chuẩn bản xứ phát âm từ này"
+                          >
+                            <Volume2 className="w-4 h-4 text-purple-700" />
+                            <span>Nghe phát âm chuẩn</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => handlePlaySingleWordAudio(selectedWordForPractice.word, 0.7)}
+                            className="px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs flex items-center gap-1 cursor-pointer transition-all border border-slate-200"
+                            title="Nghe chậm tốc độ 0.7x để bắt rõ từng âm vị"
+                          >
+                            <span>Tốc độ chậm 0.7x</span>
+                          </button>
+                        </div>
+
+                        {/* Nút Thu âm từ */}
+                        <div>
+                          {!isRecordingWord ? (
+                            <button
+                              type="button"
+                              onClick={startWordRecording}
+                              className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black text-xs shadow-md shadow-rose-600/20 transition-all cursor-pointer flex items-center gap-2 active:scale-95"
+                            >
+                              <Mic className="w-4 h-4 fill-current" />
+                              <span>Đọc từ này (Bấm để thu âm)</span>
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={stopWordRecording}
+                              className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-black text-rose-300 font-black text-xs shadow-md transition-all cursor-pointer flex items-center gap-2 animate-pulse"
+                            >
+                              <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
+                              <span>Đang thu ({wordRecordSeconds}s) - Bấm Dừng</span>
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* File ghi âm giọng đọc của người học & Nút Chấm điểm */}
+                      {wordAudioUrl && (
+                        <div className="bg-white rounded-xl p-4 border border-purple-200 space-y-3 shadow-2xs">
+                          <div className="flex flex-wrap items-center justify-between gap-3">
+                            <div className="flex items-center gap-3">
+                              <span className="text-xs font-bold text-slate-700">Bản thu âm của bạn:</span>
+                              <audio src={wordAudioUrl} controls className="h-8 max-w-[240px]" />
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={handleGradeSingleWordWithAi}
+                              disabled={isAiGradingWord}
+                              className="px-4 py-2 bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-800 hover:to-indigo-800 text-white font-black text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center gap-2 disabled:opacity-50"
+                            >
+                              <Sparkles className="w-4 h-4 text-amber-300" />
+                              <span>{isAiGradingWord ? 'AI đang thẩm âm & chấm điểm...' : 'Chấm điểm bằng AI'}</span>
+                            </button>
+                          </div>
+
+                          {wordSpokenTranscript && (
+                            <div className="text-xs text-slate-600 flex items-center gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                              <span className="font-bold text-slate-700">Máy nghe được:</span>
+                              <span className="font-mono font-bold text-purple-900 bg-white px-2 py-0.5 rounded border border-purple-200">
+                                "{wordSpokenTranscript}"
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* KẾT QUẢ AI CHẤM TỪ ĐƠN */}
+                      {wordAiResult && (
+                        <div className="bg-white rounded-2xl p-5 border border-purple-200 shadow-sm space-y-3.5 animate-fadeIn">
+                          {/* Điểm & Nhận định */}
+                          <div className="flex items-center justify-between border-b border-purple-100 pb-3">
+                            <div className="flex items-center gap-2.5">
+                              <div className={`w-9 h-9 rounded-full flex items-center justify-center font-black text-base ${
+                                wordAiResult.is_correct
+                                  ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                                  : 'bg-rose-100 text-rose-800 border border-rose-300'
+                              }`}>
+                                {wordAiResult.is_correct ? '✓' : '!'}
+                              </div>
+                              <div>
+                                <span className={`text-sm font-black block ${
+                                  wordAiResult.is_correct ? 'text-emerald-900' : 'text-rose-900'
+                                }`}>
+                                  {wordAiResult.verdict || (wordAiResult.is_correct ? 'Phát âm chuẩn xác!' : 'Cần điều chỉnh phát âm')}
+                                </span>
+                                <p className="text-[11px] text-slate-500">
+                                  Phiên âm bạn đọc: <span className="font-mono font-bold text-slate-800">{wordAiResult.ipa_spoken || '[--]'}</span> (Chuẩn: <span className="font-mono text-purple-800 font-bold">{wordAiResult.target_ipa || selectedWordForPractice.target_ipa}</span>)
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="text-right">
+                              <span className="text-2xl font-black text-purple-950">{wordAiResult.score || (wordAiResult.is_correct ? 95 : 65)}</span>
+                              <span className="text-xs text-slate-400">/100</span>
+                            </div>
+                          </div>
+
+                          {/* Nhận xét AI */}
+                          {wordAiResult.feedback && (
+                            <p className="text-xs text-slate-800 leading-relaxed font-medium bg-purple-50/60 p-3 rounded-xl border border-purple-100">
+                              💬 <strong>Nhận xét:</strong> {wordAiResult.feedback}
+                            </p>
+                          )}
+
+                          {/* Phân tích âm tiết */}
+                          {wordAiResult.syllables && wordAiResult.syllables.length > 0 && (
+                            <div className="space-y-1.5">
+                              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+                                Phân tích từng âm tiết & trọng âm:
+                              </span>
+                              <div className="flex flex-wrap gap-2">
+                                {wordAiResult.syllables.map((syl, i) => (
+                                  <div
+                                    key={i}
+                                    className={`px-3 py-1.5 rounded-xl border text-xs flex flex-col items-center ${
+                                      syl.status === 'correct'
+                                        ? 'bg-emerald-50 text-emerald-900 border-emerald-300'
+                                        : 'bg-rose-50 text-rose-900 border-rose-300'
+                                    }`}
+                                  >
+                                    <span className={`font-black ${syl.is_stressed ? 'underline uppercase tracking-wide' : ''}`}>
+                                      {syl.is_stressed ? `ˈ${syl.syllable}` : syl.syllable}
+                                    </span>
+                                    <span className="text-[10px] opacity-80">{syl.note || (syl.status === 'correct' ? 'Chuẩn' : 'Cần sửa')}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Hướng dẫn khẩu hình */}
+                          {wordAiResult.mouth_shape_tip && (
+                            <div className="text-xs text-amber-950 bg-amber-50/80 p-3 rounded-xl border border-amber-200 space-y-1">
+                              <span className="font-extrabold text-amber-900 block flex items-center gap-1">
+                                <span>👄 Hướng dẫn đặt khẩu hình & cách phát âm:</span>
+                              </span>
+                              <p className="leading-relaxed">{wordAiResult.mouth_shape_tip}</p>
+                            </div>
+                          )}
+
+                          {/* Nút hành động */}
+                          <div className="flex items-center justify-between pt-2 border-t border-purple-100">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setWordAudioUrl(null);
+                                setWordAiResult(null);
+                                setWordSpokenTranscript('');
+                              }}
+                              className="px-3.5 py-1.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 cursor-pointer"
+                            >
+                              Đọc lại lần nữa
+                            </button>
+
+                            {wordAiResult.is_correct && (
+                              <span className="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full flex items-center gap-1 animate-fadeIn">
+                                ✓ Đã cập nhật thành từ đạt chuẩn trong bảng!
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
 

@@ -985,6 +985,79 @@ Respond strictly with valid JSON with this exact schema:
 }
 
 /**
+ * Đánh giá chi tiết phát âm của MỘT TỪ ĐƠN bằng AI (Phát âm, Trọng âm, Âm vị, Khẩu hình)
+ */
+export async function evaluateSingleWordPronunciation({
+  targetWord = '',
+  targetIpa = '',
+  audioUrl = null,
+  spokenTranscript = '',
+  contextSentence = ''
+}) {
+  if (!targetWord) {
+    throw new Error('Thiếu từ cần chấm điểm phát âm.');
+  }
+
+  const audioParts = [];
+  if (audioUrl && typeof audioUrl === 'string' && audioUrl.startsWith('blob:')) {
+    try {
+      const b64 = await blobUrlToBase64(audioUrl);
+      if (b64) {
+        audioParts.push({
+          inline_data: {
+            mime_type: 'audio/webm',
+            data: b64
+          }
+        });
+      }
+    } catch (e) {
+      console.warn('Cannot attach audio inline data for single word analysis:', e);
+    }
+  }
+
+  const promptText = `
+You are an expert official ETS TOEFL Phonetician and Acoustic Speech Coach specializing in single-word English Pronunciation and Lexical Stress.
+
+The student is practicing pronouncing ONE SINGLE TARGET WORD:
+[TARGET WORD]: "${targetWord}"
+[TARGET PHONETIC IPA]: ${targetIpa || '(Standard American English IPA)'}
+[CONTEXT SENTENCE]: "${contextSentence || ''}"
+[STUDENT SPOKEN TRANSCRIPTION (FROM STT)]: "${spokenTranscript || '(The student spoke and recorded the audio above)'}"
+
+EVALUATE THE AUDIO AND PHONETICS CAREFULLY:
+1. Did the student pronounce the word accurately? Compare their pronunciation with standard North American English (General American).
+2. Check consonant clusters, vowels, and final sounds (e.g., /s/, /z/, /t/, /d/, /θ/, /ð/, /v/, /l/, /r/).
+3. Check primary lexical stress (trọng âm chính) and vowel reduction in unstressed syllables.
+4. If the speech recognition captured the exact target word or very close and audio pronunciation is solid, mark "is_correct": true.
+5. If there is a distinct mispronunciation (e.g., missing ending sound, wrong vowel, wrong stress), mark "is_correct": false and identify the exact error.
+
+Respond strictly with valid JSON with this exact schema:
+{
+  "is_correct": true,
+  "status": "correct", // "correct" | "stress_error" | "pronunciation_error"
+  "score": 95, // integer 0 - 100
+  "ipa_spoken": "/.../", // approximate IPA of what the student spoke
+  "target_ipa": "${targetIpa || ''}",
+  "verdict": "Phát âm chuẩn xác", // "Phát âm chuẩn xác" | "Nhấn sai trọng âm" | "Sai âm đuôi" | "Sai nguyên âm"
+  "feedback": "Nhận xét chi tiết 1-2 câu ngắn gọn bằng tiếng Việt về phát âm của người học cho từ này...",
+  "syllables": [
+    {
+      "syllable": "part",
+      "is_stressed": true,
+      "status": "correct", // "correct" | "incorrect"
+      "note": "Chuẩn xác"
+    }
+  ],
+  "mouth_shape_tip": "Hướng dẫn khẩu hình miệng / vị trí đặt lưỡi / cách bật hơi để phát âm chuẩn từ này (bằng tiếng Việt ngắn gọn, dễ hiểu)."
+}
+`;
+
+  const parts = [...audioParts, { text: promptText }];
+  const parsed = await generateGeminiJson(parts, 'You are an ETS TOEFL pronunciation and acoustic phonetics expert.');
+  return parsed;
+}
+
+/**
  * ====================================================================
  * GEMINI AI CUSTOM SPEAKING SAMPLE ANALYZER & COACH
  * Phân tích bài mẫu do người dùng tự soạn, ước tính điểm, gợi ý nâng cấp từ vựng và phiên bản trau chuốt Band 30
