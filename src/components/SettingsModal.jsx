@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Database, Check, AlertCircle, RefreshCw, UploadCloud, Sparkles, Key, ShieldCheck, Zap } from 'lucide-react';
-import { getSupabaseConfig, saveSupabaseConfig, isSupabaseConfigured, seedDefaultsToSupabase, seedVocabularyToSupabase, syncAllLocalTestsToSupabase } from '../lib/supabase';
+import { getSupabaseConfig, saveSupabaseConfig, isSupabaseConfigured, seedDefaultsToSupabase, seedVocabularyToSupabase, syncAllLocalTestsToSupabase, seedContextVocabToSupabase } from '../lib/supabase';
 import { getGeminiApiKey, saveGeminiApiKey, getOpenRouterApiKey, saveOpenRouterApiKey, isOpenRouterConfigured } from '../lib/gemini';
 
 export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
@@ -125,6 +125,30 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
       setTimeout(() => setStatusMsg(''), 4000);
     } catch (e) {
       alert("Lỗi khi nạp từ vựng lên Supabase: " + e.message);
+      setStatusMsg("");
+    } finally {
+      setIsSeeding(false);
+    }
+  };
+
+  const handleSeedContextVocab = async () => {
+    if (!isSupabaseConfigured()) {
+      alert("Vui lòng lưu Supabase URL và Key trước khi tải đề lên Cloud!");
+      return;
+    }
+
+    try {
+      setIsSeeding(true);
+      setStatusMsg("Đang đồng bộ 50 bài đọc Context Vocab lên Supabase...");
+      const res = await seedContextVocabToSupabase();
+      if (res && res.success) {
+        setStatusMsg(`✓ Đã nạp thành công ${res.count || 50} đề Context Vocab lên Supabase!`);
+      } else {
+        setStatusMsg("Lỗi: " + (res?.error || "Không thể đồng bộ"));
+      }
+      setTimeout(() => setStatusMsg(''), 4000);
+    } catch (e) {
+      alert("Lỗi khi nạp đề Context Vocab lên Supabase: " + e.message);
       setStatusMsg("");
     } finally {
       setIsSeeding(false);
@@ -372,6 +396,15 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
                 >
                   <UploadCloud className="w-4 h-4 text-emerald-700" />
                   <span>{isSeeding ? "Đang xử lý..." : "☁️ Đồng bộ 1,000+ từ vựng TOEFL 2026 (12 chủ đề) lên Supabase"}</span>
+                </button>
+
+                <button
+                  onClick={handleSeedContextVocab}
+                  disabled={isSeeding}
+                  className="w-full mt-2.5 py-2.5 px-4 bg-teal-50 hover:bg-teal-100 active:scale-98 text-teal-950 font-bold text-xs rounded-xl border border-teal-300 transition-all cursor-pointer flex items-center justify-center gap-2"
+                >
+                  <UploadCloud className="w-4 h-4 text-teal-700" />
+                  <span>{isSeeding ? "Đang xử lý..." : "☁️ Đồng bộ 50 đề Context Vocab (Reading Passages) lên Supabase"}</span>
                 </button>
               </div>
             </div>

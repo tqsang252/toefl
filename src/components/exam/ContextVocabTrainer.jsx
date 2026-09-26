@@ -25,7 +25,9 @@ import {
 import {
   getContextVocabQuestions,
   saveContextVocabHistory,
-  saveStarredContextWord
+  saveStarredContextWord,
+  seedContextVocabToSupabase,
+  isSupabaseConfigured
 } from '../../lib/supabase';
 
 // Thời gian tiêu chuẩn cho 1 câu hỏi từ vựng TOEFL (45 giây)
@@ -39,6 +41,7 @@ export default function ContextVocabTrainer() {
   const [selectedTopic, setSelectedTopic] = useState('ALL');
   const [activeItems, setActiveItems] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [cloudSynced, setCloudSynced] = useState(false);
 
   // Câu hỏi hiện tại
   const [selectedOption, setSelectedOption] = useState(null);
@@ -57,13 +60,24 @@ export default function ContextVocabTrainer() {
   const timerRef = useRef(null);
   const toastTimeoutRef = useRef(null);
 
-  // --- Load Ngân Hàng Câu Hỏi ---
+  // --- Load Ngân Hàng Câu Hỏi & Tự Động Đồng Bộ Supabase ---
   useEffect(() => {
     async function loadData() {
       setIsLoading(true);
       try {
         const questions = await getContextVocabQuestions();
         setBank(questions || []);
+
+        // Nếu Supabase được cấu hình, tự động đồng bộ 50 đề lên Cloud
+        if (isSupabaseConfigured()) {
+          seedContextVocabToSupabase(questions || []).then((res) => {
+            if (res && res.success) {
+              setCloudSynced(true);
+            }
+          }).catch((err) => {
+            console.warn('Lỗi auto-sync lên Supabase:', err);
+          });
+        }
       } catch (err) {
         console.error('Lỗi khi tải câu hỏi context vocab:', err);
       } finally {
@@ -294,26 +308,39 @@ export default function ContextVocabTrainer() {
     return ['ALL', ...Array.from(set)];
   }, [bank]);
 
+  // --- Tính Toán Chính Xác Paragraph Index chứa Target Word ---
+  const effectiveParaIdx = useMemo(() => {
+    if (!currentItem?.passage || !currentItem?.target_word) return currentItem?.paragraph_index || 1;
+    const cleanParas = currentItem.passage.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
+    const escaped = currentItem.target_word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const rx = new RegExp(`\\b${escaped}\\b`, 'i');
+    const found = cleanParas.findIndex((p) => rx.test(p)) + 1;
+    return found > 0 ? found : (currentItem.paragraph_index || 1);
+  }, [currentItem]);
+
   // --- Render Đoạn văn & Highlight Từ vựng ---
-  const renderPassageWithHighlight = (passage, targetWord, targetParagraphIdx, clueSignal = null, showClue = false) => {
+  const renderPassageWithHighlight = (passage, targetWord, targetParagraphIdx) => {
     if (!passage) return null;
-    const paragraphs = passage.split(/\n\s*\n|\n/);
+    const paragraphs = passage.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
 
     return (
       <div className="space-y-4 text-[15px] sm:text-[16px] leading-relaxed text-slate-800 font-serif">
         {paragraphs.map((para, pIdx) => {
-          const isTargetParagraph = pIdx + 1 === targetParagraphIdx;
+          const paraNum = pIdx + 1;
+          const isTargetParagraph = paraNum === targetParagraphIdx;
 
           if (!isTargetParagraph) {
             return (
               <p key={pIdx} className="text-justify text-slate-700">
+                <span className="inline-block text-[10px] font-sans font-semibold uppercase tracking-wider text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded mr-2 mb-1">
+                  Paragraph {paraNum}
+                </span>
                 {para}
               </p>
             );
           }
 
           // Đoạn chứa từ cần đoán nghĩa: Highlight từ khóa nổi bật
-          // Tạo regex an toàn không phân biệt hoa thường
           const escapedWord = targetWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
           const regex = new RegExp(`\\b(${escapedWord})\\b`, 'gi');
           const parts = para.split(regex);
@@ -321,9 +348,9 @@ export default function ContextVocabTrainer() {
           return (
             <p
               key={pIdx}
-              className="text-justify bg-amber-50/40 p-3 rounded-xl border-l-4 border-amber-500 transition-colors shadow-2xs"
+              className="text-justify bg-amber-50/50 p-3.5 rounded-2xl border-l-4 border-amber-500 transition-colors shadow-2xs"
             >
-              <span className="inline-block text-[11px] font-sans font-bold uppercase tracking-wider text-amber-800 bg-amber-200/70 px-2 py-0.5 rounded mr-2 mb-1">
+              <span className="inline-block text-[11px] font-sans font-bold uppercase tracking-wider text-amber-900 bg-amber-200/80 px-2 py-0.5 rounded mr-2 mb-1 shadow-2xs">
                 Paragraph {targetParagraphIdx}
               </span>
               {parts.map((chunk, cIdx) => {
@@ -702,9 +729,7 @@ export default function ContextVocabTrainer() {
               {renderPassageWithHighlight(
                 currentItem.passage,
                 currentItem.target_word,
-                currentItem.paragraph_index,
-                currentItem.clue_signal,
-                isSubmitted
+                effectiveParaIdx
               )}
             </div>
 
@@ -712,7 +737,7 @@ export default function ContextVocabTrainer() {
             <div className="border-t border-slate-100 pt-3 mt-4 flex items-center justify-between text-xs text-slate-400">
               <span>Đoạn văn học thuật chuẩn ETS TOEFL iBT</span>
               <span className="text-[11px] text-slate-500">
-                Tìm từ <strong>"{currentItem.target_word}"</strong> ở Paragraph {currentItem.paragraph_index}
+                Tìm từ <strong>"{currentItem.target_word}"</strong> ở Paragraph {effectiveParaIdx}
               </span>
             </div>
           </div>
@@ -727,7 +752,7 @@ export default function ContextVocabTrainer() {
                   Vocabulary Question
                 </span>
                 <h4 className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
-                  {currentItem.question}
+                  {currentItem.question.replace(/in\s+paragraph\s+\d+/i, `in paragraph ${effectiveParaIdx}`)}
                 </h4>
               </div>
 

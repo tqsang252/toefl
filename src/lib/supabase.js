@@ -656,6 +656,7 @@ export async function importBatchTests(testsArray) {
       }
 
       if (!error) {
+        seedContextVocabToSupabase().catch(() => {});
         return { success: true, count: preparedTests.length, destination: 'Supabase Cloud & Local' };
       }
       console.warn('Lỗi khi đẩy lên Supabase (đã lưu local an toàn):', error);
