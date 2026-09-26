@@ -94,7 +94,9 @@ export default function HighlightablePassage({ passageText, documentType, testId
     return { start, end };
   };
 
-  // TỰ ĐỘNG BẬT TỪ ĐIỂN VÀ TÔ MÀU KHI NGƯỜI DÙNG BÔI ĐEN VĂN BẢN
+  // BÔI ĐEN VĂN BẢN:
+  // - Khi Bút highlight BẬT: CHỈ chạy function tô màu (không mở pop-up dịch nghĩa)
+  // - Khi Bút highlight TẮT: CHỈ mở pop-up dịch nghĩa / tra từ vựng (không tô màu)
   const handleMouseUp = () => {
     setTimeout(() => {
       const sel = window.getSelection();
@@ -116,15 +118,9 @@ export default function HighlightablePassage({ passageText, documentType, testId
       const cleanWord = raw.replace(/^['"“‘.,;:!?()\[\]{}]+|['"”’.,;:!?()\[\]{}]+$/g, '').trim();
       if (!cleanWord) return;
 
-      // 1. Kích hoạt Pop-up Từ điển Tra & Lưu 1-chạm cho bài đọc
-      setSelectionData({
-        rawText: raw,
-        cleanText: cleanWord,
-        rect
-      });
-
-      // 2. Nếu Bút highlight đang BẬT -> Tự động tô màu dải chữ
       if (isHighlightEnabled) {
+        // 1. KHI ĐANG BẬT HIGHLIGHT: CHỈ chạy function tô màu, KHÔNG kích hoạt dịch nghĩa
+        setSelectionData(null);
         const offsets = getSelectionOffsets();
         if (offsets && offsets.start < offsets.end) {
           const newHighlight = {
@@ -134,7 +130,20 @@ export default function HighlightablePassage({ passageText, documentType, testId
             color: selectedColor
           };
           setHighlights((prev) => addHighlightRange(prev, newHighlight));
+          // Xóa vùng bôi đen xanh của trình duyệt sau khi tô màu để hiển thị màu highlight trực tiếp
+          try {
+            window.getSelection()?.removeAllRanges();
+          } catch (e) {
+            // ignore
+          }
         }
+      } else {
+        // 2. KHI ĐÃ TẮT HIGHLIGHT: MỚI kích hoạt bôi đen tra cứu & dịch nghĩa từ vựng
+        setSelectionData({
+          rawText: raw,
+          cleanText: cleanWord,
+          rect
+        });
       }
     }, 20);
   };
@@ -205,9 +214,6 @@ export default function HighlightablePassage({ passageText, documentType, testId
           <span className="text-xs font-bold uppercase tracking-wider text-amber-900 bg-amber-100/80 px-2.5 py-1 rounded-lg border border-amber-200">
             {documentType || "Reading Passage"}
           </span>
-          <span className="text-[11px] text-slate-400 hidden sm:inline">
-            (Bôi đen để tra từ & tô màu • Nhấp vào từ để xóa)
-          </span>
         </div>
 
         {/* Thanh công cụ Bút dạ quang (Highlighter Tools) */}
@@ -215,13 +221,19 @@ export default function HighlightablePassage({ passageText, documentType, testId
           
           {/* Nút bật/tắt bút dạ quang */}
           <button
-            onClick={() => setIsHighlightEnabled((prev) => !prev)}
+            onClick={() => {
+              setIsHighlightEnabled((prev) => {
+                const next = !prev;
+                if (next) setSelectionData(null); // Đóng ngay popup dịch nghĩa khi bật highlight
+                return next;
+              });
+            }}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
               isHighlightEnabled
                 ? 'bg-amber-100/90 text-amber-900 border-amber-300 shadow-2xs'
                 : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200'
             }`}
-            title={isHighlightEnabled ? 'Bút highlight đang BẬT: Bôi đen là tự tô màu' : 'Bút highlight đang TẮT (Chế độ tra từ điển bình thường)'}
+            title={isHighlightEnabled ? 'Bút highlight đang BẬT: Bôi đen để tô màu. Tắt bút để chuyển sang chế độ bôi đen dịch nghĩa.' : 'Bút highlight đang TẮT: Bôi đen để dịch nghĩa & tra từ. Bật bút để chuyển sang tô màu.'}
           >
             <Highlighter className={`w-3.5 h-3.5 ${isHighlightEnabled ? 'text-amber-700' : 'text-slate-400'}`} />
             <span>{isHighlightEnabled ? 'Bút highlight: BẬT' : 'Bút: TẮT'}</span>
