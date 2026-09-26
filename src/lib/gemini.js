@@ -880,6 +880,112 @@ Respond strictly with valid JSON:
 
 /**
  * ====================================================================
+ * GEMINI AI PHONETIC & STRESS EVALUATION (LISTEN & REPEAT DETAILED AUDIT)
+ * Phân tích chuyên sâu lỗi phát âm (Phonemes, Ending sounds) và Trọng âm (Stress, Intonation)
+ * ====================================================================
+ */
+export async function evaluateSentencePronunciationAndStress({
+  targetSentence = '',
+  targetIpa = '',
+  meaningVi = '',
+  audioUrl = null,
+  spokenTranscript = '',
+  durationSeconds = 0
+}) {
+  if (!targetSentence) {
+    throw new Error('Thiếu câu mẫu để đánh giá phát âm.');
+  }
+
+  // Chuyển audio sang base64 nếu có
+  const audioParts = [];
+  if (audioUrl && typeof audioUrl === 'string' && audioUrl.startsWith('blob:')) {
+    try {
+      const b64 = await blobUrlToBase64(audioUrl);
+      if (b64) {
+        audioParts.push({
+          inline_data: {
+            mime_type: 'audio/webm',
+            data: b64
+          }
+        });
+      }
+    } catch (e) {
+      console.warn('Cannot attach audio inline data for sentence analysis:', e);
+    }
+  }
+
+  const promptText = `
+You are an expert official ETS TOEFL Phonetician and Master Acoustic Speech Coach specializing in English Pronunciation, Lexical Stress, and Connected Speech.
+
+Evaluate the student's spoken recording for the following target sentence in the TOEFL Speaking "Listen and Repeat" section:
+
+[TARGET SENTENCE]:
+"${targetSentence}"
+
+[TARGET PHONETIC TRANSCRIPTION (IPA)]:
+${targetIpa || '(Standard American English IPA)'}
+
+[MEANING]:
+"${meaningVi || ''}"
+
+[STUDENT'S SPOKEN TRANSCRIPT (FROM SPEECH RECOGNITION)]:
+"${spokenTranscript || '(The student spoke and recorded the audio above)'}"
+
+[DURATION RECORDED]:
+${durationSeconds ? `${durationSeconds} seconds` : 'Normal sentence duration'}
+
+AUDIT REQUIREMENTS:
+1. Examine every single word in the target sentence.
+2. Check for:
+   - Word Stress / Syllable Stress (e.g. primary stress on wrong syllable, lack of vowel reduction in unstressed syllables).
+   - Phoneme / Articulation errors (e.g., /θ/ vs /s/, /ð/ vs /d/, /v/ vs /b/, silent letters, dropped ending sounds like /t/, /d/, /s/, /z/).
+   - Sentence Stress (content words emphasized vs function words de-emphasized).
+   - Linking & Connected speech (smooth transition between consonants and vowels).
+   - Intonation curve (Appropriate terminal falling contour for declarations, or rising for questions).
+
+Respond strictly with valid JSON with this exact schema:
+{
+  "overall_score": 85,
+  "pronunciation_score": 88,
+  "stress_score": 82,
+  "fluency_score": 85,
+  "intonation_analysis": "Giải thích chi tiết về ngữ điệu cả câu bằng tiếng Việt (ví dụ: hạ giọng dứt khoát ở cuối câu hay lên giọng bất thường)...",
+  "words_analysis": [
+    {
+      "word": "The",
+      "status": "correct",
+      "target_ipa": "/ðə/",
+      "user_phonetic": "[ðə]",
+      "error_detail": "",
+      "how_to_fix": ""
+    }
+  ],
+  "stress_errors": [
+    {
+      "word": "từ bị lỗi nhấn âm",
+      "issue": "Nhấn sai trọng âm âm tiết mấy",
+      "fix": "Hướng dẫn cụ thể cách đặt trọng âm và giảm âm yếu (schwa /ə/)"
+    }
+  ],
+  "pronunciation_errors": [
+    {
+      "word": "từ phát âm sai",
+      "issue": "Mô tả lỗi (ví dụ: nuốt âm đuôi /z/, đọc sai nguyên âm /ɜr/)",
+      "fix": "Hướng dẫn chi tiết vị trí răng, môi, lưỡi và luồng hơi bằng tiếng Việt"
+    }
+  ],
+  "coach_feedback": "Nhận xét tổng kết súc tích, mang tính động viên và định hướng sửa sai rõ ràng bằng tiếng Việt.",
+  "native_pacing_tip": "Mẹo đọc nối âm và nhịp thở như người bản xứ cho câu này (ví dụ: nối âm giữa từ nào với từ nào)..."
+}
+`;
+
+  const parts = [...audioParts, { text: promptText }];
+  const parsed = await generateGeminiJson(parts, 'You are an ETS TOEFL pronunciation and acoustic phonetics expert.');
+  return parsed;
+}
+
+/**
+ * ====================================================================
  * GEMINI AI READING & LISTENING EVALUATION SERVICE (ETS MSAT 2026)
  * ====================================================================
  */
