@@ -50,6 +50,10 @@ import {
   evaluateSingleWordPronunciation,
   analyzeAndEnrichCustomSpeakingSample
 } from '../../lib/gemini.js';
+import {
+  transcribeAudioWithGroq,
+  isGroqConfigured
+} from '../../lib/groq.js';
 
 // Âm thanh tiếng bíp chuẩn phòng thi ETS
 function playExamBeep(freq = 650, duration = 300) {
@@ -431,11 +435,27 @@ function ListenAndRepeatLab({ bank }) {
         if (e.data.size > 0) audioChunksRef.current.push(e.data);
       };
 
-      recorder.onstop = () => {
+      recorder.onstop = async () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
         const url = URL.createObjectURL(audioBlob);
         setUserAudioUrl(url);
         stream.getTracks().forEach((t) => t.stop());
+
+        // Nếu đã cấu hình Groq -> Dùng Whisper Large v3 bóc tách giọng nói chính xác cao nhất
+        if (isGroqConfigured()) {
+          try {
+            const whisperRes = await transcribeAudioWithGroq({
+              audioBlob,
+              prompt: currentItem?.text || ''
+            });
+            if (whisperRes && whisperRes.text) {
+              setSpeechTranscript(whisperRes.text);
+              evaluateAccuracy(whisperRes.text, currentItem?.text);
+            }
+          } catch (e) {
+            console.warn('Groq Whisper error, using browser STT fallback:', e);
+          }
+        }
       };
 
       recorder.start();
@@ -1240,7 +1260,19 @@ function ListenAndRepeatLab({ bank }) {
               {/* Transcription nhận diện giọng nói */}
               {speechTranscript && (
                 <div className="bg-white rounded-xl p-3 border border-emerald-200/80 text-xs">
-                  <span className="text-slate-400 block mb-1 font-bold">Hệ thống nhận diện giọng nói (STT):</span>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-slate-400 font-bold">Hệ thống nhận diện giọng nói (STT):</span>
+                    {isGroqConfigured() ? (
+                      <span className="text-[10px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 flex items-center gap-1 shadow-2xs">
+                        <Sparkles className="w-3 h-3 text-amber-600" />
+                        <span>Whisper Large v3 (Groq AI)</span>
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-medium text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">
+                        Web Speech STT
+                      </span>
+                    )}
+                  </div>
                   <p className="text-slate-800 font-semibold text-sm">
                     "{speechTranscript}"
                   </p>
@@ -1906,11 +1938,23 @@ function IndependentSpeakingStudio({ bank }) {
         if (e.data.size > 0) audioChunksRef.current.push(e.data);
       };
 
-      recorder.onstop = () => {
+      recorder.onstop = async () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
         const url = URL.createObjectURL(audioBlob);
         setUserAudioUrl(url);
         stream.getTracks().forEach((t) => t.stop());
+
+        // Nếu đã cấu hình Groq -> Dùng Whisper Large v3 bóc tách toàn bộ 45s nói với độ chính xác cao nhất
+        if (isGroqConfigured()) {
+          try {
+            const whisperRes = await transcribeAudioWithGroq({ audioBlob });
+            if (whisperRes && whisperRes.text) {
+              setTask1Transcript(whisperRes.text);
+            }
+          } catch (e) {
+            console.warn('Groq 45s Whisper error, fallback to browser STT:', e);
+          }
+        }
       };
 
       recorder.start();

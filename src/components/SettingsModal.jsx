@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Database, Check, AlertCircle, RefreshCw, UploadCloud, Sparkles, Key, ShieldCheck, Zap } from 'lucide-react';
 import { getSupabaseConfig, saveSupabaseConfig, isSupabaseConfigured, seedDefaultsToSupabase, seedVocabularyToSupabase, syncAllLocalTestsToSupabase, seedContextVocabToSupabase, seedSpeakingLabToSupabase } from '../lib/supabase';
 import { getGeminiApiKey, saveGeminiApiKey, getOpenRouterApiKey, saveOpenRouterApiKey, isOpenRouterConfigured } from '../lib/gemini';
+import { getGroqApiKey, saveGroqApiKey, isGroqConfigured } from '../lib/groq';
 
 export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
   const currentConfig = getSupabaseConfig();
@@ -20,6 +21,10 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
   const envOpenRouterKey = import.meta.env?.VITE_OPENROUTER_API_KEY || import.meta.env?.OPENROUTER_API_KEY || '';
   const localOpenRouterKey = typeof localStorage !== 'undefined' ? (localStorage.getItem('toefl_openrouter_api_key') || '') : '';
   const [openRouterKeyInput, setOpenRouterKeyInput] = useState(localOpenRouterKey);
+
+  const envGroqKey = import.meta.env?.VITE_GROQ_API_KEY || import.meta.env?.GROQ_API_KEY || '';
+  const localGroqKey = typeof localStorage !== 'undefined' ? (localStorage.getItem('toefl_groq_api_key') || '') : '';
+  const [groqKeyInput, setGroqKeyInput] = useState(localGroqKey);
 
   const [statusMsg, setStatusMsg] = useState('');
   
@@ -61,6 +66,7 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
     // 2. Lưu AI Keys
     saveGeminiApiKey(geminiKeyInput);
     saveOpenRouterApiKey(openRouterKeyInput);
+    saveGroqApiKey(groqKeyInput);
 
     setStatusMsg('Đã lưu toàn bộ cấu hình Hệ thống & AI thành công!');
     setTimeout(() => {
@@ -79,8 +85,10 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
     // Xóa ghi đè cục bộ AI
     saveGeminiApiKey('');
     saveOpenRouterApiKey('');
+    saveGroqApiKey('');
     setGeminiKeyInput('');
     setOpenRouterKeyInput('');
+    setGroqKeyInput('');
 
     setStatusMsg('Đã khôi phục cài đặt về Biến môi trường .env / Vercel!');
     setTimeout(() => {
@@ -183,6 +191,7 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
 
   const hasEffectiveGemini = Boolean(geminiKeyInput.trim() || envGeminiKey.trim());
   const hasEffectiveOpenRouter = Boolean(openRouterKeyInput.trim() || envOpenRouterKey.trim());
+  const hasEffectiveGroq = Boolean(groqKeyInput.trim() || envGroqKey.trim());
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
@@ -199,7 +208,7 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
                 Cài Đặt Hệ Thống & AI Providers
               </h3>
               <p className="text-[11px] text-slate-500">
-                Quản lý Google Gemini, OpenRouter dự phòng và Cloud Database
+                Quản lý Google Gemini, Groq Whisper STT, OpenRouter và Cloud Database
               </p>
             </div>
           </div>
@@ -223,9 +232,9 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>AI Provider (Gemini & OpenRouter)</span>
-            {hasEffectiveOpenRouter && (
-              <span className="w-2 h-2 rounded-full bg-emerald-500" title="Đã có OpenRouter dự phòng" />
+            <span>AI Providers (Gemini, Groq & OpenRouter)</span>
+            {(hasEffectiveOpenRouter || hasEffectiveGroq) && (
+              <span className="w-2 h-2 rounded-full bg-emerald-500" title="Đã có AI dự phòng / Whisper" />
             )}
           </button>
 
@@ -250,13 +259,15 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
             <div className="space-y-4">
               
               {/* Status Overview Card */}
-              <div className="p-3.5 rounded-2xl border text-xs leading-relaxed bg-gradient-to-r from-indigo-50/80 to-purple-50/80 border-indigo-100">
+              <div className="p-3.5 rounded-2xl border text-xs leading-relaxed bg-gradient-to-r from-indigo-50/80 via-purple-50/80 to-amber-50/80 border-indigo-100">
                 <div className="flex items-center gap-2 mb-1.5">
                   <ShieldCheck className="w-4 h-4 text-indigo-600" />
-                  <strong className="text-indigo-950 font-bold">Cơ Chế Chuyển Đổi Dự Phòng Thông Minh (Auto-Fallback)</strong>
+                  <strong className="text-indigo-950 font-bold">Hệ Thống Đa Trí Tuệ Nhân Tạo (Multi-AI Ecosystem)</strong>
                 </div>
                 <p className="text-slate-600 text-[11px] leading-relaxed">
-                  Hệ thống <strong>luôn ưu tiên sử dụng Google Gemini</strong>. Khi Gemini gặp lỗi quá tải (<strong>503 High Demand</strong>) hoặc hết hạn mức (<strong>429 Quota</strong>), hệ thống sẽ <strong>tự động chuyển sang OpenRouter</strong> để tiếp tục sinh đề và chấm bài mà không gây gián đoạn!
+                  • <strong>Google Gemini</strong>: Đảm nhiệm chấm điểm chuyên sâu, ngữ âm âm vị và trọng âm ETS.<br/>
+                  • <strong>Groq Cloud</strong>: Nhận diện giọng nói siêu chuẩn bằng <strong>Whisper Large v3</strong> và bóc băng tức thì (&lt; 0.5s).<br/>
+                  • <strong>OpenRouter</strong>: Tự động dự phòng khi Gemini quá tải hoặc hết hạn mức.
                 </p>
 
                 <div className="mt-2.5 pt-2.5 border-t border-indigo-100/80 flex flex-wrap items-center gap-2 text-[10px]">
@@ -264,14 +275,21 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
                     hasEffectiveGemini ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
                   }`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${hasEffectiveGemini ? 'bg-emerald-500' : 'bg-rose-500'}`} />
-                    Gemini: {hasEffectiveGemini ? 'Sẵn sàng (Ưu tiên)' : 'Chưa cấu hình'}
+                    Gemini: {hasEffectiveGemini ? 'Sẵn sàng (Chính)' : 'Chưa cấu hình'}
                   </span>
 
                   <span className={`px-2 py-0.5 rounded-md font-bold flex items-center gap-1 ${
-                    hasEffectiveOpenRouter ? 'bg-purple-100 text-purple-800' : 'bg-amber-100 text-amber-800'
+                    hasEffectiveGroq ? 'bg-amber-100 text-amber-900' : 'bg-slate-200 text-slate-600'
                   }`}>
-                    <span className={`w-1.5 h-1.5 rounded-full ${hasEffectiveOpenRouter ? 'bg-purple-500' : 'bg-amber-500'}`} />
-                    OpenRouter: {hasEffectiveOpenRouter ? 'Sẵn sàng (Dự phòng)' : 'Chưa cấu hình (Khuyên dùng)'}
+                    <span className={`w-1.5 h-1.5 rounded-full ${hasEffectiveGroq ? 'bg-amber-500' : 'bg-slate-400'}`} />
+                    Groq (Whisper STT): {hasEffectiveGroq ? 'Sẵn sàng (< 0.5s)' : 'Tùy chọn'}
+                  </span>
+
+                  <span className={`px-2 py-0.5 rounded-md font-bold flex items-center gap-1 ${
+                    hasEffectiveOpenRouter ? 'bg-purple-100 text-purple-800' : 'bg-slate-200 text-slate-600'
+                  }`}>
+                    <span className={`w-1.5 h-1.5 rounded-full ${hasEffectiveOpenRouter ? 'bg-purple-500' : 'bg-slate-400'}`} />
+                    OpenRouter: {hasEffectiveOpenRouter ? 'Sẵn sàng (Dự phòng)' : 'Tùy chọn'}
                   </span>
                 </div>
               </div>
@@ -296,7 +314,7 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
                 </div>
 
                 <p className="text-[11px] text-slate-500">
-                  Dùng model <code className="text-teal-700 font-mono font-bold">gemini-2.5-flash</code> chính thức. Hỗ trợ 1 key đơn lẻ, mảng JSON <code className="font-mono text-teal-800 font-semibold">["key1", "key2"]</code> hoặc phân tách bằng dấu phẩy. Hệ thống sẽ chọn ngẫu nhiên (tối đa 3 lần).
+                  Dùng model <code className="text-teal-700 font-mono font-bold">gemini-2.5-flash</code> chính thức. Hỗ trợ 1 key đơn lẻ, mảng JSON <code className="font-mono text-teal-800 font-semibold">["key1", "key2"]</code> hoặc phân tách bằng dấu phẩy. Lấy key miễn phí tại <a href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer" className="text-teal-700 font-bold underline">aistudio.google.com</a>.
                 </p>
 
                 <textarea
@@ -308,12 +326,44 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
                 />
               </div>
 
-              {/* 2. OpenRouter Key */}
+              {/* 2. Groq Cloud Key */}
+              <div className="p-4 rounded-2xl border border-amber-200 bg-amber-50/20 space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold text-amber-950 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-amber-500" />
+                    <span>2. Groq Cloud API Key (Whisper Large v3 STT & Llama 3.3 Siêu Tốc)</span>
+                  </label>
+                  {envGroqKey && !groqKeyInput.trim() && (
+                    <span className="text-[10px] font-semibold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-md border border-amber-300">
+                      ✓ Đã có từ .env / Vercel
+                    </span>
+                  )}
+                  {groqKeyInput.trim() && (
+                    <span className="text-[10px] font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                      Đang ghi đè cục bộ
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-[11px] text-slate-500 leading-relaxed">
+                  Bóc tách giọng nói Speaking siêu chuẩn bằng <code className="text-amber-800 font-mono font-bold">whisper-large-v3</code> trong <strong>&lt; 0.5s</strong>. Lấy key miễn phí 100% tại <a href="https://console.groq.com/keys" target="_blank" rel="noreferrer" className="text-amber-800 font-bold underline">console.groq.com/keys</a>. Hỗ trợ 1 key, mảng JSON hoặc dấu phẩy.
+                </p>
+
+                <textarea
+                  rows={2}
+                  value={groqKeyInput}
+                  onChange={(e) => setGroqKeyInput(e.target.value)}
+                  placeholder={envGroqKey ? "•••••••• (Đang dùng biến môi trường .env / Vercel)" : "Nhập Groq API Key dạng gsk_..."}
+                  className="w-full px-3 py-2 text-xs font-mono border rounded-xl border-amber-300 focus:outline-hidden focus:border-amber-600 focus:ring-1 focus:ring-amber-600 bg-white"
+                />
+              </div>
+
+              {/* 3. OpenRouter Key */}
               <div className="p-4 rounded-2xl border border-purple-200 bg-purple-50/20 space-y-2">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-bold text-purple-950 flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-purple-600" />
-                    <span>2. OpenRouter API Key (Dự phòng khi Gemini lỗi/hết limit)</span>
+                    <span>3. OpenRouter API Key (Dự phòng khi Gemini lỗi/hết limit)</span>
                   </label>
                   {envOpenRouterKey && !openRouterKeyInput.trim() && (
                     <span className="text-[10px] font-semibold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-md border border-purple-200">
@@ -328,7 +378,7 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
                 </div>
 
                 <p className="text-[11px] text-slate-500 leading-relaxed">
-                  Khi Gemini hết quota hoặc lỗi, hệ thống tự động đổi sang OpenRouter (thử ngẫu nhiên tối đa 3 key). Hỗ trợ 1 key, mảng JSON hoặc phân tách bằng dấu phẩy.
+                  Khi Gemini hết quota hoặc lỗi, hệ thống tự động đổi sang OpenRouter (thử ngẫu nhiên tối đa 3 key). Hỗ trợ 1 key, mảng JSON hoặc phân tách bằng dấu phẩy. Lấy key tại <a href="https://openrouter.ai/settings/keys" target="_blank" rel="noreferrer" className="text-purple-700 font-bold underline">openrouter.ai</a>.
                 </p>
 
                 <textarea
