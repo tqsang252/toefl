@@ -1,6 +1,7 @@
 import { jsonrepair } from 'jsonrepair';
 import { importBatchTests } from './supabase.js';
 import { getExamPrompt } from './examPrompts.js';
+import { TOEFL_SENTENCE_PATTERNS, matchPatternHeuristically } from '../data/sentencePatterns.js';
 
 // ====================================================================
 // GEMINI AI WRITING EVALUATION SERVICE (ETS TOEFL 2026 RUBRIC)
@@ -1699,6 +1700,91 @@ NO markdown formatting or text outside the JSON object.`;
     'You are an expert bilingual academic writing coach for TOEFL iBT 2026. Respond strictly with a single JSON object.',
     0.3
   );
+}
+
+/**
+ * Trợ lý AI phân tích và gợi ý cấu trúc câu phù hợp từ 25 Patterns TOEFL Build a Sentence
+ */
+export async function detectSentencePatternWithAi({
+  context = '',
+  scrambledWords = [],
+  targetPrompt = '',
+  correctSentenceHint = ''
+}) {
+  const scrambledList = (scrambledWords || []).map(w => String(w).trim()).filter(Boolean);
+  const wordsStr = scrambledList.join(', ');
+
+  // 1. Phân tích heuristic trước để có fallback tức thì nếu offline / lỗi mạng
+  const heuristicId = matchPatternHeuristically(scrambledList, context, correctSentenceHint);
+  const heuristicPattern = TOEFL_SENTENCE_PATTERNS.find(p => p.id === heuristicId) || TOEFL_SENTENCE_PATTERNS[0];
+
+  const patternsOverview = TOEFL_SENTENCE_PATTERNS.map(p => 
+    `#${p.id} [${p.pattern}]: ${p.formula} (Ví dụ: ${p.example})`
+  ).join('\n');
+
+  const prompt = `Bạn là Trợ lý AI Giám khảo Ngữ pháp TOEFL iBT 2026.
+Nhiệm vụ của bạn là phân tích câu hỏi dạng Build a Sentence (Ghép từ thành câu) dưới đây và xác định cấu trúc câu ngữ pháp phù hợp nhất.
+
+Ngữ cảnh hội thoại:
+"${context || 'No context'}"
+
+Kho từ vựng có sẵn (Word Bank):
+[${wordsStr}]
+${correctSentenceHint ? `Gợi ý câu chuẩn: "${correctSentenceHint}"` : ''}
+
+Danh sách 25 Cấu Trúc Câu Mẫu (TOEFL Sentence Patterns):
+${patternsOverview}
+
+YÊU CẦU:
+1. Phân tích các từ trong Word Bank và ngữ cảnh xem câu này phù hợp với Pattern nào trong 25 Pattern trên.
+2. Nếu câu KHỚP với 1 trong 25 Pattern trên:
+   - "pattern_id": số nguyên từ 1 đến 25.
+   - "pattern_name": tên tiếng Anh của pattern (ví dụ: "Wh-noun clause").
+   - "formula": công thức ngữ pháp của pattern đó (ví dụ: "what/why/how/whether + S + V").
+   - "is_in_table": true
+   - "explanation": Giải thích ngắn gọn bằng tiếng Việt (2-3 câu) vì sao chọn pattern này, chỉ ra các từ khóa nhận diện trong kho từ (ví dụ: "Từ 'whether' đứng đầu làm mệnh đề danh từ đóng vai trò chủ ngữ cho vị ngữ 'remains unclear'...").
+   - "assembly_guide": Gợi ý thứ tự tư duy ghép câu (1-2 câu).
+3. Nếu câu KHÔNG nằm trong 25 Pattern trên (cấu trúc phức hợp/tùy biến khác):
+   - "pattern_id": null
+   - "pattern_name": "Cấu trúc tùy biến (Custom Structure)"
+   - "formula": công thức khái quát do bạn viết ra (ví dụ: "S + V + O + Prepositional Phrase")
+   - "is_in_table": false
+   - "explanation": Mô tả chi tiết cấu trúc câu này bằng tiếng Việt và cách sắp xếp các từ.
+   - "assembly_guide": Hướng dẫn các bước ghép từ cụ thể.
+
+Trả về DUY NHẤT một JSON Object theo đúng schema:
+{
+  "pattern_id": 11,
+  "pattern_name": "Wh-noun clause",
+  "formula": "what/why/how/whether + S + V",
+  "is_in_table": true,
+  "explanation": "Câu này sử dụng mệnh đề danh từ bắt đầu bằng 'whether' làm chủ ngữ...",
+  "assembly_guide": "Đặt 'whether the strategy improves...' làm chủ ngữ, sau đó ghép vị ngữ 'remains unclear'."
+}`;
+
+  try {
+    const aiResult = await generateGeminiJson(
+      prompt,
+      'You are a professional TOEFL iBT grammar tutor. Return strictly a JSON object with pattern analysis.',
+      0.2
+    );
+
+    if (aiResult && (typeof aiResult.pattern_id === 'number' || aiResult.pattern_id === null)) {
+      return aiResult;
+    }
+  } catch (err) {
+    console.warn('Lỗi gọi Gemini detectSentencePattern, sử dụng fallback heuristic:', err);
+  }
+
+  // Fallback heuristic khi không có mạng hoặc API lỗi
+  return {
+    pattern_id: heuristicPattern.id,
+    pattern_name: heuristicPattern.pattern,
+    formula: heuristicPattern.formula,
+    is_in_table: true,
+    explanation: `Nhận diện dựa trên từ vựng câu này: Cấu trúc ${heuristicPattern.pattern} (${heuristicPattern.formula}). Ví dụ mẫu: "${heuristicPattern.example}".`,
+    assembly_guide: `Sắp xếp các từ theo trật tự: ${heuristicPattern.formula}.`
+  };
 }
 
 
