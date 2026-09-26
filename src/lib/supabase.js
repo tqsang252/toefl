@@ -726,7 +726,7 @@ export function storeAIEvaluation(testId, resultId, completedAt, evaluations) {
 export async function saveExamResult(resultPayload) {
   const resultRecord = {
     ...resultPayload,
-    id: resultPayload.id || `res_${Date.now()}`,
+    id: resultPayload.id || `res_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
     completed_at: resultPayload.completed_at || new Date().toISOString()
   };
 

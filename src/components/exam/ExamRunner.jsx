@@ -22,11 +22,31 @@ export default function ExamRunner({ test, onExit }) {
   const [answers, setAnswers] = useState({});
   const [questionTimings, setQuestionTimings] = useState({});
   const lastInteractionTimeRef = React.useRef(Date.now());
-  const [startTime] = useState(Date.now());
+  const [startTime, setStartTime] = useState(Date.now());
   const [isCompleted, setIsCompleted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [examResults, setExamResults] = useState(null);
   const [confirmDialog, setConfirmDialog] = useState(null);
+
+  // Xóa trắng toàn bộ dữ liệu & đặt lại thời gian về 0 cho lần làm bài mới (Clean Slate)
+  const handleResetAttempt = () => {
+    const now = Date.now();
+    setAnswers({});
+    setQuestionTimings({});
+    setStartTime(now);
+    lastInteractionTimeRef.current = now;
+    setCurrentStageIndex(0);
+    setCurrentTaskIndex(0);
+    setLockedStageIndices([]);
+    setIsCompleted(false);
+    setIsSubmitting(false);
+    setExamResults(null);
+  };
+
+  // Tự động reset biến thời gian và câu trả lời mỗi khi nạp đề thi mới
+  useEffect(() => {
+    handleResetAttempt();
+  }, [test?.id]);
 
   const currentStage = stages[currentStageIndex] || stages[0];
   const currentTasks = currentStage?.tasks || [];
@@ -135,7 +155,9 @@ export default function ExamRunner({ test, onExit }) {
     setIsSubmitting(true);
 
     try {
-      const timeSpentSeconds = Math.round((Date.now() - startTime) / 1000);
+      const now = Date.now();
+      const timeSpentSeconds = Math.max(1, Math.round((now - startTime) / 1000));
+      const newResultId = `res_${now}_${Math.random().toString(36).substring(2, 7)}`;
     
     let totalScoreRaw = 0;
     let totalQuestionsCount = 0;
@@ -463,7 +485,9 @@ export default function ExamRunner({ test, onExit }) {
         );
 
     const payload = {
+      id: newResultId,
       test_id: test.id,
+      completed_at: new Date(now).toISOString(),
       skill: test.skill,
       score_band: scoreBand,
       score_raw: isFullTest ? totalToefl120 : Math.round(totalScoreRaw),
@@ -511,15 +535,7 @@ export default function ExamRunner({ test, onExit }) {
       <ExamResults
         test={test}
         results={examResults}
-        onRetake={() => {
-          setAnswers({});
-          setCurrentStageIndex(0);
-          setCurrentTaskIndex(0);
-          setLockedStageIndices([]);
-          setIsCompleted(false);
-          setIsSubmitting(false);
-          setExamResults(null);
-        }}
+        onRetake={handleResetAttempt}
         onBackHome={onExit}
       />
     );
