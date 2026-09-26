@@ -45,7 +45,7 @@ const EXAM_SKILLS = [
   }
 ];
 
-// 2 Trung tâm rèn luyện từ vựng & ngữ cảnh chuyên sâu (Mastery Labs)
+// 3 Trung tâm rèn luyện chuyên sâu (Mastery Labs)
 const MASTERY_HUBS = [
   {
     id: 'vocabulary',
@@ -72,6 +72,19 @@ const MASTERY_HUBS = [
     textColor: 'text-[#0f766e]',
     iconBg: 'bg-[#0f766e]',
     glow: 'shadow-teal-500/10'
+  },
+  {
+    id: 'speaking_lab',
+    label: 'SPEAKING MASTERY LAB',
+    subtitle: '1,000 Câu Shadowing & 50 Đề 45s ETS',
+    badge: '1,000 Câu + 50 Đề',
+    badgeBg: 'bg-emerald-100/80 text-emerald-900 border-emerald-200',
+    icon: Mic,
+    borderColor: 'border-[#047857]',
+    activeBorder: 'border-[#047857] ring-3 ring-emerald-400/30 shadow-lg',
+    textColor: 'text-[#047857]',
+    iconBg: 'bg-[#047857]',
+    glow: 'shadow-emerald-500/10'
   }
 ];
 
@@ -114,8 +127,8 @@ export default function SkillTabs({ activeSkill, onSelectSkill }) {
         })}
       </div>
 
-      {/* HÀNG 2: 2 TRUNG TÂM LUYỆN TẬP TỪ VỰNG CHUYÊN SÂU (VOCABULARY HUB & CONTEXT VOCAB) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3.5">
+      {/* HÀNG 2: 3 TRUNG TÂM LUYỆN TẬP CHUYÊN SÂU (VOCABULARY HUB, CONTEXT VOCAB & SPEAKING LAB) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 sm:gap-3.5">
         {MASTERY_HUBS.map((hub) => {
           const Icon = hub.icon;
           const isActive = activeSkill === hub.id;

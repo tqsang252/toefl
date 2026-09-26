@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Database, Check, AlertCircle, RefreshCw, UploadCloud, Sparkles, Key, ShieldCheck, Zap } from 'lucide-react';
-import { getSupabaseConfig, saveSupabaseConfig, isSupabaseConfigured, seedDefaultsToSupabase, seedVocabularyToSupabase, syncAllLocalTestsToSupabase, seedContextVocabToSupabase } from '../lib/supabase';
+import { getSupabaseConfig, saveSupabaseConfig, isSupabaseConfigured, seedDefaultsToSupabase, seedVocabularyToSupabase, syncAllLocalTestsToSupabase, seedContextVocabToSupabase, seedSpeakingLabToSupabase } from '../lib/supabase';
 import { getGeminiApiKey, saveGeminiApiKey, getOpenRouterApiKey, saveOpenRouterApiKey, isOpenRouterConfigured } from '../lib/gemini';
 
 export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
@@ -149,6 +149,32 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
       setTimeout(() => setStatusMsg(''), 4000);
     } catch (e) {
       alert("Lỗi khi nạp đề Context Vocab lên Supabase: " + e.message);
+      setStatusMsg("");
+    } finally {
+      setIsSeeding(false);
+    }
+  };
+
+  const handleSeedSpeakingLab = async () => {
+    if (!isSupabaseConfigured()) {
+      alert("Vui lòng lưu Supabase URL và Key trước khi tải Speaking Lab lên Cloud!");
+      return;
+    }
+
+    try {
+      setIsSeeding(true);
+      setStatusMsg("Đang đồng bộ 1,000 câu Listen & Repeat + 50 đề 45s lên Supabase...");
+      const res = await seedSpeakingLabToSupabase((msg) => {
+        setStatusMsg(msg);
+      });
+      if (res && res.success) {
+        setStatusMsg(`✓ Đã nạp thành công 1,000 câu Listen & Repeat và 50 đề 45s lên Supabase!`);
+      } else {
+        setStatusMsg("Lỗi: " + (res?.error || "Không thể đồng bộ Speaking Lab"));
+      }
+      setTimeout(() => setStatusMsg(''), 4000);
+    } catch (e) {
+      alert("Lỗi khi nạp Speaking Lab lên Supabase: " + e.message);
       setStatusMsg("");
     } finally {
       setIsSeeding(false);
@@ -405,6 +431,15 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
                 >
                   <UploadCloud className="w-4 h-4 text-teal-700" />
                   <span>{isSeeding ? "Đang xử lý..." : "☁️ Đồng bộ 50 đề Context Vocab (Reading Passages) lên Supabase"}</span>
+                </button>
+
+                <button
+                  onClick={handleSeedSpeakingLab}
+                  disabled={isSeeding}
+                  className="w-full mt-2.5 py-2.5 px-4 bg-lime-50 hover:bg-lime-100 active:scale-98 text-lime-950 font-bold text-xs rounded-xl border border-lime-300 transition-all cursor-pointer flex items-center justify-center gap-2"
+                >
+                  <UploadCloud className="w-4 h-4 text-lime-700" />
+                  <span>{isSeeding ? "Đang xử lý..." : "🎙️ Đồng bộ Speaking Lab (1,000 câu + 50 đề 45s) lên Supabase"}</span>
                 </button>
               </div>
             </div>

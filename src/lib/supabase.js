@@ -2,6 +2,8 @@ import { createClient } from '@supabase/supabase-js';
 import { DEFAULT_TESTS } from '../data/defaultTests.js';
 import { VOCABULARY_DECKS } from '../data/vocabularyData.js';
 import EXTENDED_CONTEXT_VOCAB_BANK from '../data/contextVocabData.js';
+import SPEAKING_REPEAT_BANK from '../data/speakingRepeatData.js';
+import SPEAKING_45S_BANK from '../data/speaking45sData.js';
 
 // Lấy config từ biến môi trường Vercel / Vite
 // Hỗ trợ cả tiền tố VITE_ (chuẩn Vite) và không có VITE_ (khi kết nối Supabase qua Vercel Integration)
@@ -1631,5 +1633,147 @@ export async function saveStarredContextWord(item) {
 
   return true;
 }
+
+// =========================================================================
+// 8. QUẢN LÝ SPEAKING MASTERY LAB TRÊN SUPABASE (1,000 CÂU & 50 ĐỀ 45S)
+// =========================================================================
+
+/**
+ * Lấy ngân hàng 1,000 câu Listen & Repeat (Ưu tiên Supabase -> fallback Local)
+ */
+export async function getSpeakingRepeatBank() {
+  if (isSupabaseConfigured() && supabaseInstance) {
+    try {
+      const { data, error } = await supabaseInstance
+        .from('tests')
+        .select('*')
+        .eq('id', 'speaking_repeat_1000_bank')
+        .maybeSingle();
+
+      if (!error && data && data.content?.items && data.content.items.length > 0) {
+        return data.content.items;
+      }
+    } catch (e) {
+      console.warn('Lỗi lấy câu Listen & Repeat từ Supabase, chuyển sang cục bộ:', e);
+    }
+  }
+  return SPEAKING_REPEAT_BANK;
+}
+
+/**
+ * Lấy ngân hàng 50 đề thi 45s Speaking & Sample Answers (Ưu tiên Supabase -> fallback Local)
+ */
+export async function getSpeaking45sBank() {
+  if (isSupabaseConfigured() && supabaseInstance) {
+    try {
+      const { data, error } = await supabaseInstance
+        .from('tests')
+        .select('*')
+        .eq('id', 'speaking_45s_50_bank')
+        .maybeSingle();
+
+      if (!error && data && data.content?.items && data.content.items.length > 0) {
+        return data.content.items;
+      }
+    } catch (e) {
+      console.warn('Lỗi lấy đề thi 45s từ Supabase, chuyển sang cục bộ:', e);
+    }
+  }
+  return SPEAKING_45S_BANK;
+}
+
+/**
+ * Đẩy toàn bộ dữ liệu Speaking Lab (1,000 câu + 50 đề 45s) lên Supabase
+ */
+export async function seedSpeakingLabToSupabase(onProgress) {
+  if (!isSupabaseConfigured()) throw new Error('Chưa cấu hình Supabase! Vui lòng kiểm tra cài đặt kết nối.');
+
+  const total = 2;
+
+  // 1. Đẩy 1,000 câu Listen & Repeat
+  if (typeof onProgress === 'function') onProgress('Đang tải 1,000 câu Listen & Repeat lên Cloud...', 1, total);
+  const { error: err1 } = await supabaseInstance
+    .from('tests')
+    .upsert({
+      id: 'speaking_repeat_1000_bank',
+      title: 'TOEFL Speaking Lab: 1,000 Listen & Repeat Sentences (ETS Standards)',
+      skill: 'speaking',
+      task_type: 'listen_repeat_bank',
+      content: {
+        items: SPEAKING_REPEAT_BANK,
+        count: SPEAKING_REPEAT_BANK.length,
+        levels: { l1: 300, l2: 400, l3: 300 },
+        updated_at: new Date().toISOString()
+      },
+      duration_seconds: 3600
+    }, { onConflict: 'id' });
+
+  if (err1) throw err1;
+
+  // 2. Đẩy 50 đề 45s Independent Speaking
+  if (typeof onProgress === 'function') onProgress('Đang tải 50 đề thi 45s & Sample Answers lên Cloud...', 2, total);
+  const { error: err2 } = await supabaseInstance
+    .from('tests')
+    .upsert({
+      id: 'speaking_45s_50_bank',
+      title: 'TOEFL Speaking Lab: 50 Independent Speaking Tasks & Band 26-30 Samples',
+      skill: 'speaking',
+      task_type: 'independent_speaking_45s',
+      content: {
+        items: SPEAKING_45S_BANK,
+        count: SPEAKING_45S_BANK.length,
+        updated_at: new Date().toISOString()
+      },
+      duration_seconds: 2250
+    }, { onConflict: 'id' });
+
+  if (err2) throw err2;
+
+  return { success: true, repeatCount: SPEAKING_REPEAT_BANK.length, taskCount: SPEAKING_45S_BANK.length };
+}
+
+/**
+ * Lưu lịch sử luyện nói Speaking Lab vào LocalStorage và Supabase
+ */
+export async function saveSpeakingPracticeHistory(practiceData) {
+  const record = {
+    id: `spk_hist_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+    type: practiceData.type || 'repeat', // 'repeat' | '45s'
+    itemId: practiceData.itemId || '',
+    prompt: practiceData.prompt || practiceData.text || '',
+    audioDuration: practiceData.audioDuration || 0,
+    accuracy: practiceData.accuracy || null,
+    aiFeedback: practiceData.aiFeedback || null,
+    timestamp: new Date().toISOString()
+  };
+
+  if (typeof localStorage !== 'undefined') {
+    try {
+      const raw = localStorage.getItem('toefl_speaking_practice_history');
+      const list = raw ? JSON.parse(raw) : [];
+      list.unshift(record);
+      localStorage.setItem('toefl_speaking_practice_history', JSON.stringify(list.slice(0, 100)));
+    } catch (e) {
+      console.warn('Lỗi lưu lịch sử speaking vào LocalStorage:', e);
+    }
+  }
+
+  if (isSupabaseConfigured() && supabaseInstance) {
+    try {
+      await supabaseInstance.from('exam_history').insert({
+        test_id: practiceData.type === 'repeat' ? 'speaking_repeat_practice' : 'speaking_45s_practice',
+        created_at: record.timestamp,
+        score: record.accuracy || 100,
+        total: 100,
+        details: record
+      });
+    } catch (e) {
+      // Ignore schema mismatch
+    }
+  }
+
+  return record;
+}
+
 
 
