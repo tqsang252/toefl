@@ -8,7 +8,7 @@ import {
 } from './supabase.js';
 import { getExamPrompt } from './examPrompts.js';
 import { TOEFL_SENTENCE_PATTERNS, matchPatternHeuristically } from '../data/sentencePatterns.js';
-import { callGroqChat, getGroqApiKeys, isGroqConfigured, GROQ_CHAT_MODELS } from './groq.js';
+import { callGroqChat, getGroqApiKeys, isGroqConfigured, GROQ_CHAT_MODELS, FAST_GROQ_CHAT_MODEL } from './groq.js';
 
 // ====================================================================
 // GEMINI AI WRITING EVALUATION SERVICE (ETS TOEFL 2026 RUBRIC)
@@ -1884,6 +1884,7 @@ YÊU CẦU:
       const rawText = await callGroqChat({
         prompt,
         systemInstruction,
+        model: FAST_GROQ_CHAT_MODEL,
         max_tokens: 350,
         temperature: 0.1,
         jsonMode: true
@@ -1968,6 +1969,7 @@ YÊU CẦU:
       const rawText = await callGroqChat({
         prompt,
         systemInstruction,
+        model: FAST_GROQ_CHAT_MODEL,
         max_tokens: 400,
         temperature: 0.1,
         jsonMode: true

@@ -331,7 +331,7 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-bold text-amber-950 flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-amber-500" />
-                    <span>2. Groq Cloud API Key (Whisper Large v3 STT & Llama 3.3 Siêu Tốc)</span>
+                    <span>2. Groq Cloud API Key (Whisper Large v3 & GPT-OSS 120B / 20B)</span>
                   </label>
                   {envGroqKey && !groqKeyInput.trim() && (
                     <span className="text-[10px] font-semibold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-md border border-amber-300">
