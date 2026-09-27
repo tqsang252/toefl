@@ -133,14 +133,17 @@ export default function SkillNotesHub() {
           </div>
 
           {/* Action buttons */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0">
+          <div className="flex flex-col items-center sm:items-end gap-1.5 shrink-0">
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-white text-sky-900 hover:bg-sky-50 active:scale-95 text-xs font-black shadow-lg transition-all cursor-pointer"
+              className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-white text-sky-900 hover:bg-sky-50 active:scale-95 text-xs font-black shadow-lg transition-all cursor-pointer w-full sm:w-auto"
             >
               <Sparkles className="w-4 h-4 text-sky-600 animate-pulse" />
               <span>+ Số Hóa Tài Liệu (Ảnh / PDF / Ctrl+V)</span>
             </button>
+            <p className="text-[11px] text-sky-100/90 font-medium text-center sm:text-right">
+              Hỗ trợ: <span className="font-bold text-white">Ảnh &lt; 10MB</span> • <span className="font-bold text-white">PDF &lt; 4MB</span>
+            </p>
           </div>
         </div>
       </div>

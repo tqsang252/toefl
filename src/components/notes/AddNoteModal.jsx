@@ -62,6 +62,18 @@ export default function AddNoteModal({ isOpen, onClose, onNoteCreated }) {
 
   const handleFileSelect = (file) => {
     if (!file) return;
+
+    // Kiểm tra dung lượng tối đa
+    if (file.type === 'application/pdf' && file.size > 4 * 1024 * 1024) {
+      setErrorMessage(`File PDF "${file.name}" (${(file.size / (1024 * 1024)).toFixed(1)}MB) vượt quá dung lượng tối đa cho phép (4MB). Vui lòng chọn file < 4MB hoặc chụp ảnh màn hình.`);
+      return;
+    }
+
+    if (file.type.startsWith('image/') && file.size > 10 * 1024 * 1024) {
+      setErrorMessage(`Ảnh "${file.name}" (${(file.size / (1024 * 1024)).toFixed(1)}MB) vượt quá dung lượng tối đa cho phép (10MB). Vui lòng chọn ảnh < 10MB.`);
+      return;
+    }
+
     setSelectedFile(file);
     setErrorMessage('');
 
@@ -232,7 +244,10 @@ export default function AddNoteModal({ isOpen, onClose, onNoteCreated }) {
                       </div>
                     )}
                     <div className="text-xs font-bold text-slate-800">
-                      Đã chọn: <span className="text-sky-700">{selectedFile.name}</span>
+                      Đã chọn: <span className="text-sky-700">{selectedFile.name}</span>{' '}
+                      <span className="text-slate-400 font-semibold text-[11px]">
+                        ({(selectedFile.size / (1024 * 1024)).toFixed(2)} MB)
+                      </span>
                     </div>
                     <p className="text-[11px] text-slate-500">
                       Bấm để đổi file khác hoặc ấn nút phân tích bên dưới
@@ -247,7 +262,7 @@ export default function AddNoteModal({ isOpen, onClose, onNoteCreated }) {
                       Kéo thả ảnh hoặc tài liệu PDF vào đây
                     </div>
                     <p className="text-xs text-slate-500 max-w-sm">
-                      Hỗ trợ ảnh <span className="font-semibold text-slate-700">PNG, JPG, WebP</span> hoặc <span className="font-semibold text-slate-700">PDF</span>. Bạn có thể chụp màn hình rồi bấm <kbd className="px-1.5 py-0.5 bg-white border border-slate-300 rounded text-[10px] font-mono text-slate-800 shadow-2xs">Ctrl + V</kbd> dán trực tiếp!
+                      Hỗ trợ ảnh <span className="font-semibold text-slate-700">PNG, JPG, WebP</span> (&lt; 10MB) hoặc <span className="font-semibold text-slate-700">PDF</span> (&lt; 4MB). Bạn có thể chụp màn hình rồi bấm <kbd className="px-1.5 py-0.5 bg-white border border-slate-300 rounded text-[10px] font-mono text-slate-800 shadow-2xs">Ctrl + V</kbd> dán trực tiếp!
                     </p>
                   </div>
                 )}
