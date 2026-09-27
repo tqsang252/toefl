@@ -65,6 +65,31 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote }) 
     }
   }, [note?.id, isOpen]);
 
+  // Bắt phím tắt khi học Flashcards (Space để lật thẻ, Mũi tên trái/phải để chuyển thẻ)
+  useEffect(() => {
+    if (!isOpen || activeTab !== 'flashcards') return;
+
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        setIsFlipped((prev) => !prev);
+      } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
+        e.preventDefault();
+        setCurrentCardIdx((prev) => (prev + 1 < items.length ? prev + 1 : 0));
+        setIsFlipped(false);
+      } else if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
+        e.preventDefault();
+        setCurrentCardIdx((prev) => (prev > 0 ? prev - 1 : items.length - 1));
+        setIsFlipped(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, activeTab, items.length]);
+
   // Lưu trạng thái thẻ đã thuộc vào localStorage
   const toggleMastered = (itemId) => {
     setMasteredIds((prev) => {
@@ -397,60 +422,112 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote }) 
                 </div>
               </div>
 
-              {/* Thẻ 3D Flip */}
+              {/* Thẻ 3D Flip Container */}
               <div 
                 onClick={() => setIsFlipped(!isFlipped)}
-                className="relative h-72 sm:h-80 w-full rounded-3xl bg-white border-2 border-slate-200 shadow-xl p-8 flex flex-col justify-between cursor-pointer transition-all hover:border-sky-300 select-none group"
+                className="w-full h-72 sm:h-80 cursor-pointer select-none group"
+                style={{ perspective: '1200px' }}
               >
-                {/* Góc trên thẻ */}
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-black uppercase tracking-wider text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">
-                    {currentFlashcard?.type || 'Phrase'}
-                  </span>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      playPronunciation(currentFlashcard?.term);
-                    }}
-                    className="w-9 h-9 rounded-full bg-sky-50 hover:bg-sky-100 text-sky-700 flex items-center justify-center transition-colors cursor-pointer"
-                    title="Nghe phát âm"
+                <div 
+                  className="relative w-full h-full"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                    transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+                  }}
+                >
+                  {/* Mặt trước (Front Face) */}
+                  <div 
+                    className="absolute inset-0 w-full h-full rounded-3xl bg-white border-2 border-slate-200 shadow-xl p-6 sm:p-8 flex flex-col justify-between hover:border-sky-300 transition-colors"
+                    style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
                   >
-                    <Volume2 className="w-4 h-4" />
-                  </button>
-                </div>
+                    {/* Góc trên */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
+                        {currentFlashcard?.type || 'Phrase'}
+                      </span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          playPronunciation(currentFlashcard?.term);
+                        }}
+                        className="w-8 h-8 rounded-full bg-sky-50 hover:bg-sky-100 text-sky-700 flex items-center justify-center transition-colors cursor-pointer"
+                        title="Nghe phát âm"
+                      >
+                        <Volume2 className="w-4 h-4" />
+                      </button>
+                    </div>
 
-                {/* Nội dung chính giữa thẻ */}
-                <div className="text-center my-auto space-y-3">
-                  {!isFlipped ? (
-                    /* Mặt trước */
-                    <>
+                    {/* Nội dung giữa */}
+                    <div className="text-center my-auto space-y-2">
                       <h3 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
                         {currentFlashcard?.term}
                       </h3>
-                      <p className="text-xs text-slate-400 font-medium">
-                        (Nhấn vào thẻ hoặc bấm phím Space để lật nghĩa)
+                      <p className="text-[11px] text-slate-400 font-medium">
+                        (Bấm vào thẻ hoặc nhấn phím Space để xem nghĩa)
                       </p>
-                    </>
-                  ) : (
-                    /* Mặt sau */
-                    <div className="space-y-3 animate-in fade-in duration-200">
-                      <div className="text-2xl sm:text-3xl font-black text-sky-700">
+                    </div>
+
+                    {/* Góc dưới */}
+                    <div className="flex items-center justify-between text-[11px] text-slate-400">
+                      <span>Mặt trước (Cụm từ)</span>
+                      <span className="font-bold text-sky-600 group-hover:underline">
+                        Nhấn để lật nghĩa →
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Mặt sau (Back Face) */}
+                  <div 
+                    className="absolute inset-0 w-full h-full rounded-3xl bg-gradient-to-b from-white to-sky-50/40 border-2 border-sky-300 shadow-xl p-6 sm:p-7 flex flex-col justify-between hover:border-sky-400 transition-colors"
+                    style={{ 
+                      backfaceVisibility: 'hidden', 
+                      WebkitBackfaceVisibility: 'hidden',
+                      transform: 'rotateY(180deg)' 
+                    }}
+                  >
+                    {/* Góc trên */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-sky-700 bg-sky-100 px-2.5 py-1 rounded-full">
+                        {currentFlashcard?.type || 'Phrase'}
+                      </span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          playPronunciation(currentFlashcard?.term);
+                        }}
+                        className="w-8 h-8 rounded-full bg-sky-100 hover:bg-sky-200 text-sky-700 flex items-center justify-center transition-colors cursor-pointer"
+                        title="Nghe phát âm"
+                      >
+                        <Volume2 className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    {/* Nội dung giữa: Nghĩa + Khung ví dụ TOEFL chữ nhỏ gọn */}
+                    <div className="my-auto space-y-2.5 text-center">
+                      <div className="text-xl sm:text-2xl font-black text-sky-700">
                         {currentFlashcard?.meaning}
                       </div>
-                      <div className="p-4 rounded-2xl bg-sky-50/80 border border-sky-200/60 text-xs sm:text-sm font-serif text-slate-700 leading-relaxed text-left">
-                        <span className="font-bold text-sky-900 block mb-1">Ví dụ TOEFL:</span>
-                        {currentFlashcard?.example}
+
+                      {/* Khung ví dụ TOEFL: chữ nhỏ vừa vặn, padding gọn gàng */}
+                      <div className="p-3 sm:p-3.5 rounded-2xl bg-white/95 border border-sky-200/80 shadow-2xs text-left space-y-1">
+                        <span className="font-black text-sky-900 block text-[10px] uppercase tracking-wider">
+                          Ví dụ TOEFL:
+                        </span>
+                        <p className="text-[11.5px] sm:text-xs font-serif text-slate-600 leading-relaxed">
+                          {currentFlashcard?.example}
+                        </p>
                       </div>
                     </div>
-                  )}
-                </div>
 
-                {/* Góc dưới thẻ */}
-                <div className="flex items-center justify-between text-[11px] text-slate-400">
-                  <span>{isFlipped ? 'Mặt sau (Nghĩa & Ví dụ)' : 'Mặt trước (Cụm từ)'}</span>
-                  <span className="font-bold text-sky-600 group-hover:underline">
-                    {isFlipped ? 'Nhấn để lật lại' : 'Nhấn để xem nghĩa →'}
-                  </span>
+                    {/* Góc dưới */}
+                    <div className="flex items-center justify-between text-[11px] text-slate-400">
+                      <span>Mặt sau (Nghĩa & Ví dụ)</span>
+                      <span className="font-bold text-sky-600 group-hover:underline">
+                        Nhấn để lật lại ↺
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
