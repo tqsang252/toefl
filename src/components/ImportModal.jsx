@@ -71,8 +71,18 @@ function cleanAndParseJson(rawInput) {
 export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultSkill = 'full' }) {
   const sanitizeSkill = (s) => (typeof s === 'string' && s ? s.toLowerCase() : 'full');
   const [jsonInput, setJsonInput] = useState('');
-  const [selectedPromptType, setSelectedPromptType] = useState(() => sanitizeSkill(defaultSkill));
-  const [selectedWritingSubtype, setSelectedWritingSubtype] = useState('full'); // 'full' | 'sentence' | 'email' | 'discussion'
+  const [selectedPromptType, setSelectedPromptType] = useState(() => {
+    const s = sanitizeSkill(defaultSkill);
+    if (s.startsWith('writing_')) return 'writing';
+    return s;
+  });
+  const [selectedWritingSubtype, setSelectedWritingSubtype] = useState(() => {
+    const s = sanitizeSkill(defaultSkill);
+    if (s === 'writing_sentence') return 'sentence';
+    if (s === 'writing_email') return 'email';
+    if (s === 'writing_discussion') return 'discussion';
+    return 'full';
+  });
   const [copiedPrompt, setCopiedPrompt] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [isAiGenerating, setIsAiGenerating] = useState(false);
@@ -102,7 +112,22 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
 
   useEffect(() => {
     if (typeof defaultSkill === 'string' && defaultSkill) {
-      setSelectedPromptType(defaultSkill.toLowerCase());
+      const s = defaultSkill.toLowerCase();
+      if (s === 'writing_sentence') {
+        setSelectedPromptType('writing');
+        setSelectedWritingSubtype('sentence');
+      } else if (s === 'writing_email') {
+        setSelectedPromptType('writing');
+        setSelectedWritingSubtype('email');
+      } else if (s === 'writing_discussion') {
+        setSelectedPromptType('writing');
+        setSelectedWritingSubtype('discussion');
+      } else if (s === 'writing') {
+        setSelectedPromptType('writing');
+        setSelectedWritingSubtype('full');
+      } else {
+        setSelectedPromptType(s);
+      }
     }
   }, [defaultSkill, isOpen]);
 
@@ -261,7 +286,7 @@ export default function ImportModal({ isOpen, onClose, onImportSuccess, defaultS
       });
 
       await importBatchTests(testsArray);
-      setLastImportedSkill(testsArray[0]?.skill || selectedPromptType);
+      setLastImportedSkill(effectiveSkillType || testsArray[0]?.skill || selectedPromptType);
       setShowSuccessModal(true);
     } catch (err) {
       console.error(err);

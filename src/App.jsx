@@ -133,7 +133,7 @@ function MainApp() {
       setCurrentView('full_test');
       loadTests('full', 'full_test');
     } else if (createdSkill) {
-      const targetSkill = createdSkill.startsWith('writing_') ? 'writing' : createdSkill;
+      const targetSkill = createdSkill;
       setCurrentView('practice');
       setActiveSkill(targetSkill);
       loadTests(targetSkill, 'practice');

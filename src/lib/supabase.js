@@ -557,14 +557,196 @@ export async function getTestsBySkill(skill) {
   });
 
   const allTests = Array.from(testsMap.values()).filter((t) => !deletedTests.has(t.id));
-  const filtered = allTests.filter((t) => {
-    const s = (t.skill || '').toLowerCase();
-    const target = (skill || '').toLowerCase();
-    if (target === 'full') {
+  const target = (skill || '').toLowerCase();
+
+  let filtered = [];
+
+  if (target === 'full') {
+    filtered = allTests.filter((t) => {
+      const s = (t.skill || '').toLowerCase();
       return s === 'full' || s === 'full_test';
-    }
-    return s === target;
-  });
+    });
+  } else if (target === 'writing') {
+    // CHỈ LẤY ĐỀ FULL WRITING (TẬP HỢP ĐỦ CẢ 3 BÀI THI - 23 PHÚT)
+    filtered = allTests.filter((t) => {
+      const s = (t.skill || '').toLowerCase();
+      if (s !== 'writing' && !s.startsWith('writing')) return false;
+
+      const normStages = t.stages || t.content?.stages || [];
+      const allTasks = normStages.flatMap((st) => st.tasks || []);
+      const firstTaskType = allTasks[0]?.task_type || t.task_type;
+
+      // Loại bỏ các bài luyện đơn lẻ đã tách ra các tab riêng
+      if (
+        t.task_type === 'build_sentence' ||
+        t.task_type === 'write_email' ||
+        t.task_type === 'academic_discussion' ||
+        s === 'writing_sentence' ||
+        s === 'writing_email' ||
+        s === 'writing_discussion'
+      ) {
+        return false;
+      }
+
+      if (allTasks.length === 1 && (firstTaskType === 'build_sentence' || firstTaskType === 'write_email' || firstTaskType === 'academic_discussion')) {
+        return false;
+      }
+
+      return true;
+    });
+  } else if (target === 'writing_sentence') {
+    // 1. Lấy các bài thi build_sentence trực tiếp
+    const directSentenceTests = allTests.filter((t) => {
+      const s = (t.skill || '').toLowerCase();
+      const taskType = (t.task_type || '').toLowerCase();
+      const normStages = t.stages || t.content?.stages || [];
+      const allTasks = normStages.flatMap((st) => st.tasks || []);
+      const firstTaskType = (allTasks[0]?.task_type || '').toLowerCase();
+
+      return (
+        s === 'writing_sentence' ||
+        taskType === 'build_sentence' ||
+        (allTasks.length === 1 && firstTaskType === 'build_sentence') ||
+        (t.id && t.id.includes('sentence') && s.startsWith('writing'))
+      );
+    });
+
+    // 2. Tự động trích xuất Task 1 từ tất cả đề Full Writing để thí sinh luyện tập
+    const extractedSentenceTests = [];
+    allTests.forEach((t) => {
+      const s = (t.skill || '').toLowerCase();
+      if (s === 'writing' || s.startsWith('writing')) {
+        const normStages = t.stages || t.content?.stages || [];
+        const allTasks = normStages.flatMap((st) => st.tasks || []);
+        if (allTasks.length >= 2) {
+          const foundTask = allTasks.find((task) => task.task_type === 'build_sentence');
+          if (foundTask && !directSentenceTests.some((dt) => dt.id === `${t.id}_sentence`)) {
+            extractedSentenceTests.push({
+              ...t,
+              id: `${t.id}_sentence`,
+              title: `${t.title}: Task 1 - Ghép câu (7p)`,
+              skill: 'writing_sentence',
+              task_type: 'build_sentence',
+              duration_seconds: 420,
+              stages: [
+                {
+                  id: 'stage_sentence',
+                  title: 'Task 1: Ghép câu học thuật (7 phút)',
+                  duration_seconds: 420,
+                  tasks: [foundTask]
+                }
+              ]
+            });
+          }
+        }
+      }
+    });
+
+    filtered = [...directSentenceTests, ...extractedSentenceTests];
+  } else if (target === 'writing_email') {
+    // 1. Lấy các bài thi write_email trực tiếp
+    const directEmailTests = allTests.filter((t) => {
+      const s = (t.skill || '').toLowerCase();
+      const taskType = (t.task_type || '').toLowerCase();
+      const normStages = t.stages || t.content?.stages || [];
+      const allTasks = normStages.flatMap((st) => st.tasks || []);
+      const firstTaskType = (allTasks[0]?.task_type || '').toLowerCase();
+
+      return (
+        s === 'writing_email' ||
+        taskType === 'write_email' ||
+        (allTasks.length === 1 && firstTaskType === 'write_email') ||
+        (t.id && t.id.includes('email') && s.startsWith('writing'))
+      );
+    });
+
+    // 2. Tự động trích xuất Task 2 từ tất cả đề Full Writing
+    const extractedEmailTests = [];
+    allTests.forEach((t) => {
+      const s = (t.skill || '').toLowerCase();
+      if (s === 'writing' || s.startsWith('writing')) {
+        const normStages = t.stages || t.content?.stages || [];
+        const allTasks = normStages.flatMap((st) => st.tasks || []);
+        if (allTasks.length >= 2) {
+          const foundTask = allTasks.find((task) => task.task_type === 'write_email');
+          if (foundTask && !directEmailTests.some((dt) => dt.id === `${t.id}_email`)) {
+            extractedEmailTests.push({
+              ...t,
+              id: `${t.id}_email`,
+              title: `${t.title}: Task 2 - Viết Email (7p)`,
+              skill: 'writing_email',
+              task_type: 'write_email',
+              duration_seconds: 420,
+              stages: [
+                {
+                  id: 'stage_email',
+                  title: 'Task 2: Viết Email học thuật (7 phút)',
+                  duration_seconds: 420,
+                  tasks: [foundTask]
+                }
+              ]
+            });
+          }
+        }
+      }
+    });
+
+    filtered = [...directEmailTests, ...extractedEmailTests];
+  } else if (target === 'writing_discussion') {
+    // 1. Lấy các bài thi academic_discussion trực tiếp
+    const directDiscussionTests = allTests.filter((t) => {
+      const s = (t.skill || '').toLowerCase();
+      const taskType = (t.task_type || '').toLowerCase();
+      const normStages = t.stages || t.content?.stages || [];
+      const allTasks = normStages.flatMap((st) => st.tasks || []);
+      const firstTaskType = (allTasks[0]?.task_type || '').toLowerCase();
+
+      return (
+        s === 'writing_discussion' ||
+        taskType === 'academic_discussion' ||
+        (allTasks.length === 1 && firstTaskType === 'academic_discussion') ||
+        (t.id && t.id.includes('discussion') && s.startsWith('writing'))
+      );
+    });
+
+    // 2. Tự động trích xuất Task 3 từ tất cả đề Full Writing
+    const extractedDiscussionTests = [];
+    allTests.forEach((t) => {
+      const s = (t.skill || '').toLowerCase();
+      if (s === 'writing' || s.startsWith('writing')) {
+        const normStages = t.stages || t.content?.stages || [];
+        const allTasks = normStages.flatMap((st) => st.tasks || []);
+        if (allTasks.length >= 2) {
+          const foundTask = allTasks.find((task) => task.task_type === 'academic_discussion');
+          if (foundTask && !directDiscussionTests.some((dt) => dt.id === `${t.id}_discussion`)) {
+            extractedDiscussionTests.push({
+              ...t,
+              id: `${t.id}_discussion`,
+              title: `${t.title}: Task 3 - Academic Discussion (10p)`,
+              skill: 'writing_discussion',
+              task_type: 'academic_discussion',
+              duration_seconds: 600,
+              stages: [
+                {
+                  id: 'stage_discussion',
+                  title: 'Task 3: Academic Discussion (10 phút)',
+                  duration_seconds: 600,
+                  tasks: [foundTask]
+                }
+              ]
+            });
+          }
+        }
+      }
+    });
+
+    filtered = [...directDiscussionTests, ...extractedDiscussionTests];
+  } else {
+    filtered = allTests.filter((t) => {
+      const s = (t.skill || '').toLowerCase();
+      return s === target;
+    });
+  }
 
   // Sắp xếp bài thi mới nhất lên đầu danh sách để học viên nhìn thấy ngay
   filtered.sort((a, b) => {

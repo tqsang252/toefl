@@ -1,7 +1,7 @@
 import React from 'react';
-import { Headphones, BookOpen, Mic, PenTool, GraduationCap, Target, Sparkles, BookMarked, PenLine } from 'lucide-react';
+import { Headphones, BookOpen, Mic, PenTool, GraduationCap, Target, Sparkles, BookMarked, PenLine, Mail, MessageSquare } from 'lucide-react';
 
-// 4 Kỹ năng làm bài thi chính thức (TOEFL iBT Test Sections)
+// 4 Kỹ năng làm bài thi chính thức (TOEFL iBT Test Sections - Đầy đủ thời gian)
 const EXAM_SKILLS = [
   {
     id: 'listening',
@@ -35,7 +35,7 @@ const EXAM_SKILLS = [
   },
   {
     id: 'writing',
-    label: 'WRITING',
+    label: 'WRITING (FULL TEST)',
     icon: PenTool,
     borderColor: 'border-[#881337]',
     activeBorder: 'border-[#881337] ring-3 ring-rose-400/30 shadow-lg',
@@ -45,14 +45,12 @@ const EXAM_SKILLS = [
   }
 ];
 
-// 4 Trung tâm rèn luyện chuyên sâu (Mastery Labs)
+// 4 Trung tâm rèn luyện chuyên sâu (Reading, Vocabulary & Speaking Labs)
 const MASTERY_HUBS = [
   {
     id: 'complete_the_words',
     label: 'COMPLETE THE WORDS',
     subtitle: '100 Đề C-Test chuẩn ETS 2026',
-    badge: '100 Đề ETS 2026',
-    badgeBg: 'bg-indigo-100/80 text-indigo-900 border-indigo-200',
     icon: PenLine,
     borderColor: 'border-[#4338ca]',
     activeBorder: 'border-[#4338ca] ring-3 ring-indigo-400/30 shadow-lg',
@@ -64,8 +62,6 @@ const MASTERY_HUBS = [
     id: 'vocabulary',
     label: 'VOCABULARY HUB',
     subtitle: '3,000 Từ vựng học thuật & Flashcards',
-    badge: 'Flashcards',
-    badgeBg: 'bg-purple-100/80 text-purple-900 border-purple-200',
     icon: GraduationCap,
     borderColor: 'border-[#6b21a8]',
     activeBorder: 'border-[#6b21a8] ring-3 ring-purple-400/30 shadow-lg',
@@ -77,8 +73,6 @@ const MASTERY_HUBS = [
     id: 'context_vocab',
     label: 'CONTEXT VOCAB TRAINER',
     subtitle: '100 Bài đọc TOEFL & Manh mối ETS',
-    badge: '100 Đề ETS',
-    badgeBg: 'bg-teal-100/80 text-teal-900 border-teal-200',
     icon: Target,
     borderColor: 'border-[#0f766e]',
     activeBorder: 'border-[#0f766e] ring-3 ring-teal-500/30 shadow-lg',
@@ -90,8 +84,6 @@ const MASTERY_HUBS = [
     id: 'speaking_lab',
     label: 'SPEAKING MASTERY LAB',
     subtitle: '1,000 Câu Shadowing & 50 Đề 45s ETS',
-    badge: '1,000 Câu + 50 Đề',
-    badgeBg: 'bg-emerald-100/80 text-emerald-900 border-emerald-200',
     icon: Mic,
     borderColor: 'border-[#047857]',
     activeBorder: 'border-[#047857] ring-3 ring-emerald-400/30 shadow-lg',
@@ -101,10 +93,47 @@ const MASTERY_HUBS = [
   }
 ];
 
+// 3 Kỹ năng Luyện Viết Chuyên Biệt (Writing Skills Labs)
+const WRITING_SKILLS_HUBS = [
+  {
+    id: 'writing_sentence',
+    label: 'BUILD A SENTENCE',
+    subtitle: 'Task 1: Ghép câu học thuật chuẩn 7p',
+    icon: PenTool,
+    borderColor: 'border-[#9f1239]',
+    activeBorder: 'border-[#9f1239] ring-3 ring-rose-400/30 shadow-lg',
+    textColor: 'text-[#9f1239]',
+    iconBg: 'bg-[#9f1239]',
+    glow: 'shadow-rose-500/10'
+  },
+  {
+    id: 'writing_email',
+    label: 'ACADEMIC EMAIL',
+    subtitle: 'Task 2: Viết email học thuật chuẩn 7p',
+    icon: Mail,
+    borderColor: 'border-[#c2410c]',
+    activeBorder: 'border-[#c2410c] ring-3 ring-orange-400/30 shadow-lg',
+    textColor: 'text-[#c2410c]',
+    iconBg: 'bg-[#c2410c]',
+    glow: 'shadow-orange-500/10'
+  },
+  {
+    id: 'writing_discussion',
+    label: 'ACADEMIC DISCUSSION',
+    subtitle: 'Task 3: Thảo luận học thuật chuẩn 10p',
+    icon: MessageSquare,
+    borderColor: 'border-[#0284c7]',
+    activeBorder: 'border-[#0284c7] ring-3 ring-sky-400/30 shadow-lg',
+    textColor: 'text-[#0284c7]',
+    iconBg: 'bg-[#0284c7]',
+    glow: 'shadow-sky-500/10'
+  }
+];
+
 export default function SkillTabs({ activeSkill, onSelectSkill }) {
   return (
     <div className="my-5 sm:my-6 space-y-3 sm:space-y-3.5">
-      {/* HÀNG 1: 4 KỸ NĂNG THI CHÍNH THỨC (LISTENING, READING, SPEAKING, WRITING) */}
+      {/* HÀNG 1: 4 KỸ NĂNG THI CHÍNH THỨC (LISTENING, READING, SPEAKING, WRITING FULL TEST) */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5">
         {EXAM_SKILLS.map((skill) => {
           const Icon = skill.icon;
@@ -140,9 +169,46 @@ export default function SkillTabs({ activeSkill, onSelectSkill }) {
         })}
       </div>
 
-      {/* HÀNG 2: 4 TRUNG TÂM LUYỆN TẬP CHUYÊN SÂU (COMPLETE THE WORDS, VOCABULARY HUB, CONTEXT VOCAB & SPEAKING LAB) */}
+      {/* HÀNG 2: 4 TRUNG TÂM LUYỆN TẬP TỪ VỰNG, ĐỌC & NÓI (COMPLETE THE WORDS, VOCABULARY HUB, CONTEXT VOCAB & SPEAKING LAB) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
         {MASTERY_HUBS.map((hub) => {
+          const Icon = hub.icon;
+          const isActive = activeSkill === hub.id;
+
+          return (
+            <button
+              key={hub.id}
+              onClick={() => onSelectSkill(hub.id)}
+              className={`flex items-center gap-3 px-3.5 sm:px-4 py-3 sm:py-3.5 rounded-2xl bg-white border-2 transition-all duration-200 cursor-pointer text-left ${
+                isActive
+                  ? `${hub.activeBorder} scale-[1.01] bg-white`
+                  : 'border-[#dfd8cc] hover:border-slate-400 hover:shadow-md opacity-90 hover:opacity-100'
+              }`}
+            >
+              {/* Icon tròn */}
+              <div
+                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${hub.iconBg} text-white flex items-center justify-center shrink-0 shadow-xs`}
+              >
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+              </div>
+
+              {/* Tiêu đề & Phụ đề giải thích */}
+              <div className="min-w-0 flex-1">
+                <span className={`text-xs sm:text-sm font-black tracking-wider block whitespace-nowrap truncate ${hub.textColor}`}>
+                  {hub.label}
+                </span>
+                <p className="text-[11px] sm:text-xs text-slate-500 font-medium truncate mt-0.5">
+                  {hub.subtitle}
+                </p>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* HÀNG 3: 3 KỸ NĂNG LUYỆN VIẾT CHUYÊN BIỆT (BUILD A SENTENCE, ACADEMIC EMAIL, ACADEMIC DISCUSSION) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 sm:gap-3.5">
+        {WRITING_SKILLS_HUBS.map((hub) => {
           const Icon = hub.icon;
           const isActive = activeSkill === hub.id;
 

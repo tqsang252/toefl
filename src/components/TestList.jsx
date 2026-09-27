@@ -108,63 +108,50 @@ export default function TestList({
   testHistories = {},
   onOpenImport
 }) {
-  const skillNameUpper = skill.toUpperCase();
-  const skillCapitalized = skill.charAt(0).toUpperCase() + skill.slice(1).toLowerCase();
-
-  // Bộ lọc cho kỹ năng Writing: 'all' | 'sentence' | 'email' | 'discussion' | 'full'
-  const [writingFilter, setWritingFilter] = useState('all');
-  const [openSplitMenuTestId, setOpenSplitMenuTestId] = useState(null);
-
-  // Phân loại dạng bài Writing
-  const getWritingCategory = (t) => {
-    const normStages = t.stages || t.content?.stages || [];
-    const firstStageTasks = normStages[0]?.tasks || [];
-
-    if (t.task_type === 'build_sentence' || (firstStageTasks.length === 1 && firstStageTasks[0]?.task_type === 'build_sentence')) {
-      return 'sentence';
+  const getSkillMeta = (s) => {
+    switch (s) {
+      case 'writing':
+        return {
+          title: 'WRITING (FULL TEST - 23 PHÚT)',
+          label: 'Writing Full Test',
+          placeholder: 'Tìm kiếm đề Full Writing (3 Tasks)...',
+          btnLabel: 'Tạo đề Writing Full Test (23p)'
+        };
+      case 'writing_sentence':
+        return {
+          title: 'BUILD A SENTENCE (TASK 1 - 7 PHÚT)',
+          label: 'Ghép câu học thuật',
+          placeholder: 'Tìm kiếm đề Ghép câu (10 câu - 7p)...',
+          btnLabel: 'Tạo đề Ghép câu (7p)'
+        };
+      case 'writing_email':
+        return {
+          title: 'ACADEMIC EMAIL (TASK 2 - 7 PHÚT)',
+          label: 'Viết Email học thuật',
+          placeholder: 'Tìm kiếm đề Viết Email (7p)...',
+          btnLabel: 'Tạo đề Viết Email (7p)'
+        };
+      case 'writing_discussion':
+        return {
+          title: 'ACADEMIC DISCUSSION (TASK 3 - 10 PHÚT)',
+          label: 'Academic Discussion',
+          placeholder: 'Tìm kiếm đề Thảo luận học thuật (10p)...',
+          btnLabel: 'Tạo đề Discussion (10p)'
+        };
+      default: {
+        const up = s ? s.toUpperCase() : '';
+        const cap = s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : '';
+        return {
+          title: up,
+          label: cap,
+          placeholder: `Tìm kiếm tên bài thi ${cap}...`,
+          btnLabel: `Tạo bài thi thử ${cap}`
+        };
+      }
     }
-    if (t.task_type === 'write_email' || (firstStageTasks.length === 1 && firstStageTasks[0]?.task_type === 'write_email')) {
-      return 'email';
-    }
-    if (t.task_type === 'academic_discussion' || (firstStageTasks.length === 1 && firstStageTasks[0]?.task_type === 'academic_discussion')) {
-      return 'discussion';
-    }
-    if (firstStageTasks.length >= 2 || t.duration_seconds >= 1200 || (t.title && t.title.toLowerCase().includes('full'))) {
-      return 'full';
-    }
-    return 'other';
   };
 
-  // Trích xuất 1 phần từ đề Full Writing để làm lẻ
-  const handleStartSubTask = (parentTest, targetTaskType, targetDuration, targetTitle) => {
-    const normStages = parentTest.stages || parentTest.content?.stages || [];
-    const allTasks = normStages.flatMap((s) => s.tasks || []);
-    const foundTask = allTasks.find((t) => t.task_type === targetTaskType);
-
-    if (!foundTask) {
-      alert(`Không tìm thấy phần thi này trong bộ đề.`);
-      return;
-    }
-
-    const extractedTest = {
-      ...parentTest,
-      id: `${parentTest.id}_${targetTaskType}`,
-      title: `${parentTest.title}: ${targetTitle || foundTask.title}`,
-      skill: 'writing',
-      task_type: targetTaskType,
-      duration_seconds: targetDuration,
-      stages: [
-        {
-          id: `stage_${targetTaskType}`,
-          title: targetTitle || foundTask.title || 'Luyện tập kỹ năng',
-          duration_seconds: targetDuration,
-          tasks: [foundTask]
-        }
-      ]
-    };
-
-    onStartTest(extractedTest);
-  };
+  const skillMeta = getSkillMeta(skill);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -182,28 +169,23 @@ export default function TestList({
     });
   }, [tests]);
 
-  // Lọc theo dạng bài (Writing) và theo từ khóa tìm kiếm (Title)
+  // Lọc theo từ khóa tìm kiếm (Title)
   const filteredTests = useMemo(() => {
     return sortedTests.filter((t) => {
-      if (skill === 'writing' && writingFilter !== 'all') {
-        if (getWritingCategory(t) !== writingFilter) return false;
-      }
-
       if (searchQuery.trim()) {
         const query = searchQuery.trim().toLowerCase();
         const title = (t.title || '').toLowerCase();
         const desc = (t.description || '').toLowerCase();
         return title.includes(query) || desc.includes(query);
       }
-
       return true;
     });
-  }, [sortedTests, skill, writingFilter, searchQuery]);
+  }, [sortedTests, searchQuery]);
 
-  // Reset về trang 1 khi đổi kỹ năng, bộ lọc Writing hoặc nhập từ khóa tìm kiếm
+  // Reset về trang 1 khi đổi kỹ năng hoặc nhập từ khóa tìm kiếm
   useEffect(() => {
     setCurrentPage(1);
-  }, [skill, writingFilter, searchQuery]);
+  }, [skill, searchQuery]);
 
   // Phân trang
   const totalItems = filteredTests.length;
@@ -212,26 +194,17 @@ export default function TestList({
   const startIndex = (safePage - 1) * PAGE_SIZE;
   const paginatedTests = filteredTests.slice(startIndex, startIndex + PAGE_SIZE);
 
-  // Đếm số lượng cho từng dạng bài Writing
-  const writingCounts = {
-    all: tests.length,
-    sentence: tests.filter((t) => getWritingCategory(t) === 'sentence').length,
-    email: tests.filter((t) => getWritingCategory(t) === 'email').length,
-    discussion: tests.filter((t) => getWritingCategory(t) === 'discussion').length,
-    full: tests.filter((t) => getWritingCategory(t) === 'full').length
-  };
-
   return (
     <div className="bg-white rounded-2xl border border-[#e5dfd5] shadow-sm overflow-hidden my-6">
       
-      {/* Header matching original screenshot with search input at red box */}
+      {/* Header */}
       <div className="px-6 py-4 border-b border-[#eee8df] bg-[#faf8f4] flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
         <h2 className="text-base sm:text-lg font-extrabold tracking-tight text-slate-800 uppercase flex items-center gap-2 shrink-0">
           <span>PRACTICE EXAMS FOR CURRENT SKILL</span>
-          <span className="text-teal-700">({skillNameUpper})</span>
+          <span className="text-teal-700">({skillMeta.title})</span>
         </h2>
 
-        {/* Khung tìm kiếm ở vị trí khung đỏ */}
+        {/* Khung tìm kiếm */}
         <div className="flex-1 max-w-sm w-full relative">
           <div className="relative flex items-center">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 pointer-events-none" />
@@ -239,7 +212,7 @@ export default function TestList({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={`Tìm kiếm tên bài thi ${skillCapitalized}...`}
+              placeholder={skillMeta.placeholder}
               className="w-full pl-9 pr-8 py-2 text-xs font-medium rounded-xl border border-slate-300 bg-white focus:outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20 text-slate-800 placeholder:text-slate-400 transition-all shadow-2xs"
             />
             {searchQuery && (
@@ -261,43 +234,10 @@ export default function TestList({
             className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-xl transition-all cursor-pointer shadow-2xs self-start md:self-auto shrink-0"
           >
             <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse" />
-            <span>Tạo bài thi thử {skillCapitalized}</span>
+            <span>{skillMeta.btnLabel}</span>
           </button>
         )}
       </div>
-
-      {/* Bộ lọc danh mục cho kỹ năng Writing */}
-      {skill === 'writing' && (
-        <div className="px-6 py-3 bg-[#fdfcfa] border-b border-[#eee8df] flex items-center gap-2 overflow-x-auto">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider shrink-0 flex items-center gap-1 mr-1">
-            <PenTool className="w-3.5 h-3.5 text-rose-600" />
-            Phần luyện:
-          </span>
-
-          {[
-            { id: 'all', label: `Tất cả (${writingCounts.all})` },
-            { id: 'sentence', label: `Ghép câu 7p (${writingCounts.sentence})`, icon: PenTool },
-            { id: 'email', label: `Viết Email 7p (${writingCounts.email})`, icon: Mail },
-            { id: 'discussion', label: `Discussion 10p (${writingCounts.discussion})`, icon: MessageSquare },
-            { id: 'full', label: `Full Test 23p (${writingCounts.full})`, icon: Layers }
-          ].map((tab) => {
-            const isSelected = writingFilter === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setWritingFilter(tab.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 border ${
-                  isSelected
-                    ? 'bg-rose-700 text-white border-rose-800 shadow-xs'
-                    : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
-                }`}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
-      )}
 
       {/* Tests Grid */}
       <div className="p-6">
@@ -353,25 +293,23 @@ export default function TestList({
                           {test.title}
                         </h3>
 
-                        {/* Badges đặc thù theo dạng bài Writing */}
+                        {/* Badges theo dạng bài thi */}
                         {skill === 'writing' ? (
-                          writingCat === 'sentence' ? (
-                            <span className="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-200">
-                              Ghép câu (10 câu)
-                            </span>
-                          ) : writingCat === 'email' ? (
-                            <span className="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded bg-blue-100 text-blue-800 border border-blue-200">
-                              Viết Email
-                            </span>
-                          ) : writingCat === 'discussion' ? (
-                            <span className="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 border border-indigo-200">
-                              Discussion
-                            </span>
-                          ) : (
-                            <span className="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded bg-purple-100 text-purple-800 border border-purple-200">
-                              Full Test (3 Bài)
-                            </span>
-                          )
+                          <span className="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-200">
+                            Full Test (3 Bài - 23p)
+                          </span>
+                        ) : skill === 'writing_sentence' ? (
+                          <span className="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-200">
+                            Ghép câu (10 câu - 7p)
+                          </span>
+                        ) : skill === 'writing_email' ? (
+                          <span className="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded bg-orange-100 text-orange-800 border border-orange-200">
+                            Viết Email (7p)
+                          </span>
+                        ) : skill === 'writing_discussion' ? (
+                          <span className="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded bg-sky-100 text-sky-800 border border-sky-200">
+                            Academic Discussion (10p)
+                          </span>
                         ) : test.stages && test.stages.length > 0 ? (
                           <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-teal-100 text-teal-800 border border-teal-300">
                             {test.stages.length} Modules (Stage 1 & 2)
@@ -437,7 +375,17 @@ export default function TestList({
                         className="px-4 py-2 bg-[#153e75] hover:bg-[#0f2e59] active:scale-95 text-white text-xs font-bold rounded-lg shadow-sm hover:shadow transition-all cursor-pointer flex items-center gap-1.5"
                       >
                         <Play className="w-3 h-3 fill-current" />
-                        <span>{isFullWriting ? 'Làm Full Test' : '[Take Practice Test]'}</span>
+                        <span>
+                          {skill === 'writing'
+                            ? 'Làm Full Test (23p)'
+                            : skill === 'writing_sentence'
+                            ? 'Làm bài Ghép câu (7p)'
+                            : skill === 'writing_email'
+                            ? 'Làm bài Viết Email (7p)'
+                            : skill === 'writing_discussion'
+                            ? 'Làm bài Discussion (10p)'
+                            : '[Take Practice Test]'}
+                        </span>
                       </button>
 
                       {/* Delete button if user added */}
@@ -456,49 +404,6 @@ export default function TestList({
                       )}
                     </div>
                   </div>
-
-                  {/* Tùy chọn luyện riêng từng phần đối với đề Full Writing */}
-                  {isFullWriting && (
-                    <div className="mt-3.5 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-1.5">
-                      <span className="text-[11px] font-bold text-slate-500 uppercase flex items-center gap-1 mr-1">
-                        <Layers className="w-3 h-3 text-rose-600" />
-                        Luyện riêng lẻ:
-                      </span>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleStartSubTask(test, 'build_sentence', 420, 'Task 1: Ghép câu (7p)');
-                        }}
-                        className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-800 text-[11px] font-bold border border-rose-200 transition-all cursor-pointer flex items-center gap-1 active:scale-95"
-                        title="Chỉ làm phần Ghép câu (10 câu - 7 phút)"
-                      >
-                        <PenTool className="w-3 h-3 text-rose-600" />
-                        <span>1. Ghép câu (7p)</span>
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleStartSubTask(test, 'write_email', 420, 'Task 2: Viết Email (7p)');
-                        }}
-                        className="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-800 text-[11px] font-bold border border-blue-200 transition-all cursor-pointer flex items-center gap-1 active:scale-95"
-                        title="Chỉ làm bài Viết Email (7 phút)"
-                      >
-                        <Mail className="w-3 h-3 text-blue-600" />
-                        <span>2. Viết Email (7p)</span>
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleStartSubTask(test, 'academic_discussion', 600, 'Task 3: Thảo luận (10p)');
-                        }}
-                        className="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-800 text-[11px] font-bold border border-indigo-200 transition-all cursor-pointer flex items-center gap-1 active:scale-95"
-                        title="Chỉ làm bài Academic Discussion (10 phút)"
-                      >
-                        <MessageSquare className="w-3 h-3 text-indigo-600" />
-                        <span>3. Thảo luận (10p)</span>
-                      </button>
-                    </div>
-                  )}
                 </div>
               );
             })}

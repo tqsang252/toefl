@@ -420,9 +420,10 @@ export default function ExamRunner({ test, onExit }) {
 
         // Tích lũy điểm vào kỹ năng tương ứng (Reading, Listening, Writing, Speaking)
         const taskSkill = task.skill || stage.skill || test.skill;
-        if (skillCounters[taskSkill]) {
-          skillCounters[taskSkill].raw += taskRaw;
-          skillCounters[taskSkill].total += taskTotal;
+        const baseSkill = taskSkill?.startsWith('writing_') ? 'writing' : taskSkill;
+        if (skillCounters[baseSkill]) {
+          skillCounters[baseSkill].raw += taskRaw;
+          skillCounters[baseSkill].total += taskTotal;
         }
 
         stageRaw += taskRaw;
@@ -474,12 +475,13 @@ export default function ExamRunner({ test, onExit }) {
     const totalToefl120 = readingScore + listeningScore + writingScore + speakingScore;
 
     // Quy đổi điểm Band (1.0 đến 6.0) theo chuẩn ETS TOEFL 2026
+    const isWritingSkill = test.skill === 'writing' || test.skill?.startsWith('writing_');
     const scoreBand = isFullTest 
       ? convert30ToBand6(totalToefl120 / 4)
       : convert30ToBand6(
           test.skill === 'reading' ? readingScore :
           test.skill === 'listening' ? listeningScore :
-          test.skill === 'writing' ? writingScore :
+          isWritingSkill ? writingScore :
           test.skill === 'speaking' ? speakingScore :
           convertRawToScale30(totalScoreRaw, totalQuestionsCount)
         );
@@ -503,7 +505,7 @@ export default function ExamRunner({ test, onExit }) {
         [test.skill]: (
           test.skill === 'reading' ? readingScore :
           test.skill === 'listening' ? listeningScore :
-          test.skill === 'writing' ? writingScore :
+          isWritingSkill ? writingScore :
           test.skill === 'speaking' ? speakingScore :
           26
         )
@@ -746,7 +748,7 @@ export default function ExamRunner({ test, onExit }) {
               />
             );
           }
-          if (activeSkill === 'writing' && currentTask) {
+          if ((activeSkill === 'writing' || activeSkill?.startsWith('writing_')) && currentTask) {
             return (
               <WritingModule
                 key={`s${currentStageIndex}_${currentTask.id || currentTaskIndex}`}
