@@ -1570,7 +1570,12 @@ export async function getContextVocabQuestions() {
         .order('id', { ascending: true });
 
       if (!error && Array.isArray(data) && data.length > 0) {
-        cloudItems = data;
+        const aCount = data.filter(i => i.correct_answer === 'A').length;
+        if (aCount / data.length <= 0.45) {
+          cloudItems = data;
+        } else {
+          console.info('[Context Vocab] Bỏ qua dữ liệu Cloud cũ (bị lệch đáp án A), nạp bộ đề mới đã đảo ngẫu nhiên.');
+        }
       } else {
         // 2. Fallback: Kiểm tra bảng tests với skill = 'context_vocab'
         const { data: testData, error: testErr } = await supabaseInstance
@@ -1580,7 +1585,11 @@ export async function getContextVocabQuestions() {
           .limit(1);
 
         if (!testErr && testData && testData[0]?.content?.items) {
-          cloudItems = testData[0].content.items;
+          const items = testData[0].content.items;
+          const aCount = items.filter(i => i.correct_answer === 'A').length;
+          if (aCount / items.length <= 0.45) {
+            cloudItems = items;
+          }
         }
       }
     } catch (err) {
@@ -1593,7 +1602,19 @@ export async function getContextVocabQuestions() {
   if (typeof localStorage !== 'undefined') {
     try {
       const raw = localStorage.getItem('toefl_context_vocab_bank');
-      if (raw) localItems = JSON.parse(raw);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const aCount = parsed.filter(i => i.correct_answer === 'A').length;
+          // Nếu dữ liệu local cũ bị lỗi toàn đáp án A (> 45%), xóa cache để áp dụng bộ đề mới
+          if (aCount / parsed.length > 0.45) {
+            console.info('[Context Vocab] Làm mới LocalStorage do cache cũ bị lệch đáp án A.');
+            localStorage.removeItem('toefl_context_vocab_bank');
+          } else {
+            localItems = parsed;
+          }
+        }
+      }
     } catch (err) {
       console.warn('Lỗi đọc LocalStorage context vocab:', err);
     }
