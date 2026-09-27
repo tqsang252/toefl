@@ -90,6 +90,17 @@ const MASTERY_HUBS = [
     textColor: 'text-[#047857]',
     iconBg: 'bg-[#047857]',
     glow: 'shadow-emerald-500/10'
+  },
+  {
+    id: 'skill_notes',
+    label: 'SKILL NOTES HUB',
+    subtitle: 'Sổ tay bí kíp & Số hóa ảnh/PDF AI',
+    icon: BookMarked,
+    borderColor: 'border-[#0284c7]',
+    activeBorder: 'border-[#0284c7] ring-3 ring-sky-400/30 shadow-lg',
+    textColor: 'text-[#0284c7]',
+    iconBg: 'bg-[#0284c7]',
+    glow: 'shadow-sky-500/10'
   }
 ];
 
@@ -169,8 +180,8 @@ export default function SkillTabs({ activeSkill, onSelectSkill }) {
         })}
       </div>
 
-      {/* HÀNG 2: 4 TRUNG TÂM LUYỆN TẬP TỪ VỰNG, ĐỌC & NÓI (COMPLETE THE WORDS, VOCABULARY HUB, CONTEXT VOCAB & SPEAKING LAB) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
+      {/* HÀNG 2: 5 TRUNG TÂM LUYỆN TẬP CHUYÊN SÂU & SỔ TAY BÍ KÍP */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-2.5 sm:gap-3.5">
         {MASTERY_HUBS.map((hub) => {
           const Icon = hub.icon;
           const isActive = activeSkill === hub.id;

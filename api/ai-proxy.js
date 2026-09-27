@@ -134,6 +134,7 @@ export default async function handler(req, res) {
   const {
     prompt,
     parts,
+    imageData,
     systemInstruction,
     skillType,
     temperature,
@@ -220,8 +221,17 @@ export default async function handler(req, res) {
       for (const model of GEMINI_MODELS) {
         try {
           const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${activeKey}`;
+          const userParts = [{ text: effectivePrompt }];
+          if (imageData?.base64 && imageData?.mimeType) {
+            userParts.push({
+              inline_data: {
+                mime_type: imageData.mimeType,
+                data: imageData.base64
+              }
+            });
+          }
           const payload = {
-            contents: [{ role: 'user', parts: [{ text: effectivePrompt }] }],
+            contents: [{ role: 'user', parts: userParts }],
             generationConfig: {
               temperature: effectiveTemperature,
               maxOutputTokens: effectiveMaxTokens
@@ -288,11 +298,22 @@ export default async function handler(req, res) {
           if (effectiveSystemInstruction) {
             messages.push({ role: 'system', content: effectiveSystemInstruction });
           }
-          messages.push({ role: 'user', content: effectivePrompt });
+          const userContent = [{ type: 'text', text: effectivePrompt }];
+          if (imageData?.base64 && imageData?.mimeType) {
+            userContent.push({
+              type: 'image_url',
+              image_url: {
+                url: `data:${imageData.mimeType};base64,${imageData.base64}`
+              }
+            });
+          }
 
           const openRouterPayload = {
             model,
-            messages,
+            messages: [
+              ...(effectiveSystemInstruction ? [{ role: 'system', content: effectiveSystemInstruction }] : []),
+              { role: 'user', content: userContent }
+            ],
             max_tokens: effectiveMaxTokens,
             temperature: effectiveTemperature
           };

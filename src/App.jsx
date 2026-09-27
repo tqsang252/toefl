@@ -12,6 +12,7 @@ import VocabularyHub from './components/vocabulary/VocabularyHub';
 import ContextVocabTrainer from './components/exam/ContextVocabTrainer';
 import SpeakingLab from './components/exam/SpeakingLab';
 import CompleteTheWordsTrainer from './components/exam/CompleteTheWordsTrainer';
+import SkillNotesHub from './components/notes/SkillNotesHub';
 import DictionaryWidget from './components/dictionary/DictionaryWidget';
 import ExamCountdown from './components/ExamCountdown';
 import { getTestsBySkill, getFullTests, deleteTest, getExamHistory } from './lib/supabase';
@@ -119,7 +120,7 @@ function MainApp() {
       setImportSkillModal('full');
     } else {
       setImportSkillModal(
-        (activeSkill === 'vocabulary' || activeSkill === 'context_vocab' || activeSkill === 'complete_the_words')
+        (activeSkill === 'vocabulary' || activeSkill === 'context_vocab' || activeSkill === 'complete_the_words' || activeSkill === 'skill_notes')
           ? 'reading'
           : (activeSkill === 'speaking_lab' ? 'speaking' : (activeSkill || 'reading'))
       );
@@ -268,6 +269,8 @@ function MainApp() {
               <ContextVocabTrainer />
             ) : activeSkill === 'speaking_lab' ? (
               <SpeakingLab />
+            ) : activeSkill === 'skill_notes' ? (
+              <SkillNotesHub />
             ) : isLoading ? (
               <div className="bg-white rounded-2xl border border-[#e5dfd5] p-12 text-center shadow-xs my-6">
                 <div className="w-8 h-8 border-3 border-teal-700 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
