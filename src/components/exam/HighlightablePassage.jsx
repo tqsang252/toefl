@@ -323,26 +323,27 @@ export default function HighlightablePassage({
   return (
     <div className="relative">
       
-      {/* 1. Header Toolbar cho Bài đọc & Công cụ Highlight */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3 mb-4">
+      {/* 1. Header Toolbar cho Bài đọc & Công cụ Highlight (Cố định vị trí, không nhảy dòng) */}
+      <div className="border-b border-slate-100 pb-3 mb-4 space-y-2.5">
         
-        {/* Nhãn loại bài đọc & Chủ đề */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs font-bold uppercase tracking-wider text-amber-900 bg-amber-100/80 px-2.5 py-1 rounded-lg border border-amber-200">
+        {/* Hàng 1: Nhãn loại bài đọc & Chủ đề */}
+        <div className="flex items-center gap-2 flex-wrap min-h-[26px]">
+          <span className="text-xs font-bold uppercase tracking-wider text-amber-900 bg-amber-100/80 px-2.5 py-1 rounded-lg border border-amber-200 shrink-0">
             {documentType || "Reading Passage"}
           </span>
           {topicTitle && (
-            <span className="text-xs font-semibold text-teal-800 bg-teal-50 px-2.5 py-1 rounded-lg border border-teal-200">
+            <span className="text-xs font-semibold text-teal-800 bg-teal-50 px-2.5 py-1 rounded-lg border border-teal-200 truncate max-w-[320px]" title={topicTitle}>
               {topicTitle}
             </span>
           )}
         </div>
 
-        {/* Thanh công cụ Bút dạ quang (Highlighter Tools) */}
-        <div className="flex items-center gap-2">
+        {/* Hàng 2: Thanh công cụ cố định hoàn toàn - không bị nhảy dòng hay co giật khung hình */}
+        <div className="flex items-center gap-2 bg-slate-50/90 rounded-2xl p-1.5 border border-slate-200/80 min-h-[42px] select-none">
           
-          {/* Nút bật/tắt dịch nhanh AI khi bôi đen */}
+          {/* Nút bật/tắt dịch nhanh AI khi bôi đen (Cố định kích thước w-[110px]) */}
           <button
+            type="button"
             onClick={() => {
               setIsTranslateEnabled((prev) => {
                 const next = !prev;
@@ -350,59 +351,68 @@ export default function HighlightablePassage({
                 return next;
               });
             }}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+            className={`w-[110px] h-8 flex items-center justify-center gap-1.5 px-2 rounded-xl text-xs font-bold transition-colors cursor-pointer border shrink-0 ${
               isTranslateEnabled
                 ? 'bg-teal-50 text-teal-800 border-teal-300 shadow-2xs'
-                : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200'
+                : 'bg-white text-slate-400 border-slate-200 hover:bg-slate-100 hover:text-slate-600'
             }`}
-            title={isTranslateEnabled ? 'Dịch nhanh AI đang BẬT: Bôi đen từ/câu để hiện khung tra nghĩa & dịch tự động.' : 'Dịch nhanh AI đang TẮT: Bấm để bật tính năng bôi đen dịch tự động.'}
+            title={isTranslateEnabled ? 'Dịch nhanh AI đang BẬT: Bôi đen để hiện khung tra nghĩa & dịch tự động.' : 'Dịch nhanh AI đang TẮT: Bấm để bật tính năng bôi đen dịch tự động.'}
           >
-            <Sparkles className={`w-3.5 h-3.5 ${isTranslateEnabled ? 'text-teal-600' : 'text-slate-400'}`} />
-            <span>{isTranslateEnabled ? 'Dịch nhanh: BẬT' : 'Dịch: TẮT'}</span>
+            <Sparkles className={`w-3.5 h-3.5 shrink-0 ${isTranslateEnabled ? 'text-teal-600' : 'text-slate-400'}`} />
+            <span>Dịch: {isTranslateEnabled ? 'BẬT' : 'TẮT'}</span>
           </button>
 
-          {/* Nút bật/tắt bút dạ quang */}
+          {/* Nút bật/tắt bút dạ quang (Cố định kích thước w-[124px]) */}
           <button
+            type="button"
             onClick={() => {
               setIsHighlightEnabled((prev) => !prev);
             }}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+            className={`w-[124px] h-8 flex items-center justify-center gap-1.5 px-2 rounded-xl text-xs font-bold transition-colors cursor-pointer border shrink-0 ${
               isHighlightEnabled
                 ? 'bg-amber-100/90 text-amber-900 border-amber-300 shadow-2xs'
-                : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200'
+                : 'bg-white text-slate-400 border-slate-200 hover:bg-slate-100 hover:text-slate-600'
             }`}
             title={isHighlightEnabled ? 'Bút highlight đang BẬT: Bôi đen để tô màu bài đọc.' : 'Bút highlight đang TẮT: Bấm để bật chế độ tô màu dạ quang.'}
           >
-            <Highlighter className={`w-3.5 h-3.5 ${isHighlightEnabled ? 'text-amber-700' : 'text-slate-400'}`} />
-            <span>{isHighlightEnabled ? 'Bút highlight: BẬT' : 'Bút: TẮT'}</span>
+            <Highlighter className={`w-3.5 h-3.5 shrink-0 ${isHighlightEnabled ? 'text-amber-700' : 'text-slate-400'}`} />
+            <span>Highlight: {isHighlightEnabled ? 'BẬT' : 'TẮT'}</span>
           </button>
 
-          {/* Bảng chọn màu tô */}
-          {isHighlightEnabled && (
-            <div className="flex items-center bg-slate-100/80 rounded-xl p-1 border border-slate-200 gap-1 animate-in fade-in duration-150">
-              {Object.values(HIGHLIGHT_COLORS).map((c) => {
-                const isSelected = selectedColor === c.id;
-                return (
-                  <button
-                    key={c.id}
-                    onClick={() => setSelectedColor(c.id)}
-                    title={`Màu ${c.name} (Bôi đen từ sẽ tự tô màu này)`}
-                    className={`w-5 h-5 rounded-full ${c.dotClass} flex items-center justify-center transition-all cursor-pointer ${
-                      isSelected ? `ring-2 ${c.ringClass} scale-110 shadow-xs` : 'opacity-60 hover:opacity-100 hover:scale-105'
-                    }`}
-                  >
-                    {isSelected && <Check className="w-3 h-3 text-slate-900 stroke-[3]" />}
-                  </button>
-                );
-              })}
-            </div>
-          )}
+          {/* Bảng chọn màu tô (Luôn hiển thị cố định vị trí; nhấp màu sẽ tự kích hoạt bút) */}
+          <div 
+            className={`flex items-center bg-white rounded-xl p-1 border border-slate-200 gap-1 shrink-0 transition-opacity ${
+              isHighlightEnabled ? 'opacity-100' : 'opacity-40 hover:opacity-80'
+            }`}
+            title={isHighlightEnabled ? 'Bảng màu dạ quang (Đang dùng)' : 'Bút đang tắt - Nhấp vào màu để bật bút highlight'}
+          >
+            {Object.values(HIGHLIGHT_COLORS).map((c) => {
+              const isSelected = selectedColor === c.id;
+              return (
+                <button
+                  key={c.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedColor(c.id);
+                    if (!isHighlightEnabled) setIsHighlightEnabled(true);
+                  }}
+                  title={`Màu ${c.name}${!isHighlightEnabled ? ' (Nhấp để bật highlight)' : ''}`}
+                  className={`w-5 h-5 rounded-full ${c.dotClass} flex items-center justify-center transition-transform cursor-pointer shrink-0 ${
+                    isSelected && isHighlightEnabled ? `ring-2 ${c.ringClass} scale-110 shadow-xs` : 'opacity-75 hover:opacity-100 hover:scale-105'
+                  }`}
+                >
+                  {isSelected && isHighlightEnabled && <Check className="w-3 h-3 text-slate-900 stroke-[3]" />}
+                </button>
+              );
+            })}
+          </div>
 
-          {/* Nút xóa toàn bộ highlight nếu đang có */}
+          {/* Nút xóa toàn bộ highlight nếu đang có (nằm sát lề phải, không đẩy các nút bên trái) */}
           {highlights.length > 0 && (
             <button
+              type="button"
               onClick={handleClearAllHighlights}
-              className="flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg border border-rose-200 transition-colors cursor-pointer"
+              className="ml-auto flex items-center gap-1 px-2.5 h-7 text-[11px] font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg border border-rose-200 transition-colors cursor-pointer shrink-0"
               title="Xóa tất cả các đoạn đã tô sáng"
             >
               <Trash2 className="w-3 h-3" />
