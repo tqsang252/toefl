@@ -57,6 +57,7 @@ export default function CompleteTheWordsTrainer() {
 
   // Input refs for smooth auto-advance
   const inputRefs = useRef([]);
+  const [focusedBlankIdx, setFocusedBlankIdx] = useState(null);
 
   // Load history & starred words from localStorage
   useEffect(() => {
@@ -414,18 +415,32 @@ export default function CompleteTheWordsTrainer() {
       const entered = userInputs[blankIdx] || '';
       const isCorrect = isSubmitted && entered.toLowerCase() === missing.toLowerCase();
       const isWrong = isSubmitted && !isCorrect;
+      const isFocused = focusedBlankIdx === blankIdx;
 
       return (
         <span
           key={`blank_${blankIdx}_${pIdx}`}
-          className="inline-flex items-baseline mx-1 align-baseline relative group"
+          className={`inline-flex items-center align-baseline whitespace-nowrap mx-1 px-1.5 py-0.5 rounded-lg border transition-all duration-150 relative cursor-text select-none ${
+            isSubmitted
+              ? isCorrect
+                ? 'bg-emerald-50/90 border-emerald-400 text-emerald-950 ring-2 ring-emerald-300/40'
+                : 'bg-rose-50/90 border-rose-400 text-rose-950 ring-2 ring-rose-300/40'
+              : isFocused
+              ? 'bg-indigo-50/90 border-indigo-500 ring-2 ring-indigo-400/40 shadow-xs'
+              : 'bg-white border-slate-300 hover:border-slate-400 hover:bg-slate-50'
+          }`}
+          onClick={() => {
+            if (!isSubmitted && inputRefs.current[blankIdx]) {
+              inputRefs.current[blankIdx].focus();
+            }
+          }}
         >
           {/* Prefix (Provided letters) */}
-          <span className="font-extrabold text-slate-900 bg-slate-100/90 px-1 py-0.5 rounded-l border-y border-l border-slate-300 font-mono text-[16px] sm:text-[17px]">
+          <span className="font-extrabold text-slate-900 font-mono text-[16px] sm:text-[17px] tracking-tight">
             {prefix}
           </span>
 
-          {/* Missing Input field */}
+          {/* Invisible real input that captures typing and keyboard navigation */}
           <input
             ref={(el) => (inputRefs.current[blankIdx] = el)}
             type="text"
@@ -433,24 +448,47 @@ export default function CompleteTheWordsTrainer() {
             value={entered}
             onChange={(e) => handleInputChange(blankIdx, e.target.value)}
             onKeyDown={(e) => handleKeyDown(e, blankIdx)}
+            onFocus={() => setFocusedBlankIdx(blankIdx)}
+            onBlur={() => setFocusedBlankIdx((prev) => (prev === blankIdx ? null : prev))}
             maxLength={blankInfo.missingLength}
-            placeholder={'_'.repeat(blankInfo.missingLength)}
-            style={{
-              width: `${Math.max(34, blankInfo.missingLength * 13 + 14)}px`
-            }}
-            className={`font-mono text-[16px] sm:text-[17px] font-bold px-1.5 py-0.5 rounded-r border-y border-r text-center transition-all outline-hidden ${
-              isSubmitted
-                ? isCorrect
-                  ? 'bg-emerald-50 text-emerald-800 border-emerald-500 ring-2 ring-emerald-300/40'
-                  : 'bg-rose-50 text-rose-800 border-rose-500 ring-2 ring-rose-300/40 line-through'
-                : 'bg-indigo-50/60 text-indigo-900 border-indigo-300 focus:bg-white focus:border-indigo-600 focus:ring-2 focus:ring-indigo-300/50'
-            }`}
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck="false"
+            autoComplete="off"
+            className="absolute inset-0 w-full h-full opacity-0 cursor-text pointer-events-auto z-10"
           />
 
-          {/* Post-submit correction badge on error */}
+          {/* Visible character slots with exact number of _ _ _ */}
+          <span className="inline-flex items-center gap-1 ml-1 font-mono text-[16px] sm:text-[17px] font-bold">
+            {Array.from({ length: blankInfo.missingLength }).map((_, charIdx) => {
+              const char = entered[charIdx];
+              const isCharSlotActive = isFocused && !isSubmitted && entered.length === charIdx;
+
+              return (
+                <span
+                  key={charIdx}
+                  className={`inline-flex items-center justify-center min-w-[14px] sm:min-w-[16px] h-6 border-b-2 leading-none transition-all ${
+                    isSubmitted
+                      ? isCorrect
+                        ? 'border-emerald-600 text-emerald-800'
+                        : 'border-rose-500 text-rose-800 line-through'
+                      : char
+                      ? 'border-slate-800 text-slate-900'
+                      : isCharSlotActive
+                      ? 'border-indigo-600 text-indigo-600 animate-pulse font-black'
+                      : 'border-slate-400 text-slate-400'
+                  }`}
+                >
+                  {char || '_'}
+                </span>
+              );
+            })}
+          </span>
+
+          {/* Post-submit correction badge if wrong */}
           {isWrong && (
-            <span className="ml-1 px-1.5 py-0.2 bg-emerald-600 text-white rounded text-[11px] font-mono font-black shadow-xs shrink-0 self-center">
-              {missing}
+            <span className="ml-1.5 px-1.5 py-0.2 bg-emerald-600 text-white rounded text-[11px] font-mono font-black shadow-xs shrink-0 self-center">
+              +{missing}
             </span>
           )}
 
@@ -463,7 +501,7 @@ export default function CompleteTheWordsTrainer() {
         </span>
       );
     });
-  }, [currentPassage, userInputs, isSubmitted, showHints]);
+  }, [currentPassage, userInputs, isSubmitted, showHints, focusedBlankIdx]);
 
   return (
     <div className="space-y-6 pb-12 animate-fadeIn">
@@ -737,22 +775,10 @@ export default function CompleteTheWordsTrainer() {
           </div>
         )}
 
-        {/* C-Test Reading Area */}
-        <div className="space-y-4">
-          {/* Sentence 1 (100% Complete & Unmodified) */}
-          <div className="p-3.5 rounded-2xl bg-amber-50/60 border border-amber-200/80">
-            <span className="text-[11px] font-black uppercase tracking-wider text-amber-800 block mb-1">
-              Câu dẫn nhập thiết lập ngữ cảnh (Sentence 1 - Intact):
-            </span>
-            <p className="font-serif text-[17px] sm:text-[18px] text-slate-900 font-semibold leading-relaxed">
-              {currentPassage.leadSentence}
-            </p>
-          </div>
-
-          {/* Interactive Body Text with C-Test Blanks */}
-          <div className="p-4 sm:p-6 rounded-2xl bg-slate-50/50 border border-slate-200 text-slate-800 leading-[2.6] font-serif text-[17px] sm:text-[18px]">
-            {parsedBodyElements}
-          </div>
+        {/* C-Test Reading Area - Unified single continuous passage */}
+        <div className="p-5 sm:p-8 rounded-2xl bg-slate-50/60 border border-slate-200 text-slate-900 leading-[2.8] font-serif text-[17px] sm:text-[18px]">
+          <span className="text-slate-900 font-normal">{currentPassage.leadSentence} </span>
+          {parsedBodyElements}
         </div>
 
         {/* Action Buttons: Submit / Retry / Next */}
