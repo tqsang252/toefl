@@ -634,10 +634,12 @@ export const INITIAL_PREPOSITION_NOTE = {
   ]
 };
 
+import { getSupabaseClient, isSupabaseConfigured } from './supabase.js';
+
 const STORAGE_KEY = 'toefl_study_notes_v1';
 
 /**
- * Lấy toàn bộ danh sách ghi chú học tập
+ * Lấy toàn bộ danh sách ghi chú học tập (từ LocalStorage ngay lập tức)
  */
 export function getStoredNotes() {
   if (typeof window === 'undefined') return [INITIAL_PREPOSITION_NOTE];
@@ -660,7 +662,29 @@ export function getStoredNotes() {
 }
 
 /**
- * Lưu 1 ghi chú mới
+ * Đồng bộ hai chiều từ Supabase (nếu người dùng có tạo bảng study_notes)
+ */
+export async function syncNotesFromSupabase() {
+  const client = getSupabaseClient();
+  if (!isSupabaseConfigured() || !client) return getStoredNotes();
+  try {
+    const { data, error } = await client
+      .from('study_notes')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (!error && Array.isArray(data) && data.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      return data;
+    }
+  } catch (err) {
+    // Không làm gián đoạn ứng dụng nếu bảng chưa tạo trên Supabase
+  }
+  return getStoredNotes();
+}
+
+/**
+ * Lưu 1 ghi chú mới (Local + Supabase Cloud nếu có)
  */
 export function saveStudyNote(newNote) {
   if (typeof window === 'undefined') return;
@@ -673,17 +697,44 @@ export function saveStudyNote(newNote) {
     updated = [newNote, ...current];
   }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+
+  // Đồng bộ lên Supabase nếu có cấu hình
+  const client = getSupabaseClient();
+  if (isSupabaseConfigured() && client) {
+    client.from('study_notes').upsert({
+      id: newNote.id,
+      title: newNote.title,
+      category: newNote.category,
+      summary: newNote.summary,
+      tags: newNote.tags || [],
+      items: newNote.items || [],
+      original_image_url: newNote.original_image_url || null,
+      created_at: newNote.created_at || new Date().toISOString()
+    }).catch(err => {
+      console.warn('Supabase study_notes sync notice (ignorable if table not created):', err.message);
+    });
+  }
+
   return updated;
 }
 
 /**
- * Xóa 1 ghi chú theo ID
+ * Xóa 1 ghi chú theo ID (Local + Supabase Cloud nếu có)
  */
 export function deleteStudyNote(noteId) {
   if (typeof window === 'undefined') return;
   const current = getStoredNotes();
   const updated = current.filter(n => n.id !== noteId);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+
+  // Xóa trên Supabase nếu có cấu hình
+  const client = getSupabaseClient();
+  if (isSupabaseConfigured() && client) {
+    client.from('study_notes').delete().eq('id', noteId).catch(err => {
+      console.warn('Supabase study_notes delete notice:', err.message);
+    });
+  }
+
   return updated;
 }
 

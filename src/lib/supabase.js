@@ -58,6 +58,10 @@ export function initSupabase(url, key) {
 // Khởi tạo ban đầu (ưu tiên Biến môi trường Vercel nếu không có ghi đè ở local)
 initSupabase(getStoredUrl(), getStoredKey());
 
+export function getSupabaseClient() {
+  return supabaseInstance;
+}
+
 export function isSupabaseConfigured() {
   return !!supabaseInstance && !!getStoredUrl() && !!getStoredKey();
 }

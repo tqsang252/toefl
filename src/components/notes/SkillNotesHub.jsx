@@ -20,7 +20,8 @@ import {
   getStoredNotes, 
   saveStudyNote, 
   deleteStudyNote, 
-  resetStudyNotes 
+  resetStudyNotes,
+  syncNotesFromSupabase
 } from '../../lib/notesStorage';
 import AddNoteModal from './AddNoteModal';
 import NoteStudyModal from './NoteStudyModal';
@@ -41,9 +42,14 @@ export default function SkillNotesHub() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [studyingNote, setStudyingNote] = useState(null);
 
-  // Tải lại ghi chú khi mở
+  // Tải lại ghi chú khi mở và đồng bộ nền từ Supabase nếu có
   useEffect(() => {
     setNotes(getStoredNotes());
+    syncNotesFromSupabase().then((data) => {
+      if (Array.isArray(data) && data.length > 0) {
+        setNotes(data);
+      }
+    });
   }, []);
 
   const handleNoteCreated = (newNote) => {
