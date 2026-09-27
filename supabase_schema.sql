@@ -142,6 +142,41 @@ CREATE POLICY "Allow public delete exam_history"
 ON exam_history FOR DELETE 
 USING (true);
 
+-- 6. Bảng lưu ngân hàng câu hỏi Từ vựng theo ngữ cảnh (context_vocab_questions)
+CREATE TABLE IF NOT EXISTS context_vocab_questions (
+  id TEXT PRIMARY KEY,
+  title TEXT,
+  topic TEXT,
+  target_word TEXT,
+  paragraph_index INTEGER,
+  passage TEXT,
+  question TEXT,
+  options JSONB,
+  correct_answer TEXT,
+  clue_type TEXT,
+  clue_signal TEXT,
+  explanation TEXT,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+ALTER TABLE context_vocab_questions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public read context_vocab_questions" 
+ON context_vocab_questions FOR SELECT 
+USING (true);
+
+CREATE POLICY "Allow public insert context_vocab_questions" 
+ON context_vocab_questions FOR INSERT 
+WITH CHECK (true);
+
+CREATE POLICY "Allow public update context_vocab_questions" 
+ON context_vocab_questions FOR UPDATE 
+USING (true);
+
+CREATE POLICY "Allow public delete context_vocab_questions" 
+ON context_vocab_questions FOR DELETE 
+USING (true);
+
 -- ====================================================================
 -- ĐÃ XONG! Giờ bạn có thể import đề thi, từ vựng & lưu lịch sử vào Supabase.
 -- ====================================================================

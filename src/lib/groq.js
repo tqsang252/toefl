@@ -86,7 +86,13 @@ export function isGroqConfigured() {
 export const GROQ_WHISPER_MODELS = ['whisper-large-v3', 'whisper-large-v3-turbo'];
 export const DEFAULT_GROQ_STT_MODEL = 'whisper-large-v3';
 
-export const GROQ_CHAT_MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'];
+export const GROQ_CHAT_MODELS = [
+  'llama-3.3-70b-versatile',
+  'llama-3.1-8b-instant',
+  'openai/gpt-oss-120b',
+  'openai/gpt-oss-20b',
+  'qwen/qwen3.8-27b'
+];
 export const DEFAULT_GROQ_CHAT_MODEL = 'llama-3.3-70b-versatile';
 
 /**
