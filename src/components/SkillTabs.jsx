@@ -150,39 +150,28 @@ export default function SkillTabs({ activeSkill, onSelectSkill }) {
             <button
               key={hub.id}
               onClick={() => onSelectSkill(hub.id)}
-              className={`flex items-center justify-between gap-3 px-4 py-3 sm:py-3.5 rounded-2xl bg-white border-2 transition-all duration-200 cursor-pointer text-left ${
+              className={`flex items-center gap-3 px-3.5 sm:px-4 py-3 sm:py-3.5 rounded-2xl bg-white border-2 transition-all duration-200 cursor-pointer text-left ${
                 isActive
                   ? `${hub.activeBorder} scale-[1.01] bg-white`
                   : 'border-[#dfd8cc] hover:border-slate-400 hover:shadow-md opacity-90 hover:opacity-100'
               }`}
             >
-              <div className="flex items-center gap-3 min-w-0">
-                {/* Icon tròn */}
-                <div
-                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${hub.iconBg} text-white flex items-center justify-center shrink-0 shadow-xs`}
-                >
-                  <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                </div>
-
-                {/* Tiêu đề & Phụ đề giải thích */}
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className={`text-xs sm:text-sm font-black tracking-wider whitespace-nowrap ${hub.textColor}`}>
-                      {hub.label}
-                    </span>
-                  </div>
-                  <p className="text-[11px] sm:text-xs text-slate-500 font-medium truncate mt-0.5">
-                    {hub.subtitle}
-                  </p>
-                </div>
+              {/* Icon tròn */}
+              <div
+                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${hub.iconBg} text-white flex items-center justify-center shrink-0 shadow-xs`}
+              >
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
 
-              {/* Huy hiệu định danh góc phải */}
-              <span
-                className={`text-[11px] font-extrabold px-2.5 py-0.5 rounded-full border shrink-0 hidden sm:inline-block ${hub.badgeBg}`}
-              >
-                {hub.badge}
-              </span>
+              {/* Tiêu đề & Phụ đề giải thích */}
+              <div className="min-w-0 flex-1">
+                <span className={`text-xs sm:text-sm font-black tracking-wider block whitespace-nowrap truncate ${hub.textColor}`}>
+                  {hub.label}
+                </span>
+                <p className="text-[11px] sm:text-xs text-slate-500 font-medium truncate mt-0.5">
+                  {hub.subtitle}
+                </p>
+              </div>
             </button>
           );
         })}
