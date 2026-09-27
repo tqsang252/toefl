@@ -1,5 +1,5 @@
 import React from 'react';
-import { Headphones, BookOpen, Mic, PenTool, GraduationCap, Target, Sparkles, BookMarked } from 'lucide-react';
+import { Headphones, BookOpen, Mic, PenTool, GraduationCap, Target, Sparkles, BookMarked, PenLine } from 'lucide-react';
 
 // 4 Kỹ năng làm bài thi chính thức (TOEFL iBT Test Sections)
 const EXAM_SKILLS = [
@@ -45,8 +45,21 @@ const EXAM_SKILLS = [
   }
 ];
 
-// 3 Trung tâm rèn luyện chuyên sâu (Mastery Labs)
+// 4 Trung tâm rèn luyện chuyên sâu (Mastery Labs)
 const MASTERY_HUBS = [
+  {
+    id: 'complete_the_words',
+    label: 'COMPLETE THE WORDS',
+    subtitle: '100 Đề C-Test chuẩn ETS 2026',
+    badge: '100 Đề ETS 2026',
+    badgeBg: 'bg-indigo-100/80 text-indigo-900 border-indigo-200',
+    icon: PenLine,
+    borderColor: 'border-[#4338ca]',
+    activeBorder: 'border-[#4338ca] ring-3 ring-indigo-400/30 shadow-lg',
+    textColor: 'text-[#4338ca]',
+    iconBg: 'bg-[#4338ca]',
+    glow: 'shadow-indigo-500/10'
+  },
   {
     id: 'vocabulary',
     label: 'VOCABULARY HUB',
@@ -63,8 +76,8 @@ const MASTERY_HUBS = [
   {
     id: 'context_vocab',
     label: 'CONTEXT VOCAB TRAINER',
-    subtitle: '50 Bài đọc TOEFL & Giải mã manh mối',
-    badge: '50 Đề ETS',
+    subtitle: '100 Bài đọc TOEFL & Manh mối ETS',
+    badge: '100 Đề ETS',
     badgeBg: 'bg-teal-100/80 text-teal-900 border-teal-200',
     icon: Target,
     borderColor: 'border-[#0f766e]',
@@ -127,8 +140,8 @@ export default function SkillTabs({ activeSkill, onSelectSkill }) {
         })}
       </div>
 
-      {/* HÀNG 2: 3 TRUNG TÂM LUYỆN TẬP CHUYÊN SÂU (VOCABULARY HUB, CONTEXT VOCAB & SPEAKING LAB) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 sm:gap-3.5">
+      {/* HÀNG 2: 4 TRUNG TÂM LUYỆN TẬP CHUYÊN SÂU (COMPLETE THE WORDS, VOCABULARY HUB, CONTEXT VOCAB & SPEAKING LAB) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
         {MASTERY_HUBS.map((hub) => {
           const Icon = hub.icon;
           const isActive = activeSkill === hub.id;

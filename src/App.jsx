@@ -11,6 +11,7 @@ import ExamHistoryModal from './components/ExamHistoryModal';
 import VocabularyHub from './components/vocabulary/VocabularyHub';
 import ContextVocabTrainer from './components/exam/ContextVocabTrainer';
 import SpeakingLab from './components/exam/SpeakingLab';
+import CompleteTheWordsTrainer from './components/exam/CompleteTheWordsTrainer';
 import DictionaryWidget from './components/dictionary/DictionaryWidget';
 import ExamCountdown from './components/ExamCountdown';
 import { getTestsBySkill, getFullTests, deleteTest, getExamHistory } from './lib/supabase';
@@ -117,7 +118,11 @@ function MainApp() {
     } else if (currentView === 'full_test') {
       setImportSkillModal('full');
     } else {
-      setImportSkillModal((activeSkill === 'vocabulary' || activeSkill === 'context_vocab') ? 'reading' : (activeSkill === 'speaking_lab' ? 'speaking' : (activeSkill || 'reading')));
+      setImportSkillModal(
+        (activeSkill === 'vocabulary' || activeSkill === 'context_vocab' || activeSkill === 'complete_the_words')
+          ? 'reading'
+          : (activeSkill === 'speaking_lab' ? 'speaking' : (activeSkill || 'reading'))
+      );
     }
     setIsImportOpen(true);
   };
@@ -255,7 +260,9 @@ function MainApp() {
               onSelectSkill={(skillId) => setActiveSkill(skillId)}
             />
 
-            {activeSkill === 'vocabulary' ? (
+            {activeSkill === 'complete_the_words' ? (
+              <CompleteTheWordsTrainer />
+            ) : activeSkill === 'vocabulary' ? (
               <VocabularyHub />
             ) : activeSkill === 'context_vocab' ? (
               <ContextVocabTrainer />
