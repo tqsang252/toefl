@@ -421,20 +421,51 @@ export default function CompleteTheWordsTrainer() {
       const isWrong = isSubmitted && !isCorrect;
       const isFocused = focusedBlankIdx === blankIdx;
 
+      // Khi đã nộp bài (Post-submission Review)
+      if (isSubmitted) {
+        if (isCorrect) {
+          return (
+            <span
+              key={`blank_${blankIdx}_${pIdx}`}
+              className="inline-flex items-center align-baseline whitespace-nowrap mx-1 px-2 py-0.5 rounded-lg border border-emerald-400 bg-emerald-50 text-emerald-950 font-mono text-[16px] sm:text-[17px] font-bold shadow-2xs"
+            >
+              <span className="text-slate-800">{prefix}</span>
+              <span className="text-emerald-700 font-black">{entered}</span>
+              <span className="ml-1 text-emerald-600 text-xs font-black">✓</span>
+            </span>
+          );
+        }
+
+        // Trường hợp sai (isWrong)
+        return (
+          <span
+            key={`blank_${blankIdx}_${pIdx}`}
+            className="inline-flex items-center align-baseline whitespace-nowrap mx-1 px-1.5 py-0.5 rounded-lg border border-rose-300 bg-rose-50/70 text-slate-800 font-mono text-[16px] sm:text-[17px] shadow-2xs"
+          >
+            <span className="font-bold text-slate-700">{prefix}</span>
+            {entered ? (
+              <span className="ml-1 text-rose-600 font-bold line-through">
+                {entered}
+              </span>
+            ) : null}
+            <span className="ml-1.5 px-1.5 py-0.2 bg-emerald-600 text-white rounded font-mono font-bold text-xs shadow-2xs">
+              {missing}
+            </span>
+          </span>
+        );
+      }
+
+      // Khi đang làm bài (Active test taking mode)
       return (
         <span
           key={`blank_${blankIdx}_${pIdx}`}
           className={`inline-flex items-center align-baseline whitespace-nowrap mx-1 px-1.5 py-0.5 rounded-lg border transition-all duration-150 relative cursor-text select-none ${
-            isSubmitted
-              ? isCorrect
-                ? 'bg-emerald-50/90 border-emerald-400 text-emerald-950 ring-2 ring-emerald-300/40'
-                : 'bg-rose-50/90 border-rose-400 text-rose-950 ring-2 ring-rose-300/40'
-              : isFocused
+            isFocused
               ? 'bg-indigo-50/90 border-indigo-500 ring-2 ring-indigo-400/40 shadow-xs'
               : 'bg-white border-slate-300 hover:border-slate-400 hover:bg-slate-50'
           }`}
           onClick={() => {
-            if (!isSubmitted && inputRefs.current[blankIdx]) {
+            if (inputRefs.current[blankIdx]) {
               inputRefs.current[blankIdx].focus();
             }
           }}
@@ -448,7 +479,6 @@ export default function CompleteTheWordsTrainer() {
           <input
             ref={(el) => (inputRefs.current[blankIdx] = el)}
             type="text"
-            disabled={isSubmitted}
             value={entered}
             onChange={(e) => handleInputChange(blankIdx, e.target.value)}
             onKeyDown={(e) => handleKeyDown(e, blankIdx)}
@@ -466,17 +496,13 @@ export default function CompleteTheWordsTrainer() {
           <span className="inline-flex items-center gap-1 sm:gap-1.5 ml-1 font-mono text-[16px] sm:text-[17px] font-bold">
             {Array.from({ length: blankInfo.missingLength }).map((_, charIdx) => {
               const char = entered[charIdx];
-              const isCharSlotActive = isFocused && !isSubmitted && entered.length === charIdx;
+              const isCharSlotActive = isFocused && entered.length === charIdx;
 
               return (
                 <span
                   key={charIdx}
                   className={`inline-flex items-center justify-center min-w-[13px] sm:min-w-[15px] h-6 leading-none transition-all ${
-                    isSubmitted
-                      ? isCorrect
-                        ? 'text-emerald-700 font-extrabold'
-                        : 'text-rose-600 line-through font-extrabold'
-                      : char
+                    char
                       ? 'text-slate-900 font-extrabold'
                       : isCharSlotActive
                       ? 'text-indigo-600 font-black animate-pulse'
@@ -489,15 +515,8 @@ export default function CompleteTheWordsTrainer() {
             })}
           </span>
 
-          {/* Post-submit correction badge if wrong */}
-          {isWrong && (
-            <span className="ml-1.5 px-1.5 py-0.2 bg-emerald-600 text-white rounded text-[11px] font-mono font-black shadow-xs shrink-0 self-center">
-              +{missing}
-            </span>
-          )}
-
           {/* Interactive Hint tooltip when enabled */}
-          {showHints && !isSubmitted && (
+          {showHints && (
             <span className="absolute -top-7 left-0 whitespace-nowrap bg-slate-800 text-amber-300 text-[10px] font-medium px-2 py-0.5 rounded shadow-md pointer-events-none z-20">
               {blankInfo.pos}: {blankInfo.hint.slice(0, 24)}...
             </span>
