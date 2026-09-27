@@ -143,9 +143,15 @@ export default function DictionaryWidget({ isOpen, onClose, onOpenSettings }) {
       if (isSingleWord) {
         // BƯỚC 1: Tra cứu trong Database (Supabase + LocalStorage + 1000+ từ có sẵn)
         const dbResult = await lookupWordInDatabase(query);
+        const hasValidMeaning = Boolean(
+          dbResult?.found &&
+          dbResult.meaningVi &&
+          dbResult.meaningVi.trim() &&
+          dbResult.meaningVi !== 'Chưa có bản dịch'
+        );
 
-        if (dbResult && dbResult.found) {
-          // Tìm thấy trong Database
+        if (hasValidMeaning) {
+          // Tìm thấy trong Database với đầy đủ nghĩa
           setHistory((prev) => [
             ...prev,
             {
@@ -161,7 +167,7 @@ export default function DictionaryWidget({ isOpen, onClose, onOpenSettings }) {
           return;
         }
 
-        // BƯỚC 2: Chưa có trong Database -> Tự động chuyển qua AI dịch
+        // BƯỚC 2: Chưa có trong Database hoặc DB thiếu nghĩa tiếng Việt -> Tự động chuyển qua AI dịch
         const aiResult = await lookupWordWithAi(query);
         setHistory((prev) => [
           ...prev,

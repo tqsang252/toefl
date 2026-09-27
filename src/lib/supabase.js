@@ -1296,17 +1296,20 @@ export function getWordFromDictCache(rawWord) {
 
   if (cachedVocabularyMap && cachedVocabularyMap.has(clean)) {
     const item = cachedVocabularyMap.get(clean);
-    return {
-      found: true,
-      word: item.word || clean,
-      phonetic: item.phonetic || '',
-      partOfSpeech: item.partOfSpeech || item.part_of_speech || 'Word',
-      meaningVi: item.meaningVi || item.meaning_vi || item.meaning || '',
-      meaningEn: item.meaningEn || item.meaning_en || '',
-      example: item.example || '',
-      exampleTranslation: item.exampleTranslation || item.example_translation || '',
-      source: 'database'
-    };
+    const meaningVi = String(item.meaningVi || item.meaning_vi || item.meaning || '').trim();
+    if (meaningVi && meaningVi !== 'Chưa có bản dịch') {
+      return {
+        found: true,
+        word: item.word || clean,
+        phonetic: item.phonetic || '',
+        partOfSpeech: item.partOfSpeech || item.part_of_speech || 'Word',
+        meaningVi,
+        meaningEn: item.meaningEn || item.meaning_en || '',
+        example: item.example || '',
+        exampleTranslation: item.exampleTranslation || item.example_translation || '',
+        source: 'database'
+      };
+    }
   }
 
   try {
@@ -1315,20 +1318,27 @@ export function getWordFromDictCache(rawWord) {
       const parsed = JSON.parse(raw);
       if (parsed[clean]) {
         const item = parsed[clean];
-        if (cachedVocabularyMap) {
-          cachedVocabularyMap.set(clean, item);
+        const meaningVi = String(item.meaningVi || item.meaning || '').trim();
+        if (meaningVi && meaningVi !== 'Chưa có bản dịch') {
+          if (cachedVocabularyMap) {
+            cachedVocabularyMap.set(clean, item);
+          }
+          return {
+            found: true,
+            word: item.word || clean,
+            phonetic: item.phonetic || '',
+            partOfSpeech: item.partOfSpeech || 'Word',
+            meaningVi,
+            meaningEn: item.meaningEn || '',
+            example: item.example || '',
+            exampleTranslation: item.exampleTranslation || '',
+            source: 'database'
+          };
+        } else {
+          // Xóa mục lỗi khỏi cache
+          delete parsed[clean];
+          localStorage.setItem('toefl_ai_dict_cache', JSON.stringify(parsed));
         }
-        return {
-          found: true,
-          word: item.word || clean,
-          phonetic: item.phonetic || '',
-          partOfSpeech: item.partOfSpeech || 'Word',
-          meaningVi: item.meaningVi || item.meaning || '',
-          meaningEn: item.meaningEn || '',
-          example: item.example || '',
-          exampleTranslation: item.exampleTranslation || '',
-          source: 'database'
-        };
       }
     }
   } catch (err) {
@@ -1344,11 +1354,15 @@ export function addWordToVocabularyCache(wordData) {
   const clean = String(wordData.word).trim().toLowerCase().replace(/^['"“‘.,;!?()\[\]{}]+|['"”’.,;!?()\[\]{}]+$/g, '');
   if (!clean) return;
 
+  const meaningVi = String(wordData.meaningVi || wordData.meaning || '').trim();
+  // BẮT BUỘC phải có nghĩa tiếng Việt hợp lệ mới được lưu vào cache
+  if (!meaningVi || meaningVi === 'Chưa có bản dịch') return;
+
   const normalized = {
     word: wordData.word,
     phonetic: wordData.phonetic || '',
     partOfSpeech: wordData.partOfSpeech || 'Word',
-    meaningVi: wordData.meaningVi || wordData.meaning || '',
+    meaningVi,
     meaningEn: wordData.meaningEn || '',
     example: wordData.example || '',
     exampleTranslation: wordData.exampleTranslation || '',
@@ -1437,15 +1451,17 @@ export async function lookupWordInDatabase(rawWord) {
         }
       });
 
-      // Tự động nạp thêm kho từ đã tra bằng AI từ trước
+      // Tự động nạp thêm kho từ đã tra bằng AI từ trước (chỉ nhận từ có nghĩa tiếng Việt rõ ràng)
       try {
         if (typeof localStorage !== 'undefined') {
           const rawAiCache = localStorage.getItem('toefl_ai_dict_cache');
           if (rawAiCache) {
             const aiCacheObj = JSON.parse(rawAiCache);
             Object.keys(aiCacheObj).forEach((wLower) => {
-              if (!map.has(wLower)) {
-                map.set(wLower, aiCacheObj[wLower]);
+              const item = aiCacheObj[wLower];
+              const vi = String(item?.meaningVi || item?.meaning || '').trim();
+              if (vi && vi !== 'Chưa có bản dịch' && !map.has(wLower)) {
+                map.set(wLower, item);
               }
             });
           }
@@ -1511,18 +1527,22 @@ export async function lookupWordInDatabase(rawWord) {
   }
 
   if (match) {
-    return {
-      found: true,
-      word: match.word,
-      phonetic: match.phonetic || '',
-      partOfSpeech: match.partOfSpeech || '',
-      meaningVi: match.meaningVi || match.meaning || '',
-      meaningEn: match.meaningEn || match.meaning || '',
-      example: match.example || '',
-      exampleTranslation: match.exampleTranslation || '',
-      category: match.category || 'Academic Vocabulary',
-      source: 'database'
-    };
+    const meaningVi = String(match.meaningVi || match.meaning_vi || match.meaning || '').trim();
+    // CHỈ COI LÀ TÌM THẤY TRONG DATABASE NẾU THỰC SỰ CÓ BẢN DỊCH TIẾNG VIỆT HỢP LỆ
+    if (meaningVi && meaningVi !== 'Chưa có bản dịch') {
+      return {
+        found: true,
+        word: match.word,
+        phonetic: match.phonetic || '',
+        partOfSpeech: match.partOfSpeech || '',
+        meaningVi,
+        meaningEn: match.meaningEn || match.meaning || '',
+        example: match.example || '',
+        exampleTranslation: match.exampleTranslation || '',
+        category: match.category || 'Academic Vocabulary',
+        source: 'database'
+      };
+    }
   }
 
   return { found: false, word: rawWord.trim() };

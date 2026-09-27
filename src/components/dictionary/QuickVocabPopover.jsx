@@ -144,14 +144,21 @@ export function QuickVocabPopover({ selection, onClose, onSaveSuccess }) {
         if (isSingleWord) {
           // BƯỚC 1: Tra cứu trong Database cục bộ / 1.000+ từ chuẩn có sẵn (Tốc độ < 50ms)
           const dbResult = await lookupWordInDatabase(cleanText);
-          if (!isCancelled && dbResult && dbResult.found) {
+          const hasValidMeaning = Boolean(
+            dbResult?.found &&
+            dbResult.meaningVi &&
+            dbResult.meaningVi.trim() &&
+            dbResult.meaningVi !== 'Chưa có bản dịch'
+          );
+
+          if (!isCancelled && hasValidMeaning) {
             setData({
               type: 'word',
               source: 'database',
               word: dbResult.word || cleanText,
               phonetic: dbResult.phonetic || '',
               partOfSpeech: dbResult.partOfSpeech || 'Word',
-              meaningVi: dbResult.meaningVi || dbResult.meaning || '',
+              meaningVi: dbResult.meaningVi,
               meaningEn: dbResult.meaningEn || '',
               example: dbResult.example || contextSentence,
               exampleTranslation: dbResult.exampleTranslation || '',
@@ -161,7 +168,7 @@ export function QuickVocabPopover({ selection, onClose, onSaveSuccess }) {
             return;
           }
 
-          // BƯỚC 2: Từ mới chưa có trong DB -> Tự động dùng AI tra nghĩa
+          // BƯỚC 2: Từ mới chưa có trong DB (hoặc DB thiếu nghĩa tiếng Việt) -> Tự động dùng AI tra nghĩa siêu tốc
           const aiResult = await lookupWordWithAi(cleanText);
           if (!isCancelled) {
             setData({
@@ -170,7 +177,7 @@ export function QuickVocabPopover({ selection, onClose, onSaveSuccess }) {
               word: aiResult.word || cleanText,
               phonetic: aiResult.phonetic || '',
               partOfSpeech: aiResult.partOfSpeech || 'Word',
-              meaningVi: aiResult.meaningVi || '',
+              meaningVi: aiResult.meaningVi || 'Đang cập nhật nghĩa',
               meaningEn: aiResult.meaningEn || '',
               example: aiResult.example || contextSentence,
               exampleTranslation: aiResult.exampleTranslation || '',
