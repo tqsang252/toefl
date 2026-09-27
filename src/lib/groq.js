@@ -82,12 +82,15 @@ export function isGroqConfigured() {
   return getGroqApiKeys().length > 0;
 }
 
-// Model mặc định
-export const DEFAULT_GROQ_CHAT_MODEL = 'llama-3.3-70b-versatile';
+// Danh sách model STT và Chat mặc định & dự phòng
+export const GROQ_WHISPER_MODELS = ['whisper-large-v3', 'whisper-large-v3-turbo'];
 export const DEFAULT_GROQ_STT_MODEL = 'whisper-large-v3';
 
+export const GROQ_CHAT_MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'];
+export const DEFAULT_GROQ_CHAT_MODEL = 'llama-3.3-70b-versatile';
+
 /**
- * 1. BÓC TÁCH GIỌNG NÓI SIÊU CHÍNH XÁC BẰNG WHISPER LARGE V3
+ * 1. BÓC TÁCH GIỌNG NÓI SIÊU CHÍNH XÁC BẰNG WHISPER (TỰ ĐỘNG CHUYỂN MODEL NẾU NGHẼN)
  * Chuyển đổi audio blob (WebM/WAV) thành văn bản tiếng Anh với độ trễ < 0.5s.
  */
 export async function transcribeAudioWithGroq({ audioBlob, prompt = '', language = 'en' }) {
@@ -100,46 +103,60 @@ export async function transcribeAudioWithGroq({ audioBlob, prompt = '', language
     throw new Error('Không tìm thấy dữ liệu âm thanh để nhận diện.');
   }
 
-  // Chuẩn bị FormData theo chuẩn OpenAI/Groq Whisper API
-  const formData = new FormData();
-  const file = new File([audioBlob], 'recording.webm', { type: audioBlob.type || 'audio/webm' });
-  formData.append('file', file);
-  formData.append('model', DEFAULT_GROQ_STT_MODEL);
-  formData.append('language', language);
-  formData.append('response_format', 'verbose_json');
-  formData.append('temperature', '0.0');
+  let lastError = null;
 
-  if (prompt && prompt.trim()) {
-    formData.append('prompt', prompt.slice(0, 400));
-  }
-
-  const response = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: formData,
-  });
-
-  if (!response.ok) {
-    let errMsg = `Groq Whisper API error (${response.status})`;
+  // Tự động thử qua các model Whisper (whisper-large-v3 -> whisper-large-v3-turbo)
+  for (const modelName of GROQ_WHISPER_MODELS) {
     try {
-      const errJson = await response.json();
-      if (errJson?.error?.message) {
-        errMsg = errJson.error.message;
+      const formData = new FormData();
+      const file = new File([audioBlob], 'recording.webm', { type: audioBlob.type || 'audio/webm' });
+      formData.append('file', file);
+      formData.append('model', modelName);
+      formData.append('language', language);
+      formData.append('response_format', 'verbose_json');
+      formData.append('temperature', '0.0');
+
+      if (prompt && prompt.trim()) {
+        formData.append('prompt', prompt.slice(0, 400));
       }
-    } catch {}
-    throw new Error(errMsg);
+
+      const response = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        let errMsg = `Groq Whisper API error (${response.status}) on model ${modelName}`;
+        try {
+          const errJson = await response.json();
+          if (errJson?.error?.message) {
+            errMsg = errJson.error.message;
+          }
+        } catch {}
+        lastError = new Error(errMsg);
+        // Nếu lỗi 429 hoặc model bận -> thử model tiếp theo trong danh sách
+        console.warn(`[Groq] Model ${modelName} gặp sự cố, tự động thử model dự phòng...`, errMsg);
+        continue;
+      }
+
+      const data = await response.json();
+      return {
+        text: (data.text || '').trim(),
+        duration: data.duration || 0,
+        language: data.language || 'en',
+        segments: data.segments || [],
+        words: data.words || [],
+        model_used: modelName
+      };
+    } catch (err) {
+      lastError = err;
+    }
   }
 
-  const data = await response.json();
-  return {
-    text: (data.text || '').trim(),
-    duration: data.duration || 0,
-    language: data.language || 'en',
-    segments: data.segments || [],
-    words: data.words || [],
-  };
+  throw lastError || new Error('Không thể nhận diện âm thanh qua Groq Whisper.');
 }
 
 /**
