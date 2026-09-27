@@ -458,8 +458,8 @@ export default function CompleteTheWordsTrainer() {
             className="absolute inset-0 w-full h-full opacity-0 cursor-text pointer-events-auto z-10"
           />
 
-          {/* Visible character slots with exact number of _ _ _ */}
-          <span className="inline-flex items-center gap-1 ml-1 font-mono text-[16px] sm:text-[17px] font-bold">
+          {/* Visible character slots with exact number of _ _ _ (1 single line per missing letter) */}
+          <span className="inline-flex items-center gap-1 sm:gap-1.5 ml-1 font-mono text-[16px] sm:text-[17px] font-bold">
             {Array.from({ length: blankInfo.missingLength }).map((_, charIdx) => {
               const char = entered[charIdx];
               const isCharSlotActive = isFocused && !isSubmitted && entered.length === charIdx;
@@ -467,16 +467,16 @@ export default function CompleteTheWordsTrainer() {
               return (
                 <span
                   key={charIdx}
-                  className={`inline-flex items-center justify-center min-w-[14px] sm:min-w-[16px] h-6 border-b-2 leading-none transition-all ${
+                  className={`inline-flex items-center justify-center min-w-[13px] sm:min-w-[15px] h-6 leading-none transition-all ${
                     isSubmitted
                       ? isCorrect
-                        ? 'border-emerald-600 text-emerald-800'
-                        : 'border-rose-500 text-rose-800 line-through'
+                        ? 'text-emerald-700 font-extrabold'
+                        : 'text-rose-600 line-through font-extrabold'
                       : char
-                      ? 'border-slate-800 text-slate-900'
+                      ? 'text-slate-900 font-extrabold'
                       : isCharSlotActive
-                      ? 'border-indigo-600 text-indigo-600 animate-pulse font-black'
-                      : 'border-slate-400 text-slate-400'
+                      ? 'text-indigo-600 font-black animate-pulse'
+                      : 'text-slate-400 font-bold'
                   }`}
                 >
                   {char || '_'}
