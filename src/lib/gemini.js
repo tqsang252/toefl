@@ -1890,7 +1890,7 @@ YÊU CẦU:
         jsonMode: true
       });
       if (rawText) {
-        let cleaned = rawText.trim();
+        let cleaned = rawText.trim().replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
         if (cleaned.includes('```')) {
           const match = cleaned.match(/```(?:json)?\s*([\s\S]*?)(?:```|$)/i);
           if (match) cleaned = match[1].trim();
@@ -1975,7 +1975,7 @@ YÊU CẦU:
         jsonMode: true
       });
       if (rawText) {
-        let cleaned = rawText.trim();
+        let cleaned = rawText.trim().replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
         if (cleaned.includes('```')) {
           const match = cleaned.match(/```(?:json)?\s*([\s\S]*?)(?:```|$)/i);
           if (match) cleaned = match[1].trim();

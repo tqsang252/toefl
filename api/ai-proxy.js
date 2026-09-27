@@ -365,18 +365,23 @@ export default async function handler(req, res) {
             }
           }
 
+          const isReasoningModel = model.includes('gpt-oss') || model.includes('qwen') || model.includes('deepseek');
           const groqPayload = {
             model,
             messages,
-            max_tokens: Math.min(effectiveMaxTokens, 8192),
+            max_tokens: Math.min(Math.max(effectiveMaxTokens, isReasoningModel ? 2048 : 512), 8192),
             temperature: effectiveTemperature
           };
+
+          if (isReasoningModel) {
+            groqPayload.reasoning_format = 'hidden';
+          }
 
           if (responseType === 'json') {
             groqPayload.response_format = { type: 'json_object' };
           }
 
-          const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          let response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -384,6 +389,19 @@ export default async function handler(req, res) {
             },
             body: JSON.stringify(groqPayload)
           });
+
+          if (!response.ok && response.status === 400 && responseType === 'json') {
+            const retryPayload = { ...groqPayload };
+            delete retryPayload.response_format;
+            response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${activeKey}`
+              },
+              body: JSON.stringify(retryPayload)
+            });
+          }
 
           if (!response.ok) {
             const errData = await response.json().catch(() => ({}));

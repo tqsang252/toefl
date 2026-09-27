@@ -213,18 +213,25 @@ export async function callGroqChat({
 
   for (const currentModel of modelsToTry) {
     try {
+      const isReasoningModel = currentModel.includes('gpt-oss') || currentModel.includes('qwen') || currentModel.includes('deepseek');
       const bodyPayload = {
         model: currentModel,
         messages: effectiveMessages,
         temperature,
-        max_tokens: Math.min(max_tokens, 8192),
+        // Mô hình reasoning cần đủ token quota cho thinking tokens + output
+        max_tokens: Math.min(Math.max(max_tokens, isReasoningModel ? 2048 : 512), 8192),
       };
+
+      // BẮT BUỘC: Ẩn chuỗi reasoning <think> để Groq JSON validator không bị lỗi 400 Bad Request
+      if (isReasoningModel) {
+        bodyPayload.reasoning_format = 'hidden';
+      }
 
       if (jsonMode) {
         bodyPayload.response_format = { type: 'json_object' };
       }
 
-      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      let response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -232,6 +239,20 @@ export async function callGroqChat({
         },
         body: JSON.stringify(bodyPayload),
       });
+
+      // Nếu lỗi 400 do JSON validator của Groq, tự động thử lại ở chế độ raw text (parser client tự trích xuất JSON)
+      if (!response.ok && response.status === 400 && jsonMode) {
+        const retryPayload = { ...bodyPayload };
+        delete retryPayload.response_format;
+        response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify(retryPayload),
+        });
+      }
 
       if (!response.ok) {
         let errMsg = `Groq Chat API error (${response.status}) on model ${currentModel}`;
