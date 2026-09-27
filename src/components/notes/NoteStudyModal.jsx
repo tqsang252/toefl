@@ -22,8 +22,9 @@ import {
 } from 'lucide-react';
 import QuickVocabPopover, { useTextSelectionLookup } from '../dictionary/QuickVocabPopover';
 
-export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote }) {
-  const [activeTab, setActiveTab] = useState('cheatsheet'); // 'cheatsheet' | 'flashcards' | 'quiz' | 'original'
+export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, initialTab = 'cheatsheet' }) {
+  const items = Array.isArray(note?.items) ? note.items : [];
+  const [activeTab, setActiveTab] = useState(initialTab || 'cheatsheet');
   const [searchFilter, setSearchFilter] = useState('');
   
   // Flashcard state
@@ -54,6 +55,7 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote }) 
 
   useEffect(() => {
     if (note?.id) {
+      setActiveTab(initialTab || 'cheatsheet');
       setCurrentCardIdx(0);
       setIsFlipped(false);
       setQuizIdx(0);
@@ -112,9 +114,7 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote }) 
     }
   };
 
-  if (!isOpen || !note) return null;
 
-  const items = Array.isArray(note.items) ? note.items : [];
 
   // Lọc bảng cheatsheet
   const filteredItems = items.filter((it) => {
@@ -176,6 +176,8 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote }) 
     setCopiedSuccess(true);
     setTimeout(() => setCopiedSuccess(false), 2000);
   };
+
+  if (!isOpen || !note) return null;
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
