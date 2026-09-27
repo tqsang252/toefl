@@ -24,6 +24,7 @@ import {
   UploadCloud
 } from 'lucide-react';
 import HighlightablePassage from './HighlightablePassage';
+import EXTENDED_CONTEXT_VOCAB_BANK from '../../data/contextVocabData';
 import {
   getContextVocabQuestions,
   saveContextVocabHistory,
@@ -142,6 +143,37 @@ export default function ContextVocabTrainer() {
   };
 
   const currentItem = activeItems[currentIndex] || null;
+
+  // Đảm bảo luôn lấy được trọn vẹn giải thích chuyên sâu (Substitution, Meaning, Trap Breakdown, Synonyms)
+  // ngay cả khi dữ liệu từ Supabase Cloud hoặc LocalStorage bị thiếu hoặc null
+  const effectiveExplanation = useMemo(() => {
+    if (!currentItem) return null;
+    const staticBase = EXTENDED_CONTEXT_VOCAB_BANK.find((q) => q.id === currentItem.id) || {};
+    let expl = currentItem.explanation;
+
+    // Xử lý nếu explanation là chuỗi JSON từ Supabase text column
+    if (typeof expl === 'string') {
+      try {
+        const parsed = JSON.parse(expl);
+        if (parsed && typeof parsed === 'object') expl = parsed;
+      } catch {
+        // Chuỗi văn bản thuần
+      }
+    }
+
+    // Nếu thiếu các trường phân tích chi tiết, tự động bù từ staticBase vào
+    if (!expl || typeof expl === 'string' || !expl.meaning || !expl.substitution || !expl.trap_breakdown) {
+      if (staticBase?.explanation) {
+        if (typeof expl === 'string' && expl.trim()) {
+          expl = { ...staticBase.explanation, meaning: expl };
+        } else {
+          expl = { ...staticBase.explanation, ...(expl || {}) };
+        }
+      }
+    }
+
+    return expl;
+  }, [currentItem]);
 
   // --- Countdown Timer ---
   useEffect(() => {
@@ -867,33 +899,41 @@ export default function ContextVocabTrainer() {
                 </div>
 
                 {/* 2. Thử nghiệm Thay thế (Substitution Test) */}
-                {currentItem.explanation?.substitution && (
+                {effectiveExplanation?.substitution && (
                   <div className="bg-emerald-50/50 border border-emerald-200/80 rounded-2xl p-4">
                     <span className="text-[11px] font-bold text-emerald-800 uppercase tracking-wider block mb-1">
                       Phương Pháp Thế Chỗ (Substitution Test):
                     </span>
                     <p className="text-xs text-slate-700 leading-relaxed">
-                      {currentItem.explanation.substitution}
+                      {effectiveExplanation.substitution}
                     </p>
                   </div>
                 )}
 
                 {/* 3. Giải Nghĩa Chi Tiết & Bóc Trần Bẫy Đề Thi */}
                 <div className="space-y-2 text-xs">
-                  {currentItem.explanation?.meaning && (
+                  {effectiveExplanation?.meaning && (
                     <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
                       <strong className="text-slate-900 block font-bold mb-1">Định nghĩa ngữ cảnh:</strong>
-                      <p className="text-slate-700 leading-relaxed">{currentItem.explanation.meaning}</p>
+                      <p className="text-slate-700 leading-relaxed">{effectiveExplanation.meaning}</p>
+                    </div>
+                  )}
+
+                  {/* Fallback nếu là văn bản giải thích tổng quát */}
+                  {typeof effectiveExplanation === 'string' && (
+                    <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                      <strong className="text-slate-900 block font-bold mb-1">Giải nghĩa chi tiết:</strong>
+                      <p className="text-slate-700 leading-relaxed">{effectiveExplanation}</p>
                     </div>
                   )}
 
                   {/* Phân tích bẫy các phương án gây nhiễu */}
-                  {currentItem.explanation?.trap_breakdown && (
+                  {effectiveExplanation?.trap_breakdown && (
                     <div className="p-3.5 rounded-2xl bg-amber-50/40 border border-amber-200/80 space-y-1.5">
                       <strong className="text-amber-950 block font-bold mb-1">
                         Bóc trần bẫy đề thi ETS (Distractor Analysis):
                       </strong>
-                      {Object.entries(currentItem.explanation.trap_breakdown).map(([opt, desc]) => (
+                      {Object.entries(effectiveExplanation.trap_breakdown).map(([opt, desc]) => (
                         <div key={opt} className="text-slate-700 leading-relaxed text-[11px]">
                           <strong className="font-semibold text-slate-900">{opt}: </strong>
                           {desc}
@@ -903,10 +943,10 @@ export default function ContextVocabTrainer() {
                   )}
 
                   {/* Từ đồng nghĩa học thuật */}
-                  {currentItem.explanation?.synonyms && currentItem.explanation.synonyms.length > 0 && (
+                  {effectiveExplanation?.synonyms && effectiveExplanation.synonyms.length > 0 && (
                     <div className="flex items-center gap-1.5 flex-wrap pt-1">
                       <span className="text-[11px] font-semibold text-slate-500">Từ đồng nghĩa:</span>
-                      {currentItem.explanation.synonyms.map((syn, sIdx) => (
+                      {effectiveExplanation.synonyms.map((syn, sIdx) => (
                         <span
                           key={sIdx}
                           className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[11px] font-medium border border-slate-200"

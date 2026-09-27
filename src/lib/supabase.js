@@ -1606,9 +1606,11 @@ export async function getContextVocabQuestions() {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed) && parsed.length > 0) {
           const aCount = parsed.filter(i => i.correct_answer === 'A').length;
-          // Nếu dữ liệu local cũ bị lỗi toàn đáp án A (> 45%), xóa cache để áp dụng bộ đề mới
-          if (aCount / parsed.length > 0.45) {
-            console.info('[Context Vocab] Làm mới LocalStorage do cache cũ bị lệch đáp án A.');
+          const isLackingExplanations = parsed.some(i => !i.explanation || (typeof i.explanation === 'object' && !i.explanation.meaning));
+          // Nếu dữ liệu local cũ bị lỗi lệch đáp án A hoặc thiếu trường explanation chi tiết hoặc chưa đủ 100 câu,
+          // tự động làm mới LocalStorage để nạp lại trọn vẹn 100 câu chuẩn kèm giải thích chi tiết
+          if (aCount / parsed.length > 0.45 || isLackingExplanations || parsed.length < 100) {
+            console.info('[Context Vocab] Cập nhật LocalStorage: làm mới bộ đề 100 câu kèm giải thích chi tiết.');
             localStorage.removeItem('toefl_context_vocab_bank');
           } else {
             localItems = parsed;
@@ -1620,19 +1622,56 @@ export async function getContextVocabQuestions() {
     }
   }
 
-  // 4. Kết hợp dữ liệu: EXTENDED_CONTEXT_VOCAB_BANK làm nền móng vững chắc, merge cloud/local
+  // Hàm merge an toàn: bảo toàn giải thích chi tiết từ EXTENDED_CONTEXT_VOCAB_BANK nếu cloud/local bị thiếu hoặc rỗng
+  const safeMergeItem = (baseItem, incomingItem) => {
+    if (!baseItem) return incomingItem;
+    if (!incomingItem) return baseItem;
+
+    let mergedExpl = baseItem.explanation;
+    if (incomingItem.explanation) {
+      if (typeof incomingItem.explanation === 'string') {
+        try {
+          const parsed = JSON.parse(incomingItem.explanation);
+          if (parsed && typeof parsed === 'object') {
+            mergedExpl = { ...baseItem.explanation, ...parsed };
+          }
+        } catch {
+          if (!baseItem.explanation?.meaning) {
+            mergedExpl = { ...baseItem.explanation, meaning: incomingItem.explanation };
+          }
+        }
+      } else if (typeof incomingItem.explanation === 'object') {
+        mergedExpl = {
+          ...baseItem.explanation,
+          ...incomingItem.explanation
+        };
+      }
+    }
+
+    return {
+      ...baseItem,
+      ...incomingItem,
+      explanation: mergedExpl
+    };
+  };
+
+  // 4. Kết hợp dữ liệu: EXTENDED_CONTEXT_VOCAB_BANK làm nền móng vững chắc, merge cloud/local an toàn
   const map = new Map();
-  // Nạp 50 bài đọc chuẩn
+  // Nạp 100 bài đọc chuẩn
   EXTENDED_CONTEXT_VOCAB_BANK.forEach((item) => {
     if (item && item.id) map.set(item.id, item);
   });
   // Ghi đè hoặc bổ sung từ local
   localItems.forEach((item) => {
-    if (item && item.id) map.set(item.id, { ...map.get(item.id), ...item });
+    if (item && item.id) {
+      map.set(item.id, safeMergeItem(map.get(item.id), item));
+    }
   });
   // Ghi đè hoặc bổ sung từ cloud
   cloudItems.forEach((item) => {
-    if (item && item.id) map.set(item.id, { ...map.get(item.id), ...item });
+    if (item && item.id) {
+      map.set(item.id, safeMergeItem(map.get(item.id), item));
+    }
   });
 
   return Array.from(map.values());
@@ -1642,9 +1681,19 @@ export async function getContextVocabQuestions() {
  * Đẩy ngân hàng câu hỏi lên Supabase và lưu offline vào LocalStorage
  */
 export async function seedContextVocabToSupabase(customItems = null) {
-  const itemsToSeed = Array.isArray(customItems) && customItems.length > 0
+  // Luôn đảm bảo nạp đầy đủ explanation từ EXTENDED_CONTEXT_VOCAB_BANK nếu customItems bị thiếu
+  const rawItems = Array.isArray(customItems) && customItems.length > 0
     ? customItems
     : EXTENDED_CONTEXT_VOCAB_BANK;
+
+  const itemsToSeed = rawItems.map((item) => {
+    const base = EXTENDED_CONTEXT_VOCAB_BANK.find((q) => q.id === item.id) || {};
+    return {
+      ...base,
+      ...item,
+      explanation: item.explanation || base.explanation
+    };
+  });
 
   // 1. Luôn lưu vào LocalStorage
   if (typeof localStorage !== 'undefined') {
