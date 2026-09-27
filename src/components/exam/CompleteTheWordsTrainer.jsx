@@ -27,6 +27,7 @@ import {
   BookmarkPlus
 } from 'lucide-react';
 import { COMPLETE_THE_WORDS_BANK, CTW_DOMAINS } from '../../data/completeTheWordsData';
+import QuickVocabPopover, { useTextSelectionLookup } from '../dictionary/QuickVocabPopover';
 
 // Thời gian tiêu chuẩn cho 1 bài C-Test TOEFL iBT 2026: 90 giây (1.5 phút)
 const STANDARD_TIME_LIMIT = 90;
@@ -58,6 +59,9 @@ export default function CompleteTheWordsTrainer() {
   // Input refs for smooth auto-advance
   const inputRefs = useRef([]);
   const [focusedBlankIdx, setFocusedBlankIdx] = useState(null);
+
+  // Hook tra cứu từ điển khi bôi đen văn bản
+  const { selectionData, clearSelection, handleTextMouseUp } = useTextSelectionLookup();
 
   // Load history & starred words from localStorage
   useEffect(() => {
@@ -767,7 +771,10 @@ export default function CompleteTheWordsTrainer() {
 
         {/* Full Text Modal / Collapsible if enabled */}
         {showOriginalText && (
-          <div className="bg-teal-50/80 rounded-2xl p-4 border border-teal-200 text-teal-950 text-sm leading-relaxed animate-fadeIn">
+          <div 
+            onMouseUp={handleTextMouseUp}
+            className="bg-teal-50/80 rounded-2xl p-4 border border-teal-200 text-teal-950 text-sm leading-relaxed animate-fadeIn select-text"
+          >
             <div className="text-xs font-black text-teal-800 uppercase tracking-wider mb-1 flex items-center gap-1.5">
               <BookOpen className="w-3.5 h-3.5 text-teal-700" /> Bản gốc hoàn chỉnh để đối chiếu:
             </div>
@@ -776,7 +783,10 @@ export default function CompleteTheWordsTrainer() {
         )}
 
         {/* C-Test Reading Area - Unified single continuous passage */}
-        <div className="p-5 sm:p-8 rounded-2xl bg-slate-50/60 border border-slate-200 text-slate-900 leading-[2.8] font-serif text-[17px] sm:text-[18px]">
+        <div 
+          onMouseUp={handleTextMouseUp}
+          className="p-5 sm:p-8 rounded-2xl bg-slate-50/60 border border-slate-200 text-slate-900 leading-[2.8] font-serif text-[17px] sm:text-[18px] select-text"
+        >
           <span className="text-slate-900 font-normal">{currentPassage.leadSentence} </span>
           {parsedBodyElements}
         </div>
@@ -963,6 +973,17 @@ export default function CompleteTheWordsTrainer() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* 5. Pop-up Từ Điển Tra Cứu & 1-Chạm Lưu Từ khi Bôi Đen Văn Bản */}
+      {selectionData && (
+        <QuickVocabPopover
+          selection={selectionData}
+          onClose={clearSelection}
+          onSaveSuccess={(word) => {
+            showToast(`Đã lưu "${word}" vào Flashcards!`);
+          }}
+        />
       )}
     </div>
   );
