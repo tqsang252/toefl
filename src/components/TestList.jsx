@@ -276,9 +276,6 @@ export default function TestList({
                 : testHistories[test.id] ? [testHistories[test.id]] : [];
               const historyCount = testHistoryList.length;
               const latest = testHistoryList[0];
-
-              const writingCat = skill === 'writing' ? getWritingCategory(test) : null;
-              const isFullWriting = skill === 'writing' && writingCat === 'full';
               const createdAtFormatted = formatDateTime(getTestCreatedAt(test));
 
               return (
