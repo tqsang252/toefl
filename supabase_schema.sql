@@ -113,7 +113,36 @@ ALTER TABLE test_results ADD COLUMN IF NOT EXISTS ai_full_result JSONB;
 ALTER TABLE test_results ADD COLUMN IF NOT EXISTS speaking_submissions JSONB;
 ALTER TABLE test_results ADD COLUMN IF NOT EXISTS writing_submissions JSONB;
 
+-- 4. Bảng lưu lịch sử luyện tập Speaking & Luyện đề nhỏ (exam_history)
+CREATE TABLE IF NOT EXISTS exam_history (
+  id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+  test_id TEXT NOT NULL,
+  score NUMERIC,
+  total NUMERIC,
+  details JSONB,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+-- Cấu hình Row Level Security (RLS) cho exam_history
+ALTER TABLE exam_history ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public read exam_history" 
+ON exam_history FOR SELECT 
+USING (true);
+
+CREATE POLICY "Allow public insert exam_history" 
+ON exam_history FOR INSERT 
+WITH CHECK (true);
+
+CREATE POLICY "Allow public update exam_history" 
+ON exam_history FOR UPDATE 
+USING (true);
+
+CREATE POLICY "Allow public delete exam_history" 
+ON exam_history FOR DELETE 
+USING (true);
+
 -- ====================================================================
--- ĐÃ XONG! Giờ bạn có thể import đề thi & từ vựng trực tiếp vào Supabase.
+-- ĐÃ XONG! Giờ bạn có thể import đề thi, từ vựng & lưu lịch sử vào Supabase.
 -- ====================================================================
 

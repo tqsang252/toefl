@@ -1549,13 +1549,16 @@ export async function saveContextVocabHistory(sessionData) {
   // 2. Lưu Supabase nếu có cấu hình
   if (isSupabaseConfigured() && supabaseInstance) {
     try {
-      await supabaseInstance.from('exam_history').insert({
+      const { error } = await supabaseInstance.from('exam_history').insert({
         test_id: 'context_vocab_drill',
         created_at: record.timestamp,
         score: record.score,
         total: record.total,
         details: record
       });
+      if (error && error.code === 'PGRST205') {
+        // Bảng exam_history chưa được tạo trên Supabase - Dữ liệu vẫn được lưu an toàn trong LocalStorage
+      }
     } catch (e) {
       // Bỏ qua nếu bảng không khớp schema
     }
@@ -1760,13 +1763,16 @@ export async function saveSpeakingPracticeHistory(practiceData) {
 
   if (isSupabaseConfigured() && supabaseInstance) {
     try {
-      await supabaseInstance.from('exam_history').insert({
+      const { error } = await supabaseInstance.from('exam_history').insert({
         test_id: practiceData.type === 'repeat' ? 'speaking_repeat_practice' : 'speaking_45s_practice',
         created_at: record.timestamp,
         score: record.accuracy || 100,
         total: 100,
         details: record
       });
+      if (error && error.code === 'PGRST205') {
+        // Bảng exam_history chưa được tạo trên Supabase - Dữ liệu vẫn được lưu an toàn trong LocalStorage
+      }
     } catch (e) {
       // Ignore schema mismatch
     }
