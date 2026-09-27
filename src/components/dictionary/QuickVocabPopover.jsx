@@ -35,12 +35,12 @@ export function useTextSelectionLookup() {
       }
 
       const raw = sel.toString().trim();
-      if (!raw || raw.length < 2 || raw.length > 180) {
+      if (!raw || raw.length < 2 || raw.length > 1500) {
         return;
       }
 
       const words = raw.split(/\s+/).filter(Boolean);
-      if (words.length > 16) {
+      if (words.length > 150) {
         return;
       }
 
@@ -77,7 +77,14 @@ export function useTextSelectionLookup() {
         rawText: raw,
         cleanText: cleanWord,
         contextSentence: contextSentence || raw,
-        rect
+        rect: {
+          left: rect.left,
+          top: rect.top,
+          right: rect.right,
+          bottom: rect.bottom,
+          width: rect.width,
+          height: rect.height
+        }
       });
     }, 20);
   };

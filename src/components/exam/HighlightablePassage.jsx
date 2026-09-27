@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { Highlighter, Trash2, Check } from 'lucide-react';
+import { Highlighter, Trash2, Check, Sparkles } from 'lucide-react';
 import QuickVocabPopover from '../dictionary/QuickVocabPopover';
 
 const HIGHLIGHT_COLORS = {
@@ -72,6 +72,7 @@ export default function HighlightablePassage({
   const [highlights, setHighlights] = useState([]);
   const [selectedColor, setSelectedColor] = useState('yellow');
   const [isHighlightEnabled, setIsHighlightEnabled] = useState(true);
+  const [isTranslateEnabled, setIsTranslateEnabled] = useState(true);
 
   // Trạng thái hiển thị Pop-up Từ điển Tra & Lưu 1-chạm
   const [selectionData, setSelectionData] = useState(null);
@@ -142,9 +143,9 @@ export default function HighlightablePassage({
     return { start, end };
   };
 
-  // BÔI ĐEN VĂN BẢN:
-  // - Khi Bút highlight BẬT: CHỈ chạy function tô màu (không mở pop-up dịch nghĩa)
-  // - Khi Bút highlight TẮT: CHỈ mở pop-up dịch nghĩa / tra từ vựng (không tô màu)
+  // BÔI ĐEN VĂN BẢN (Hỗ trợ cả từ đơn, cụm từ & câu học thuật dài):
+  // - Nếu Bút highlight BẬT: Tự động tô màu đoạn đã chọn
+  // - Nếu Dịch nhanh BẬT (Mặc định): Mở ngay Pop-up tra từ & dịch nghĩa AI
   const handleMouseUp = () => {
     setTimeout(() => {
       const sel = window.getSelection();
@@ -156,9 +157,10 @@ export default function HighlightablePassage({
       }
 
       const raw = sel.toString().trim();
-      if (!raw || raw.length < 2 || raw.length > 180) return;
+      // Hỗ trợ từ đơn lẻ đến cả câu văn học thuật dài (lên đến 1500 ký tự và 150 từ)
+      if (!raw || raw.length < 2 || raw.length > 1500) return;
       const words = raw.split(/\s+/).filter(Boolean);
-      if (words.length > 16) return;
+      if (words.length > 150) return;
 
       const rect = range.getBoundingClientRect();
       if (!rect || (rect.width === 0 && rect.height === 0)) return;
@@ -166,9 +168,30 @@ export default function HighlightablePassage({
       const cleanWord = raw.replace(/^['"“‘.,;:!?()\[\]{}]+|['"”’.,;:!?()\[\]{}]+$/g, '').trim();
       if (!cleanWord) return;
 
+      // Trích xuất câu văn ngữ cảnh bao quanh từ/cụm được chọn
+      let contextSentence = '';
+      try {
+        const fullNodeText = range.startContainer?.textContent || '';
+        if (fullNodeText) {
+          const offset = range.startOffset;
+          const prevStop = Math.max(
+            0,
+            fullNodeText.lastIndexOf('.', offset),
+            fullNodeText.lastIndexOf('?', offset),
+            fullNodeText.lastIndexOf('!', offset)
+          );
+          let nextStop = fullNodeText.indexOf('.', offset + raw.length);
+          if (nextStop === -1) nextStop = fullNodeText.indexOf('?', offset + raw.length);
+          if (nextStop === -1) nextStop = fullNodeText.indexOf('!', offset + raw.length);
+          if (nextStop === -1) nextStop = fullNodeText.length;
+          contextSentence = fullNodeText.substring(prevStop === 0 ? 0 : prevStop + 1, nextStop + 1).trim();
+        }
+      } catch (err) {
+        // fallback
+      }
+
+      // 1. KHI BÚT HIGHLIGHT BẬT: Tô màu vùng chọn
       if (isHighlightEnabled) {
-        // 1. KHI ĐANG BẬT HIGHLIGHT: CHỈ chạy function tô màu, KHÔNG kích hoạt dịch nghĩa
-        setSelectionData(null);
         const offsets = getSelectionOffsets();
         if (offsets && offsets.start < offsets.end) {
           const newHighlight = {
@@ -178,19 +201,23 @@ export default function HighlightablePassage({
             color: selectedColor
           };
           setHighlights((prev) => addHighlightRange(prev, newHighlight));
-          // Xóa vùng bôi đen xanh của trình duyệt sau khi tô màu để hiển thị màu highlight trực tiếp
-          try {
-            window.getSelection()?.removeAllRanges();
-          } catch (e) {
-            // ignore
-          }
         }
-      } else {
-        // 2. KHI ĐÃ TẮT HIGHLIGHT: MỚI kích hoạt bôi đen tra cứu & dịch nghĩa từ vựng
+      }
+
+      // 2. KHI TÍNH NĂNG DỊCH BẬT (Mặc định BẬT): Kích hoạt Popover tra cứu từ / dịch câu AI
+      if (isTranslateEnabled) {
         setSelectionData({
           rawText: raw,
           cleanText: cleanWord,
-          rect
+          contextSentence: contextSentence || raw,
+          rect: {
+            left: rect.left,
+            top: rect.top,
+            right: rect.right,
+            bottom: rect.bottom,
+            width: rect.width,
+            height: rect.height
+          }
         });
       }
     }, 20);
@@ -314,21 +341,37 @@ export default function HighlightablePassage({
         {/* Thanh công cụ Bút dạ quang (Highlighter Tools) */}
         <div className="flex items-center gap-2">
           
+          {/* Nút bật/tắt dịch nhanh AI khi bôi đen */}
+          <button
+            onClick={() => {
+              setIsTranslateEnabled((prev) => {
+                const next = !prev;
+                if (!next) setSelectionData(null);
+                return next;
+              });
+            }}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+              isTranslateEnabled
+                ? 'bg-teal-50 text-teal-800 border-teal-300 shadow-2xs'
+                : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200'
+            }`}
+            title={isTranslateEnabled ? 'Dịch nhanh AI đang BẬT: Bôi đen từ/câu để hiện khung tra nghĩa & dịch tự động.' : 'Dịch nhanh AI đang TẮT: Bấm để bật tính năng bôi đen dịch tự động.'}
+          >
+            <Sparkles className={`w-3.5 h-3.5 ${isTranslateEnabled ? 'text-teal-600' : 'text-slate-400'}`} />
+            <span>{isTranslateEnabled ? 'Dịch nhanh: BẬT' : 'Dịch: TẮT'}</span>
+          </button>
+
           {/* Nút bật/tắt bút dạ quang */}
           <button
             onClick={() => {
-              setIsHighlightEnabled((prev) => {
-                const next = !prev;
-                if (next) setSelectionData(null); // Đóng ngay popup dịch nghĩa khi bật highlight
-                return next;
-              });
+              setIsHighlightEnabled((prev) => !prev);
             }}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
               isHighlightEnabled
                 ? 'bg-amber-100/90 text-amber-900 border-amber-300 shadow-2xs'
                 : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200'
             }`}
-            title={isHighlightEnabled ? 'Bút highlight đang BẬT: Bôi đen để tô màu. Tắt bút để chuyển sang chế độ bôi đen dịch nghĩa.' : 'Bút highlight đang TẮT: Bôi đen để dịch nghĩa & tra từ. Bật bút để chuyển sang tô màu.'}
+            title={isHighlightEnabled ? 'Bút highlight đang BẬT: Bôi đen để tô màu bài đọc.' : 'Bút highlight đang TẮT: Bấm để bật chế độ tô màu dạ quang.'}
           >
             <Highlighter className={`w-3.5 h-3.5 ${isHighlightEnabled ? 'text-amber-700' : 'text-slate-400'}`} />
             <span>{isHighlightEnabled ? 'Bút highlight: BẬT' : 'Bút: TẮT'}</span>
