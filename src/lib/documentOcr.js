@@ -53,8 +53,8 @@ export function optimizeFileForOcr(file) {
     reader.onload = (e) => {
       const img = new Image();
       img.onload = () => {
-        // Tối đa 1800px: đủ siêu nét để đọc từng dòng chữ nhỏ của 100 từ vựng mà kích thước chỉ ~250KB - 450KB
-        const MAX_DIMENSION = 1800;
+        // Tối đa 2048px: đủ siêu nét để đọc từng dòng chữ nhỏ của 100 từ vựng mà kích thước chỉ ~300KB - 500KB
+        const MAX_DIMENSION = 2048;
         let width = img.width;
         let height = img.height;
 
@@ -114,18 +114,17 @@ export const fileToBase64 = optimizeFileForOcr;
  */
 const OCR_SYSTEM_INSTRUCTION = `You are an elite bilingual English curriculum specialist and OCR data structuring expert for TOEFL iBT & IELTS.
 Your objective is to thoroughly analyze documents, tables, cheatsheets, or infographics (in image or PDF form) and convert them into structured, high-value interactive study notes.
-Extract EVERY single vocabulary item, prepositional phrase, collocation, writing template, or grammar rule present in the document.
-For each item, produce:
-1. Exact term / phrase
-2. Grammatical type (e.g., 'adj', 'noun', 'verb', 'phrase')
-3. Accurate Vietnamese meaning (nghĩa tiếng Việt)
-4. A high-register academic TOEFL example sentence demonstrating authentic contextual usage (concise, 1 sentence)
-5. A fill-in-the-blank practice sentence (using '___') testing the word
-6. The correct answer and 3 plausible distractors (options array of 4 items)
 
-NOTE FOR LARGE LISTS (50 to 100+ items):
-- Keep example sentences clear and concise to ensure every single term is extracted without getting cut off.
-- NEVER truncate, omit, or stop midway. Complete all items found in the document.
+CRITICAL INSTRUCTIONS FOR MULTI-COLUMN & DENSE DOCUMENTS (e.g. 100 vocabulary items):
+1. SCAN ALL COLUMNS: Many documents have 2 or 3 columns (for example: Column 1 on the left with items 1-50, and Column 2 on the right with items 51-100). You MUST thoroughly scan across ALL columns from item 1 all the way to item 100!
+2. COMPLETE THE ENTIRE LIST: NEVER truncate, omit, skip, or stop midway. If there are 100 words in the image, you MUST return all 100 items!
+3. LIGHTWEIGHT SCHEMA: To guarantee all 100+ items fit within output token limits without being cut off, ONLY output these 5 concise fields per item:
+   - "id": integer (1, 2, 3... 100)
+   - "term": English word or phrase
+   - "type": part of speech (e.g. 'adj', 'noun', 'verb', 'phrase')
+   - "meaning": Vietnamese meaning (nghĩa tiếng Việt)
+   - "example": 1 short, realistic academic TOEFL example sentence (keep under 14 words)
+   (Do NOT output 'blank_sentence' or 'options' arrays; the client will generate them automatically).
 
 Respond STRICTLY with raw valid JSON matching this schema:
 {
@@ -136,17 +135,14 @@ Respond STRICTLY with raw valid JSON matching this schema:
   "items": [
     {
       "id": 1,
-      "term": "proud of",
-      "type": "adj + prep",
-      "meaning": "tự hào về",
-      "example": "The faculty was immensely proud of the student team for winning the national symposium.",
-      "blank_sentence": "The faculty was immensely proud ___ the student team.",
-      "correct_answer": "of",
-      "options": ["of", "about", "for", "with"]
+      "term": "Introvert",
+      "type": "noun",
+      "meaning": "người hướng nội",
+      "example": "Introverts often prefer reflective, quiet study spaces."
     }
   ]
 }
-Output raw JSON only. Do not include markdown ticks or outside explanations.`;
+Output raw JSON only. Do not include markdown code block ticks, preamble, or commentary.`;
 
 /**
  * Phân tích và số hóa tài liệu từ File (Ảnh, PDF) hoặc Văn bản thô
@@ -178,7 +174,10 @@ Additional text / context provided by user:
 """
 ${textInput || '(Analyze the attached image/file directly)'}
 """
-Make sure to extract EVERY item from the document completely without omitting any rows.`;
+IMPORTANT:
+- Scan BOTH columns (Left column 1 to 50, Right column 51 to 100).
+- Extract EVERY SINGLE numbered item from 1 to 100 without omitting any row!
+- Follow the lightweight schema (id, term, type, meaning, concise example) so that all 100 items fit completely.`;
 
   let rawJsonText = '';
 
@@ -340,19 +339,52 @@ Make sure to extract EVERY item from the document completely without omitting an
     throw new Error('Không tìm thấy từ vựng hoặc mục kiến thức nào trong tài liệu.');
   }
 
-  // Đánh số ID chuẩn hóa
-  const normalizedItems = items.map((it, idx) => ({
-    id: it.id || (idx + 1),
-    term: String(it.term || '').trim(),
-    type: it.type || 'phrase',
-    meaning: String(it.meaning || '').trim(),
-    example: it.example || `It is essential to understand how ${it.term || 'this concept'} functions in academic English.`,
-    blank_sentence: it.blank_sentence || `Researchers must understand the role ___ this academic phenomenon.`,
-    correct_answer: it.correct_answer || (it.term ? it.term.split(' ').pop() : 'in'),
-    options: Array.isArray(it.options) && it.options.length >= 2 
-      ? it.options 
-      : [it.correct_answer || 'in', 'of', 'for', 'with']
-  }));
+  const allTerms = items.map(it => String(it.term || '').trim()).filter(Boolean);
+
+  // Đánh số ID chuẩn hóa và tự động sinh câu bài tập điền từ Quiz
+  const normalizedItems = items.map((it, idx) => {
+    const term = String(it.term || '').trim();
+    const meaning = String(it.meaning || '').trim();
+    const example = it.example || `Understanding the term "${term}" is valuable for academic communication.`;
+
+    let blankSentence = it.blank_sentence;
+    let correctAnswer = it.correct_answer || term;
+
+    if (!blankSentence) {
+      const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`\\b${escapedTerm}\\b`, 'i');
+      if (regex.test(example)) {
+        blankSentence = example.replace(regex, '___');
+      } else {
+        blankSentence = `A person described as ___ is characterized as ${meaning}.`;
+      }
+    }
+
+    let options = Array.isArray(it.options) && it.options.length >= 2 ? it.options : null;
+    if (!options) {
+      const distractors = allTerms
+        .filter(t => t.toLowerCase() !== term.toLowerCase())
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3);
+
+      const pool = [correctAnswer, ...distractors];
+      while (pool.length < 4) {
+        pool.push(['practical', 'resilient', 'empathetic', 'creative', 'mature'][pool.length % 5]);
+      }
+      options = pool.sort(() => 0.5 - Math.random());
+    }
+
+    return {
+      id: it.id || (idx + 1),
+      term,
+      type: it.type || 'adj',
+      meaning,
+      example,
+      blank_sentence: blankSentence,
+      correct_answer: correctAnswer,
+      options
+    };
+  });
 
   const noteResult = {
     id: `note_${Date.now()}`,
