@@ -147,10 +147,10 @@ export default function SettingsModal({ isOpen, onClose, onConfigSaved }) {
 
     try {
       setIsSeeding(true);
-      setStatusMsg("Đang đồng bộ 50 bài đọc Context Vocab lên Supabase...");
+      setStatusMsg("Đang đồng bộ 100 bài đọc Context Vocab lên Supabase...");
       const res = await seedContextVocabToSupabase();
       if (res && res.success) {
-        setStatusMsg(`✓ Đã nạp thành công ${res.count || 50} đề Context Vocab lên Supabase!`);
+        setStatusMsg(`✓ Đã nạp thành công ${res.count || 100} đề Context Vocab lên Supabase!`);
       } else {
         setStatusMsg("Lỗi: " + (res?.error || "Không thể đồng bộ"));
       }

@@ -1,12 +1,12 @@
 /**
- * BỘ NGÂN HÀNG 50 BÀI ĐỌC & CÂU HỎI TỪ VỰNG TRONG NGỮ CẢNH (VOCABULARY IN CONTEXT) CHUẨN TOEFL iBT
+ * BỘ NGÂN HÀNG 100 BÀI ĐỌC & CÂU HỎI TỪ VỰNG TRONG NGỮ CẢNH (VOCABULARY IN CONTEXT) CHUẨN TOEFL iBT
  * Mỗi item gồm:
- * - passage: Bài đọc đầy đủ (250-350 từ) chuẩn ETS với bối cảnh học thuật phong phú.
- * - target_word: Từ vựng được gạch chân / in đậm trong bài đọc.
+ * - passage: Bài đọc đầy đủ (250-350 từ) chuẩn ETS với bối cảnh học thuật phong phú, không trùng lặp.
+ * - target_word: Từ vựng C1/C2 được gạch chân / in đậm trong bài đọc (100 từ vựng riêng biệt).
  * - paragraph_index: Vị trí đoạn văn chứa từ (đã kiểm định 100% chính xác).
  * - question: Câu hỏi trắc nghiệm chuẩn "closest in meaning to".
  * - options: 4 phương án A, B, C, D (1 đúng + 3 bẫy kinh điển: liên tưởng chủ đề, trái nghĩa, nghĩa phụ).
- *   ĐÃ ĐẢO NGẪU NHIÊN VỊ TRÍ ĐÁP ÁN ĐỀU CẢ 4 PHƯƠNG ÁN A, B, C, D THEO CHUẨN ETS (KHÔNG BỊ TRÙNG VÀO CÂU A).
+ *   ĐÃ ĐẢO NGẪU NHIÊN VỊ TRÍ ĐÁP ÁN ĐỀU CẢ 4 PHƯƠNG ÁN A, B, C, D THEO TỶ LỆ CHUẨN ETS (25% MỖI PHƯƠNG ÁN).
  * - clue_type: Phân loại 5 dạng manh mối chuẩn ETS (Cause-Effect, Contrast, Definition, Collocation, Elaboration).
  * - clue_signal: Cụm từ / câu phát tín hiệu manh mối trong bài.
  * - explanation: Giải mã chuyên sâu, Thử nghiệm thế chỗ (Substitution Test) và Bóc trần bẫy ETS.
@@ -1665,6 +1665,1656 @@ export const EXTENDED_CONTEXT_VOCAB_BANK = [
         "disparity",
         "divergence",
         "contradiction"
+      ]
+    }
+  },
+  {
+    "id": "vic_51",
+    "title": "The Rise of Hanseatic Maritime Commerce",
+    "topic": "Economics & Medieval History",
+    "target_word": "lucrative",
+    "paragraph_index": 2,
+    "passage": "During the late Middle Ages, the Baltic and North Sea merchant networks transformed from localized coastal barter systems into a highly organized commercial confederation known as the Hanseatic League. By securing exclusive trading privileges from monarchs eager for customs revenues, Hansa merchants established fortified enclaves, or Kontore, across major trading hubs ranging from London and Bruges to Novgorod.\n\nCentral to the League's economic hegemony was its control over the lucrative trade in staple bulk commodities. While southern Mediterranean routes favored lightweight luxury goods such as silk and exotic spices, northern waters demanded timber, pitch, flax, and grain. Controlling the distribution of preserved herring from Scania was exceptionally profitable, as Catholic dietary mandates created immense European demand during Lent. The vast wealth accrued from these ventures enabled the League to finance private naval fleets to suppress piracy and wage embargoes against non-compliant sovereign rulers.\n\nYet this monopoly was vulnerable to long-term structural shifts. By the sixteenth century, the development of larger Dutch cargo fluyts diminished Hansa shipping cost advantages. Concurrently, shifting herring migration patterns away from Baltic waters toward the North Sea undermined the League's foundational commerce, hastening its gradual eclipse by centralized nation-states.",
+    "question": "The word 'lucrative' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "profitable",
+      "B": "precarious",
+      "C": "unregulated",
+      "D": "laborious"
+    },
+    "correct_answer": "A",
+    "clue_type": "Elaboration & Exemplification",
+    "clue_signal": "exceptionally profitable... The vast wealth accrued from these ventures enabled...",
+    "explanation": {
+      "meaning": "'Lucrative' là tính từ chỉ hoạt động kinh doanh, thương mại có khả năng sinh lời lớn, đem lại nguồn lợi nhuận dồi dào.",
+      "substitution": "Thế chỗ: 'control over the profitable trade in staple bulk commodities' hoàn toàn khớp với câu sau nói về 'exceptionally profitable' và 'vast wealth'.",
+      "trap_breakdown": {
+        "B": "precarious (bấp bênh) — Bẫy trái nghĩa: Ngữ cảnh nhấn mạnh sự giàu có vững chắc chứ không phải hiểm nguy bấp bênh.",
+        "C": "unregulated (không kiểm soát) — Bẫy thể chế: Liên minh Hanseatic kiểm soát mạng lưới vô cùng chặt chẽ.",
+        "D": "laborious (nhọc nhằn) — Sai nghĩa: Buôn bán có thể vất vả nhưng câu văn tập trung vào khía cạnh sinh lợi nhuận."
+      },
+      "synonyms": [
+        "profitable",
+        "gainful",
+        "remunerative",
+        "financially rewarding"
+      ]
+    }
+  },
+  {
+    "id": "vic_52",
+    "title": "Neuroplasticity and Synaptic Pruning in Adolescence",
+    "topic": "Neuroscience & Developmental Biology",
+    "target_word": "concomitant",
+    "paragraph_index": 2,
+    "passage": "For decades, neuroscientists assumed that the human brain reached structural maturity during early childhood, when basic sensory and motor cortices complete myelination. Contemporary neuroimaging techniques, however, have revealed that substantial architectural reorganization persists throughout adolescence and into early adulthood. This protracted maturation is most pronounced within the prefrontal cortex, the neural substrate governing executive function, impulse control, and abstract reasoning.\n\nDuring this developmental epoch, the brain undergoes selective synaptic pruning alongside a concomitant proliferation of white matter tracts. Synaptic pruning eliminates redundant or underutilized dendritic connections, thereby streamlining neural circuitry and optimizing transmission efficiency. Simultaneously, the progressive thickening of lipid-rich myelin sheaths around remaining axons dramatically accelerates axonal action potential velocity. Far from reflecting cognitive deficits, these structural reductions represent an adaptive specialization of neural networks tailored to environmental demands.\n\nThis neurodevelopmental trajectory explains common adolescent behavioral patterns. Because subcortical limbic regions associated with emotional reactivity mature earlier than the prefrontal networks required for cognitive restraint, adolescents often exhibit pronounced risk-taking tendencies. Heightened plasticity during this window offers unparalleled vulnerability to addictive substances, yet simultaneously affords exceptional capacity for accelerated learning and skill acquisition.",
+    "question": "The word 'concomitant' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "sequential",
+      "B": "unforeseen",
+      "C": "accompanying",
+      "D": "isolated"
+    },
+    "correct_answer": "C",
+    "clue_type": "Collocation & Contextual Logic",
+    "clue_signal": "alongside a concomitant proliferation... Simultaneously, the progressive thickening...",
+    "explanation": {
+      "meaning": "'Concomitant' là tính từ học thuật chỉ hiện tượng xảy ra đồng thời, đi kèm hoặc kết hợp song song với một hiện tượng khác.",
+      "substitution": "Thế chỗ: 'alongside an accompanying proliferation of white matter tracts' (cùng với sự tăng sinh đi kèm của các dải chất trắng) khớp tuyệt đối với từ nối 'Simultaneously' ở câu kế tiếp.",
+      "trap_breakdown": {
+        "A": "sequential (tuần tự, cái này nối tiếp cái kia) — Bẫy thời gian: Hai tiến trình này diễn ra song song cùng lúc, không phải trước sau.",
+        "B": "unforeseen (bất ngờ, không lường trước) — Bẫy suy diễn: Đây là quy luật sinh học tự nhiên, không phải hiện tượng bất ngờ.",
+        "D": "isolated (cô lập) — Bẫy trái nghĩa hoàn toàn với việc đi kèm đồng hành."
+      },
+      "synonyms": [
+        "accompanying",
+        "concurrent",
+        "associated",
+        "synchronous"
+      ]
+    }
+  },
+  {
+    "id": "vic_53",
+    "title": "Methodological Rigor in Epigraphic Decipherment",
+    "topic": "Historical Linguistics & Epigraphy",
+    "target_word": "scrupulous",
+    "paragraph_index": 2,
+    "passage": "The decipherment of forgotten writing systems represents one of the most intricate challenges in historical philology. Without a bilingual inscription like the Rosetta Stone, scholars must reconstruct grammatical rules, phonological values, and lexical meanings solely from structural analyses of corpus texts. Early antiquarians frequently succumbed to romantic speculation, attributing mystical symbolism to phonetic scripts and misinterpreting repeated glyphs as occult allegories.\n\nModern epigraphy replaces intuition with scrupulous empirical cross-referencing. Epigraphers meticulously compile concordances that catalog every glyph variant, noting its positional frequency, positional constraints, and recurring collocations across hundreds of monuments. Such precise accounting prevents researchers from forcing preconceived meanings onto ambiguous passages. By rigorously verifying that hypothetical phonetic values yield consistent, coherent syntax across entirely distinct inscriptions, linguists can validate a proposed decipherment through falsifiable methodologies.\n\nThe decipherment of Mayan hieroglyphic writing exemplifies this scientific transition. Once considered purely ideographic representations of celestial cycles, Mayan inscriptions were deciphered only after Yuri Knorozov recognized their logosyllabic nature through systematic frequency counts. Subsequent epigraphers corroborated these phonetic readings against modern Mayan dialects, ultimately unlocking detailed dynastic histories preserved on stelae across the Petén Basin.",
+    "question": "The word 'scrupulous' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "theoretical",
+      "B": "meticulous",
+      "C": "tentative",
+      "D": "provisional"
+    },
+    "correct_answer": "B",
+    "clue_type": "Contrast & Opposition",
+    "clue_signal": "Modern epigraphy replaces intuition with scrupulous... Epigraphers meticulously compile concordances...",
+    "explanation": {
+      "meaning": "'Scrupulous' trong bối cảnh nghiên cứu khoa học có nghĩa là tỉ mỉ, cẩn trọng, cực kỳ kỹ lưỡng và tuân thủ chặt chẽ tiêu chuẩn.",
+      "substitution": "Thế chỗ: 'replaces intuition with meticulous empirical cross-referencing' đối lập với trực giác cảm tính (intuition) và được làm rõ ngay câu sau bằng từ 'meticulously compile'.",
+      "trap_breakdown": {
+        "A": "theoretical (mang tính lý thuyết) — Bẫy học thuật: Bài đọc đang ca ngợi tính thực nghiệm và đối chiếu dữ liệu thực tế (empirical), không phải suy đoán lý thuyết suông.",
+        "C": "tentative (ngập ngừng, tạm thời) — Bẫy mức độ: Phương pháp ở đây rất chặt chẽ, không phải phỏng đoán dè dặt.",
+        "D": "provisional (tạm thời) — Sai ngữ cảnh."
+      },
+      "synonyms": [
+        "meticulous",
+        "painstaking",
+        "thorough",
+        "rigorous"
+      ]
+    }
+  },
+  {
+    "id": "vic_54",
+    "title": "Mangrove Ecosystems and Coastal Geomorphology",
+    "topic": "Ecology & Marine Biogeography",
+    "target_word": "resilient",
+    "paragraph_index": 3,
+    "passage": "Occupying intertidal coastal interfaces across tropical and subtropical latitudes, mangrove forests inhabit environments characterized by severe environmental stresses. Fluctuating salinity gradients, hypoxic fine-grained sediments, and regular tidal inundation impose extreme physiological demands on vascular vegetation. Mangrove taxa overcome these obstacles through specialized adaptations, including complex prop roots that provide mechanical anchorage and pneumatophores that absorb atmospheric oxygen during low tide.\n\nBeyond surviving in harsh conditions, mangroves serve as essential biological engineers of coastal topography. The intricate network of submerged aerial roots dissipates incoming wave energy, attenuating storm surges and preventing the erosion of shoreline mudbanks. Furthermore, by slowing water velocity, root complexes trap terrigenous sediments and organic detritus carried down by river estuaries. Over decadal timescales, this accretion of sediment gradually elevates the substrate, enabling the seaward progradation of coastlines.\n\nDespite their apparent vulnerability to shoreline disturbances, mangrove ecosystems prove exceptionally resilient in the face of cyclical weather anomalies. When severe typhoons defoliate forest canopies or dislodge individual trees, dormant epicormic buds and prolific viviparous propagules rapidly recolonize newly created canopy gaps. However, this natural capacity for recovery is severely curtailed when artificial seawalls and aquaculture ponds disrupt hydrological connectivity, preventing tidal circulation and triggering irreversible die-offs.",
+    "question": "The word 'resilient' in paragraph 3 is closest in meaning to:",
+    "options": {
+      "A": "fragile",
+      "B": "imperceptible",
+      "C": "stationary",
+      "D": "adaptable"
+    },
+    "correct_answer": "D",
+    "clue_type": "Contrast & Opposition",
+    "clue_signal": "Despite their apparent vulnerability... prove exceptionally resilient... rapidly recolonize... capacity for recovery...",
+    "explanation": {
+      "meaning": "'Resilient' là tính từ chỉ khả năng phục hồi nhanh chóng, chống chịu tốt và thích ứng kiên cường sau thiên tai hoặc biến cố.",
+      "substitution": "Thế chỗ: 'prove exceptionally adaptable in the face of cyclical weather anomalies' đối lập trực tiếp với 'apparent vulnerability' (vẻ ngoài dễ tổn thương) và khớp với 'capacity for recovery'.",
+      "trap_breakdown": {
+        "A": "fragile (mong manh, dễ vỡ) — Bẫy trái nghĩa hoàn toàn, bắt nguồn từ 'apparent vulnerability'.",
+        "B": "imperceptible (không thể nhận thấy) — Sai nghĩa hoàn toàn.",
+        "C": "stationary (đứng yên, bất động) — Bẫy sinh học: Hệ sinh thái rừng ngập mặn liên tục biến động và hồi phục chứ không bất động."
+      },
+      "synonyms": [
+        "adaptable",
+        "hardy",
+        "tenacious",
+        "quick to recover"
+      ]
+    }
+  },
+  {
+    "id": "vic_55",
+    "title": "Transonic Aerodynamics and the Area Rule",
+    "topic": "Aviation History & Fluid Dynamics",
+    "target_word": "obviated",
+    "paragraph_index": 2,
+    "passage": "During the late 1940s, aircraft designers striving to exceed the speed of sound encountered severe physical resistance known as the sound barrier. As flight velocity approached Mach 1, shock waves formed spontaneously over wings and fuselages, causing dramatic surges in aerodynamic drag, violent buffetting, and catastrophic losses of control. Initial engineering responses relied on brute propulsion, installing increasingly massive afterburning turbojet engines, yet aircraft repeatedly failed to penetrate the transonic regime.\n\nAerodynamicist Richard Whitcomb resolved this impasse through his formulation of the transonic area rule. By modeling the aircraft not as an assembly of distinct components but as an integrated volume of cross-sectional area, Whitcomb recognized that the abrupt junction between the fuselage and wings generated immense wave drag. Indenting the fuselage inward at the wing roots created a contoured 'wasp-waist' profile that ensured a smooth, gradual longitudinal distribution of cross-sectional area. This structural modification dramatically lowered wave drag and effectively obviated the necessity for prohibitive engine thrust.\n\nThe practical implementation of the area rule revolutionized military aircraft performance. When applied to the prototype Convair F-102, which had previously proved incapable of supersonic flight in level attitude, the reshaped airframe slipped effortlessly past Mach 1 with identical engine output. Today, area-rule principles remain an indispensable baseline for supersonic transports and combat fighters worldwide.",
+    "question": "The word 'obviated' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "eliminated",
+      "B": "magnified",
+      "C": "anticipated",
+      "D": "prolonged"
+    },
+    "correct_answer": "A",
+    "clue_type": "Cause & Effect (Nguyên nhân - Hệ quả)",
+    "clue_signal": "dramatically lowered wave drag and effectively obviated the necessity for prohibitive engine thrust... with identical engine output...",
+    "explanation": {
+      "meaning": "'Obviate' là ngoại động từ học thuật có nghĩa là loại bỏ, xóa tan hoặc làm cho một nhu cầu/khó khăn không còn cần thiết nữa.",
+      "substitution": "Thế chỗ: 'effectively eliminated the necessity for prohibitive engine thrust' (loại bỏ sự cần thiết của lực đẩy động cơ khổng lồ) hoàn toàn phù hợp với việc máy bay bay vượt âm mà không cần tăng công suất động cơ.",
+      "trap_breakdown": {
+        "B": "magnified (phóng đại, làm tăng lên) — Bẫy trái nghĩa: Thiết kế mới làm giảm lực cản chứ không làm tăng gánh nặng động cơ.",
+        "C": "anticipated (dự đoán trước) — Bẫy liên tưởng công nghệ: Whitcomb tính toán trước nhưng ở đây 'obviate the necessity' nghĩa là loại bỏ nhu cầu đó.",
+        "D": "prolonged (kéo dài) — Sai nghĩa."
+      },
+      "synonyms": [
+        "eliminated",
+        "precluded",
+        "ruled out",
+        "rendered unnecessary"
+      ]
+    }
+  },
+  {
+    "id": "vic_56",
+    "title": "Language Typology and Ergative Alignment",
+    "topic": "Comparative Linguistics & Syntax",
+    "target_word": "disparate",
+    "paragraph_index": 2,
+    "passage": "Most modern European tongues employ a nominative-accusative syntactic alignment. In such languages, the single argument of an intransitive clause ('The child sleeps') receives the identical grammatical marking—usually the nominative case—as the voluntary agent of a transitive clause ('The child kicks the ball'). The recipient or patient of the transitive action is assigned a separate accusative marking. This pervasive uniformity led early Western grammarians to assume that nominative-accusative syntax reflected an innate human cognitive universal.\n\nComparative typological surveys across global languages challenged this eurocentric assumption. Field linguists discovered that dozens of disparate language families—including Basque in the Pyrenees, Caucasian tongues, indigenous Australian languages, and Mayan idioms—utilize an ergative-absolutive alignment. In ergative systems, the subject of an intransitive verb is grammatically paired with the object of a transitive verb under the absolutive case, while the transitive agent receives an exclusive ergative inflection. The presence of this structure across geographically detached continents demonstrates that human grammar can organize semantic roles along fundamentally divergent axes.\n\nUnderstanding ergativity has enriched theories of universal grammar. Rather than reflecting cognitive discrepancies between human populations, disparate case alignments show that syntax operates with remarkable structural flexibility. Modern computational linguistics incorporates both ergative and accusative parameters to model natural language processing algorithms capable of parsing polyglot corpora accurately.",
+    "question": "The word 'disparate' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "interrelated",
+      "B": "homogeneous",
+      "C": "distinct",
+      "D": "rudimentary"
+    },
+    "correct_answer": "C",
+    "clue_type": "Elaboration & Exemplification",
+    "clue_signal": "including Basque in the Pyrenees, Caucasian tongues, indigenous Australian languages, and Mayan idioms... geographically detached continents...",
+    "explanation": {
+      "meaning": "'Disparate' là tính từ mang nghĩa hoàn toàn khác biệt, tách rời, không có mối liên hệ hay nguồn gốc chung.",
+      "substitution": "Thế chỗ: 'dozens of distinct language families' (hàng chục ngữ hệ khác biệt nhau hoàn toàn) làm nổi bật việc các ngôn ngữ từ châu Âu, Kavkaz, Úc đến châu Mỹ đều có cấu trúc này.",
+      "trap_breakdown": {
+        "A": "interrelated (liên quan mật thiết) — Bẫy trái nghĩa: Các ngôn ngữ này thuộc các ngữ hệ độc lập, không liên quan họ hàng.",
+        "B": "homogeneous (đồng nhất) — Bẫy trái nghĩa hoàn toàn.",
+        "D": "rudimentary (sơ khai) — Bẫy thành kiến: Các ngôn ngữ bản địa không hề thô sơ mà có ngữ pháp rất phức tạp."
+      },
+      "synonyms": [
+        "distinct",
+        "dissimilar",
+        "diverse",
+        "unrelated"
+      ]
+    }
+  },
+  {
+    "id": "vic_57",
+    "title": "Sauropod Gigantism and Avian-Style Respiration",
+    "topic": "Paleobiology & Biomechanics",
+    "target_word": "prodigious",
+    "paragraph_index": 1,
+    "passage": "The evolutionary emergence of sauropod dinosaurs during the Jurassic period produced terrestrial herbivores of unprecedented magnitude. Taxa such as Argentinosaurus and Patagotitan reached body lengths exceeding thirty-five meters and body masses topping seventy metric tons. For comparative physiologists, explaining how vertebrates sustained such prodigious dimensions without succumbing to hyperthermia or structural skeletal collapse constitutes a classic evolutionary puzzle.\n\nBiomechanical investigations indicate that sauropods possessed a unique constellation of anatomical innovations. Their vertebral columns were extensively lightened by internal pneumatic cavities called pleurocoels, reducing dead skeletal weight without compromising tensile rigidity. More importantly, sauropods inherited an avian-style respiratory system featuring non-vascular air sacs distributed throughout the thorax and abdomen. This mechanism drove a continuous, unidirectional airflow across the lungs, delivering superior gas-exchange efficiency compared to mammalian tidal breathing while functioning as an effective internal cooling radiator.\n\nNutritional ecology further supported their extreme size. By dispensing with mastication and swallowing vegetative matter whole, sauropods bypassed the dental constraints that restrict mammalian herbivores. Their elongate necks permitted broad, sweeping browsing envelopes without requiring costly locomotion, allowing giant sauropods to maximize caloric intake while expending minimal kinetic energy.",
+    "question": "The word 'prodigious' in paragraph 1 is closest in meaning to:",
+    "options": {
+      "A": "standard",
+      "B": "colossal",
+      "C": "volatile",
+      "D": "fragile"
+    },
+    "correct_answer": "B",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "unprecedented magnitude... lengths exceeding thirty-five meters and body masses topping seventy metric tons... such prodigious dimensions...",
+    "explanation": {
+      "meaning": "'Prodigious' là tính từ học thuật mang nghĩa khổng lồ, phi thường, to lớn đến mức gây kinh ngạc.",
+      "substitution": "Thế chỗ: 'how vertebrates sustained such colossal dimensions' khớp hoàn toàn với các con số 35m chiều dài và 70 tấn cân nặng được nêu ở câu trước.",
+      "trap_breakdown": {
+        "A": "standard (tiêu chuẩn) — Bẫy trái nghĩa: Kích thước của khủng long là phi thường chứ không bình thường.",
+        "C": "volatile (dễ biến động) — Bẫy nhầm lẫn: Kích thước cơ thể động vật không phải là hiện tượng biến đổi thất thường.",
+        "D": "fragile (dễ gãy) — Bẫy nhầm lẫn với cấu trúc xương rỗng nhẹ."
+      },
+      "synonyms": [
+        "colossal",
+        "immense",
+        "enormous",
+        "monumental"
+      ]
+    }
+  },
+  {
+    "id": "vic_58",
+    "title": "Desert Geomorphology and Vernal Pools",
+    "topic": "Arid Ecology & Hydrology",
+    "target_word": "ephemeral",
+    "paragraph_index": 2,
+    "passage": "Arid regions are conventionally characterized by permanent hydrological deficits, sparse vegetative ground cover, and intense solar insolation. However, precipitation regimes in drylands are rarely uniform; instead, they feature prolonged dry spells punctuated by localized, torrential thunderstorms. When intense downpours fall on impermeable clay soils, runoff rapidly fills shallow topographical depressions, creating isolated seasonal wetlands known as vernal pools.\n\nThese ephemeral aquatic habitats persist for mere weeks before desiccating under relentless desert heat. Despite their short duration, vernal pools support highly specialized biotic assemblages. Branchiopod crustaceans, such as tadpole shrimp and fairy shrimp, produce desiccated cysts capable of surviving decades encased in baking alkaline dust. When pool inundation occurs, these dormant embryos hatch instantaneously, accelerating through metamorphosis and ovipositing new cysts before the standing water evaporates completely.\n\nVernal pools also act as temporary ecological oases for migratory avifauna. Waterfowl navigating transcontinental flyways time their stopovers to coincide with post-storm crustacean blooms, gorging on abundant protein reserves. As urban sprawl and agricultural grading level these micro-depressions across global arid zones, conservationists emphasize that protecting these temporary wetlands is vital to preserving regional biodiversity.",
+    "question": "The word 'ephemeral' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "perennial",
+      "B": "stagnant",
+      "C": "subterranean",
+      "D": "short-lived"
+    },
+    "correct_answer": "D",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "persist for mere weeks before desiccating under relentless desert heat. Despite their short duration...",
+    "explanation": {
+      "meaning": "'Ephemeral' là tính từ chỉ những sự vật, hiện tượng tồn tại trong khoảng thời gian rất ngắn, phù du, ngắn ngủi.",
+      "substitution": "Thế chỗ: 'These short-lived aquatic habitats persist for mere weeks' khớp tuyệt đối với câu văn nêu rõ hồ nước này chỉ tồn tại vài tuần rồi bốc hơi.",
+      "trap_breakdown": {
+        "A": "perennial (lâu năm, vĩnh cửu) — Bẫy trái nghĩa hoàn toàn với hồ nước tạm bợ.",
+        "B": "stagnant (tù đọng) — Bẫy liên tưởng nước ao: Nước có thể đọng lại nhưng từ ephemeral nói về thời gian tồn tại ngắn ngủi.",
+        "C": "subterranean (dưới lòng đất) — Bẫy địa lý: Đây là những vũng trũng trên mặt đất."
+      },
+      "synonyms": [
+        "short-lived",
+        "transitory",
+        "fleeting",
+        "evanescent"
+      ]
+    }
+  },
+  {
+    "id": "vic_59",
+    "title": "Paleomagnetism and Seafloor Spreading",
+    "topic": "Geophysics & Plate Tectonics",
+    "target_word": "substantiate",
+    "paragraph_index": 2,
+    "passage": "When Alfred Wegener first presented his hypothesis of continental drift in 1912, the geological establishment largely dismissed his ideas. Although Wegener pointed to matching continental margins across the Atlantic and identical fossil distributions in South America and Africa, he could not identify a physically plausible mechanism capable of propelling rigid granitic continents through denser oceanic basaltic crust. For nearly half a century, mobilist theories remained on the fringes of academic geology.\n\nThe advent of marine paleomagnetism in the 1960s finally provided the empirical data required to substantiate seafloor spreading. As basaltic magma emerges along mid-ocean rift valleys and solidifies, iron-rich magnetite grains align themselves with the prevailing orientation of Earth's magnetic dipole field. Because Earth's geomagnetic polarity reverses periodically over geological epochs, newly formed basalt preserves an indelible chronological record. Magnetometer surveys revealed alternating, mirror-image stripes of normal and reversed magnetic anomalies flanking both sides of oceanic ridges.\n\nThese symmetrical magnetic stripes conclusively proved that new oceanic crust was continually generated at mid-ocean ridges and conveyed laterally outward like a conveyor belt. By matching magnetic reversals to radiometric dates established on land basalts, geophysicists accurately calculated past spreading rates. Continental drift was thus subsumed into the modern paradigm of plate tectonics, transforming geology from a descriptive discipline into an explanatory physical science.",
+    "question": "The word 'substantiate' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "contradict",
+      "B": "supplant",
+      "C": "validate",
+      "D": "fabricate"
+    },
+    "correct_answer": "C",
+    "clue_type": "Cause & Effect (Nguyên nhân - Hệ quả)",
+    "clue_signal": "finally provided the empirical data required to substantiate seafloor spreading... conclusively proved that new oceanic crust...",
+    "explanation": {
+      "meaning": "'Substantiate' là ngoại động từ có nghĩa là chứng minh, xác thực hoặc cung cấp bằng chứng thuyết phục để củng cố một luận điểm.",
+      "substitution": "Thế chỗ: 'data required to validate seafloor spreading' hoàn toàn đồng nghĩa với câu sau 'conclusively proved that new oceanic crust was continually generated'.",
+      "trap_breakdown": {
+        "A": "contradict (mâu thuẫn, phản bác) — Bẫy trái nghĩa: Dữ liệu này chứng minh chứ không bác bỏ học thuyết tách giãn đáy biển.",
+        "B": "supplant (thay thế, lật đổ) — Bẫy nhầm lẫn: Dữ liệu củng cố giả thuyết chứ không đào thải nó.",
+        "D": "fabricate (ngụy tạo, bịa đặt) — Bẫy đạo đức khoa học: Dữ liệu từ khảo sát thực tế hoàn toàn có thật."
+      },
+      "synonyms": [
+        "validate",
+        "corroborate",
+        "confirm",
+        "verify"
+      ]
+    }
+  },
+  {
+    "id": "vic_60",
+    "title": "Transmission Spectroscopy of Exoplanetary Atmospheres",
+    "topic": "Astrophysics & Planetary Science",
+    "target_word": "tenuous",
+    "paragraph_index": 2,
+    "passage": "The catalog of confirmed extrasolar planets has expanded exponentially since the discovery of 51 Pegasi b in 1995. While early exoplanetary science focused primarily on orbital dynamics and mass constraints derived from radial velocity measurements, contemporary astrophysics aims to characterize the atmospheric chemistry of distant worlds. The premier methodology for accomplishing this is transmission spectroscopy, executed during transits when an exoplanet passes directly across the disk of its host star.\n\nDuring a transit event, starlight filters through the tenuous outer fringes of the exoplanet's gaseous envelope. Chemical species residing within the upper atmosphere absorb specific wavelengths of stellar photons according to quantum mechanical transitions, imprinting distinctive spectral absorption lines upon the transmitted light. Because the depth of absorption corresponds to tiny fractions of a percent of the total stellar flux, isolating these subtle atmospheric signatures requires ultra-stable space observatories like the James Webb Space Telescope.\n\nTransmission spectroscopy has revealed diverse chemical compositions across foreign solar systems. Astronomers have identified water vapor, carbon dioxide, sodium, and methane within the atmospheres of scorching gas giants and temperate sub-Neptunes. Comparing observed spectral absorption depths against theoretical radiative equilibrium models allows researchers to infer atmospheric metallicity, photochemistry, and the possible presence of silicate aerosol clouds.",
+    "question": "The word 'tenuous' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "dense",
+      "B": "turbulent",
+      "C": "radioactive",
+      "D": "flimsy"
+    },
+    "correct_answer": "D",
+    "clue_type": "Collocation & Contextual Logic",
+    "clue_signal": "starlight filters through the tenuous outer fringes... tiny fractions of a percent... subtle atmospheric signatures...",
+    "explanation": {
+      "meaning": "'Tenuous' trong ngữ cảnh thiên văn/vật lý khí quyển miêu tả lớp khí mỏng manh, loãng, mật độ phân tử cực thấp.",
+      "substitution": "Thế chỗ: 'starlight filters through the flimsy/thin outer fringes' khớp với chi tiết ánh sao chiếu xuyên qua rìa khí quyển rất loãng và chỉ để lại tín hiệu quang phổ cực nhỏ (subtle).",
+      "trap_breakdown": {
+        "A": "dense (dày đặc) — Bẫy trái nghĩa: Khí quyển ở rìa ngoài cùng rất loãng chứ không đậm đặc.",
+        "B": "turbulent (hỗn loạn) — Bẫy động lực học: Khí quyển có thể có bão nhưng tenuous nói về mật độ mỏng manh.",
+        "C": "radioactive (phóng xạ) — Bẫy liên tưởng vũ trụ."
+      },
+      "synonyms": [
+        "flimsy",
+        "thin",
+        "slender",
+        "insubstantial"
+      ]
+    }
+  },
+  {
+    "id": "vic_61",
+    "title": "Cryospheric Dynamics of Antarctic Ice Shelves",
+    "topic": "Glaciology & Climate Science",
+    "target_word": "formidable",
+    "paragraph_index": 1,
+    "passage": "The Antarctic Ice Sheet contains enough freshwater to raise global mean sea levels by nearly sixty meters if melted in its entirety. The seaward perimeter of this vast ice sheet terminates in floating platforms known as ice shelves, which extend over embayments and shallow coastal seas. These massive floating buttresses exert a formidable restraining force on inland tributary glaciers, resisting their gravitational flow toward the ocean.\n\nRecent oceanographic monitoring indicates that warming sub-surface circumpolar deep water is infiltrating the cavities beneath major West Antarctic ice shelves. When warm seawater melts the basal grounding lines of shelves like Thwaites and Pine Island, the floating ice thins from beneath. Basal melting reduces basal drag against bedrock pinning points, weakening the structural integrity of the entire shelf. Once an ice shelf thins or collapses, tributary glaciers behind it accelerate rapidly, draining continental ice reserves directly into the Southern Ocean.\n\nSatellite altimetry surveys have documented dramatic glacial acceleration following the collapse of the Larsen B Ice Shelf in 2002. Inland ice velocity increased eightfold within months of the shelf's disintegration. Climate modelers warn that stabilizing the buttressing capacity of remaining ice shelves represents the single most decisive factor in constraining twenty-first-century sea level rise projections.",
+    "question": "The word 'formidable' in paragraph 1 is closest in meaning to:",
+    "options": {
+      "A": "negligible",
+      "B": "impressive",
+      "C": "temporary",
+      "D": "artificial"
+    },
+    "correct_answer": "B",
+    "clue_type": "Collocation & Contextual Logic",
+    "clue_signal": "massive floating buttresses exert a formidable restraining force on inland tributary glaciers, resisting their gravitational flow...",
+    "explanation": {
+      "meaning": "'Formidable' là tính từ chỉ sức mạnh to lớn, ghê gớm, gây ấn tượng mạnh và tạo ra tác động to lớn đến mức đáng nể sợ.",
+      "substitution": "Thế chỗ: 'exert an impressive/powerful restraining force' (tạo ra một lực cản khổng lồ/đáng nể) khớp với vai trò nâng đỡ cả một dòng sông băng lục địa đồ sộ.",
+      "trap_breakdown": {
+        "A": "negligible (không đáng kể) — Bẫy trái nghĩa hoàn toàn.",
+        "C": "temporary (tạm thời) — Bẫy nhầm lẫn: Lực cản này đã duy trì hàng nghìn năm ổn định.",
+        "D": "artificial (nhân tạo) — Bẫy nguồn gốc: Thềm băng hoàn toàn là kiến tạo tự nhiên."
+      },
+      "synonyms": [
+        "impressive",
+        "daunting",
+        "powerful",
+        "imposing"
+      ]
+    }
+  },
+  {
+    "id": "vic_62",
+    "title": "Oncogenes and Aberrant Cell Cycle Regulation",
+    "topic": "Cell Biology & Oncology",
+    "target_word": "proliferation",
+    "paragraph_index": 2,
+    "passage": "In healthy eukaryotic multicellular organisms, somatic cell division is governed by an exquisite balance of positive mitogenic signals and negative inhibitory checkpoints. Cyclin-dependent kinases (CDKs) assemble with regulatory cyclin proteins to propel the cell forward across cell cycle phases only when DNA replication fidelity has been verified. Tumor suppressor genes, such as TP53 and RB1, act as molecular guardians, pausing division or initiating programmed apoptosis if irreparable genomic mutations are detected.\n\nMalignant transformation occurs when genetic alterations disrupt this homeostatic equilibrium, triggering the unchecked proliferation of clonal cells. Proto-oncogenes that acquire gain-of-function point mutations become constitutively active oncogenes, continuously pumping growth signals through intracellular kinase cascades regardless of external stimuli. Concurrently, loss-of-function mutations in tumor suppressor pathways incapacitate the senescence and apoptotic mechanisms that normally arrest abnormal cell divisions. As a consequence, transformed cells multiply exponentially, developing dense, vascularized neoplasias.\n\nOver time, this continuous genomic instability fosters evolutionary competition among divergent cancer cell sub-clones. Cells acquiring phenotypic advantages—such as resistance to chemotherapeutic agents, enhanced metabolic glycolytic flux, or the capacity for matrix metalloproteinase synthesis—outcompete neighboring clones, eventually enabling local tissue invasion and distant hematogenous metastasis.",
+    "question": "The word 'proliferation' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "destruction",
+      "B": "differentiation",
+      "C": "quiescence",
+      "D": "rapid reproduction"
+    },
+    "correct_answer": "D",
+    "clue_type": "Elaboration & Exemplification",
+    "clue_signal": "unchecked proliferation... transformed cells multiply exponentially, developing dense... neoplasias...",
+    "explanation": {
+      "meaning": "'Proliferation' là danh từ sinh học/y khoa chỉ sự sinh sôi nảy nở nhanh chóng, tăng sinh cấp số nhân về số lượng tế bào.",
+      "substitution": "Thế chỗ: 'triggering the unchecked rapid reproduction of clonal cells' hoàn toàn khớp với câu tiếp theo nói rằng 'transformed cells multiply exponentially' (tế bào nhân bản theo cấp số nhân).",
+      "trap_breakdown": {
+        "A": "destruction (sự phá hủy) — Bẫy trái nghĩa: Tế bào ung thư nhân lên chứ không bị tiêu diệt.",
+        "B": "differentiation (sự biệt hóa tế bào) — Bẫy sinh học: Khối u thường mất tính biệt hóa để tập trung phân chia.",
+        "C": "quiescence (trạng thái nghỉ, bất hoạt) — Bẫy trái nghĩa: Quiescence là tế bào dừng phân chia."
+      },
+      "synonyms": [
+        "rapid reproduction",
+        "exponential multiplication",
+        "rapid growth",
+        "expansion"
+      ]
+    }
+  },
+  {
+    "id": "vic_63",
+    "title": "Allopatric Speciation and Ecological Vicariance",
+    "topic": "Evolutionary Biology & Biogeography",
+    "target_word": "divergence",
+    "paragraph_index": 2,
+    "passage": "Speciation, the lineage-splitting evolutionary process that produces distinct biological species, requires the disruption of gene flow between formerly interbreeding populations. In classic allopatric speciation, this reproductive isolation is initiated by geographic vicariance—the emergence of a physical barrier such as a mountain range, river formation, or continental drift that subdivides an ancestral species into geographically disjunct demes.\n\nOnce isolated, the separated populations undergo cumulative genetic divergence driven by distinct selective pressures and random genetic drift. Because environmental factors—such as precipitation, predator assemblages, and microclimates—inevitably vary between disjoint habitats, natural selection favors divergent physiological, morphological, and behavioral phenotypes in each isolate. Mutations arising uniquely in one population cannot cross the geographic barrier to enter the gene pool of the other. Over hundreds of thousands of generations, these distinct mutational trajectories widen the genetic distance between the groups.\n\nWhen climatic or tectonic shifts subsequently dissolve the geographic barrier, secondary contact reveals whether speciation has reached completion. If evolutionary separation has generated prezygotic reproductive barriers—such as discordant courtship vocalizations, mismatched breeding seasons, or incompatible genital morphologies—the two populations cannot interbreed and remain distinct sympatric species.",
+    "question": "The word 'divergence' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "differentiation",
+      "B": "convergence",
+      "C": "stagnation",
+      "D": "amalgamation"
+    },
+    "correct_answer": "A",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "cumulative genetic divergence... natural selection favors divergent physiological... phenotypes... widen the genetic distance...",
+    "explanation": {
+      "meaning": "'Divergence' trong tiến hóa sinh học chỉ sự phân kỳ, rẽ nhánh khác biệt dần giữa hai quần thể tách rời nhau.",
+      "substitution": "Thế chỗ: 'undergo cumulative genetic differentiation' khớp hoàn toàn với vế sau nói về việc 'widen the genetic distance' (nới rộng khoảng cách di truyền).",
+      "trap_breakdown": {
+        "B": "convergence (sự hội tụ) — Bẫy tiến hóa trái nghĩa: Tiến hóa hội tụ là hai loài khác nhau phát triển nét tương đồng.",
+        "C": "stagnation (sự đình trệ) — Bẫy trái nghĩa: Các quần thể liên tục đột biến và tiến hóa chứ không dậm chân tại chỗ.",
+        "D": "amalgamation (sự hòa hợp, sáp nhập) — Bẫy trái nghĩa: Gene không thể hòa lẫn qua lại."
+      },
+      "synonyms": [
+        "differentiation",
+        "branching apart",
+        "disparity",
+        "deviation"
+      ]
+    }
+  },
+  {
+    "id": "vic_64",
+    "title": "Cosmic Expansion and the Hubble Constant",
+    "topic": "Cosmology & Relativistic Physics",
+    "target_word": "immutable",
+    "paragraph_index": 1,
+    "passage": "Prior to the observational breakthroughs of the 1920s, the cosmological paradigm conceived the universe as an eternal, static, and immutable entity. Even Albert Einstein, whose general theory of relativity naturally implied an expanding or contracting cosmos, inserted an ad hoc mathematical term called the cosmological constant into his gravitational field equations solely to force a static equilibrium. The notion that the cosmos possessed a definitive inception point and dynamic history seemed contrary to physical principles.\n\nThis static worldview was shattered by Edwin Hubble's observations at Mount Wilson Observatory. By measuring the pulsation periods of Cepheid variable stars in distant nebulae, Hubble confirmed that these spiral clouds were independent galaxies lying millions of light-years beyond the Milky Way. More critically, when Hubble cross-referenced their distances with spectroscopic redshift data gathered by Vesto Slipher, he discovered a linear relationship: distant galaxies were receding from Earth at velocities proportional to their distance.\n\nHubble's law established that space itself was continuously stretching, carrying galaxies apart like raisins expanding in rising bread dough. Einstein later renounced his cosmological constant, calling it his greatest scientific blunder. Contemporary cosmologists now use precision space observatories to refine the Hubble constant, measuring the accelerating expansion rate driven by mysterious dark energy.",
+    "question": "The word 'immutable' in paragraph 1 is closest in meaning to:",
+    "options": {
+      "A": "ephemeral",
+      "B": "expanding",
+      "C": "unalterable",
+      "D": "chaotic"
+    },
+    "correct_answer": "C",
+    "clue_type": "Collocation & Contextual Logic",
+    "clue_signal": "eternal, static, and immutable entity... force a static equilibrium... This static worldview was shattered...",
+    "explanation": {
+      "meaning": "'Immutable' là tính từ mang nghĩa bất biến, không thể thay đổi, vĩnh cửu theo thời gian.",
+      "substitution": "Thế chỗ: 'eternal, static, and unalterable entity' hoàn toàn đồng điệu với chuỗi từ 'eternal' (vĩnh cửu) và 'static' (tĩnh lặng, đứng yên).",
+      "trap_breakdown": {
+        "A": "ephemeral (ngắn ngủi, phù du) — Bẫy trái nghĩa hoàn toàn với eternal.",
+        "B": "expanding (đang giãn nở) — Bẫy khoa học hiện đại: Đây là quan điểm ngày nay, trong khi đoạn 1 đang nói về quan điểm cũ thời chưa có kính thiên văn hiện đại.",
+        "D": "chaotic (hỗn loạn) — Bẫy trạng thái: Vũ trụ tĩnh được coi là cân bằng hoàn hảo chứ không hỗn loạn."
+      },
+      "synonyms": [
+        "unalterable",
+        "unchangeable",
+        "permanent",
+        "invariant"
+      ]
+    }
+  },
+  {
+    "id": "vic_65",
+    "title": "Accretion Dynamics in Protoplanetary Disks",
+    "topic": "Astrophysics & Solar System Formation",
+    "target_word": "coalesce",
+    "paragraph_index": 2,
+    "passage": "Planetary systems originate within rotating circumstellar disks of gas and dust surrounding newly ignited protostars. In the cold interstellar medium, giant molecular clouds collapse under self-gravity, flattening into circumstellar disks due to conservation of angular momentum. These protoplanetary disks initially consist primarily of molecular hydrogen and helium, containing a mere one percent fraction of sub-micron silicate and carbonaceous dust grains.\n\nOver millions of years, microscopic dust grains collide and coalesce into progressively larger macroscopic bodies. Electrostatic forces and van der Waals interactions initially bind sub-millimeter particles during gentle, low-velocity collisions, forming porous dust aggregates. As these agglomerates grow into meter-sized boulders, aerodynamic drag from surrounding gas causes their orbits to decay rapidly, presenting the notorious 'meter-size barrier.' Once bodies overcome this threshold via streaming instabilities, gravitational accretion takes over, assembling kilometer-scale planetesimals into embryonic protoplanets.\n\nThermal conditions across the disk dictate the compositional architecture of the resulting planetary architecture. Inside the ice or snow line, temperatures prevent volatile compounds from condensing, restricting inner protoplanets to dense, rocky compositions. Beyond the snow line, abundant water ice and organic volatiles permit planetary cores to swell rapidly, attaining masses sufficient to accrete thick gaseous envelopes and develop into gas giants like Jupiter and Saturn.",
+    "question": "The word 'coalesce' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "disintegrate",
+      "B": "evaporate",
+      "C": "repel",
+      "D": "fuse"
+    },
+    "correct_answer": "D",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "microscopic dust grains collide and coalesce into progressively larger macroscopic bodies... bind sub-millimeter particles... forming porous dust aggregates...",
+    "explanation": {
+      "meaning": "'Coalesce' là nội động từ có nghĩa là kết hợp lại, sáp nhập, dính liền vào nhau để tạo thành một khối thể lớn hơn.",
+      "substitution": "Thế chỗ: 'collide and fuse into progressively larger macroscopic bodies' khớp hoàn toàn với 'bind sub-millimeter particles' và 'forming aggregates'.",
+      "trap_breakdown": {
+        "A": "disintegrate (tan rã, vỡ vụn) — Bẫy va chạm: Va chạm mạnh có thể làm vỡ, nhưng câu văn đang nói va chạm êm dịu làm dính liền nhau (form larger bodies).",
+        "B": "evaporate (bốc hơi) — Bẫy trạng thái.",
+        "C": "repel (đẩy lùi nhau) — Bẫy trái nghĩa hoàn toàn."
+      },
+      "synonyms": [
+        "fuse",
+        "merge",
+        "combine",
+        "amalgamate"
+      ]
+    }
+  },
+  {
+    "id": "vic_66",
+    "title": "Thermodynamics of the Mpemba Effect",
+    "topic": "Thermal Physics & Fluid Dynamics",
+    "target_word": "paradoxical",
+    "paragraph_index": 1,
+    "passage": "In classical thermodynamics, the rate of conductive heat transfer between a liquid and its surrounding environment is described by Newton's law of cooling, which dictates that cooling velocity is directly proportional to the temperature differential. Consequently, common intuition dictates that a colder volume of water, possessing a smaller thermal deficit to reach freezing, must solidify more rapidly than an identical volume of hot water. However, under specific experimental parameters, hot water freezes faster than cold water, an enigmatic phenomenon known as the Mpemba effect.\n\nThis paradoxical observation has perplexed natural philosophers for centuries, documented as early as Aristotle and René Descartes before high school student Erasto Mpemba formally re-examined it in 1969. Explaining how a warmer system traverses a wider thermal span in less absolute time requires analyzing multifaceted physical mechanisms that occur non-uniformly within non-equilibrium liquids.\n\nSeveral concurrent mechanisms account for this anomalous cooling behavior. Enhanced surface evaporation in warm water rapidly decreases total liquid mass, reducing the net caloric energy required for phase transition. Concurrently, vigorous convection currents in hotter containers facilitate rapid heat dissipation from the liquid interior to container walls. Furthermore, degasification in preheated water eliminates dissolved carbon dioxide and oxygen, elevating thermal conductivity and accelerating ice nucleation.",
+    "question": "The word 'paradoxical' in paragraph 1 is closest in meaning to:",
+    "options": {
+      "A": "predictable",
+      "B": "contradictory",
+      "C": "inconsequential",
+      "D": "straightforward"
+    },
+    "correct_answer": "B",
+    "clue_type": "Contrast & Opposition",
+    "clue_signal": "common intuition dictates... However, under specific experimental parameters, hot water freezes faster... This paradoxical observation...",
+    "explanation": {
+      "meaning": "'Paradoxical' là tính từ chỉ một hiện tượng/nhận định mang tính nghịch lý, mâu thuẫn bề ngoài với trực giác hoặc quy luật thông thường nhưng lại có thật.",
+      "substitution": "Thế chỗ: 'This contradictory/counterintuitive observation has perplexed natural philosophers' làm rõ sự trái ngược hoàn toàn giữa trực giác thông thường và kết quả thực nghiệm.",
+      "trap_breakdown": {
+        "A": "predictable (có thể đoán trước) — Bẫy trái nghĩa: Hiện tượng này gây kinh ngạc vì nó đi ngược lại dự đoán.",
+        "C": "inconsequential (không quan trọng) — Bẫy giá trị: Hiện tượng này thách thức các nhà vật lý học qua nhiều thế kỷ.",
+        "D": "straightforward (thẳng thắn, dễ hiểu) — Bẫy trái nghĩa."
+      },
+      "synonyms": [
+        "contradictory",
+        "counterintuitive",
+        "incongruous",
+        "enigmatic"
+      ]
+    }
+  },
+  {
+    "id": "vic_67",
+    "title": "Riparian Water Rights and Industrial Pollution",
+    "topic": "Environmental Law & Policy",
+    "target_word": "stringent",
+    "paragraph_index": 2,
+    "passage": "During early American industrial expansion, water law developed primarily under the riparian doctrine inherited from English common law. Under this legal framework, property owners possessing land adjacent to natural watercourses held rights to the reasonable use of flowing waters, provided that downstream users were not deprived of equivalent quantity and quality. However, as textile mills, tanneries, and chemical manufactories burgeoned along eastern rivers, courts increasingly redefined 'reasonable use' to accommodate industrial discharge, leaving waterways severely degraded.\n\nBy the mid-twentieth century, widespread public outcry over visibly contaminated rivers spurred the enactment of stringent federal environmental legislation. The Clean Water Act of 1972 superseded ambiguous common-law standards with legally binding, quantitative discharge limitations. Industrial facilities were mandated to install best available pollution control technologies, under threat of substantial civil fines and criminal sanctions for non-compliance. Furthermore, the statute established national water quality standards aimed at restoring all surface waters to fishable and swimmable conditions.\n\nThe implementation of these rigorous statutory standards catalyzed dramatic water quality improvements across North America. Point-source industrial effluent discharges plummeted, enabling the ecological revival of heavily polluted rivers such as the Cuyahoga and the Hudson. Nevertheless, contemporary water policy faces ongoing challenges from diffuse non-point source pollution, particularly agricultural fertilizer runoff that evades point-source regulatory frameworks.",
+    "question": "The word 'stringent' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "strict",
+      "B": "ambiguous",
+      "C": "voluntary",
+      "D": "antiquated"
+    },
+    "correct_answer": "A",
+    "clue_type": "Collocation & Contextual Logic",
+    "clue_signal": "enactment of stringent federal environmental legislation... legally binding... substantial civil fines and criminal sanctions...",
+    "explanation": {
+      "meaning": "'Stringent' là tính từ miêu tả luật pháp, quy định, tiêu chuẩn cực kỳ nghiêm ngặt, khắt khe và bắt buộc thi hành tuyệt đối.",
+      "substitution": "Thế chỗ: 'spurred the enactment of strict federal environmental legislation' (thúc đẩy ban hành luật bảo vệ môi trường liên bang nghiêm ngặt) hoàn toàn đồng điệu với các chế tài phạt tiền và án hình sự nghiêm khắc.",
+      "trap_breakdown": {
+        "B": "ambiguous (mơ hồ) — Bẫy trái nghĩa: Luật mới thay thế các tiêu chuẩn mơ hồ cũ bằng quy định định lượng rõ ràng.",
+        "C": "voluntary (tự nguyện) — Bẫy trái nghĩa: Luật có tính cưỡng chế bắt buộc (legally binding).",
+        "D": "antiquated (cổ hủ) — Bẫy lịch sử: Đây là đạo luật hiện đại năm 1972."
+      },
+      "synonyms": [
+        "strict",
+        "rigorous",
+        "exacting",
+        "inflexible"
+      ]
+    }
+  },
+  {
+    "id": "vic_68",
+    "title": "Island Biogeography and Adaptive Radiation",
+    "topic": "Evolutionary Ecology & Biogeography",
+    "target_word": "endemic",
+    "paragraph_index": 2,
+    "passage": "Remote oceanic archipelagos, such as the Galápagos Islands and the Hawaiian archipelago, represent natural evolutionary laboratories. Formed by basaltic hotspot volcanism far removed from continental landmasses, these islands emerged as sterile volcanic terrains. The colonization of such isolated landmasses depends upon rare, fortuitous transoceanic dispersal events, involving airborne spores, rafting terrestrial vertebrates on floating vegetation, or wind-blown migratory birds.\n\nUpon colonizing isolated island ecosystems with vacant ecological niches and depauperate competitor faunas, founding populations frequently undergo adaptive radiation, giving rise to diverse endemic species. Unhindered by continental predators or specialized competitors, colonists diversify morphologically and behaviorally to exploit previously unutilized food resources. On the Hawaiian islands, an ancestral finch species diversified into dozens of distinctive honeycreeper taxa, developing specialized bill morphologies tailored respectively to nectarivorous probing, bark gouging, and seed crushing. Because these taxa evolved in geographical isolation, they occur naturally nowhere else on the planet.\n\nThis extreme insular specialization renders oceanic island biotas uniquely vulnerable to external disruptions. Having evolved without exposure to continental mammalian carnivores, many island birds lost anti-predator flight responses. When human navigators inadvertently introduced rats, feral cats, and avian malaria, endemic island species suffered catastrophic extinction waves, highlighting the fragile equilibrium of isolated evolutionary systems.",
+    "question": "The word 'endemic' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "invasive",
+      "B": "widespread",
+      "C": "native",
+      "D": "migratory"
+    },
+    "correct_answer": "C",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "giving rise to diverse endemic species... Because these taxa evolved in geographical isolation, they occur naturally nowhere else on the planet.",
+    "explanation": {
+      "meaning": "'Endemic' là tính từ sinh thái chỉ loài sinh vật đặc hữu, chỉ xuất hiện tự nhiên tại một vùng địa lý cụ thể duy nhất và không có ở bất kỳ nơi nào khác.",
+      "substitution": "Thế chỗ: 'giving rise to diverse native/unique species' khớp hoàn hảo với định nghĩa của bài: 'they occur naturally nowhere else on the planet'.",
+      "trap_breakdown": {
+        "A": "invasive (xâm lấn) — Bẫy trái nghĩa: Loài xâm lấn là loài ngoại lai từ nơi khác du nhập vào.",
+        "B": "widespread (lan rộng) — Bẫy trái nghĩa: Loài đặc hữu có phạm vi phân bố rất hẹp.",
+        "D": "migratory (di cư) — Bẫy nhầm lẫn với chim di cư: Các loài đặc hữu này sinh sống cố định trên đảo."
+      },
+      "synonyms": [
+        "native",
+        "indigenous",
+        "restricted",
+        "peculiar to a region"
+      ]
+    }
+  },
+  {
+    "id": "vic_69",
+    "title": "Martian Fluvial Geomorphology and Ancient Climates",
+    "topic": "Planetary Geology & Hydrology",
+    "target_word": "plausible",
+    "paragraph_index": 2,
+    "passage": "High-resolution orbital imagery and surface rover analyses have conclusively established that liquid water once altered the surface of Mars. Sinuous valley networks, desiccated deltaic sedimentary deposits in craters like Jezero, and massive catastrophic outflow channels attest to substantial ancient surface hydrological cycles. However, reconciling these fluvial geomorphic features with planetary climate models remains a central enigma in planetary science, as the early Sun emitted thirty percent less solar luminosity during the Noachian epoch.\n\nTo explain how an ancient planet with diminished solar insolation maintained liquid water, scientists have proposed several plausible atmospheric models. One hypothesis suggests that a dense carbon dioxide atmosphere enriched with minor fractions of reducing gases, such as molecular hydrogen and methane, generated a potent collision-induced greenhouse warming. An alternative model posits that water was sustained not by a persistently warm and wet climate, but through episodic melting triggered by gigantic meteorite impacts or localized supervolcanic eruptions that temporarily injected massive pulses of sulfur dioxide and steam into the atmosphere.\n\nTesting these competitive hypotheses requires chemical and isotopic data gathered directly from sedimentary drill cores. Future sample-return missions will enable laboratory analyses on Earth, examining clay mineral structures and isotopic fractionations to determine whether ancient Mars sustained stable oceans or experienced fleeting transient freeze-thaw episodes.",
+    "question": "The word 'plausible' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "untenable",
+      "B": "credible",
+      "C": "flawed",
+      "D": "definitive"
+    },
+    "correct_answer": "B",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "To explain how... proposed several plausible atmospheric models. One hypothesis suggests... An alternative model posits...",
+    "explanation": {
+      "meaning": "'Plausible' là tính từ chỉ một lý thuyết, lời giải thích hợp lý, đáng tin cậy, có cơ sở khoa học thuyết phục.",
+      "substitution": "Thế chỗ: 'proposed several credible/reasonable atmospheric models' (đưa ra vài mô hình khí quyển có sức thuyết phục/hợp lý) ăn khớp với hai giả thuyết khoa học nghiêm túc được trình bày ngay sau đó.",
+      "trap_breakdown": {
+        "A": "untenable (không thể bảo vệ/không đứng vững) — Bẫy trái nghĩa hoàn toàn.",
+        "C": "flawed (có tì vết, sai lầm) — Bẫy trái nghĩa.",
+        "D": "definitive (tuyệt đối, cuối cùng) — Bẫy mức độ: Đây vẫn là các mô hình giả thuyết chưa được xác nhận 100%."
+      },
+      "synonyms": [
+        "credible",
+        "believable",
+        "reasonable",
+        "convincing"
+      ]
+    }
+  },
+  {
+    "id": "vic_70",
+    "title": "Insular Dwarfism and the Island Rule",
+    "topic": "Paleontology & Evolutionary Biology",
+    "target_word": "diminutive",
+    "paragraph_index": 2,
+    "passage": "The biogeographical distribution of vertebrates across insular ecosystems frequently produces extreme departures from typical continental body sizes, a morphological pattern formalized as Foster's rule, or the island rule. The rule predicts that large-bodied continental taxa colonizing isolated islands tend to evolve reduced dimensions, while small-bodied mammals, such as rodents, often exhibit gigantism. These contrasting evolutionary trajectories reflect intense natural selection pressures operating within resource-limited and predator-depauperate island biomes.\n\nThe evolutionary phenomenon of insular dwarfism is vividly exemplified by extinct Mediterranean proboscideans. During the Pleistocene glaciations, continental straight-tusked elephants (Palaeoloxodon antiquus), which stood over four meters tall at the shoulder, colonized islands including Sicily, Crete, and Cyprus across exposed sea channels. When post-glacial sea level rises marooned these herds, constrained food availability and the complete absence of apex mammalian predators favored diminutive body sizes. Over generations, dwarf elephants on Sicily evolved adult shoulder heights of barely one meter and body masses under three hundred kilograms.\n\nMiniaturization afforded crucial energetic advantages. Smaller individuals required fewer total daily calories, enabling island populations to survive cyclical resource bottlenecks and severe droughts without depleting fragile floral reserves. Furthermore, the absence of large terrestrial carnivores eliminated the primary adaptive advantage of monumental size, transforming dwarfism into an optimal evolutionary response to insular ecological constraints.",
+    "question": "The word 'diminutive' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "massive",
+      "B": "ferocious",
+      "C": "tiny",
+      "D": "sluggish"
+    },
+    "correct_answer": "C",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "favored diminutive body sizes... evolved adult shoulder heights of barely one meter... Miniaturization afforded crucial energetic advantages...",
+    "explanation": {
+      "meaning": "'Diminutive' là tính từ miêu tả kích thước rất nhỏ nhắn, thu nhỏ đáng kể so với kích thước tiêu chuẩn.",
+      "substitution": "Thế chỗ: 'favored tiny/small body sizes' khớp hoàn toàn với câu văn nói về 'Miniaturization' (sự thu nhỏ kích thước) và chiều cao chỉ còn vỏn vẹn 1 mét.",
+      "trap_breakdown": {
+        "A": "massive (to lớn, đồ sộ) — Bẫy trái nghĩa hoàn toàn với dwarfism (chứng lùn đảo).",
+        "B": "ferocious (hung dữ) — Bẫy tính khí động vật: Không liên quan tới kích thước cơ thể.",
+        "D": "sluggish (chậm chạp) — Bẫy liên tưởng vận động."
+      },
+      "synonyms": [
+        "tiny",
+        "miniature",
+        "small",
+        "petite"
+      ]
+    }
+  },
+  {
+    "id": "vic_71",
+    "title": "Taphonomy and the Hominin Fossil Record",
+    "topic": "Physical Anthropology & Taphonomy",
+    "target_word": "paucity",
+    "paragraph_index": 1,
+    "passage": "Reconstructing the phylogenetic relationships among early hominins is severely constrained by the taphonomy of vertebrate fossilization. Bone preservation requires rapid burial in anoxic, mineral-rich sedimentary environments that arrest bacterial decay and prevent scavengers from disarticulating skeletal remains. Because early hominins primarily inhabited open savannah woodlands rather than lacustrine basins, the fossil record of human evolution is characterized by an agonizing paucity of well-preserved specimens.\n\nThis scarcity of fossil evidence frequently fuels contentious taxonomic debates between 'lumpers' and 'splitters.' When physical anthropologists discover isolated cranial fragments or dentition displaying morphological anomalies, determining whether the specimen represents a novel biological species or merely normal intra-specific sexual dimorphism and individual variation is profoundly challenging. Without large fossil cohorts spanning multiple developmental stages, researchers must reconstruct entire evolutionary lineages from a handful of fragmentary jawbones and isolated molars.\n\nRecent technological advances in micro-computed tomography and ancient paleoproteomics have helped extract unprecedented diagnostic data from fragmentary remains. By examining internal enamel-dentine junctions and sequencing preserved collagen peptide fragments, paleoanthropologists can now resolve phylogenetic affiliations that eluded conventional comparative anatomy, partially mitigating the limitations imposed by fossil scarcity.",
+    "question": "The word 'paucity' in paragraph 1 is closest in meaning to:",
+    "options": {
+      "A": "abundance",
+      "B": "distortion",
+      "C": "diversity",
+      "D": "scarcity"
+    },
+    "correct_answer": "D",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "characterized by an agonizing paucity of well-preserved specimens. This scarcity of fossil evidence...",
+    "explanation": {
+      "meaning": "'Paucity' là danh từ trang trọng chỉ sự khan hiếm, nghèo nàn, số lượng ít ỏi không đáng kể của một đối tượng nào đó.",
+      "substitution": "Thế chỗ: 'characterized by an agonizing scarcity of well-preserved specimens' đồng nghĩa tuyệt đối với từ 'scarcity' xuất hiện ngay đầu đoạn 2.",
+      "trap_breakdown": {
+        "A": "abundance (sự dồi dào, phong phú) — Bẫy trái nghĩa hoàn toàn.",
+        "B": "distortion (sự bóp méo) — Bẫy quá trình hóa thạch: Hóa thạch có thể bị bóp méo nhưng paucity nói về số lượng khan hiếm.",
+        "C": "diversity (sự đa dạng) — Bẫy sinh học."
+      },
+      "synonyms": [
+        "scarcity",
+        "dearth",
+        "shortage",
+        "deficiency"
+      ]
+    }
+  },
+  {
+    "id": "vic_72",
+    "title": "Cognitive Architecture of Lucid Dreaming",
+    "topic": "Cognitive Psychology & Sleep Science",
+    "target_word": "lucid",
+    "paragraph_index": 2,
+    "passage": "During rapid eye movement (REM) sleep, the human brain generates vivid, hallucinatory dream states characterized by sensory immersion, bizarre narrative structures, and impaired critical reflective capabilities. In typical REM dreams, the dreamer accepts absurd physical impossibilities without cognitive scrutiny, a psychological state attributed to the functional deactivation of the dorsolateral prefrontal cortex, which governs self-awareness and metacognitive monitoring.\n\nHowever, in rare instances, individuals achieve a lucid dream state, wherein reflective metacognition re-emerges while sleep is maintained. During lucid episodes, the dreamer attains conscious awareness that they are dreaming, allowing for deliberate cognitive control over dream content and physical execution of simulated tasks. Polysomnographic studies demonstrate that lucidity is marked by a hybrid neurophysiological state: while the brainstem continues to enforce motor atonia to prevent physical movement, the anterior prefrontal cortex displays gamma-band electroencephalographic activity characteristic of waking consciousness.\n\nCognitive researchers utilize lucid dreaming to investigate the neural correlates of conscious volition. By pre-arranging specific sequences of voluntary left-right ocular movements, lucid dreamers can signal to researchers in real time the exact moment they commence simulated motor actions within the dream. These studies indicate that imagining an action in a lucid dream stimulates the motor cortex in a manner virtually indistinguishable from actual waking execution.",
+    "question": "The word 'lucid' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "chaotic",
+      "B": "unconscious",
+      "C": "clear-headed",
+      "D": "somber"
+    },
+    "correct_answer": "C",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "wherein reflective metacognition re-emerges... attains conscious awareness that they are dreaming, allowing for deliberate cognitive control...",
+    "explanation": {
+      "meaning": "'Lucid' là tính từ chỉ trạng thái tâm trí tỉnh táo, sáng suốt, nhận thức rõ ràng và có khả năng suy nghĩ rành mạch.",
+      "substitution": "Thế chỗ: 'individuals achieve a clear-headed/conscious dream state' khớp với vế sau giải thích 'attains conscious awareness' (đạt được nhận thức tỉnh táo rằng mình đang mơ).",
+      "trap_breakdown": {
+        "A": "chaotic (hỗn loạn) — Bẫy giấc mơ thông thường: Giấc mơ lucid rất trật tự và có kiểm soát.",
+        "B": "unconscious (bất tỉnh, vô thức) — Bẫy trạng thái ngủ: Người mơ trong trường hợp này lại có ý thức.",
+        "D": "somber (u ám) — Sai nghĩa."
+      },
+      "synonyms": [
+        "clear-headed",
+        "conscious",
+        "rational",
+        "coherent"
+      ]
+    }
+  },
+  {
+    "id": "vic_73",
+    "title": "Wildlife Corridors and Metapopulation Gene Flow",
+    "topic": "Conservation Biology & Landscape Ecology",
+    "target_word": "imperative",
+    "paragraph_index": 2,
+    "passage": "Anthropogenic landscape fragmentation represents one of the most pervasive threats to global terrestrial biodiversity. The construction of multi-lane interstate highways, agricultural monocultures, and urban sprawl converts continuous native ecosystems into isolated habitat islands. For large, wide-ranging carnivores like cougars, grizzly bears, and jaguars, habitat fragmentation severely restricts home range movements and truncates ancestral dispersal routes.\n\nTo prevent irreversible inbreeding depression within these isolated demes, maintaining landscape connectivity is an urgent conservation imperative. When small populations are entirely marooned, the loss of genetic heterozygosity accelerates through genetic drift, increasing the phenotypic expression of deleterious recessive alleles and degrading reproductive viability. Constructing continuous wildlife corridors and dedicated vegetated highway overpasses facilitates the dispersal of sub-adult individuals, allowing natural gene flow to replenish depleted gene pools without requiring costly human translocation interventions.\n\nEmpirical assessments in the Canadian Rocky Mountains demonstrate the conservation efficacy of structural connectivity. Genetic profiling of wildlife utilizing the Banff National Park wildlife crossing structures confirmed that grizzly bears and wolves regularly crossed high-volume transit corridors to mate with adjacent populations, thereby preserving regional metapopulation health.",
+    "question": "The word 'imperative' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "triviality",
+      "B": "necessity",
+      "C": "impediment",
+      "D": "hypothesis"
+    },
+    "correct_answer": "B",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "To prevent irreversible inbreeding depression... maintaining landscape connectivity is an urgent conservation imperative.",
+    "explanation": {
+      "meaning": "'Imperative' là danh từ trang trọng chỉ một nhiệm vụ khẩn thiết, một đòi hỏi tất yếu sống còn, điều bắt buộc phải thực hiện.",
+      "substitution": "Thế chỗ: 'maintaining landscape connectivity is an urgent conservation necessity' (duy trì kết nối cảnh quan là một nhu cầu cấp thiết trong bảo tồn) khớp với mục tiêu ngăn chặn nguy cơ giao phối cận huyết cận kề.",
+      "trap_breakdown": {
+        "A": "triviality (điều nhỏ nhặt, không quan trọng) — Bẫy trái nghĩa hoàn toàn.",
+        "C": "impediment (chướng ngại vật) — Bẫy cản trở: Hành lang sinh thái giúp tháo gỡ chướng ngại chứ bản thân nó không phải chướng ngại.",
+        "D": "hypothesis (giả thuyết) — Sai ngữ cảnh."
+      },
+      "synonyms": [
+        "necessity",
+        "priority",
+        "requirement",
+        "compelling obligation"
+      ]
+    }
+  },
+  {
+    "id": "vic_74",
+    "title": "Heliocentric Models in Hellenistic Astronomy",
+    "topic": "History of Science & Astronomy",
+    "target_word": "conjectured",
+    "paragraph_index": 1,
+    "passage": "Eighteen centuries before Nicolaus Copernicus published his seminal treatise on the revolutions of the heavenly spheres, the Hellenistic astronomer Aristarchus of Samos formulated an early heliocentric hypothesis. Operating during the third century BCE, Aristarchus sought to calculate the relative distances and physical volumes of the Sun and Moon using geometric triangulation during lunar eclipses and quadrature phases. Recognizing that the Sun was immensely larger than the Earth, Aristarchus conjectured that it was physically illogical for a colossal body to revolve around a diminutive planet.\n\nInstead, Aristarchus proposed that the Sun remained stationary at the center of the celestial sphere, while Earth rotated daily upon its polar axis and completed an annual orbit around the Sun. However, his revolutionary cosmology was roundly rejected by contemporary Hellenistic philosophers. Geocentric advocates, led by Archimedes and later synthesized by Ptolemy, pointed to the apparent absence of annual stellar parallax: if Earth moved across space, the angular positions of the fixed stars should shift relative to one another.\n\nBecause Hellenistic astronomers lacked telescopes capable of detecting the infinitesimally minute parallax shifts of extremely distant stars, they concluded that the Earth must be stationary. The geocentric Ptolemaic model—with its complex apparatus of deferents, epicycles, and equants—became institutionalized for nearly two millennia, illustrating how empirical observations constrained by instrumental limitations can entrench erroneous scientific paradigms.",
+    "question": "The word 'conjectured' in paragraph 1 is closest in meaning to:",
+    "options": {
+      "A": "hypothesized",
+      "B": "substantiated",
+      "C": "disproved",
+      "D": "mandated"
+    },
+    "correct_answer": "A",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "formulated an early heliocentric hypothesis... Aristarchus conjectured that it was physically illogical for a colossal body to revolve...",
+    "explanation": {
+      "meaning": "'Conjecture' là ngoại động từ chỉ hành động phỏng đoán, đưa ra giả thuyết hoặc suy luận dựa trên dữ liệu chưa đầy đủ.",
+      "substitution": "Thế chỗ: 'Aristarchus hypothesized/surmised that it was physically illogical' hoàn toàn đồng nghĩa với cụm 'formulated an early heliocentric hypothesis' ở đầu đoạn.",
+      "trap_breakdown": {
+        "B": "substantiated (chứng minh xác thực) — Bẫy trái nghĩa: Aristarchus chỉ phỏng đoán chứ chưa thể chứng minh thực nghiệm được vào thời cổ đại.",
+        "C": "disproved (bác bỏ) — Sai ý đồ của nhà thiên văn.",
+        "D": "mandated (ra lệnh, bắt buộc) — Sai nghĩa hoàn toàn."
+      },
+      "synonyms": [
+        "hypothesized",
+        "surmised",
+        "posited",
+        "speculated"
+      ]
+    }
+  },
+  {
+    "id": "vic_75",
+    "title": "The Columbian Exchange and Afro-Eurasian Demography",
+    "topic": "Historical Geography & Agronomy",
+    "target_word": "contingent",
+    "paragraph_index": 2,
+    "passage": "The transoceanic voyage of Christopher Columbus in 1492 initiated a monumental biospheric reorganization known as the Columbian Exchange. The reciprocal diffusion of plants, animals, and pathogens between the Old and New Worlds fundamentally restructured global ecological regimes. While European livestock transformed New World grasslands and Old World infectious diseases devastated indigenous American populations, the transatlantic introduction of American agricultural domesticates transformed European and Asian demography.\n\nPrior to the sixteenth century, European peasant subsistence was precarious and heavily contingent upon volatile cereal grain harvests. Rye, wheat, and barley crops were notoriously susceptible to unseasonal spring frosts, summer droughts, and fungal smuts, precipitating localized famines every few decades. The introduction of the Andean potato (Solanum tuberosum) and Mesoamerican maize (Zea mays) dismantled this vulnerability. Potatoes yielded up to four times more caloric energy per acre than grain, thrived in acidic soils unsuited for wheat, and grew completely underground, insulating harvests from marauding armies and inclement weather.\n\nThe widespread cultivation of American cultigens stabilized European food supplies and catalyzed an unprecedented demographic surge. Nutritional improvements reduced infant mortality and elevated adult longevity, providing the abundant urban labor supply that subsequently propelled the Industrial Revolution. Concurrently, sweet potatoes and maize diffused throughout Qing-dynasty China, enabling farmers to cultivate arid hillsides and sparking a tripling of the Chinese population between 1650 and 1800.",
+    "question": "The word 'contingent' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "unrelated",
+      "B": "destructive",
+      "C": "perpetual",
+      "D": "dependent"
+    },
+    "correct_answer": "D",
+    "clue_type": "Collocation & Contextual Logic",
+    "clue_signal": "subsistence was precarious and heavily contingent upon volatile cereal grain harvests. Rye, wheat, and barley crops were notoriously susceptible...",
+    "explanation": {
+      "meaning": "'Contingent (upon)' là tính từ đi kèm giới từ 'upon/on' mang nghĩa phụ thuộc vào, chịu sự chi phối và quyết định của một yếu tố khác.",
+      "substitution": "Thế chỗ: 'heavily dependent upon volatile cereal grain harvests' (phụ thuộc chặt chẽ vào các vụ mùa ngũ cốc thất thường) làm rõ mối nguy cơ bấp bênh của nông dân.",
+      "trap_breakdown": {
+        "A": "unrelated (không liên quan) — Bẫy trái nghĩa: Đời sống nông dân phụ thuộc trực tiếp vào mùa màng.",
+        "B": "destructive (có tính hủy diệt) — Bẫy liên tưởng nạn đói.",
+        "C": "perpetual (vĩnh viễn) — Bẫy thời gian."
+      },
+      "synonyms": [
+        "dependent",
+        "conditional",
+        "reliant",
+        "subordinate"
+      ]
+    }
+  },
+  {
+    "id": "vic_76",
+    "title": "Aerodynamic Instabilities in Long-Span Suspension Bridges",
+    "topic": "Structural Engineering & Aeroelasticity",
+    "target_word": "surmounted",
+    "paragraph_index": 2,
+    "passage": "The evolution of long-span suspension bridge engineering represents a continuous negotiation between material tensile capacity and aerodynamic forces. During the early nineteenth century, pioneering engineers like Thomas Telford constructed monumental chain-hung spans such as the Menai Suspension Bridge. However, early designers primarily analyzed bridges under static gravitational loads—such as vehicular weight and pedestrian traffic—frequently disregarding dynamic wind-induced vibrations, leading to numerous catastrophic bridge failures during moderate gale storms.\n\nModern structural engineering surmounted these aerodynamic vulnerabilities through rigorous computational wind-tunnel testing and truss stiffening. When the Tacoma Narrows Bridge collapsed in 1940 due to self-exciting torsional flutter induced by modest forty-mile-per-hour winds, engineers realized that shallow plate girders acted like airplane wings, amplifying aerodynamic turbulence. Subsequent bridge designs incorporated deep, open-web stiffening trusses and aerodynamically streamlined hollow steel box girders that permit crosswinds to pass cleanly through the structure without initiating destructive harmonic oscillation.\n\nToday, mega-spans like the 1915 Çanakkale Bridge in Turkey and the Akashi Kaikyo Bridge in Japan span distances exceeding two kilometers. By pairing deep aerodynamic deck profiles with tuned mass dampers that absorb kinetic oscillation, contemporary engineers construct ultra-long suspension spans capable of withstanding category-five typhoons and severe seismic displacements.",
+    "question": "The word 'surmounted' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "overcame",
+      "B": "exacerbated",
+      "C": "tolerated",
+      "D": "prolonged"
+    },
+    "correct_answer": "A",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "Modern structural engineering surmounted these aerodynamic vulnerabilities through rigorous... Subsequent bridge designs incorporated...",
+    "explanation": {
+      "meaning": "'Surmount' là ngoại động từ mang nghĩa khắc phục, vượt qua, giải quyết thành công một khó khăn hoặc rào cản kỹ thuật phức tạp.",
+      "substitution": "Thế chỗ: 'Modern structural engineering overcame these aerodynamic vulnerabilities' (Kỹ thuật kết cấu hiện đại đã khắc phục những điểm yếu khí động học này) làm nổi bật việc các kỹ sư giải quyết triệt để lỗi thiết kế cũ.",
+      "trap_breakdown": {
+        "B": "exacerbated (làm trầm trọng hơn) — Bẫy trái nghĩa: Kỹ thuật hiện đại khắc phục sự cố chứ không làm nó tồi tệ hơn.",
+        "C": "tolerated (chấp nhận/chịu đựng) — Bẫy mức độ: Kỹ sư chủ động loại bỏ lỗi chứ không cam chịu chấp nhận nó.",
+        "D": "prolonged (kéo dài) — Sai nghĩa."
+      },
+      "synonyms": [
+        "overcame",
+        "conquered",
+        "mastered",
+        "triumphed over"
+      ]
+    }
+  },
+  {
+    "id": "vic_77",
+    "title": "Stratospheric Sudden Warming and Polar Vortices",
+    "topic": "Atmospheric Science & Meteorology",
+    "target_word": "anomalous",
+    "paragraph_index": 2,
+    "passage": "During polar winter, persistent absence of solar insolation generates intense radiative cooling in the upper atmosphere, forming a massive pool of frigid air encircled by high-speed westerly winds known as the stratospheric polar vortex. Under typical winter conditions, this tight cyclonic vortex remains stable and centered over the Arctic Circle, effectively trapping freezing air masses within high latitudes.\n\nHowever, this regular atmospheric configuration is periodically disrupted by anomalous temperature surges termed sudden stratospheric warmings. Driven by planetary-scale Rossby waves propagating upward from the troposphere, energy transfers into the stratosphere, decelerating or reversing circumpolar winds. Within days, stratospheric temperatures over the North Pole can skyrocket by as much as fifty degrees Celsius. Such an atypical thermal spike shatters or displaces the polar vortex from its polar locus.\n\nThe destabilization of the stratospheric vortex has profound meteorological ramifications for mid-latitude weather. As the fractured vortex descends into the troposphere, the polar jet stream buckles into extreme undulating meanders. Frigid Arctic air plunges equatorward across North America and Eurasia, unleashing prolonged winter cold waves and heavy blizzards in regions accustomed to temperate winter climates.",
+    "question": "The word 'anomalous' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "predictable",
+      "B": "uniform",
+      "C": "atypical",
+      "D": "continuous"
+    },
+    "correct_answer": "C",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "However, this regular atmospheric configuration is periodically disrupted by anomalous temperature surges... Such an atypical thermal spike...",
+    "explanation": {
+      "meaning": "'Anomalous' là tính từ miêu tả hiện tượng bất thường, dị thường, lệch chuẩn so với trạng thái tự nhiên vốn có.",
+      "substitution": "Thế chỗ: 'periodically disrupted by atypical temperature surges' hoàn toàn đồng nghĩa với cụm từ 'Such an atypical thermal spike' xuất hiện ngay ở câu sau.",
+      "trap_breakdown": {
+        "A": "predictable (có thể đoán trước) — Bẫy trạng thái: Hiện tượng này xảy ra bất thường và khó dự báo dài hạn.",
+        "B": "uniform (đồng nhất) — Bẫy trái nghĩa.",
+        "D": "continuous (liên tục) — Bẫy tần suất: Hiện tượng này chỉ diễn ra định kỳ/đột ngột chứ không liên tục."
+      },
+      "synonyms": [
+        "atypical",
+        "abnormal",
+        "irregular",
+        "deviant"
+      ]
+    }
+  },
+  {
+    "id": "vic_78",
+    "title": "Subduction Volcanism and Magma Storage",
+    "topic": "Volcanology & Igneous Petrology",
+    "target_word": "dormant",
+    "paragraph_index": 2,
+    "passage": "Volcanic eruptions along destructive plate boundaries are fueled by the subduction of oceanic lithosphere into the underlying asthenosphere. As water-saturated oceanic crust and marine sediments plunge into high-pressure, high-temperature mantle regimes, hydrous minerals dehydrate. The released aqueous fluids infiltrate the overlying mantle wedge, lowering the solidus melting temperature of peridotite and triggering flux melting that generates buoyant basaltic magmas.\n\nThese ascending magmas stall in shallow crustal reservoirs, remaining dormant for decades or centuries between catastrophic paroxysms. During these prolonged quiescent intervals, the magma chamber cools and undergoes fractional crystallization, during which dense ferromagnesian minerals crystallize first and settle out. Residual liquid melts become progressively enriched in silica, dissolved volatiles, and water vapor, evolving into highly viscous, explosive dacitic and rhyolitic mushes.\n\nRecognizing that quiescent volcanoes are not extinct but merely accumulating pressure is crucial for hazard mitigation. When fresh pulses of mafic magma intrude into a stagnant magma chamber from below, sudden thermal rejuvenation remobilizes the crystalline mush and triggers volatile exsolution. The resulting rapid overpressurization can culminate in violent Plinian explosive eruptions, as witnessed at Mount Pinatubo in 1991.",
+    "question": "The word 'dormant' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "erupting",
+      "B": "inactive",
+      "C": "depleted",
+      "D": "turbulent"
+    },
+    "correct_answer": "B",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "remaining dormant for decades or centuries... During these prolonged quiescent intervals... quiescent volcanoes are not extinct...",
+    "explanation": {
+      "meaning": "'Dormant' trong địa chất học miêu tả núi lửa đang ngủ say, tạm thời ngừng hoạt động nhưng vẫn có khả năng bùng phát trở lại.",
+      "substitution": "Thế chỗ: 'remaining inactive for decades or centuries' khớp tuyệt đối với từ đồng nghĩa 'quiescent' (tĩnh lặng, bất hoạt) lặp lại ở câu kế tiếp.",
+      "trap_breakdown": {
+        "A": "erupting (đang phun trào) — Bẫy trái nghĩa hoàn toàn.",
+        "C": "depleted (cạn kiệt) — Bẫy trạng thái: Núi lửa ngủ không có nghĩa là nguồn magma đã cạn, nó vẫn đang tích tụ áp suất.",
+        "D": "turbulent (hỗn loạn) — Sai nghĩa."
+      },
+      "synonyms": [
+        "inactive",
+        "quiescent",
+        "latent",
+        "sleeping"
+      ]
+    }
+  },
+  {
+    "id": "vic_79",
+    "title": "Milankovitch Cycles and Pleistocene Glaciations",
+    "topic": "Paleoclimatology & Orbital Mechanics",
+    "target_word": "fluctuations",
+    "paragraph_index": 2,
+    "passage": "Throughout the Quaternary period, Earth experienced repeated oscillations between extensive glacial advances and warm interglacial epochs. Early geologists proposed diverse ad hoc mechanisms to explain these cyclical ice ages, including cosmic dust clouds occluding the solar system or dramatic shifts in atmospheric carbon dioxide. However, none of these early theories could account for the strict quasi-periodic pacing evident in paleoclimate records.\n\nThe definitive astronomical explanation was formulated by Serbian geophysicist Milutin Milankovitch, who demonstrated that cyclical fluctuations in Earth's orbital geometry modulate high-latitude summer insolation. Earth's orbit shifts from nearly circular to slightly elliptical over a 100,000-year eccentricity cycle. Simultaneously, the axial tilt, or obliquity, oscillates between 22.1 and 24.5 degrees over a 41,000-year cadence, while axial precession alters the timing of perihelion over 23,000-year cycles.\n\nMilankovitch realized that the decisive parameter for glacial inception was not winter temperature, but cool summer insolation around 65 degrees north latitude. When orbital configurations coincide to minimize northern summer radiation, winter snowfall fails to melt completely during the brief summer season. Accumulated snow reflects solar radiation via the high albedo feedback mechanism, initiating a self-reinforcing continental ice sheet expansion.",
+    "question": "The word 'fluctuations' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "constants",
+      "B": "interruptions",
+      "C": "stagnations",
+      "D": "variations"
+    },
+    "correct_answer": "D",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "cyclical fluctuations in Earth's orbital geometry... shifts from nearly circular to slightly elliptical... oscillates between...",
+    "explanation": {
+      "meaning": "'Fluctuation' là danh từ chỉ sự dao động, biến thiên, thay đổi lên xuống theo chu kỳ hoặc không đều đặn.",
+      "substitution": "Thế chỗ: 'cyclical variations in Earth's orbital geometry' làm nổi bật các biến đổi tuần hoàn về độ lệch tâm (eccentricity) và độ nghiêng trục (obliquity).",
+      "trap_breakdown": {
+        "A": "constants (hằng số, đại lượng cố định) — Bẫy trái nghĩa hoàn toàn.",
+        "B": "interruptions (sự gián đoạn) — Bẫy nhầm lẫn: Quỹ đạo thiên văn biến đổi liên tục chứ không bị cắt đứt đoạn.",
+        "C": "stagnations (sự đình trệ) — Bẫy trái nghĩa."
+      },
+      "synonyms": [
+        "variations",
+        "oscillations",
+        "alternations",
+        "shifts"
+      ]
+    }
+  },
+  {
+    "id": "vic_80",
+    "title": "Arthropod Stratification in Tropical Forest Canopies",
+    "topic": "Entomology & Tropical Ecology",
+    "target_word": "preponderance",
+    "paragraph_index": 2,
+    "passage": "Tropical rainforests harbor the greatest concentration of terrestrial biodiversity on Earth, with a significant fraction of species partitioned into vertical arboreal strata. Historically, ecological sampling of tropical forests was restricted to the forest understory, creating a skewed perspective on community architecture. The advent of canopy access cranes, single-rope climbing techniques, and canopy fogging in the 1980s opened the sunlit upper canopy to systematic ecological census.\n\nCanopy fogging studies revealed a stunning preponderance of arthropod species concentrated within the upper foliage. Biologist Terry Erwin's pioneering canopy collections in Panama and the Amazon basin revealed that coleopterans—beetles—comprised an overwhelming percentage of all arboreal insect biomass. Many herbivorous and fungivorous beetle species exhibited extreme host-tree specificity, residing exclusively within the micro-habitats provided by the crowns of individual canopy tree species.\n\nThis vertical stratification reflects sharp microclimatic gradients between the canopy and the forest floor. While the forest understory maintains stable temperatures, high relative humidity, and attenuated light, the upper canopy experiences intense solar radiation, desiccation stress, and high wind velocities. Canopy arthropods have evolved physiological adaptations, such as thickened cuticles and water-retention mechanisms, enabling them to exploit the dense foliage and abundant nectar resources of the high canopy.",
+    "question": "The word 'preponderance' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "majority",
+      "B": "dearth",
+      "C": "deficit",
+      "D": "rarity"
+    },
+    "correct_answer": "A",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "stunning preponderance of arthropod species... comprised an overwhelming percentage of all arboreal insect biomass...",
+    "explanation": {
+      "meaning": "'Preponderance' là danh từ chỉ sự chiếm ưu thế vượt trội về số lượng, phần lớn, tỷ trọng áp đảo của một nhóm đối tượng.",
+      "substitution": "Thế chỗ: 'revealed a stunning majority/dominance of arthropod species' khớp hoàn toàn với câu sau nói về 'an overwhelming percentage' (tỷ lệ phần trăm áp đảo).",
+      "trap_breakdown": {
+        "B": "dearth (sự khan hiếm) — Bẫy trái nghĩa hoàn toàn.",
+        "C": "deficit (sự thiếu hụt) — Bẫy trái nghĩa.",
+        "D": "rarity (sự hiếm có) — Bẫy nhầm lẫn: Côn trùng ở tầng tán rừng rậm rạp cực kỳ phong phú và áp đảo."
+      },
+      "synonyms": [
+        "majority",
+        "predominance",
+        "superiority in number",
+        "dominance"
+      ]
+    }
+  },
+  {
+    "id": "vic_81",
+    "title": "Transportation Infrastructure and Economic Integration",
+    "topic": "Developmental Economics & Economic History",
+    "target_word": "integral",
+    "paragraph_index": 2,
+    "passage": "In the study of economic development, the expansion of transportation infrastructure has long been recognized as a primary catalyst for regional market unification. In eighteenth-century North America and Western Europe, high overland freight costs confined commerce to localized hinterlands, as hauling heavy bulk goods over unpaved dirt roads quickly rendered long-distance sales economically unviable.\n\nThe construction of comprehensive canal systems and intercontinental railway networks was an integral component of nineteenth-century economic transformation. By reducing inland freight rates by up to ninety percent, rail trunk lines connected previously isolated agricultural frontiers directly to metropolitan manufacturing centers. Rather than merely accommodating existing trade, railroads actively stimulated agricultural settlement, specialization, and mass production, serving as an indispensable foundation for the emergence of modern corporate management.\n\nModern economic modeling corroborates the catalytic role of structural connectivity. Cross-country empirical evaluations demonstrate that investments in arterial highways, deepwater container ports, and high-speed freight corridors generate substantial positive externalities. Enhanced connectivity lowers inventory costs for manufacturers, expands labor market catchments for urban hubs, and integrates marginalized rural regions into global supply chains.",
+    "question": "The word 'integral' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "superfluous",
+      "B": "detrimental",
+      "C": "essential",
+      "D": "accidental"
+    },
+    "correct_answer": "C",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "integral component of nineteenth-century economic transformation... serving as an indispensable foundation...",
+    "explanation": {
+      "meaning": "'Integral' là tính từ miêu tả thành phần thiết yếu, cốt lõi, không thể thiếu để tạo nên sự hoàn chỉnh của một hệ thống.",
+      "substitution": "Thế chỗ: 'an essential component of nineteenth-century economic transformation' đồng nghĩa hoàn hảo với cụm từ 'an indispensable foundation' ở cuối đoạn.",
+      "trap_breakdown": {
+        "A": "superfluous (thừa thãi, không cần thiết) — Bẫy trái nghĩa hoàn toàn.",
+        "B": "detrimental (có hại) — Bẫy tác động: Giao thông đường sắt đem lại lợi ích khổng lồ.",
+        "D": "accidental (ngẫu nhiên) — Bẫy mục đích: Đây là quy hoạch chủ động có tính toán."
+      },
+      "synonyms": [
+        "essential",
+        "indispensable",
+        "vital",
+        "fundamental"
+      ]
+    }
+  },
+  {
+    "id": "vic_82",
+    "title": "Brunelleschi and the Florence Cathedral Dome",
+    "topic": "Renaissance Architecture & Structural Engineering",
+    "target_word": "culminated",
+    "paragraph_index": 2,
+    "passage": "By the early fifteenth century, the construction of the Cathedral of Santa Maria del Fiore in Florence had reached a legendary architectural stalemate. The cathedral's octagonal nave walls were completed, but the open crossing spanned forty-five meters, a chasm so vast that conventional timber centering was impossible. Building a wooden scaffolding structure from the cathedral floor would have required an entire forest of timber, and even then, wooden struts would have buckled under the immense deadweight of wet masonry.\n\nFilippo Brunelleschi resolved this engineering crisis through structural innovations that culminated in the largest masonry dome in history. Dispensing with temporary wooden scaffolding, Brunelleschi devised a self-supporting double-shell dome. He utilized a herringbone brick pattern (spinapesce) that distributed radial thrust horizontally across the octagonal perimeter during construction. Furthermore, embedded horizontal chains of stone and iron acted like barrel hoops, counteracting outward lateral tensile hoop stress and ensuring the dome remained structurally stable as it rose.\n\nThe completion of the Florence dome in 1436 marked the dawn of Renaissance architectural engineering. Brunelleschi not only revived classical Roman structural forms, such as the Pantheon's hemispherical geometry, but surpassed them through rigorous mathematical modeling and novel mechanical hoisting cranes. The soaring profile of the dome established a permanent visual icon for Florentine civic pride and transformed European cathedral design for centuries.",
+    "question": "The word 'culminated' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "commenced",
+      "B": "climaxed",
+      "C": "deteriorated",
+      "D": "stagnated"
+    },
+    "correct_answer": "B",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "structural innovations that culminated in the largest masonry dome in history... The completion of the Florence dome in 1436 marked...",
+    "explanation": {
+      "meaning": "'Culminate (in)' là nội động từ chỉ quá trình phát triển đạt đến đỉnh điểm, kết thúc thành công rực rỡ ở một kết quả tối thượng.",
+      "substitution": "Thế chỗ: 'structural innovations that climaxed in the largest masonry dome' (những cải tiến kết cấu đã đạt tới đỉnh cao là mái vòm xây bằng gạch lớn nhất lịch sử) làm nổi bật kỳ tích đỉnh cao của Brunelleschi.",
+      "trap_breakdown": {
+        "A": "commenced (bắt đầu) — Bẫy thời gian: Đây là kết quả đỉnh cao ở giai đoạn cuối chứ không phải lúc khởi đầu.",
+        "C": "deteriorated (xuống cấp) — Bẫy trái nghĩa.",
+        "D": "stagnated (đình trệ) — Bẫy nhầm lẫn với thế bế tắc trước đó."
+      },
+      "synonyms": [
+        "climaxed",
+        "peaked",
+        "concluded triumphantly",
+        "reached a zenith"
+      ]
+    }
+  },
+  {
+    "id": "vic_83",
+    "title": "Nomadic Pastoralism in the Eurasian Steppe",
+    "topic": "Anthropology & Cultural Geography",
+    "target_word": "arduous",
+    "paragraph_index": 2,
+    "passage": "The semi-arid grasslands of the Eurasian steppe, stretching from the Danube basin across Central Asia to Manchuria, represent one of the most demanding pastoral environments on the globe. Marked by extreme continental temperature swings, erratic precipitation, and severe winter blizzards known as dzhut, the steppe precluded sedentary crop agriculture. Human communities survived by adopting mobile pastoralism, domesticating horses, sheep, goats, and camels to exploit seasonal pasture flushes.\n\nPastoral nomadic lifeways necessitated arduous seasonal transhumance across vast geographical distances. In spring, pastoral clans moved herds away from sheltered winter river basins toward high-altitude mountain meadows, following the receding snowline to provide animals with tender, nutrient-rich grasses. These migrations involved transporting felt yurts, household goods, and children on heavy wooden ox-carts over treacherous mountain passes and swollen rivers. Family survival depended upon meticulous herd management, veterinary skill, and constant vigilance against wolf packs and rival raiding parties.\n\nThis high degree of mobility fostered unique socio-political structures among steppe societies. Because pastoral wealth consisted of mobile herds rather than fixed landed estates, pastoral clans formed flexible tribal confederations capable of rapid military mobilization. Under charismatic steppe leaders like Genghis Khan, nomadic cavalry exploited their superior equestrian agility and composite bow technology to forge the largest contiguous land empires in world history.",
+    "question": "The word 'arduous' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "strenuous",
+      "B": "tranquil",
+      "C": "fictional",
+      "D": "effortless"
+    },
+    "correct_answer": "A",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "necessitated arduous seasonal transhumance... over treacherous mountain passes and swollen rivers... constant vigilance against...",
+    "explanation": {
+      "meaning": "'Arduous' là tính từ miêu tả công việc, hành trình vô cùng gian nan, vất vả, đòi hỏi nỗ lực thể chất và sự kiên trì ghê gớm.",
+      "substitution": "Thế chỗ: 'necessitated strenuous/taxing seasonal transhumance' hoàn toàn khớp với chi tiết vượt đèo núi hiểm trở, lội qua sông dữ và dắt díu cả gia đình đi hàng ngàn cây số.",
+      "trap_breakdown": {
+        "B": "tranquil (yên bình, thanh thản) — Bẫy trái nghĩa hoàn toàn.",
+        "C": "fictional (hư cấu) — Bẫy hiện thực: Cuộc sống du mục là thực tế lịch sử khắc nghiệt.",
+        "D": "effortless (dễ dàng) — Bẫy trái nghĩa."
+      },
+      "synonyms": [
+        "strenuous",
+        "demanding",
+        "exhausting",
+        "burdensome"
+      ]
+    }
+  },
+  {
+    "id": "vic_84",
+    "title": "Alluvial Fan Hydrology and Traditional Irrigation",
+    "topic": "Hydrology & Historical Agriculture",
+    "target_word": "divert",
+    "paragraph_index": 2,
+    "passage": "In hyper-arid desert basins, agricultural civilization has historically depended upon the hydrological dynamics of alluvial fans. Formed where high-gradient mountain streams emerge from narrow canyons onto flat valley plains, alluvial fans consist of porous, sorting gravel and sand deposits. During spring snowmelt, torrential torrents rush down mountain gullies, carrying nutrient-rich silt while replenishing unconfined subterranean aquifers within the coarse fan matrix.\n\nAncient agriculturalists engineered sophisticated hydraulic networks to divert episodic surface torrents toward terraced agricultural plots. By constructing low-profile stone diversion weirs across ephemeral wash channels, farmers slowed discharge velocities without allowing sediment to clog canal intakes. These gravity-fed canal networks guided floodwaters laterally along gentle contour gradients, distributing seasonal runoff evenly across thirsty fields of barley, melons, and date palms before the water evaporated under the searing desert sun.\n\nIn addition to surface diversions, societies across Persia and the Turpan depression excavated subterranean filtration galleries known as qanats or karez. By tunneling horizontal adits into the saturated water table at the apex of alluvial fans, qanat builders captured clean groundwater, conveying it over tens of kilometers underground to prevent evaporative loss, sustaining thriving agricultural oases across millennia.",
+    "question": "The word 'divert' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "contaminate",
+      "B": "evaporate",
+      "C": "stagnate",
+      "D": "redirect"
+    },
+    "correct_answer": "D",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "engineered sophisticated hydraulic networks to divert episodic surface torrents... canal networks guided floodwaters laterally...",
+    "explanation": {
+      "meaning": "'Divert' là ngoại động từ chỉ hành động chuyển hướng, bẻ hướng dòng chảy của nước hoặc đường đi của một vật sang một hướng khác.",
+      "substitution": "Thế chỗ: 'hydraulic networks to redirect episodic surface torrents' khớp hoàn toàn với câu sau giải thích cách các kênh đào dẫn nước (guided floodwaters) chạy ngang dọc vào các thửa ruộng bậc thang.",
+      "trap_breakdown": {
+        "A": "contaminate (làm ô nhiễm) — Bẫy nước: Hệ thống thủy lợi dẫn nước sạch để tưới tiêu chứ không làm bẩn nước.",
+        "B": "evaporate (làm bốc hơi) — Bẫy môi trường sa mạc.",
+        "C": "stagnate (làm tù đọng) — Bẫy dòng chảy: Kênh dẫn dòng chảy liên tục chứ không để ứ đọng."
+      },
+      "synonyms": [
+        "redirect",
+        "reroute",
+        "channel",
+        "deflect"
+      ]
+    }
+  },
+  {
+    "id": "vic_85",
+    "title": "Proxemics and Nonverbal Social Norms",
+    "topic": "Sociolinguistics & Cultural Anthropology",
+    "target_word": "tacit",
+    "paragraph_index": 2,
+    "passage": "Human social communication extends far beyond verbal phonology and formal grammar. Interpersonal interactions are continuously structured by nonverbal codes, encompassing facial micro-expressions, kinesic gestures, and eye contact patterns. Anthropologist Edward T. Hall coined the term 'proxemics' to describe the systematic cultural regulation of interpersonal physical distance and territorial boundaries in face-to-face interaction.\n\nHall posited that spatial interaction is governed by tacit conventions that operate beneath conscious awareness. Members of a given culture internalize these spatial boundaries during childhood socialization without explicit verbal instruction. For example, North Americans typically maintain an informal 'personal distance' of about eighteen inches to four feet during casual conversations; an involuntary sense of discomfort or defensive posturing is instantly provoked if an interlocutor steps inside this invisible perimeter without intimate invitation.\n\nCrucially, proxemic boundaries vary systematically across divergent cultural traditions. What is perceived as respectful personal space in northern Europe may be interpreted as cold and aloof in Mediterranean or Latin American societies, where closer physical proximity and tactile contact are cultural norms. Cross-cultural miscommunications frequently arise not from grammatical errors, but from the unintentional violation of these implicit spatial expectations.",
+    "question": "The word 'tacit' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "explicit",
+      "B": "statutory",
+      "C": "unspoken",
+      "D": "ambivalent"
+    },
+    "correct_answer": "C",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "governed by tacit conventions that operate beneath conscious awareness... without explicit verbal instruction... implicit spatial expectations...",
+    "explanation": {
+      "meaning": "'Tacit' là tính từ miêu tả sự ngầm hiểu, không nói ra bằng lời nhưng ai cũng tự hiểu và ngầm tuân theo.",
+      "substitution": "Thế chỗ: 'governed by unspoken conventions that operate beneath conscious awareness' đối lập trực tiếp với 'explicit verbal instruction' (chỉ dẫn rõ ràng bằng lời nói) và đồng nghĩa với 'implicit' ở cuối đoạn.",
+      "trap_breakdown": {
+        "A": "explicit (rõ ràng, công khai bằng lời) — Bẫy trái nghĩa hoàn toàn.",
+        "B": "statutory (theo luật định) — Bẫy quy tắc: Quy tắc khoảng cách là chuẩn mực xã hội ngầm định, không phải luật viết trong sách.",
+        "D": "ambivalent (nước đôi, mâu thuẫn) — Sai nghĩa."
+      },
+      "synonyms": [
+        "unspoken",
+        "implicit",
+        "unexpressed",
+        "understood without words"
+      ]
+    }
+  },
+  {
+    "id": "vic_86",
+    "title": "Seed Dispersal and Weedy Plant Evolution",
+    "topic": "Agricultural Botany & Ecology",
+    "target_word": "inadvertently",
+    "paragraph_index": 2,
+    "passage": "The origin of agricultural crop domesticates has traditionally been conceptualized as an intentional, deliberate human invention. Early farmers are assumed to have systematically selected wild progenitors possessing desirable traits, such as non-shattering seed heads, larger grain sizes, and reduced chemical toxicity. However, evolutionary biologists increasingly recognize that crop evolution was accompanied by the parallel co-evolution of agricultural weed communities.\n\nAs Neolithic farmers tilled soil and hand-harvested grain, they inadvertently created an unprecedented ecological niche tailored to weedy opportunists. Plants capable of mimicking crop phenotypes survived winnowing and seed sorting, a co-evolutionary process known as Vavilovian mimicry. For instance, wild rye (Secale cereale) initially grew as a noxious weed within wheat and barley fields in southwest Asia. Because its seeds were harvested, stored, and re-sown alongside domesticated cereals, rye evolved larger grains and tougher rachises purely through unintended human selection.\n\nWhen agricultural expansion carried wheat cultivation northward into cold, acidic European soils where wheat struggled to germinate, the rye mimics demonstrated superior cold hardiness. European farmers gradually recognized the value of the weed, actively adopting rye as an independent secondary domesticate. This evolutionary sequence illustrates that human agency in shaping planetary biomes frequently operates through unintended selective feedbacks.",
+    "question": "The word 'inadvertently' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "deliberately",
+      "B": "unintentionally",
+      "C": "scrupulously",
+      "D": "maliciously"
+    },
+    "correct_answer": "B",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "they inadvertently created an unprecedented ecological niche... purely through unintended human selection... unintended selective feedbacks...",
+    "explanation": {
+      "meaning": "'Inadvertently' là trạng từ mang nghĩa vô tình, không cố ý, ngoài ý muốn, do sơ ý hoặc không nhận biết trước được hậu quả.",
+      "substitution": "Thế chỗ: 'they unintentionally created an unprecedented ecological niche' đồng nghĩa tuyệt đối với các cụm từ lặp lại sau đó như 'unintended human selection' và 'unintended selective feedbacks'.",
+      "trap_breakdown": {
+        "A": "deliberately (có chủ ý, cố tình) — Bẫy trái nghĩa hoàn toàn với unintended.",
+        "C": "scrupulously (tỉ mỉ, cẩn trọng) — Bẫy phương pháp.",
+        "D": "maliciously (ác ý, hiểm độc) — Bẫy động cơ: Nông dân chỉ làm ruộng chứ không có ý hại mùa màng."
+      },
+      "synonyms": [
+        "unintentionally",
+        "accidentally",
+        "unwittingly",
+        "involuntarily"
+      ]
+    }
+  },
+  {
+    "id": "vic_87",
+    "title": "Visual Saliency and Cognitive Ergonomics",
+    "topic": "Cognitive Psychology & Ergonomics",
+    "target_word": "salient",
+    "paragraph_index": 2,
+    "passage": "In complex, data-saturated environments—such as aviation cockpits, nuclear power control consoles, and surgical operating rooms—human operators must monitor dozens of dynamic visual displays simultaneously. Cognitive psychology has demonstrated that visual attention is not distributed uniformly across visual fields; rather, it is heavily constrained by human working memory limits and selective attentional bottlenecks.\n\nTo optimize safety, interface designers exploit bottom-up attentional capture by rendering critical alert indicators visually salient. Bottom-up saliency is driven by preattentive visual features that involuntarily grab human foveal fixation within milliseconds, regardless of conscious operator intent. Displays that employ sharp chromatic contrasts, rapid flashing rates, or abrupt luminance increases immediately stand out against neutral, cluttered backgrounds, bypassing cognitive fatigue and directing operator gaze toward urgent mechanical faults.\n\nHowever, cognitive ergonomists caution against the excessive proliferation of salient alarms. When multiple non-critical indicators simultaneously flash and emit acoustic warnings during an emergency, operators experience 'alarm fatigue.' Instead of clarifying operational threats, overwhelming sensory clutter induces cognitive tunneling, causing operators to misdiagnose system failures or overlook subtle primary causes.",
+    "question": "The word 'salient' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "prominent",
+      "B": "imperceptible",
+      "C": "subordinate",
+      "D": "antiquated"
+    },
+    "correct_answer": "A",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "rendering critical alert indicators visually salient... immediately stand out against neutral, cluttered backgrounds...",
+    "explanation": {
+      "meaning": "'Salient' là tính từ chỉ đặc điểm nổi bật, dễ thấy nhất, lập tức thu hút ánh nhìn hoặc sự chú ý của mọi người.",
+      "substitution": "Thế chỗ: 'rendering critical alert indicators visually prominent/conspicuous' khớp hoàn toàn với câu sau nói về việc các đèn tín hiệu 'immediately stand out' (ngay lập tức nổi bật bật lên trên nền trung tính).",
+      "trap_breakdown": {
+        "B": "imperceptible (không thể nhận thấy) — Bẫy trái nghĩa hoàn toàn.",
+        "C": "subordinate (phụ thuộc, thứ yếu) — Bẫy vị trí.",
+        "D": "antiquated (cổ xưa, lạc hậu) — Sai nghĩa."
+      },
+      "synonyms": [
+        "prominent",
+        "conspicuous",
+        "noticeable",
+        "striking"
+      ]
+    }
+  },
+  {
+    "id": "vic_88",
+    "title": "Morphogen Gradients and Embryonic Patterning",
+    "topic": "Developmental Biology & Genetics",
+    "target_word": "manifest",
+    "paragraph_index": 2,
+    "passage": "A foundational dilemma in developmental biology is how a single fertilized zygote, possessing an identical genomic sequence in all daughter cells, differentiates into specialized tissues arranged along precise anatomical body axes. In multicellular organisms, spatial pattern formation is orchestrated by signaling molecules known as morphogens. Secreted from localized embryonic organizing centers, morphogens diffuse through extracellular matrices to establish continuous concentration gradients across developing tissues.\n\nResponding cells translate these quantitative molecular gradients into distinct, discrete phenotypic patterns that manifest as specialized organs. According to Lewis Wolpert's classic 'French flag' model, target cells possess distinct biochemical activation thresholds for gene expression. Cells located proximate to the source encounter high morphogen concentrations, triggering one specific gene program; cells at intermediate distances activate a different genetic cascade, while distant cells remain uninduced. As a consequence, continuous chemical gradients become visually apparent in distinct stripes of differentiated cell types.\n\nThe bicoid protein gradient in Drosophila melanogaster embryos exemplifies this morphogenetic mechanism. Synthesized from maternal mRNA localized at the anterior egg pole, bicoid protein diffuses posteriorly, creating an exponential concentration slope. High anterior bicoid concentrations activate transcription factors that induce head and thoracic segments, ensuring that body appendages develop in their correct anatomical orientations.",
+    "question": "The word 'manifest' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "dissipate",
+      "B": "conceal",
+      "C": "appear",
+      "D": "stagnate"
+    },
+    "correct_answer": "C",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "phenotypic patterns that manifest as specialized organs... continuous chemical gradients become visually apparent in distinct stripes...",
+    "explanation": {
+      "meaning": "'Manifest' là nội/ngoại động từ có nghĩa là biểu hiện ra, hiện rõ, hiển lộ, trở nên dễ thấy và quan sát được.",
+      "substitution": "Thế chỗ: 'phenotypic patterns that appear/reveal themselves as specialized organs' khớp hoàn hảo với câu sau: 'become visually apparent in distinct stripes' (trở nên hiện rõ trước mắt thành các dải tế bào biệt hóa).",
+      "trap_breakdown": {
+        "A": "dissipate (tiêu tan, biến mất) — Bẫy trái nghĩa: Hóa chất khuếch tán nhưng mô hình cơ quan biểu lộ rõ ràng.",
+        "B": "conceal (che giấu) — Bẫy trái nghĩa hoàn toàn.",
+        "D": "stagnate (đình trệ) — Sai nghĩa."
+      },
+      "synonyms": [
+        "appear",
+        "emerge",
+        "materialize",
+        "become evident"
+      ]
+    }
+  },
+  {
+    "id": "vic_89",
+    "title": "Canyon Incision and Bedrock Knickpoints",
+    "topic": "Geomorphology & Fluvial Processes",
+    "target_word": "precipitous",
+    "paragraph_index": 2,
+    "passage": "The landscape evolution of mountainous river catchments is driven by the dynamic competition between tectonic rock uplift and fluvial canyon incision. When tectonic plates collide, the rapid elevation of mountain blocks steepens river channel gradients. Water flowing down these amplified slopes accelerates, increasing shear stress against the riverbed and scouring away alluvial sedimentary cover to expose resistant bedrock to mechanical abrasion.\n\nWhere river channels cross resistant geological rock strata or fault escarpments, channel profiles develop precipitous drops known as knickpoints or waterfalls. Because kinetic energy and hydraulic cavitation are concentrated at the waterfall lip, rapid erosion undercuts the base of the resistant ledge, causing the cliff face to collapse. This upstream migration of knickpoints acts as an erosional wave, carving deep, narrow gorges and steadily propagating the incision signal throughout the entire tributary network.\n\nOver millions of years, the Grand Canyon of the Colorado River was incised through this coupled tectonic-fluvial process. As the Colorado Plateau was gradually elevated by mantle buoyancy, the Colorado River incised vertically through nearly two kilometers of Paleozoic and Precambrian rock strata, providing a breathtaking vertical cross-section of Earth's geological history.",
+    "question": "The word 'precipitous' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "gradual",
+      "B": "horizontal",
+      "C": "subterranean",
+      "D": "steep"
+    },
+    "correct_answer": "D",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "develop precipitous drops known as knickpoints or waterfalls... causing the cliff face to collapse... carving deep, narrow gorges...",
+    "explanation": {
+      "meaning": "'Precipitous' là tính từ miêu tả độ dốc đứng, hiểm trở như vách đá đứng, dốc dựng đứng hoặc tụt dốc đột ngột.",
+      "substitution": "Thế chỗ: 'develop steep drops known as knickpoints or waterfalls' hoàn toàn chuẩn xác khi nói về các thác nước và vách đá dựng đứng của hẻm núi (canyon/gorge).",
+      "trap_breakdown": {
+        "A": "gradual (thoai thoải, từ từ) — Bẫy trái nghĩa hoàn toàn với vách thác nước dựng đứng.",
+        "B": "horizontal (nằm ngang) — Bẫy hình học: Dòng sông rơi thẳng đứng xuống.",
+        "C": "subterranean (dưới lòng đất) — Bẫy nhầm lẫn địa chất."
+      },
+      "synonyms": [
+        "steep",
+        "sheer",
+        "vertical",
+        "abrupt"
+      ]
+    }
+  },
+  {
+    "id": "vic_90",
+    "title": "Ribosomes and the RNA World Hypothesis",
+    "topic": "Biochemistry & Molecular Evolution",
+    "target_word": "indispensable",
+    "paragraph_index": 2,
+    "passage": "In all extant cellular life, the translation of genetic code into functional proteins is performed by the ribosome, a massive ribonucleoprotein complex comprising both ribosomal RNA (rRNA) and associated structural proteins. For decades after the elucidation of the central dogma of molecular biology, researchers debated whether the catalytic peptidyl transferase activity—the formation of peptide bonds between amino acids—was mediated by ribosomal proteins or RNA.\n\nThe crystallographic resolution of the atomic structure of the bacterial ribosome in 2000 settled this foundational debate, establishing that RNA is the indispensable catalytic core of translation. Biochemist Thomas Steitz demonstrated that the catalytic peptidyl transferase center of the large ribosomal subunit is composed entirely of ribosomal RNA; no protein side chains are situated within eighteen angstroms of the active site. The ribosome is fundamentally a ribozyme, relying on proteins merely to stabilize its folded tertiary architecture.\n\nThis structural discovery provides compelling support for the RNA world hypothesis, which posits that early biological evolution relied on RNA to perform both genetic information storage and enzymatic catalysis before the evolutionary divergence of DNA and protein enzymes. The fact that the most fundamental metabolic process in cellular life—protein synthesis—is catalyzed by ancient catalytic RNA represents an enduring molecular fossil.",
+    "question": "The word 'indispensable' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "expendable",
+      "B": "essential",
+      "C": "supplementary",
+      "D": "provisional"
+    },
+    "correct_answer": "B",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "RNA is the indispensable catalytic core of translation... composed entirely of ribosomal RNA; no protein side chains are situated...",
+    "explanation": {
+      "meaning": "'Indispensable' là tính từ chỉ một thành phần thiết yếu, tối quan trọng, không thể thiếu, không thể thay thế được.",
+      "substitution": "Thế chỗ: 'RNA is the essential/vital catalytic core of translation' khớp hoàn toàn với câu sau khẳng định trung tâm xúc tác tạo liên kết peptide được cấu tạo hoàn toàn bởi rRNA.",
+      "trap_breakdown": {
+        "A": "expendable (có thể bỏ đi được) — Bẫy trái nghĩa hoàn toàn.",
+        "C": "supplementary (bổ sung, phụ thêm) — Bẫy vai trò: RNA đóng vai trò chính, còn protein mới là thành phần hỗ trợ cấu trúc.",
+        "D": "provisional (tạm thời) — Bẫy thời gian."
+      },
+      "synonyms": [
+        "essential",
+        "vital",
+        "crucial",
+        "irreplaceable"
+      ]
+    }
+  },
+  {
+    "id": "vic_91",
+    "title": "Bacterial Resistance and Penicillin Discovery",
+    "topic": "History of Medicine & Microbiology",
+    "target_word": "stymied",
+    "paragraph_index": 2,
+    "passage": "Alexander Fleming's accidental discovery of penicillin in 1928 marked the dawn of the antibiotic era. Observing that a contaminating Penicillium notatum mold had lysed adjacent Staphylococcus colonies on a Petri dish, Fleming recognized the therapeutic potential of the secreted antimicrobial metabolite. However, Fleming was an immunologist rather than an organic chemist, and his efforts to isolate the chemically unstable penicillin molecule from crude broth cultures were repeatedly frustrated.\n\nFor more than a decade, clinical utilization of penicillin was stymied by formidable chemical and technical hurdles. The penicillin molecule degraded rapidly in acidic solutions and decomposed when exposed to mild temperature increases, preventing pharmaceutical scale-up. It was not until 1940 that an interdisciplinary research team at Oxford University, led by Howard Florey and Ernst Chain, successfully extracted and stabilized penicillin via freeze-drying, demonstrating its curative efficacy against lethal streptococcal infections in mice.\n\nWorld War II catalyzed a massive Anglo-American industrial collaboration to mass-produce the antibiotic. American biochemical engineers perfected deep-tank submerged aerobic fermentation using corn steep liquor, scaling production from milligrams to billions of units within three years. Penicillin saved hundreds of thousands of Allied soldiers from wound sepsis, permanently transforming the clinical prognosis of bacterial infections worldwide.",
+    "question": "The word 'stymied' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "thwarted",
+      "B": "accelerated",
+      "C": "subsidized",
+      "D": "corroborated"
+    },
+    "correct_answer": "A",
+    "clue_type": "Contrast & Opposition",
+    "clue_signal": "was stymied by formidable chemical and technical hurdles... degraded rapidly... It was not until 1940 that... successfully extracted...",
+    "explanation": {
+      "meaning": "'Stymie' là ngoại động từ chỉ việc làm cản trở, chặn đứng, làm bế tắc hoặc ngăn trở sự phát triển của một tiến trình.",
+      "substitution": "Thế chỗ: 'clinical utilization of penicillin was thwarted/impeded by formidable chemical hurdles' làm nổi bật tình trạng suốt hơn 10 năm thuốc bị bế tắc không thể đưa vào sử dụng.",
+      "trap_breakdown": {
+        "B": "accelerated (tăng tốc) — Bẫy trái nghĩa: Việc sản xuất bị đình trệ kéo dài hơn một thập kỷ.",
+        "C": "subsidized (được trợ giá/tài trợ) — Bẫy tài chính.",
+        "D": "corroborated (được chứng minh xác thực) — Sai nghĩa."
+      },
+      "synonyms": [
+        "thwarted",
+        "impeded",
+        "blocked",
+        "hindered"
+      ]
+    }
+  },
+  {
+    "id": "vic_92",
+    "title": "Groupthink and Conformity in Decision-Making",
+    "topic": "Social Psychology & Organizational Behavior",
+    "target_word": "cohesive",
+    "paragraph_index": 2,
+    "passage": "In organizational psychology, the quality of decision-making within small leadership councils has profound consequences for policy outcomes. Classic economic rationality assumes that groups make superior decisions compared to isolated individuals, as diverse members contribute complementary expertise, identify blind spots, and critically debate proposed policies. However, social psychologist Irving Janis discovered that under specific conditions, small groups exhibit profound cognitive dysfunctions.\n\nJanis coined the term 'groupthink' to describe the mode of thinking that occurs when a highly cohesive group prioritizes unanimity and social harmony over realistic appraisal of alternative courses of action. When members possess strong mutual loyalty and an intense desire for collective consensus, individuals suppress personal doubts and withhold dissenting viewpoints. Self-appointed 'mindguards' actively shield leaders from divergent external information, while an illusion of invulnerability fosters excessive, uncritical risk-taking.\n\nHistorical fiascoes, such as the 1961 Bay of Pigs invasion and the 1986 Space Shuttle Challenger launch decision, demonstrate the perilous consequences of groupthink. In both cases, high-stakes decisions were made by close-knit committees that systematically ignored glaring warning signs. Modern organizations mitigate groupthink by appointing formal 'devil's advocates' tasked with vigorously challenging consensus assumptions.",
+    "question": "The word 'cohesive' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "fragmented",
+      "B": "antagonistic",
+      "C": "unified",
+      "D": "disorganized"
+    },
+    "correct_answer": "C",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "highly cohesive group prioritizes unanimity and social harmony... strong mutual loyalty and an intense desire for collective consensus...",
+    "explanation": {
+      "meaning": "'Cohesive' là tính từ miêu tả sự gắn kết chặt chẽ, đoàn kết, thống nhất cao độ giữa các thành viên trong một tập thể.",
+      "substitution": "Thế chỗ: 'when a highly unified/close-knit group prioritizes unanimity' khớp hoàn hảo với các biểu hiện 'strong mutual loyalty' và 'collective consensus'.",
+      "trap_breakdown": {
+        "A": "fragmented (bị chia rẽ, phân mảnh) — Bẫy trái nghĩa hoàn toàn.",
+        "B": "antagonistic (thù địch, đối kháng) — Bẫy trái nghĩa.",
+        "D": "disorganized (vô tổ chức) — Bẫy nhầm lẫn: Nhóm này rất kỷ luật và gắn bó."
+      },
+      "synonyms": [
+        "unified",
+        "close-knit",
+        "tightly knit",
+        "integrated"
+      ]
+    }
+  },
+  {
+    "id": "vic_93",
+    "title": "Norman Borlaug and the Green Revolution",
+    "topic": "Agronomy & Agricultural History",
+    "target_word": "fostered",
+    "paragraph_index": 2,
+    "passage": "During the mid-twentieth century, widespread demographic growth across developing nations in Asia and Latin America raised catastrophic fears of global famine. Conventional cereal crop varieties were poorly suited to modern intensive agriculture. When traditional tall-stalked wheat and rice strains were treated with synthetic nitrogen fertilizers, they produced heavy seed heads that caused the spindly stems to bend and collapse to the ground—a fatal condition known as lodging—destroying the crop before harvest.\n\nPlant geneticist Norman Borlaug fostered a revolution in agricultural yield by breeding semi-dwarf wheat cultivars. Working in Mexico, Borlaug cross-bred Japanese dwarf wheat varieties with high-yielding American strains to incorporate dwarfing genes. These semi-dwarf plants developed thick, rigid stalks that supported massive, fertilizer-boosted grain heads without lodging. Furthermore, Borlaug practiced 'shuttle breeding,' growing two successive generations per year in divergent Mexican latitudes, which inadvertently selected for photoperiod-insensitive strains capable of thriving across global climates.\n\nThe global diffusion of Borlaug's semi-dwarf wheat and parallel IR8 semi-dwarf rice varieties averted predicted mass starvation, enabling India and Pakistan to achieve agricultural self-sufficiency by the 1970s. However, the Green Revolution also generated long-term ecological consequences, including excessive groundwater depletion, soil salinization from intensive irrigation, and pesticide accumulation in agricultural runoff.",
+    "question": "The word 'fostered' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "curbed",
+      "B": "cultivated",
+      "C": "suppressed",
+      "D": "simulated"
+    },
+    "correct_answer": "B",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "Borlaug fostered a revolution in agricultural yield by breeding semi-dwarf wheat cultivars... Working in Mexico, Borlaug cross-bred...",
+    "explanation": {
+      "meaning": "'Foster' là ngoại động từ chỉ hành động bồi đắp, nuôi dưỡng, ươm mầm, thúc đẩy sự hình thành và phát triển của một phong trào hay thành tựu.",
+      "substitution": "Thế chỗ: 'Norman Borlaug cultivated/promoted a revolution in agricultural yield' (Norman Borlaug đã tạo dựng/thúc đẩy cuộc cách mạng về năng suất nông nghiệp) làm nổi bật công trình lai tạo giống của ông.",
+      "trap_breakdown": {
+        "A": "curbed (kìm hãm) — Bẫy trái nghĩa.",
+        "C": "suppressed (đàn áp, triệt tiêu) — Bẫy trái nghĩa.",
+        "D": "simulated (mô phỏng) — Bẫy thí nghiệm: Đây là thành tựu lai tạo thực tế trên đồng ruộng."
+      },
+      "synonyms": [
+        "cultivated",
+        "promoted",
+        "nurtured",
+        "encouraged"
+      ]
+    }
+  },
+  {
+    "id": "vic_94",
+    "title": "Germline Gene Editing and Evolutionary Ethics",
+    "topic": "Bioethics & Molecular Genetics",
+    "target_word": "preclude",
+    "paragraph_index": 2,
+    "passage": "The advent of precision genomic editing tools, most notably the CRISPR-Cas9 endonuclease system, has transformed biomedical science. By utilizing short synthetic guide RNAs to direct bacterial endonuclease enzymes to precise genomic loci, researchers can excise, modify, or insert specific nucleotide sequences with unprecedented efficiency. In somatic gene therapy, editing is confined to non-reproductive cells, offering prospective cures for monogenic disorders like sickle cell anemia without affecting future generations.\n\nIn contrast, human germline gene editing introduces heritable modifications that preclude natural genetic transmission in descendants. Modifying the DNA of early embryos, sperm, or oocytes ensures that altered alleles are incorporated into every subsequent cell of the adult organism and transmitted indefinitely down the biological lineage. Bioethicists warn that off-target cleavage events could introduce inadvertent mutagenic lesions that become permanently embedded within the human gene pool, with unforeseen multigenerational consequences.\n\nFurthermore, the prospect of germline enhancement—editing genomes not merely to eliminate debilitating genetic pathologies, but to enhance cognitive, physical, or longevity phenotypes—raises profound sociological concerns. If expensive genetic enhancements are commodified, existing socio-economic inequalities could become biologically entrenched, creating genetically stratified castes and dismantling fundamental democratic principles of human equality.",
+    "question": "The word 'preclude' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "reinforce",
+      "B": "accelerate",
+      "C": "emulate",
+      "D": "prevent"
+    },
+    "correct_answer": "D",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "introduces heritable modifications that preclude natural genetic transmission... altered alleles are incorporated into every subsequent cell... transmitted indefinitely...",
+    "explanation": {
+      "meaning": "'Preclude' là ngoại động từ trang trọng mang nghĩa ngăn cản, ngăn ngừa từ trước, loại trừ khả năng xảy ra của một sự việc.",
+      "substitution": "Thế chỗ: 'modifications that prevent/rule out natural genetic transmission' (những biến đổi ngăn chặn việc truyền tải di truyền tự nhiên) nhấn mạnh việc can thiệp nhân tạo thay thế hoàn toàn tiến trình sinh sản tự nhiên.",
+      "trap_breakdown": {
+        "A": "reinforce (củng cố) — Bẫy trái nghĩa: Can thiệp nhân tạo loại bỏ gene tự nhiên chứ không củng cố nó.",
+        "B": "accelerate (tăng tốc) — Bẫy nhầm lẫn.",
+        "C": "emulate (mô phỏng, bắt chước) — Sai nghĩa."
+      },
+      "synonyms": [
+        "prevent",
+        "rule out",
+        "hinder",
+        "bar"
+      ]
+    }
+  },
+  {
+    "id": "vic_95",
+    "title": "Long-Term Potentiation and Memory Consolidation",
+    "topic": "Neurobiology & Memory Science",
+    "target_word": "conducive",
+    "paragraph_index": 2,
+    "passage": "At the cellular level, memory formation and long-term retention are encoded through changes in the efficacy of synaptic transmission between neurons. In 1949, psychologist Donald Hebb postulated that when an axon of cell A repeatedly and persistently stimulates cell B, metabolic or structural growth processes occur that increase the functional strength of their connection—an insight colloquially summarized as 'cells that fire together, wire together.'\n\nElectrophysiologists verified Hebb's hypothesis by discovering long-term potentiation (LTP) in the mammalian hippocampus, demonstrating that high-frequency stimulation creates environments conducive to enhanced synaptic transmission. During high-frequency tetanic stimulation, prolonged postsynaptic depolarization expels magnesium ions that normally block NMDA-type glutamate receptors. Calcium ions subsequently flood into the dendritic spine, triggering intracellular signaling cascades that insert additional AMPA receptors into the postsynaptic membrane, substantially amplifying future synaptic sensitivity.\n\nMemory consolidation over extended timescales requires transforming early, transient LTP into late-phase permanent structural remodeling. Calcium influx stimulates nuclear gene transcription, synthesizing new scaffolding proteins and neurotrophic factors that physically enlarge dendritic spines and form new synaptic boutons. Pharmacological agents that inhibit protein synthesis block late-phase LTP, leaving experimental subjects capable of short-term learning but entirely unable to consolidate long-term memories.",
+    "question": "The word 'conducive' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "favorable",
+      "B": "hazardous",
+      "C": "indifferent",
+      "D": "detrimental"
+    },
+    "correct_answer": "A",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "creates environments conducive to enhanced synaptic transmission... substantially amplifying future synaptic sensitivity.",
+    "explanation": {
+      "meaning": "'Conducive (to)' là tính từ đi kèm giới từ 'to' chỉ môi trường hoặc điều kiện thuận lợi, có lợi, tạo điều kiện dễ dàng cho một kết quả tích cực xảy ra.",
+      "substitution": "Thế chỗ: 'creates environments favorable to enhanced synaptic transmission' (tạo môi trường thuận lợi cho việc tăng cường dẫn truyền xi-náp) khớp hoàn toàn với việc khuếch đại độ nhạy cảm của tế bào thần kinh.",
+      "trap_breakdown": {
+        "B": "hazardous (nguy hiểm) — Bẫy trái nghĩa.",
+        "C": "indifferent (thờ ơ, trung tính) — Bẫy trạng thái.",
+        "D": "detrimental (gây hại, bất lợi) — Bẫy trái nghĩa hoàn toàn."
+      },
+      "synonyms": [
+        "favorable",
+        "advantageous",
+        "beneficial",
+        "encouraging"
+      ]
+    }
+  },
+  {
+    "id": "vic_96",
+    "title": "Impact Cratering and Asteroid Dynamics",
+    "topic": "Planetary Geology & Meteoritics",
+    "target_word": "sporadic",
+    "paragraph_index": 2,
+    "passage": "The surface histories of terrestrial planetary bodies—Mercury, the Moon, and Mars—preserve an enduring record of hypervelocity impact cratering. Unlike Earth, where plate tectonics, hydrological erosion, and volcanic resurfacing rapidly obliterate ancient impact structures, the airless Moon displays craters ranging from microscopic pits to gigantic multiring impact basins spanning thousands of kilometers across.\n\nAstronomical monitoring of Near-Earth Objects (NEOs) demonstrates that while major asteroid impacts are sporadic over human timescales, collision events are inevitable over millions of years. Asteroid populations residing in the main asteroid belt between Mars and Jupiter are periodically nudged into resonance gaps by gravitational perturbations from Jupiter and the Yarkovsky thermal radiation effect. Once pushed into unstable orbital resonances, asteroid trajectories are deflected into Earth-crossing orbits, transforming them into potential terrestrial impactors.\n\nThe geological record preserves decisive evidence of catastrophic impacts shaping biological evolution. The Chicxulub impact 66 million years ago excavated a 180-kilometer crater in the Yucatán Peninsula, vaporizing sulfur-rich carbonate rocks and injecting vast aerosol clouds into the stratosphere. The ensuing global impact winter and darkness suppressed photosynthesis, triggering the end-Cretaceous mass extinction that terminated the reign of non-avian dinosaurs.",
+    "question": "The word 'sporadic' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "continuous",
+      "B": "catastrophic",
+      "C": "intermittent",
+      "D": "perpetual"
+    },
+    "correct_answer": "C",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "while major asteroid impacts are sporadic over human timescales, collision events are inevitable over millions of years... periodically nudged...",
+    "explanation": {
+      "meaning": "'Sporadic' là tính từ miêu tả hiện tượng xảy ra ngắt quãng, thỉnh thoảng, rải rác từng hồi không liên tục.",
+      "substitution": "Thế chỗ: 'while major asteroid impacts are intermittent/infrequent over human timescales' đối lập với mốc thời gian hàng triệu năm và khớp với từ nối 'periodically' (định kỳ, từng đợt).",
+      "trap_breakdown": {
+        "A": "continuous (liên tục) — Bẫy trái nghĩa: Thiên thạch lớn không đâm liên tục mà rất hiếm khi mới có một vụ.",
+        "B": "catastrophic (thảm khốc) — Bẫy liên tưởng: Va chạm thiên thạch có thể thảm khốc, nhưng từ sporadic nói về tần suất thời gian.",
+        "D": "perpetual (vĩnh viễn) — Bẫy thời gian."
+      },
+      "synonyms": [
+        "intermittent",
+        "infrequent",
+        "occasional",
+        "isolated"
+      ]
+    }
+  },
+  {
+    "id": "vic_97",
+    "title": "Sunk Cost Fallacy in Megaproject Management",
+    "topic": "Behavioral Economics & Project Management",
+    "target_word": "incurred",
+    "paragraph_index": 2,
+    "passage": "In neoclassical economics, rational choice theory dictates that capital allocation decisions must be evaluated strictly on forward-looking expectations of future marginal revenues and marginal costs. Historical expenditures that cannot be recovered—formalized as 'sunk costs'—are economically irrelevant to future operational decisions. Whether an enterprise has invested ten dollars or ten million dollars into an ongoing venture, rational actors should terminate unviable initiatives the moment projected future benefits fall below projected future completion costs.\n\nHowever, behavioral economists have documented that decision-makers frequently succumb to the sunk cost fallacy, pouring further capital into failing ventures solely to justify prior expenditures incurred. Human psychology exhibits intense loss aversion, leading project executives to perceive the cancellation of a project as an explicit admission of personal waste and failure. Consequently, organizations persist in constructing uneconomic infrastructure, justifying additional budget overruns by citing the massive financial outlays already committed to the endeavor.\n\nThis cognitive vulnerability is vividly illustrated by megaprojects such as the Anglo-French Concorde supersonic transport. Despite commercial forecasts demonstrating that the aircraft was economically uncompetitive due to excessive fuel consumption and restricted landing corridors, both governments continued financing the project for over a decade. By prioritizing psychological justification over empirical cost-benefit calculations, leadership committees repeatedly squander scarce institutional resources.",
+    "question": "The word 'incurred' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "reimbursed",
+      "B": "sustained",
+      "C": "anticipated",
+      "D": "waived"
+    },
+    "correct_answer": "B",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "prior expenditures incurred... the massive financial outlays already committed to the endeavor...",
+    "explanation": {
+      "meaning": "'Incur' là ngoại động từ chỉ hành động phải gánh chịu, chuốc lấy hoặc làm phát sinh (chi phí, nợ nần, tổn thất) do hậu quả của một hành động đã làm.",
+      "substitution": "Thế chỗ: 'justify prior expenditures sustained/experienced' đồng nghĩa với cụm 'financial outlays already committed' (các khoản chi tiêu tài chính đã đổ ra trước đó).",
+      "trap_breakdown": {
+        "A": "reimbursed (được hoàn tiền) — Bẫy trái nghĩa: Chi phí chìm là tiền đã mất, không bao giờ lấy lại được.",
+        "C": "anticipated (dự kiến trong tương lai) — Bẫy thời gian: Đây là chi phí đã phát sinh trong quá khứ.",
+        "D": "waived (được miễn trừ) — Sai nghĩa."
+      },
+      "synonyms": [
+        "sustained",
+        "experienced",
+        "contracted",
+        "brought upon oneself"
+      ]
+    }
+  },
+  {
+    "id": "vic_98",
+    "title": "Enhanced Geothermal Systems and Hydraulic Fracturing",
+    "topic": "Geothermal Engineering & Thermodynamics",
+    "target_word": "harness",
+    "paragraph_index": 1,
+    "passage": "Conventional geothermal power plants rely on hydrothermal reservoirs where groundwater is naturally heated by underlying magmatic bodies and trapped within permeable rock formations. By drilling production wells into these pressurized thermal pockets, engineers extract superheated steam to drive electric turbine generators. However, these naturally occurring, highly permeable hydrothermal reservoirs represent rare geological anomalies, restricted to volcanic rift zones like Iceland, New Zealand, and the western United States.\n\nTo overcome these geographical constraints, advanced energy engineers have developed Enhanced Geothermal Systems (EGS) to harness thermal energy stored within deep, impermeable crystalline basement rock. Vast reserves of hot dry rock exist several kilometers beneath virtually every continent, containing heat derived from the radioactive decay of uranium, thorium, and potassium. In an EGS installation, engineers drill deep injection boreholes into the hot granite and pump high-pressure water to re-open micro-fractures, artificially creating a subterranean heat exchanger.\n\nOnce fracture networks are engineered, chilled surface water is circulated down the injection well, traverses the fractured crystalline rock to absorb thermal energy, and ascends through production boreholes at temperatures exceeding two hundred degrees Celsius. By utilizing closed-loop binary cycle power plants that emit zero direct greenhouse gases, EGS offers the potential to provide continuous, baseload zero-carbon electricity independent of weather fluctuations.",
+    "question": "The word 'harness' in paragraph 1 is closest in meaning to:",
+    "options": {
+      "A": "utilize",
+      "B": "dissipate",
+      "C": "extinguish",
+      "D": "impede"
+    },
+    "correct_answer": "A",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "developed Enhanced Geothermal Systems (EGS) to harness thermal energy stored within... pump high-pressure water... to absorb thermal energy... to drive electric turbine generators...",
+    "explanation": {
+      "meaning": "'Harness' là ngoại động từ chỉ hành động khai thác, tận dụng và chuyển hóa một nguồn năng lượng tự nhiên thành dạng có ích cho con người.",
+      "substitution": "Thế chỗ: 'developed EGS to utilize/exploit thermal energy stored within deep rock' (phát triển hệ thống địa nhiệt nâng cao để khai thác/tận dụng nhiệt năng tiềm tàng trong lòng đất).",
+      "trap_breakdown": {
+        "B": "dissipate (làm tiêu tán, hao phí nhiệt) — Bẫy trái nghĩa: Kỹ sư muốn thu gom nhiệt chứ không làm thất thoát.",
+        "C": "extinguish (dập tắt) — Bẫy lửa.",
+        "D": "impede (cản trở) — Sai nghĩa."
+      },
+      "synonyms": [
+        "utilize",
+        "exploit",
+        "channel",
+        "make use of"
+      ]
+    }
+  },
+  {
+    "id": "vic_99",
+    "title": "Technological Determinism and the Printing Press",
+    "topic": "Historiography of Technology & Sociology",
+    "target_word": "relegated",
+    "paragraph_index": 2,
+    "passage": "In the historiography of media and culture, few innovations have attracted as much deterministic analysis as Johannes Gutenberg's invention of movable metal type around 1450. Early communication theorists, such as Marshall McLuhan, framed the printing press as an autonomous technological catalyst that single-handedly dismantled medieval feudal hierarchies, launched the Protestant Reformation, and gave birth to individualistic modern scientific thought.\n\nContemporary historians have challenged this technological determinism, arguing that early mechanical printing was initially relegated to established, conservative social functions. Gutenberg and his immediate successors did not seek to subvert institutional power; instead, early print shops produced Latin liturgical texts, papal indulgences, and scholastic theology designed to reinforce Catholic ecclesiastical authority. The visual typography of incunabula mimicked the scribal calligraphy of monastic scriptoria so closely that contemporary readers often could not distinguish printed codices from hand-illuminated manuscripts.\n\nScholars now emphasize that the transformational agency of the printing press was mediated through dynamic social, economic, and religious networks. It was only when vernacular writers, merchant guilds, and theological dissenters like Martin Luther recognized the polemical potential of inexpensive pamphlets that print technology functioned as a revolutionary force. Technology alone did not cause modernity; rather, historical actors mobilized machines to achieve specific ideological agendas.",
+    "question": "The word 'relegated' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "elevated",
+      "B": "liberated",
+      "C": "promoted",
+      "D": "assigned"
+    },
+    "correct_answer": "D",
+    "clue_type": "Contrast & Opposition",
+    "clue_signal": "early mechanical printing was initially relegated to established, conservative social functions. Gutenberg and his immediate successors did not seek to subvert... instead, produced Latin liturgical texts...",
+    "explanation": {
+      "meaning": "'Relegate (to)' là ngoại động từ chỉ việc hạ cấp, giáng chức, hoặc chỉ định, giới hạn một đối tượng vào một vai trò thứ yếu, khiêm tốn.",
+      "substitution": "Thế chỗ: 'printing was initially assigned/confined to established, conservative social functions' (nghề in ban đầu chỉ bị giới hạn/gán vào các chức năng bảo thủ quen thuộc) đối lập với vị thế cách mạng đảo lộn lịch sử được gán cho nó.",
+      "trap_breakdown": {
+        "A": "elevated (nâng cao vị thế) — Bẫy trái nghĩa hoàn toàn với relegate.",
+        "B": "liberated (giải phóng) — Bẫy tự do: Máy in ban đầu bị trói buộc phục vụ giáo hội.",
+        "C": "promoted (thăng cấp) — Bẫy trái nghĩa."
+      },
+      "synonyms": [
+        "assigned",
+        "confined",
+        "demoted",
+        "restricted"
+      ]
+    }
+  },
+  {
+    "id": "vic_100",
+    "title": "Channelization and Floodplain Ecology",
+    "topic": "Environmental History & Fluvial Geomorphology",
+    "target_word": "subjugated",
+    "paragraph_index": 2,
+    "passage": "Prior to modern industrial engineering, river corridors were dynamic, multithreaded ecosystems characterized by braided channels, oxbow lakes, and broad alluvial floodplains. Periodic seasonal inundations were an indispensable ecological pulse, depositing mineral-rich silts that rejuvenated floodplain soils and creating critical nursery habitats for migratory fish. Floodwaters naturally dissipated energy across wetlands, shielding downstream settlements from catastrophic surges.\n\nThroughout the nineteenth and twentieth centuries, civil engineers systematically subjugated natural river systems through aggressive channelization and levee construction. Rivers were treated as hydraulic drainage pipes to be straightened, deepened, and confined between concrete embankments to facilitate barge navigation and protect agricultural lands. Riparian forests were clear-cut, wetlands drained, and meanders severed by artificial cutoffs, transforming complex aquatic habitats into sterile, uniform flumes.\n\nThe ecological consequences of this structural subjugation have been catastrophic. Decoupled from their floodplains, straightened rivers flow at accelerated velocities, scouring riverbeds and exacerbating catastrophic downstream flooding when structural levees inevitably fail. Furthermore, the destruction of off-channel sloughs caused severe declines in freshwater mussel and amphibian populations. Contemporary river restoration now emphasizes 'giving rivers room,' selectively breaching levees to reconnect channels with ancestral floodplain ecosystems.",
+    "question": "The word 'subjugated' in paragraph 2 is closest in meaning to:",
+    "options": {
+      "A": "dominated",
+      "B": "emancipated",
+      "C": "restored",
+      "D": "neglected"
+    },
+    "correct_answer": "A",
+    "clue_type": "Definition & Restatement",
+    "clue_signal": "systematically subjugated natural river systems through aggressive channelization... treated as hydraulic drainage pipes to be straightened, deepened, and confined...",
+    "explanation": {
+      "meaning": "'Subjugate' là ngoại động từ chỉ hành động khuất phục, đàn áp, khống chế và bắt một đối tượng (hoặc tự nhiên) phải phục tùng hoàn toàn sự áp đặt của con người.",
+      "substitution": "Thế chỗ: 'systematically dominated/controlled natural river systems through aggressive channelization' làm rõ việc con người ép buộc các dòng sông tự nhiên phải chảy theo đường ống bê tông thẳng tắp.",
+      "trap_breakdown": {
+        "B": "emancipated (giải phóng) — Bẫy trái nghĩa hoàn toàn.",
+        "C": "restored (phục hồi) — Bẫy trái nghĩa: Đoạn 2 nói về việc phá hủy, đoạn 3 mới nói về phục hồi sinh thái.",
+        "D": "neglected (bỏ bê) — Bẫy hành vi: Kỹ sư can thiệp rất mạnh bạo chứ không hề bỏ bê."
+      },
+      "synonyms": [
+        "dominated",
+        "conquered",
+        "mastered",
+        "subdued"
       ]
     }
   }

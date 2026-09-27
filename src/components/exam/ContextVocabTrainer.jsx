@@ -530,9 +530,9 @@ export default function ContextVocabTrainer() {
             </div>
           </div>
 
-          {/* Chọn Chế Độ Set: 10, 25, 50 */}
+          {/* Chọn Chế Độ Set: 10, 25, 50, 100 */}
           <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-bold">
-            {[10, 25, 50].map((size) => (
+            {[10, 25, 50, 100].map((size) => (
               <button
                 key={size}
                 onClick={() => {
@@ -545,7 +545,7 @@ export default function ContextVocabTrainer() {
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                {size === 50 ? 'Full 50' : `${size} câu`}
+                {size >= 100 ? 'Full 100' : `${size} câu`}
               </button>
             ))}
           </div>

@@ -1686,8 +1686,8 @@ export async function seedContextVocabToSupabase(customItems = null) {
         await supabaseInstance
           .from('tests')
           .upsert({
-            id: 'context_vocab_master_bank_50',
-            title: 'TOEFL Vocabulary-in-Context Bank (50 Questions)',
+            id: 'context_vocab_master_bank_100',
+            title: 'TOEFL Vocabulary-in-Context Bank (100 Questions)',
             skill: 'context_vocab',
             task_type: 'context_vocab_drill',
             content: {
