@@ -2,6 +2,7 @@ import { jsonrepair } from 'jsonrepair';
 import { importBatchTests } from './supabase.js';
 import { getExamPrompt } from './examPrompts.js';
 import { TOEFL_SENTENCE_PATTERNS, matchPatternHeuristically } from '../data/sentencePatterns.js';
+import { callGroqChat, getGroqApiKeys, isGroqConfigured, GROQ_CHAT_MODELS } from './groq.js';
 
 // ====================================================================
 // GEMINI AI WRITING EVALUATION SERVICE (ETS TOEFL 2026 RUBRIC)
@@ -147,10 +148,10 @@ export function isOpenRouterConfigured() {
   return getOpenRouterApiKeys().length > 0;
 }
 
-// Kiểm tra xem đã cấu hình ít nhất 1 AI Provider (Gemini hoặc OpenRouter) chưa
+// Kiểm tra xem đã cấu hình ít nhất 1 AI Provider (Gemini, OpenRouter hoặc Groq) chưa
 export function isGeminiConfigured() {
   if (import.meta.env.PROD) return true; // Proxy server luôn có key trên Vercel
-  return getGeminiApiKeys().length > 0 || getOpenRouterApiKeys().length > 0;
+  return getGeminiApiKeys().length > 0 || getOpenRouterApiKeys().length > 0 || isGroqConfigured();
 }
 
 export function isAiConfigured() {
@@ -654,9 +655,10 @@ export async function generateGeminiJson(parts, systemInstruction = '', temperat
   // 2. Chế độ Localhost (hoặc fallback): gọi trực tiếp bằng key với thử ngẫu nhiên tối đa 3 lần
   const geminiKeys = getGeminiApiKeys();
   const openRouterKeys = getOpenRouterApiKeys();
+  const groqKeys = getGroqApiKeys();
 
-  if (geminiKeys.length === 0 && openRouterKeys.length === 0) {
-    throw new Error('Chưa cấu hình API Key (Gemini hoặc OpenRouter trong .env.local hoặc Cài đặt).');
+  if (geminiKeys.length === 0 && openRouterKeys.length === 0 && groqKeys.length === 0) {
+    throw new Error('Chưa cấu hình API Key (Gemini, OpenRouter hoặc Groq trong .env.local hoặc Cài đặt).');
   }
 
   let lastError = null;
@@ -759,7 +761,52 @@ export async function generateGeminiJson(parts, systemInstruction = '', temperat
     }
   }
 
-  throw lastError || new Error('Không thể kết nối đến hệ thống AI.');
+  // 3. Dự phòng Groq Llama khi cả Gemini và OpenRouter đều thất bại
+  if (groqKeys.length > 0) {
+    console.info('⚠️ Cả Gemini và OpenRouter JSON đều gặp sự cố, tự động chuyển sang Groq Llama dự phòng...');
+    const shuffledGroq = shuffleArray(groqKeys);
+    const groqAttempts = Math.min(shuffledGroq.length, 3);
+
+    let textPrompt = '';
+    if (Array.isArray(parts)) {
+      textPrompt = parts.map(p => (typeof p === 'string' ? p : p.text || '')).filter(Boolean).join('\n\n');
+    } else {
+      textPrompt = String(parts);
+    }
+
+    for (let i = 0; i < groqAttempts; i++) {
+      const activeKey = shuffledGroq[i];
+      for (const groqModel of GROQ_CHAT_MODELS) {
+        try {
+          const rawContent = await callGroqChat({
+            prompt: textPrompt,
+            systemInstruction,
+            model: groqModel,
+            temperature: 0.2,
+            jsonMode: true,
+            apiKeyOverride: activeKey
+          });
+
+          let cleaned = rawContent.trim();
+          if (cleaned.includes('```')) {
+            const blockMatch = cleaned.match(/```(?:json)?\s*([\s\S]*?)(?:```|$)/i);
+            if (blockMatch) cleaned = blockMatch[1].trim();
+          }
+          cleaned = cleaned.replace(/[\u201C\u201D]/g, '"').replace(/[\u2018\u2019]/g, "'");
+          return JSON.parse(jsonrepair(cleaned));
+        } catch (groqErr) {
+          lastError = groqErr;
+          console.error(`Lỗi khi gọi Groq model ${groqModel} key #${i + 1}:`, groqErr);
+          const lower = groqErr.message.toLowerCase();
+          if (lower.includes('quota') || lower.includes('rate') || lower.includes('429')) {
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  throw lastError || new Error('Không thể kết nối đến hệ thống AI (Gemini, OpenRouter & Groq đều thất bại).');
 }
 
 /**
@@ -1501,11 +1548,12 @@ export async function generateExamWithGemini({
     // ── Localhost / Dev: gọi Gemini & OpenRouter trực tiếp với cơ chế chọn ngẫu nhiên tối đa 3 key ──
     const geminiKeys = getGeminiApiKeys();
     const openRouterKeys = getOpenRouterApiKeys();
+    const groqKeys = getGroqApiKeys();
 
-    if (geminiKeys.length === 0 && openRouterKeys.length === 0) {
+    if (geminiKeys.length === 0 && openRouterKeys.length === 0 && groqKeys.length === 0) {
       throw new Error(
         'Chưa cấu hình API Key.\n' +
-        'Trên localhost: Thêm VITE_GEMINI_API_KEY vào file .env.local\n' +
+        'Trên localhost: Thêm VITE_GEMINI_API_KEY hoặc VITE_GROQ_API_KEY vào file .env.local\n' +
         'hoặc vào Cài đặt trong ứng dụng.'
       );
     }
@@ -1568,7 +1616,7 @@ export async function generateExamWithGemini({
 
     // 2. Dự phòng OpenRouter (chọn ngẫu nhiên tối đa 3 key)
     if (!rawJsonText && openRouterKeys.length > 0) {
-      onProgress?.('Đang tự động chuyển sang luồng xử lý dự phòng...');
+      onProgress?.('Đang tự động chuyển sang luồng xử lý dự phòng OpenRouter...');
       providerUsed = 'openrouter';
       const shuffledOpenRouter = shuffleArray(openRouterKeys);
       const openRouterAttempts = Math.min(shuffledOpenRouter.length, 3);
@@ -1593,8 +1641,48 @@ export async function generateExamWithGemini({
       }
     }
 
+    // 3. Dự phòng Groq Llama khi cả Gemini và OpenRouter thất bại (chọn ngẫu nhiên tối đa 3 key)
+    if (!rawJsonText && groqKeys.length > 0) {
+      onProgress?.('Đang tự động chuyển sang luồng xử lý dự phòng Groq Llama 3.3...');
+      providerUsed = 'groq';
+      const shuffledGroq = shuffleArray(groqKeys);
+      const groqAttempts = Math.min(shuffledGroq.length, 3);
+
+      for (let i = 0; i < groqAttempts; i++) {
+        const activeKey = shuffledGroq[i];
+        let groqKeySucceeded = false;
+
+        for (const groqModel of GROQ_CHAT_MODELS) {
+          try {
+            rawJsonText = await callGroqChat({
+              prompt: finalPrompt,
+              systemInstruction: 'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. Adhere strictly to official ETS TOEFL iBT standards, referencing authentic TOEFL iBT past exams and official guidelines to ensure natural academic difficulty without artificial exaggeration. NEVER truncate, omit, abbreviate, or use placeholders. Generate EVERY single blank, question, option, decoy, and passage in full as mandated by the quantitative criteria. Respond strictly with raw valid JSON matching the requested schema without any markdown formatting or commentary outside JSON.',
+              model: groqModel,
+              max_tokens: 8192,
+              temperature: 0.7,
+              jsonMode: true,
+              apiKeyOverride: activeKey
+            });
+            if (rawJsonText) {
+              groqKeySucceeded = true;
+              break;
+            }
+          } catch (groqErr) {
+            lastError = groqErr;
+            console.error(`Lỗi khi gọi Groq model ${groqModel} key #${i + 1} sinh đề:`, groqErr);
+            const lower = groqErr.message.toLowerCase();
+            if (lower.includes('quota') || lower.includes('rate') || lower.includes('429')) {
+              break;
+            }
+          }
+        }
+
+        if (groqKeySucceeded && rawJsonText) break;
+      }
+    }
+
     if (!rawJsonText) {
-      throw new Error(lastError?.message || 'Không thể kết nối đến hệ thống AI để sinh đề.');
+      throw new Error(lastError?.message || 'Không thể kết nối đến hệ thống AI (Gemini, OpenRouter & Groq đều thất bại).');
     }
   }
 

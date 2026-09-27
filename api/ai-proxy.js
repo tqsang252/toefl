@@ -27,6 +27,11 @@ const OPENROUTER_MODELS = [
   'openai/gpt-4o-mini'
 ];
 
+const GROQ_CHAT_MODELS = [
+  'llama-3.3-70b-versatile',
+  'llama-3.1-8b-instant'
+];
+
 const DEFAULT_SYSTEM_INSTRUCTION =
   'You are an elite ETS TOEFL iBT 2026 test developer and psychometrician. ' +
   'Your task is to produce strictly valid, raw JSON tests matching the requested schema ' +
@@ -178,12 +183,20 @@ export default async function handler(req, res) {
     process.env.OPENROUTER_API_KEYS ||
     '';
 
+  const rawGroqEnv =
+    process.env.VITE_GROQ_API_KEY ||
+    process.env.GROQ_API_KEY ||
+    process.env.VITE_GROQ_API_KEYS ||
+    process.env.GROQ_API_KEYS ||
+    '';
+
   const geminiKeys = parseApiKeys(rawGeminiEnv);
   const openRouterKeys = parseApiKeys(rawOpenRouterEnv);
+  const groqKeys = parseApiKeys(rawGroqEnv);
 
-  if (geminiKeys.length === 0 && openRouterKeys.length === 0) {
+  if (geminiKeys.length === 0 && openRouterKeys.length === 0 && groqKeys.length === 0) {
     return res.status(500).json({
-      error: 'Server chưa cấu hình API Key. Vui lòng thêm VITE_GEMINI_API_KEY hoặc VITE_API_KEY trên Vercel Dashboard.'
+      error: 'Server chưa cấu hình API Key. Vui lòng thêm VITE_GEMINI_API_KEY, VITE_OPENROUTER_API_KEY hoặc VITE_GROQ_API_KEY trên Vercel Dashboard.'
     });
   }
 
@@ -331,10 +344,87 @@ export default async function handler(req, res) {
     }
   }
 
-  // ── 3. Trả kết quả ────────────────────────────────────────────────
+  // ── 3. Chuyển sang mảng Groq nếu cả Gemini & OpenRouter thất bại ────
+  if (!rawText && groqKeys.length > 0) {
+    const shuffledGroq = shuffleArray(groqKeys);
+    const groqAttempts = Math.min(shuffledGroq.length, 3);
+
+    console.warn(`[ai-proxy] Gemini & OpenRouter thất bại. Chuyển sang thử ngẫu nhiên ${groqAttempts}/${groqKeys.length} Groq keys (Llama 3.3/3.1)...`);
+
+    for (let i = 0; i < groqAttempts; i++) {
+      const activeKey = shuffledGroq[i];
+      let keySucceeded = false;
+
+      for (const model of GROQ_CHAT_MODELS) {
+        try {
+          const messages = [];
+          if (effectiveSystemInstruction) {
+            messages.push({ role: 'system', content: effectiveSystemInstruction });
+          }
+          messages.push({ role: 'user', content: effectivePrompt });
+
+          // Groq JSON mode yêu cầu từ "JSON" phải xuất hiện trong messages
+          if (responseType === 'json') {
+            const hasJsonWord = messages.some(m => (m.content || '').toLowerCase().includes('json'));
+            if (!hasJsonWord) {
+              messages.push({ role: 'system', content: 'Respond strictly in valid JSON format.' });
+            }
+          }
+
+          const groqPayload = {
+            model,
+            messages,
+            max_tokens: Math.min(effectiveMaxTokens, 8192),
+            temperature: effectiveTemperature
+          };
+
+          if (responseType === 'json') {
+            groqPayload.response_format = { type: 'json_object' };
+          }
+
+          const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${activeKey}`
+            },
+            body: JSON.stringify(groqPayload)
+          });
+
+          if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            throw new Error(errData?.error?.message || `HTTP ${response.status}`);
+          }
+
+          const data = await response.json();
+          rawText = data?.choices?.[0]?.message?.content || '';
+          if (rawText) {
+            keySucceeded = true;
+            console.info(`[ai-proxy] Groq thành công với key #${i + 1} (${maskKey(activeKey)}) và model ${model}`);
+            break;
+          }
+        } catch (err) {
+          const msg = `Groq key #${i + 1} (${maskKey(activeKey)}) / ${model} lỗi: ${err.message}`;
+          console.warn(`[ai-proxy] ${msg}`);
+          errorsLog.push(msg);
+
+          const lower = err.message.toLowerCase();
+          if (lower.includes('quota') || lower.includes('rate') || lower.includes('429')) {
+            break;
+          }
+        }
+      }
+
+      if (keySucceeded && rawText) {
+        break;
+      }
+    }
+  }
+
+  // ── 4. Trả kết quả ────────────────────────────────────────────────
   if (!rawText) {
     const errorDetails = errorsLog.slice(-3).join(' | ');
-    const errMsg = `Tất cả các lượt thử API Key (Gemini & OpenRouter) đều thất bại. Chi tiết: ${errorDetails || 'Không có phản hồi'}`;
+    const errMsg = `Tất cả các lượt thử API Key (Gemini, OpenRouter & Groq) đều thất bại. Chi tiết: ${errorDetails || 'Không có phản hồi'}`;
     console.error('[ai-proxy] Toàn bộ providers thất bại:', errMsg);
     return res.status(502).json({ error: errMsg });
   }

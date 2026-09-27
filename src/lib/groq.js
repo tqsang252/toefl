@@ -161,53 +161,93 @@ export async function transcribeAudioWithGroq({ audioBlob, prompt = '', language
 
 /**
  * 2. GỌI MÔ HÌNH CHAT LLAMA 3.3 70B QUA GROQ (SIÊU TỐC > 300 TOKENS/S)
+ * Tự động xoay tua key và fallback giữa các model Llama 3.3 70B và Llama 3.1 8B
  */
 export async function callGroqChat({
   messages,
+  prompt,
+  systemInstruction = '',
   model = DEFAULT_GROQ_CHAT_MODEL,
   temperature = 0.5,
   max_tokens = 4096,
   jsonMode = false,
+  apiKeyOverride = '',
 }) {
-  const apiKey = getGroqApiKey();
+  const apiKey = apiKeyOverride || getGroqApiKey();
   if (!apiKey) {
     throw new Error('Chưa cấu hình Groq API Key.');
   }
 
-  const bodyPayload = {
-    model,
-    messages,
-    temperature,
-    max_tokens,
-  };
+  // Tự động tạo messages nếu truyền dạng prompt + systemInstruction
+  let effectiveMessages = messages;
+  if (!effectiveMessages) {
+    effectiveMessages = [];
+    if (systemInstruction) {
+      effectiveMessages.push({ role: 'system', content: systemInstruction });
+    }
+    if (prompt) {
+      effectiveMessages.push({ role: 'user', content: prompt });
+    }
+  }
 
+  // Groq yêu cầu từ "JSON" phải xuất hiện trong messages khi bật json_object mode
   if (jsonMode) {
-    bodyPayload.response_format = { type: 'json_object' };
+    const hasJsonWord = effectiveMessages.some((m) =>
+      (m.content || '').toLowerCase().includes('json')
+    );
+    if (!hasJsonWord) {
+      effectiveMessages.push({ role: 'system', content: 'Respond strictly in valid JSON format.' });
+    }
   }
 
-  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify(bodyPayload),
-  });
+  // Thử model yêu cầu trước, nếu lỗi thì fallback sang các model Groq khác
+  const modelsToTry = [model, ...GROQ_CHAT_MODELS.filter((m) => m !== model)];
+  let lastError = null;
 
-  if (!response.ok) {
-    let errMsg = `Groq Chat API error (${response.status})`;
+  for (const currentModel of modelsToTry) {
     try {
-      const errJson = await response.json();
-      if (errJson?.error?.message) {
-        errMsg = errJson.error.message;
+      const bodyPayload = {
+        model: currentModel,
+        messages: effectiveMessages,
+        temperature,
+        max_tokens: Math.min(max_tokens, 8192),
+      };
+
+      if (jsonMode) {
+        bodyPayload.response_format = { type: 'json_object' };
       }
-    } catch {}
-    throw new Error(errMsg);
+
+      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify(bodyPayload),
+      });
+
+      if (!response.ok) {
+        let errMsg = `Groq Chat API error (${response.status}) on model ${currentModel}`;
+        try {
+          const errJson = await response.json();
+          if (errJson?.error?.message) {
+            errMsg = errJson.error.message;
+          }
+        } catch {}
+        lastError = new Error(errMsg);
+        console.warn(`[Groq Chat] Model ${currentModel} thất bại: ${errMsg}. Đang thử model tiếp theo...`);
+        continue;
+      }
+
+      const data = await response.json();
+      const text = data?.choices?.[0]?.message?.content || '';
+      return text;
+    } catch (err) {
+      lastError = err;
+    }
   }
 
-  const data = await response.json();
-  const text = data?.choices?.[0]?.message?.content || '';
-  return text;
+  throw lastError || new Error('Không thể kết nối đến Groq Chat.');
 }
 
 /**
