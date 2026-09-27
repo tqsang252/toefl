@@ -363,7 +363,7 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
                               </span>
                             </td>
 
-                            <td className="py-3 px-4 font-bold text-slate-700">
+                            <td className="py-3 px-4 font-semibold text-slate-800 whitespace-pre-line text-xs sm:text-[13px] leading-relaxed">
                               {item.meaning}
                             </td>
 
@@ -506,17 +506,17 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
                     </div>
 
                     {/* Nội dung giữa: Nghĩa + Khung ví dụ TOEFL chữ nhỏ gọn */}
-                    <div className="my-auto space-y-2.5 text-center">
-                      <div className="text-xl sm:text-2xl font-black text-sky-700">
+                    <div className="my-auto space-y-2 text-center">
+                      <div className="text-sm sm:text-base font-bold text-sky-900 whitespace-pre-line text-left bg-sky-50/70 p-3 sm:p-3.5 rounded-2xl border border-sky-100 max-h-36 overflow-y-auto leading-relaxed shadow-2xs">
                         {currentFlashcard?.meaning}
                       </div>
 
                       {/* Khung ví dụ TOEFL: chữ nhỏ vừa vặn, padding gọn gàng */}
-                      <div className="p-3 sm:p-3.5 rounded-2xl bg-white/95 border border-sky-200/80 shadow-2xs text-left space-y-1">
-                        <span className="font-black text-sky-900 block text-[10px] uppercase tracking-wider">
-                          Ví dụ TOEFL:
+                      <div className="p-2.5 sm:p-3 rounded-2xl bg-white/95 border border-sky-200/80 shadow-2xs text-left space-y-0.5">
+                        <span className="font-black text-sky-900 block text-[9.5px] uppercase tracking-wider">
+                          Ví dụ ứng dụng:
                         </span>
-                        <p className="text-[11.5px] sm:text-xs font-serif text-slate-600 leading-relaxed">
+                        <p className="text-[11px] sm:text-xs font-serif text-slate-600 leading-relaxed">
                           {currentFlashcard?.example}
                         </p>
                       </div>

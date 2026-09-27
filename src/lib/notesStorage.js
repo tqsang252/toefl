@@ -635,6 +635,14 @@ export const INITIAL_PREPOSITION_NOTE = {
 };
 
 import { getSupabaseClient, isSupabaseConfigured } from './supabase.js';
+import { INITIAL_SYNONYMS_NOTE } from './synonymsNoteData.js';
+
+export { INITIAL_SYNONYMS_NOTE };
+
+export const DEFAULT_STUDY_NOTES = [
+  INITIAL_PREPOSITION_NOTE,
+  INITIAL_SYNONYMS_NOTE
+];
 
 const STORAGE_KEY = 'toefl_study_notes_v1';
 
@@ -642,22 +650,31 @@ const STORAGE_KEY = 'toefl_study_notes_v1';
  * Lấy toàn bộ danh sách ghi chú học tập (từ LocalStorage ngay lập tức)
  */
 export function getStoredNotes() {
-  if (typeof window === 'undefined') return [INITIAL_PREPOSITION_NOTE];
+  if (typeof window === 'undefined') return DEFAULT_STUDY_NOTES;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([INITIAL_PREPOSITION_NOTE]));
-      return [INITIAL_PREPOSITION_NOTE];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_STUDY_NOTES));
+      return DEFAULT_STUDY_NOTES;
     }
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed) || parsed.length === 0) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([INITIAL_PREPOSITION_NOTE]));
-      return [INITIAL_PREPOSITION_NOTE];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_STUDY_NOTES));
+      return DEFAULT_STUDY_NOTES;
     }
+
+    // Tự động bổ sung bộ từ vựng đồng nghĩa mới nếu người dùng chưa có
+    const hasSynonymsNote = parsed.some(n => n.id === INITIAL_SYNONYMS_NOTE.id);
+    if (!hasSynonymsNote) {
+      const merged = [INITIAL_SYNONYMS_NOTE, ...parsed];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+      return merged;
+    }
+
     return parsed;
   } catch (err) {
     console.error('Lỗi khi đọc study notes từ localStorage:', err);
-    return [INITIAL_PREPOSITION_NOTE];
+    return DEFAULT_STUDY_NOTES;
   }
 }
 
@@ -754,7 +771,7 @@ export function deleteStudyNote(noteId) {
  * Reset về dữ liệu mẫu mặc định
  */
 export function resetStudyNotes() {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify([INITIAL_PREPOSITION_NOTE]));
-  return [INITIAL_PREPOSITION_NOTE];
+  if (typeof window === 'undefined') return DEFAULT_STUDY_NOTES;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_STUDY_NOTES));
+  return DEFAULT_STUDY_NOTES;
 }
