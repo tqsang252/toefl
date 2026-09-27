@@ -699,20 +699,26 @@ export function saveStudyNote(newNote) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
 
   // Đồng bộ lên Supabase nếu có cấu hình
-  const client = getSupabaseClient();
-  if (isSupabaseConfigured() && client) {
-    client.from('study_notes').upsert({
-      id: newNote.id,
-      title: newNote.title,
-      category: newNote.category,
-      summary: newNote.summary,
-      tags: newNote.tags || [],
-      items: newNote.items || [],
-      original_image_url: newNote.original_image_url || null,
-      created_at: newNote.created_at || new Date().toISOString()
-    }).catch(err => {
-      console.warn('Supabase study_notes sync notice (ignorable if table not created):', err.message);
-    });
+  try {
+    const client = getSupabaseClient();
+    if (isSupabaseConfigured() && client) {
+      Promise.resolve(
+        client.from('study_notes').upsert({
+          id: newNote.id,
+          title: newNote.title,
+          category: newNote.category,
+          summary: newNote.summary,
+          tags: newNote.tags || [],
+          items: newNote.items || [],
+          original_image_url: newNote.original_image_url || null,
+          created_at: newNote.created_at || new Date().toISOString()
+        })
+      ).catch(err => {
+        console.warn('Supabase study_notes sync notice (ignorable if table not created):', err.message);
+      });
+    }
+  } catch (syncErr) {
+    console.warn('Supabase study_notes sync error (ignorable):', syncErr.message);
   }
 
   return updated;
@@ -728,11 +734,17 @@ export function deleteStudyNote(noteId) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
 
   // Xóa trên Supabase nếu có cấu hình
-  const client = getSupabaseClient();
-  if (isSupabaseConfigured() && client) {
-    client.from('study_notes').delete().eq('id', noteId).catch(err => {
-      console.warn('Supabase study_notes delete notice:', err.message);
-    });
+  try {
+    const client = getSupabaseClient();
+    if (isSupabaseConfigured() && client) {
+      Promise.resolve(
+        client.from('study_notes').delete().eq('id', noteId)
+      ).catch(err => {
+        console.warn('Supabase study_notes delete notice:', err.message);
+      });
+    }
+  } catch (delErr) {
+    console.warn('Supabase study_notes delete error (ignorable):', delErr.message);
   }
 
   return updated;
