@@ -135,7 +135,8 @@ export default async function handler(req, res) {
     skillType,
     temperature,
     maxOutputTokens: customMaxTokens,
-    responseType = 'json'
+    responseType = 'json',
+    providerPriority = 'gemini'
   } = req.body || {};
 
   // Hỗ trợ cả text prompt hoặc mảng parts
@@ -203,18 +204,16 @@ export default async function handler(req, res) {
   let rawText = '';
   const errorsLog = [];
 
-  // ── 1. Thử trước với mảng Gemini (chọn ngẫu nhiên, tối đa 3 key) ──
-  if (geminiKeys.length > 0) {
+  // Hàm thử với Gemini
+  const tryGemini = async () => {
+    if (rawText || geminiKeys.length === 0) return;
     const shuffledGemini = shuffleArray(geminiKeys);
     const geminiAttempts = Math.min(shuffledGemini.length, 3);
-
-    console.info(`[ai-proxy] Có ${geminiKeys.length} Gemini keys. Sẽ thử ngẫu nhiên ${geminiAttempts} key...`);
 
     for (let i = 0; i < geminiAttempts; i++) {
       const activeKey = shuffledGemini[i];
       let keySucceeded = false;
 
-      // Thử qua danh sách models với activeKey này
       for (const model of GEMINI_MODELS) {
         try {
           const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${activeKey}`;
@@ -259,7 +258,6 @@ export default async function handler(req, res) {
           console.warn(`[ai-proxy] ${msg}`);
           errorsLog.push(msg);
 
-          // Nếu lỗi là do quota/rate limit (429, ResourceExhausted, 503), thoát model loop để đổi key khác ngay
           const lower = err.message.toLowerCase();
           if (lower.includes('quota') || lower.includes('exhausted') || lower.includes('429') || lower.includes('503')) {
             break;
@@ -267,18 +265,15 @@ export default async function handler(req, res) {
         }
       }
 
-      if (keySucceeded && rawText) {
-        break; // Hoàn thành
-      }
+      if (keySucceeded && rawText) break;
     }
-  }
+  };
 
-  // ── 2. Chuyển sang mảng OpenRouter nếu Gemini thất bại (tối đa 3 lần) ──
-  if (!rawText && openRouterKeys.length > 0) {
+  // Hàm thử với OpenRouter
+  const tryOpenRouter = async () => {
+    if (rawText || openRouterKeys.length === 0) return;
     const shuffledOpenRouter = shuffleArray(openRouterKeys);
     const openRouterAttempts = Math.min(shuffledOpenRouter.length, 3);
-
-    console.warn(`[ai-proxy] Gemini thất bại. Chuyển sang thử ngẫu nhiên ${openRouterAttempts}/${openRouterKeys.length} OpenRouter keys...`);
 
     for (let i = 0; i < openRouterAttempts; i++) {
       const activeKey = shuffledOpenRouter[i];
@@ -338,18 +333,15 @@ export default async function handler(req, res) {
         }
       }
 
-      if (keySucceeded && rawText) {
-        break;
-      }
+      if (keySucceeded && rawText) break;
     }
-  }
+  };
 
-  // ── 3. Chuyển sang mảng Groq nếu cả Gemini & OpenRouter thất bại ────
-  if (!rawText && groqKeys.length > 0) {
+  // Hàm thử với Groq Llama 3.3 / 3.1
+  const tryGroq = async () => {
+    if (rawText || groqKeys.length === 0) return;
     const shuffledGroq = shuffleArray(groqKeys);
     const groqAttempts = Math.min(shuffledGroq.length, 3);
-
-    console.warn(`[ai-proxy] Gemini & OpenRouter thất bại. Chuyển sang thử ngẫu nhiên ${groqAttempts}/${groqKeys.length} Groq keys (Llama 3.3/3.1)...`);
 
     for (let i = 0; i < groqAttempts; i++) {
       const activeKey = shuffledGroq[i];
@@ -363,7 +355,6 @@ export default async function handler(req, res) {
           }
           messages.push({ role: 'user', content: effectivePrompt });
 
-          // Groq JSON mode yêu cầu từ "JSON" phải xuất hiện trong messages
           if (responseType === 'json') {
             const hasJsonWord = messages.some(m => (m.content || '').toLowerCase().includes('json'));
             if (!hasJsonWord) {
@@ -415,10 +406,21 @@ export default async function handler(req, res) {
         }
       }
 
-      if (keySucceeded && rawText) {
-        break;
-      }
+      if (keySucceeded && rawText) break;
     }
+  };
+
+  // Điều phối thứ tự thử theo providerPriority:
+  // - providerPriority === 'groq': Groq (siêu tốc cho từ điển / dịch nhanh) ➔ Gemini ➔ OpenRouter
+  // - providerPriority === 'gemini': Gemini (mặc định cho đề thi / bài dài) ➔ OpenRouter ➔ Groq
+  if (providerPriority === 'groq') {
+    await tryGroq();
+    if (!rawText) await tryGemini();
+    if (!rawText) await tryOpenRouter();
+  } else {
+    await tryGemini();
+    if (!rawText) await tryOpenRouter();
+    if (!rawText) await tryGroq();
   }
 
   // ── 4. Trả kết quả ────────────────────────────────────────────────

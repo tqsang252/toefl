@@ -1,5 +1,11 @@
 import { jsonrepair } from 'jsonrepair';
-import { importBatchTests } from './supabase.js';
+import { 
+  importBatchTests, 
+  getWordFromDictCache, 
+  addWordToVocabularyCache, 
+  getCachedTranslation, 
+  setCachedTranslation 
+} from './supabase.js';
 import { getExamPrompt } from './examPrompts.js';
 import { TOEFL_SENTENCE_PATTERNS, matchPatternHeuristically } from '../data/sentencePatterns.js';
 import { callGroqChat, getGroqApiKeys, isGroqConfigured, GROQ_CHAT_MODELS } from './groq.js';
@@ -611,7 +617,19 @@ export async function evaluateBothWritingSubmissions({ emailSubmission, discussi
 /**
  * Hàm chung gọi AI JSON an toàn với cơ chế thử lại model dự phòng & OpenRouter Fallback
  */
-export async function generateGeminiJson(parts, systemInstruction = '', temperature = 0.2) {
+export async function generateGeminiJson(parts, systemInstruction = '', temperatureOrOptions = 0.2) {
+  let effectiveTemperature = 0.2;
+  let effectiveMaxTokens = 4096;
+  let effectiveProviderPriority = 'gemini';
+
+  if (typeof temperatureOrOptions === 'object' && temperatureOrOptions !== null) {
+    if (temperatureOrOptions.temperature !== undefined) effectiveTemperature = temperatureOrOptions.temperature;
+    if (temperatureOrOptions.maxOutputTokens) effectiveMaxTokens = temperatureOrOptions.maxOutputTokens;
+    if (temperatureOrOptions.providerPriority) effectiveProviderPriority = temperatureOrOptions.providerPriority;
+  } else if (typeof temperatureOrOptions === 'number') {
+    effectiveTemperature = temperatureOrOptions;
+  }
+
   let textPrompt = '';
   if (Array.isArray(parts)) {
     textPrompt = parts.map(p => (typeof p === 'string' ? p : p.text || '')).filter(Boolean).join('\n\n');
@@ -628,9 +646,10 @@ export async function generateGeminiJson(parts, systemInstruction = '', temperat
         body: JSON.stringify({
           prompt: textPrompt,
           systemInstruction,
-          temperature,
+          temperature: effectiveTemperature,
           responseType: 'json',
-          maxOutputTokens: 4096
+          maxOutputTokens: effectiveMaxTokens,
+          providerPriority: effectiveProviderPriority
         })
       });
 
@@ -646,7 +665,7 @@ export async function generateGeminiJson(parts, systemInstruction = '', temperat
     } catch (proxyErr) {
       console.warn('Lỗi khi gọi qua AI proxy:', proxyErr.message);
       // Nếu có key cục bộ trong localStorage/Vite thì vẫn cho phép thử tiếp
-      if (!getGeminiApiKey() && !getOpenRouterApiKey()) {
+      if (!getGeminiApiKey() && !getOpenRouterApiKey() && !getGroqApiKey()) {
         throw new Error(`Lỗi kết nối AI: ${proxyErr.message}`);
       }
     }
@@ -663,8 +682,9 @@ export async function generateGeminiJson(parts, systemInstruction = '', temperat
 
   let lastError = null;
 
-  // 1. Thử gọi Google Gemini trước (chọn ngẫu nhiên, tối đa 3 key)
-  if (geminiKeys.length > 0) {
+  // Thử Gemini Local
+  const tryLocalGemini = async () => {
+    if (geminiKeys.length === 0) return null;
     const shuffledGemini = shuffleArray(geminiKeys);
     const geminiAttempts = Math.min(shuffledGemini.length, 3);
 
@@ -684,7 +704,8 @@ export async function generateGeminiJson(parts, systemInstruction = '', temperat
             ],
             generationConfig: {
               responseMimeType: 'application/json',
-              temperature: 0.2
+              temperature: effectiveTemperature,
+              maxOutputTokens: effectiveMaxTokens
             }
           };
 
@@ -716,16 +737,17 @@ export async function generateGeminiJson(parts, systemInstruction = '', temperat
           console.warn(`Lỗi khi gọi model ${model} với Gemini key #${i + 1}:`, err.message);
           const lower = err.message.toLowerCase();
           if (lower.includes('quota') || lower.includes('exhausted') || lower.includes('429') || lower.includes('503')) {
-            break; // Đổi key ngẫu nhiên tiếp theo ngay
+            break;
           }
         }
       }
     }
-  }
+    return null;
+  };
 
-  // 2. Dự phòng OpenRouter khi Gemini lỗi hoặc quá tải (chọn ngẫu nhiên, tối đa 3 key)
-  if (openRouterKeys.length > 0) {
-    console.info('⚠️ Gemini JSON generation gặp sự cố, tự động chuyển sang OpenRouter dự phòng...');
+  // Thử OpenRouter Local
+  const tryLocalOpenRouter = async () => {
+    if (openRouterKeys.length === 0) return null;
     const shuffledOpenRouter = shuffleArray(openRouterKeys);
     const openRouterAttempts = Math.min(shuffledOpenRouter.length, 3);
 
@@ -742,7 +764,8 @@ export async function generateGeminiJson(parts, systemInstruction = '', temperat
         const rawContent = await callOpenRouterChat({
           prompt: textPrompt,
           systemInstruction,
-          temperature: 0.2,
+          temperature: effectiveTemperature,
+          maxTokens: effectiveMaxTokens,
           responseFormatJson: true,
           apiKeyOverride: activeKey
         });
@@ -759,11 +782,12 @@ export async function generateGeminiJson(parts, systemInstruction = '', temperat
         console.error(`Lỗi khi gọi OpenRouter key #${i + 1}:`, openRouterErr);
       }
     }
-  }
+    return null;
+  };
 
-  // 3. Dự phòng Groq Llama khi cả Gemini và OpenRouter đều thất bại
-  if (groqKeys.length > 0) {
-    console.info('⚠️ Cả Gemini và OpenRouter JSON đều gặp sự cố, tự động chuyển sang Groq Llama dự phòng...');
+  // Thử Groq Local (Llama 3.3 / 3.1)
+  const tryLocalGroq = async () => {
+    if (groqKeys.length === 0) return null;
     const shuffledGroq = shuffleArray(groqKeys);
     const groqAttempts = Math.min(shuffledGroq.length, 3);
 
@@ -782,7 +806,8 @@ export async function generateGeminiJson(parts, systemInstruction = '', temperat
             prompt: textPrompt,
             systemInstruction,
             model: groqModel,
-            temperature: 0.2,
+            temperature: effectiveTemperature,
+            max_tokens: Math.min(effectiveMaxTokens, 8192),
             jsonMode: true,
             apiKeyOverride: activeKey
           });
@@ -804,6 +829,24 @@ export async function generateGeminiJson(parts, systemInstruction = '', temperat
         }
       }
     }
+    return null;
+  };
+
+  // Thực thi theo thứ tự ưu tiên
+  if (effectiveProviderPriority === 'groq') {
+    const resGroq = await tryLocalGroq();
+    if (resGroq) return resGroq;
+    const resGemini = await tryLocalGemini();
+    if (resGemini) return resGemini;
+    const resOpenRouter = await tryLocalOpenRouter();
+    if (resOpenRouter) return resOpenRouter;
+  } else {
+    const resGemini = await tryLocalGemini();
+    if (resGemini) return resGemini;
+    const resOpenRouter = await tryLocalOpenRouter();
+    if (resOpenRouter) return resOpenRouter;
+    const resGroq = await tryLocalGroq();
+    if (resGroq) return resGroq;
   }
 
   throw lastError || new Error('Không thể kết nối đến hệ thống AI (Gemini, OpenRouter & Groq đều thất bại).');
@@ -1808,6 +1851,12 @@ export async function lookupWordWithAi(word) {
   const cleanWord = (word || '').trim().replace(/^['"“‘.,;!?()\[\]{}]+|['"”’.,;!?()\[\]{}]+$/g, '');
   if (!cleanWord) throw new Error('Từ vựng cần tra cứu không hợp lệ.');
 
+  // 1. Kiểm tra Cache tức thì (0ms)
+  const cached = getWordFromDictCache(cleanWord);
+  if (cached) {
+    return cached;
+  }
+
   const prompt = `Bạn là chuyên gia từ điển học thuật và luyện thi TOEFL iBT 2026.
 Hãy tra nghĩa và giải nghĩa từ tiếng Anh sau sang tiếng Việt:
 Từ vựng: "${cleanWord}"
@@ -1825,26 +1874,77 @@ YÊU CẦU:
 }
 2. TUYỆT ĐỐI không viết bất kỳ ký tự nào ngoài JSON hợp lệ.`;
 
-  const result = await generateGeminiJson(prompt, 'You are an expert bilingual academic English-Vietnamese dictionary. Respond strictly with a single JSON object.');
-  return {
+  const systemInstruction = 'You are an expert bilingual academic English-Vietnamese dictionary. Respond strictly with a single JSON object.';
+
+  let result = null;
+
+  // 2. ƯU TIÊN GROQ CLOUD TRỰC TIẾP TỪ CLIENT NẾU CÓ KEY (SIÊU TỐC ~250ms - 350ms)
+  if (isGroqConfigured()) {
+    try {
+      const rawText = await callGroqChat({
+        prompt,
+        systemInstruction,
+        max_tokens: 350,
+        temperature: 0.1,
+        jsonMode: true
+      });
+      if (rawText) {
+        let cleaned = rawText.trim();
+        if (cleaned.includes('```')) {
+          const match = cleaned.match(/```(?:json)?\s*([\s\S]*?)(?:```|$)/i);
+          if (match) cleaned = match[1].trim();
+        }
+        cleaned = cleaned.replace(/[\u201C\u201D]/g, '"').replace(/[\u2018\u2019]/g, "'");
+        result = JSON.parse(jsonrepair(cleaned));
+      }
+    } catch (groqErr) {
+      console.warn('[Dictionary] Groq client-side gặp sự cố, tự động fallback sang proxy:', groqErr.message);
+    }
+  }
+
+  // 3. Fallback qua generateGeminiJson với providerPriority: 'groq' và maxOutputTokens: 350
+  if (!result) {
+    result = await generateGeminiJson(
+      prompt,
+      systemInstruction,
+      {
+        providerPriority: 'groq',
+        maxOutputTokens: 350,
+        temperature: 0.1
+      }
+    );
+  }
+
+  const finalResult = {
     found: true,
     word: result.word || cleanWord,
     phonetic: result.phonetic || '',
-    partOfSpeech: result.partOfSpeech || '',
+    partOfSpeech: result.partOfSpeech || 'Word',
     meaningVi: result.meaningVi || result.meaning || '',
     meaningEn: result.meaningEn || '',
     example: result.example || '',
     exampleTranslation: result.exampleTranslation || '',
     source: 'ai'
   };
+
+  // 4. Tự động lưu vào Cache 2 tầng (RAM + LocalStorage) để các lần tra sau phản hồi 0ms
+  addWordToVocabularyCache(finalResult);
+
+  return finalResult;
 }
 
 /**
- * Dịch cụm từ hoặc đoạn văn bản tiếng Anh sang tiếng Việt bằng AI
+ * Dịch cụm từ hoặc đoạn văn bản tiếng Anh sang tiếng Việt bằng AI (Groq-First + Translation Cache)
  */
 export async function translateTextWithAi(text) {
   const cleanText = (text || '').trim();
   if (!cleanText) throw new Error('Văn bản cần dịch không được để trống.');
+
+  // 1. Kiểm tra Cache bản dịch trước (0ms)
+  const cached = getCachedTranslation(cleanText);
+  if (cached) {
+    return cached;
+  }
 
   const prompt = `Bạn là chuyên gia dịch thuật Anh - Việt cao cấp, chuyên sâu học thuật và kỳ thi TOEFL.
 Hãy dịch cụm từ hoặc đoạn văn bản sau sang tiếng Việt tự nhiên, chuẩn xác, lưu loát và đúng văn phong:
@@ -1858,13 +1958,58 @@ YÊU CẦU:
 }
 2. TUYỆT ĐỐI không viết bất kỳ ký tự nào ngoài JSON hợp lệ.`;
 
-  const result = await generateGeminiJson(prompt, 'You are an expert academic English-Vietnamese translator. Respond strictly with a single JSON object.');
-  return {
+  const systemInstruction = 'You are an expert academic English-Vietnamese translator. Respond strictly with a single JSON object.';
+
+  let result = null;
+
+  // 2. ƯU TIÊN GROQ CLOUD TRỰC TIẾP TỪ CLIENT NẾU CÓ KEY (SIÊU TỐC ~250ms - 350ms)
+  if (isGroqConfigured()) {
+    try {
+      const rawText = await callGroqChat({
+        prompt,
+        systemInstruction,
+        max_tokens: 400,
+        temperature: 0.1,
+        jsonMode: true
+      });
+      if (rawText) {
+        let cleaned = rawText.trim();
+        if (cleaned.includes('```')) {
+          const match = cleaned.match(/```(?:json)?\s*([\s\S]*?)(?:```|$)/i);
+          if (match) cleaned = match[1].trim();
+        }
+        cleaned = cleaned.replace(/[\u201C\u201D]/g, '"').replace(/[\u2018\u2019]/g, "'");
+        result = JSON.parse(jsonrepair(cleaned));
+      }
+    } catch (groqErr) {
+      console.warn('[Translate] Groq client-side gặp sự cố, tự động fallback sang proxy:', groqErr.message);
+    }
+  }
+
+  // 3. Fallback qua generateGeminiJson với providerPriority: 'groq' và maxOutputTokens: 400
+  if (!result) {
+    result = await generateGeminiJson(
+      prompt,
+      systemInstruction,
+      {
+        providerPriority: 'groq',
+        maxOutputTokens: 400,
+        temperature: 0.1
+      }
+    );
+  }
+
+  const finalResult = {
     originalText: cleanText,
     translatedText: result.translatedText || '',
     note: result.note || '',
     source: 'ai'
   };
+
+  // 4. Lưu vào Cache bản dịch cho các lần bôi đen sau phản hồi 0ms
+  setCachedTranslation(cleanText, finalResult);
+
+  return finalResult;
 }
 
 /**

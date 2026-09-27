@@ -1288,12 +1288,142 @@ export function invalidateVocabularyCache() {
   cachedVocabularyMap = null;
 }
 
+// Lấy từ đã lưu trong Cache AI (RAM hoặc LocalStorage)
+export function getWordFromDictCache(rawWord) {
+  if (!rawWord) return null;
+  const clean = String(rawWord).trim().toLowerCase().replace(/^['"“‘.,;!?()\[\]{}]+|['"”’.,;!?()\[\]{}]+$/g, '');
+  if (!clean) return null;
+
+  if (cachedVocabularyMap && cachedVocabularyMap.has(clean)) {
+    const item = cachedVocabularyMap.get(clean);
+    return {
+      found: true,
+      word: item.word || clean,
+      phonetic: item.phonetic || '',
+      partOfSpeech: item.partOfSpeech || item.part_of_speech || 'Word',
+      meaningVi: item.meaningVi || item.meaning_vi || item.meaning || '',
+      meaningEn: item.meaningEn || item.meaning_en || '',
+      example: item.example || '',
+      exampleTranslation: item.exampleTranslation || item.example_translation || '',
+      source: 'database'
+    };
+  }
+
+  try {
+    const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('toefl_ai_dict_cache') : null;
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed[clean]) {
+        const item = parsed[clean];
+        if (cachedVocabularyMap) {
+          cachedVocabularyMap.set(clean, item);
+        }
+        return {
+          found: true,
+          word: item.word || clean,
+          phonetic: item.phonetic || '',
+          partOfSpeech: item.partOfSpeech || 'Word',
+          meaningVi: item.meaningVi || item.meaning || '',
+          meaningEn: item.meaningEn || '',
+          example: item.example || '',
+          exampleTranslation: item.exampleTranslation || '',
+          source: 'database'
+        };
+      }
+    }
+  } catch (err) {
+    // ignore
+  }
+
+  return null;
+}
+
+// Lưu từ AI vừa tra vào Cache 2 tầng (RAM + LocalStorage)
+export function addWordToVocabularyCache(wordData) {
+  if (!wordData || !wordData.word) return;
+  const clean = String(wordData.word).trim().toLowerCase().replace(/^['"“‘.,;!?()\[\]{}]+|['"”’.,;!?()\[\]{}]+$/g, '');
+  if (!clean) return;
+
+  const normalized = {
+    word: wordData.word,
+    phonetic: wordData.phonetic || '',
+    partOfSpeech: wordData.partOfSpeech || 'Word',
+    meaningVi: wordData.meaningVi || wordData.meaning || '',
+    meaningEn: wordData.meaningEn || '',
+    example: wordData.example || '',
+    exampleTranslation: wordData.exampleTranslation || '',
+    wordFamily: wordData.wordFamily || '',
+    savedAt: Date.now()
+  };
+
+  if (!cachedVocabularyMap) {
+    cachedVocabularyMap = new Map();
+  }
+  cachedVocabularyMap.set(clean, normalized);
+
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const raw = localStorage.getItem('toefl_ai_dict_cache');
+      const cacheObj = raw ? JSON.parse(raw) : {};
+      cacheObj[clean] = normalized;
+
+      const keys = Object.keys(cacheObj);
+      if (keys.length > 1000) {
+        delete cacheObj[keys[0]];
+      }
+      localStorage.setItem('toefl_ai_dict_cache', JSON.stringify(cacheObj));
+    }
+  } catch (err) {
+    console.warn('Lỗi ghi toefl_ai_dict_cache:', err);
+  }
+}
+
+// Lấy bản dịch cụm từ / câu từ cache
+export function getCachedTranslation(text) {
+  if (!text) return null;
+  const clean = String(text).trim().toLowerCase();
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const raw = localStorage.getItem('toefl_ai_translate_cache');
+      if (!raw) return null;
+      const cache = JSON.parse(raw);
+      return cache[clean] || null;
+    }
+  } catch {
+    // ignore
+  }
+  return null;
+}
+
+// Lưu bản dịch cụm từ / câu vào cache
+export function setCachedTranslation(text, translationResult) {
+  if (!text || !translationResult) return;
+  const clean = String(text).trim().toLowerCase();
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const raw = localStorage.getItem('toefl_ai_translate_cache');
+      const cache = raw ? JSON.parse(raw) : {};
+      cache[clean] = {
+        ...translationResult,
+        savedAt: Date.now()
+      };
+      const keys = Object.keys(cache);
+      if (keys.length > 500) {
+        delete cache[keys[0]];
+      }
+      localStorage.setItem('toefl_ai_translate_cache', JSON.stringify(cache));
+    }
+  } catch (err) {
+    console.warn('Lỗi ghi toefl_ai_translate_cache:', err);
+  }
+}
+
 export async function lookupWordInDatabase(rawWord) {
   if (!rawWord || typeof rawWord !== 'string') return { found: false, word: '' };
   const clean = rawWord.trim().toLowerCase().replace(/^['"“‘.,;!?()\[\]{}]+|['"”’.,;!?()\[\]{}]+$/g, '');
   if (!clean) return { found: false, word: '' };
 
-  // 1. Nạp cache nếu chưa có trong bộ nhớ
+  // 1. Nạp cache nếu chưa có trong bộ nhớ (kèm cả từ đã từng AI dịch trong LocalStorage)
   if (!cachedVocabularyMap) {
     try {
       const allWords = await getStoredVocabulary();
@@ -1306,6 +1436,24 @@ export async function lookupWordInDatabase(rawWord) {
           }
         }
       });
+
+      // Tự động nạp thêm kho từ đã tra bằng AI từ trước
+      try {
+        if (typeof localStorage !== 'undefined') {
+          const rawAiCache = localStorage.getItem('toefl_ai_dict_cache');
+          if (rawAiCache) {
+            const aiCacheObj = JSON.parse(rawAiCache);
+            Object.keys(aiCacheObj).forEach((wLower) => {
+              if (!map.has(wLower)) {
+                map.set(wLower, aiCacheObj[wLower]);
+              }
+            });
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+
       cachedVocabularyMap = map;
     } catch (e) {
       console.warn('Lỗi nạp cache từ điển:', e);
