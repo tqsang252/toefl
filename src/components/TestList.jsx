@@ -263,7 +263,7 @@ export default function TestList({
             ) : (
               <div>
                 <p className="text-base font-medium">Chưa có đề thi nào phù hợp với bộ lọc.</p>
-                <p className="text-xs text-slate-400 mt-1">Bấm "Tạo bài thi thử {skillCapitalized}" để biên soạn bộ đề mới ngay.</p>
+                <p className="text-xs text-slate-400 mt-1">Bấm "{skillMeta.btnLabel}" để biên soạn bộ đề mới ngay.</p>
               </div>
             )}
           </div>
