@@ -4,36 +4,56 @@
  * và mô hình ngôn ngữ Llama 3.3 70B Versatile với độ trễ siêu thấp.
  */
 
-// Hàm bóc tách chuỗi API keys (hỗ trợ 1 key, JSON array, hoặc phân tách bằng dấu phẩy)
+// Hàm bóc tách chuỗi API keys (hỗ trợ 1 key, [key], JSON array ["key"], hoặc phân tách bằng dấu phẩy)
 function parseApiKeys(raw) {
   if (!raw) return [];
-  if (Array.isArray(raw)) return raw.map(k => String(k).trim()).filter(Boolean);
-  const trimmed = String(raw).trim();
-  if (!trimmed) return [];
+  if (Array.isArray(raw)) {
+    return Array.from(
+      new Set(
+        raw
+          .map((k) => String(k).trim().replace(/^['"`\[\]\s]+|['"`\[\]\s]+$/g, ''))
+          .filter(Boolean)
+      )
+    );
+  }
 
-  if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+  let str = String(raw).trim();
+  if (!str) return [];
+
+  // Nếu người dùng nhập dạng mảng [key] hoặc ["key"]
+  if (str.startsWith('[') && str.endsWith(']')) {
     try {
-      const parsed = JSON.parse(trimmed);
+      const parsed = JSON.parse(str);
       if (Array.isArray(parsed)) {
-        return parsed.map(k => String(k).trim()).filter(Boolean);
+        return Array.from(
+          new Set(
+            parsed
+              .map((k) => String(k).trim().replace(/^['"`\[\]\s]+|['"`\[\]\s]+$/g, ''))
+              .filter(Boolean)
+          )
+        );
       }
     } catch {
-      // Fallback xuống tách dấu phẩy
+      // Nếu không phải JSON chuẩn (ví dụ: [gsk_abc...]), gỡ bỏ cặp ngoặc vuông
+      str = str.slice(1, -1).trim();
     }
   }
 
-  return trimmed
-    .split(/[\n,]+/)
-    .map(k => k.trim())
-    .filter(k => Boolean(k) && !k.startsWith('#'));
+  // Tách theo dấu phẩy, chấm phẩy hoặc xuống dòng và làm sạch các ký tự thừa
+  return Array.from(
+    new Set(
+      str
+        .split(/[\n,;]+/)
+        .map((k) => String(k).trim().replace(/^['"`\[\]\s]+|['"`\[\]\s]+$/g, ''))
+        .filter((k) => Boolean(k) && !k.startsWith('#'))
+    )
+  );
 }
 
-// Lấy danh sách tất cả các Groq API Keys có sẵn
+// Lấy danh sách tất cả các Groq API Keys có sẵn (Hỗ trợ cả môi trường Local & Vercel Production)
 export function getGroqApiKeys() {
   const localKey = typeof localStorage !== 'undefined' ? (localStorage.getItem('toefl_groq_api_key') || '') : '';
-  const envKey = !import.meta.env.PROD 
-    ? (import.meta.env?.VITE_GROQ_API_KEY || import.meta.env?.GROQ_API_KEY || '')
-    : '';
+  const envKey = import.meta.env?.VITE_GROQ_API_KEY || import.meta.env?.GROQ_API_KEY || '';
   const parsedLocal = parseApiKeys(localKey);
   const parsedEnv = parseApiKeys(envKey);
   return Array.from(new Set([...parsedLocal, ...parsedEnv]));
