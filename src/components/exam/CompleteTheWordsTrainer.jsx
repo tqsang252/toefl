@@ -67,8 +67,23 @@ export default function CompleteTheWordsTrainer() {
   useEffect(() => {
     try {
       const savedHistory = localStorage.getItem('toefl_ctw_results');
+      let hist = {};
       if (savedHistory) {
-        setHistory(JSON.parse(savedHistory));
+        hist = JSON.parse(savedHistory);
+        setHistory(hist);
+      }
+
+      // Tự động tìm bài tiếp theo chưa làm để người dùng tiếp tục luyện tập
+      const lastActive = localStorage.getItem('toefl_ctw_last_active_id');
+      if (lastActive && !hist[lastActive] && COMPLETE_THE_WORDS_BANK.some((p) => p.id === lastActive)) {
+        setCurrentPassageId(lastActive);
+      } else {
+        const nextUncompleted = COMPLETE_THE_WORDS_BANK.find((p) => !hist[p.id]);
+        if (nextUncompleted) {
+          setCurrentPassageId(nextUncompleted.id);
+        } else if (lastActive && COMPLETE_THE_WORDS_BANK.some((p) => p.id === lastActive)) {
+          setCurrentPassageId(lastActive);
+        }
       }
 
       const rawStarred = localStorage.getItem('toefl_starred_words');
@@ -100,7 +115,7 @@ export default function CompleteTheWordsTrainer() {
     return found || COMPLETE_THE_WORDS_BANK[0];
   }, [currentPassageId]);
 
-  // Reset inputs & timer on passage change
+  // Reset inputs & timer on passage change + lưu lại bài đang làm vào localStorage
   useEffect(() => {
     setUserInputs({});
     setIsSubmitted(false);
@@ -109,6 +124,10 @@ export default function CompleteTheWordsTrainer() {
     setTimeLeft(STANDARD_TIME_LIMIT);
     setIsTimerRunning(true);
     stopAudio();
+
+    if (currentPassageId) {
+      localStorage.setItem('toefl_ctw_last_active_id', currentPassageId);
+    }
 
     // Auto-focus first blank after mount
     setTimeout(() => {
@@ -301,6 +320,23 @@ export default function CompleteTheWordsTrainer() {
       setCurrentPassageId(filteredPassages[currentIndexInFiltered + 1].id);
     } else {
       showToast('Bạn đã làm hết bài trong danh mục này!');
+    }
+  };
+
+  const handleNextUncompletedPassage = () => {
+    // Tìm bài chưa làm tiếp theo từ vị trí hiện tại
+    const currIdx = filteredPassages.findIndex((p) => p.id === currentPassage.id);
+    let nextUncompleted = filteredPassages.slice(currIdx + 1).find((p) => !history[p.id]);
+    if (!nextUncompleted) {
+      // Tìm từ đầu danh sách nếu sau vị trí hiện tại đã hết
+      nextUncompleted = filteredPassages.find((p) => !history[p.id]);
+    }
+
+    if (nextUncompleted) {
+      setCurrentPassageId(nextUncompleted.id);
+      showToast(`Chuyển đến: ${nextUncompleted.title}`);
+    } else {
+      showToast('🎉 Xuất sắc! Bạn đã làm xong tất cả các bài trong danh mục này!');
     }
   };
 
@@ -588,20 +624,24 @@ export default function CompleteTheWordsTrainer() {
           </span>
           {CTW_DOMAINS.map((domain) => {
             const isSelected = selectedDomain === domain;
-            const count = domain === 'All Domains' 
-              ? COMPLETE_THE_WORDS_BANK.length 
-              : COMPLETE_THE_WORDS_BANK.filter((p) => p.category === domain).length;
+            const matching = domain === 'All Domains' 
+              ? COMPLETE_THE_WORDS_BANK 
+              : COMPLETE_THE_WORDS_BANK.filter((p) => p.category === domain);
+            const count = matching.length;
+            const completedInDomain = matching.filter((p) => !!history[p.id]).length;
 
             return (
               <button
                 key={domain}
                 onClick={() => {
                   setSelectedDomain(domain);
-                  const matching = domain === 'All Domains' 
+                  const matchingDomain = domain === 'All Domains' 
                     ? COMPLETE_THE_WORDS_BANK 
                     : COMPLETE_THE_WORDS_BANK.filter((p) => p.category === domain);
-                  if (matching.length > 0 && !matching.some((m) => m.id === currentPassageId)) {
-                    setCurrentPassageId(matching[0].id);
+                  if (matchingDomain.length > 0 && !matchingDomain.some((m) => m.id === currentPassageId)) {
+                    // Ưu tiên nhảy vào bài chưa làm đầu tiên trong domain này
+                    const nextUncompleted = matchingDomain.find((p) => !history[p.id]);
+                    setCurrentPassageId(nextUncompleted ? nextUncompleted.id : matchingDomain[0].id);
                   }
                 }}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
@@ -612,7 +652,7 @@ export default function CompleteTheWordsTrainer() {
               >
                 <span>{domain}</span>
                 <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${isSelected ? 'bg-indigo-800 text-indigo-200' : 'bg-slate-200 text-slate-500'}`}>
-                  {count}
+                  {completedInDomain > 0 ? `${completedInDomain}/${count}` : count}
                 </span>
               </button>
             );
@@ -641,10 +681,12 @@ export default function CompleteTheWordsTrainer() {
               >
                 {filteredPassages.map((p, idx) => {
                   const passHistory = history[p.id];
-                  const checkMark = passHistory ? ` [✓ ${passHistory.score}/10]` : '';
+                  const statusTag = passHistory 
+                    ? `[✓ ĐÃ LÀM: ${passHistory.score}/10] ` 
+                    : `[CHƯA LÀM] `;
                   return (
                     <option key={p.id} value={p.id}>
-                      Bài {idx + 1}: {p.title} ({p.topic}){checkMark}
+                      {statusTag}Bài {idx + 1}: {p.title} ({p.topic})
                     </option>
                   );
                 })}
@@ -659,6 +701,16 @@ export default function CompleteTheWordsTrainer() {
               title="Bài kế tiếp"
             >
               <ArrowRight className="w-4 h-4 text-slate-700" />
+            </button>
+
+            {/* Next Uncompleted Button */}
+            <button
+              onClick={handleNextUncompletedPassage}
+              className="px-2.5 py-2 rounded-xl border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-xs font-bold text-indigo-700 transition-all cursor-pointer shrink-0 flex items-center gap-1.5"
+              title="Nhảy nhanh đến đề tiếp theo chưa hoàn thành"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+              <span className="hidden sm:inline">Bài chưa làm kế tiếp</span>
             </button>
 
             {/* Random Button */}
@@ -728,6 +780,16 @@ export default function CompleteTheWordsTrainer() {
               <span className="text-xs text-slate-400 font-medium">
                 (Mã đề: {currentPassage.id.toUpperCase()})
               </span>
+              {history[currentPassage.id] ? (
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-1 shadow-2xs">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                  Đã làm ({history[currentPassage.id].score}/10 điểm)
+                </span>
+              ) : (
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
+                  Chưa làm
+                </span>
+              )}
             </div>
             <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-1">
               {currentPassage.title}
@@ -827,10 +889,10 @@ export default function CompleteTheWordsTrainer() {
                   <span>Làm lại bài này</span>
                 </button>
                 <button
-                  onClick={handleNextPassage}
+                  onClick={handleNextUncompletedPassage}
                   className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
                 >
-                  <span>Bài tiếp theo</span>
+                  <span>Làm tiếp bài tiếp theo</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </>
