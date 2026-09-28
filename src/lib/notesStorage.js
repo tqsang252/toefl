@@ -663,15 +663,21 @@ export function getStoredNotes() {
       return DEFAULT_STUDY_NOTES;
     }
 
-    // Tự động bổ sung bộ từ vựng đồng nghĩa mới nếu người dùng chưa có
-    const hasSynonymsNote = parsed.some(n => n.id === INITIAL_SYNONYMS_NOTE.id);
-    if (!hasSynonymsNote) {
-      const merged = [INITIAL_SYNONYMS_NOTE, ...parsed];
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
-      return merged;
+    // Đảm bảo mọi note trong DEFAULT_STUDY_NOTES luôn có mặt trong danh sách
+    let hasChanges = false;
+    const merged = [...parsed];
+    for (const defNote of DEFAULT_STUDY_NOTES) {
+      if (!merged.some(n => n.id === defNote.id)) {
+        merged.unshift(defNote);
+        hasChanges = true;
+      }
     }
 
-    return parsed;
+    if (hasChanges) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+    }
+
+    return merged;
   } catch (err) {
     console.error('Lỗi khi đọc study notes từ localStorage:', err);
     return DEFAULT_STUDY_NOTES;
@@ -690,9 +696,29 @@ export async function syncNotesFromSupabase() {
       .select('*')
       .order('created_at', { ascending: false });
 
-    if (!error && Array.isArray(data) && data.length > 0) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      return data;
+    if (!error && Array.isArray(data)) {
+      // Giữ lại tất cả ghi chú từ Supabase VÀ đảm bảo các ghi chú mẫu mặc định luôn có mặt
+      const combined = [...data];
+      for (const defNote of DEFAULT_STUDY_NOTES) {
+        if (!combined.some(n => n.id === defNote.id)) {
+          combined.unshift(defNote);
+          // Tự động đẩy lên Supabase để lưu vĩnh viễn trên Cloud
+          try {
+            client.from('study_notes').upsert({
+              id: defNote.id,
+              title: defNote.title,
+              category: defNote.category,
+              summary: defNote.summary,
+              tags: defNote.tags || [],
+              items: defNote.items || [],
+              original_image_url: defNote.original_image_url || null,
+              created_at: defNote.created_at || new Date().toISOString()
+            }).then(() => {}).catch(() => {});
+          } catch (e) {}
+        }
+      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(combined));
+      return combined;
     }
   } catch (err) {
     // Không làm gián đoạn ứng dụng nếu bảng chưa tạo trên Supabase

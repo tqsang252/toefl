@@ -75,7 +75,7 @@ export default function SkillNotesHub() {
   };
 
   const handleReset = () => {
-    if (confirm('Khôi phục lại sổ tay mẫu mặc định (62 Cụm từ đi với giới từ)?')) {
+    if (confirm('Khôi phục lại các sổ tay mẫu mặc định (62 Cụm giới từ & 50 Nhóm từ đồng nghĩa)?')) {
       const updated = resetStudyNotes();
       setNotes(updated);
     }
@@ -290,7 +290,7 @@ export default function SkillNotesHub() {
           className="text-xs text-slate-400 hover:text-slate-600 underline cursor-pointer flex items-center justify-center gap-1 mx-auto"
         >
           <RotateCcw className="w-3 h-3" />
-          <span>Khôi phục lại sổ tay mẫu "62 Cụm từ đi với giới từ xịn"</span>
+          <span>Khôi phục các sổ tay mẫu mặc định (Giới từ & 50 Nhóm từ đồng nghĩa)</span>
         </button>
       </div>
 
