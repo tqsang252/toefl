@@ -141,6 +141,32 @@ const WRITING_SKILLS_HUBS = [
   }
 ];
 
+// 2 Kho Bài Mẫu Writing (Writing Sample Hubs: Academic Email & Academic Discussion)
+const WRITING_SAMPLE_HUBS = [
+  {
+    id: 'writing_email_samples',
+    label: 'KHO BÀI MẪU EMAIL',
+    subtitle: 'Mẫu Band 5.0, Phân tích & Thực hành ngay (Task 2)',
+    icon: Mail,
+    borderColor: 'border-[#ea580c]',
+    activeBorder: 'border-[#ea580c] ring-3 ring-orange-400/30 shadow-lg',
+    textColor: 'text-[#ea580c]',
+    iconBg: 'bg-[#ea580c]',
+    glow: 'shadow-orange-500/10'
+  },
+  {
+    id: 'writing_discussion_samples',
+    label: 'KHO BÀI MẪU DISCUSSION',
+    subtitle: 'Mẫu Band 5.0, Phân tích & Thực hành ngay (Task 3)',
+    icon: MessageSquare,
+    borderColor: 'border-[#0284c7]',
+    activeBorder: 'border-[#0284c7] ring-3 ring-sky-500/30 shadow-lg',
+    textColor: 'text-[#0284c7]',
+    iconBg: 'bg-[#0284c7]',
+    glow: 'shadow-sky-500/10'
+  }
+];
+
 export default function SkillTabs({ activeSkill, onSelectSkill }) {
   return (
     <div className="my-5 sm:my-6 space-y-3 sm:space-y-3.5">
@@ -245,6 +271,48 @@ export default function SkillTabs({ activeSkill, onSelectSkill }) {
                 <span className={`text-xs sm:text-sm font-black tracking-wider block whitespace-nowrap truncate ${hub.textColor}`}>
                   {hub.label}
                 </span>
+                <p className="text-[11px] sm:text-xs text-slate-500 font-medium truncate mt-0.5">
+                  {hub.subtitle}
+                </p>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* HÀNG 4: 2 KHO BÀI MẪU WRITING (EMAIL & ACADEMIC DISCUSSION) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3.5">
+        {WRITING_SAMPLE_HUBS.map((hub) => {
+          const Icon = hub.icon;
+          const isActive = activeSkill === hub.id;
+
+          return (
+            <button
+              key={hub.id}
+              onClick={() => onSelectSkill(hub.id)}
+              className={`flex items-center gap-3 px-3.5 sm:px-4 py-3 sm:py-3.5 rounded-2xl bg-white border-2 transition-all duration-200 cursor-pointer text-left ${
+                isActive
+                  ? `${hub.activeBorder} scale-[1.01] bg-white`
+                  : 'border-[#dfd8cc] hover:border-slate-400 hover:shadow-md opacity-90 hover:opacity-100'
+              }`}
+            >
+              {/* Icon tròn */}
+              <div
+                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${hub.iconBg} text-white flex items-center justify-center shrink-0 shadow-xs`}
+              >
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+              </div>
+
+              {/* Tiêu đề & Phụ đề giải thích */}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <span className={`text-xs sm:text-sm font-black tracking-wider block whitespace-nowrap truncate ${hub.textColor}`}>
+                    {hub.label}
+                  </span>
+                  <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-amber-100 text-amber-800">
+                    BÀI MẪU
+                  </span>
+                </div>
                 <p className="text-[11px] sm:text-xs text-slate-500 font-medium truncate mt-0.5">
                   {hub.subtitle}
                 </p>

@@ -15,12 +15,15 @@ import {
   HelpCircle,
   Award,
   Layers,
-  Zap
+  Zap,
+  BookmarkPlus,
+  BookmarkCheck
 } from 'lucide-react';
 import { 
   isGeminiConfigured, 
   evaluateBothWritingSubmissions 
 } from '../../lib/gemini';
+import { createSampleFromUserAttempt } from '../../lib/writingSamplesStorage';
 import QuickVocabPopover, { useTextSelectionLookup } from '../dictionary/QuickVocabPopover';
 import SentenceEnhancerModal from '../writing/SentenceEnhancerModal';
 
@@ -57,6 +60,7 @@ export default function WritingAIEvaluation({
   const [activeTab, setActiveTab] = useState('email'); // 'email' | 'discussion' | 'overview'
   const [isOriginalExpanded, setIsOriginalExpanded] = useState(false);
   const [copiedTask, setCopiedTask] = useState(null);
+  const [savedSamples, setSavedSamples] = useState({});
   const { selectionData, clearSelection, handleTextMouseUp } = useTextSelectionLookup();
 
   // State Modal Nâng cấp câu 3 cấp độ
@@ -72,6 +76,54 @@ export default function WritingAIEvaluation({
       initialSentence: sentence,
       taskContext: context
     });
+  };
+
+  const handleSaveToSampleHub = (taskKey, subData, resData, title) => {
+    try {
+      const type = taskKey === 'email' ? 'email' : 'discussion';
+      const promptObj = type === 'email' 
+        ? {
+            scenario: subData?.scenario || subData?.prompt || title,
+            requirements: subData?.requirements || [
+              'State your main point clearly in the opening',
+              'Provide specific reasons and supporting details',
+              'Use appropriate formal tone and polite closing'
+            ]
+          }
+        : {
+            professorQuestion: subData?.question || subData?.prompt || title,
+            studentOpinions: subData?.peer_posts || []
+          };
+
+      const vocabList = Array.isArray(resData?.vocabulary_upgrades)
+        ? resData.vocabulary_upgrades.map(v => ({
+            term: v.upgrade || v.word,
+            meaning: v.vietnamese_meaning || v.meaning || 'Từ vựng học thuật nâng cấp',
+            contextInEssay: v.context || v.original || ''
+          }))
+        : [];
+
+      createSampleFromUserAttempt({
+        type,
+        testTitle: `${title} - Bài làm thực tế (${resData.score_30 || 28}/30)`,
+        testId: subData?.test_id || `exam_${Date.now()}`,
+        prompt: promptObj,
+        userDraft: subData?.essay_text || '',
+        userScore: resData?.score_band || 5.0,
+        aiImprovedEssay: resData?.model_revision || '',
+        aiFeedbackSummary: resData?.summary_feedback || '',
+        vocabList,
+        structureNotes: `Điểm số bài làm đạt: ${resData?.score_30 || 0}/30 (Band ${resData?.score_band || 5.0}). Nhận xét tổng quan: ${resData?.summary_feedback || ''}`
+      });
+
+      setSavedSamples(prev => ({ ...prev, [taskKey]: true }));
+      setTimeout(() => {
+        setSavedSamples(prev => ({ ...prev, [taskKey]: false }));
+      }, 4000);
+    } catch (err) {
+      console.error('Error saving writing sample:', err);
+      alert('Không thể lưu bài vào kho mẫu: ' + err.message);
+    }
   };
 
   // Đồng bộ existingEvaluation nếu được truyền từ bên ngoài VÀ thực sự khớp với bài viết hiện tại
@@ -429,23 +481,48 @@ export default function WritingAIEvaluation({
                 </div>
               </div>
 
-              <button
-                onClick={() => handleCopyModel(resData.model_revision, taskKey)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all cursor-pointer active:scale-95 border border-white/20"
-                title="Sao chép bài viết mẫu"
-              >
-                {copiedTask === taskKey ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-300">Đã sao chép</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5 text-slate-300" />
-                    <span>Sao chép bài mẫu</span>
-                  </>
-                )}
-              </button>
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => handleSaveToSampleHub(taskKey, subData, resData, title)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer active:scale-95 border ${
+                    savedSamples[taskKey]
+                      ? 'bg-emerald-500/30 text-emerald-200 border-emerald-400'
+                      : 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 hover:text-amber-100 border-amber-400/40'
+                  }`}
+                  title="Lưu bài làm & bài mẫu này vào Kho Bài Mẫu"
+                >
+                  {savedSamples[taskKey] ? (
+                    <>
+                      <BookmarkCheck className="w-3.5 h-3.5 text-emerald-300" />
+                      <span>Đã lưu vào Kho Bài Mẫu!</span>
+                    </>
+                  ) : (
+                    <>
+                      <BookmarkPlus className="w-3.5 h-3.5 text-amber-300" />
+                      <span>⭐ Lưu vào Kho Bài Mẫu</span>
+                    </>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => handleCopyModel(resData.model_revision, taskKey)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all cursor-pointer active:scale-95 border border-white/20"
+                  title="Sao chép bài viết mẫu"
+                >
+                  {copiedTask === taskKey ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-emerald-300">Đã sao chép</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5 text-slate-300" />
+                      <span>Sao chép bài mẫu</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
 
             <div className="p-4 rounded-xl bg-white/10 border border-white/10 font-serif text-xs sm:text-sm text-slate-100 leading-relaxed whitespace-pre-line shadow-inner">

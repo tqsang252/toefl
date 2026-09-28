@@ -13,6 +13,7 @@ import ContextVocabTrainer from './components/exam/ContextVocabTrainer';
 import SpeakingLab from './components/exam/SpeakingLab';
 import CompleteTheWordsTrainer from './components/exam/CompleteTheWordsTrainer';
 import SkillNotesHub from './components/notes/SkillNotesHub';
+import WritingSamplesHub from './components/writing/WritingSamplesHub';
 import DictionaryWidget from './components/dictionary/DictionaryWidget';
 import ExamCountdown from './components/ExamCountdown';
 import { getTestsBySkill, getFullTests, deleteTest, getExamHistory } from './lib/supabase';
@@ -83,7 +84,7 @@ function MainApp() {
     const viewToUse = overrideView !== undefined ? overrideView : currentView;
     const skillToUse = overrideSkill !== undefined ? overrideSkill : activeSkill;
 
-    if ((skillToUse === 'vocabulary' || skillToUse === 'context_vocab') && viewToUse === 'practice') {
+    if ((['vocabulary', 'context_vocab', 'writing_email_samples', 'writing_discussion_samples'].includes(skillToUse)) && viewToUse === 'practice') {
       setIsLoading(false);
       return;
     }
@@ -120,7 +121,7 @@ function MainApp() {
       setImportSkillModal('full');
     } else {
       setImportSkillModal(
-        (activeSkill === 'vocabulary' || activeSkill === 'context_vocab' || activeSkill === 'complete_the_words' || activeSkill === 'skill_notes')
+        (activeSkill === 'vocabulary' || activeSkill === 'context_vocab' || activeSkill === 'complete_the_words' || activeSkill === 'skill_notes' || activeSkill === 'writing_email_samples' || activeSkill === 'writing_discussion_samples')
           ? 'reading'
           : (activeSkill === 'speaking_lab' ? 'speaking' : (activeSkill || 'reading'))
       );
@@ -271,6 +272,18 @@ function MainApp() {
               <SpeakingLab />
             ) : activeSkill === 'skill_notes' ? (
               <SkillNotesHub />
+            ) : activeSkill === 'writing_email_samples' ? (
+              <WritingSamplesHub
+                initialType="email"
+                onStartPractice={(practiceTest) => handleStartTest(practiceTest)}
+                onNavigateToPracticeList={(skill) => setActiveSkill(skill)}
+              />
+            ) : activeSkill === 'writing_discussion_samples' ? (
+              <WritingSamplesHub
+                initialType="discussion"
+                onStartPractice={(practiceTest) => handleStartTest(practiceTest)}
+                onNavigateToPracticeList={(skill) => setActiveSkill(skill)}
+              />
             ) : isLoading ? (
               <div className="bg-white rounded-2xl border border-[#e5dfd5] p-12 text-center shadow-xs my-6">
                 <div className="w-8 h-8 border-3 border-teal-700 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
