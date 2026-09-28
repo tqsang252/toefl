@@ -162,8 +162,8 @@ export default function WritingSampleDetailModal({
                 {isEmail ? 'Task 2: Academic Email' : 'Task 3: Academic Discussion'}
               </span>
 
-              <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-                ⭐ {sample.targetBand || 'Band 5.0'}
+              <span className="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                ⭐ {(sample.targetBand || 'Band 5.5+').split('(')[0].trim()}
               </span>
 
               {sample.sourceType === 'user_exam' && (

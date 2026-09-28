@@ -324,6 +324,14 @@ export function getStoredSamples(type = 'email') {
       }
     }
 
+    // Tự động làm sạch targetBand nếu chứa các đoạn chú thích dài gây tràn viền
+    combined.forEach(s => {
+      if (s.targetBand && (s.targetBand.includes('(') || s.targetBand.length > 20)) {
+        s.targetBand = s.targetBand.split('(')[0].trim() || 'Band 5.5+';
+        hasChanges = true;
+      }
+    });
+
     if (hasChanges) {
       localStorage.setItem(key, JSON.stringify(combined));
     }
@@ -589,7 +597,7 @@ export function importBatchWritingSamples(samplesInput, defaultType = 'email') {
       title: item.title || (inferredType === 'email' ? `Bài mẫu Email #${idx + 1}` : `Bài mẫu Discussion #${idx + 1}`),
       topicCategory: item.topicCategory || item.topic_category || item.category || 'Tài liệu bổ sung',
       sourceType: 'ai_generated',
-      targetBand: item.targetBand || item.target_band || 'Band 5.5+ / 6.0',
+      targetBand: (item.targetBand || item.target_band || 'Band 5.5+ / 6.0').split('(')[0].trim(),
       prompt: promptObj,
       modelEssay: essay,
       wordCount: words,

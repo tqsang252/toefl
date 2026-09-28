@@ -439,21 +439,15 @@ export default function WritingSamplesHub({
                   
                   {/* Card Header Badges */}
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200 truncate max-w-[170px]">
+                    <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200 truncate">
                       {sample.topicCategory || 'General'}
                     </span>
 
-                    <div className="flex items-center gap-1.5 shrink-0">
-                      <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200">
-                        ⭐ {sample.targetBand || 'Band 5.0'}
+                    {isUserOrigin && (
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200 shrink-0" title="Được liên kết từ bài làm thực tế của bạn">
+                        🔗 Bài làm
                       </span>
-
-                      {isUserOrigin && (
-                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200" title="Được liên kết từ bài làm thực tế của bạn">
-                          🔗 Bài làm
-                        </span>
-                      )}
-                    </div>
+                    )}
                   </div>
 
                   {/* Title */}
