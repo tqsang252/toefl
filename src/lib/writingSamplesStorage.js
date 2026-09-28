@@ -481,10 +481,49 @@ export function deleteWritingSample(sampleId, type = 'email') {
 }
 
 /**
- * Khôi phục lại các bài mẫu mặc định
+ * Xóa sạch toàn bộ các bài mẫu đã upload / nhập sai của dạng này
+ * @param {string} type - 'email' | 'discussion'
+ * @param {boolean} keepDefaultsOnly - Nếu true: chỉ giữ lại 3 bài mẫu gốc ETS chuẩn, xóa sạch toàn bộ bài upload/nhập sai. Nếu false: xóa sạch 100%.
+ */
+export async function clearAllWritingSamples(type = 'email', keepDefaultsOnly = true) {
+  if (typeof window === 'undefined') return [];
+  const key = STORAGE_KEYS[type] || STORAGE_KEYS.email;
+  const initial = type === 'email' ? INITIAL_EMAIL_SAMPLES : INITIAL_DISCUSSION_SAMPLES;
+  const targetSamples = keepDefaultsOnly ? [...initial] : [];
+
+  localStorage.setItem(key, JSON.stringify(targetSamples));
+
+  // Đồng bộ xóa trên Supabase nếu có cấu hình
+  try {
+    const client = getSupabaseClient();
+    if (isSupabaseConfigured() && client) {
+      if (keepDefaultsOnly) {
+        const defaultIds = initial.map(s => s.id);
+        await client
+          .from('writing_samples')
+          .delete()
+          .eq('type', type)
+          .not('id', 'in', `(${defaultIds.map(id => `'${id}'`).join(',')})`);
+      } else {
+        await client
+          .from('writing_samples')
+          .delete()
+          .eq('type', type);
+      }
+    }
+  } catch (err) {
+    console.warn(`Supabase clear writing_samples notice (${type}):`, err.message);
+  }
+
+  return targetSamples;
+}
+
+/**
+ * Khôi phục lại các bài mẫu mặc định (xóa sạch bài upload/nhập sai)
  */
 export function resetWritingSamples(type = 'email') {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined') return [];
+  clearAllWritingSamples(type, true);
   const key = STORAGE_KEYS[type] || STORAGE_KEYS.email;
   const initial = type === 'email' ? INITIAL_EMAIL_SAMPLES : INITIAL_DISCUSSION_SAMPLES;
   localStorage.setItem(key, JSON.stringify(initial));
