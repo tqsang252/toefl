@@ -212,7 +212,7 @@ export default function CompleteTheWordsTrainer() {
     // Filter characters to alphabetic only
     const cleaned = value.replace(/[^a-zA-Z]/g, '');
     const blank = currentPassage.blanks[blankIdx];
-    const maxLen = blank.missingLength;
+    const maxLen = blank ? (blank.missing?.length || blank.missingLength) : 4;
     const truncated = cleaned.slice(0, maxLen);
 
     setUserInputs((prev) => ({
@@ -520,7 +520,7 @@ export default function CompleteTheWordsTrainer() {
             onKeyDown={(e) => handleKeyDown(e, blankIdx)}
             onFocus={() => setFocusedBlankIdx(blankIdx)}
             onBlur={() => setFocusedBlankIdx((prev) => (prev === blankIdx ? null : prev))}
-            maxLength={blankInfo.missingLength}
+            maxLength={missing.length}
             autoCapitalize="none"
             autoCorrect="off"
             spellCheck="false"
@@ -530,7 +530,7 @@ export default function CompleteTheWordsTrainer() {
 
           {/* Visible character slots with exact number of _ _ _ (1 single line per missing letter) */}
           <span className="inline-flex items-center gap-1 sm:gap-1.5 ml-1 font-mono text-[16px] sm:text-[17px] font-bold">
-            {Array.from({ length: blankInfo.missingLength }).map((_, charIdx) => {
+            {Array.from({ length: missing.length }).map((_, charIdx) => {
               const char = entered[charIdx];
               const isCharSlotActive = isFocused && entered.length === charIdx;
 

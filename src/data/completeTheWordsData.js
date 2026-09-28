@@ -1,22 +1,14 @@
 /**
  * TOEFL iBT 2026 OFFICIAL FORMAT: COMPLETE THE WORDS (C-TEST) BANK
  * 100 Authentic Academic & Campus Passages
- * 
- * ETS 2026 Specifications:
- * - 70-100 words academic/campus reading passages across 4 major domains
- * - First sentence is 100% complete and establishes full context
- * - 10 target words starting from sentence 2 are truncated according to C-Test rule:
- *     prefix = first ceil/floor half of letters (provided)
- *     missing = remaining letters to type in
- * - Standard TOEFL pacing: ~90 seconds per passage (9 seconds / word)
  */
 
 export const CTW_DOMAINS = [
-  'All Domains',
-  'Natural Sciences',
-  'Social Sciences',
-  'Arts & Humanities',
-  'Applied Tech & Engineering'
+  "All Domains",
+  "Natural Sciences",
+  "Social Sciences",
+  "Arts & Humanities",
+  "Applied Tech & Engineering"
 ];
 
 export const COMPLETE_THE_WORDS_BANK = [
@@ -361,6 +353,15 @@ export const COMPLETE_THE_WORDS_BANK = [
       },
       {
         "index": 4,
+        "prefix": "us",
+        "missing": "ing",
+        "fullWord": "using",
+        "missingLength": 3,
+        "pos": "Participle",
+        "hint": "Hiện tại phân từ 'sử dụng chòm sao'"
+      },
+      {
+        "index": 5,
         "prefix": "rece",
         "missing": "ptors",
         "fullWord": "receptors",
@@ -369,22 +370,13 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Danh từ số nhiều 'các thụ thể'"
       },
       {
-        "index": 5,
+        "index": 6,
         "prefix": "addi",
         "missing": "tion",
         "fullWord": "addition",
         "missingLength": 4,
         "pos": "Noun",
         "hint": "Danh từ trong cụm 'In addition'"
-      },
-      {
-        "index": 6,
-        "prefix": "us",
-        "missing": "ing",
-        "fullWord": "using",
-        "missingLength": 3,
-        "pos": "Participle",
-        "hint": "Hiện tại phân từ 'sử dụng chòm sao'"
       },
       {
         "index": 7,
@@ -453,6 +445,15 @@ export const COMPLETE_THE_WORDS_BANK = [
       },
       {
         "index": 3,
+        "prefix": "temper",
+        "missing": "atures",
+        "fullWord": "temperatures",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'nhiệt độ môi trường'"
+      },
+      {
+        "index": 4,
         "prefix": "ri",
         "missing": "se",
         "fullWord": "rise",
@@ -461,7 +462,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Động từ 'tăng lên'"
       },
       {
-        "index": 4,
+        "index": 5,
         "prefix": "ex",
         "missing": "pel",
         "fullWord": "expel",
@@ -470,7 +471,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Động từ 'trục xuất ra ngoài'"
       },
       {
-        "index": 5,
+        "index": 6,
         "prefix": "th",
         "missing": "eir",
         "fullWord": "their",
@@ -479,7 +480,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Tính từ sở hữu 'của chúng'"
       },
       {
-        "index": 6,
+        "index": 7,
         "prefix": "tu",
         "missing": "rn",
         "fullWord": "turn",
@@ -488,7 +489,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Động từ 'chuyển sang màu trắng'"
       },
       {
-        "index": 7,
+        "index": 8,
         "prefix": "fa",
         "missing": "ce",
         "fullWord": "face",
@@ -497,22 +498,13 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Động từ 'đối mặt với nạn đói'"
       },
       {
-        "index": 8,
+        "index": 9,
         "prefix": "starv",
         "missing": "ation",
         "fullWord": "starvation",
         "missingLength": 5,
         "pos": "Noun",
         "hint": "Danh từ 'sự đói lả / thiếu dinh dưỡng'"
-      },
-      {
-        "index": 9,
-        "prefix": "temper",
-        "missing": "atures",
-        "fullWord": "temperatures",
-        "missingLength": 6,
-        "pos": "Noun",
-        "hint": "Danh từ số nhiều 'nhiệt độ môi trường'"
       },
       {
         "index": 10,
@@ -655,6 +647,15 @@ export const COMPLETE_THE_WORDS_BANK = [
       },
       {
         "index": 3,
+        "prefix": "tr",
+        "missing": "ees",
+        "fullWord": "trees",
+        "missingLength": 3,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'những cây cổ thụ'"
+      },
+      {
+        "index": 4,
         "prefix": "wi",
         "missing": "th",
         "fullWord": "with",
@@ -663,22 +664,13 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Giới từ 'cung cấp cho cây với'"
       },
       {
-        "index": 4,
+        "index": 5,
         "prefix": "fr",
         "missing": "om",
         "fullWord": "from",
         "missingLength": 2,
         "pos": "Preposition",
         "hint": "Giới từ 'chiết xuất từ đất khoáng'"
-      },
-      {
-        "index": 5,
-        "prefix": "tr",
-        "missing": "ees",
-        "fullWord": "trees",
-        "missingLength": 3,
-        "pos": "Noun",
-        "hint": "Danh từ số nhiều 'những cây cổ thụ'"
       },
       {
         "index": 6,
@@ -1041,6 +1033,15 @@ export const COMPLETE_THE_WORDS_BANK = [
     "blanks": [
       {
         "index": 1,
+        "prefix": "mole",
+        "missing": "cules",
+        "fullWord": "molecules",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'các phân tử oxy'"
+      },
+      {
+        "index": 2,
         "prefix": "thr",
         "missing": "ough",
         "fullWord": "through",
@@ -1049,7 +1050,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Giới từ 'thông qua các phản ứng quang hóa'"
       },
       {
-        "index": 2,
+        "index": 3,
         "prefix": "radi",
         "missing": "ation",
         "fullWord": "radiation",
@@ -1058,7 +1059,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Danh từ 'bức xạ mặt trời'"
       },
       {
-        "index": 3,
+        "index": 4,
         "prefix": "in",
         "missing": "to",
         "fullWord": "into",
@@ -1067,22 +1068,13 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Giới từ 'thành các nguyên tử riêng lẻ'"
       },
       {
-        "index": 4,
+        "index": 5,
         "prefix": "at",
         "missing": "oms",
         "fullWord": "atoms",
         "missingLength": 3,
         "pos": "Noun",
         "hint": "Danh từ số nhiều 'các nguyên tử tự do'"
-      },
-      {
-        "index": 5,
-        "prefix": "mole",
-        "missing": "cules",
-        "fullWord": "molecules",
-        "missingLength": 5,
-        "pos": "Noun",
-        "hint": "Danh từ số nhiều 'các phân tử oxy'"
       },
       {
         "index": 6,
@@ -1151,6 +1143,15 @@ export const COMPLETE_THE_WORDS_BANK = [
       },
       {
         "index": 2,
+        "prefix": "li",
+        "missing": "ght",
+        "fullWord": "light",
+        "missingLength": 3,
+        "pos": "Noun",
+        "hint": "Danh từ 'ánh sáng lạnh'"
+      },
+      {
+        "index": 3,
         "prefix": "cal",
         "missing": "led",
         "fullWord": "called",
@@ -1159,7 +1160,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Quá khứ phân từ 'được gọi là cơ quan phát quang'"
       },
       {
-        "index": 3,
+        "index": 4,
         "prefix": "oxid",
         "missing": "ation",
         "fullWord": "oxidation",
@@ -1168,22 +1169,13 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Danh từ 'sự oxy hóa chất nền'"
       },
       {
-        "index": 4,
+        "index": 5,
         "prefix": "enz",
         "missing": "yme",
         "fullWord": "enzyme",
         "missingLength": 3,
         "pos": "Noun",
         "hint": "Danh từ 'men sinh học luciferase'"
-      },
-      {
-        "index": 5,
-        "prefix": "li",
-        "missing": "ght",
-        "fullWord": "light",
-        "missingLength": 3,
-        "pos": "Noun",
-        "hint": "Danh từ 'ánh sáng lạnh'"
       },
       {
         "index": 6,
@@ -1748,6 +1740,15 @@ export const COMPLETE_THE_WORDS_BANK = [
     "blanks": [
       {
         "index": 1,
+        "prefix": "ma",
+        "missing": "gma",
+        "fullWord": "magma",
+        "missingLength": 3,
+        "pos": "Noun",
+        "hint": "Danh từ 'dung nham mới phun trào'"
+      },
+      {
+        "index": 2,
         "prefix": "cen",
         "missing": "ters",
         "fullWord": "centers",
@@ -1756,7 +1757,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Danh từ số nhiều 'các trung tâm mở rộng đáy biển'"
       },
       {
-        "index": 2,
+        "index": 3,
         "prefix": "mine",
         "missing": "rals",
         "fullWord": "minerals",
@@ -1765,7 +1766,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Danh từ số nhiều 'các khoáng chất chứa sắt'"
       },
       {
-        "index": 3,
+        "index": 4,
         "prefix": "geoma",
         "missing": "gnetic",
         "fullWord": "geomagnetic",
@@ -1774,22 +1775,13 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Tính từ 'thuộc từ trường Trái đất'"
       },
       {
-        "index": 4,
+        "index": 5,
         "prefix": "pola",
         "missing": "rity",
         "fullWord": "polarity",
         "missingLength": 4,
         "pos": "Noun",
         "hint": "Danh từ 'độ phân cực từ trường'"
-      },
-      {
-        "index": 5,
-        "prefix": "ma",
-        "missing": "gma",
-        "fullWord": "magma",
-        "missingLength": 3,
-        "pos": "Noun",
-        "hint": "Danh từ 'dung nham mới phun trào'"
       },
       {
         "index": 6,
@@ -3492,6 +3484,15 @@ export const COMPLETE_THE_WORDS_BANK = [
       },
       {
         "index": 4,
+        "prefix": "popul",
+        "missing": "ation",
+        "fullWord": "population",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ 'sự bùng nổ dân số'"
+      },
+      {
+        "index": 5,
         "prefix": "adva",
         "missing": "nces",
         "fullWord": "advances",
@@ -3500,7 +3501,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Danh từ số nhiều 'những tiến bộ trong phân phối lương thực'"
       },
       {
-        "index": 5,
+        "index": 6,
         "prefix": "hyg",
         "missing": "iene",
         "fullWord": "hygiene",
@@ -3509,7 +3510,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Danh từ 'vệ sinh công cộng'"
       },
       {
-        "index": 6,
+        "index": 7,
         "prefix": "mort",
         "missing": "ality",
         "fullWord": "mortality",
@@ -3518,22 +3519,13 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Danh từ 'tỷ lệ tử vong giảm mạnh'"
       },
       {
-        "index": 7,
+        "index": 8,
         "prefix": "diver",
         "missing": "gence",
         "fullWord": "divergence",
         "missingLength": 5,
         "pos": "Noun",
         "hint": "Danh từ 'sự phân kỳ nhân khẩu học'"
-      },
-      {
-        "index": 8,
-        "prefix": "popul",
-        "missing": "ation",
-        "fullWord": "population",
-        "missingLength": 5,
-        "pos": "Noun",
-        "hint": "Danh từ 'sự bùng nổ dân số'"
       },
       {
         "index": 9,
@@ -4015,6 +4007,15 @@ export const COMPLETE_THE_WORDS_BANK = [
       },
       {
         "index": 6,
+        "prefix": "fina",
+        "missing": "ncial",
+        "fullWord": "financial",
+        "missingLength": 5,
+        "pos": "Adjective",
+        "hint": "Tính từ 'các quyết định tài chính phi lý trí'"
+      },
+      {
+        "index": 7,
         "prefix": "int",
         "missing": "ense",
         "fullWord": "intense",
@@ -4023,7 +4024,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Tính từ 'nỗi đau mạnh gấp đôi niềm vui nhận được'"
       },
       {
-        "index": 7,
+        "index": 8,
         "prefix": "equiv",
         "missing": "alent",
         "fullWord": "equivalent",
@@ -4032,22 +4033,13 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Tính từ 'số tiền tương đương'"
       },
       {
-        "index": 8,
+        "index": 9,
         "prefix": "asymm",
         "missing": "etric",
         "fullWord": "asymmetric",
         "missingLength": 5,
         "pos": "Adjective",
         "hint": "Tính từ 'sở thích rủi ro bất đối xứng'"
-      },
-      {
-        "index": 9,
-        "prefix": "fina",
-        "missing": "ncial",
-        "fullWord": "financial",
-        "missingLength": 5,
-        "pos": "Adjective",
-        "hint": "Tính từ 'các quyết định tài chính phi lý trí'"
       },
       {
         "index": 10,
@@ -4585,15 +4577,6 @@ export const COMPLETE_THE_WORDS_BANK = [
       },
       {
         "index": 2,
-        "prefix": "pastor",
-        "missing": "alists",
-        "fullWord": "pastoralists",
-        "missingLength": 6,
-        "pos": "Noun",
-        "hint": "Danh từ số nhiều 'người chăn nuôi du mục'"
-      },
-      {
-        "index": 3,
         "prefix": "gra",
         "missing": "zing",
         "fullWord": "grazing",
@@ -4602,7 +4585,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Tính từ/Danh từ 'chăn nuôi các loài động vật gặm cỏ'"
       },
       {
-        "index": 4,
+        "index": 3,
         "prefix": "port",
         "missing": "able",
         "fullWord": "portable",
@@ -4611,7 +4594,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Tính từ 'nhà lều bằng nỉ có thể di chuyển được'"
       },
       {
-        "index": 5,
+        "index": 4,
         "prefix": "disma",
         "missing": "ntled",
         "fullWord": "dismantled",
@@ -4620,7 +4603,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Quá khứ phân từ 'có thể tháo dỡ và đóng gói nhanh chóng'"
       },
       {
-        "index": 6,
+        "index": 5,
         "prefix": "migr",
         "missing": "ating",
         "fullWord": "migrating",
@@ -4629,7 +4612,7 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Danh từ V-ing 'bằng cách di cư chiến lược giữa các mùa'"
       },
       {
-        "index": 7,
+        "index": 6,
         "prefix": "past",
         "missing": "ures",
         "fullWord": "pastures",
@@ -4638,13 +4621,22 @@ export const COMPLETE_THE_WORDS_BANK = [
         "hint": "Danh từ số nhiều 'đồng cỏ mùa đông ở vùng đất thấp'"
       },
       {
-        "index": 8,
+        "index": 7,
         "prefix": "mea",
         "missing": "dows",
         "fullWord": "meadows",
         "missingLength": 4,
         "pos": "Noun",
         "hint": "Danh từ số nhiều 'đồng cỏ mùa hè trên núi cao'"
+      },
+      {
+        "index": 8,
+        "prefix": "pastor",
+        "missing": "alists",
+        "fullWord": "pastoralists",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'người chăn nuôi du mục'"
       },
       {
         "index": 9,
