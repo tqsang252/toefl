@@ -177,7 +177,73 @@ CREATE POLICY "Allow public delete context_vocab_questions"
 ON context_vocab_questions FOR DELETE 
 USING (true);
 
+-- 7. Bảng lưu Sổ tay ghi chú học tập & cheatsheets (study_notes)
+CREATE TABLE IF NOT EXISTS study_notes (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  category TEXT NOT NULL,
+  summary TEXT,
+  tags JSONB DEFAULT '[]'::jsonb,
+  items JSONB NOT NULL DEFAULT '[]'::jsonb,
+  original_image_url TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+ALTER TABLE study_notes ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public read study_notes" 
+ON study_notes FOR SELECT 
+USING (true);
+
+CREATE POLICY "Allow public insert study_notes" 
+ON study_notes FOR INSERT 
+WITH CHECK (true);
+
+CREATE POLICY "Allow public update study_notes" 
+ON study_notes FOR UPDATE 
+USING (true);
+
+CREATE POLICY "Allow public delete study_notes" 
+ON study_notes FOR DELETE 
+USING (true);
+
+-- 8. Bảng lưu Kho Bài Viết Mẫu Writing (writing_samples)
+CREATE TABLE IF NOT EXISTS writing_samples (
+  id TEXT PRIMARY KEY,
+  type TEXT NOT NULL CHECK (type IN ('email', 'discussion')),
+  title TEXT NOT NULL,
+  topic_category TEXT,
+  source_type TEXT DEFAULT 'external_upload',
+  target_band TEXT DEFAULT '5.5+ / 6.0',
+  prompt JSONB NOT NULL,
+  model_essay TEXT NOT NULL,
+  word_count INTEGER,
+  vocabulary_highlights JSONB DEFAULT '[]'::jsonb,
+  structure_analysis TEXT,
+  user_original_response JSONB,
+  personal_notes TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+ALTER TABLE writing_samples ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public read writing_samples" 
+ON writing_samples FOR SELECT 
+USING (true);
+
+CREATE POLICY "Allow public insert writing_samples" 
+ON writing_samples FOR INSERT 
+WITH CHECK (true);
+
+CREATE POLICY "Allow public update writing_samples" 
+ON writing_samples FOR UPDATE 
+USING (true);
+
+CREATE POLICY "Allow public delete writing_samples" 
+ON writing_samples FOR DELETE 
+USING (true);
+
 -- ====================================================================
--- ĐÃ XONG! Giờ bạn có thể import đề thi, từ vựng & lưu lịch sử vào Supabase.
+-- ĐÃ XONG! Giờ bạn có thể import đề thi, từ vựng, sổ tay & kho bài mẫu vào Supabase.
 -- ====================================================================
 

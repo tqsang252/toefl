@@ -24,7 +24,8 @@ import {
   getStoredSamples,
   saveWritingSample,
   deleteWritingSample,
-  resetWritingSamples
+  resetWritingSamples,
+  syncWritingSamplesFromSupabase
 } from '../../lib/writingSamplesStorage';
 import WritingSampleDetailModal from './WritingSampleDetailModal';
 import AddWritingSampleModal from './AddWritingSampleModal';
@@ -49,11 +50,18 @@ export default function WritingSamplesHub({
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [copiedId, setCopiedId] = useState(null);
 
-  // Sync state when activeType or initialType changes
+  // Sync state when activeType or initialType changes (Local + Supabase Cloud)
   useEffect(() => {
     setSamples(getStoredSamples(activeType));
     setSelectedCategory('All');
     setSearchQuery('');
+
+    // Đồng bộ hai chiều từ Supabase Cloud nếu có cấu hình
+    syncWritingSamplesFromSupabase(activeType).then(synced => {
+      if (Array.isArray(synced)) {
+        setSamples(synced);
+      }
+    });
   }, [activeType]);
 
   const isEmail = activeType === 'email';

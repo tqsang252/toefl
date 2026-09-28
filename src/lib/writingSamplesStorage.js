@@ -336,6 +336,69 @@ export function getStoredSamples(type = 'email') {
 }
 
 /**
+ * Đồng bộ hai chiều với cơ sở dữ liệu Supabase Cloud
+ */
+export async function syncWritingSamplesFromSupabase(type = 'email') {
+  if (typeof window === 'undefined') return getStoredSamples(type);
+  const client = getSupabaseClient();
+  if (!isSupabaseConfigured() || !client) return getStoredSamples(type);
+
+  try {
+    const { data, error } = await client
+      .from('writing_samples')
+      .select('*')
+      .eq('type', type)
+      .order('created_at', { ascending: false });
+
+    if (!error && Array.isArray(data) && data.length > 0) {
+      const initial = type === 'email' ? INITIAL_EMAIL_SAMPLES : INITIAL_DISCUSSION_SAMPLES;
+      const key = STORAGE_KEYS[type] || STORAGE_KEYS.email;
+      const current = getStoredSamples(type);
+
+      // Chuyển đổi từ snake_case của Postgres sang camelCase của JS
+      const cloudSamples = data.map(row => ({
+        id: row.id,
+        type: row.type,
+        title: row.title,
+        topicCategory: row.topic_category || 'Tài liệu bổ sung',
+        sourceType: row.source_type || 'external_upload',
+        targetBand: row.target_band || '5.5+ / 6.0',
+        prompt: row.prompt,
+        modelEssay: row.model_essay,
+        wordCount: row.word_count || row.model_essay?.split(/\s+/).filter(Boolean).length || 0,
+        vocabularyHighlights: row.vocabulary_highlights || [],
+        structureAnalysis: row.structure_analysis || '',
+        userOriginalResponse: row.user_original_response || null,
+        personalNotes: row.personal_notes || '',
+        created_at: row.created_at
+      }));
+
+      // Hợp nhất dữ liệu Cloud và Local
+      const mergedMap = new Map();
+      cloudSamples.forEach(s => mergedMap.set(s.id, s));
+      current.forEach(s => {
+        if (!mergedMap.has(s.id)) {
+          mergedMap.set(s.id, s);
+        }
+      });
+      initial.forEach(def => {
+        if (!mergedMap.has(def.id)) {
+          mergedMap.set(def.id, def);
+        }
+      });
+
+      const combined = Array.from(mergedMap.values());
+      localStorage.setItem(key, JSON.stringify(combined));
+      return combined;
+    }
+  } catch (err) {
+    console.warn(`Supabase writing_samples sync notice (${type}):`, err.message);
+  }
+
+  return getStoredSamples(type);
+}
+
+/**
  * Lưu 1 bài mẫu mới hoặc cập nhật bài mẫu hiện có
  */
 export function saveWritingSample(sample) {
