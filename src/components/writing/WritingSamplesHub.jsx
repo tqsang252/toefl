@@ -28,6 +28,7 @@ import {
 } from '../../lib/writingSamplesStorage';
 import WritingSampleDetailModal from './WritingSampleDetailModal';
 import AddWritingSampleModal from './AddWritingSampleModal';
+import ImportWritingSamplesModal from './ImportWritingSamplesModal';
 
 export default function WritingSamplesHub({
   initialType = 'email',
@@ -45,6 +46,7 @@ export default function WritingSamplesHub({
   // Modals
   const [selectedSample, setSelectedSample] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [copiedId, setCopiedId] = useState(null);
 
   // Sync state when activeType or initialType changes
@@ -189,6 +191,16 @@ export default function WritingSamplesHub({
     setSelectedSample(newSample);
   };
 
+  // Batch imported success
+  const handleBatchImported = (importedList, targetType) => {
+    const typeToLoad = targetType || activeType;
+    const updated = getStoredSamples(typeToLoad);
+    if (targetType && targetType !== activeType) {
+      setActiveType(targetType);
+    }
+    setSamples(updated);
+  };
+
   // Reset to default
   const handleReset = () => {
     if (confirm(`Bạn có chắc muốn khôi phục lại các bài mẫu mặc định của ${isEmail ? 'Email' : 'Discussion'}?`)) {
@@ -248,13 +260,26 @@ export default function WritingSamplesHub({
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:items-end gap-2.5 shrink-0">
-            <button
-              onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-white text-slate-900 hover:bg-slate-100 active:scale-95 text-xs font-black shadow-lg transition-all cursor-pointer w-full sm:w-auto"
-            >
-              <Plus className="w-4 h-4 text-indigo-600" />
-              <span>+ Thêm Bài Mẫu Mới (Upload / OCR)</span>
-            </button>
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={() => setIsImportModalOpen(true)}
+                className="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-lg transition-all cursor-pointer active:scale-95 flex-1 sm:flex-initial"
+                title="Nhập danh sách bài mẫu từ JSON hoặc lấy Prompt cho AI sinh đề"
+              >
+                <Sparkles className="w-4 h-4 text-slate-950" />
+                <span>📥 Upload JSON / AI Prompt</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsAddModalOpen(true)}
+                className="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-white text-slate-900 hover:bg-slate-100 active:scale-95 text-xs font-black shadow-lg transition-all cursor-pointer flex-1 sm:flex-initial"
+              >
+                <Plus className="w-4 h-4 text-indigo-600" />
+                <span>+ Thêm Thủ Công / OCR</span>
+              </button>
+            </div>
 
             {onNavigateToPracticeList && (
               <button
@@ -371,12 +396,22 @@ export default function WritingSamplesHub({
           <p className="text-xs text-slate-400 max-w-sm mx-auto">
             Hãy thử tìm với từ khóa khác hoặc bấm nút bên dưới để thêm bài mẫu mới vào kho lưu trữ!
           </p>
-          <button
-            onClick={() => setIsAddModalOpen(true)}
-            className="mt-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
-          >
-            + Thêm Bài Mẫu Mới
-          </button>
+          <div className="flex items-center justify-center gap-2.5 pt-2 flex-wrap">
+            <button
+              onClick={() => setIsImportModalOpen(true)}
+              className="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs transition-all shadow-xs cursor-pointer flex items-center gap-1.5"
+            >
+              <Sparkles className="w-4 h-4 text-slate-950" />
+              <span>📥 Upload JSON / AI Prompt</span>
+            </button>
+            <button
+              onClick={() => setIsAddModalOpen(true)}
+              className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-xs cursor-pointer flex items-center gap-1.5"
+            >
+              <Plus className="w-4 h-4" />
+              <span>+ Thêm Thủ Công / OCR</span>
+            </button>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -515,6 +550,14 @@ export default function WritingSamplesHub({
         onClose={() => setIsAddModalOpen(false)}
         defaultType={activeType}
         onSampleCreated={handleSampleCreated}
+      />
+
+      {/* IMPORT JSON / AI PROMPT MODAL */}
+      <ImportWritingSamplesModal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        defaultType={activeType}
+        onImportSuccess={handleBatchImported}
       />
 
     </div>

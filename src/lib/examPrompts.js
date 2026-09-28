@@ -2848,3 +2848,181 @@ export function getExamPrompt(skillType = 'full', writingSubtype = 'full') {
   
   return SAMPLE_FULL_TEST_PROMPT;
 }
+
+// ====================================================================
+// 9. PROMPT SINH DANH SÁCH BÀI MẪU WRITING (EMAIL & DISCUSSION) BAND 5.5+
+// ====================================================================
+
+export const SAMPLE_WRITING_EMAIL_SAMPLES_PROMPT = `Hãy đóng vai **chuyên gia khảo thí và biên soạn tài liệu TOEFL iBT 2026 cấp cao**, có nhiệm vụ nghiên cứu và tạo ra một danh sách các **BÀI VIẾT MẪU ACADEMIC EMAIL (TASK 2) ĐẠT BAND TRÊN 5.5 (5.5 - 6.0)** chuẩn format ETS 2026.
+
+## 5 YÊU CẦU BẮT BUỘC (TUÂN THỦ TUYỆT ĐỐI):
+
+1. **LUÔN TÌM HIỂU CẤU TRÚC ĐỀ THI THẬT TOEFL 2026 (TASK 2: WRITE AN EMAIL)**:
+   - Thời gian làm bài thực tế: 7 phút.
+   - Dung lượng tiêu chuẩn: 100 - 130 từ (tối thiểu 80 từ).
+   - Cấu trúc đề thi thật luôn có:
+     + Bối cảnh giao tiếp đại học thực tế (sinh viên gửi giáo sư, trưởng khoa, phòng đào tạo, cố vấn học tập).
+     + **Đúng 3 gạch đầu dòng yêu cầu bắt buộc (Requirements)** mà sinh viên phải phản hồi đầy đủ và thuyết phục.
+   - Cấu trúc email bài mẫu chuẩn mực:
+     + Lời chào trang trọng chuẩn mực học thuật: "Dear Professor [LastName]," hoặc "Dear Dr. [LastName],".
+     + Câu mở đầu nêu rõ mục đích viết thư một cách lịch sự, trực diện.
+     + Đoạn thân bài giải quyết trọn vẹn 3 gạch đầu dòng với lý do thuyết phục và đề xuất phương án giải quyết cụ thể.
+     + Lời cảm ơn và kết thư lịch thiệp: "Thank you very much for your time and understanding. / Sincerely, [Student Name]".
+
+2. **TÌM KIẾM CÁC BÀI THI THẬT VÀ BÀI MẪU TRÊN CÁC TRANG WEB CHÍNH THỐNG TOEFL iBT 2026**:
+   - Chủ động tra cứu, mô phỏng và tái hiện các chủ đề thi thật thường xuất hiện trong đề thi ETS chính thức (Official TOEFL iBT Tests, TOEFL Resources, TST Prep...).
+   - Bối cảnh đại học Bắc Mỹ thực tế: Xin gia hạn nộp luận văn/báo cáo lab do sự cố thiết bị, đề xuất đổi ca làm việc phòng nghiên cứu, thắc mắc về điểm số bài kiểm tra giữa kỳ, xin thư giới thiệu học bổng, xin phép tham gia hội thảo khoa học, đề nghị bảo lưu môn học hoặc đăng ký môn quá tải.
+
+3. **TÌM HIỂU SÂU SẮC CHỦ ĐỀ CỦA BÀI**:
+   - Tình huống phải chân thực, tình tiết hợp lý, có tính logic cao trong đời sống sinh viên và nghiên cứu sinh đại học.
+   - Thể hiện sự tôn trọng, tác phong làm việc chuyên nghiệp của sinh viên đại học quốc tế.
+
+4. **⚠️ QUY TẮC SỐNG CÒN: PROMPT JSON CHỈ LÀ CẤU TRÚC (SCHEMA) — TUYỆT ĐỐI KHÔNG PARAPHRASE TỪ VÍ DỤ**:
+   - Cấu trúc JSON mẫu bên dưới CHỈ là khung kỹ thuật (keys/fields).
+   - **Tuyệt đối KHÔNG sao chép, không paraphrase từ ví dụ mẫu trong prompt**.
+   - Mỗi bài mẫu tạo ra phải là một chủ đề hoàn toàn MỚI, tình huống MỚI, nhân vật MỚI, nội dung MỚI 100%.
+
+5. **BÀI VIẾT PHẢI CÓ BAND TRÊN 5.5 NHƯNG CÂU TỪ ĐƠN GIẢN, DỄ HIỂU, DỄ NHỚ, KHÔNG DÙNG CẤU TRÚC PHỨC TẠP MÁY MÓC**:
+   - **Tiêu chuẩn Band 5.5 - 6.0**: Đạt điểm tuyệt đối nhờ **tính chính xác, tự nhiên, diễn đạt rõ ràng, mạch lạc, đúng trọng tâm**.
+   - **Văn phong**: BẮT BUỘC dùng **câu từ ĐƠN GIẢN, TRONG SÁNG, DỄ NHỚ**. Tránh dùng các từ ngữ hàn lâm quá cao siêu xa rời thực tế, tránh các cấu trúc câu dài dòng rối rắm hoặc ghép câu máy móc vô nghĩa.
+   - Người học đọc vào là hiểu ngay, học thuộc và có thể áp dụng ngay trong phòng thi 7 phút!
+   - Cung cấp **4 - 6 từ vựng / collocations cốt lõi đắt giá** kèm nghĩa tiếng Việt ngắn gọn, dễ nhớ.
+   - Phân tích chiến lược viết ngắn gọn (Structure Analysis) giúp người học nắm được tư duy bố cục.
+
+---
+
+## CẤU TRÚC ĐẦU RA JSON CHUẨN XÁC (XUẤT RA DẠNG ARRAY):
+
+⚠️ Chỉ xuất mảng JSON thuần túy (không kèm markdown \`\`\`json, không có lời dẫn hay giải thích ngoài JSON):
+
+[
+  {
+    "id": "sample_email_generated_1",
+    "type": "email",
+    "title": "Tiêu đề tiếng Anh ngắn gọn mô tả tình huống",
+    "topicCategory": "Campus Life & Student Affairs",
+    "sourceType": "ai_generated",
+    "targetBand": "Band 5.5+ / 6.0",
+    "prompt": {
+      "scenario": "Đoạn văn tiếng Anh mô tả chi tiết tình huống bạn gặp phải và nhiệm vụ cần gửi email cho ai.",
+      "requirements": [
+        "Yêu cầu cụ thể thứ nhất cần nêu trong email",
+        "Yêu cầu cụ thể thứ hai cần giải thích hoặc đề xuất",
+        "Yêu cầu cụ thể thứ ba về hành động kế tiếp hoặc xin lịch hẹn"
+      ],
+      "recommendedWords": "100 - 130 words"
+    },
+    "modelEssay": "Toàn văn bài viết email mẫu hoàn chỉnh chuẩn Band 5.5+ (từ lời chào, các đoạn văn đến kết thư).",
+    "wordCount": 115,
+    "vocabularyHighlights": [
+      {
+        "term": "cụm từ học thuật tiếng Anh hay",
+        "meaning": "nghĩa tiếng Việt ngắn gọn dễ nhớ",
+        "contextInEssay": "trích đoạn câu chứa cụm từ này trong bài mẫu"
+      }
+    ],
+    "structureAnalysis": "• Lời chào & Lý do viết thư (1 câu): Rõ ràng, lịch sự.\n• Giải thích tình huống (2 câu): Nêu nguyên nhân cụ thể bằng từ ngữ tự nhiên, mạch lạc.\n• Đề xuất giải pháp (2 câu): Nêu rõ thời gian và nguyện vọng cụ thể.\n• Kết thư: Cảm ơn và bày tỏ thái độ tôn trọng."
+  }
+]`;
+
+export const SAMPLE_WRITING_DISCUSSION_SAMPLES_PROMPT = `Hãy đóng vai **chuyên gia khảo thí và biên soạn tài liệu TOEFL iBT 2026 cấp cao**, có nhiệm vụ nghiên cứu và tạo ra một danh sách các **BÀI VIẾT MẪU ACADEMIC DISCUSSION (TASK 3) ĐẠT BAND TRÊN 5.5 (5.5 - 6.0)** chuẩn format ETS 2026.
+
+## 5 YÊU CẦU BẮT BUỘC (TUÂN THỦ TUYỆT ĐỐI):
+
+1. **LUÔN TÌM HIỂU CẤU TRÚC ĐỀ THI THẬT TOEFL 2026 (TASK 3: ACADEMIC DISCUSSION)**:
+   - Thời gian làm bài thực tế: 10 phút.
+   - Dung lượng tiêu chuẩn: 120 - 150 từ (tối thiểu 100 từ).
+   - Cấu trúc đề thi thật luôn có:
+     + Bối cảnh seminar đại học: Giáo sư (Professor) đặt ra một câu hỏi học thuật có tính tranh luận cao về xã hội, kinh tế, công nghệ, giáo dục hoặc môi trường.
+     + **Đúng 2 bài phát biểu của 2 sinh viên (Michael & Sarah)** đại diện cho 2 góc nhìn đối lập (mỗi bạn 40 - 55 từ).
+   - Cấu trúc bài làm của thí sinh:
+     + Nêu rõ lập trường cá nhân ngay trong câu mở đầu: Đồng ý với bạn nào hoặc đề xuất một góc nhìn cân bằng độc lập.
+     + Liên hệ, đối chiếu và phản biện ý kiến của 2 bạn học.
+     + Đưa ra luận điểm cá nhân kèm ví dụ minh họa thực tế, cụ thể, giàu sức thuyết phục.
+
+2. **TÌM KIẾM CÁC BÀI THI THẬT VÀ BÀI MẪU TRÊN CÁC TRANG WEB CHÍNH THỐNG TOEFL iBT 2026**:
+   - Mô phỏng chính xác các đề thi thật được ETS công bố và các nguồn uy tín (Official Guide, TOEFL Resources, TST Prep...).
+   - Chủ đề nóng đương đại: AI và tự động hóa trong giáo dục & việc làm; Bảo vệ môi trường vs Tăng trưởng kinh tế; Làm việc từ xa (Remote work) vs Đến văn phòng; Giáo dục đại học trực tuyến vs Học tập truyền thống; Sử dụng ngân sách công cho nghệ thuật vs Cơ sở hạ tầng; Quản lý mạng xã hội và bảo mật dữ liệu.
+
+3. **TÌM HIỂU SÂU SẮC CHỦ ĐỀ CỦA BÀI**:
+   - Câu hỏi của giáo sư phải kích thích tư duy phản biện đa chiều.
+   - Ý kiến của 2 sinh viên phải có lập luận hợp lý, không được ngây ngô hay quá phiến diện.
+
+4. **⚠️ QUY TẮC SỐNG CÒN: PROMPT JSON CHỈ LÀ CẤU TRÚC (SCHEMA) — TUYỆT ĐỐI KHÔNG PARAPHRASE TỪ VÍ DỤ**:
+   - Cấu trúc JSON mẫu bên dưới CHỈ là khung định dạng dữ liệu (keys/fields).
+   - **Tuyệt đối KHÔNG sao chép hay paraphrase chủ đề từ ví dụ trong prompt**.
+   - Mỗi bài mẫu phải là 1 chủ đề hoàn toàn MỚI, câu hỏi giáo sư MỚI, lập luận sinh viên MỚI và bài viết mẫu MỚI 100%.
+
+5. **BÀI VIẾT PHẢI CÓ BAND TRÊN 5.5 NHƯNG CÂU TỪ ĐƠN GIẢN, DỄ HIỂU, DỄ NHỚ, KHÔNG DÙNG CẤU TRÚC PHỨC TẠP MÁY MÓC**:
+   - **Tiêu chuẩn Band 5.5 - 6.0**: Điểm số tối đa đạt được nhờ **lập luận sắc bén, chuyển ý mượt mà, từ vựng tự nhiên, chính xác**.
+   - **Văn phong**: BẮT BUỘC sử dụng **câu từ ĐƠN GIẢN, RÕ RÀNG, DỄ HIỂU, DỄ NHỚ**. Tránh dùng các từ ngữ quá cao lương mỹ vị xa lạ, không dùng các cấu trúc ngữ pháp đảo ngữ hay phức tạp gượng ép mang tính máy móc.
+   - Thí sinh có thể ghi nhớ cấu trúc phản biện và áp dụng ngay trong 10 phút làm bài thi.
+   - Cung cấp **4 - 6 collocations / từ vựng cốt lõi đắt giá** kèm nghĩa tiếng Việt dễ nhớ.
+   - Phân tích chiến lược viết (Structure Analysis) ngắn gọn, trực diện.
+
+---
+
+## CẤU TRÚC ĐẦU RA JSON CHUẨN XÁC (XUẤT RA DẠNG ARRAY):
+
+⚠️ Chỉ xuất mảng JSON thuần túy (không kèm markdown \`\`\`json, không có lời dẫn hay giải thích ngoài JSON):
+
+[
+  {
+    "id": "sample_discussion_generated_1",
+    "type": "discussion",
+    "title": "Tiêu đề tiếng Anh ngắn gọn về chủ đề tranh luận",
+    "topicCategory": "Technology & Digital Media",
+    "sourceType": "ai_generated",
+    "targetBand": "Band 5.5+ / 6.0",
+    "prompt": {
+      "professorName": "Dr. Katherine Miller",
+      "professorTitle": "Professor of Academic Studies",
+      "professorQuestion": "Câu hỏi học thuật sâu sắc của giáo sư đặt ra cho lớp học.",
+      "studentOpinions": [
+        {
+          "student": "Michael",
+          "avatar_bg": "bg-blue-600",
+          "stance": "Ý kiến và lập luận của sinh viên thứ nhất (khoảng 40-50 từ)."
+        },
+        {
+          "student": "Sarah",
+          "avatar_bg": "bg-emerald-600",
+          "stance": "Ý kiến và lập luận phản bác của sinh viên thứ hai (khoảng 40-50 từ)."
+        }
+      ],
+      "recommendedWords": "100 - 150 words"
+    },
+    "modelEssay": "Toàn văn bài viết thảo luận mẫu hoàn chỉnh chuẩn Band 5.5+ (liên hệ 2 bạn học, nêu quan điểm và luận điểm độc lập).",
+    "wordCount": 138,
+    "vocabularyHighlights": [
+      {
+        "term": "cụm từ học thuật tiếng Anh hay",
+        "meaning": "nghĩa tiếng Việt ngắn gọn dễ nhớ",
+        "contextInEssay": "trích đoạn câu chứa cụm từ này trong bài mẫu"
+      }
+    ],
+    "structureAnalysis": "• Khẳng định lập trường (1 câu): Nêu rõ quan điểm cá nhân, liên hệ với câu hỏi của giáo sư.\n• Đối chiếu & Phản biện (2-3 câu): Phân tích điểm hợp lý và điểm chưa bao quát của 2 bạn học kèm dẫn chứng thực tế dễ hiểu.\n• Kết luận (1 câu): Đúc kết luận điểm súc tích và có sức thuyết phục cao."
+  }
+]`;
+
+/**
+ * Trả về Prompt tùy biến để sinh danh sách bài mẫu Writing (Email hoặc Discussion)
+ */
+export function getWritingSamplesHubPrompt(type = 'email', count = 3, customTopic = '') {
+  const isEmail = type === 'email';
+  const basePrompt = isEmail ? SAMPLE_WRITING_EMAIL_SAMPLES_PROMPT : SAMPLE_WRITING_DISCUSSION_SAMPLES_PROMPT;
+  
+  let customDirective = '';
+  if (customTopic && customTopic.trim()) {
+    customDirective = `\n\n## 🎯 CHỦ ĐỀ YÊU CẦU ĐẶC BIỆT TỪ NGƯỜI DÙNG:
+Vui lòng tập trung sáng tạo các bài mẫu xoay quanh chủ đề: "${customTopic.trim()}". Các tình huống và câu hỏi phải cụ thể, thực tế và mang tính ứng dụng cao.`;
+  } else {
+    customDirective = `\n\n## 🎯 CHỦ ĐỀ TỰ ĐỘNG CHỌN TỪ ĐỀ THI THẬT:
+Hãy chủ động lựa chọn ${count} chủ đề đa dạng và thực tế nhất từ các đề thi thật TOEFL iBT 2026 chính thức (mỗi bài là một chủ đề và tình huống hoàn toàn khác nhau).`;
+  }
+
+  const quantityDirective = `\n\n## 🔢 SỐ LƯỢNG BÀI MẪU CẦN TẠO:
+Hãy tạo CHÍNH XÁC **${count} bài mẫu hoàn chỉnh** trong mảng JSON kết quả (mỗi bài đầy đủ prompt, requirements/studentOpinions, modelEssay, vocabularyHighlights và structureAnalysis).`;
+
+  return basePrompt + customDirective + quantityDirective;
+}

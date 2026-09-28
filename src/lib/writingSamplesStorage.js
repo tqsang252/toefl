@@ -463,3 +463,95 @@ export function createSampleFromUserAttempt({
 
   return saveWritingSample(newSample);
 }
+
+/**
+ * Nhập hàng loạt bài mẫu từ mảng hoặc đối tượng JSON
+ */
+export function importBatchWritingSamples(samplesInput, defaultType = 'email') {
+  if (typeof window === 'undefined') return { success: false, count: 0, samples: [] };
+
+  let rawList = [];
+  if (Array.isArray(samplesInput)) {
+    rawList = samplesInput;
+  } else if (samplesInput && Array.isArray(samplesInput.samples)) {
+    rawList = samplesInput.samples;
+  } else if (samplesInput && Array.isArray(samplesInput.data)) {
+    rawList = samplesInput.data;
+  } else if (samplesInput && typeof samplesInput === 'object') {
+    rawList = [samplesInput];
+  }
+
+  if (rawList.length === 0) {
+    throw new Error('Không tìm thấy danh sách bài mẫu hợp lệ trong dữ liệu JSON.');
+  }
+
+  const validSamples = [];
+  const now = new Date().toISOString();
+
+  for (let idx = 0; idx < rawList.length; idx++) {
+    const item = rawList[idx];
+    if (!item) continue;
+
+    // Tự động nhận diện dạng bài nếu chưa có
+    let inferredType = item.type;
+    if (!inferredType) {
+      if (item.prompt?.professorQuestion || item.prompt?.studentOpinions || item.studentOpinions || item.professor) {
+        inferredType = 'discussion';
+      } else if (item.prompt?.scenario || item.prompt?.requirements || item.scenario || item.requirements) {
+        inferredType = 'email';
+      } else {
+        inferredType = defaultType || 'email';
+      }
+    }
+    inferredType = inferredType.toLowerCase().includes('discuss') ? 'discussion' : 'email';
+
+    // Chuẩn hóa prompt
+    let promptObj = item.prompt || {};
+    if (typeof promptObj === 'string') {
+      promptObj = inferredType === 'email' ? { scenario: promptObj } : { professorQuestion: promptObj };
+    }
+    if (item.scenario && !promptObj.scenario) promptObj.scenario = item.scenario;
+    if (item.requirements && !promptObj.requirements) promptObj.requirements = item.requirements;
+    if (item.professorQuestion && !promptObj.professorQuestion) promptObj.professorQuestion = item.professorQuestion;
+    if (item.studentOpinions && !promptObj.studentOpinions) promptObj.studentOpinions = item.studentOpinions;
+
+    const essay = (item.modelEssay || item.model_essay || item.essay || '').trim();
+    if (!essay) continue;
+
+    const words = item.wordCount || item.word_count || essay.split(/\s+/).filter(Boolean).length;
+
+    const sampleObj = {
+      id: item.id || `sample_${inferredType}_import_${Date.now()}_${idx + 1}`,
+      type: inferredType,
+      title: item.title || (inferredType === 'email' ? `Bài mẫu Email #${idx + 1}` : `Bài mẫu Discussion #${idx + 1}`),
+      topicCategory: item.topicCategory || item.topic_category || item.category || 'Tài liệu bổ sung',
+      sourceType: 'ai_generated',
+      targetBand: item.targetBand || item.target_band || 'Band 5.5+ / 6.0',
+      prompt: promptObj,
+      modelEssay: essay,
+      wordCount: words,
+      vocabularyHighlights: Array.isArray(item.vocabularyHighlights || item.vocabulary_highlights || item.vocabulary)
+        ? (item.vocabularyHighlights || item.vocabulary_highlights || item.vocabulary).map(v => ({
+            term: v.term || v.word || '',
+            meaning: v.meaning || v.vietnamese_meaning || '',
+            contextInEssay: v.contextInEssay || v.context_in_essay || v.context || ''
+          }))
+        : [],
+      structureAnalysis: item.structureAnalysis || item.structure_analysis || item.analysis || '',
+      created_at: item.created_at || now
+    };
+
+    saveWritingSample(sampleObj);
+    validSamples.push(sampleObj);
+  }
+
+  if (validSamples.length === 0) {
+    throw new Error('Dữ liệu JSON không chứa bài viết mẫu hợp lệ (thiếu trường modelEssay hoặc essay).');
+  }
+
+  return {
+    success: true,
+    count: validSamples.length,
+    samples: validSamples
+  };
+}
