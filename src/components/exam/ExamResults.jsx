@@ -89,10 +89,6 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
   const { score_band, score_raw, total_questions, time_spent_seconds, user_submission, skill, is_full_test, skill_scores } = results;
   const currentSkill = (skill || test?.skill || '').toLowerCase();
   const isFullExam = is_full_test || currentSkill === 'full';
-  const isWritingExam = currentSkill === 'writing' || currentSkill.startsWith('writing_');
-  const isSpeakingExam = currentSkill === 'speaking' || currentSkill.startsWith('speaking_');
-  const isReadingExam = currentSkill === 'reading';
-  const isListeningExam = currentSkill === 'listening';
 
   // Tự động tính toán tổng số câu đúng thực tế từ user_submission để đảm bảo tuyệt đối chuẩn xác
   const { effectiveScoreRaw, effectiveTotalQuestions } = useMemo(() => {
@@ -164,27 +160,56 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
     }
   };
 
-  // Trích xuất bài viết Writing (Email & Academic Discussion)
-  const writingSubmissions = results.writing_submissions || (() => {
-    const found = { email: null, discussion: null };
-    const scanItems = (items) => {
-      if (!Array.isArray(items)) return;
-      items.forEach((it) => {
-        if (it.task_type === 'write_email' || it.task_data?.scenario) {
-          found.email = it.task_data || { essay_text: it.essay_text };
-        } else if (it.task_type === 'academic_discussion' || it.task_data?.professor_question) {
-          found.discussion = it.task_data || { essay_text: it.essay_text };
-        }
-      });
-    };
+  // Trích xuất bài viết Writing (Email & Academic Discussion) với cơ chế tự động quét sâu nếu bị thiếu
+  const writingSubmissions = useMemo(() => {
+    let email = results.writing_submissions?.email || null;
+    let discussion = results.writing_submissions?.discussion || null;
 
-    if (Array.isArray(user_submission)) {
-      user_submission.forEach((mod) => {
-        scanItems(mod.items);
-      });
+    // Quét sâu vào user_submission nếu email hoặc discussion chưa có hoặc thiếu essay_text
+    if ((!email || !email.essay_text) || (!discussion || !discussion.essay_text)) {
+      if (Array.isArray(user_submission)) {
+        user_submission.forEach((mod) => {
+          const scanList = [...(mod.items || []), ...(mod.tasks || [])];
+          scanList.forEach((it) => {
+            const isEmailTask = it.task_type === 'write_email' || it.task_data?.scenario || it.scenario || (it.prompt && it.prompt.toLowerCase().includes('email'));
+            const isDiscussTask = it.task_type === 'academic_discussion' || it.task_data?.professor_question || it.professor_question || (it.prompt && it.prompt.toLowerCase().includes('thảo luận'));
+
+            if (isEmailTask && (!email || !email.essay_text)) {
+              const text = it.essay_text || it.task_data?.essay_text || (typeof it.user_choice === 'string' && it.user_choice.length > 30 ? it.user_choice : null);
+              if (text) {
+                email = {
+                  ...(it.task_data || {}),
+                  task_id: it.task_id || it.id,
+                  title: it.task_title || it.title || 'Task 2: Write an Email',
+                  scenario: it.scenario || it.task_data?.scenario || test?.content?.scenario,
+                  requirements: it.requirements || it.task_data?.requirements || test?.content?.requirements || [],
+                  recipient: it.recipient || it.task_data?.recipient || test?.content?.recipient || 'Professor',
+                  essay_text: text,
+                  word_count: text.trim().split(/\s+/).length
+                };
+              }
+            } else if (isDiscussTask && (!discussion || !discussion.essay_text)) {
+              const text = it.essay_text || it.task_data?.essay_text || (typeof it.user_choice === 'string' && it.user_choice.length > 30 ? it.user_choice : null);
+              if (text) {
+                discussion = {
+                  ...(it.task_data || {}),
+                  task_id: it.task_id || it.id,
+                  title: it.task_title || it.title || 'Task 3: Academic Discussion',
+                  topic: it.topic || it.task_data?.topic || test?.content?.topic,
+                  professor_question: it.professor_question || it.task_data?.professor_question || test?.content?.professor_prompt?.question,
+                  peer_posts: it.peer_posts || it.task_data?.peer_posts || test?.content?.peer_posts || [],
+                  essay_text: text,
+                  word_count: text.trim().split(/\s+/).length
+                };
+              }
+            }
+          });
+        });
+      }
     }
-    return found;
-  })();
+
+    return { email, discussion };
+  }, [results.writing_submissions, user_submission, test]);
 
   // Trích xuất bài nói Speaking (Listen & Repeat + Interview)
   const speakingSubmissions = results.speaking_submissions || (() => {
@@ -205,10 +230,37 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
     return found;
   })();
 
-  const hasWritingContent = Boolean(
+  const hasWritingEssays = Boolean(
     (writingSubmissions?.email?.essay_text && writingSubmissions.email.essay_text.trim()) ||
     (writingSubmissions?.discussion?.essay_text && writingSubmissions.discussion.essay_text.trim())
   );
+  const hasWritingContent = hasWritingEssays;
+
+  const isWritingExam = useMemo(() => {
+    if (isFullExam) return false;
+    if (currentSkill === 'writing' || currentSkill.startsWith('writing') || currentSkill.includes('writing')) return true;
+    if (currentSkill === 'email' || currentSkill.includes('email') || currentSkill === 'write_email') return true;
+    if (currentSkill === 'discussion' || currentSkill.includes('discussion') || currentSkill === 'academic_discussion') return true;
+    if (currentSkill === 'sentence' || currentSkill.includes('sentence') || currentSkill === 'build_sentence') return true;
+    if (test?.skill && (test.skill.includes('writing') || test.skill.includes('email') || test.skill.includes('discussion'))) return true;
+    if (test?.task_type && (test.task_type.includes('email') || test.task_type.includes('discussion') || test.task_type.includes('sentence') || test.task_type === 'write_email')) return true;
+    if (hasWritingEssays || results.writing_submissions?.email || results.writing_submissions?.discussion) return true;
+    if (Array.isArray(user_submission) && user_submission.some(m => 
+      (m.module_skill || '').toLowerCase().includes('writing') || 
+      (m.task_type || '').includes('email') || 
+      (m.task_type || '').includes('discussion') ||
+      (m.items || []).some(it => it.task_type === 'write_email' || it.task_type === 'academic_discussion' || it.essay_text)
+    )) return true;
+    return false;
+  }, [currentSkill, isFullExam, test, results, hasWritingEssays, user_submission]);
+
+  const isSpeakingExam = currentSkill === 'speaking' || currentSkill.startsWith('speaking_') || (test?.skill && test.skill.includes('speaking'));
+  const isReadingExam = currentSkill === 'reading' && !isWritingExam && !isSpeakingExam;
+  const isListeningExam = currentSkill === 'listening' && !isWritingExam && !isSpeakingExam;
+
+  const isSentenceOnlyWriting = (currentSkill === 'writing_sentence') || (isWritingExam && !hasWritingEssays && (currentSkill.includes('sentence') || test?.task_type === 'build_sentence'));
+  const isSingleEmail = Boolean(writingSubmissions?.email?.essay_text && !writingSubmissions?.discussion?.essay_text);
+  const isSingleDiscussion = Boolean(!writingSubmissions?.email?.essay_text && writingSubmissions?.discussion?.essay_text);
 
   const isConfigured = isGeminiConfigured();
 
@@ -248,9 +300,6 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
   const hasStoredSpeaking = Boolean(results.ai_speaking_result || results.skill_scores?.ai_speaking_result || cachedAi?.ai_speaking_result);
   const hasStoredObjective = Boolean(validCachedObjective);
   const hasStoredFull = Boolean(results.ai_full_result || results.skill_scores?.ai_full_result || cachedAi?.ai_full_result);
-
-  const hasWritingEssays = Boolean(writingSubmissions?.email?.essay_text || writingSubmissions?.discussion?.essay_text);
-  const isSentenceOnlyWriting = (currentSkill === 'writing_sentence') || (isWritingExam && !hasWritingEssays);
 
   const [isAiGradingWriting, setIsAiGradingWriting] = useState(
     !isReviewMode && !hasStoredWriting && ((isWritingExam && hasWritingEssays) || (isFullExam && hasWritingContent)) && isConfigured
@@ -743,7 +792,13 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
               {isAiGradingWriting && !aiWritingResult ? (
                 <ProcessingScoreBadge 
                   color="rose" 
-                  subtitle="Đang tổng hợp Email (40%) + Thảo luận (60%)..." 
+                  subtitle={
+                    isSingleEmail
+                      ? 'AI đang chấm bài viết Email theo rubric ETS 2026...'
+                      : isSingleDiscussion
+                      ? 'AI đang chấm bài thảo luận Academic Discussion...'
+                      : 'Đang tổng hợp Email (40%) + Thảo luận (60%)...'
+                  } 
                 />
               ) : (
                 <div>
@@ -753,17 +808,21 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
                   </div>
                   <span className="text-[10px] text-rose-600 font-medium block mt-1.5">
                     {aiWritingResult 
-                      ? `Email: ${aiWritingResult.email?.score_30 ?? '-'}đ • Thảo luận: ${aiWritingResult.discussion?.score_30 ?? '-'}đ` 
-                      : 'Thang điểm TOEFL iBT truyền thống'}
+                      ? (isSingleEmail
+                          ? `Task 2: Academic Email • Điểm AI: ${aiWritingResult.email?.score_30 ?? finalWritingScore30}đ`
+                          : isSingleDiscussion
+                          ? `Task 3: Academic Discussion • Điểm AI: ${aiWritingResult.discussion?.score_30 ?? finalWritingScore30}đ`
+                          : `Email: ${aiWritingResult.email?.score_30 ?? '-'}đ • Thảo luận: ${aiWritingResult.discussion?.score_30 ?? '-'}đ`)
+                      : (isSingleEmail ? 'Task 2: Academic Email (ETS Rubric)' : isSingleDiscussion ? 'Task 3: Academic Discussion (ETS Rubric)' : 'Thang điểm TOEFL iBT truyền thống')}
                   </span>
                 </div>
               )}
             </div>
 
-            {/* Chi tiết 2 bài viết */}
+            {/* Chi tiết bài viết */}
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-center flex flex-col justify-between shadow-xs">
               <span className="text-[11px] font-extrabold text-slate-700 uppercase tracking-wider block mb-1">
-                Chi Tiết 2 Bài Viết
+                {isSingleEmail ? 'Bài Viết Email (Task 2)' : isSingleDiscussion ? 'Bài Thảo Luận (Task 3)' : 'Chi Tiết 2 Bài Viết'}
               </span>
 
               {isAiGradingWriting && !aiWritingResult ? (
@@ -779,14 +838,28 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
               ) : aiWritingResult ? (
                 <div>
                   <div className="flex items-center justify-center gap-2 my-1">
-                    <span className="px-2 py-1 rounded-lg bg-white border border-rose-200 text-rose-800 text-xs font-black shadow-2xs">
-                      Email: {aiWritingResult.email?.score_30 ?? '-'}/30
-                    </span>
-                    <span className="px-2 py-1 rounded-lg bg-white border border-indigo-200 text-indigo-800 text-xs font-black shadow-2xs">
-                      Discuss: {aiWritingResult.discussion?.score_30 ?? '-'}/30
-                    </span>
+                    {isSingleEmail ? (
+                      <span className="px-2.5 py-1 rounded-lg bg-white border border-rose-200 text-rose-800 text-xs font-black shadow-2xs">
+                        Email: {aiWritingResult.email?.score_30 ?? finalWritingScore30}/30 (Band {aiWritingResult.email?.score_band?.toFixed(1) || finalWritingBand6?.toFixed(1) || '5.0'})
+                      </span>
+                    ) : isSingleDiscussion ? (
+                      <span className="px-2.5 py-1 rounded-lg bg-white border border-indigo-200 text-indigo-800 text-xs font-black shadow-2xs">
+                        Discuss: {aiWritingResult.discussion?.score_30 ?? finalWritingScore30}/30 (Band {aiWritingResult.discussion?.score_band?.toFixed(1) || finalWritingBand6?.toFixed(1) || '5.0'})
+                      </span>
+                    ) : (
+                      <>
+                        <span className="px-2 py-1 rounded-lg bg-white border border-rose-200 text-rose-800 text-xs font-black shadow-2xs">
+                          Email: {aiWritingResult.email?.score_30 ?? '-'}/30
+                        </span>
+                        <span className="px-2 py-1 rounded-lg bg-white border border-indigo-200 text-indigo-800 text-xs font-black shadow-2xs">
+                          Discuss: {aiWritingResult.discussion?.score_30 ?? '-'}/30
+                        </span>
+                      </>
+                    )}
                   </div>
                   <span className="text-[10px] text-slate-500 font-medium block mt-2">
+                    {isSingleEmail && writingSubmissions?.email?.word_count ? `${writingSubmissions.email.word_count} từ • ` : ''}
+                    {isSingleDiscussion && writingSubmissions?.discussion?.word_count ? `${writingSubmissions.discussion.word_count} từ • ` : ''}
                     Thời gian làm bài: {timeFormatted}
                   </span>
                 </div>
@@ -797,6 +870,8 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
                     <span className="text-sm text-slate-400 font-medium ml-1">/ {total_questions}</span>
                   </div>
                   <span className="text-[10px] text-slate-500 font-medium block mt-1.5">
+                    {isSingleEmail && writingSubmissions?.email?.word_count ? `${writingSubmissions.email.word_count} từ • ` : ''}
+                    {isSingleDiscussion && writingSubmissions?.discussion?.word_count ? `${writingSubmissions.discussion.word_count} từ • ` : ''}
                     Thời gian: {timeFormatted}
                   </span>
                 </div>
@@ -989,10 +1064,10 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
       )}
 
       {/* 2. BÀI THI WRITING ĐƠN LẺ: CHẤM BÀI VIẾT (EMAIL HOẶC DISCUSSION HOẶC CẢ HAI) */}
-      {isWritingExam && (writingSubmissions?.email || writingSubmissions?.discussion) && (
+      {isWritingExam && (writingSubmissions?.email?.essay_text || writingSubmissions?.discussion?.essay_text || writingSubmissions?.email || writingSubmissions?.discussion) && (
         <WritingAIEvaluation 
           writingSubmissions={writingSubmissions} 
-          autoStart={!isReviewMode && !hasStoredWriting && !aiWritingResult}
+          autoStart={!hasStoredWriting && !aiWritingResult}
           existingEvaluation={aiWritingResult}
           onGradingStart={() => setIsAiGradingWriting(true)}
           onEvaluationComplete={(evalResult) => {

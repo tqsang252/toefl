@@ -163,8 +163,8 @@ export default function WritingAIEvaluation({
     if (onGradingStart) onGradingStart();
 
     try {
-      const emailSub = writingSubmissions?.email;
-      const discussSub = writingSubmissions?.discussion;
+      const emailSub = (writingSubmissions?.email?.essay_text && writingSubmissions.email.essay_text.trim()) ? writingSubmissions.email : null;
+      const discussSub = (writingSubmissions?.discussion?.essay_text && writingSubmissions.discussion.essay_text.trim()) ? writingSubmissions.discussion : null;
 
       const result = await evaluateBothWritingSubmissions({
         emailSubmission: emailSub,
