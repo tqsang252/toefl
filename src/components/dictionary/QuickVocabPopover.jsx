@@ -24,7 +24,7 @@ export function useTextSelectionLookup() {
 
   const handleTextMouseUp = (e) => {
     // Không kích hoạt nếu bấm vào input, textarea, button hoặc các thành phần tương tác
-    if (e?.target && ['INPUT', 'TEXTAREA', 'BUTTON', 'SELECT'].includes(e.target.tagName)) {
+    if (e?.target && (['INPUT', 'TEXTAREA', 'BUTTON', 'SELECT'].includes(e.target.tagName) || e.target.closest?.('button, input, textarea, select'))) {
       return;
     }
 
@@ -103,7 +103,7 @@ export function useTextSelectionLookup() {
 /**
  * Component Popover hiển thị định nghĩa, phiên âm và 1-click lưu từ vựng
  */
-export function QuickVocabPopover({ selection, onClose, onSaveSuccess }) {
+export function QuickVocabPopover({ selection, selectionData, onClose, onSaveSuccess }) {
   const popoverRef = useRef(null);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -112,9 +112,10 @@ export function QuickVocabPopover({ selection, onClose, onSaveSuccess }) {
   const [isCopied, setIsCopied] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  const cleanText = selection?.cleanText || '';
-  const contextSentence = selection?.contextSentence || '';
-  const rect = selection?.rect;
+  const activeSelection = selection || selectionData;
+  const cleanText = activeSelection?.cleanText || '';
+  const contextSentence = activeSelection?.contextSentence || '';
+  const rect = activeSelection?.rect;
 
   // Kiểm tra từ đã từng được lưu vào Sổ từ / Starred Words chưa
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   X,
   Volume2,
@@ -20,6 +20,7 @@ import {
   ExternalLink,
   SplitSquareVertical
 } from 'lucide-react';
+import QuickVocabPopover, { useTextSelectionLookup } from '../dictionary/QuickVocabPopover';
 
 export default function WritingSampleDetailModal({
   sample,
@@ -31,6 +32,24 @@ export default function WritingSampleDetailModal({
   const [activeTab, setActiveTab] = useState('model_essay'); // 'model_essay' | 'structure' | 'vocab' | 'comparison'
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  // Hook tra từ điển khi bôi đen bất kỳ văn bản nào trong bài mẫu
+  const { selectionData, clearSelection, handleTextMouseUp } = useTextSelectionLookup();
+
+  // Đóng tra từ và dừng audio khi đổi tab, đổi đề hoặc đóng modal
+  useEffect(() => {
+    clearSelection();
+    return () => {
+      clearSelection();
+      window.speechSynthesis?.cancel();
+    };
+  }, [isOpen, sample?.id, activeTab]);
+
+  const handleCloseModal = () => {
+    window.speechSynthesis?.cancel();
+    clearSelection();
+    onClose();
+  };
 
   if (!isOpen || !sample) return null;
 
@@ -148,7 +167,10 @@ export default function WritingSampleDetailModal({
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5">
-      <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-slate-200 animate-in fade-in zoom-in-95 duration-200">
+      <div 
+        className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-slate-200 animate-in fade-in zoom-in-95 duration-200"
+        onMouseUp={handleTextMouseUp}
+      >
         
         {/* HEADER MODAL */}
         <div className="p-5 sm:p-6 border-b border-slate-100 flex items-start justify-between bg-gradient-to-r from-slate-50 via-white to-slate-50 gap-4">
@@ -184,10 +206,7 @@ export default function WritingSampleDetailModal({
           </div>
 
           <button
-            onClick={() => {
-              window.speechSynthesis?.cancel();
-              onClose();
-            }}
+            onClick={handleCloseModal}
             className="text-slate-400 hover:text-slate-700 p-2 rounded-full hover:bg-slate-100 transition-colors cursor-pointer shrink-0"
           >
             <X className="w-5 h-5" />
@@ -271,7 +290,10 @@ export default function WritingSampleDetailModal({
         </div>
 
         {/* MODAL BODY (SCROLLABLE) */}
-        <div className="p-6 overflow-y-auto space-y-6 flex-1">
+        <div 
+          className="p-6 overflow-y-auto space-y-6 flex-1 select-text"
+          onScroll={clearSelection}
+        >
           
           {/* 1. KHUNG ĐỀ BÀI (PROMPT SECTION) */}
           <div className="p-5 rounded-2xl bg-amber-50/70 border border-amber-200/90 shadow-2xs space-y-3">
@@ -281,8 +303,8 @@ export default function WritingSampleDetailModal({
             </div>
 
             {isEmail ? (
-              <div className="space-y-3">
-                <p className="text-slate-800 font-serif text-sm leading-relaxed">
+              <div className="space-y-3 select-text">
+                <p className="text-slate-800 font-serif text-sm leading-relaxed cursor-text">
                   {sample.prompt?.scenario || sample.prompt}
                 </p>
 
@@ -303,14 +325,14 @@ export default function WritingSampleDetailModal({
                 )}
               </div>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-3 select-text">
                 {/* Giáo sư */}
                 <div className="bg-white/80 p-3.5 rounded-xl border border-amber-200">
                   <div className="text-xs font-bold text-amber-900 mb-1 flex items-center gap-1.5">
                     <span>👨‍🏫 {sample.prompt?.professorName || 'Professor'}</span>
                     <span className="text-[10px] text-slate-400">({sample.prompt?.professorTitle || 'Instructor'})</span>
                   </div>
-                  <p className="text-xs sm:text-sm font-serif text-slate-800 leading-relaxed">
+                  <p className="text-xs sm:text-sm font-serif text-slate-800 leading-relaxed cursor-text">
                     {sample.prompt?.professorQuestion || sample.prompt?.scenario || sample.prompt}
                   </p>
                 </div>
@@ -321,7 +343,7 @@ export default function WritingSampleDetailModal({
                     {sample.prompt.studentOpinions.map((st, idx) => (
                       <div key={idx} className="p-3 rounded-xl bg-white/70 border border-slate-200 text-xs">
                         <span className="font-black text-slate-800 block mb-0.5">👤 {st.student}:</span>
-                        <p className="text-slate-600 italic font-serif">"{st.opinion || st.stance}"</p>
+                        <p className="text-slate-600 italic font-serif cursor-text">"{st.opinion || st.stance}"</p>
                       </div>
                     ))}
                   </div>
@@ -390,14 +412,20 @@ export default function WritingSampleDetailModal({
           {/* TAB 1: BÀI VIẾT MẪU (MODEL ESSAY) */}
           {activeTab === 'model_essay' && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between text-xs text-slate-500 font-bold">
-                <span>Nội dung bài viết mẫu:</span>
+              <div className="flex items-center justify-between text-xs text-slate-500 font-bold flex-wrap gap-2">
+                <div className="flex items-center gap-2">
+                  <span>Nội dung bài viết mẫu:</span>
+                  <span className="text-[11px] font-medium text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-200 flex items-center gap-1">
+                    <Sparkles className="w-3 h-3 text-indigo-600" />
+                    Bôi đen từ/cụm từ để tra từ điển & nghe phát âm
+                  </span>
+                </div>
                 <span className="text-slate-700 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200">
                   Độ dài: <b>{sample.wordCount || sample.modelEssay.trim().split(/\s+/).length}</b> từ
                 </span>
               </div>
 
-              <div className="p-6 sm:p-7 rounded-2xl bg-white border border-slate-200 text-slate-900 font-serif leading-[2.2] text-[15px] sm:text-[16px] whitespace-pre-line shadow-xs select-text">
+              <div className="p-6 sm:p-7 rounded-2xl bg-white border border-slate-200 text-slate-900 font-serif leading-[2.2] text-[15px] sm:text-[16px] whitespace-pre-line shadow-xs select-text cursor-text">
                 {sample.modelEssay}
               </div>
             </div>
@@ -510,15 +538,12 @@ export default function WritingSampleDetailModal({
         {/* MODAL FOOTER */}
         <div className="p-4 sm:p-5 border-t border-slate-100 flex items-center justify-between bg-slate-50/80">
           <span className="text-xs text-slate-500 font-medium hidden sm:inline">
-            💡 Bạn có thể bấm <b>"Thực hành đề này ngay"</b> để tự viết lại đề bài vừa học!
+            💡 Bôi đen bất kỳ từ/cụm từ nào trong bài để tra từ điển • Bấm <b>"Thực hành đề này ngay"</b> để tự viết lại!
           </span>
 
           <div className="flex items-center gap-2 ml-auto">
             <button
-              onClick={() => {
-                window.speechSynthesis?.cancel();
-                onClose();
-              }}
+              onClick={handleCloseModal}
               className="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 text-xs font-bold transition-all cursor-pointer"
             >
               Đóng
@@ -535,6 +560,14 @@ export default function WritingSampleDetailModal({
         </div>
 
       </div>
+
+      {/* Pop-up Từ Điển Tra Cứu & 1-Chạm Lưu Từ khi Bôi Đen Văn Bản */}
+      {selectionData && (
+        <QuickVocabPopover
+          selection={selectionData}
+          onClose={clearSelection}
+        />
+      )}
     </div>
   );
 }
