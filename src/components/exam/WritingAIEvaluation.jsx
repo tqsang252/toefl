@@ -57,7 +57,10 @@ export default function WritingAIEvaluation({
   const [evaluation, setEvaluation] = useState(isMatching ? existingEvaluation : null);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [activeTab, setActiveTab] = useState('email'); // 'email' | 'discussion' | 'overview'
+  const initialActiveTab = (writingSubmissions?.email?.essay_text && writingSubmissions.email.essay_text.trim())
+    ? 'email'
+    : ((writingSubmissions?.discussion?.essay_text && writingSubmissions.discussion.essay_text.trim()) ? 'discussion' : 'email');
+  const [activeTab, setActiveTab] = useState(initialActiveTab); // 'email' | 'discussion' | 'overview'
   const [isOriginalExpanded, setIsOriginalExpanded] = useState(false);
   const [copiedTask, setCopiedTask] = useState(null);
   const [savedSamples, setSavedSamples] = useState({});
@@ -845,6 +848,37 @@ export default function WritingAIEvaluation({
     );
   }
 
-  // Trường hợp chưa chấm và chưa có bài nộp
+  // Trường hợp có bài nộp nhưng chưa chấm (ví dụ mở lại từ review mode hoặc autoStart chưa chạy)
+  const hasSubmissions = Boolean(
+    (writingSubmissions?.email?.essay_text && writingSubmissions.email.essay_text.trim()) ||
+    (writingSubmissions?.discussion?.essay_text && writingSubmissions.discussion.essay_text.trim())
+  );
+
+  if (!evaluation && hasSubmissions) {
+    return (
+      <div className="bg-gradient-to-br from-indigo-50/70 via-white to-blue-50/70 border border-indigo-200 rounded-3xl p-6 sm:p-8 shadow-xs my-6 text-center space-y-4">
+        <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center mx-auto shadow-2xs">
+          <Sparkles className="w-6 h-6 animate-pulse" />
+        </div>
+        <div className="space-y-1">
+          <h4 className="text-base font-black text-slate-800">
+            Bài viết của bạn đã sẵn sàng được AI chấm điểm
+          </h4>
+          <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
+            Hệ thống sẽ đối chiếu bài làm với barem ETS 2026 (4 tiêu chí Rubric), chữa lỗi ngữ pháp và đề xuất bài mẫu Band 5.0 nâng cấp.
+          </p>
+        </div>
+        <button
+          onClick={runGrading}
+          className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer inline-flex items-center gap-2"
+        >
+          <Sparkles className="w-4 h-4" />
+          <span>Bắt đầu chấm điểm bằng AI ngay</span>
+        </button>
+      </div>
+    );
+  }
+
+  // Trường hợp không có bài nộp
   return null;
 }

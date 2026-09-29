@@ -275,13 +275,19 @@ function MainApp() {
             ) : activeSkill === 'writing_email_samples' ? (
               <WritingSamplesHub
                 initialType="email"
-                onStartPractice={(practiceTest) => handleStartTest(practiceTest)}
+                onStartPractice={(practiceTest) => {
+                  setActiveSkill('writing_email');
+                  handleStartTest(practiceTest);
+                }}
                 onNavigateToPracticeList={(skill) => setActiveSkill(skill)}
               />
             ) : activeSkill === 'writing_discussion_samples' ? (
               <WritingSamplesHub
                 initialType="discussion"
-                onStartPractice={(practiceTest) => handleStartTest(practiceTest)}
+                onStartPractice={(practiceTest) => {
+                  setActiveSkill('writing_discussion');
+                  handleStartTest(practiceTest);
+                }}
                 onNavigateToPracticeList={(skill) => setActiveSkill(skill)}
               />
             ) : isLoading ? (

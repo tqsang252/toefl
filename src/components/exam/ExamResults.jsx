@@ -89,8 +89,8 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
   const { score_band, score_raw, total_questions, time_spent_seconds, user_submission, skill, is_full_test, skill_scores } = results;
   const currentSkill = (skill || test?.skill || '').toLowerCase();
   const isFullExam = is_full_test || currentSkill === 'full';
-  const isWritingExam = currentSkill === 'writing';
-  const isSpeakingExam = currentSkill === 'speaking';
+  const isWritingExam = currentSkill === 'writing' || currentSkill.startsWith('writing_');
+  const isSpeakingExam = currentSkill === 'speaking' || currentSkill.startsWith('speaking_');
   const isReadingExam = currentSkill === 'reading';
   const isListeningExam = currentSkill === 'listening';
 
@@ -250,7 +250,7 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
   const hasStoredFull = Boolean(results.ai_full_result || results.skill_scores?.ai_full_result || cachedAi?.ai_full_result);
 
   const hasWritingEssays = Boolean(writingSubmissions?.email?.essay_text || writingSubmissions?.discussion?.essay_text);
-  const isSentenceOnlyWriting = isWritingExam && !hasWritingEssays;
+  const isSentenceOnlyWriting = (currentSkill === 'writing_sentence') || (isWritingExam && !hasWritingEssays);
 
   const [isAiGradingWriting, setIsAiGradingWriting] = useState(
     !isReviewMode && !hasStoredWriting && ((isWritingExam && hasWritingEssays) || (isFullExam && hasWritingContent)) && isConfigured
@@ -288,8 +288,8 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
     listening: (results.skill_scores?.listening && isObjectiveCacheValid(results.skill_scores?.ai_objective_result)) 
       ? results.skill_scores.listening 
       : (isListeningExam ? (validCachedObjective?.scaled_score_30 ?? convertRawToScale30(effectiveScoreRaw, effectiveTotalQuestions, 'listening')) : 25),
-    writing: results.skill_scores?.writing ?? (isWritingExam ? ((results.ai_writing_result || cachedAi?.ai_writing_result)?.combined_score_30 ?? legacyScore30) : 26),
-    speaking: results.skill_scores?.speaking ?? (isSpeakingExam ? ((results.ai_speaking_result || cachedAi?.ai_speaking_result)?.score_30 ?? 25) : 25),
+    writing: results.skill_scores?.writing ?? results.skill_scores?.[currentSkill] ?? (isWritingExam ? ((results.ai_writing_result || cachedAi?.ai_writing_result)?.combined_score_30 ?? legacyScore30) : 26),
+    speaking: results.skill_scores?.speaking ?? results.skill_scores?.[currentSkill] ?? (isSpeakingExam ? ((results.ai_speaking_result || cachedAi?.ai_speaking_result)?.score_30 ?? 25) : 25),
   });
 
   const handleSkillScoreUpdate = async (skillKey, newScore30, fullObj = null) => {
@@ -355,7 +355,7 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
           writing_submissions: writingSubmissions
         });
       } else {
-        const score30 = (newScore30 !== null && newScore30 !== undefined) ? newScore30 : (aiScores[currentSkill] ?? 20);
+        const score30 = (newScore30 !== null && newScore30 !== undefined) ? newScore30 : (aiScores[currentSkill] ?? aiScores.writing ?? 20);
         const band = (fullObj && fullObj.toefl_band_6) ? fullObj.toefl_band_6 : convert30ToBand6(score30);
 
         await saveExamResult({
@@ -366,7 +366,9 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
           total_questions: effectiveTotalQuestions,
           skill_scores: {
             ...(results.skill_scores || {}),
-            [currentSkill]: score30
+            [currentSkill]: score30,
+            ...(isWritingExam ? { writing: score30 } : {}),
+            ...(isSpeakingExam ? { speaking: score30 } : {})
           },
           ai_writing_result: updatedWriting,
           ai_speaking_result: updatedSpeaking,

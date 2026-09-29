@@ -21,6 +21,7 @@ import {
   SplitSquareVertical
 } from 'lucide-react';
 import QuickVocabPopover, { useTextSelectionLookup } from '../dictionary/QuickVocabPopover';
+import { importBatchTests } from '../../lib/supabase';
 
 export default function WritingSampleDetailModal({
   sample,
@@ -94,74 +95,130 @@ export default function WritingSampleDetailModal({
   };
 
   // Convert Sample Prompt into a real test session and launch ExamRunner
-  const handleLaunchPractice = () => {
+  const handleLaunchPractice = async () => {
     window.speechSynthesis?.cancel();
+    clearSelection();
 
+    const targetSkill = isEmail ? 'writing_email' : 'writing_discussion';
+    const testId = `test_sample_${sample.type || (isEmail ? 'email' : 'discussion')}_${sample.id}`;
+
+    let practiceTest;
     if (isEmail) {
-      const practiceTest = {
-        id: `practice_from_sample_${sample.id}_${Date.now()}`,
+      const emailContent = {
+        scenario: sample.prompt?.scenario || sample.prompt || sample.title,
+        requirements: Array.isArray(sample.prompt?.requirements) && sample.prompt.requirements.length > 0
+          ? sample.prompt.requirements
+          : [
+              'State your primary reason for writing clearly in the opening',
+              'Elaborate on specific circumstances with supporting reasons',
+              'Propose a polite and actionable next step or solution'
+            ],
+        recipient: sample.prompt?.recipient || 'Professor / Admissions Officer',
+        recommended_words: '100 - 130 từ',
+        min_words: 80,
+        sample_id: sample.id,
+        source: 'writing_sample_hub'
+      };
+
+      practiceTest = {
+        id: testId,
         title: sample.title || 'Luyện tập theo bài mẫu Email',
         skill: 'writing_email',
         task_type: 'write_email',
         duration_seconds: 420, // 7 phút chuẩn TOEFL iBT
-        content: {
-          scenario: sample.prompt?.scenario || sample.title,
-          requirements: Array.isArray(sample.prompt?.requirements) && sample.prompt.requirements.length > 0
-            ? sample.prompt.requirements
-            : [
-                'State your primary reason for writing clearly in the opening',
-                'Elaborate on specific circumstances with supporting reasons',
-                'Propose a polite and actionable next step or solution'
-              ],
-          recommended_words: '100 - 130 từ',
-          min_words: 80
-        }
+        stages: [
+          {
+            id: 'stage_1',
+            title: 'Task 2: Academic Email (7 phút)',
+            duration_seconds: 420,
+            tasks: [
+              {
+                id: `task_${testId}`,
+                title: sample.title || 'Task 2: Write an Email',
+                skill: 'writing_email',
+                task_type: 'write_email',
+                duration_seconds: 420,
+                content: emailContent
+              }
+            ]
+          }
+        ],
+        content: emailContent
       };
-
-      onClose();
-      if (onStartPractice) {
-        onStartPractice(practiceTest);
-      }
     } else {
       // Academic Discussion
-      const practiceTest = {
-        id: `practice_from_sample_${sample.id}_${Date.now()}`,
+      const profPrompt = {
+        name: sample.prompt?.professorName || 'Dr. Katherine Miller',
+        title: sample.prompt?.professorTitle || 'Professor of Academic Studies',
+        question: sample.prompt?.professorQuestion || sample.prompt?.scenario || sample.prompt || sample.title
+      };
+      const peerPosts = Array.isArray(sample.prompt?.studentOpinions) && sample.prompt.studentOpinions.length > 0
+        ? sample.prompt.studentOpinions.map((p, idx) => ({
+            student: p.student || `Student ${idx + 1}`,
+            avatar_bg: p.avatar_bg || (idx === 0 ? 'bg-blue-600' : 'bg-emerald-600'),
+            stance: p.opinion || p.stance
+          }))
+        : [
+            {
+              student: 'Michael',
+              avatar_bg: 'bg-blue-600',
+              stance: 'Individual responsibility and foundational core discipline are the most critical factors.'
+            },
+            {
+              student: 'Sarah',
+              avatar_bg: 'bg-emerald-600',
+              stance: 'Institutional support and technological adaptation must be embraced for systemic equity.'
+            }
+          ];
+
+      const discussContent = {
+        professor_prompt: profPrompt,
+        professor: profPrompt,
+        topic: sample.title || 'Academic Discussion',
+        peer_posts: peerPosts,
+        min_words: 100,
+        sample_id: sample.id,
+        source: 'writing_sample_hub'
+      };
+
+      practiceTest = {
+        id: testId,
         title: sample.title || 'Luyện tập theo bài mẫu Academic Discussion',
         skill: 'writing_discussion',
         task_type: 'academic_discussion',
         duration_seconds: 600, // 10 phút chuẩn TOEFL iBT
-        content: {
-          professor: {
-            name: sample.prompt?.professorName || 'Dr. Katherine Miller',
-            title: sample.prompt?.professorTitle || 'Professor of Academic Studies',
-            question: sample.prompt?.professorQuestion || sample.prompt?.scenario || sample.title
-          },
-          peer_posts: Array.isArray(sample.prompt?.studentOpinions) && sample.prompt.studentOpinions.length > 0
-            ? sample.prompt.studentOpinions.map((p, idx) => ({
-                student: p.student || `Student ${idx + 1}`,
-                avatar_bg: p.avatar_bg || (idx === 0 ? 'bg-blue-600' : 'bg-emerald-600'),
-                stance: p.opinion || p.stance
-              }))
-            : [
-                {
-                  student: 'Michael',
-                  avatar_bg: 'bg-blue-600',
-                  stance: 'Individual responsibility and foundational core discipline are the most critical factors.'
-                },
-                {
-                  student: 'Sarah',
-                  avatar_bg: 'bg-emerald-600',
-                  stance: 'Institutional support and technological adaptation must be embraced for systemic equity.'
-                }
-              ],
-          min_words: 100
-        }
+        stages: [
+          {
+            id: 'stage_1',
+            title: 'Task 3: Academic Discussion (10 phút)',
+            duration_seconds: 600,
+            tasks: [
+              {
+                id: `task_${testId}`,
+                title: sample.title || 'Task 3: Academic Discussion',
+                skill: 'writing_discussion',
+                task_type: 'academic_discussion',
+                duration_seconds: 600,
+                content: discussContent
+              }
+            ]
+          }
+        ],
+        content: discussContent
       };
+    }
 
-      onClose();
-      if (onStartPractice) {
-        onStartPractice(practiceTest);
-      }
+    // 1. Lưu đề thi vào database để nó xuất hiện vĩnh viễn trong tab Writing Academic Email / Discussion
+    try {
+      await importBatchTests([practiceTest]);
+    } catch (e) {
+      console.warn('Lỗi khi lưu practice test vào database:', e);
+    }
+
+    // 2. Chuyển sang làm bài thi
+    handleCloseModal();
+    if (onStartPractice) {
+      onStartPractice(practiceTest, targetSkill);
     }
   };
 

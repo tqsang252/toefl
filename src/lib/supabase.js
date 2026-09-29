@@ -552,6 +552,127 @@ export async function getTestsBySkill(skill) {
     if (t && t.id) testsMap.set(t.id, t);
   });
 
+  // 2.1. Tự động phục hồi đề thi từ bài làm thực tế (nếu học viên đã từng làm và lưu kết quả)
+  try {
+    const examResults = JSON.parse(localStorage.getItem('toefl_exam_results') || '[]');
+    let hasRecovered = false;
+    examResults.forEach((res) => {
+      const testId = res.test_id;
+      if (!testId || testsMap.has(testId)) return;
+
+      const isSamplePractice = testId.startsWith('practice_from_sample_') || testId.startsWith('test_sample_');
+      if (isSamplePractice) {
+        const isEmail = res.skill === 'writing_email' || !!res.writing_submissions?.email;
+        const isDiscuss = res.skill === 'writing_discussion' || !!res.writing_submissions?.discussion;
+
+        if (isEmail) {
+          const emailData = res.writing_submissions?.email || {};
+          const recoveredTest = {
+            id: testId,
+            title: emailData.title || 'Luyện tập theo bài mẫu Email',
+            skill: 'writing_email',
+            task_type: 'write_email',
+            duration_seconds: 420,
+            stages: [
+              {
+                id: 'stage_1',
+                title: 'Task 2: Academic Email (7 phút)',
+                duration_seconds: 420,
+                tasks: [
+                  {
+                    id: emailData.task_id || `task_${testId}`,
+                    title: emailData.title || 'Task 2: Write an Email',
+                    skill: 'writing_email',
+                    task_type: 'write_email',
+                    duration_seconds: 420,
+                    content: {
+                      scenario: emailData.scenario,
+                      requirements: emailData.requirements || [],
+                      recipient: emailData.recipient || 'Professor',
+                      recommended_words: '100 - 130 từ',
+                      min_words: emailData.min_words || 80
+                    }
+                  }
+                ]
+              }
+            ],
+            content: {
+              scenario: emailData.scenario,
+              requirements: emailData.requirements || [],
+              recipient: emailData.recipient || 'Professor',
+              recommended_words: '100 - 130 từ',
+              min_words: emailData.min_words || 80
+            },
+            created_at: res.completed_at || new Date().toISOString()
+          };
+          testsMap.set(testId, recoveredTest);
+          local.push(recoveredTest);
+          hasRecovered = true;
+        } else if (isDiscuss) {
+          const discussData = res.writing_submissions?.discussion || {};
+          const recoveredTest = {
+            id: testId,
+            title: discussData.title || 'Luyện tập theo bài mẫu Academic Discussion',
+            skill: 'writing_discussion',
+            task_type: 'academic_discussion',
+            duration_seconds: 600,
+            stages: [
+              {
+                id: 'stage_1',
+                title: 'Task 3: Academic Discussion (10 phút)',
+                duration_seconds: 600,
+                tasks: [
+                  {
+                    id: discussData.task_id || `task_${testId}`,
+                    title: discussData.title || 'Task 3: Academic Discussion',
+                    skill: 'writing_discussion',
+                    task_type: 'academic_discussion',
+                    duration_seconds: 600,
+                    content: {
+                      professor_prompt: {
+                        name: discussData.professor_name || 'Professor',
+                        question: discussData.professor_question
+                      },
+                      professor: {
+                        name: discussData.professor_name || 'Professor',
+                        question: discussData.professor_question
+                      },
+                      topic: discussData.topic || 'Academic Discussion',
+                      peer_posts: discussData.peer_posts || [],
+                      min_words: discussData.min_words || 100
+                    }
+                  }
+                ]
+              }
+            ],
+            content: {
+              professor_prompt: {
+                name: discussData.professor_name || 'Professor',
+                question: discussData.professor_question
+              },
+              professor: {
+                name: discussData.professor_name || 'Professor',
+                question: discussData.professor_question
+              },
+              topic: discussData.topic || 'Academic Discussion',
+              peer_posts: discussData.peer_posts || [],
+              min_words: discussData.min_words || 100
+            },
+            created_at: res.completed_at || new Date().toISOString()
+          };
+          testsMap.set(testId, recoveredTest);
+          local.push(recoveredTest);
+          hasRecovered = true;
+        }
+      }
+    });
+    if (hasRecovered) {
+      localStorage.setItem('toefl_local_tests', JSON.stringify(local));
+    }
+  } catch (e) {
+    // ignore
+  }
+
   // 3. Bổ sung bộ đề chuẩn ETS 2026 nếu chưa có và chưa bị xóa
   const deletedTests = new Set(JSON.parse(localStorage.getItem('toefl_deleted_tests') || '[]'));
   DEFAULT_TESTS.forEach((d) => {
