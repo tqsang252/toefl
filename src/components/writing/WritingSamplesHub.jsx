@@ -20,7 +20,8 @@ import {
   Trash2,
   Calendar,
   X,
-  AlertTriangle
+  AlertTriangle,
+  Star
 } from 'lucide-react';
 import {
   getStoredSamples,
@@ -29,8 +30,11 @@ import {
   resetWritingSamples,
   clearAllWritingSamples,
   syncWritingSamplesFromSupabase,
-  loadSamplesFromIndexedDB
+  loadSamplesFromIndexedDB,
+  getPracticedSampleIds,
+  toggleSamplePracticed
 } from '../../lib/writingSamplesStorage';
+import { importBatchTests } from '../../lib/supabase';
 import WritingSampleDetailModal from './WritingSampleDetailModal';
 import AddWritingSampleModal from './AddWritingSampleModal';
 import ImportWritingSamplesModal from './ImportWritingSamplesModal';
@@ -47,6 +51,26 @@ export default function WritingSamplesHub({
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSource, setSelectedSource] = useState('all'); // 'all' | 'user_exam' | 'ets_curated' | 'external_upload'
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [filterPracticed, setFilterPracticed] = useState('all'); // 'all' | 'practiced' | 'unpracticed'
+  const [practicedIds, setPracticedIds] = useState(() => getPracticedSampleIds());
+
+  // Lắng nghe sự kiện đồng bộ khi người dùng tick dấu sao đã thực hành
+  useEffect(() => {
+    const handleUpdate = () => {
+      setPracticedIds(getPracticedSampleIds());
+    };
+    window.addEventListener('toefl_practiced_samples_updated', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+    return () => {
+      window.removeEventListener('toefl_practiced_samples_updated', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
+  }, []);
+
+  const handleTogglePracticed = (sampleId) => {
+    toggleSamplePracticed(sampleId);
+    setPracticedIds(getPracticedSampleIds());
+  };
 
   // Modals
   const [selectedSample, setSelectedSample] = useState(null);
@@ -100,6 +124,14 @@ export default function WritingSamplesHub({
   // Filtered samples
   const filteredSamples = useMemo(() => {
     return samples.filter(s => {
+      // Practiced filter (chỉ lọc khi người dùng bấm xem bài đã làm)
+      if (filterPracticed === 'practiced' && !practicedIds.includes(s.id)) {
+        return false;
+      }
+      if (filterPracticed === 'unpracticed' && practicedIds.includes(s.id)) {
+        return false;
+      }
+
       // Source filter
       if (selectedSource !== 'all' && s.sourceType !== selectedSource) {
         return false;
@@ -124,7 +156,7 @@ export default function WritingSamplesHub({
 
       return true;
     });
-  }, [samples, selectedSource, selectedCategory, searchQuery]);
+  }, [samples, selectedSource, selectedCategory, searchQuery, filterPracticed, practicedIds]);
 
   // Quick Copy
   const handleQuickCopy = (e, sample) => {
@@ -134,66 +166,123 @@ export default function WritingSamplesHub({
     setTimeout(() => setCopiedId(null), 1800);
   };
 
-  // Launch Practice
-  const handlePracticeFromCard = (e, sample) => {
+  // Launch Practice (LƯU Ý: Không tự động tick dấu sao đã làm - việc đánh dấu sao là hoàn toàn do học viên tự bấm theo ý muốn)
+  const handlePracticeFromCard = async (e, sample) => {
     e.stopPropagation();
+    const testId = `test_sample_${sample.type || (isEmail ? 'email' : 'discussion')}_${sample.id}`;
+
+    let practiceTest;
     if (isEmail) {
-      const practiceTest = {
-        id: `practice_from_sample_${sample.id}_${Date.now()}`,
+      const emailContent = {
+        scenario: sample.prompt?.scenario || sample.title,
+        requirements: Array.isArray(sample.prompt?.requirements) && sample.prompt.requirements.length > 0
+          ? sample.prompt.requirements
+          : [
+              'State your primary reason for writing clearly in the opening',
+              'Elaborate on specific circumstances with supporting reasons',
+              'Propose a polite and actionable next step or solution'
+            ],
+        recipient: sample.prompt?.recipient || 'Professor / Admissions Officer',
+        recommended_words: '100 - 130 từ',
+        min_words: 80,
+        sample_id: sample.id,
+        source: 'writing_sample_hub'
+      };
+
+      practiceTest = {
+        id: testId,
         title: sample.title || 'Luyện tập theo bài mẫu Email',
         skill: 'writing_email',
         task_type: 'write_email',
         duration_seconds: 420,
-        content: {
-          scenario: sample.prompt?.scenario || sample.title,
-          requirements: Array.isArray(sample.prompt?.requirements) && sample.prompt.requirements.length > 0
-            ? sample.prompt.requirements
-            : [
-                'State your primary reason for writing clearly in the opening',
-                'Elaborate on specific circumstances with supporting reasons',
-                'Propose a polite and actionable next step or solution'
-              ],
-          recommended_words: '100 - 130 từ',
-          min_words: 80
-        }
+        stages: [
+          {
+            id: 'stage_1',
+            title: 'Task 2: Academic Email (7 phút)',
+            duration_seconds: 420,
+            tasks: [
+              {
+                id: `task_${testId}`,
+                title: sample.title || 'Task 2: Write an Email',
+                skill: 'writing_email',
+                task_type: 'write_email',
+                duration_seconds: 420,
+                content: emailContent
+              }
+            ]
+          }
+        ],
+        content: emailContent
       };
-      if (onStartPractice) onStartPractice(practiceTest);
     } else {
-      const practiceTest = {
-        id: `practice_from_sample_${sample.id}_${Date.now()}`,
+      const profPrompt = {
+        name: sample.prompt?.professorName || 'Dr. Katherine Miller',
+        title: sample.prompt?.professorTitle || 'Professor of Academic Studies',
+        question: sample.prompt?.professorQuestion || sample.prompt?.scenario || sample.title
+      };
+      const peerPosts = Array.isArray(sample.prompt?.studentOpinions) && sample.prompt.studentOpinions.length > 0
+        ? sample.prompt.studentOpinions.map((p, idx) => ({
+            student: p.student || `Student ${idx + 1}`,
+            avatar_bg: p.avatar_bg || (idx === 0 ? 'bg-blue-600' : 'bg-emerald-600'),
+            stance: p.opinion || p.stance
+          }))
+        : [
+            {
+              student: 'Michael',
+              avatar_bg: 'bg-blue-600',
+              stance: 'Individual responsibility and foundational core discipline are the most critical factors.'
+            },
+            {
+              student: 'Sarah',
+              avatar_bg: 'bg-emerald-600',
+              stance: 'Institutional support and technological adaptation must be embraced for systemic equity.'
+            }
+          ];
+
+      const discussContent = {
+        professor_prompt: profPrompt,
+        professor: profPrompt,
+        topic: sample.title || 'Academic Discussion',
+        peer_posts: peerPosts,
+        min_words: 100,
+        sample_id: sample.id,
+        source: 'writing_sample_hub'
+      };
+
+      practiceTest = {
+        id: testId,
         title: sample.title || 'Luyện tập theo bài mẫu Academic Discussion',
         skill: 'writing_discussion',
         task_type: 'academic_discussion',
         duration_seconds: 600,
-        content: {
-          professor: {
-            name: sample.prompt?.professorName || 'Dr. Katherine Miller',
-            title: sample.prompt?.professorTitle || 'Professor of Academic Studies',
-            question: sample.prompt?.professorQuestion || sample.prompt?.scenario || sample.title
-          },
-          peer_posts: Array.isArray(sample.prompt?.studentOpinions) && sample.prompt.studentOpinions.length > 0
-            ? sample.prompt.studentOpinions.map((p, idx) => ({
-                student: p.student || `Student ${idx + 1}`,
-                avatar_bg: p.avatar_bg || (idx === 0 ? 'bg-blue-600' : 'bg-emerald-600'),
-                stance: p.opinion || p.stance
-              }))
-            : [
-                {
-                  student: 'Michael',
-                  avatar_bg: 'bg-blue-600',
-                  stance: 'Individual responsibility and foundational core discipline are the most critical factors.'
-                },
-                {
-                  student: 'Sarah',
-                  avatar_bg: 'bg-emerald-600',
-                  stance: 'Institutional support and technological adaptation must be embraced for systemic equity.'
-                }
-              ],
-          min_words: 100
-        }
+        stages: [
+          {
+            id: 'stage_1',
+            title: 'Task 3: Academic Discussion (10 phút)',
+            duration_seconds: 600,
+            tasks: [
+              {
+                id: `task_${testId}`,
+                title: sample.title || 'Task 3: Academic Discussion',
+                skill: 'writing_discussion',
+                task_type: 'academic_discussion',
+                duration_seconds: 600,
+                content: discussContent
+              }
+            ]
+          }
+        ],
+        content: discussContent
       };
-      if (onStartPractice) onStartPractice(practiceTest);
     }
+
+    try {
+      await importBatchTests([practiceTest]);
+    } catch (err) {
+      console.warn('Lỗi khi lưu practice test:', err);
+    }
+
+    if (onStartPractice) onStartPractice(practiceTest);
   };
 
   // Delete sample
@@ -382,6 +471,23 @@ export default function WritingSamplesHub({
                 {src.label}
               </button>
             ))}
+
+            <div className="h-4 w-px bg-slate-200 mx-1 shrink-0" />
+
+            {/* Filter by Practiced (Starred) */}
+            <button
+              type="button"
+              onClick={() => setFilterPracticed((prev) => (prev === 'practiced' ? 'all' : 'practiced'))}
+              className={`px-3 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+                filterPracticed === 'practiced'
+                  ? 'bg-amber-400 text-slate-950 font-black shadow-xs ring-2 ring-amber-300'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200/80'
+              }`}
+              title="Lọc các đề bạn đã chủ động đánh dấu sao là Đã làm"
+            >
+              <Star className={`w-3.5 h-3.5 ${filterPracticed === 'practiced' ? 'fill-slate-950 text-slate-950' : 'text-amber-500 fill-amber-400'}`} />
+              <span>Đã làm ({samples.filter((s) => practicedIds.includes(s.id)).length})</span>
+            </button>
           </div>
 
           {/* Search Input & Quick Clear */}
@@ -480,11 +586,33 @@ export default function WritingSamplesHub({
                       {sample.topicCategory || 'General'}
                     </span>
 
-                    {isUserOrigin && (
-                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200 shrink-0" title="Được liên kết từ bài làm thực tế của bạn">
-                        🔗 Bài làm
-                      </span>
-                    )}
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      {isUserOrigin && (
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200 shrink-0" title="Được liên kết từ bài làm thực tế của bạn">
+                          🔗 Bài làm
+                        </span>
+                      )}
+
+                      {/* DẤU SAO ĐÁNH DẤU CHỦ ĐỘNG ĐÃ LÀM BÀI NÀY */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleTogglePracticed(sample.id);
+                        }}
+                        className={`p-1.5 rounded-xl transition-all cursor-pointer flex items-center gap-1 border ${
+                          practicedIds.includes(sample.id)
+                            ? 'bg-amber-50 text-amber-700 border-amber-300 ring-2 ring-amber-200/80 shadow-2xs'
+                            : 'bg-slate-50 hover:bg-amber-50/60 text-slate-300 hover:text-amber-500 border-slate-200'
+                        }`}
+                        title={practicedIds.includes(sample.id) ? 'Đã đánh dấu: Đã làm bài này rồi (Bấm để bỏ đánh dấu)' : 'Bấm để đánh dấu bạn đã làm bài này rồi'}
+                      >
+                        <Star className={`w-3.5 h-3.5 transition-transform active:scale-125 ${practicedIds.includes(sample.id) ? 'fill-amber-400 text-amber-500' : 'text-slate-400 hover:text-amber-500'}`} />
+                        {practicedIds.includes(sample.id) && (
+                          <span className="text-[10px] font-black text-amber-800 pr-0.5">Đã làm</span>
+                        )}
+                      </button>
+                    </div>
                   </div>
 
                   {/* Title */}
@@ -581,6 +709,8 @@ export default function WritingSamplesHub({
         onClose={() => setSelectedSample(null)}
         onStartPractice={onStartPractice}
         onDelete={handleDeleteSample}
+        isPracticed={selectedSample ? practicedIds.includes(selectedSample.id) : false}
+        onTogglePracticed={() => selectedSample && handleTogglePracticed(selectedSample.id)}
       />
 
       {/* ADD SAMPLE MODAL */}

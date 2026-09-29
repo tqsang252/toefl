@@ -18,7 +18,8 @@ import {
   User,
   ArrowRight,
   ExternalLink,
-  SplitSquareVertical
+  SplitSquareVertical,
+  Star
 } from 'lucide-react';
 import QuickVocabPopover, { useTextSelectionLookup } from '../dictionary/QuickVocabPopover';
 import { importBatchTests } from '../../lib/supabase';
@@ -28,7 +29,9 @@ export default function WritingSampleDetailModal({
   isOpen,
   onClose,
   onStartPractice,
-  onDelete
+  onDelete,
+  isPracticed = false,
+  onTogglePracticed
 }) {
   const [activeTab, setActiveTab] = useState('model_essay'); // 'model_essay' | 'structure' | 'vocab' | 'comparison'
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
@@ -252,6 +255,23 @@ export default function WritingSampleDetailModal({
                 </span>
               )}
 
+              {/* Star Badge in Header */}
+              {onTogglePracticed && (
+                <button
+                  type="button"
+                  onClick={onTogglePracticed}
+                  className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border transition-all cursor-pointer flex items-center gap-1 ${
+                    isPracticed
+                      ? 'bg-amber-100 text-amber-900 border-amber-300'
+                      : 'bg-white text-slate-500 border-slate-200 hover:bg-amber-50 hover:text-amber-700'
+                  }`}
+                  title={isPracticed ? 'Đã đánh dấu: Đã làm (Bấm để bỏ đánh dấu)' : 'Bấm để đánh dấu bạn đã làm đề này'}
+                >
+                  <Star className={`w-3 h-3 ${isPracticed ? 'fill-amber-400 text-amber-500' : 'text-slate-400'}`} />
+                  <span>{isPracticed ? 'Đã làm' : 'Chưa đánh dấu'}</span>
+                </button>
+              )}
+
               <span className="text-xs text-slate-400 font-medium">
                 • {sample.topicCategory || 'General Topic'}
               </span>
@@ -282,6 +302,23 @@ export default function WritingSampleDetailModal({
               <span>Thực hành đề này ngay ({isEmail ? '7 phút' : '10 phút'})</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
+
+            {/* NÚT ĐÁNH DẤU CHỦ ĐỘNG ĐÃ LÀM (STAR) */}
+            {onTogglePracticed && (
+              <button
+                type="button"
+                onClick={onTogglePracticed}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer active:scale-95 ${
+                  isPracticed
+                    ? 'bg-amber-100 text-amber-900 border-amber-300 ring-2 ring-amber-200/80 shadow-xs'
+                    : 'bg-white hover:bg-amber-50/70 text-slate-700 hover:text-amber-800 border-slate-200 shadow-2xs'
+                }`}
+                title={isPracticed ? 'Đã đánh dấu đã làm bài này rồi (Bấm để bỏ đánh dấu)' : 'Bấm để đánh dấu bạn đã làm bài này rồi'}
+              >
+                <Star className={`w-3.5 h-3.5 ${isPracticed ? 'fill-amber-400 text-amber-500' : 'text-slate-400 hover:text-amber-500'}`} />
+                <span>{isPracticed ? 'Đã làm bài này' : 'Đánh dấu đã làm'}</span>
+              </button>
+            )}
           </div>
 
           <div className="flex items-center gap-2">

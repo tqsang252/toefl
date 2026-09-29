@@ -895,3 +895,49 @@ export function importBatchWritingSamples(samplesInput, defaultType = 'email') {
     samples: validSamples
   };
 }
+
+// =========================================================================
+// QUẢN LÝ ĐÁNH DẤU BÀI MẪU ĐÃ THỰC HÀNH (THỦ CÔNG DO NGƯỜI DÙNG TỰ TICK)
+// =========================================================================
+export const PRACTICED_SAMPLES_KEY = 'toefl_practiced_samples';
+
+export function getPracticedSampleIds() {
+  try {
+    const raw = localStorage.getItem(PRACTICED_SAMPLES_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+export function isSamplePracticed(sampleId) {
+  if (!sampleId) return false;
+  const list = getPracticedSampleIds();
+  return list.includes(sampleId);
+}
+
+export function toggleSamplePracticed(sampleId) {
+  if (!sampleId) return false;
+  const list = getPracticedSampleIds();
+  const index = list.indexOf(sampleId);
+  let updated;
+  let isNowPracticed = false;
+  if (index >= 0) {
+    updated = list.filter((id) => id !== sampleId);
+    isNowPracticed = false;
+  } else {
+    updated = [...list, sampleId];
+    isNowPracticed = true;
+  }
+  try {
+    localStorage.setItem(PRACTICED_SAMPLES_KEY, JSON.stringify(updated));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('toefl_practiced_samples_updated', {
+        detail: { sampleId, isPracticed: isNowPracticed, list: updated }
+      }));
+    }
+  } catch (e) {
+    console.error('Lỗi lưu practiced samples:', e);
+  }
+  return isNowPracticed;
+}
