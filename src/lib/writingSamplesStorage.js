@@ -290,6 +290,143 @@ const STORAGE_KEYS = {
   discussion: 'toefl_writing_discussion_samples'
 };
 
+// ==========================================
+// Native IndexedDB Helper (Bypasses 5MB localStorage limit)
+// ==========================================
+const IDB_NAME = 'toefl_writing_db';
+const IDB_STORE = 'writing_samples';
+let idbInstancePromise = null;
+
+function getIDB() {
+  if (typeof window === 'undefined' || !window.indexedDB) return Promise.resolve(null);
+  if (!idbInstancePromise) {
+    idbInstancePromise = new Promise((resolve) => {
+      try {
+        const req = window.indexedDB.open(IDB_NAME, 1);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(IDB_STORE)) {
+            const store = db.createObjectStore(IDB_STORE, { keyPath: 'id' });
+            store.createIndex('type', 'type', { unique: false });
+          }
+        };
+        req.onsuccess = (e) => resolve(e.target.result);
+        req.onerror = () => resolve(null);
+      } catch {
+        resolve(null);
+      }
+    });
+  }
+  return idbInstancePromise;
+}
+
+export async function saveSamplesToIndexedDB(samples) {
+  const db = await getIDB();
+  if (!db || !Array.isArray(samples)) return;
+  return new Promise((resolve) => {
+    try {
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      const store = tx.objectStore(IDB_STORE);
+      for (const s of samples) {
+        if (s && s.id) {
+          store.put(s);
+        }
+      }
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => resolve(false);
+    } catch {
+      resolve(false);
+    }
+  });
+}
+
+export async function loadSamplesFromIndexedDB(type = 'email') {
+  const db = await getIDB();
+  if (!db) return [];
+  return new Promise((resolve) => {
+    try {
+      const tx = db.transaction(IDB_STORE, 'readonly');
+      const store = tx.objectStore(IDB_STORE);
+      const req = store.getAll();
+      req.onsuccess = () => {
+        const all = req.result || [];
+        const isDisc = type === 'discussion';
+        const filtered = all.filter(s => {
+          if (!s) return false;
+          const sType = (s.type || '').toLowerCase();
+          return isDisc ? sType.includes('discuss') : !sType.includes('discuss');
+        });
+        resolve(filtered);
+      };
+      req.onerror = () => resolve([]);
+    } catch {
+      resolve([]);
+    }
+  });
+}
+
+export async function deleteSampleFromIndexedDB(sampleId) {
+  const db = await getIDB();
+  if (!db || !sampleId) return;
+  return new Promise((resolve) => {
+    try {
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      const store = tx.objectStore(IDB_STORE);
+      store.delete(sampleId);
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => resolve(false);
+    } catch {
+      resolve(false);
+    }
+  });
+}
+
+export async function clearIndexedDBByType(type = 'email') {
+  const db = await getIDB();
+  if (!db) return;
+  const current = await loadSamplesFromIndexedDB(type);
+  return new Promise((resolve) => {
+    try {
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      const store = tx.objectStore(IDB_STORE);
+      for (const item of current) {
+        if (item && item.id) store.delete(item.id);
+      }
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => resolve(false);
+    } catch {
+      resolve(false);
+    }
+  });
+}
+
+// In-memory cache for instant synchronous access
+const inMemoryCache = {
+  email: null,
+  discussion: null
+};
+
+// Safe localStorage setter with QuotaExceededError protection
+function safeLocalStorageSet(key, items) {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(key, JSON.stringify(items));
+  } catch (err) {
+    if (err.name === 'QuotaExceededError' || err.code === 22 || err.code === 1014) {
+      console.warn(`[Storage Quota Notice] localStorage limit reached on ${key}. Trimming local mirror to recent items, full data secured in IndexedDB.`);
+      // Try saving only the 50 most recent items to avoid breaking localStorage
+      try {
+        const trimmed = items.slice(0, 50);
+        localStorage.setItem(key, JSON.stringify(trimmed));
+      } catch (trimErr) {
+        console.warn('Could not set trimmed localStorage, relying entirely on IndexedDB/Memory:', trimErr.message);
+      }
+    } else {
+      console.warn('localStorage setItem warning:', err.message);
+    }
+  }
+}
+
 /**
  * Lấy danh sách bài mẫu theo loại ('email' | 'discussion')
  */
@@ -298,29 +435,38 @@ export function getStoredSamples(type = 'email') {
     return type === 'email' ? INITIAL_EMAIL_SAMPLES : INITIAL_DISCUSSION_SAMPLES;
   }
 
+  // Return in-memory cache if available
+  if (inMemoryCache[type] && inMemoryCache[type].length > 0) {
+    return inMemoryCache[type];
+  }
+
   const key = STORAGE_KEYS[type] || STORAGE_KEYS.email;
   const initial = type === 'email' ? INITIAL_EMAIL_SAMPLES : INITIAL_DISCUSSION_SAMPLES;
 
   try {
     const raw = localStorage.getItem(key);
+    let combined = [];
+
     if (!raw) {
-      localStorage.setItem(key, JSON.stringify(initial));
-      return initial;
-    }
-
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed) || parsed.length === 0) {
-      localStorage.setItem(key, JSON.stringify(initial));
-      return initial;
-    }
-
-    // Đảm bảo các bài mẫu mặc định ETS luôn hiện diện
-    let hasChanges = false;
-    const combined = [...parsed];
-    for (const defItem of initial) {
-      if (!combined.some(s => s.id === defItem.id)) {
-        combined.push(defItem);
-        hasChanges = true;
+      safeLocalStorageSet(key, initial);
+      combined = [...initial];
+    } else {
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed) || parsed.length === 0) {
+        safeLocalStorageSet(key, initial);
+        combined = [...initial];
+      } else {
+        combined = [...parsed];
+        let hasChanges = false;
+        for (const defItem of initial) {
+          if (!combined.some(s => s.id === defItem.id)) {
+            combined.push(defItem);
+            hasChanges = true;
+          }
+        }
+        if (hasChanges) {
+          safeLocalStorageSet(key, combined);
+        }
       }
     }
 
@@ -328,17 +474,27 @@ export function getStoredSamples(type = 'email') {
     combined.forEach(s => {
       if (s.targetBand && (s.targetBand.includes('(') || s.targetBand.length > 20)) {
         s.targetBand = s.targetBand.split('(')[0].trim() || 'Band 5.5+';
-        hasChanges = true;
       }
     });
 
-    if (hasChanges) {
-      localStorage.setItem(key, JSON.stringify(combined));
-    }
+    inMemoryCache[type] = combined;
+
+    // Background sync from IndexedDB to memoryCache if IndexedDB has more data
+    loadSamplesFromIndexedDB(type).then(idbItems => {
+      if (Array.isArray(idbItems) && idbItems.length > 0) {
+        const map = new Map();
+        idbItems.forEach(s => map.set(s.id, s));
+        combined.forEach(s => {
+          if (!map.has(s.id)) map.set(s.id, s);
+        });
+        inMemoryCache[type] = Array.from(map.values());
+      }
+    }).catch(() => {});
 
     return combined;
   } catch (err) {
     console.error(`Lỗi đọc samples ${type} từ localStorage:`, err);
+    inMemoryCache[type] = initial;
     return initial;
   }
 }
@@ -423,7 +579,11 @@ export function saveWritingSample(sample) {
     updated = [sample, ...current];
   }
 
-  localStorage.setItem(key, JSON.stringify(updated));
+  inMemoryCache[type] = updated;
+  safeLocalStorageSet(key, updated);
+
+  // Lưu bền vững vào IndexedDB (không giới hạn 5MB)
+  saveSamplesToIndexedDB([sample]).catch(() => {});
 
   // Đồng bộ lên Supabase nếu có cấu hình
   try {
@@ -465,7 +625,12 @@ export function deleteWritingSample(sampleId, type = 'email') {
   const key = STORAGE_KEYS[type] || STORAGE_KEYS.email;
   const current = getStoredSamples(type);
   const updated = current.filter(s => s.id !== sampleId);
-  localStorage.setItem(key, JSON.stringify(updated));
+
+  inMemoryCache[type] = updated;
+  safeLocalStorageSet(key, updated);
+
+  // Xóa khỏi IndexedDB
+  deleteSampleFromIndexedDB(sampleId).catch(() => {});
 
   // Xóa trên Supabase nếu có
   try {
@@ -491,7 +656,17 @@ export async function clearAllWritingSamples(type = 'email', keepDefaultsOnly = 
   const initial = type === 'email' ? INITIAL_EMAIL_SAMPLES : INITIAL_DISCUSSION_SAMPLES;
   const targetSamples = keepDefaultsOnly ? [...initial] : [];
 
-  localStorage.setItem(key, JSON.stringify(targetSamples));
+  inMemoryCache[type] = targetSamples;
+  safeLocalStorageSet(key, targetSamples);
+
+  // Xóa khỏi IndexedDB
+  if (!keepDefaultsOnly) {
+    await clearIndexedDBByType(type).catch(() => {});
+  } else {
+    // Chỉ giữ lại defaults trong IndexedDB
+    await clearIndexedDBByType(type).catch(() => {});
+    await saveSamplesToIndexedDB(initial).catch(() => {});
+  }
 
   // Đồng bộ xóa trên Supabase nếu có cấu hình
   try {
@@ -524,10 +699,7 @@ export async function clearAllWritingSamples(type = 'email', keepDefaultsOnly = 
 export function resetWritingSamples(type = 'email') {
   if (typeof window === 'undefined') return [];
   clearAllWritingSamples(type, true);
-  const key = STORAGE_KEYS[type] || STORAGE_KEYS.email;
-  const initial = type === 'email' ? INITIAL_EMAIL_SAMPLES : INITIAL_DISCUSSION_SAMPLES;
-  localStorage.setItem(key, JSON.stringify(initial));
-  return initial;
+  return type === 'email' ? INITIAL_EMAIL_SAMPLES : INITIAL_DISCUSSION_SAMPLES;
 }
 
 /**
@@ -575,7 +747,7 @@ export function createSampleFromUserAttempt({
 }
 
 /**
- * Nhập hàng loạt bài mẫu từ mảng hoặc đối tượng JSON
+ * Nhập hàng loạt bài mẫu từ mảng hoặc đối tượng JSON với cơ chế xử lý Batch một lần tối ưu
  */
 export function importBatchWritingSamples(samplesInput, defaultType = 'email') {
   if (typeof window === 'undefined') return { success: false, count: 0, samples: [] };
@@ -597,6 +769,12 @@ export function importBatchWritingSamples(samplesInput, defaultType = 'email') {
 
   const validSamples = [];
   const now = new Date().toISOString();
+
+  // Nhóm theo type để lưu batch 1 lần
+  const byType = {
+    email: [],
+    discussion: []
+  };
 
   for (let idx = 0; idx < rawList.length; idx++) {
     const item = rawList[idx];
@@ -635,8 +813,8 @@ export function importBatchWritingSamples(samplesInput, defaultType = 'email') {
       type: inferredType,
       title: item.title || (inferredType === 'email' ? `Bài mẫu Email #${idx + 1}` : `Bài mẫu Discussion #${idx + 1}`),
       topicCategory: item.topicCategory || item.topic_category || item.category || 'Tài liệu bổ sung',
-      sourceType: 'ai_generated',
-      targetBand: (item.targetBand || item.target_band || 'Band 5.5+ / 6.0').split('(')[0].trim(),
+      sourceType: item.sourceType || 'ai_generated',
+      targetBand: (item.targetBand || item.target_band || 'Band 5.0 / 5.0').split('(')[0].trim(),
       prompt: promptObj,
       modelEssay: essay,
       wordCount: words,
@@ -651,12 +829,64 @@ export function importBatchWritingSamples(samplesInput, defaultType = 'email') {
       created_at: item.created_at || now
     };
 
-    saveWritingSample(sampleObj);
     validSamples.push(sampleObj);
+    byType[inferredType].push(sampleObj);
   }
 
   if (validSamples.length === 0) {
     throw new Error('Dữ liệu JSON không chứa bài viết mẫu hợp lệ (thiếu trường modelEssay hoặc essay).');
+  }
+
+  // Thực hiện lưu Batch một lần duy nhất cho mỗi Type
+  for (const t of ['email', 'discussion']) {
+    const listToSave = byType[t];
+    if (listToSave.length === 0) continue;
+
+    const key = STORAGE_KEYS[t];
+    const current = getStoredSamples(t);
+
+    const mergedMap = new Map();
+    // Đưa các bài mẫu mới nhập vào trước
+    listToSave.forEach(s => mergedMap.set(s.id, s));
+    // Đưa các bài mẫu cũ chưa bị trùng vào sau
+    current.forEach(s => {
+      if (!mergedMap.has(s.id)) {
+        mergedMap.set(s.id, s);
+      }
+    });
+
+    const combined = Array.from(mergedMap.values());
+    inMemoryCache[t] = combined;
+
+    // 1. Lưu vào IndexedDB (Dung lượng lớn, an toàn 100%)
+    saveSamplesToIndexedDB(combined).catch(() => {});
+
+    // 2. Lưu vào localStorage với cơ chế chống tràn QuotaExceededError
+    safeLocalStorageSet(key, combined);
+
+    // 3. Đồng bộ Supabase nếu có cấu hình
+    try {
+      const client = getSupabaseClient();
+      if (isSupabaseConfigured() && client) {
+        const rows = listToSave.map(s => ({
+          id: s.id,
+          type: s.type,
+          title: s.title,
+          topic_category: s.topicCategory,
+          source_type: s.sourceType,
+          prompt: s.prompt,
+          model_essay: s.modelEssay,
+          word_count: s.wordCount,
+          target_band: s.targetBand,
+          vocabulary_highlights: s.vocabularyHighlights || [],
+          structure_analysis: s.structureAnalysis || '',
+          user_original_response: s.userOriginalResponse || null,
+          personal_notes: s.personalNotes || '',
+          created_at: s.created_at || now
+        }));
+        Promise.resolve(client.from('writing_samples').upsert(rows)).catch(() => {});
+      }
+    } catch {}
   }
 
   return {

@@ -28,7 +28,8 @@ import {
   deleteWritingSample,
   resetWritingSamples,
   clearAllWritingSamples,
-  syncWritingSamplesFromSupabase
+  syncWritingSamplesFromSupabase,
+  loadSamplesFromIndexedDB
 } from '../../lib/writingSamplesStorage';
 import WritingSampleDetailModal from './WritingSampleDetailModal';
 import AddWritingSampleModal from './AddWritingSampleModal';
@@ -55,11 +56,19 @@ export default function WritingSamplesHub({
   const [isClearing, setIsClearing] = useState(false);
   const [copiedId, setCopiedId] = useState(null);
 
-  // Sync state when activeType or initialType changes (Local + Supabase Cloud)
+  // Sync state when activeType or initialType changes (Local + IndexedDB + Supabase Cloud)
   useEffect(() => {
-    setSamples(getStoredSamples(activeType));
+    const local = getStoredSamples(activeType);
+    setSamples(local);
     setSelectedCategory('All');
     setSearchQuery('');
+
+    // Kiểm tra IndexedDB nếu có nhiều dữ liệu hơn localStorage
+    loadSamplesFromIndexedDB(activeType).then(idbItems => {
+      if (Array.isArray(idbItems) && idbItems.length > local.length) {
+        setSamples(idbItems);
+      }
+    });
 
     // Đồng bộ hai chiều từ Supabase Cloud nếu có cấu hình
     syncWritingSamplesFromSupabase(activeType).then(synced => {

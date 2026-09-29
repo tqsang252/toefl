@@ -37,8 +37,7 @@ print(f"Total merged items: {len(all_items)}")
 def clean_text(txt):
     if not isinstance(txt, str):
         return txt
-    # Clean corrupt replacement characters
-    return txt.replace("", "—").replace("\ufffd", "—")
+    return txt.replace("\ufffd", "—")
 
 def extract_exact_context(term, old_context, essay):
     # 1. Exact match already?

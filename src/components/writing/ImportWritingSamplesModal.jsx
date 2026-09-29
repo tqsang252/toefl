@@ -136,6 +136,26 @@ export default function ImportWritingSamplesModal({
     reader.readAsText(file);
   };
 
+  // Nạp nhanh bộ đề TOEFL 2026 có sẵn
+  const handleLoadPresetSamples = async () => {
+    try {
+      setIsParsing(true);
+      setErrorMessage('');
+      const url = sampleType === 'discussion'
+        ? '/writing_discussion_samples_toefl_2026.json'
+        : '/writing_discussion_samples_1_50.json';
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Không tìm thấy file mẫu có sẵn trên hệ thống.');
+      const text = await res.text();
+      setJsonInput(text);
+      handlePreviewJson(text);
+    } catch (err) {
+      setErrorMessage('Lỗi khi nạp bài mẫu có sẵn: ' + err.message);
+    } finally {
+      setIsParsing(false);
+    }
+  };
+
   // Preview và validate JSON ngay khi người dùng dán hoặc nhập
   const handlePreviewJson = (rawContent) => {
     setErrorMessage('');
@@ -558,7 +578,17 @@ export default function ImportWritingSamplesModal({
                   </div>
                 </div>
 
-                <div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <button
+                    type="button"
+                    onClick={handleLoadPresetSamples}
+                    disabled={isParsing}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold text-xs border border-amber-300 transition-all cursor-pointer active:scale-95 shadow-2xs"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                    <span>Nạp bộ 200 bài mẫu có sẵn</span>
+                  </button>
+
                   <input
                     type="file"
                     ref={fileInputRef}
