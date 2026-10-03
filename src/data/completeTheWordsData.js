@@ -3,15 +3,18 @@
  * 100 Authentic Academic & Campus Passages
  */
 
+import { GPT_COMPLETE_THE_WORDS_BANK } from './gptCompleteWordsBank.js';
+
 export const CTW_DOMAINS = [
   "All Domains",
+  "GPT - 100 Đề Mới (2026)",
   "Natural Sciences",
   "Social Sciences",
   "Arts & Humanities",
   "Applied Tech & Engineering"
 ];
 
-export const COMPLETE_THE_WORDS_BANK = [
+const ORIGINAL_BANK = [
   {
     "id": "ctw_01",
     "title": "Deep-Sea Hydrothermal Vents",
@@ -10112,4 +10115,9 @@ export const COMPLETE_THE_WORDS_BANK = [
       }
     ]
   }
+];
+
+export const COMPLETE_THE_WORDS_BANK = [
+  ...GPT_COMPLETE_THE_WORDS_BANK,
+  ...ORIGINAL_BANK
 ];

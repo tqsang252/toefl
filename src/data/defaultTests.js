@@ -1,3 +1,5 @@
+import { GPT_COMPLETE_WORDS_TESTS } from './gptCompleteWordsBank.js';
+
 // Dữ liệu bộ đề thi TOEFL 2026 chuẩn ETS:
 // Reading & Listening có cấu trúc Multistage Adaptive (Module 1 -> Module 2)
 // Mỗi Module là 1 bài thi hoàn chỉnh gồm: Complete the Words (1-2 đoạn) + Daily Life + Academic Passage
@@ -1201,6 +1203,7 @@ export const DEFAULT_TESTS = [
   writingSentenceTest01,
   writingEmailTest01,
   writingDiscussionTest01,
-  speakingTest01
+  speakingTest01,
+  ...GPT_COMPLETE_WORDS_TESTS
 ];
 

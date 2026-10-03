@@ -106,6 +106,9 @@ export default function CompleteTheWordsTrainer() {
     if (selectedDomain === 'All Domains') {
       return COMPLETE_THE_WORDS_BANK;
     }
+    if (selectedDomain === 'GPT - 100 Đề Mới (2026)') {
+      return COMPLETE_THE_WORDS_BANK.filter((p) => p.id && p.id.startsWith('gpt_'));
+    }
     return COMPLETE_THE_WORDS_BANK.filter((p) => p.category === selectedDomain);
   }, [selectedDomain]);
 
@@ -626,6 +629,8 @@ export default function CompleteTheWordsTrainer() {
             const isSelected = selectedDomain === domain;
             const matching = domain === 'All Domains' 
               ? COMPLETE_THE_WORDS_BANK 
+              : domain === 'GPT - 100 Đề Mới (2026)'
+              ? COMPLETE_THE_WORDS_BANK.filter((p) => p.id && p.id.startsWith('gpt_'))
               : COMPLETE_THE_WORDS_BANK.filter((p) => p.category === domain);
             const count = matching.length;
             const completedInDomain = matching.filter((p) => !!history[p.id]).length;
@@ -637,6 +642,8 @@ export default function CompleteTheWordsTrainer() {
                   setSelectedDomain(domain);
                   const matchingDomain = domain === 'All Domains' 
                     ? COMPLETE_THE_WORDS_BANK 
+                    : domain === 'GPT - 100 Đề Mới (2026)'
+                    ? COMPLETE_THE_WORDS_BANK.filter((p) => p.id && p.id.startsWith('gpt_'))
                     : COMPLETE_THE_WORDS_BANK.filter((p) => p.category === domain);
                   if (matchingDomain.length > 0 && !matchingDomain.some((m) => m.id === currentPassageId)) {
                     // Ưu tiên nhảy vào bài chưa làm đầu tiên trong domain này
