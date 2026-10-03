@@ -106,7 +106,7 @@ export default function CompleteTheWordsTrainer() {
     if (selectedDomain === 'All Domains') {
       return COMPLETE_THE_WORDS_BANK;
     }
-    if (selectedDomain === 'GPT - 100 Đề Mới (2026)') {
+    if (selectedDomain.startsWith('GPT -')) {
       return COMPLETE_THE_WORDS_BANK.filter((p) => p.id && p.id.startsWith('gpt_'));
     }
     return COMPLETE_THE_WORDS_BANK.filter((p) => p.category === selectedDomain);
@@ -629,7 +629,7 @@ export default function CompleteTheWordsTrainer() {
             const isSelected = selectedDomain === domain;
             const matching = domain === 'All Domains' 
               ? COMPLETE_THE_WORDS_BANK 
-              : domain === 'GPT - 100 Đề Mới (2026)'
+              : domain.startsWith('GPT -')
               ? COMPLETE_THE_WORDS_BANK.filter((p) => p.id && p.id.startsWith('gpt_'))
               : COMPLETE_THE_WORDS_BANK.filter((p) => p.category === domain);
             const count = matching.length;
@@ -642,7 +642,7 @@ export default function CompleteTheWordsTrainer() {
                   setSelectedDomain(domain);
                   const matchingDomain = domain === 'All Domains' 
                     ? COMPLETE_THE_WORDS_BANK 
-                    : domain === 'GPT - 100 Đề Mới (2026)'
+                    : domain.startsWith('GPT -')
                     ? COMPLETE_THE_WORDS_BANK.filter((p) => p.id && p.id.startsWith('gpt_'))
                     : COMPLETE_THE_WORDS_BANK.filter((p) => p.category === domain);
                   if (matchingDomain.length > 0 && !matchingDomain.some((m) => m.id === currentPassageId)) {

@@ -7,7 +7,7 @@ import { GPT_COMPLETE_THE_WORDS_BANK } from './gptCompleteWordsBank.js';
 
 export const CTW_DOMAINS = [
   "All Domains",
-  "GPT - 100 Đề Mới (2026)",
+  "GPT - 20 Đề Mới (Đợt 1)",
   "Natural Sciences",
   "Social Sciences",
   "Arts & Humanities",
