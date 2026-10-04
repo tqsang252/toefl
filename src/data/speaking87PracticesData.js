@@ -1,0 +1,12625 @@
+// TOEFL 2026 Speaking Task 1: Listen and Repeat (87 Practices / 609 Sentences)
+// Source: Gabble.ai TOEFL 2026 Speaking Task 1 Official Practice Playlist
+
+export const SPEAKING_87_PRACTICES = [
+  {
+    "id": "toefl_speaking_lr_p021",
+    "practice_number": 21,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 21) | Airport",
+    "topic": "Airport",
+    "video_id": "TfYGjSkvqE8",
+    "youtube_url": "https://www.youtube.com/watch?v=TfYGjSkvqE8",
+    "duration_seconds": 160,
+    "scenario": "You are learning to assist passengers at the airport.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to the check-in counter.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "May I see your passport please?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Do you have any bags to check?",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Your flight leaves from gate B twelve today.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Boarding will begin thirty minutes before your scheduled departure.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Please proceed to the security checkpoint after you finish checking in.",
+        "word_count": 11,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you have any questions about your flight, our customer service desk is nearby.",
+        "word_count": 14,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p022",
+    "practice_number": 22,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 22) | Bank Teller",
+    "topic": "Bank Teller",
+    "video_id": "IxuqcMCo15c",
+    "youtube_url": "https://www.youtube.com/watch?v=IxuqcMCo15c",
+    "duration_seconds": 161,
+    "scenario": "You are training as a bank teller.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Good morning, how can I help?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Would you like to make a deposit?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Please enter your PIN on the keypad.",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Your current account balance is shown on the screen.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "For large withdrawals, we will need to see additional identification.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "We also offer savings accounts with competitive interest rates for new customers.",
+        "word_count": 12,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Please let me know if there is anything else I can help you with today.",
+        "word_count": 15,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p023",
+    "practice_number": 23,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 23) | Bookstore",
+    "topic": "Bookstore",
+    "video_id": "6-OnD-juBcQ",
+    "youtube_url": "https://www.youtube.com/watch?v=6-OnD-juBcQ",
+    "duration_seconds": 162,
+    "scenario": "You are learning to assist customers at a bookstore.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to our bookstore today.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Are you looking for something specific?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Our bestsellers are on the front table.",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "The children's section is located in the back corner.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "We can order any book that is not currently in our stock.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Store members receive a fifteen percent discount on all of their purchases here.",
+        "word_count": 13,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you need help finding a title, please ask any staff member and they will assist you.",
+        "word_count": 17,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p024",
+    "practice_number": 24,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 24) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "video_id": "wJvGhlq5HKE",
+    "youtube_url": "https://www.youtube.com/watch?v=wJvGhlq5HKE",
+    "duration_seconds": 165,
+    "scenario": "You are training as a barista at a coffee shop.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Hi, what can I get you?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Would you like that hot or iced?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "We have oat, almond, and soy milk.",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Would you like to add an extra shot of espresso?",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Your drink will be ready at the end of the counter shortly.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "We also have fresh pastries and sandwiches available in the display case today.",
+        "word_count": 13,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you are a rewards member, please scan your app before I complete your order.",
+        "word_count": 15,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p025",
+    "practice_number": 25,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 25) | Medical Receptionist",
+    "topic": "Medical Receptionist",
+    "video_id": "AZ7pR8aSrh8",
+    "youtube_url": "https://www.youtube.com/watch?v=AZ7pR8aSrh8",
+    "duration_seconds": 158,
+    "scenario": "You are training as a medical receptionist.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Good morning, how are you?",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Do you have an appointment today?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Please fill out these forms for us.",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "The doctor will see you in about fifteen minutes.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Make sure to bring your insurance card and photo identification.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "You can pick up your prescription at the pharmacy located on the first floor.",
+        "word_count": 14,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Would you like to schedule a follow-up appointment before you leave the office today?",
+        "word_count": 14,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p026",
+    "practice_number": 26,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 26) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "video_id": "9elkUOIT5Ns",
+    "youtube_url": "https://www.youtube.com/watch?v=9elkUOIT5Ns",
+    "duration_seconds": 159,
+    "scenario": "You are preparing for a job interview.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Thank you for coming in.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please tell me about yourself briefly.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Why are you interested in this job?",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "What would you say are your greatest strengths overall?",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Can you describe a challenge you faced and how you solved it?",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Where do you see yourself professionally in the next five to ten years?",
+        "word_count": 13,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Do you have any questions about the position or our company that I can answer?",
+        "word_count": 15,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p027",
+    "practice_number": 27,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 27) | Pharmacy Technician",
+    "topic": "Pharmacy Technician",
+    "video_id": "I_pxQayEOQs",
+    "youtube_url": "https://www.youtube.com/watch?v=I_pxQayEOQs",
+    "duration_seconds": 166,
+    "scenario": "You are training as a pharmacy technician.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Hello, how can I help?",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Do you have a prescription to pick up?",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "May I have your date of birth please?",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Your prescription will be ready in about ten minutes.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Please check the label to make sure all information is correct.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Take one tablet twice a day with food for the next seven days.",
+        "word_count": 13,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you experience any side effects, please contact your doctor or come back to see us.",
+        "word_count": 16,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p028",
+    "practice_number": 28,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 28) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "video_id": "a2kJfSn-pxg",
+    "youtube_url": "https://www.youtube.com/watch?v=a2kJfSn-pxg",
+    "duration_seconds": 165,
+    "scenario": "You are learning to be a museum guide.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to our art museum.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Photography is allowed without flash.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "This gallery shows Renaissance period artwork.",
+        "word_count": 6,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Please keep a safe distance from all the paintings.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Audio guides are available in six different languages at the desk.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "The museum gift shop and cafe are both located on the ground floor.",
+        "word_count": 13,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Guided tours of the permanent collection begin at the top of every hour today.",
+        "word_count": 14,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p029",
+    "practice_number": 29,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 29) | Dental Receptionist",
+    "topic": "Dental Receptionist",
+    "video_id": "q3YLFcA2d3o",
+    "youtube_url": "https://www.youtube.com/watch?v=q3YLFcA2d3o",
+    "duration_seconds": 164,
+    "scenario": "You are training as a dental receptionist.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Good morning, welcome to our clinic.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Do you have an appointment scheduled?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Please have a seat in the waiting room.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "The dentist will see you in just a few minutes.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Have you experienced any tooth pain or sensitivity recently at all?",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "We recommend scheduling a cleaning every six months to maintain good oral health.",
+        "word_count": 13,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Your next appointment is set for March fifteenth at two o'clock in the afternoon.",
+        "word_count": 14,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p030",
+    "practice_number": 30,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 30) | Public Library",
+    "topic": "Public Library",
+    "video_id": "OzEEYASrW9I",
+    "youtube_url": "https://www.youtube.com/watch?v=OzEEYASrW9I",
+    "duration_seconds": 163,
+    "scenario": "You are learning to work at the public library.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to the public library.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "May I see your library card?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Books can be borrowed for three weeks.",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "You can renew items online or by calling us.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "The children's reading section is located on the second floor today.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "We offer free computer access and printing services to all library members.",
+        "word_count": 12,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If your books are returned late, there is a small fee of twenty-five cents per day.",
+        "word_count": 16,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p031",
+    "practice_number": 31,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 31) | Hair Salon",
+    "topic": "Hair Salon",
+    "video_id": "RjzhYysn7Bc",
+    "youtube_url": "https://www.youtube.com/watch?v=RjzhYysn7Bc",
+    "duration_seconds": 162,
+    "scenario": "You are learning to work at a hair salon.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to the Style Studio.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Do you have an appointment today?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "What kind of haircut would you like?",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Would you like me to wash your hair before we begin?",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "I think layers would look really nice with your face shape.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "We also offer coloring, highlights, and deep conditioning treatments here at the salon.",
+        "word_count": 13,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Your stylist will be with you shortly, so please feel free to look through our magazines.",
+        "word_count": 16,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p032",
+    "practice_number": 32,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 32) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "video_id": "ix0zPqAk8nE",
+    "youtube_url": "https://www.youtube.com/watch?v=ix0zPqAk8nE",
+    "duration_seconds": 168,
+    "scenario": "You are learning to work at a car rental agency.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to Quick Car Rentals.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Do you have a reservation with us?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "May I see your driver's license please?",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Would you like to add insurance to your rental today?",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "The gas tank is full, so please return it full as well.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Your vehicle is parked in spot number twelve in the garage downstairs.",
+        "word_count": 12,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you have any problems with the car during your rental, please call our roadside assistance.",
+        "word_count": 16,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p033",
+    "practice_number": 33,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 33) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "video_id": "RLWS5w5hLAY",
+    "youtube_url": "https://www.youtube.com/watch?v=RLWS5w5hLAY",
+    "duration_seconds": 165,
+    "scenario": "You are learning to work at the front desk of a fitness center.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to FitLife Gym today.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Are you currently a member here?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "We offer monthly and annual membership plans.",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Personal training sessions can be booked at the front desk.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "All group fitness classes are included with your gym membership plan.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "The locker rooms have showers, towels, and personal storage lockers available for use.",
+        "word_count": 13,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Please remember to wipe down all equipment with the provided towels after each use today.",
+        "word_count": 15,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p034",
+    "practice_number": 34,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 34) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "video_id": "jBxIKE4qV2g",
+    "youtube_url": "https://www.youtube.com/watch?v=jBxIKE4qV2g",
+    "duration_seconds": 167,
+    "scenario": "You are training as a cashier at a grocery store.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Hello, did you find everything?",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Do you have a rewards card today?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Would you like paper or plastic bags?",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Your total comes to forty-seven dollars and thirty cents.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Would you like to get any cash back with your purchase today?",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Please sign your name on the screen to complete your card transaction.",
+        "word_count": 12,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Thank you very much for shopping with us today, and we hope to see you again soon.",
+        "word_count": 17,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p035",
+    "practice_number": 35,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 35) | Movie Theater",
+    "topic": "Movie Theater",
+    "video_id": "argTREYTcZw",
+    "youtube_url": "https://www.youtube.com/watch?v=argTREYTcZw",
+    "duration_seconds": 166,
+    "scenario": "You are training at a movie theater.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to Starlight Cinemas today.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "What movie would you like to see?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "The next showing starts in twenty minutes.",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Would you like some popcorn or drinks with that?",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Your theater is the third door on the left down this hall.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Please silence your phones and avoid talking once the movie begins playing.",
+        "word_count": 12,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you need assistance during the film, an usher will be standing near the exit doors.",
+        "word_count": 16,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p036",
+    "practice_number": 36,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 36) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "video_id": "VcRUBCxI-Yo",
+    "youtube_url": "https://www.youtube.com/watch?v=VcRUBCxI-Yo",
+    "duration_seconds": 163,
+    "scenario": "You are learning to guide prospective students around campus.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to State University today.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "This is our main library building.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "The science labs are in the east wing.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Our dining hall offers many different meal options.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Student housing is available both on campus and off campus.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "The career center helps students find internships and full-time job placements.",
+        "word_count": 11,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Applications for admission to the fall semester program are due by the fifteenth of March.",
+        "word_count": 15,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p037",
+    "practice_number": 37,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 37) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "video_id": "tRP6NYTRWf4",
+    "youtube_url": "https://www.youtube.com/watch?v=tRP6NYTRWf4",
+    "duration_seconds": 163,
+    "scenario": "You are learning to work at a hotel front desk.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to the Grand Hotel.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Do you have a reservation today?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "May I see your identification, please?",
+        "word_count": 6,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Your room is on the fifth floor with city views.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Breakfast is served in the lobby from six to ten AM.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "The swimming pool and fitness center are located on the second floor.",
+        "word_count": 12,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you need any assistance during your stay, please dial zero for the front desk.",
+        "word_count": 15,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p038",
+    "practice_number": 38,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 38) | Restaurant",
+    "topic": "Restaurant",
+    "video_id": "C49JsW6E91Y",
+    "youtube_url": "https://www.youtube.com/watch?v=C49JsW6E91Y",
+    "duration_seconds": 157,
+    "scenario": "You are training to be a server at a restaurant.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to the Garden Bistro.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Can I get you something to drink?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Today's special is the grilled salmon.",
+        "word_count": 6,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Would you like a few more minutes to decide?",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "I will bring your appetizers out in just a moment.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Please let me know if you need anything else during your meal.",
+        "word_count": 12,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Our dessert menu features homemade chocolate cake and fresh fruit tarts for tonight.",
+        "word_count": 13,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p039",
+    "practice_number": 39,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 39) | Tech Support Representative",
+    "topic": "Tech Support Representative",
+    "video_id": "mEtd8mIq1JM",
+    "youtube_url": "https://www.youtube.com/watch?v=mEtd8mIq1JM",
+    "duration_seconds": 161,
+    "scenario": "You are training as a tech support representative.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Hello, thank you for calling.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "How may I assist you today?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Can you describe the problem you are having?",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Have you tried restarting your device to fix the issue?",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "I will need to put you on a brief hold while I check.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Please try clearing your browser cache and cookies, then restart the application.",
+        "word_count": 12,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If the problem continues after following these steps, please call us back for further assistance.",
+        "word_count": 15,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p040",
+    "practice_number": 40,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 40) | Postal Clerk",
+    "topic": "Postal Clerk",
+    "video_id": "jKVQy3Yrwmg",
+    "youtube_url": "https://www.youtube.com/watch?v=jKVQy3Yrwmg",
+    "duration_seconds": 165,
+    "scenario": "You are training as a postal clerk.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Hello, how can I help today?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Would you like to send this package?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Do you need tracking for this shipment?",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "This package weighs two pounds and four ounces total.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Standard delivery takes five to seven business days to arrive.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Express shipping will get your package there by tomorrow afternoon for sure.",
+        "word_count": 12,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Please fill out this customs form if you are sending the package to another country.",
+        "word_count": 15,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p041",
+    "practice_number": 41,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 41) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "video_id": "ZiO1wFZMt48",
+    "youtube_url": "https://www.youtube.com/watch?v=ZiO1wFZMt48",
+    "duration_seconds": 165,
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "May I see your reservation?",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Your room is on the fifth floor.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Here is your key card and a welcome package.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Breakfast is served daily from seven to ten in the morning.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "The pool and fitness center are available to all guests around the clock.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Please note that checkout time is eleven o'clock, and late checkout must be arranged in advance.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "For any assistance needed during your stay, please dial zero from your room to reach the front desk.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p043",
+    "practice_number": 43,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 43) | Hair Salon",
+    "topic": "Hair Salon",
+    "video_id": "g7hHpvAWqbE",
+    "youtube_url": "https://www.youtube.com/watch?v=g7hHpvAWqbE",
+    "duration_seconds": 171,
+    "scenario": "You are learning to assist clients at a hair salon.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome, please have a seat.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "What hairstyle are you looking for today?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "I can trim the ends and add some layers.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "We offer a wide range of hair color and highlight options.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "A deep conditioning treatment is recommended if your hair is dry or damaged.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Please arrive a few minutes early to allow time for a consultation before we start.",
+        "word_count": 15,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you need to cancel or change your appointment, please inform us at least twenty-four hours in advance.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p044",
+    "practice_number": 44,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 44) | Immigration Counter",
+    "topic": "Immigration Counter",
+    "video_id": "SJRnE4fegzU",
+    "youtube_url": "https://www.youtube.com/watch?v=SJRnE4fegzU",
+    "duration_seconds": 167,
+    "scenario": "You are learning to assist travelers at an immigration counter.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "May I see your passport?",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "What is the purpose of your visit?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "How long do you plan to stay in the country?",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Please provide the address where you will be staying during your visit.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "All visitors must complete a customs declaration form before proceeding to baggage claim.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Your visa allows you to remain in the country for a maximum period of ninety days.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Overstaying your visa is a serious offense that may result in deportation or a permanent ban from re-entering.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p045",
+    "practice_number": 45,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 45) | Company",
+    "topic": "Company",
+    "video_id": "hQSfrvtWQqo",
+    "youtube_url": "https://www.youtube.com/watch?v=hQSfrvtWQqo",
+    "duration_seconds": 164,
+    "scenario": "You are learning to coordinate interviews at a company.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Thank you for coming today.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please sign in at the front desk.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "The interview is scheduled for forty-five minutes today.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "You will meet with two managers from our operations department.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Feel free to ask questions at the end of each interview session.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "We will contact all shortlisted candidates with our final decision within five to seven business days.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Please inform us of any accommodations you may need or questions you have before the interview begins today.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p046",
+    "practice_number": 46,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 46) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "video_id": "HDKOzS2QiVI",
+    "youtube_url": "https://www.youtube.com/watch?v=HDKOzS2QiVI",
+    "duration_seconds": 173,
+    "scenario": "You are learning to assist passengers at an airport check-in counter.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Please place your bag here.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Your boarding pass will be ready shortly.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "You are allowed one carry-on and one personal item.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Please proceed to gate B12 and board thirty minutes before departure.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Make sure all liquids in your carry-on are under one hundred milliliters.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Your connecting flight to New York departs at three fifteen from the international terminal.",
+        "word_count": 14,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If your baggage exceeds the weight limit, you will be asked to pay an additional fee before boarding.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p047",
+    "practice_number": 47,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 47) | Community College Admissions Office",
+    "topic": "Community College Admissions Office",
+    "video_id": "OkXS6dSlwm8",
+    "youtube_url": "https://www.youtube.com/watch?v=OkXS6dSlwm8",
+    "duration_seconds": 170,
+    "scenario": "You are learning to assist students at a community college admissions office.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to Greenfield Community College.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please fill out the enrollment form first.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "You can choose from full-time or part-time study options.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "All new students must attend an orientation session before classes begin.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Financial aid applications are available online and must be submitted before the deadline.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Students who maintain a grade point average above three point five may qualify for academic scholarships.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you are unsure which courses to select, our academic advisors can help you build your study plan.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p048",
+    "practice_number": 48,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 48) | Fitness Center",
+    "topic": "Fitness Center",
+    "video_id": "UF1IsM4OFUE",
+    "youtube_url": "https://www.youtube.com/watch?v=UF1IsM4OFUE",
+    "duration_seconds": 169,
+    "scenario": "You are learning to assist members at a fitness center.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome, how can I help?",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "We offer three types of membership plans.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Monthly members get free access to all equipment and classes.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Personal training sessions can be added to any plan for an extra fee.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Please bring a towel and water bottle to all exercise sessions at the gym.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Our mobile app allows you to book classes, track your workouts, and manage your membership online.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you ever decide to cancel your membership, please give us at least thirty days of advance notice.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p049",
+    "practice_number": 49,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 49) | Bank",
+    "topic": "Bank",
+    "video_id": "ifGhqqrcjlw",
+    "youtube_url": "https://www.youtube.com/watch?v=ifGhqqrcjlw",
+    "duration_seconds": 174,
+    "scenario": "You are learning to assist customers at a bank.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome, please take a seat.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Do you have a valid photo ID?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "We offer savings, checking, and fixed deposit account options.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "A minimum deposit of fifty dollars is required to open an account.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Online banking allows you to check your balance and transfer funds from anywhere.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Your debit card will arrive by mail within five to seven business days of account opening.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you notice any unauthorized transactions on your account, please contact our customer support team immediately for assistance.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p050",
+    "practice_number": 50,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 50) | Restaurant",
+    "topic": "Restaurant",
+    "video_id": "_jdpoqTI1iI",
+    "youtube_url": "https://www.youtube.com/watch?v=_jdpoqTI1iI",
+    "duration_seconds": 163,
+    "scenario": "You are learning to serve customers at a restaurant.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Can I take your order?",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Today's special is grilled salmon with vegetables.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Would you like still or sparkling water with your meal?",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Our kitchen can adjust most dishes to suit your dietary needs.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "If you have any food allergies, please inform your server before ordering.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "We recommend pairing the pasta with our house wine for the best dining experience.",
+        "word_count": 14,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Thank you for choosing us today; please let your server know if there is anything else you need.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p051",
+    "practice_number": 51,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 51) | Pharmacy",
+    "topic": "Pharmacy",
+    "video_id": "oFCZTBd6hN4",
+    "youtube_url": "https://www.youtube.com/watch?v=oFCZTBd6hN4",
+    "duration_seconds": 172,
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Please have a seat here.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Your prescription will be ready in fifteen minutes.",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Take one tablet by mouth every eight hours with food.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Make sure you complete the full course of antibiotics as directed.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Avoid taking this medication on an empty stomach to prevent nausea or discomfort.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If you experience any unusual side effects, stop taking the medication and consult your doctor immediately.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Some medications can interact with other drugs, so always inform your pharmacist about everything you are currently taking.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p052",
+    "practice_number": 52,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 52) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "video_id": "f_fc4wzmIDA",
+    "youtube_url": "https://www.youtube.com/watch?v=f_fc4wzmIDA",
+    "duration_seconds": 171,
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "May I see your license?",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please choose a vehicle from our lot.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "All cars come with basic insurance and roadside assistance.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "You may upgrade to a larger vehicle for an additional daily fee.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Please return the vehicle to this location by noon on your final day.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "The car must be returned with a full fuel tank to avoid additional refueling charges.",
+        "word_count": 15,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If the vehicle is returned late or with damage, additional fees will be applied to your credit card.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p053",
+    "practice_number": 53,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 53) | Property Management Office",
+    "topic": "Property Management Office",
+    "video_id": "KxtvXcjbs8g",
+    "youtube_url": "https://www.youtube.com/watch?v=KxtvXcjbs8g",
+    "duration_seconds": 169,
+    "scenario": "You are learning to assist tenants at a property management office.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "The apartment is available now.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "The monthly rent is twelve hundred dollars.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "A security deposit equal to two months rent is required.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Utilities such as water and trash collection are included in the rent.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "The lease agreement is for twelve months and can be renewed upon expiration.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Pets are allowed with prior management approval, but a refundable pet deposit will be required.",
+        "word_count": 15,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "To break the lease early, you must give sixty days of notice and pay an early termination fee.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p054",
+    "practice_number": 54,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 54) | Post Office",
+    "topic": "Post Office",
+    "video_id": "r49Ylle-nug",
+    "youtube_url": "https://www.youtube.com/watch?v=r49Ylle-nug",
+    "duration_seconds": 167,
+    "scenario": "You are learning to assist customers at a post office.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "How can I help you?",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please place your parcel on the scale.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Standard delivery usually takes three to five business days.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Express shipping will guarantee delivery within one to two business days.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "You can track your package online using the tracking number on your receipt.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Fragile items should be clearly labeled and packed with enough protective material before being shipped.",
+        "word_count": 15,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If your package does not arrive within the expected time frame, please bring your receipt here for assistance.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p055",
+    "practice_number": 55,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 55) | Supermarket",
+    "topic": "Supermarket",
+    "video_id": "Fmb-nonx4SE",
+    "youtube_url": "https://www.youtube.com/watch?v=Fmb-nonx4SE",
+    "duration_seconds": 170,
+    "scenario": "You are learning to assist customers in a supermarket.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Produce is in aisle three.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Organic products are available in aisle five.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "You can find our weekly specials near the main entrance.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Members with a loyalty card receive five percent off all regular purchases.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Self-checkout lanes are available at the front of the store for smaller purchases.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "We accept cash, all major credit cards, and mobile payment methods at every checkout counter.",
+        "word_count": 15,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you are unable to find a product, please ask any staff member on the floor for assistance.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p056",
+    "practice_number": 56,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 56) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "video_id": "c5gfvG7CEDw",
+    "youtube_url": "https://www.youtube.com/watch?v=c5gfvG7CEDw",
+    "duration_seconds": 170,
+    "scenario": "You are learning to assist passengers on public transportation.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Please tap your card here.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "The next train departs in ten minutes.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Passengers must have a valid ticket or card to travel.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Priority seats at the front are reserved for elderly and disabled passengers.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "You can purchase a weekly travel pass at any ticketing machine or service counter.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Eating, drinking, and playing loud music are strictly not permitted on any public transit vehicles.",
+        "word_count": 15,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you are not sure of your stop, ask the driver or check the route map on board.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p057",
+    "practice_number": 57,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 57) | University",
+    "topic": "University",
+    "video_id": "HnV5UZfrsOQ",
+    "youtube_url": "https://www.youtube.com/watch?v=HnV5UZfrsOQ",
+    "duration_seconds": 175,
+    "scenario": "You are learning to coordinate student orientations at a university.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to our university today.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please find a seat and get comfortable.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "This session will cover campus resources and student services.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Your student ID provides access to all campus buildings and facilities.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Please register for your courses through the online student portal before the deadline.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "All freshmen must attend a mandatory academic advising session during their first week of classes.",
+        "word_count": 15,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you face any academic or personal challenges, our student support center is open on weekdays to help.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p058",
+    "practice_number": 58,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 58) | University Library",
+    "topic": "University Library",
+    "video_id": "62PkFXEj820",
+    "youtube_url": "https://www.youtube.com/watch?v=62PkFXEj820",
+    "duration_seconds": 173,
+    "scenario": "You are learning to assist students at a university library.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Please show your student ID.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Books can be borrowed for two weeks.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "You can renew your books online through the student portal.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Quiet study rooms must be reserved at least one day in advance.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Late returns will result in a small daily fine charged to your student account.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "The library offers free printing services, but each student is limited to fifty pages per week.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you need help finding research materials, our librarians are available at the information desk during library hours.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p059",
+    "practice_number": 59,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 59) | Doctor'S Office",
+    "topic": "Doctor'S Office",
+    "video_id": "jmFmKOLA93M",
+    "youtube_url": "https://www.youtube.com/watch?v=jmFmKOLA93M",
+    "duration_seconds": 166,
+    "scenario": "You are learning to assist patients at a doctor's office.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Please take a number here.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "The doctor will be with you shortly.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Please complete this health history form before your appointment.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Your height and weight will be recorded before you see the doctor.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "We will check your blood pressure, heart rate, and temperature before your consultation begins.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Please inform the doctor of any allergies you have and all medications you are currently taking.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "The doctor may recommend a follow-up appointment or refer you to a specialist depending on your test results.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p060",
+    "practice_number": 60,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 60) | Museum",
+    "topic": "Museum",
+    "video_id": "BX-IRaTHIx0",
+    "youtube_url": "https://www.youtube.com/watch?v=BX-IRaTHIx0",
+    "duration_seconds": 168,
+    "scenario": "You are learning to guide visitors at a museum.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to the city museum.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Photography is not allowed in this hall.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Please do not touch any of the exhibits on display.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Guided tours begin at ten and two and last about one hour.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "The gift shop on the ground floor is open until thirty minutes before closing.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "As a museum member, you enjoy free unlimited entry and priority access to all special exhibitions.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you need any assistance, our trained volunteer guides are stationed throughout the museum and happy to help.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p061",
+    "practice_number": 61,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 61) | Real Estate Office",
+    "topic": "Real Estate Office",
+    "video_id": "5R2z3l-RQH0",
+    "youtube_url": "https://www.youtube.com/watch?v=5R2z3l-RQH0",
+    "duration_seconds": 173,
+    "scenario": "You are learning to assist clients at a real estate office.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome, please have a seat.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "What type of property are you looking for?",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "We have several listings that match your budget and preferences.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "I can arrange viewings for the properties you are most interested in this week.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "It is recommended to get a mortgage pre-approval before making an offer on any property.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Once an offer is accepted, the closing process typically takes between thirty and sixty days to complete.",
+        "word_count": 17,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Our agency charges a standard commission fee which is paid only after the sale of the property has been successfully finalized.",
+        "word_count": 21,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p062",
+    "practice_number": 62,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 62) | Government Services Office",
+    "topic": "Government Services Office",
+    "video_id": "9uiSolnwS0o",
+    "youtube_url": "https://www.youtube.com/watch?v=9uiSolnwS0o",
+    "duration_seconds": 176,
+    "scenario": "You are learning to assist the public at a government services office.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Please take a number and wait.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Do you have an appointment today?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Please make sure all your documents are complete before approaching the counter.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Processing times vary depending on the type of application and current volume.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "You will receive a notification by email or mail once your application has been reviewed.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If your application is rejected, you have the right to appeal the decision within thirty days of receiving the notice.",
+        "word_count": 20,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Please ensure all information you submit is accurate and up to date, as errors may significantly delay the processing of your case.",
+        "word_count": 22,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p063",
+    "practice_number": 63,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 63) | Movie Theater",
+    "topic": "Movie Theater",
+    "video_id": "HGoKvbJEbSg",
+    "youtube_url": "https://www.youtube.com/watch?v=HGoKvbJEbSg",
+    "duration_seconds": 177,
+    "scenario": "You are learning to assist guests at a movie theater.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome, enjoy your film.",
+        "word_count": 4,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please have your ticket ready to scan.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "The film begins in approximately ten minutes.",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Outside food and beverages are not allowed inside the screening rooms.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Please silence your phone and avoid talking during the film out of respect for other guests.",
+        "word_count": 16,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If you experience any issues during your visit, please speak to a staff member in the lobby immediately.",
+        "word_count": 18,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Guests who purchase tickets online can use the self-service kiosks in the lobby to print their tickets quickly and avoid the line.",
+        "word_count": 22,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p064",
+    "practice_number": 64,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 64) | Job Fair",
+    "topic": "Job Fair",
+    "video_id": "vA73tIFzuqQ",
+    "youtube_url": "https://www.youtube.com/watch?v=vA73tIFzuqQ",
+    "duration_seconds": 177,
+    "scenario": "You are learning to represent a company at a job fair.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome, thank you for stopping by.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "We are currently hiring for several positions.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Please fill out this short interest form for us.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "We are looking for candidates with strong communication and teamwork skills.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Bring multiple copies of your resume to hand out to different employers at this event.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Our company offers competitive salaries, health benefits, and flexible work arrangements for all full-time employees.",
+        "word_count": 15,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If we feel you are a good fit, a recruiter will reach out within one week to schedule a formal interview with the team.",
+        "word_count": 24,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p065",
+    "practice_number": 65,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 65) | Driver'S License Office",
+    "topic": "Driver'S License Office",
+    "video_id": "S44P61gH6_U",
+    "youtube_url": "https://www.youtube.com/watch?v=S44P61gH6_U",
+    "duration_seconds": 177,
+    "scenario": "You are learning to assist applicants at a driver's license office.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Please take a number first.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "You need two forms of identification.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "The written test consists of forty multiple-choice questions.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "A passing score of at least eighty percent is required to proceed to the road test.",
+        "word_count": 16,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "If you fail the written test, you must wait seven days before you can attempt it again.",
+        "word_count": 17,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Please bring proof of insurance and vehicle registration on the day of your behind-the-wheel driving test.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Once you pass both tests, your temporary license will be issued immediately, and the permanent one will arrive by mail.",
+        "word_count": 20,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p066",
+    "practice_number": 66,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 66) | Sports And Recreation Center",
+    "topic": "Sports And Recreation Center",
+    "video_id": "oIhIZaCZA6A",
+    "youtube_url": "https://www.youtube.com/watch?v=oIhIZaCZA6A",
+    "duration_seconds": 169,
+    "scenario": "You are learning to assist visitors at a sports and recreation center.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to the sports center.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please scan your membership card at the entrance.",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Courts must be reserved at least one day in advance.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Lockers are available for a small refundable deposit during your visit.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "All equipment rentals must be returned to the front desk before you leave the facility.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Group fitness classes are included in the standard membership and can be booked through our mobile app.",
+        "word_count": 17,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Proper athletic footwear must be worn at all times in the gym and on the courts for safety and hygiene reasons.",
+        "word_count": 21,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p067",
+    "practice_number": 67,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 67) | Police Station",
+    "topic": "Police Station",
+    "video_id": "NG6-G3bnO9A",
+    "youtube_url": "https://www.youtube.com/watch?v=NG6-G3bnO9A",
+    "duration_seconds": 172,
+    "scenario": "You are learning to assist the public at a police station.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Please have a seat here.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Can you describe what happened?",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Please provide the date, time, and location of the incident.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "We will need a list of any items that were stolen or damaged.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "A case number will be assigned to your report so you can follow up later.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If you have any photos, videos, or witnesses, please share that information with the officer today.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Once the report is filed, an officer will be assigned to investigate and will contact you if further information is needed.",
+        "word_count": 21,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p068",
+    "practice_number": 68,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 68) | Language School",
+    "topic": "Language School",
+    "video_id": "I_ZJK5gN3qQ",
+    "youtube_url": "https://www.youtube.com/watch?v=I_ZJK5gN3qQ",
+    "duration_seconds": 171,
+    "scenario": "You are learning to assist students at a language school.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to our language school.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "We offer morning and evening class options.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "All students take a placement test before joining a class.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Each course runs for eight weeks and meets three times per week.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "You are encouraged to practice speaking English outside of class as much as possible.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Students who miss more than three sessions may be required to repeat the level before advancing.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "At the end of each term, students who pass the final assessment will receive an official certificate of completion.",
+        "word_count": 19,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p069",
+    "practice_number": 69,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 69) | School",
+    "topic": "School",
+    "video_id": "XUYnRKxrhoM",
+    "youtube_url": "https://www.youtube.com/watch?v=XUYnRKxrhoM",
+    "duration_seconds": 174,
+    "scenario": "You are learning to coordinate parent-teacher meetings at a school.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Thank you for coming in today.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Your child has been doing well this semester.",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Here is a summary of their recent test scores and class participation.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "We encourage students to read for at least thirty minutes each evening at home.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "If your child is struggling in any subject, we can arrange additional support sessions after school.",
+        "word_count": 16,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Open communication between parents and teachers plays a key role in supporting each student's progress throughout the year.",
+        "word_count": 18,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Please feel free to contact me by email at any time if you have questions or concerns about your child's performance.",
+        "word_count": 21,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p070",
+    "practice_number": 70,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 70) | Car Repair Shop",
+    "topic": "Car Repair Shop",
+    "video_id": "ttY9JVlbg-w",
+    "youtube_url": "https://www.youtube.com/watch?v=ttY9JVlbg-w",
+    "duration_seconds": 166,
+    "scenario": "You are learning to assist customers at a car repair shop.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "What seems to be the problem?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "We will run a full diagnostic check.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "The repair should take about two to three hours.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "We will call you as soon as your vehicle is ready for pickup.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Oil changes and tire rotations are recommended every five thousand miles for most vehicles.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If additional repairs are needed, we will contact you for approval before any work is started.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "All parts and labor performed at our shop are covered by a twelve-month warranty from the date of service.",
+        "word_count": 19,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p071",
+    "practice_number": 71,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 71) | Online Learning Platform",
+    "topic": "Online Learning Platform",
+    "video_id": "nEFdHoh__X8",
+    "youtube_url": "https://www.youtube.com/watch?v=nEFdHoh__X8",
+    "duration_seconds": 173,
+    "scenario": "You are learning to assist students at an online learning platform.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to our learning platform.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please create an account to get started.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "All courses include video lectures, readings, and graded assignments.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "You can access your course materials at any time from any device.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Some courses offer a verified certificate upon completion for a small additional fee.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If you are not satisfied within the first seven days, you are eligible for a full refund of your enrollment fee.",
+        "word_count": 21,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Our platform also offers live office hours where students can interact directly with instructors to get feedback on their work.",
+        "word_count": 20,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p072",
+    "practice_number": 72,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 72) | Customer Service Center",
+    "topic": "Customer Service Center",
+    "video_id": "ITKgFfF_hf8",
+    "youtube_url": "https://www.youtube.com/watch?v=ITKgFfF_hf8",
+    "duration_seconds": 170,
+    "scenario": "You are learning to handle calls at a customer service center.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Thank you for calling, how can I help?",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Can I have your account number, please?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "I see your order was placed on the fifteenth of this month.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "I will place a replacement request for you right away at no extra charge.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Please allow three to five business days for the replacement item to arrive at your address.",
+        "word_count": 16,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Is there anything else I can assist you with today before I close out this support ticket?",
+        "word_count": 17,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If your issue is not resolved after the replacement arrives, please do not hesitate to call us again and we will escalate your case.",
+        "word_count": 24,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p073",
+    "practice_number": 73,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 73) | Farmer'S Market",
+    "topic": "Farmer'S Market",
+    "video_id": "ePt_xST1imQ",
+    "youtube_url": "https://www.youtube.com/watch?v=ePt_xST1imQ",
+    "duration_seconds": 176,
+    "scenario": "You are learning to assist shoppers at a farmer's market.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome, feel free to look around.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Everything here is locally grown and in season.",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "We pick our produce fresh every morning before the market opens.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "All of our fruits and vegetables are grown without the use of synthetic pesticides.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "We accept cash and most mobile payment apps, but we do not accept credit cards.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If you buy more than ten dollars worth of produce, you will receive a small free sample of our seasonal jam.",
+        "word_count": 21,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "We are here every Saturday and Sunday morning, and you can also find us online for pre-orders and home delivery.",
+        "word_count": 20,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p074",
+    "practice_number": 74,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 74) | Coffee Shop",
+    "topic": "Coffee Shop",
+    "video_id": "iYA98KDpCco",
+    "youtube_url": "https://www.youtube.com/watch?v=iYA98KDpCco",
+    "duration_seconds": 170,
+    "scenario": "You are learning to serve customers at a coffee shop.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "What can I get for you?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "We have hot, iced, and blended options.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Would you like whole milk or a non-dairy alternative?",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Your order will be ready in about three to five minutes.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "We offer a rewards card that gives you one free drink for every ten purchases.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If your drink does not taste right, please bring it back and we will be happy to remake it.",
+        "word_count": 19,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Customers who use their own reusable cup receive a ten cent discount on every beverage they order.",
+        "word_count": 17,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p075",
+    "practice_number": 75,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 75) | Laundromat",
+    "topic": "Laundromat",
+    "video_id": "wK-gmVfrISk",
+    "youtube_url": "https://www.youtube.com/watch?v=wK-gmVfrISk",
+    "duration_seconds": 173,
+    "scenario": "You are learning to assist customers at a laundromat.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "The machines accept coins only.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please sort your clothes by color before washing.",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Washing takes about thirty minutes and drying takes forty-five.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Use the correct amount of detergent to avoid oversudsing the machine.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Please remove your laundry promptly when the cycle ends to free the machine for others.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If a machine stops working during your cycle, let the attendant know and we will issue a refund.",
+        "word_count": 18,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Customers are responsible for any items left unattended, as the laundromat cannot be held liable for lost belongings.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p076",
+    "practice_number": 76,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 76) | Passport Office",
+    "topic": "Passport Office",
+    "video_id": "UCKYWm7Hkos",
+    "youtube_url": "https://www.youtube.com/watch?v=UCKYWm7Hkos",
+    "duration_seconds": 182,
+    "scenario": "You are learning to assist applicants at a passport office.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Do you have an appointment?",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please fill out the application form completely.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Two recent passport-sized photos are required with your application.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Standard processing takes four to six weeks from the date your application is received.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Expedited processing is available for an extra fee if you need your passport within two to three weeks.",
+        "word_count": 18,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Please double-check that all information on the form is accurate, as errors can cause significant delays in processing.",
+        "word_count": 18,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Once your passport is ready, it will be mailed to the address you provided on the application form within three to five business days.",
+        "word_count": 24,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p077",
+    "practice_number": 77,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 77) | Medical Clinic",
+    "topic": "Medical Clinic",
+    "video_id": "NXNwsrKFqrE",
+    "youtube_url": "https://www.youtube.com/watch?v=NXNwsrKFqrE",
+    "duration_seconds": 168,
+    "scenario": "You are learning to manage appointments at a medical clinic.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "How can I help you?",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "The next available slot is Thursday at two.",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Please bring your insurance card and a valid photo ID.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "If you need to cancel, please call at least twenty-four hours before your appointment.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "New patients are asked to arrive fifteen minutes early to complete their registration paperwork.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Please let us know in advance if you require a translator or any other special accommodation.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "After your visit, the doctor may send prescriptions directly to your preferred pharmacy, so please provide that information.",
+        "word_count": 18,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p078",
+    "practice_number": 78,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 78) | Recycling Center",
+    "topic": "Recycling Center",
+    "video_id": "cx8tvScFyk0",
+    "youtube_url": "https://www.youtube.com/watch?v=cx8tvScFyk0",
+    "duration_seconds": 182,
+    "scenario": "You are learning to assist visitors at a recycling center.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to the recycling center.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please separate your items by material type.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Glass, paper, plastic, and metal must each go in different bins.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Hazardous waste such as batteries and paint must be dropped off at the dedicated hazardous waste station.",
+        "word_count": 17,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Electronic devices like phones and computers can be recycled for free at our e-waste collection point.",
+        "word_count": 16,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Items that are still in usable condition can be donated at the thrift store located just next to the main facility.",
+        "word_count": 21,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "By recycling correctly today, you are helping reduce landfill waste and contributing to a healthier environment for future generations.",
+        "word_count": 19,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p079",
+    "practice_number": 79,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 79) | Electronics Store",
+    "topic": "Electronics Store",
+    "video_id": "3DJh1tW2hK8",
+    "youtube_url": "https://www.youtube.com/watch?v=3DJh1tW2hK8",
+    "duration_seconds": 167,
+    "scenario": "You are learning to assist customers at an electronics store.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome, how can I help?",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "What type of device are you looking for?",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "This model has the best battery life in its price range.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "We offer a two-year extended warranty for an additional charge.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "All purchases can be returned within thirty days provided the item is in its original condition.",
+        "word_count": 16,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Our technicians are available in store to help you set up your new device before you leave.",
+        "word_count": 17,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you are trading in an old device, bring it with you and we will apply the trade-in value toward your new purchase.",
+        "word_count": 23,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p080",
+    "practice_number": 80,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 80) | Veterinary Clinic",
+    "topic": "Veterinary Clinic",
+    "video_id": "0dfdRjsmskA",
+    "youtube_url": "https://www.youtube.com/watch?v=0dfdRjsmskA",
+    "duration_seconds": 167,
+    "scenario": "You are learning to assist pet owners at a veterinary clinic.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Please have a seat here.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "What seems to be wrong with your pet?",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "We will take your pet's weight and temperature first.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Please keep your pet on a leash or in its carrier while in the waiting area.",
+        "word_count": 16,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Annual vaccinations and parasite prevention are important parts of keeping your pet healthy.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "The vet may recommend some diagnostic tests such as blood work or an X-ray to make a diagnosis.",
+        "word_count": 18,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If your pet requires surgery, you will need to sign a consent form and leave your pet with us for the day.",
+        "word_count": 22,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p081",
+    "practice_number": 81,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 81) | Community College Registration Office",
+    "topic": "Community College Registration Office",
+    "video_id": "bhpWPFMASS4",
+    "youtube_url": "https://www.youtube.com/watch?v=bhpWPFMASS4",
+    "duration_seconds": 175,
+    "scenario": "You are learning to assist students at a community college registration office.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome, do you have a student ID?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Which course are you looking to register for?",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "That class still has open seats this semester.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Some courses have prerequisites that must be completed before enrolling.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "You can register online, by phone, or in person at this office.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Tuition payment is due within one week of registration to secure your spot in the class.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you need to withdraw from a course, please do so before the official deadline to avoid receiving a failing grade on your academic record.",
+        "word_count": 25,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p082",
+    "practice_number": 82,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 82) | Hardware Store",
+    "topic": "Hardware Store",
+    "video_id": "hidAYydRZOs",
+    "youtube_url": "https://www.youtube.com/watch?v=hidAYydRZOs",
+    "duration_seconds": 172,
+    "scenario": "You are learning to assist customers at a hardware store.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome, what are you working on today?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Those items are in aisle seven.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "This drill is our best seller for home use.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Make sure to wear safety goggles when cutting or sanding materials.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "We offer free equipment rental for large tools if you only need them for one job.",
+        "word_count": 16,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If you are not sure which materials to buy, our staff can help you create a list based on your project.",
+        "word_count": 21,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "All power tools purchased in store come with a thirty-day return policy, provided the item has not been damaged and the original packaging is intact.",
+        "word_count": 25,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p083",
+    "practice_number": 83,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 83) | Dental Clinic",
+    "topic": "Dental Clinic",
+    "video_id": "91_bUlW84BY",
+    "youtube_url": "https://www.youtube.com/watch?v=91_bUlW84BY",
+    "duration_seconds": 175,
+    "scenario": "You are learning to assist patients at a dental clinic.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Please fill out this health form.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "When did you last visit a dentist?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "The dentist will take a few X-rays first.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Please rinse your mouth with this solution before we begin.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "It is recommended to brush twice a day and floss at least once a day.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If you experience sensitivity or pain after the procedure, please contact us right away.",
+        "word_count": 14,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "We recommend scheduling a routine cleaning and checkup every six months to help detect any issues early and maintain good oral health.",
+        "word_count": 22,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p084",
+    "practice_number": 84,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 84) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "video_id": "Rgk1MZyk3KU",
+    "youtube_url": "https://www.youtube.com/watch?v=Rgk1MZyk3KU",
+    "duration_seconds": 173,
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome, do you have a reservation?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "May I see your photo ID and credit card?",
+        "word_count": 9,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Check-out time is eleven in the morning.",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Breakfast is served in the dining room from six to ten each morning.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "If you need extra towels or pillows, please call housekeeping from your room phone.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "The hotel gym and swimming pool are open twenty-four hours and are accessible with your room key card.",
+        "word_count": 18,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Please be aware that any damages to the room or incidental charges will be settled automatically against the credit card on file at checkout.",
+        "word_count": 24,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p085",
+    "practice_number": 85,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 85) | Community Food Bank",
+    "topic": "Community Food Bank",
+    "video_id": "dIhVT4n45u0",
+    "youtube_url": "https://www.youtube.com/watch?v=dIhVT4n45u0",
+    "duration_seconds": 183,
+    "scenario": "You are learning to assist visitors at a community food bank.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome, we are glad you are here.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please sign in at the front table.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Food is distributed on Tuesdays and Fridays from nine to noon.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Each household receives one bag of groceries per visit per week.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Please let us know if anyone in your household has a food allergy or dietary requirement.",
+        "word_count": 16,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "We also have a clothing section and hygiene supply station available for families in need.",
+        "word_count": 15,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you would like to volunteer or make a donation, please speak with the coordinator at the desk, as we rely entirely on community support to serve our neighbors.",
+        "word_count": 29,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p086",
+    "practice_number": 86,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 86) | Blood Donation Center",
+    "topic": "Blood Donation Center",
+    "video_id": "G_sIvrMNq2E",
+    "youtube_url": "https://www.youtube.com/watch?v=G_sIvrMNq2E",
+    "duration_seconds": 176,
+    "scenario": "You are learning to assist donors at a blood donation center.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Thank you so much for coming in today.",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please fill out this health screening form.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Have you eaten and had plenty of water today?",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "The donation itself takes about 10 minutes once you are settled.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Please wait in the recovery area for 15 minutes after your donation.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Donors are asked to avoid strenuous exercise for the remainder of the day after giving blood.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "You are eligible to donate whole blood once every 56 days, and your contribution can help save up to three lives with a single donation.",
+        "word_count": 25,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p087",
+    "practice_number": 87,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 87) | Fitness Gym",
+    "topic": "Fitness Gym",
+    "video_id": "I7r7ngnwaB4",
+    "youtube_url": "https://www.youtube.com/watch?v=I7r7ngnwaB4",
+    "duration_seconds": 180,
+    "scenario": "You are learning to sign up new members at a fitness gym.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to our fitness center.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "We offer monthly and annual membership plans.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "All new members receive a free session with a personal trainer.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "The gym is open 7 days a week from 5:00 in the morning until midnight.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Members are asked to wipe down all equipment after use as a courtesy to others.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If you decide to cancel your membership, written notice must be provided at least 30 days in advance.",
+        "word_count": 18,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Our premium plan includes unlimited group fitness classes, access to the sauna, and priority booking for personal training appointments throughout the year.",
+        "word_count": 22,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p088",
+    "practice_number": 88,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 88) | Public Aquatic Center",
+    "topic": "Public Aquatic Center",
+    "video_id": "gUcLaUM8oiE",
+    "youtube_url": "https://www.youtube.com/watch?v=gUcLaUM8oiE",
+    "duration_seconds": 173,
+    "scenario": "You are learning to assist visitors at a public aquatic center.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to the aquatic center.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please shower before entering the pool.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Running on the pool deck is strictly prohibited.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Children under 12 must be accompanied by an adult at all times.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Lane swimming is available during lap hours from 6:00 to 8:00 every morning.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Proper swimwear is required and street clothes are not permitted in the pool.",
+        "word_count": 13,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Swimming lessons for children and adults are offered in 6-week sessions, and registration opens online on the 1st of each month.",
+        "word_count": 21,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p089",
+    "practice_number": 89,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 89) | Immigration Office",
+    "topic": "Immigration Office",
+    "video_id": "nGMSs8FDccE",
+    "youtube_url": "https://www.youtube.com/watch?v=nGMSs8FDccE",
+    "duration_seconds": 171,
+    "scenario": "You are learning to assist applicants at an immigration office.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Please take a number and wait.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Do you have an appointment scheduled?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Please submit all original documents along with one copy of each.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Your current visa status must remain valid throughout the application process.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Processing times depend on the type of application and the volume of cases being handled.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "You will receive a written notice by mail once a decision has been made on your application.",
+        "word_count": 17,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If your circumstances change after submitting your application, such as a change of address or employment, you must notify this office in writing as soon as possible.",
+        "word_count": 27,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p090",
+    "practice_number": 90,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 90) | Yoga Studio",
+    "topic": "Yoga Studio",
+    "video_id": "wGPINNjw_7Y",
+    "youtube_url": "https://www.youtube.com/watch?v=wGPINNjw_7Y",
+    "duration_seconds": 166,
+    "scenario": "You are learning to welcome students at a yoga studio.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome. Please remove your shoes at the door.",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Mats are available to borrow at the front desk.",
+        "word_count": 9,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Please arrive a few minutes early to settle in.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Let me know if you have any injuries I should be aware of.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Focus on your breathing throughout the class and move at your own pace.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "We ask that you turn off your phone or put it on silent before entering the studio.",
+        "word_count": 17,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "New students are welcome to try their first class for free, and we offer a range of weekly membership plans to suit different schedules and budgets.",
+        "word_count": 26,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p091",
+    "practice_number": 91,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 91) | Bakery",
+    "topic": "Bakery",
+    "video_id": "h1Dxi0VRRQk",
+    "youtube_url": "https://www.youtube.com/watch?v=h1Dxi0VRRQk",
+    "duration_seconds": 174,
+    "scenario": "You are learning to serve customers at a bakery.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Good morning. What can I get you?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Our sourdough is fresh out of the oven.",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "We bake new batches every morning at 6:00.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Custom cakes require at least three days notice to prepare.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "All of our pastries are made with locally sourced butter and organic flour.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If you have any dietary restrictions, such as gluten or nut allergies, please let us know before ordering.",
+        "word_count": 18,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "We also offer a subscription service where you can pre-order your weekly bread and pick it up every Saturday morning without waiting in line.",
+        "word_count": 24,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p092",
+    "practice_number": 92,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 92) | Pharmacy",
+    "topic": "Pharmacy",
+    "video_id": "dIPXdRP_XzY",
+    "youtube_url": "https://www.youtube.com/watch?v=dIPXdRP_XzY",
+    "duration_seconds": 170,
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Can I have your prescription, please?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Your medication will be ready in about 15 minutes.",
+        "word_count": 9,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Take one tablet twice a day with food.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Do not take this medication with alcohol or certain other drugs.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Please let me know if you experience any unusual side effects after starting this prescription.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If you are taking other medications, it is important to inform your pharmacist to check for possible interactions.",
+        "word_count": 18,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "For chronic conditions, we offer an automatic refill service so your medication is ready for pickup before you run out.",
+        "word_count": 20,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p093",
+    "practice_number": 93,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 93) | Bank",
+    "topic": "Bank",
+    "video_id": "CpXndlNfv5U",
+    "youtube_url": "https://www.youtube.com/watch?v=CpXndlNfv5U",
+    "duration_seconds": 174,
+    "scenario": "You are learning to assist customers at a bank.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "How can I help you today?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please provide your account number and ID.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Your balance as of this morning is shown on the screen.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "There is a daily withdrawal limit of $500 at the ATM.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "If you would like to open a savings account, I can connect you with one of our advisers.",
+        "word_count": 18,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Please sign here to confirm the transaction and I will provide you with a printed receipt.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you notice any unauthorized charges on your account, please contact us immediately so we can place a temporary hold and begin an investigation.",
+        "word_count": 24,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p094",
+    "practice_number": 94,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 94) | Tax Preparation Office",
+    "topic": "Tax Preparation Office",
+    "video_id": "xGwvM5n6kFs",
+    "youtube_url": "https://www.youtube.com/watch?v=xGwvM5n6kFs",
+    "duration_seconds": 171,
+    "scenario": "You are learning to assist clients at a tax preparation office.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Please have a seat.",
+        "word_count": 4,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Did you bring all your income documents?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "We will need your W-2 forms and any records of additional income.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Filing your return early helps avoid delays and reduces the risk of identity fraud.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "If you are self-employed, please bring receipts for all business-related expenses you wish to deduct.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Any taxes owed must be paid by the official deadline to avoid late payment penalties and interest charges.",
+        "word_count": 18,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "We recommend keeping copies of your tax returns and supporting documents for at least 7 years in case of a future audit by the tax authority.",
+        "word_count": 26,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p095",
+    "practice_number": 95,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 95) | Post Office",
+    "topic": "Post Office",
+    "video_id": "ZZLKgREtgig",
+    "youtube_url": "https://www.youtube.com/watch?v=ZZLKgREtgig",
+    "duration_seconds": 171,
+    "scenario": "You are learning to assist customers at a post office.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Next in line, please.",
+        "word_count": 4,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Where would you like to send this package?",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Please place the parcel on the scale.",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Standard delivery takes 3 to 5 business days.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "You can track your package online using the tracking number on your receipt.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Fragile items should be wrapped in bubble wrap and surrounded by packing materials to prevent damage.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If your package exceeds the maximum weight or size limits, it will need to be sent through our freight service at a different rate.",
+        "word_count": 24,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p096",
+    "practice_number": 96,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 96) | Pet Store",
+    "topic": "Pet Store",
+    "video_id": "c3hsHwCFkRI",
+    "youtube_url": "https://www.youtube.com/watch?v=c3hsHwCFkRI",
+    "duration_seconds": 178,
+    "scenario": "You are learning to assist customers at a pet store.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome. Are you looking for anything specific?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "What kind of pet do you have at home?",
+        "word_count": 9,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "This brand is highly recommended by veterinarians.",
+        "word_count": 7,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Small animals and reptiles require a controlled temperature environment at home.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "We offer free nutrition consultations for pet owners who want guidance on the right diet.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "All animals sold in our store come with a health guarantee and veterinary health check certificate.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you are adopting a pet for the first time, we recommend speaking with one of our specialists who can walk you through everything you will need to get started.",
+        "word_count": 30,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p097",
+    "practice_number": 97,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 97) | City Hall Office",
+    "topic": "City Hall Office",
+    "video_id": "g957rD1gKLI",
+    "youtube_url": "https://www.youtube.com/watch?v=g957rD1gKLI",
+    "duration_seconds": 175,
+    "scenario": "You are learning to assist applicants at a city hall office.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Please take a number and wait.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Both applicants must be present to apply.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "You each need to provide a valid government-issued photo ID.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "The license is valid for 60 days from the date it is issued.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "There is a standard fee of $75 payable by cash or card.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If either applicant was previously married, you must provide a copy of the divorce decree or death certificate.",
+        "word_count": 18,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Once the license is issued, the ceremony must be performed by an authorized officiant, and the signed license must be returned to this office within 10 days.",
+        "word_count": 27,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p098",
+    "practice_number": 98,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 98) | Child Care Center",
+    "topic": "Child Care Center",
+    "video_id": "FvkBWftd4Bw",
+    "youtube_url": "https://www.youtube.com/watch?v=FvkBWftd4Bw",
+    "duration_seconds": 176,
+    "scenario": "You are learning to assist parents at a child care center.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome. Is this your first visit?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please complete the enrollment form today.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Drop off is between 7:00 and 9:00 each morning.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "We ask that you pack a labeled lunch and two snacks for your child.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Please notify us in advance if someone other than a parent will be picking up your child.",
+        "word_count": 17,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Children with a fever or contagious illness must stay home until they have been symptom-free for at least 24 hours.",
+        "word_count": 20,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Al Story Fuller's a structured daily routine that includes outdoor play, learning activities, story time, and rest time to support each child's development.",
+        "word_count": 23,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p099",
+    "practice_number": 99,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 99) | Bicycle Shop",
+    "topic": "Bicycle Shop",
+    "video_id": "6zTZapdn2G4",
+    "youtube_url": "https://www.youtube.com/watch?v=6zTZapdn2G4",
+    "duration_seconds": 176,
+    "scenario": "You are learning to assist customers at a bicycle shop.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome. What brings you in today?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Is this for commuting or recreational riding?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "I will do a quick safety check on your bike.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Your brake pads are worn and should be replaced soon.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "We recommend servicing your bike at least once a year to keep it running smoothly.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Helmets and lights are required by law in many areas, so make sure you have both before riding.",
+        "word_count": 18,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If you are buying a new bike, we offer a free 30-day tune-up after purchase to make any adjustments once you have had a chance to ride it regularly.",
+        "word_count": 29,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p100",
+    "practice_number": 100,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 100) | Dry Cleaning Shop",
+    "topic": "Dry Cleaning Shop",
+    "video_id": "tFAEQJFp0xM",
+    "youtube_url": "https://www.youtube.com/watch?v=tFAEQJFp0xM",
+    "duration_seconds": 179,
+    "scenario": "You are learning to assist customers at a dry cleaning shop.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "What items do you need cleaned today?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please check your pockets before leaving garments with us.",
+        "word_count": 9,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "This suit will be ready for pick up by Thursday.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "We recommend dry cleaning wool and silk items rather than washing them at home.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Please point out any stains when you drop off so we can treat them properly.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Items not picked up within 30 days will be donated to charity after we attempt to contact you.",
+        "word_count": 18,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "For delicate or designer garments, we offer a premium hand finishing service that ensures every detail is carefully pressed and inspected before return.",
+        "word_count": 23,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p101",
+    "practice_number": 101,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 101) | Public Library",
+    "topic": "Public Library",
+    "video_id": "v92TsuTw0y0",
+    "youtube_url": "https://www.youtube.com/watch?v=v92TsuTw0y0",
+    "duration_seconds": 177,
+    "scenario": "You are learning to assist visitors at a public library.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to the library.",
+        "word_count": 4,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Do you have a library card with us?",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Books can be borrowed for up to 3 weeks.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Please keep your voice low to avoid disturbing other visitors.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "You can renew your books online, by phone, or in person before the due date.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If a book you need is not available, you can place a hold and we will notify you when it is ready.",
+        "word_count": 22,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Our library also offers free access to digital newspapers, audiobooks, and academic databases for all registered cardholders.",
+        "word_count": 17,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p102",
+    "practice_number": 102,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 102) | Catering Company",
+    "topic": "Catering Company",
+    "video_id": "LWW7Fgl-OdQ",
+    "youtube_url": "https://www.youtube.com/watch?v=LWW7Fgl-OdQ",
+    "duration_seconds": 172,
+    "scenario": "You are learning to assist clients at a catering company.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome. Tell us about your event.",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "How many guests are you expecting?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "We offer buffet, plated, and family-style service options.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "A tasting session can be arranged once you have selected your preferred menu.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "We require a deposit of 30% to confirm and reserve your event date.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Please inform us of any dietary restrictions or allergies at least one week before the event.",
+        "word_count": 16,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Our team will arrive 2 hours before your event to set up, and we handle all cleanup and equipment removal once the event has concluded.",
+        "word_count": 25,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p104",
+    "practice_number": 104,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 104) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "video_id": "bZeWfCqC2do",
+    "youtube_url": "https://www.youtube.com/watch?v=bZeWfCqC2do",
+    "duration_seconds": 169,
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Do you have a reservation with us?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "May I see your driver's license and credit card?",
+        "word_count": 9,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Please inspect the car for existing damage before driving off.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "The vehicle must be returned with a full tank of gas.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "We offer optional insurance coverage for an additional daily fee.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Returning the vehicle late may result in an additional charge based on our hourly rate.",
+        "word_count": 15,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If the car breaks down during your rental period, please call our 24-hour roadside assistance line and a representative will be dispatched to help you.",
+        "word_count": 25,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p105",
+    "practice_number": 105,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 105) | Flower Shop",
+    "topic": "Flower Shop",
+    "video_id": "gNSX_6zppbo",
+    "youtube_url": "https://www.youtube.com/watch?v=gNSX_6zppbo",
+    "duration_seconds": 176,
+    "scenario": "You are learning to assist customers at a flower shop.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome. What is the occasion?",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "These roses are freshly delivered this morning.",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "We can add a personalized card to any arrangement.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Same-day delivery is available for orders placed before noon.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "For weddings and events, we recommend booking your flowers at least 4 weeks in advance.",
+        "word_count": 15,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Keep your flowers in fresh water and trim the stems every 2 days to extend their life.",
+        "word_count": 17,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "We also offer a weekly subscription service where a fresh seasonal arrangement is delivered to your home or office every Monday morning.",
+        "word_count": 22,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p106",
+    "practice_number": 106,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 106) | Museum",
+    "topic": "Museum",
+    "video_id": "4L-fQYZWOuY",
+    "youtube_url": "https://www.youtube.com/watch?v=4L-fQYZWOuY",
+    "duration_seconds": 168,
+    "scenario": "You are learning to guide visitors at a museum.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to the museum.",
+        "word_count": 4,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Please keep your voice low inside the galleries.",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Photography is allowed, but flash is not permitted.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "The special exhibition on the second floor closes at 4:00 today.",
+        "word_count": 11,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Audio guides are available at the entrance desk for a small rental fee.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Please do not touch any of the artifacts or artworks as the oils from your hands can cause damage over time.",
+        "word_count": 21,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "School groups and organized tours are asked to check in with the education department at least 2 weeks before their scheduled visit.",
+        "word_count": 22,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p107",
+    "practice_number": 107,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 107) | University Admissions Office",
+    "topic": "University Admissions Office",
+    "video_id": "dQE_qT1dZUU",
+    "youtube_url": "https://www.youtube.com/watch?v=dQE_qT1dZUU",
+    "duration_seconds": 180,
+    "scenario": "You are learning to assist students at a university admissions office.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome to the admissions office.",
+        "word_count": 5,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Have you submitted all required documents?",
+        "word_count": 6,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "The application deadline is the 31st of this month.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "You will receive a decision letter within 4 to 6 weeks of submission.",
+        "word_count": 13,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "International students must also provide proof of English language proficiency.",
+        "word_count": 10,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Financial aid applications should be submitted at the same time as your admissions application for priority consideration.",
+        "word_count": 17,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "Once you are accepted and confirm your enrollment, you will receive instructions for course registration, student ID issuance, and orientation week attendance.",
+        "word_count": 22,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p108",
+    "practice_number": 108,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 108) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "video_id": "IUHLHuQ8WCY",
+    "youtube_url": "https://www.youtube.com/watch?v=IUHLHuQ8WCY",
+    "duration_seconds": 173,
+    "scenario": "You are learning to assist travelers at an airport check-in counter.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "May I see your passport and booking reference?",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "Would you prefer a window or aisle seat?",
+        "word_count": 8,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Your bag is slightly over the weight limit.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Please proceed to gate 14 after clearing security.",
+        "word_count": 8,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Boarding begins 45 minutes before departure, so please do not arrive late.",
+        "word_count": 12,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "Liquids in your carry-on bag must be in containers of 100 ml or less and placed in a clear zip lock bag.",
+        "word_count": 22,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "If your flight is delayed or cancelled, please proceed to the airline service desk in the main terminal for rebooking assistance and information.",
+        "word_count": 23,
+        "level": 3
+      }
+    ]
+  },
+  {
+    "id": "toefl_speaking_lr_p109",
+    "practice_number": 109,
+    "title": "TOEFL (2026) Speaking Task 1 (Practice 109) | Grocery Store",
+    "topic": "Grocery Store",
+    "video_id": "oEkPMOODpPQ",
+    "youtube_url": "https://www.youtube.com/watch?v=oEkPMOODpPQ",
+    "duration_seconds": 171,
+    "scenario": "You are learning to assist shoppers at a grocery store.",
+    "sentences": [
+      {
+        "index": 1,
+        "text": "Welcome. Can I help you find something?",
+        "word_count": 7,
+        "level": 1
+      },
+      {
+        "index": 2,
+        "text": "The dairy section is in the back of the store.",
+        "word_count": 10,
+        "level": 1
+      },
+      {
+        "index": 3,
+        "text": "Weekly sale items are marked with a yellow tag.",
+        "word_count": 9,
+        "level": 2
+      },
+      {
+        "index": 4,
+        "text": "Please check the expiration dates on perishable items before placing them in your cart.",
+        "word_count": 14,
+        "level": 2
+      },
+      {
+        "index": 5,
+        "text": "Our loyalty card gives you access to member only discounts on hundreds of products every week.",
+        "word_count": 16,
+        "level": 2
+      },
+      {
+        "index": 6,
+        "text": "If an item on your receipt rings up at the wrong price, please bring it to the customer service desk.",
+        "word_count": 20,
+        "level": 3
+      },
+      {
+        "index": 7,
+        "text": "We also offer online ordering with same-day delivery or curbside pickup, which you can set up through our store website or mobile app.",
+        "word_count": 23,
+        "level": 3
+      }
+    ]
+  }
+];
+
+export const SPEAKING_REPEAT_GABBLE_609 = [
+  {
+    "id": "sr_gabble_p021_s1",
+    "practice_number": 21,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 21) | Airport",
+    "topic": "Airport",
+    "scenario": "You are learning to assist passengers at the airport.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to the check-in counter.",
+    "word_count": 5,
+    "video_id": "TfYGjSkvqE8",
+    "youtube_url": "https://www.youtube.com/watch?v=TfYGjSkvqE8"
+  },
+  {
+    "id": "sr_gabble_p021_s2",
+    "practice_number": 21,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 21) | Airport",
+    "topic": "Airport",
+    "scenario": "You are learning to assist passengers at the airport.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "May I see your passport please?",
+    "word_count": 6,
+    "video_id": "TfYGjSkvqE8",
+    "youtube_url": "https://www.youtube.com/watch?v=TfYGjSkvqE8"
+  },
+  {
+    "id": "sr_gabble_p021_s3",
+    "practice_number": 21,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 21) | Airport",
+    "topic": "Airport",
+    "scenario": "You are learning to assist passengers at the airport.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Do you have any bags to check?",
+    "word_count": 7,
+    "video_id": "TfYGjSkvqE8",
+    "youtube_url": "https://www.youtube.com/watch?v=TfYGjSkvqE8"
+  },
+  {
+    "id": "sr_gabble_p021_s4",
+    "practice_number": 21,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 21) | Airport",
+    "topic": "Airport",
+    "scenario": "You are learning to assist passengers at the airport.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Your flight leaves from gate B twelve today.",
+    "word_count": 8,
+    "video_id": "TfYGjSkvqE8",
+    "youtube_url": "https://www.youtube.com/watch?v=TfYGjSkvqE8"
+  },
+  {
+    "id": "sr_gabble_p021_s5",
+    "practice_number": 21,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 21) | Airport",
+    "topic": "Airport",
+    "scenario": "You are learning to assist passengers at the airport.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Boarding will begin thirty minutes before your scheduled departure.",
+    "word_count": 9,
+    "video_id": "TfYGjSkvqE8",
+    "youtube_url": "https://www.youtube.com/watch?v=TfYGjSkvqE8"
+  },
+  {
+    "id": "sr_gabble_p021_s6",
+    "practice_number": 21,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 21) | Airport",
+    "topic": "Airport",
+    "scenario": "You are learning to assist passengers at the airport.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Please proceed to the security checkpoint after you finish checking in.",
+    "word_count": 11,
+    "video_id": "TfYGjSkvqE8",
+    "youtube_url": "https://www.youtube.com/watch?v=TfYGjSkvqE8"
+  },
+  {
+    "id": "sr_gabble_p021_s7",
+    "practice_number": 21,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 21) | Airport",
+    "topic": "Airport",
+    "scenario": "You are learning to assist passengers at the airport.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you have any questions about your flight, our customer service desk is nearby.",
+    "word_count": 14,
+    "video_id": "TfYGjSkvqE8",
+    "youtube_url": "https://www.youtube.com/watch?v=TfYGjSkvqE8"
+  },
+  {
+    "id": "sr_gabble_p022_s1",
+    "practice_number": 22,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 22) | Bank Teller",
+    "topic": "Bank Teller",
+    "scenario": "You are training as a bank teller.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Good morning, how can I help?",
+    "word_count": 6,
+    "video_id": "IxuqcMCo15c",
+    "youtube_url": "https://www.youtube.com/watch?v=IxuqcMCo15c"
+  },
+  {
+    "id": "sr_gabble_p022_s2",
+    "practice_number": 22,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 22) | Bank Teller",
+    "topic": "Bank Teller",
+    "scenario": "You are training as a bank teller.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Would you like to make a deposit?",
+    "word_count": 7,
+    "video_id": "IxuqcMCo15c",
+    "youtube_url": "https://www.youtube.com/watch?v=IxuqcMCo15c"
+  },
+  {
+    "id": "sr_gabble_p022_s3",
+    "practice_number": 22,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 22) | Bank Teller",
+    "topic": "Bank Teller",
+    "scenario": "You are training as a bank teller.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Please enter your PIN on the keypad.",
+    "word_count": 7,
+    "video_id": "IxuqcMCo15c",
+    "youtube_url": "https://www.youtube.com/watch?v=IxuqcMCo15c"
+  },
+  {
+    "id": "sr_gabble_p022_s4",
+    "practice_number": 22,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 22) | Bank Teller",
+    "topic": "Bank Teller",
+    "scenario": "You are training as a bank teller.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Your current account balance is shown on the screen.",
+    "word_count": 9,
+    "video_id": "IxuqcMCo15c",
+    "youtube_url": "https://www.youtube.com/watch?v=IxuqcMCo15c"
+  },
+  {
+    "id": "sr_gabble_p022_s5",
+    "practice_number": 22,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 22) | Bank Teller",
+    "topic": "Bank Teller",
+    "scenario": "You are training as a bank teller.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "For large withdrawals, we will need to see additional identification.",
+    "word_count": 10,
+    "video_id": "IxuqcMCo15c",
+    "youtube_url": "https://www.youtube.com/watch?v=IxuqcMCo15c"
+  },
+  {
+    "id": "sr_gabble_p022_s6",
+    "practice_number": 22,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 22) | Bank Teller",
+    "topic": "Bank Teller",
+    "scenario": "You are training as a bank teller.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "We also offer savings accounts with competitive interest rates for new customers.",
+    "word_count": 12,
+    "video_id": "IxuqcMCo15c",
+    "youtube_url": "https://www.youtube.com/watch?v=IxuqcMCo15c"
+  },
+  {
+    "id": "sr_gabble_p022_s7",
+    "practice_number": 22,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 22) | Bank Teller",
+    "topic": "Bank Teller",
+    "scenario": "You are training as a bank teller.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Please let me know if there is anything else I can help you with today.",
+    "word_count": 15,
+    "video_id": "IxuqcMCo15c",
+    "youtube_url": "https://www.youtube.com/watch?v=IxuqcMCo15c"
+  },
+  {
+    "id": "sr_gabble_p023_s1",
+    "practice_number": 23,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 23) | Bookstore",
+    "topic": "Bookstore",
+    "scenario": "You are learning to assist customers at a bookstore.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to our bookstore today.",
+    "word_count": 5,
+    "video_id": "6-OnD-juBcQ",
+    "youtube_url": "https://www.youtube.com/watch?v=6-OnD-juBcQ"
+  },
+  {
+    "id": "sr_gabble_p023_s2",
+    "practice_number": 23,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 23) | Bookstore",
+    "topic": "Bookstore",
+    "scenario": "You are learning to assist customers at a bookstore.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Are you looking for something specific?",
+    "word_count": 6,
+    "video_id": "6-OnD-juBcQ",
+    "youtube_url": "https://www.youtube.com/watch?v=6-OnD-juBcQ"
+  },
+  {
+    "id": "sr_gabble_p023_s3",
+    "practice_number": 23,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 23) | Bookstore",
+    "topic": "Bookstore",
+    "scenario": "You are learning to assist customers at a bookstore.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Our bestsellers are on the front table.",
+    "word_count": 7,
+    "video_id": "6-OnD-juBcQ",
+    "youtube_url": "https://www.youtube.com/watch?v=6-OnD-juBcQ"
+  },
+  {
+    "id": "sr_gabble_p023_s4",
+    "practice_number": 23,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 23) | Bookstore",
+    "topic": "Bookstore",
+    "scenario": "You are learning to assist customers at a bookstore.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "The children's section is located in the back corner.",
+    "word_count": 9,
+    "video_id": "6-OnD-juBcQ",
+    "youtube_url": "https://www.youtube.com/watch?v=6-OnD-juBcQ"
+  },
+  {
+    "id": "sr_gabble_p023_s5",
+    "practice_number": 23,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 23) | Bookstore",
+    "topic": "Bookstore",
+    "scenario": "You are learning to assist customers at a bookstore.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "We can order any book that is not currently in our stock.",
+    "word_count": 12,
+    "video_id": "6-OnD-juBcQ",
+    "youtube_url": "https://www.youtube.com/watch?v=6-OnD-juBcQ"
+  },
+  {
+    "id": "sr_gabble_p023_s6",
+    "practice_number": 23,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 23) | Bookstore",
+    "topic": "Bookstore",
+    "scenario": "You are learning to assist customers at a bookstore.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Store members receive a fifteen percent discount on all of their purchases here.",
+    "word_count": 13,
+    "video_id": "6-OnD-juBcQ",
+    "youtube_url": "https://www.youtube.com/watch?v=6-OnD-juBcQ"
+  },
+  {
+    "id": "sr_gabble_p023_s7",
+    "practice_number": 23,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 23) | Bookstore",
+    "topic": "Bookstore",
+    "scenario": "You are learning to assist customers at a bookstore.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you need help finding a title, please ask any staff member and they will assist you.",
+    "word_count": 17,
+    "video_id": "6-OnD-juBcQ",
+    "youtube_url": "https://www.youtube.com/watch?v=6-OnD-juBcQ"
+  },
+  {
+    "id": "sr_gabble_p024_s1",
+    "practice_number": 24,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 24) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are training as a barista at a coffee shop.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Hi, what can I get you?",
+    "word_count": 6,
+    "video_id": "wJvGhlq5HKE",
+    "youtube_url": "https://www.youtube.com/watch?v=wJvGhlq5HKE"
+  },
+  {
+    "id": "sr_gabble_p024_s2",
+    "practice_number": 24,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 24) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are training as a barista at a coffee shop.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Would you like that hot or iced?",
+    "word_count": 7,
+    "video_id": "wJvGhlq5HKE",
+    "youtube_url": "https://www.youtube.com/watch?v=wJvGhlq5HKE"
+  },
+  {
+    "id": "sr_gabble_p024_s3",
+    "practice_number": 24,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 24) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are training as a barista at a coffee shop.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "We have oat, almond, and soy milk.",
+    "word_count": 7,
+    "video_id": "wJvGhlq5HKE",
+    "youtube_url": "https://www.youtube.com/watch?v=wJvGhlq5HKE"
+  },
+  {
+    "id": "sr_gabble_p024_s4",
+    "practice_number": 24,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 24) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are training as a barista at a coffee shop.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Would you like to add an extra shot of espresso?",
+    "word_count": 10,
+    "video_id": "wJvGhlq5HKE",
+    "youtube_url": "https://www.youtube.com/watch?v=wJvGhlq5HKE"
+  },
+  {
+    "id": "sr_gabble_p024_s5",
+    "practice_number": 24,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 24) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are training as a barista at a coffee shop.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Your drink will be ready at the end of the counter shortly.",
+    "word_count": 12,
+    "video_id": "wJvGhlq5HKE",
+    "youtube_url": "https://www.youtube.com/watch?v=wJvGhlq5HKE"
+  },
+  {
+    "id": "sr_gabble_p024_s6",
+    "practice_number": 24,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 24) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are training as a barista at a coffee shop.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "We also have fresh pastries and sandwiches available in the display case today.",
+    "word_count": 13,
+    "video_id": "wJvGhlq5HKE",
+    "youtube_url": "https://www.youtube.com/watch?v=wJvGhlq5HKE"
+  },
+  {
+    "id": "sr_gabble_p024_s7",
+    "practice_number": 24,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 24) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are training as a barista at a coffee shop.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you are a rewards member, please scan your app before I complete your order.",
+    "word_count": 15,
+    "video_id": "wJvGhlq5HKE",
+    "youtube_url": "https://www.youtube.com/watch?v=wJvGhlq5HKE"
+  },
+  {
+    "id": "sr_gabble_p025_s1",
+    "practice_number": 25,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 25) | Medical Receptionist",
+    "topic": "Medical Receptionist",
+    "scenario": "You are training as a medical receptionist.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Good morning, how are you?",
+    "word_count": 5,
+    "video_id": "AZ7pR8aSrh8",
+    "youtube_url": "https://www.youtube.com/watch?v=AZ7pR8aSrh8"
+  },
+  {
+    "id": "sr_gabble_p025_s2",
+    "practice_number": 25,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 25) | Medical Receptionist",
+    "topic": "Medical Receptionist",
+    "scenario": "You are training as a medical receptionist.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Do you have an appointment today?",
+    "word_count": 6,
+    "video_id": "AZ7pR8aSrh8",
+    "youtube_url": "https://www.youtube.com/watch?v=AZ7pR8aSrh8"
+  },
+  {
+    "id": "sr_gabble_p025_s3",
+    "practice_number": 25,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 25) | Medical Receptionist",
+    "topic": "Medical Receptionist",
+    "scenario": "You are training as a medical receptionist.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Please fill out these forms for us.",
+    "word_count": 7,
+    "video_id": "AZ7pR8aSrh8",
+    "youtube_url": "https://www.youtube.com/watch?v=AZ7pR8aSrh8"
+  },
+  {
+    "id": "sr_gabble_p025_s4",
+    "practice_number": 25,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 25) | Medical Receptionist",
+    "topic": "Medical Receptionist",
+    "scenario": "You are training as a medical receptionist.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "The doctor will see you in about fifteen minutes.",
+    "word_count": 9,
+    "video_id": "AZ7pR8aSrh8",
+    "youtube_url": "https://www.youtube.com/watch?v=AZ7pR8aSrh8"
+  },
+  {
+    "id": "sr_gabble_p025_s5",
+    "practice_number": 25,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 25) | Medical Receptionist",
+    "topic": "Medical Receptionist",
+    "scenario": "You are training as a medical receptionist.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Make sure to bring your insurance card and photo identification.",
+    "word_count": 10,
+    "video_id": "AZ7pR8aSrh8",
+    "youtube_url": "https://www.youtube.com/watch?v=AZ7pR8aSrh8"
+  },
+  {
+    "id": "sr_gabble_p025_s6",
+    "practice_number": 25,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 25) | Medical Receptionist",
+    "topic": "Medical Receptionist",
+    "scenario": "You are training as a medical receptionist.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "You can pick up your prescription at the pharmacy located on the first floor.",
+    "word_count": 14,
+    "video_id": "AZ7pR8aSrh8",
+    "youtube_url": "https://www.youtube.com/watch?v=AZ7pR8aSrh8"
+  },
+  {
+    "id": "sr_gabble_p025_s7",
+    "practice_number": 25,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 25) | Medical Receptionist",
+    "topic": "Medical Receptionist",
+    "scenario": "You are training as a medical receptionist.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Would you like to schedule a follow-up appointment before you leave the office today?",
+    "word_count": 14,
+    "video_id": "AZ7pR8aSrh8",
+    "youtube_url": "https://www.youtube.com/watch?v=AZ7pR8aSrh8"
+  },
+  {
+    "id": "sr_gabble_p026_s1",
+    "practice_number": 26,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 26) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are preparing for a job interview.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Thank you for coming in.",
+    "word_count": 5,
+    "video_id": "9elkUOIT5Ns",
+    "youtube_url": "https://www.youtube.com/watch?v=9elkUOIT5Ns"
+  },
+  {
+    "id": "sr_gabble_p026_s2",
+    "practice_number": 26,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 26) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are preparing for a job interview.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please tell me about yourself briefly.",
+    "word_count": 6,
+    "video_id": "9elkUOIT5Ns",
+    "youtube_url": "https://www.youtube.com/watch?v=9elkUOIT5Ns"
+  },
+  {
+    "id": "sr_gabble_p026_s3",
+    "practice_number": 26,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 26) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are preparing for a job interview.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Why are you interested in this job?",
+    "word_count": 7,
+    "video_id": "9elkUOIT5Ns",
+    "youtube_url": "https://www.youtube.com/watch?v=9elkUOIT5Ns"
+  },
+  {
+    "id": "sr_gabble_p026_s4",
+    "practice_number": 26,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 26) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are preparing for a job interview.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "What would you say are your greatest strengths overall?",
+    "word_count": 9,
+    "video_id": "9elkUOIT5Ns",
+    "youtube_url": "https://www.youtube.com/watch?v=9elkUOIT5Ns"
+  },
+  {
+    "id": "sr_gabble_p026_s5",
+    "practice_number": 26,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 26) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are preparing for a job interview.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Can you describe a challenge you faced and how you solved it?",
+    "word_count": 12,
+    "video_id": "9elkUOIT5Ns",
+    "youtube_url": "https://www.youtube.com/watch?v=9elkUOIT5Ns"
+  },
+  {
+    "id": "sr_gabble_p026_s6",
+    "practice_number": 26,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 26) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are preparing for a job interview.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Where do you see yourself professionally in the next five to ten years?",
+    "word_count": 13,
+    "video_id": "9elkUOIT5Ns",
+    "youtube_url": "https://www.youtube.com/watch?v=9elkUOIT5Ns"
+  },
+  {
+    "id": "sr_gabble_p026_s7",
+    "practice_number": 26,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 26) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are preparing for a job interview.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Do you have any questions about the position or our company that I can answer?",
+    "word_count": 15,
+    "video_id": "9elkUOIT5Ns",
+    "youtube_url": "https://www.youtube.com/watch?v=9elkUOIT5Ns"
+  },
+  {
+    "id": "sr_gabble_p027_s1",
+    "practice_number": 27,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 27) | Pharmacy Technician",
+    "topic": "Pharmacy Technician",
+    "scenario": "You are training as a pharmacy technician.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Hello, how can I help?",
+    "word_count": 5,
+    "video_id": "I_pxQayEOQs",
+    "youtube_url": "https://www.youtube.com/watch?v=I_pxQayEOQs"
+  },
+  {
+    "id": "sr_gabble_p027_s2",
+    "practice_number": 27,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 27) | Pharmacy Technician",
+    "topic": "Pharmacy Technician",
+    "scenario": "You are training as a pharmacy technician.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Do you have a prescription to pick up?",
+    "word_count": 8,
+    "video_id": "I_pxQayEOQs",
+    "youtube_url": "https://www.youtube.com/watch?v=I_pxQayEOQs"
+  },
+  {
+    "id": "sr_gabble_p027_s3",
+    "practice_number": 27,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 27) | Pharmacy Technician",
+    "topic": "Pharmacy Technician",
+    "scenario": "You are training as a pharmacy technician.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "May I have your date of birth please?",
+    "word_count": 8,
+    "video_id": "I_pxQayEOQs",
+    "youtube_url": "https://www.youtube.com/watch?v=I_pxQayEOQs"
+  },
+  {
+    "id": "sr_gabble_p027_s4",
+    "practice_number": 27,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 27) | Pharmacy Technician",
+    "topic": "Pharmacy Technician",
+    "scenario": "You are training as a pharmacy technician.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Your prescription will be ready in about ten minutes.",
+    "word_count": 9,
+    "video_id": "I_pxQayEOQs",
+    "youtube_url": "https://www.youtube.com/watch?v=I_pxQayEOQs"
+  },
+  {
+    "id": "sr_gabble_p027_s5",
+    "practice_number": 27,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 27) | Pharmacy Technician",
+    "topic": "Pharmacy Technician",
+    "scenario": "You are training as a pharmacy technician.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Please check the label to make sure all information is correct.",
+    "word_count": 11,
+    "video_id": "I_pxQayEOQs",
+    "youtube_url": "https://www.youtube.com/watch?v=I_pxQayEOQs"
+  },
+  {
+    "id": "sr_gabble_p027_s6",
+    "practice_number": 27,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 27) | Pharmacy Technician",
+    "topic": "Pharmacy Technician",
+    "scenario": "You are training as a pharmacy technician.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Take one tablet twice a day with food for the next seven days.",
+    "word_count": 13,
+    "video_id": "I_pxQayEOQs",
+    "youtube_url": "https://www.youtube.com/watch?v=I_pxQayEOQs"
+  },
+  {
+    "id": "sr_gabble_p027_s7",
+    "practice_number": 27,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 27) | Pharmacy Technician",
+    "topic": "Pharmacy Technician",
+    "scenario": "You are training as a pharmacy technician.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you experience any side effects, please contact your doctor or come back to see us.",
+    "word_count": 16,
+    "video_id": "I_pxQayEOQs",
+    "youtube_url": "https://www.youtube.com/watch?v=I_pxQayEOQs"
+  },
+  {
+    "id": "sr_gabble_p028_s1",
+    "practice_number": 28,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 28) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to be a museum guide.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to our art museum.",
+    "word_count": 5,
+    "video_id": "a2kJfSn-pxg",
+    "youtube_url": "https://www.youtube.com/watch?v=a2kJfSn-pxg"
+  },
+  {
+    "id": "sr_gabble_p028_s2",
+    "practice_number": 28,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 28) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to be a museum guide.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Photography is allowed without flash.",
+    "word_count": 5,
+    "video_id": "a2kJfSn-pxg",
+    "youtube_url": "https://www.youtube.com/watch?v=a2kJfSn-pxg"
+  },
+  {
+    "id": "sr_gabble_p028_s3",
+    "practice_number": 28,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 28) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to be a museum guide.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "This gallery shows Renaissance period artwork.",
+    "word_count": 6,
+    "video_id": "a2kJfSn-pxg",
+    "youtube_url": "https://www.youtube.com/watch?v=a2kJfSn-pxg"
+  },
+  {
+    "id": "sr_gabble_p028_s4",
+    "practice_number": 28,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 28) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to be a museum guide.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Please keep a safe distance from all the paintings.",
+    "word_count": 9,
+    "video_id": "a2kJfSn-pxg",
+    "youtube_url": "https://www.youtube.com/watch?v=a2kJfSn-pxg"
+  },
+  {
+    "id": "sr_gabble_p028_s5",
+    "practice_number": 28,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 28) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to be a museum guide.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Audio guides are available in six different languages at the desk.",
+    "word_count": 11,
+    "video_id": "a2kJfSn-pxg",
+    "youtube_url": "https://www.youtube.com/watch?v=a2kJfSn-pxg"
+  },
+  {
+    "id": "sr_gabble_p028_s6",
+    "practice_number": 28,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 28) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to be a museum guide.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "The museum gift shop and cafe are both located on the ground floor.",
+    "word_count": 13,
+    "video_id": "a2kJfSn-pxg",
+    "youtube_url": "https://www.youtube.com/watch?v=a2kJfSn-pxg"
+  },
+  {
+    "id": "sr_gabble_p028_s7",
+    "practice_number": 28,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 28) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to be a museum guide.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Guided tours of the permanent collection begin at the top of every hour today.",
+    "word_count": 14,
+    "video_id": "a2kJfSn-pxg",
+    "youtube_url": "https://www.youtube.com/watch?v=a2kJfSn-pxg"
+  },
+  {
+    "id": "sr_gabble_p029_s1",
+    "practice_number": 29,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 29) | Dental Receptionist",
+    "topic": "Dental Receptionist",
+    "scenario": "You are training as a dental receptionist.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Good morning, welcome to our clinic.",
+    "word_count": 6,
+    "video_id": "q3YLFcA2d3o",
+    "youtube_url": "https://www.youtube.com/watch?v=q3YLFcA2d3o"
+  },
+  {
+    "id": "sr_gabble_p029_s2",
+    "practice_number": 29,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 29) | Dental Receptionist",
+    "topic": "Dental Receptionist",
+    "scenario": "You are training as a dental receptionist.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Do you have an appointment scheduled?",
+    "word_count": 6,
+    "video_id": "q3YLFcA2d3o",
+    "youtube_url": "https://www.youtube.com/watch?v=q3YLFcA2d3o"
+  },
+  {
+    "id": "sr_gabble_p029_s3",
+    "practice_number": 29,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 29) | Dental Receptionist",
+    "topic": "Dental Receptionist",
+    "scenario": "You are training as a dental receptionist.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Please have a seat in the waiting room.",
+    "word_count": 8,
+    "video_id": "q3YLFcA2d3o",
+    "youtube_url": "https://www.youtube.com/watch?v=q3YLFcA2d3o"
+  },
+  {
+    "id": "sr_gabble_p029_s4",
+    "practice_number": 29,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 29) | Dental Receptionist",
+    "topic": "Dental Receptionist",
+    "scenario": "You are training as a dental receptionist.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "The dentist will see you in just a few minutes.",
+    "word_count": 10,
+    "video_id": "q3YLFcA2d3o",
+    "youtube_url": "https://www.youtube.com/watch?v=q3YLFcA2d3o"
+  },
+  {
+    "id": "sr_gabble_p029_s5",
+    "practice_number": 29,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 29) | Dental Receptionist",
+    "topic": "Dental Receptionist",
+    "scenario": "You are training as a dental receptionist.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Have you experienced any tooth pain or sensitivity recently at all?",
+    "word_count": 11,
+    "video_id": "q3YLFcA2d3o",
+    "youtube_url": "https://www.youtube.com/watch?v=q3YLFcA2d3o"
+  },
+  {
+    "id": "sr_gabble_p029_s6",
+    "practice_number": 29,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 29) | Dental Receptionist",
+    "topic": "Dental Receptionist",
+    "scenario": "You are training as a dental receptionist.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "We recommend scheduling a cleaning every six months to maintain good oral health.",
+    "word_count": 13,
+    "video_id": "q3YLFcA2d3o",
+    "youtube_url": "https://www.youtube.com/watch?v=q3YLFcA2d3o"
+  },
+  {
+    "id": "sr_gabble_p029_s7",
+    "practice_number": 29,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 29) | Dental Receptionist",
+    "topic": "Dental Receptionist",
+    "scenario": "You are training as a dental receptionist.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Your next appointment is set for March fifteenth at two o'clock in the afternoon.",
+    "word_count": 14,
+    "video_id": "q3YLFcA2d3o",
+    "youtube_url": "https://www.youtube.com/watch?v=q3YLFcA2d3o"
+  },
+  {
+    "id": "sr_gabble_p030_s1",
+    "practice_number": 30,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 30) | Public Library",
+    "topic": "Public Library",
+    "scenario": "You are learning to work at the public library.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to the public library.",
+    "word_count": 5,
+    "video_id": "OzEEYASrW9I",
+    "youtube_url": "https://www.youtube.com/watch?v=OzEEYASrW9I"
+  },
+  {
+    "id": "sr_gabble_p030_s2",
+    "practice_number": 30,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 30) | Public Library",
+    "topic": "Public Library",
+    "scenario": "You are learning to work at the public library.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "May I see your library card?",
+    "word_count": 6,
+    "video_id": "OzEEYASrW9I",
+    "youtube_url": "https://www.youtube.com/watch?v=OzEEYASrW9I"
+  },
+  {
+    "id": "sr_gabble_p030_s3",
+    "practice_number": 30,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 30) | Public Library",
+    "topic": "Public Library",
+    "scenario": "You are learning to work at the public library.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Books can be borrowed for three weeks.",
+    "word_count": 7,
+    "video_id": "OzEEYASrW9I",
+    "youtube_url": "https://www.youtube.com/watch?v=OzEEYASrW9I"
+  },
+  {
+    "id": "sr_gabble_p030_s4",
+    "practice_number": 30,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 30) | Public Library",
+    "topic": "Public Library",
+    "scenario": "You are learning to work at the public library.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "You can renew items online or by calling us.",
+    "word_count": 9,
+    "video_id": "OzEEYASrW9I",
+    "youtube_url": "https://www.youtube.com/watch?v=OzEEYASrW9I"
+  },
+  {
+    "id": "sr_gabble_p030_s5",
+    "practice_number": 30,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 30) | Public Library",
+    "topic": "Public Library",
+    "scenario": "You are learning to work at the public library.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "The children's reading section is located on the second floor today.",
+    "word_count": 11,
+    "video_id": "OzEEYASrW9I",
+    "youtube_url": "https://www.youtube.com/watch?v=OzEEYASrW9I"
+  },
+  {
+    "id": "sr_gabble_p030_s6",
+    "practice_number": 30,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 30) | Public Library",
+    "topic": "Public Library",
+    "scenario": "You are learning to work at the public library.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "We offer free computer access and printing services to all library members.",
+    "word_count": 12,
+    "video_id": "OzEEYASrW9I",
+    "youtube_url": "https://www.youtube.com/watch?v=OzEEYASrW9I"
+  },
+  {
+    "id": "sr_gabble_p030_s7",
+    "practice_number": 30,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 30) | Public Library",
+    "topic": "Public Library",
+    "scenario": "You are learning to work at the public library.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If your books are returned late, there is a small fee of twenty-five cents per day.",
+    "word_count": 16,
+    "video_id": "OzEEYASrW9I",
+    "youtube_url": "https://www.youtube.com/watch?v=OzEEYASrW9I"
+  },
+  {
+    "id": "sr_gabble_p031_s1",
+    "practice_number": 31,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 31) | Hair Salon",
+    "topic": "Hair Salon",
+    "scenario": "You are learning to work at a hair salon.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to the Style Studio.",
+    "word_count": 5,
+    "video_id": "RjzhYysn7Bc",
+    "youtube_url": "https://www.youtube.com/watch?v=RjzhYysn7Bc"
+  },
+  {
+    "id": "sr_gabble_p031_s2",
+    "practice_number": 31,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 31) | Hair Salon",
+    "topic": "Hair Salon",
+    "scenario": "You are learning to work at a hair salon.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Do you have an appointment today?",
+    "word_count": 6,
+    "video_id": "RjzhYysn7Bc",
+    "youtube_url": "https://www.youtube.com/watch?v=RjzhYysn7Bc"
+  },
+  {
+    "id": "sr_gabble_p031_s3",
+    "practice_number": 31,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 31) | Hair Salon",
+    "topic": "Hair Salon",
+    "scenario": "You are learning to work at a hair salon.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "What kind of haircut would you like?",
+    "word_count": 7,
+    "video_id": "RjzhYysn7Bc",
+    "youtube_url": "https://www.youtube.com/watch?v=RjzhYysn7Bc"
+  },
+  {
+    "id": "sr_gabble_p031_s4",
+    "practice_number": 31,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 31) | Hair Salon",
+    "topic": "Hair Salon",
+    "scenario": "You are learning to work at a hair salon.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Would you like me to wash your hair before we begin?",
+    "word_count": 11,
+    "video_id": "RjzhYysn7Bc",
+    "youtube_url": "https://www.youtube.com/watch?v=RjzhYysn7Bc"
+  },
+  {
+    "id": "sr_gabble_p031_s5",
+    "practice_number": 31,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 31) | Hair Salon",
+    "topic": "Hair Salon",
+    "scenario": "You are learning to work at a hair salon.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "I think layers would look really nice with your face shape.",
+    "word_count": 11,
+    "video_id": "RjzhYysn7Bc",
+    "youtube_url": "https://www.youtube.com/watch?v=RjzhYysn7Bc"
+  },
+  {
+    "id": "sr_gabble_p031_s6",
+    "practice_number": 31,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 31) | Hair Salon",
+    "topic": "Hair Salon",
+    "scenario": "You are learning to work at a hair salon.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "We also offer coloring, highlights, and deep conditioning treatments here at the salon.",
+    "word_count": 13,
+    "video_id": "RjzhYysn7Bc",
+    "youtube_url": "https://www.youtube.com/watch?v=RjzhYysn7Bc"
+  },
+  {
+    "id": "sr_gabble_p031_s7",
+    "practice_number": 31,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 31) | Hair Salon",
+    "topic": "Hair Salon",
+    "scenario": "You are learning to work at a hair salon.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Your stylist will be with you shortly, so please feel free to look through our magazines.",
+    "word_count": 16,
+    "video_id": "RjzhYysn7Bc",
+    "youtube_url": "https://www.youtube.com/watch?v=RjzhYysn7Bc"
+  },
+  {
+    "id": "sr_gabble_p032_s1",
+    "practice_number": 32,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 32) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to work at a car rental agency.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to Quick Car Rentals.",
+    "word_count": 5,
+    "video_id": "ix0zPqAk8nE",
+    "youtube_url": "https://www.youtube.com/watch?v=ix0zPqAk8nE"
+  },
+  {
+    "id": "sr_gabble_p032_s2",
+    "practice_number": 32,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 32) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to work at a car rental agency.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Do you have a reservation with us?",
+    "word_count": 7,
+    "video_id": "ix0zPqAk8nE",
+    "youtube_url": "https://www.youtube.com/watch?v=ix0zPqAk8nE"
+  },
+  {
+    "id": "sr_gabble_p032_s3",
+    "practice_number": 32,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 32) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to work at a car rental agency.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "May I see your driver's license please?",
+    "word_count": 7,
+    "video_id": "ix0zPqAk8nE",
+    "youtube_url": "https://www.youtube.com/watch?v=ix0zPqAk8nE"
+  },
+  {
+    "id": "sr_gabble_p032_s4",
+    "practice_number": 32,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 32) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to work at a car rental agency.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Would you like to add insurance to your rental today?",
+    "word_count": 10,
+    "video_id": "ix0zPqAk8nE",
+    "youtube_url": "https://www.youtube.com/watch?v=ix0zPqAk8nE"
+  },
+  {
+    "id": "sr_gabble_p032_s5",
+    "practice_number": 32,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 32) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to work at a car rental agency.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "The gas tank is full, so please return it full as well.",
+    "word_count": 12,
+    "video_id": "ix0zPqAk8nE",
+    "youtube_url": "https://www.youtube.com/watch?v=ix0zPqAk8nE"
+  },
+  {
+    "id": "sr_gabble_p032_s6",
+    "practice_number": 32,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 32) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to work at a car rental agency.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Your vehicle is parked in spot number twelve in the garage downstairs.",
+    "word_count": 12,
+    "video_id": "ix0zPqAk8nE",
+    "youtube_url": "https://www.youtube.com/watch?v=ix0zPqAk8nE"
+  },
+  {
+    "id": "sr_gabble_p032_s7",
+    "practice_number": 32,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 32) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to work at a car rental agency.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you have any problems with the car during your rental, please call our roadside assistance.",
+    "word_count": 16,
+    "video_id": "ix0zPqAk8nE",
+    "youtube_url": "https://www.youtube.com/watch?v=ix0zPqAk8nE"
+  },
+  {
+    "id": "sr_gabble_p033_s1",
+    "practice_number": 33,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 33) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to work at the front desk of a fitness center.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to FitLife Gym today.",
+    "word_count": 5,
+    "video_id": "RLWS5w5hLAY",
+    "youtube_url": "https://www.youtube.com/watch?v=RLWS5w5hLAY"
+  },
+  {
+    "id": "sr_gabble_p033_s2",
+    "practice_number": 33,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 33) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to work at the front desk of a fitness center.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Are you currently a member here?",
+    "word_count": 6,
+    "video_id": "RLWS5w5hLAY",
+    "youtube_url": "https://www.youtube.com/watch?v=RLWS5w5hLAY"
+  },
+  {
+    "id": "sr_gabble_p033_s3",
+    "practice_number": 33,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 33) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to work at the front desk of a fitness center.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "We offer monthly and annual membership plans.",
+    "word_count": 7,
+    "video_id": "RLWS5w5hLAY",
+    "youtube_url": "https://www.youtube.com/watch?v=RLWS5w5hLAY"
+  },
+  {
+    "id": "sr_gabble_p033_s4",
+    "practice_number": 33,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 33) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to work at the front desk of a fitness center.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Personal training sessions can be booked at the front desk.",
+    "word_count": 10,
+    "video_id": "RLWS5w5hLAY",
+    "youtube_url": "https://www.youtube.com/watch?v=RLWS5w5hLAY"
+  },
+  {
+    "id": "sr_gabble_p033_s5",
+    "practice_number": 33,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 33) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to work at the front desk of a fitness center.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "All group fitness classes are included with your gym membership plan.",
+    "word_count": 11,
+    "video_id": "RLWS5w5hLAY",
+    "youtube_url": "https://www.youtube.com/watch?v=RLWS5w5hLAY"
+  },
+  {
+    "id": "sr_gabble_p033_s6",
+    "practice_number": 33,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 33) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to work at the front desk of a fitness center.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "The locker rooms have showers, towels, and personal storage lockers available for use.",
+    "word_count": 13,
+    "video_id": "RLWS5w5hLAY",
+    "youtube_url": "https://www.youtube.com/watch?v=RLWS5w5hLAY"
+  },
+  {
+    "id": "sr_gabble_p033_s7",
+    "practice_number": 33,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 33) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to work at the front desk of a fitness center.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Please remember to wipe down all equipment with the provided towels after each use today.",
+    "word_count": 15,
+    "video_id": "RLWS5w5hLAY",
+    "youtube_url": "https://www.youtube.com/watch?v=RLWS5w5hLAY"
+  },
+  {
+    "id": "sr_gabble_p034_s1",
+    "practice_number": 34,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 34) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are training as a cashier at a grocery store.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Hello, did you find everything?",
+    "word_count": 5,
+    "video_id": "jBxIKE4qV2g",
+    "youtube_url": "https://www.youtube.com/watch?v=jBxIKE4qV2g"
+  },
+  {
+    "id": "sr_gabble_p034_s2",
+    "practice_number": 34,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 34) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are training as a cashier at a grocery store.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Do you have a rewards card today?",
+    "word_count": 7,
+    "video_id": "jBxIKE4qV2g",
+    "youtube_url": "https://www.youtube.com/watch?v=jBxIKE4qV2g"
+  },
+  {
+    "id": "sr_gabble_p034_s3",
+    "practice_number": 34,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 34) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are training as a cashier at a grocery store.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Would you like paper or plastic bags?",
+    "word_count": 7,
+    "video_id": "jBxIKE4qV2g",
+    "youtube_url": "https://www.youtube.com/watch?v=jBxIKE4qV2g"
+  },
+  {
+    "id": "sr_gabble_p034_s4",
+    "practice_number": 34,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 34) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are training as a cashier at a grocery store.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Your total comes to forty-seven dollars and thirty cents.",
+    "word_count": 9,
+    "video_id": "jBxIKE4qV2g",
+    "youtube_url": "https://www.youtube.com/watch?v=jBxIKE4qV2g"
+  },
+  {
+    "id": "sr_gabble_p034_s5",
+    "practice_number": 34,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 34) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are training as a cashier at a grocery store.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Would you like to get any cash back with your purchase today?",
+    "word_count": 12,
+    "video_id": "jBxIKE4qV2g",
+    "youtube_url": "https://www.youtube.com/watch?v=jBxIKE4qV2g"
+  },
+  {
+    "id": "sr_gabble_p034_s6",
+    "practice_number": 34,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 34) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are training as a cashier at a grocery store.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Please sign your name on the screen to complete your card transaction.",
+    "word_count": 12,
+    "video_id": "jBxIKE4qV2g",
+    "youtube_url": "https://www.youtube.com/watch?v=jBxIKE4qV2g"
+  },
+  {
+    "id": "sr_gabble_p034_s7",
+    "practice_number": 34,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 34) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are training as a cashier at a grocery store.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Thank you very much for shopping with us today, and we hope to see you again soon.",
+    "word_count": 17,
+    "video_id": "jBxIKE4qV2g",
+    "youtube_url": "https://www.youtube.com/watch?v=jBxIKE4qV2g"
+  },
+  {
+    "id": "sr_gabble_p035_s1",
+    "practice_number": 35,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 35) | Movie Theater",
+    "topic": "Movie Theater",
+    "scenario": "You are training at a movie theater.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to Starlight Cinemas today.",
+    "word_count": 5,
+    "video_id": "argTREYTcZw",
+    "youtube_url": "https://www.youtube.com/watch?v=argTREYTcZw"
+  },
+  {
+    "id": "sr_gabble_p035_s2",
+    "practice_number": 35,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 35) | Movie Theater",
+    "topic": "Movie Theater",
+    "scenario": "You are training at a movie theater.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "What movie would you like to see?",
+    "word_count": 7,
+    "video_id": "argTREYTcZw",
+    "youtube_url": "https://www.youtube.com/watch?v=argTREYTcZw"
+  },
+  {
+    "id": "sr_gabble_p035_s3",
+    "practice_number": 35,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 35) | Movie Theater",
+    "topic": "Movie Theater",
+    "scenario": "You are training at a movie theater.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "The next showing starts in twenty minutes.",
+    "word_count": 7,
+    "video_id": "argTREYTcZw",
+    "youtube_url": "https://www.youtube.com/watch?v=argTREYTcZw"
+  },
+  {
+    "id": "sr_gabble_p035_s4",
+    "practice_number": 35,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 35) | Movie Theater",
+    "topic": "Movie Theater",
+    "scenario": "You are training at a movie theater.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Would you like some popcorn or drinks with that?",
+    "word_count": 9,
+    "video_id": "argTREYTcZw",
+    "youtube_url": "https://www.youtube.com/watch?v=argTREYTcZw"
+  },
+  {
+    "id": "sr_gabble_p035_s5",
+    "practice_number": 35,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 35) | Movie Theater",
+    "topic": "Movie Theater",
+    "scenario": "You are training at a movie theater.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Your theater is the third door on the left down this hall.",
+    "word_count": 12,
+    "video_id": "argTREYTcZw",
+    "youtube_url": "https://www.youtube.com/watch?v=argTREYTcZw"
+  },
+  {
+    "id": "sr_gabble_p035_s6",
+    "practice_number": 35,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 35) | Movie Theater",
+    "topic": "Movie Theater",
+    "scenario": "You are training at a movie theater.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Please silence your phones and avoid talking once the movie begins playing.",
+    "word_count": 12,
+    "video_id": "argTREYTcZw",
+    "youtube_url": "https://www.youtube.com/watch?v=argTREYTcZw"
+  },
+  {
+    "id": "sr_gabble_p035_s7",
+    "practice_number": 35,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 35) | Movie Theater",
+    "topic": "Movie Theater",
+    "scenario": "You are training at a movie theater.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you need assistance during the film, an usher will be standing near the exit doors.",
+    "word_count": 16,
+    "video_id": "argTREYTcZw",
+    "youtube_url": "https://www.youtube.com/watch?v=argTREYTcZw"
+  },
+  {
+    "id": "sr_gabble_p036_s1",
+    "practice_number": 36,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 36) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to guide prospective students around campus.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to State University today.",
+    "word_count": 5,
+    "video_id": "VcRUBCxI-Yo",
+    "youtube_url": "https://www.youtube.com/watch?v=VcRUBCxI-Yo"
+  },
+  {
+    "id": "sr_gabble_p036_s2",
+    "practice_number": 36,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 36) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to guide prospective students around campus.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "This is our main library building.",
+    "word_count": 6,
+    "video_id": "VcRUBCxI-Yo",
+    "youtube_url": "https://www.youtube.com/watch?v=VcRUBCxI-Yo"
+  },
+  {
+    "id": "sr_gabble_p036_s3",
+    "practice_number": 36,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 36) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to guide prospective students around campus.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "The science labs are in the east wing.",
+    "word_count": 8,
+    "video_id": "VcRUBCxI-Yo",
+    "youtube_url": "https://www.youtube.com/watch?v=VcRUBCxI-Yo"
+  },
+  {
+    "id": "sr_gabble_p036_s4",
+    "practice_number": 36,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 36) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to guide prospective students around campus.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Our dining hall offers many different meal options.",
+    "word_count": 8,
+    "video_id": "VcRUBCxI-Yo",
+    "youtube_url": "https://www.youtube.com/watch?v=VcRUBCxI-Yo"
+  },
+  {
+    "id": "sr_gabble_p036_s5",
+    "practice_number": 36,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 36) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to guide prospective students around campus.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Student housing is available both on campus and off campus.",
+    "word_count": 10,
+    "video_id": "VcRUBCxI-Yo",
+    "youtube_url": "https://www.youtube.com/watch?v=VcRUBCxI-Yo"
+  },
+  {
+    "id": "sr_gabble_p036_s6",
+    "practice_number": 36,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 36) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to guide prospective students around campus.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "The career center helps students find internships and full-time job placements.",
+    "word_count": 11,
+    "video_id": "VcRUBCxI-Yo",
+    "youtube_url": "https://www.youtube.com/watch?v=VcRUBCxI-Yo"
+  },
+  {
+    "id": "sr_gabble_p036_s7",
+    "practice_number": 36,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 36) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to guide prospective students around campus.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Applications for admission to the fall semester program are due by the fifteenth of March.",
+    "word_count": 15,
+    "video_id": "VcRUBCxI-Yo",
+    "youtube_url": "https://www.youtube.com/watch?v=VcRUBCxI-Yo"
+  },
+  {
+    "id": "sr_gabble_p037_s1",
+    "practice_number": 37,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 37) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to work at a hotel front desk.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to the Grand Hotel.",
+    "word_count": 5,
+    "video_id": "tRP6NYTRWf4",
+    "youtube_url": "https://www.youtube.com/watch?v=tRP6NYTRWf4"
+  },
+  {
+    "id": "sr_gabble_p037_s2",
+    "practice_number": 37,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 37) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to work at a hotel front desk.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Do you have a reservation today?",
+    "word_count": 6,
+    "video_id": "tRP6NYTRWf4",
+    "youtube_url": "https://www.youtube.com/watch?v=tRP6NYTRWf4"
+  },
+  {
+    "id": "sr_gabble_p037_s3",
+    "practice_number": 37,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 37) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to work at a hotel front desk.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "May I see your identification, please?",
+    "word_count": 6,
+    "video_id": "tRP6NYTRWf4",
+    "youtube_url": "https://www.youtube.com/watch?v=tRP6NYTRWf4"
+  },
+  {
+    "id": "sr_gabble_p037_s4",
+    "practice_number": 37,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 37) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to work at a hotel front desk.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Your room is on the fifth floor with city views.",
+    "word_count": 10,
+    "video_id": "tRP6NYTRWf4",
+    "youtube_url": "https://www.youtube.com/watch?v=tRP6NYTRWf4"
+  },
+  {
+    "id": "sr_gabble_p037_s5",
+    "practice_number": 37,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 37) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to work at a hotel front desk.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Breakfast is served in the lobby from six to ten AM.",
+    "word_count": 11,
+    "video_id": "tRP6NYTRWf4",
+    "youtube_url": "https://www.youtube.com/watch?v=tRP6NYTRWf4"
+  },
+  {
+    "id": "sr_gabble_p037_s6",
+    "practice_number": 37,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 37) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to work at a hotel front desk.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "The swimming pool and fitness center are located on the second floor.",
+    "word_count": 12,
+    "video_id": "tRP6NYTRWf4",
+    "youtube_url": "https://www.youtube.com/watch?v=tRP6NYTRWf4"
+  },
+  {
+    "id": "sr_gabble_p037_s7",
+    "practice_number": 37,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 37) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to work at a hotel front desk.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you need any assistance during your stay, please dial zero for the front desk.",
+    "word_count": 15,
+    "video_id": "tRP6NYTRWf4",
+    "youtube_url": "https://www.youtube.com/watch?v=tRP6NYTRWf4"
+  },
+  {
+    "id": "sr_gabble_p038_s1",
+    "practice_number": 38,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 38) | Restaurant",
+    "topic": "Restaurant",
+    "scenario": "You are training to be a server at a restaurant.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to the Garden Bistro.",
+    "word_count": 5,
+    "video_id": "C49JsW6E91Y",
+    "youtube_url": "https://www.youtube.com/watch?v=C49JsW6E91Y"
+  },
+  {
+    "id": "sr_gabble_p038_s2",
+    "practice_number": 38,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 38) | Restaurant",
+    "topic": "Restaurant",
+    "scenario": "You are training to be a server at a restaurant.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Can I get you something to drink?",
+    "word_count": 7,
+    "video_id": "C49JsW6E91Y",
+    "youtube_url": "https://www.youtube.com/watch?v=C49JsW6E91Y"
+  },
+  {
+    "id": "sr_gabble_p038_s3",
+    "practice_number": 38,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 38) | Restaurant",
+    "topic": "Restaurant",
+    "scenario": "You are training to be a server at a restaurant.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Today's special is the grilled salmon.",
+    "word_count": 6,
+    "video_id": "C49JsW6E91Y",
+    "youtube_url": "https://www.youtube.com/watch?v=C49JsW6E91Y"
+  },
+  {
+    "id": "sr_gabble_p038_s4",
+    "practice_number": 38,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 38) | Restaurant",
+    "topic": "Restaurant",
+    "scenario": "You are training to be a server at a restaurant.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Would you like a few more minutes to decide?",
+    "word_count": 9,
+    "video_id": "C49JsW6E91Y",
+    "youtube_url": "https://www.youtube.com/watch?v=C49JsW6E91Y"
+  },
+  {
+    "id": "sr_gabble_p038_s5",
+    "practice_number": 38,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 38) | Restaurant",
+    "topic": "Restaurant",
+    "scenario": "You are training to be a server at a restaurant.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "I will bring your appetizers out in just a moment.",
+    "word_count": 10,
+    "video_id": "C49JsW6E91Y",
+    "youtube_url": "https://www.youtube.com/watch?v=C49JsW6E91Y"
+  },
+  {
+    "id": "sr_gabble_p038_s6",
+    "practice_number": 38,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 38) | Restaurant",
+    "topic": "Restaurant",
+    "scenario": "You are training to be a server at a restaurant.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Please let me know if you need anything else during your meal.",
+    "word_count": 12,
+    "video_id": "C49JsW6E91Y",
+    "youtube_url": "https://www.youtube.com/watch?v=C49JsW6E91Y"
+  },
+  {
+    "id": "sr_gabble_p038_s7",
+    "practice_number": 38,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 38) | Restaurant",
+    "topic": "Restaurant",
+    "scenario": "You are training to be a server at a restaurant.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Our dessert menu features homemade chocolate cake and fresh fruit tarts for tonight.",
+    "word_count": 13,
+    "video_id": "C49JsW6E91Y",
+    "youtube_url": "https://www.youtube.com/watch?v=C49JsW6E91Y"
+  },
+  {
+    "id": "sr_gabble_p039_s1",
+    "practice_number": 39,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 39) | Tech Support Representative",
+    "topic": "Tech Support Representative",
+    "scenario": "You are training as a tech support representative.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Hello, thank you for calling.",
+    "word_count": 5,
+    "video_id": "mEtd8mIq1JM",
+    "youtube_url": "https://www.youtube.com/watch?v=mEtd8mIq1JM"
+  },
+  {
+    "id": "sr_gabble_p039_s2",
+    "practice_number": 39,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 39) | Tech Support Representative",
+    "topic": "Tech Support Representative",
+    "scenario": "You are training as a tech support representative.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "How may I assist you today?",
+    "word_count": 6,
+    "video_id": "mEtd8mIq1JM",
+    "youtube_url": "https://www.youtube.com/watch?v=mEtd8mIq1JM"
+  },
+  {
+    "id": "sr_gabble_p039_s3",
+    "practice_number": 39,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 39) | Tech Support Representative",
+    "topic": "Tech Support Representative",
+    "scenario": "You are training as a tech support representative.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Can you describe the problem you are having?",
+    "word_count": 8,
+    "video_id": "mEtd8mIq1JM",
+    "youtube_url": "https://www.youtube.com/watch?v=mEtd8mIq1JM"
+  },
+  {
+    "id": "sr_gabble_p039_s4",
+    "practice_number": 39,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 39) | Tech Support Representative",
+    "topic": "Tech Support Representative",
+    "scenario": "You are training as a tech support representative.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Have you tried restarting your device to fix the issue?",
+    "word_count": 10,
+    "video_id": "mEtd8mIq1JM",
+    "youtube_url": "https://www.youtube.com/watch?v=mEtd8mIq1JM"
+  },
+  {
+    "id": "sr_gabble_p039_s5",
+    "practice_number": 39,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 39) | Tech Support Representative",
+    "topic": "Tech Support Representative",
+    "scenario": "You are training as a tech support representative.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "I will need to put you on a brief hold while I check.",
+    "word_count": 13,
+    "video_id": "mEtd8mIq1JM",
+    "youtube_url": "https://www.youtube.com/watch?v=mEtd8mIq1JM"
+  },
+  {
+    "id": "sr_gabble_p039_s6",
+    "practice_number": 39,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 39) | Tech Support Representative",
+    "topic": "Tech Support Representative",
+    "scenario": "You are training as a tech support representative.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Please try clearing your browser cache and cookies, then restart the application.",
+    "word_count": 12,
+    "video_id": "mEtd8mIq1JM",
+    "youtube_url": "https://www.youtube.com/watch?v=mEtd8mIq1JM"
+  },
+  {
+    "id": "sr_gabble_p039_s7",
+    "practice_number": 39,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 39) | Tech Support Representative",
+    "topic": "Tech Support Representative",
+    "scenario": "You are training as a tech support representative.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If the problem continues after following these steps, please call us back for further assistance.",
+    "word_count": 15,
+    "video_id": "mEtd8mIq1JM",
+    "youtube_url": "https://www.youtube.com/watch?v=mEtd8mIq1JM"
+  },
+  {
+    "id": "sr_gabble_p040_s1",
+    "practice_number": 40,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 40) | Postal Clerk",
+    "topic": "Postal Clerk",
+    "scenario": "You are training as a postal clerk.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Hello, how can I help today?",
+    "word_count": 6,
+    "video_id": "jKVQy3Yrwmg",
+    "youtube_url": "https://www.youtube.com/watch?v=jKVQy3Yrwmg"
+  },
+  {
+    "id": "sr_gabble_p040_s2",
+    "practice_number": 40,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 40) | Postal Clerk",
+    "topic": "Postal Clerk",
+    "scenario": "You are training as a postal clerk.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Would you like to send this package?",
+    "word_count": 7,
+    "video_id": "jKVQy3Yrwmg",
+    "youtube_url": "https://www.youtube.com/watch?v=jKVQy3Yrwmg"
+  },
+  {
+    "id": "sr_gabble_p040_s3",
+    "practice_number": 40,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 40) | Postal Clerk",
+    "topic": "Postal Clerk",
+    "scenario": "You are training as a postal clerk.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Do you need tracking for this shipment?",
+    "word_count": 7,
+    "video_id": "jKVQy3Yrwmg",
+    "youtube_url": "https://www.youtube.com/watch?v=jKVQy3Yrwmg"
+  },
+  {
+    "id": "sr_gabble_p040_s4",
+    "practice_number": 40,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 40) | Postal Clerk",
+    "topic": "Postal Clerk",
+    "scenario": "You are training as a postal clerk.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "This package weighs two pounds and four ounces total.",
+    "word_count": 9,
+    "video_id": "jKVQy3Yrwmg",
+    "youtube_url": "https://www.youtube.com/watch?v=jKVQy3Yrwmg"
+  },
+  {
+    "id": "sr_gabble_p040_s5",
+    "practice_number": 40,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 40) | Postal Clerk",
+    "topic": "Postal Clerk",
+    "scenario": "You are training as a postal clerk.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Standard delivery takes five to seven business days to arrive.",
+    "word_count": 10,
+    "video_id": "jKVQy3Yrwmg",
+    "youtube_url": "https://www.youtube.com/watch?v=jKVQy3Yrwmg"
+  },
+  {
+    "id": "sr_gabble_p040_s6",
+    "practice_number": 40,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 40) | Postal Clerk",
+    "topic": "Postal Clerk",
+    "scenario": "You are training as a postal clerk.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Express shipping will get your package there by tomorrow afternoon for sure.",
+    "word_count": 12,
+    "video_id": "jKVQy3Yrwmg",
+    "youtube_url": "https://www.youtube.com/watch?v=jKVQy3Yrwmg"
+  },
+  {
+    "id": "sr_gabble_p040_s7",
+    "practice_number": 40,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 40) | Postal Clerk",
+    "topic": "Postal Clerk",
+    "scenario": "You are training as a postal clerk.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Please fill out this customs form if you are sending the package to another country.",
+    "word_count": 15,
+    "video_id": "jKVQy3Yrwmg",
+    "youtube_url": "https://www.youtube.com/watch?v=jKVQy3Yrwmg"
+  },
+  {
+    "id": "sr_gabble_p041_s1",
+    "practice_number": 41,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 41) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "May I see your reservation?",
+    "word_count": 5,
+    "video_id": "ZiO1wFZMt48",
+    "youtube_url": "https://www.youtube.com/watch?v=ZiO1wFZMt48"
+  },
+  {
+    "id": "sr_gabble_p041_s2",
+    "practice_number": 41,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 41) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Your room is on the fifth floor.",
+    "word_count": 7,
+    "video_id": "ZiO1wFZMt48",
+    "youtube_url": "https://www.youtube.com/watch?v=ZiO1wFZMt48"
+  },
+  {
+    "id": "sr_gabble_p041_s3",
+    "practice_number": 41,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 41) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Here is your key card and a welcome package.",
+    "word_count": 9,
+    "video_id": "ZiO1wFZMt48",
+    "youtube_url": "https://www.youtube.com/watch?v=ZiO1wFZMt48"
+  },
+  {
+    "id": "sr_gabble_p041_s4",
+    "practice_number": 41,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 41) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Breakfast is served daily from seven to ten in the morning.",
+    "word_count": 11,
+    "video_id": "ZiO1wFZMt48",
+    "youtube_url": "https://www.youtube.com/watch?v=ZiO1wFZMt48"
+  },
+  {
+    "id": "sr_gabble_p041_s5",
+    "practice_number": 41,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 41) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "The pool and fitness center are available to all guests around the clock.",
+    "word_count": 13,
+    "video_id": "ZiO1wFZMt48",
+    "youtube_url": "https://www.youtube.com/watch?v=ZiO1wFZMt48"
+  },
+  {
+    "id": "sr_gabble_p041_s6",
+    "practice_number": 41,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 41) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Please note that checkout time is eleven o'clock, and late checkout must be arranged in advance.",
+    "word_count": 16,
+    "video_id": "ZiO1wFZMt48",
+    "youtube_url": "https://www.youtube.com/watch?v=ZiO1wFZMt48"
+  },
+  {
+    "id": "sr_gabble_p041_s7",
+    "practice_number": 41,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 41) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "For any assistance needed during your stay, please dial zero from your room to reach the front desk.",
+    "word_count": 18,
+    "video_id": "ZiO1wFZMt48",
+    "youtube_url": "https://www.youtube.com/watch?v=ZiO1wFZMt48"
+  },
+  {
+    "id": "sr_gabble_p043_s1",
+    "practice_number": 43,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 43) | Hair Salon",
+    "topic": "Hair Salon",
+    "scenario": "You are learning to assist clients at a hair salon.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome, please have a seat.",
+    "word_count": 5,
+    "video_id": "g7hHpvAWqbE",
+    "youtube_url": "https://www.youtube.com/watch?v=g7hHpvAWqbE"
+  },
+  {
+    "id": "sr_gabble_p043_s2",
+    "practice_number": 43,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 43) | Hair Salon",
+    "topic": "Hair Salon",
+    "scenario": "You are learning to assist clients at a hair salon.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "What hairstyle are you looking for today?",
+    "word_count": 7,
+    "video_id": "g7hHpvAWqbE",
+    "youtube_url": "https://www.youtube.com/watch?v=g7hHpvAWqbE"
+  },
+  {
+    "id": "sr_gabble_p043_s3",
+    "practice_number": 43,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 43) | Hair Salon",
+    "topic": "Hair Salon",
+    "scenario": "You are learning to assist clients at a hair salon.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "I can trim the ends and add some layers.",
+    "word_count": 9,
+    "video_id": "g7hHpvAWqbE",
+    "youtube_url": "https://www.youtube.com/watch?v=g7hHpvAWqbE"
+  },
+  {
+    "id": "sr_gabble_p043_s4",
+    "practice_number": 43,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 43) | Hair Salon",
+    "topic": "Hair Salon",
+    "scenario": "You are learning to assist clients at a hair salon.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "We offer a wide range of hair color and highlight options.",
+    "word_count": 11,
+    "video_id": "g7hHpvAWqbE",
+    "youtube_url": "https://www.youtube.com/watch?v=g7hHpvAWqbE"
+  },
+  {
+    "id": "sr_gabble_p043_s5",
+    "practice_number": 43,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 43) | Hair Salon",
+    "topic": "Hair Salon",
+    "scenario": "You are learning to assist clients at a hair salon.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "A deep conditioning treatment is recommended if your hair is dry or damaged.",
+    "word_count": 13,
+    "video_id": "g7hHpvAWqbE",
+    "youtube_url": "https://www.youtube.com/watch?v=g7hHpvAWqbE"
+  },
+  {
+    "id": "sr_gabble_p043_s6",
+    "practice_number": 43,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 43) | Hair Salon",
+    "topic": "Hair Salon",
+    "scenario": "You are learning to assist clients at a hair salon.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Please arrive a few minutes early to allow time for a consultation before we start.",
+    "word_count": 15,
+    "video_id": "g7hHpvAWqbE",
+    "youtube_url": "https://www.youtube.com/watch?v=g7hHpvAWqbE"
+  },
+  {
+    "id": "sr_gabble_p043_s7",
+    "practice_number": 43,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 43) | Hair Salon",
+    "topic": "Hair Salon",
+    "scenario": "You are learning to assist clients at a hair salon.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you need to cancel or change your appointment, please inform us at least twenty-four hours in advance.",
+    "word_count": 18,
+    "video_id": "g7hHpvAWqbE",
+    "youtube_url": "https://www.youtube.com/watch?v=g7hHpvAWqbE"
+  },
+  {
+    "id": "sr_gabble_p044_s1",
+    "practice_number": 44,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 44) | Immigration Counter",
+    "topic": "Immigration Counter",
+    "scenario": "You are learning to assist travelers at an immigration counter.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "May I see your passport?",
+    "word_count": 5,
+    "video_id": "SJRnE4fegzU",
+    "youtube_url": "https://www.youtube.com/watch?v=SJRnE4fegzU"
+  },
+  {
+    "id": "sr_gabble_p044_s2",
+    "practice_number": 44,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 44) | Immigration Counter",
+    "topic": "Immigration Counter",
+    "scenario": "You are learning to assist travelers at an immigration counter.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "What is the purpose of your visit?",
+    "word_count": 7,
+    "video_id": "SJRnE4fegzU",
+    "youtube_url": "https://www.youtube.com/watch?v=SJRnE4fegzU"
+  },
+  {
+    "id": "sr_gabble_p044_s3",
+    "practice_number": 44,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 44) | Immigration Counter",
+    "topic": "Immigration Counter",
+    "scenario": "You are learning to assist travelers at an immigration counter.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "How long do you plan to stay in the country?",
+    "word_count": 10,
+    "video_id": "SJRnE4fegzU",
+    "youtube_url": "https://www.youtube.com/watch?v=SJRnE4fegzU"
+  },
+  {
+    "id": "sr_gabble_p044_s4",
+    "practice_number": 44,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 44) | Immigration Counter",
+    "topic": "Immigration Counter",
+    "scenario": "You are learning to assist travelers at an immigration counter.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Please provide the address where you will be staying during your visit.",
+    "word_count": 12,
+    "video_id": "SJRnE4fegzU",
+    "youtube_url": "https://www.youtube.com/watch?v=SJRnE4fegzU"
+  },
+  {
+    "id": "sr_gabble_p044_s5",
+    "practice_number": 44,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 44) | Immigration Counter",
+    "topic": "Immigration Counter",
+    "scenario": "You are learning to assist travelers at an immigration counter.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "All visitors must complete a customs declaration form before proceeding to baggage claim.",
+    "word_count": 13,
+    "video_id": "SJRnE4fegzU",
+    "youtube_url": "https://www.youtube.com/watch?v=SJRnE4fegzU"
+  },
+  {
+    "id": "sr_gabble_p044_s6",
+    "practice_number": 44,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 44) | Immigration Counter",
+    "topic": "Immigration Counter",
+    "scenario": "You are learning to assist travelers at an immigration counter.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Your visa allows you to remain in the country for a maximum period of ninety days.",
+    "word_count": 16,
+    "video_id": "SJRnE4fegzU",
+    "youtube_url": "https://www.youtube.com/watch?v=SJRnE4fegzU"
+  },
+  {
+    "id": "sr_gabble_p044_s7",
+    "practice_number": 44,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 44) | Immigration Counter",
+    "topic": "Immigration Counter",
+    "scenario": "You are learning to assist travelers at an immigration counter.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Overstaying your visa is a serious offense that may result in deportation or a permanent ban from re-entering.",
+    "word_count": 18,
+    "video_id": "SJRnE4fegzU",
+    "youtube_url": "https://www.youtube.com/watch?v=SJRnE4fegzU"
+  },
+  {
+    "id": "sr_gabble_p045_s1",
+    "practice_number": 45,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 45) | Company",
+    "topic": "Company",
+    "scenario": "You are learning to coordinate interviews at a company.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Thank you for coming today.",
+    "word_count": 5,
+    "video_id": "hQSfrvtWQqo",
+    "youtube_url": "https://www.youtube.com/watch?v=hQSfrvtWQqo"
+  },
+  {
+    "id": "sr_gabble_p045_s2",
+    "practice_number": 45,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 45) | Company",
+    "topic": "Company",
+    "scenario": "You are learning to coordinate interviews at a company.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please sign in at the front desk.",
+    "word_count": 7,
+    "video_id": "hQSfrvtWQqo",
+    "youtube_url": "https://www.youtube.com/watch?v=hQSfrvtWQqo"
+  },
+  {
+    "id": "sr_gabble_p045_s3",
+    "practice_number": 45,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 45) | Company",
+    "topic": "Company",
+    "scenario": "You are learning to coordinate interviews at a company.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "The interview is scheduled for forty-five minutes today.",
+    "word_count": 8,
+    "video_id": "hQSfrvtWQqo",
+    "youtube_url": "https://www.youtube.com/watch?v=hQSfrvtWQqo"
+  },
+  {
+    "id": "sr_gabble_p045_s4",
+    "practice_number": 45,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 45) | Company",
+    "topic": "Company",
+    "scenario": "You are learning to coordinate interviews at a company.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "You will meet with two managers from our operations department.",
+    "word_count": 10,
+    "video_id": "hQSfrvtWQqo",
+    "youtube_url": "https://www.youtube.com/watch?v=hQSfrvtWQqo"
+  },
+  {
+    "id": "sr_gabble_p045_s5",
+    "practice_number": 45,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 45) | Company",
+    "topic": "Company",
+    "scenario": "You are learning to coordinate interviews at a company.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Feel free to ask questions at the end of each interview session.",
+    "word_count": 12,
+    "video_id": "hQSfrvtWQqo",
+    "youtube_url": "https://www.youtube.com/watch?v=hQSfrvtWQqo"
+  },
+  {
+    "id": "sr_gabble_p045_s6",
+    "practice_number": 45,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 45) | Company",
+    "topic": "Company",
+    "scenario": "You are learning to coordinate interviews at a company.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "We will contact all shortlisted candidates with our final decision within five to seven business days.",
+    "word_count": 16,
+    "video_id": "hQSfrvtWQqo",
+    "youtube_url": "https://www.youtube.com/watch?v=hQSfrvtWQqo"
+  },
+  {
+    "id": "sr_gabble_p045_s7",
+    "practice_number": 45,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 45) | Company",
+    "topic": "Company",
+    "scenario": "You are learning to coordinate interviews at a company.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Please inform us of any accommodations you may need or questions you have before the interview begins today.",
+    "word_count": 18,
+    "video_id": "hQSfrvtWQqo",
+    "youtube_url": "https://www.youtube.com/watch?v=hQSfrvtWQqo"
+  },
+  {
+    "id": "sr_gabble_p046_s1",
+    "practice_number": 46,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 46) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "scenario": "You are learning to assist passengers at an airport check-in counter.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Please place your bag here.",
+    "word_count": 5,
+    "video_id": "HDKOzS2QiVI",
+    "youtube_url": "https://www.youtube.com/watch?v=HDKOzS2QiVI"
+  },
+  {
+    "id": "sr_gabble_p046_s2",
+    "practice_number": 46,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 46) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "scenario": "You are learning to assist passengers at an airport check-in counter.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Your boarding pass will be ready shortly.",
+    "word_count": 7,
+    "video_id": "HDKOzS2QiVI",
+    "youtube_url": "https://www.youtube.com/watch?v=HDKOzS2QiVI"
+  },
+  {
+    "id": "sr_gabble_p046_s3",
+    "practice_number": 46,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 46) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "scenario": "You are learning to assist passengers at an airport check-in counter.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "You are allowed one carry-on and one personal item.",
+    "word_count": 9,
+    "video_id": "HDKOzS2QiVI",
+    "youtube_url": "https://www.youtube.com/watch?v=HDKOzS2QiVI"
+  },
+  {
+    "id": "sr_gabble_p046_s4",
+    "practice_number": 46,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 46) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "scenario": "You are learning to assist passengers at an airport check-in counter.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Please proceed to gate B12 and board thirty minutes before departure.",
+    "word_count": 11,
+    "video_id": "HDKOzS2QiVI",
+    "youtube_url": "https://www.youtube.com/watch?v=HDKOzS2QiVI"
+  },
+  {
+    "id": "sr_gabble_p046_s5",
+    "practice_number": 46,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 46) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "scenario": "You are learning to assist passengers at an airport check-in counter.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Make sure all liquids in your carry-on are under one hundred milliliters.",
+    "word_count": 12,
+    "video_id": "HDKOzS2QiVI",
+    "youtube_url": "https://www.youtube.com/watch?v=HDKOzS2QiVI"
+  },
+  {
+    "id": "sr_gabble_p046_s6",
+    "practice_number": 46,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 46) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "scenario": "You are learning to assist passengers at an airport check-in counter.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Your connecting flight to New York departs at three fifteen from the international terminal.",
+    "word_count": 14,
+    "video_id": "HDKOzS2QiVI",
+    "youtube_url": "https://www.youtube.com/watch?v=HDKOzS2QiVI"
+  },
+  {
+    "id": "sr_gabble_p046_s7",
+    "practice_number": 46,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 46) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "scenario": "You are learning to assist passengers at an airport check-in counter.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If your baggage exceeds the weight limit, you will be asked to pay an additional fee before boarding.",
+    "word_count": 18,
+    "video_id": "HDKOzS2QiVI",
+    "youtube_url": "https://www.youtube.com/watch?v=HDKOzS2QiVI"
+  },
+  {
+    "id": "sr_gabble_p047_s1",
+    "practice_number": 47,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 47) | Community College Admissions Office",
+    "topic": "Community College Admissions Office",
+    "scenario": "You are learning to assist students at a community college admissions office.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to Greenfield Community College.",
+    "word_count": 5,
+    "video_id": "OkXS6dSlwm8",
+    "youtube_url": "https://www.youtube.com/watch?v=OkXS6dSlwm8"
+  },
+  {
+    "id": "sr_gabble_p047_s2",
+    "practice_number": 47,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 47) | Community College Admissions Office",
+    "topic": "Community College Admissions Office",
+    "scenario": "You are learning to assist students at a community college admissions office.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please fill out the enrollment form first.",
+    "word_count": 7,
+    "video_id": "OkXS6dSlwm8",
+    "youtube_url": "https://www.youtube.com/watch?v=OkXS6dSlwm8"
+  },
+  {
+    "id": "sr_gabble_p047_s3",
+    "practice_number": 47,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 47) | Community College Admissions Office",
+    "topic": "Community College Admissions Office",
+    "scenario": "You are learning to assist students at a community college admissions office.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "You can choose from full-time or part-time study options.",
+    "word_count": 9,
+    "video_id": "OkXS6dSlwm8",
+    "youtube_url": "https://www.youtube.com/watch?v=OkXS6dSlwm8"
+  },
+  {
+    "id": "sr_gabble_p047_s4",
+    "practice_number": 47,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 47) | Community College Admissions Office",
+    "topic": "Community College Admissions Office",
+    "scenario": "You are learning to assist students at a community college admissions office.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "All new students must attend an orientation session before classes begin.",
+    "word_count": 11,
+    "video_id": "OkXS6dSlwm8",
+    "youtube_url": "https://www.youtube.com/watch?v=OkXS6dSlwm8"
+  },
+  {
+    "id": "sr_gabble_p047_s5",
+    "practice_number": 47,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 47) | Community College Admissions Office",
+    "topic": "Community College Admissions Office",
+    "scenario": "You are learning to assist students at a community college admissions office.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Financial aid applications are available online and must be submitted before the deadline.",
+    "word_count": 13,
+    "video_id": "OkXS6dSlwm8",
+    "youtube_url": "https://www.youtube.com/watch?v=OkXS6dSlwm8"
+  },
+  {
+    "id": "sr_gabble_p047_s6",
+    "practice_number": 47,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 47) | Community College Admissions Office",
+    "topic": "Community College Admissions Office",
+    "scenario": "You are learning to assist students at a community college admissions office.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Students who maintain a grade point average above three point five may qualify for academic scholarships.",
+    "word_count": 16,
+    "video_id": "OkXS6dSlwm8",
+    "youtube_url": "https://www.youtube.com/watch?v=OkXS6dSlwm8"
+  },
+  {
+    "id": "sr_gabble_p047_s7",
+    "practice_number": 47,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 47) | Community College Admissions Office",
+    "topic": "Community College Admissions Office",
+    "scenario": "You are learning to assist students at a community college admissions office.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you are unsure which courses to select, our academic advisors can help you build your study plan.",
+    "word_count": 18,
+    "video_id": "OkXS6dSlwm8",
+    "youtube_url": "https://www.youtube.com/watch?v=OkXS6dSlwm8"
+  },
+  {
+    "id": "sr_gabble_p048_s1",
+    "practice_number": 48,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 48) | Fitness Center",
+    "topic": "Fitness Center",
+    "scenario": "You are learning to assist members at a fitness center.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome, how can I help?",
+    "word_count": 5,
+    "video_id": "UF1IsM4OFUE",
+    "youtube_url": "https://www.youtube.com/watch?v=UF1IsM4OFUE"
+  },
+  {
+    "id": "sr_gabble_p048_s2",
+    "practice_number": 48,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 48) | Fitness Center",
+    "topic": "Fitness Center",
+    "scenario": "You are learning to assist members at a fitness center.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "We offer three types of membership plans.",
+    "word_count": 7,
+    "video_id": "UF1IsM4OFUE",
+    "youtube_url": "https://www.youtube.com/watch?v=UF1IsM4OFUE"
+  },
+  {
+    "id": "sr_gabble_p048_s3",
+    "practice_number": 48,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 48) | Fitness Center",
+    "topic": "Fitness Center",
+    "scenario": "You are learning to assist members at a fitness center.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Monthly members get free access to all equipment and classes.",
+    "word_count": 10,
+    "video_id": "UF1IsM4OFUE",
+    "youtube_url": "https://www.youtube.com/watch?v=UF1IsM4OFUE"
+  },
+  {
+    "id": "sr_gabble_p048_s4",
+    "practice_number": 48,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 48) | Fitness Center",
+    "topic": "Fitness Center",
+    "scenario": "You are learning to assist members at a fitness center.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Personal training sessions can be added to any plan for an extra fee.",
+    "word_count": 13,
+    "video_id": "UF1IsM4OFUE",
+    "youtube_url": "https://www.youtube.com/watch?v=UF1IsM4OFUE"
+  },
+  {
+    "id": "sr_gabble_p048_s5",
+    "practice_number": 48,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 48) | Fitness Center",
+    "topic": "Fitness Center",
+    "scenario": "You are learning to assist members at a fitness center.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Please bring a towel and water bottle to all exercise sessions at the gym.",
+    "word_count": 14,
+    "video_id": "UF1IsM4OFUE",
+    "youtube_url": "https://www.youtube.com/watch?v=UF1IsM4OFUE"
+  },
+  {
+    "id": "sr_gabble_p048_s6",
+    "practice_number": 48,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 48) | Fitness Center",
+    "topic": "Fitness Center",
+    "scenario": "You are learning to assist members at a fitness center.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Our mobile app allows you to book classes, track your workouts, and manage your membership online.",
+    "word_count": 16,
+    "video_id": "UF1IsM4OFUE",
+    "youtube_url": "https://www.youtube.com/watch?v=UF1IsM4OFUE"
+  },
+  {
+    "id": "sr_gabble_p048_s7",
+    "practice_number": 48,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 48) | Fitness Center",
+    "topic": "Fitness Center",
+    "scenario": "You are learning to assist members at a fitness center.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you ever decide to cancel your membership, please give us at least thirty days of advance notice.",
+    "word_count": 18,
+    "video_id": "UF1IsM4OFUE",
+    "youtube_url": "https://www.youtube.com/watch?v=UF1IsM4OFUE"
+  },
+  {
+    "id": "sr_gabble_p049_s1",
+    "practice_number": 49,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 49) | Bank",
+    "topic": "Bank",
+    "scenario": "You are learning to assist customers at a bank.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome, please take a seat.",
+    "word_count": 5,
+    "video_id": "ifGhqqrcjlw",
+    "youtube_url": "https://www.youtube.com/watch?v=ifGhqqrcjlw"
+  },
+  {
+    "id": "sr_gabble_p049_s2",
+    "practice_number": 49,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 49) | Bank",
+    "topic": "Bank",
+    "scenario": "You are learning to assist customers at a bank.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Do you have a valid photo ID?",
+    "word_count": 7,
+    "video_id": "ifGhqqrcjlw",
+    "youtube_url": "https://www.youtube.com/watch?v=ifGhqqrcjlw"
+  },
+  {
+    "id": "sr_gabble_p049_s3",
+    "practice_number": 49,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 49) | Bank",
+    "topic": "Bank",
+    "scenario": "You are learning to assist customers at a bank.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "We offer savings, checking, and fixed deposit account options.",
+    "word_count": 9,
+    "video_id": "ifGhqqrcjlw",
+    "youtube_url": "https://www.youtube.com/watch?v=ifGhqqrcjlw"
+  },
+  {
+    "id": "sr_gabble_p049_s4",
+    "practice_number": 49,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 49) | Bank",
+    "topic": "Bank",
+    "scenario": "You are learning to assist customers at a bank.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "A minimum deposit of fifty dollars is required to open an account.",
+    "word_count": 12,
+    "video_id": "ifGhqqrcjlw",
+    "youtube_url": "https://www.youtube.com/watch?v=ifGhqqrcjlw"
+  },
+  {
+    "id": "sr_gabble_p049_s5",
+    "practice_number": 49,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 49) | Bank",
+    "topic": "Bank",
+    "scenario": "You are learning to assist customers at a bank.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Online banking allows you to check your balance and transfer funds from anywhere.",
+    "word_count": 13,
+    "video_id": "ifGhqqrcjlw",
+    "youtube_url": "https://www.youtube.com/watch?v=ifGhqqrcjlw"
+  },
+  {
+    "id": "sr_gabble_p049_s6",
+    "practice_number": 49,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 49) | Bank",
+    "topic": "Bank",
+    "scenario": "You are learning to assist customers at a bank.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Your debit card will arrive by mail within five to seven business days of account opening.",
+    "word_count": 16,
+    "video_id": "ifGhqqrcjlw",
+    "youtube_url": "https://www.youtube.com/watch?v=ifGhqqrcjlw"
+  },
+  {
+    "id": "sr_gabble_p049_s7",
+    "practice_number": 49,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 49) | Bank",
+    "topic": "Bank",
+    "scenario": "You are learning to assist customers at a bank.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you notice any unauthorized transactions on your account, please contact our customer support team immediately for assistance.",
+    "word_count": 18,
+    "video_id": "ifGhqqrcjlw",
+    "youtube_url": "https://www.youtube.com/watch?v=ifGhqqrcjlw"
+  },
+  {
+    "id": "sr_gabble_p050_s1",
+    "practice_number": 50,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 50) | Restaurant",
+    "topic": "Restaurant",
+    "scenario": "You are learning to serve customers at a restaurant.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Can I take your order?",
+    "word_count": 5,
+    "video_id": "_jdpoqTI1iI",
+    "youtube_url": "https://www.youtube.com/watch?v=_jdpoqTI1iI"
+  },
+  {
+    "id": "sr_gabble_p050_s2",
+    "practice_number": 50,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 50) | Restaurant",
+    "topic": "Restaurant",
+    "scenario": "You are learning to serve customers at a restaurant.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Today's special is grilled salmon with vegetables.",
+    "word_count": 7,
+    "video_id": "_jdpoqTI1iI",
+    "youtube_url": "https://www.youtube.com/watch?v=_jdpoqTI1iI"
+  },
+  {
+    "id": "sr_gabble_p050_s3",
+    "practice_number": 50,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 50) | Restaurant",
+    "topic": "Restaurant",
+    "scenario": "You are learning to serve customers at a restaurant.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Would you like still or sparkling water with your meal?",
+    "word_count": 10,
+    "video_id": "_jdpoqTI1iI",
+    "youtube_url": "https://www.youtube.com/watch?v=_jdpoqTI1iI"
+  },
+  {
+    "id": "sr_gabble_p050_s4",
+    "practice_number": 50,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 50) | Restaurant",
+    "topic": "Restaurant",
+    "scenario": "You are learning to serve customers at a restaurant.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Our kitchen can adjust most dishes to suit your dietary needs.",
+    "word_count": 11,
+    "video_id": "_jdpoqTI1iI",
+    "youtube_url": "https://www.youtube.com/watch?v=_jdpoqTI1iI"
+  },
+  {
+    "id": "sr_gabble_p050_s5",
+    "practice_number": 50,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 50) | Restaurant",
+    "topic": "Restaurant",
+    "scenario": "You are learning to serve customers at a restaurant.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "If you have any food allergies, please inform your server before ordering.",
+    "word_count": 12,
+    "video_id": "_jdpoqTI1iI",
+    "youtube_url": "https://www.youtube.com/watch?v=_jdpoqTI1iI"
+  },
+  {
+    "id": "sr_gabble_p050_s6",
+    "practice_number": 50,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 50) | Restaurant",
+    "topic": "Restaurant",
+    "scenario": "You are learning to serve customers at a restaurant.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "We recommend pairing the pasta with our house wine for the best dining experience.",
+    "word_count": 14,
+    "video_id": "_jdpoqTI1iI",
+    "youtube_url": "https://www.youtube.com/watch?v=_jdpoqTI1iI"
+  },
+  {
+    "id": "sr_gabble_p050_s7",
+    "practice_number": 50,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 50) | Restaurant",
+    "topic": "Restaurant",
+    "scenario": "You are learning to serve customers at a restaurant.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Thank you for choosing us today; please let your server know if there is anything else you need.",
+    "word_count": 18,
+    "video_id": "_jdpoqTI1iI",
+    "youtube_url": "https://www.youtube.com/watch?v=_jdpoqTI1iI"
+  },
+  {
+    "id": "sr_gabble_p051_s1",
+    "practice_number": 51,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 51) | Pharmacy",
+    "topic": "Pharmacy",
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Please have a seat here.",
+    "word_count": 5,
+    "video_id": "oFCZTBd6hN4",
+    "youtube_url": "https://www.youtube.com/watch?v=oFCZTBd6hN4"
+  },
+  {
+    "id": "sr_gabble_p051_s2",
+    "practice_number": 51,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 51) | Pharmacy",
+    "topic": "Pharmacy",
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Your prescription will be ready in fifteen minutes.",
+    "word_count": 8,
+    "video_id": "oFCZTBd6hN4",
+    "youtube_url": "https://www.youtube.com/watch?v=oFCZTBd6hN4"
+  },
+  {
+    "id": "sr_gabble_p051_s3",
+    "practice_number": 51,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 51) | Pharmacy",
+    "topic": "Pharmacy",
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Take one tablet by mouth every eight hours with food.",
+    "word_count": 10,
+    "video_id": "oFCZTBd6hN4",
+    "youtube_url": "https://www.youtube.com/watch?v=oFCZTBd6hN4"
+  },
+  {
+    "id": "sr_gabble_p051_s4",
+    "practice_number": 51,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 51) | Pharmacy",
+    "topic": "Pharmacy",
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Make sure you complete the full course of antibiotics as directed.",
+    "word_count": 11,
+    "video_id": "oFCZTBd6hN4",
+    "youtube_url": "https://www.youtube.com/watch?v=oFCZTBd6hN4"
+  },
+  {
+    "id": "sr_gabble_p051_s5",
+    "practice_number": 51,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 51) | Pharmacy",
+    "topic": "Pharmacy",
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Avoid taking this medication on an empty stomach to prevent nausea or discomfort.",
+    "word_count": 13,
+    "video_id": "oFCZTBd6hN4",
+    "youtube_url": "https://www.youtube.com/watch?v=oFCZTBd6hN4"
+  },
+  {
+    "id": "sr_gabble_p051_s6",
+    "practice_number": 51,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 51) | Pharmacy",
+    "topic": "Pharmacy",
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If you experience any unusual side effects, stop taking the medication and consult your doctor immediately.",
+    "word_count": 16,
+    "video_id": "oFCZTBd6hN4",
+    "youtube_url": "https://www.youtube.com/watch?v=oFCZTBd6hN4"
+  },
+  {
+    "id": "sr_gabble_p051_s7",
+    "practice_number": 51,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 51) | Pharmacy",
+    "topic": "Pharmacy",
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Some medications can interact with other drugs, so always inform your pharmacist about everything you are currently taking.",
+    "word_count": 18,
+    "video_id": "oFCZTBd6hN4",
+    "youtube_url": "https://www.youtube.com/watch?v=oFCZTBd6hN4"
+  },
+  {
+    "id": "sr_gabble_p052_s1",
+    "practice_number": 52,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 52) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "May I see your license?",
+    "word_count": 5,
+    "video_id": "f_fc4wzmIDA",
+    "youtube_url": "https://www.youtube.com/watch?v=f_fc4wzmIDA"
+  },
+  {
+    "id": "sr_gabble_p052_s2",
+    "practice_number": 52,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 52) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please choose a vehicle from our lot.",
+    "word_count": 7,
+    "video_id": "f_fc4wzmIDA",
+    "youtube_url": "https://www.youtube.com/watch?v=f_fc4wzmIDA"
+  },
+  {
+    "id": "sr_gabble_p052_s3",
+    "practice_number": 52,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 52) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "All cars come with basic insurance and roadside assistance.",
+    "word_count": 9,
+    "video_id": "f_fc4wzmIDA",
+    "youtube_url": "https://www.youtube.com/watch?v=f_fc4wzmIDA"
+  },
+  {
+    "id": "sr_gabble_p052_s4",
+    "practice_number": 52,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 52) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "You may upgrade to a larger vehicle for an additional daily fee.",
+    "word_count": 12,
+    "video_id": "f_fc4wzmIDA",
+    "youtube_url": "https://www.youtube.com/watch?v=f_fc4wzmIDA"
+  },
+  {
+    "id": "sr_gabble_p052_s5",
+    "practice_number": 52,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 52) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Please return the vehicle to this location by noon on your final day.",
+    "word_count": 13,
+    "video_id": "f_fc4wzmIDA",
+    "youtube_url": "https://www.youtube.com/watch?v=f_fc4wzmIDA"
+  },
+  {
+    "id": "sr_gabble_p052_s6",
+    "practice_number": 52,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 52) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "The car must be returned with a full fuel tank to avoid additional refueling charges.",
+    "word_count": 15,
+    "video_id": "f_fc4wzmIDA",
+    "youtube_url": "https://www.youtube.com/watch?v=f_fc4wzmIDA"
+  },
+  {
+    "id": "sr_gabble_p052_s7",
+    "practice_number": 52,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 52) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If the vehicle is returned late or with damage, additional fees will be applied to your credit card.",
+    "word_count": 18,
+    "video_id": "f_fc4wzmIDA",
+    "youtube_url": "https://www.youtube.com/watch?v=f_fc4wzmIDA"
+  },
+  {
+    "id": "sr_gabble_p053_s1",
+    "practice_number": 53,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 53) | Property Management Office",
+    "topic": "Property Management Office",
+    "scenario": "You are learning to assist tenants at a property management office.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "The apartment is available now.",
+    "word_count": 5,
+    "video_id": "KxtvXcjbs8g",
+    "youtube_url": "https://www.youtube.com/watch?v=KxtvXcjbs8g"
+  },
+  {
+    "id": "sr_gabble_p053_s2",
+    "practice_number": 53,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 53) | Property Management Office",
+    "topic": "Property Management Office",
+    "scenario": "You are learning to assist tenants at a property management office.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "The monthly rent is twelve hundred dollars.",
+    "word_count": 7,
+    "video_id": "KxtvXcjbs8g",
+    "youtube_url": "https://www.youtube.com/watch?v=KxtvXcjbs8g"
+  },
+  {
+    "id": "sr_gabble_p053_s3",
+    "practice_number": 53,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 53) | Property Management Office",
+    "topic": "Property Management Office",
+    "scenario": "You are learning to assist tenants at a property management office.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "A security deposit equal to two months rent is required.",
+    "word_count": 10,
+    "video_id": "KxtvXcjbs8g",
+    "youtube_url": "https://www.youtube.com/watch?v=KxtvXcjbs8g"
+  },
+  {
+    "id": "sr_gabble_p053_s4",
+    "practice_number": 53,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 53) | Property Management Office",
+    "topic": "Property Management Office",
+    "scenario": "You are learning to assist tenants at a property management office.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Utilities such as water and trash collection are included in the rent.",
+    "word_count": 12,
+    "video_id": "KxtvXcjbs8g",
+    "youtube_url": "https://www.youtube.com/watch?v=KxtvXcjbs8g"
+  },
+  {
+    "id": "sr_gabble_p053_s5",
+    "practice_number": 53,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 53) | Property Management Office",
+    "topic": "Property Management Office",
+    "scenario": "You are learning to assist tenants at a property management office.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "The lease agreement is for twelve months and can be renewed upon expiration.",
+    "word_count": 13,
+    "video_id": "KxtvXcjbs8g",
+    "youtube_url": "https://www.youtube.com/watch?v=KxtvXcjbs8g"
+  },
+  {
+    "id": "sr_gabble_p053_s6",
+    "practice_number": 53,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 53) | Property Management Office",
+    "topic": "Property Management Office",
+    "scenario": "You are learning to assist tenants at a property management office.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Pets are allowed with prior management approval, but a refundable pet deposit will be required.",
+    "word_count": 15,
+    "video_id": "KxtvXcjbs8g",
+    "youtube_url": "https://www.youtube.com/watch?v=KxtvXcjbs8g"
+  },
+  {
+    "id": "sr_gabble_p053_s7",
+    "practice_number": 53,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 53) | Property Management Office",
+    "topic": "Property Management Office",
+    "scenario": "You are learning to assist tenants at a property management office.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "To break the lease early, you must give sixty days of notice and pay an early termination fee.",
+    "word_count": 18,
+    "video_id": "KxtvXcjbs8g",
+    "youtube_url": "https://www.youtube.com/watch?v=KxtvXcjbs8g"
+  },
+  {
+    "id": "sr_gabble_p054_s1",
+    "practice_number": 54,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 54) | Post Office",
+    "topic": "Post Office",
+    "scenario": "You are learning to assist customers at a post office.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "How can I help you?",
+    "word_count": 5,
+    "video_id": "r49Ylle-nug",
+    "youtube_url": "https://www.youtube.com/watch?v=r49Ylle-nug"
+  },
+  {
+    "id": "sr_gabble_p054_s2",
+    "practice_number": 54,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 54) | Post Office",
+    "topic": "Post Office",
+    "scenario": "You are learning to assist customers at a post office.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please place your parcel on the scale.",
+    "word_count": 7,
+    "video_id": "r49Ylle-nug",
+    "youtube_url": "https://www.youtube.com/watch?v=r49Ylle-nug"
+  },
+  {
+    "id": "sr_gabble_p054_s3",
+    "practice_number": 54,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 54) | Post Office",
+    "topic": "Post Office",
+    "scenario": "You are learning to assist customers at a post office.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Standard delivery usually takes three to five business days.",
+    "word_count": 9,
+    "video_id": "r49Ylle-nug",
+    "youtube_url": "https://www.youtube.com/watch?v=r49Ylle-nug"
+  },
+  {
+    "id": "sr_gabble_p054_s4",
+    "practice_number": 54,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 54) | Post Office",
+    "topic": "Post Office",
+    "scenario": "You are learning to assist customers at a post office.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Express shipping will guarantee delivery within one to two business days.",
+    "word_count": 11,
+    "video_id": "r49Ylle-nug",
+    "youtube_url": "https://www.youtube.com/watch?v=r49Ylle-nug"
+  },
+  {
+    "id": "sr_gabble_p054_s5",
+    "practice_number": 54,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 54) | Post Office",
+    "topic": "Post Office",
+    "scenario": "You are learning to assist customers at a post office.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "You can track your package online using the tracking number on your receipt.",
+    "word_count": 13,
+    "video_id": "r49Ylle-nug",
+    "youtube_url": "https://www.youtube.com/watch?v=r49Ylle-nug"
+  },
+  {
+    "id": "sr_gabble_p054_s6",
+    "practice_number": 54,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 54) | Post Office",
+    "topic": "Post Office",
+    "scenario": "You are learning to assist customers at a post office.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Fragile items should be clearly labeled and packed with enough protective material before being shipped.",
+    "word_count": 15,
+    "video_id": "r49Ylle-nug",
+    "youtube_url": "https://www.youtube.com/watch?v=r49Ylle-nug"
+  },
+  {
+    "id": "sr_gabble_p054_s7",
+    "practice_number": 54,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 54) | Post Office",
+    "topic": "Post Office",
+    "scenario": "You are learning to assist customers at a post office.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If your package does not arrive within the expected time frame, please bring your receipt here for assistance.",
+    "word_count": 18,
+    "video_id": "r49Ylle-nug",
+    "youtube_url": "https://www.youtube.com/watch?v=r49Ylle-nug"
+  },
+  {
+    "id": "sr_gabble_p055_s1",
+    "practice_number": 55,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 55) | Supermarket",
+    "topic": "Supermarket",
+    "scenario": "You are learning to assist customers in a supermarket.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Produce is in aisle three.",
+    "word_count": 5,
+    "video_id": "Fmb-nonx4SE",
+    "youtube_url": "https://www.youtube.com/watch?v=Fmb-nonx4SE"
+  },
+  {
+    "id": "sr_gabble_p055_s2",
+    "practice_number": 55,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 55) | Supermarket",
+    "topic": "Supermarket",
+    "scenario": "You are learning to assist customers in a supermarket.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Organic products are available in aisle five.",
+    "word_count": 7,
+    "video_id": "Fmb-nonx4SE",
+    "youtube_url": "https://www.youtube.com/watch?v=Fmb-nonx4SE"
+  },
+  {
+    "id": "sr_gabble_p055_s3",
+    "practice_number": 55,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 55) | Supermarket",
+    "topic": "Supermarket",
+    "scenario": "You are learning to assist customers in a supermarket.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "You can find our weekly specials near the main entrance.",
+    "word_count": 10,
+    "video_id": "Fmb-nonx4SE",
+    "youtube_url": "https://www.youtube.com/watch?v=Fmb-nonx4SE"
+  },
+  {
+    "id": "sr_gabble_p055_s4",
+    "practice_number": 55,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 55) | Supermarket",
+    "topic": "Supermarket",
+    "scenario": "You are learning to assist customers in a supermarket.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Members with a loyalty card receive five percent off all regular purchases.",
+    "word_count": 12,
+    "video_id": "Fmb-nonx4SE",
+    "youtube_url": "https://www.youtube.com/watch?v=Fmb-nonx4SE"
+  },
+  {
+    "id": "sr_gabble_p055_s5",
+    "practice_number": 55,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 55) | Supermarket",
+    "topic": "Supermarket",
+    "scenario": "You are learning to assist customers in a supermarket.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Self-checkout lanes are available at the front of the store for smaller purchases.",
+    "word_count": 13,
+    "video_id": "Fmb-nonx4SE",
+    "youtube_url": "https://www.youtube.com/watch?v=Fmb-nonx4SE"
+  },
+  {
+    "id": "sr_gabble_p055_s6",
+    "practice_number": 55,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 55) | Supermarket",
+    "topic": "Supermarket",
+    "scenario": "You are learning to assist customers in a supermarket.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "We accept cash, all major credit cards, and mobile payment methods at every checkout counter.",
+    "word_count": 15,
+    "video_id": "Fmb-nonx4SE",
+    "youtube_url": "https://www.youtube.com/watch?v=Fmb-nonx4SE"
+  },
+  {
+    "id": "sr_gabble_p055_s7",
+    "practice_number": 55,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 55) | Supermarket",
+    "topic": "Supermarket",
+    "scenario": "You are learning to assist customers in a supermarket.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you are unable to find a product, please ask any staff member on the floor for assistance.",
+    "word_count": 18,
+    "video_id": "Fmb-nonx4SE",
+    "youtube_url": "https://www.youtube.com/watch?v=Fmb-nonx4SE"
+  },
+  {
+    "id": "sr_gabble_p056_s1",
+    "practice_number": 56,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 56) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to assist passengers on public transportation.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Please tap your card here.",
+    "word_count": 5,
+    "video_id": "c5gfvG7CEDw",
+    "youtube_url": "https://www.youtube.com/watch?v=c5gfvG7CEDw"
+  },
+  {
+    "id": "sr_gabble_p056_s2",
+    "practice_number": 56,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 56) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to assist passengers on public transportation.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "The next train departs in ten minutes.",
+    "word_count": 7,
+    "video_id": "c5gfvG7CEDw",
+    "youtube_url": "https://www.youtube.com/watch?v=c5gfvG7CEDw"
+  },
+  {
+    "id": "sr_gabble_p056_s3",
+    "practice_number": 56,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 56) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to assist passengers on public transportation.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Passengers must have a valid ticket or card to travel.",
+    "word_count": 10,
+    "video_id": "c5gfvG7CEDw",
+    "youtube_url": "https://www.youtube.com/watch?v=c5gfvG7CEDw"
+  },
+  {
+    "id": "sr_gabble_p056_s4",
+    "practice_number": 56,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 56) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to assist passengers on public transportation.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Priority seats at the front are reserved for elderly and disabled passengers.",
+    "word_count": 12,
+    "video_id": "c5gfvG7CEDw",
+    "youtube_url": "https://www.youtube.com/watch?v=c5gfvG7CEDw"
+  },
+  {
+    "id": "sr_gabble_p056_s5",
+    "practice_number": 56,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 56) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to assist passengers on public transportation.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "You can purchase a weekly travel pass at any ticketing machine or service counter.",
+    "word_count": 14,
+    "video_id": "c5gfvG7CEDw",
+    "youtube_url": "https://www.youtube.com/watch?v=c5gfvG7CEDw"
+  },
+  {
+    "id": "sr_gabble_p056_s6",
+    "practice_number": 56,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 56) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to assist passengers on public transportation.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Eating, drinking, and playing loud music are strictly not permitted on any public transit vehicles.",
+    "word_count": 15,
+    "video_id": "c5gfvG7CEDw",
+    "youtube_url": "https://www.youtube.com/watch?v=c5gfvG7CEDw"
+  },
+  {
+    "id": "sr_gabble_p056_s7",
+    "practice_number": 56,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 56) | Campus & Daily Life",
+    "topic": "Campus & Daily Life",
+    "scenario": "You are learning to assist passengers on public transportation.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you are not sure of your stop, ask the driver or check the route map on board.",
+    "word_count": 18,
+    "video_id": "c5gfvG7CEDw",
+    "youtube_url": "https://www.youtube.com/watch?v=c5gfvG7CEDw"
+  },
+  {
+    "id": "sr_gabble_p057_s1",
+    "practice_number": 57,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 57) | University",
+    "topic": "University",
+    "scenario": "You are learning to coordinate student orientations at a university.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to our university today.",
+    "word_count": 5,
+    "video_id": "HnV5UZfrsOQ",
+    "youtube_url": "https://www.youtube.com/watch?v=HnV5UZfrsOQ"
+  },
+  {
+    "id": "sr_gabble_p057_s2",
+    "practice_number": 57,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 57) | University",
+    "topic": "University",
+    "scenario": "You are learning to coordinate student orientations at a university.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please find a seat and get comfortable.",
+    "word_count": 7,
+    "video_id": "HnV5UZfrsOQ",
+    "youtube_url": "https://www.youtube.com/watch?v=HnV5UZfrsOQ"
+  },
+  {
+    "id": "sr_gabble_p057_s3",
+    "practice_number": 57,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 57) | University",
+    "topic": "University",
+    "scenario": "You are learning to coordinate student orientations at a university.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "This session will cover campus resources and student services.",
+    "word_count": 9,
+    "video_id": "HnV5UZfrsOQ",
+    "youtube_url": "https://www.youtube.com/watch?v=HnV5UZfrsOQ"
+  },
+  {
+    "id": "sr_gabble_p057_s4",
+    "practice_number": 57,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 57) | University",
+    "topic": "University",
+    "scenario": "You are learning to coordinate student orientations at a university.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Your student ID provides access to all campus buildings and facilities.",
+    "word_count": 11,
+    "video_id": "HnV5UZfrsOQ",
+    "youtube_url": "https://www.youtube.com/watch?v=HnV5UZfrsOQ"
+  },
+  {
+    "id": "sr_gabble_p057_s5",
+    "practice_number": 57,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 57) | University",
+    "topic": "University",
+    "scenario": "You are learning to coordinate student orientations at a university.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Please register for your courses through the online student portal before the deadline.",
+    "word_count": 13,
+    "video_id": "HnV5UZfrsOQ",
+    "youtube_url": "https://www.youtube.com/watch?v=HnV5UZfrsOQ"
+  },
+  {
+    "id": "sr_gabble_p057_s6",
+    "practice_number": 57,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 57) | University",
+    "topic": "University",
+    "scenario": "You are learning to coordinate student orientations at a university.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "All freshmen must attend a mandatory academic advising session during their first week of classes.",
+    "word_count": 15,
+    "video_id": "HnV5UZfrsOQ",
+    "youtube_url": "https://www.youtube.com/watch?v=HnV5UZfrsOQ"
+  },
+  {
+    "id": "sr_gabble_p057_s7",
+    "practice_number": 57,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 57) | University",
+    "topic": "University",
+    "scenario": "You are learning to coordinate student orientations at a university.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you face any academic or personal challenges, our student support center is open on weekdays to help.",
+    "word_count": 18,
+    "video_id": "HnV5UZfrsOQ",
+    "youtube_url": "https://www.youtube.com/watch?v=HnV5UZfrsOQ"
+  },
+  {
+    "id": "sr_gabble_p058_s1",
+    "practice_number": 58,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 58) | University Library",
+    "topic": "University Library",
+    "scenario": "You are learning to assist students at a university library.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Please show your student ID.",
+    "word_count": 5,
+    "video_id": "62PkFXEj820",
+    "youtube_url": "https://www.youtube.com/watch?v=62PkFXEj820"
+  },
+  {
+    "id": "sr_gabble_p058_s2",
+    "practice_number": 58,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 58) | University Library",
+    "topic": "University Library",
+    "scenario": "You are learning to assist students at a university library.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Books can be borrowed for two weeks.",
+    "word_count": 7,
+    "video_id": "62PkFXEj820",
+    "youtube_url": "https://www.youtube.com/watch?v=62PkFXEj820"
+  },
+  {
+    "id": "sr_gabble_p058_s3",
+    "practice_number": 58,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 58) | University Library",
+    "topic": "University Library",
+    "scenario": "You are learning to assist students at a university library.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "You can renew your books online through the student portal.",
+    "word_count": 10,
+    "video_id": "62PkFXEj820",
+    "youtube_url": "https://www.youtube.com/watch?v=62PkFXEj820"
+  },
+  {
+    "id": "sr_gabble_p058_s4",
+    "practice_number": 58,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 58) | University Library",
+    "topic": "University Library",
+    "scenario": "You are learning to assist students at a university library.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Quiet study rooms must be reserved at least one day in advance.",
+    "word_count": 12,
+    "video_id": "62PkFXEj820",
+    "youtube_url": "https://www.youtube.com/watch?v=62PkFXEj820"
+  },
+  {
+    "id": "sr_gabble_p058_s5",
+    "practice_number": 58,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 58) | University Library",
+    "topic": "University Library",
+    "scenario": "You are learning to assist students at a university library.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Late returns will result in a small daily fine charged to your student account.",
+    "word_count": 14,
+    "video_id": "62PkFXEj820",
+    "youtube_url": "https://www.youtube.com/watch?v=62PkFXEj820"
+  },
+  {
+    "id": "sr_gabble_p058_s6",
+    "practice_number": 58,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 58) | University Library",
+    "topic": "University Library",
+    "scenario": "You are learning to assist students at a university library.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "The library offers free printing services, but each student is limited to fifty pages per week.",
+    "word_count": 16,
+    "video_id": "62PkFXEj820",
+    "youtube_url": "https://www.youtube.com/watch?v=62PkFXEj820"
+  },
+  {
+    "id": "sr_gabble_p058_s7",
+    "practice_number": 58,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 58) | University Library",
+    "topic": "University Library",
+    "scenario": "You are learning to assist students at a university library.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you need help finding research materials, our librarians are available at the information desk during library hours.",
+    "word_count": 18,
+    "video_id": "62PkFXEj820",
+    "youtube_url": "https://www.youtube.com/watch?v=62PkFXEj820"
+  },
+  {
+    "id": "sr_gabble_p059_s1",
+    "practice_number": 59,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 59) | Doctor'S Office",
+    "topic": "Doctor'S Office",
+    "scenario": "You are learning to assist patients at a doctor's office.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Please take a number here.",
+    "word_count": 5,
+    "video_id": "jmFmKOLA93M",
+    "youtube_url": "https://www.youtube.com/watch?v=jmFmKOLA93M"
+  },
+  {
+    "id": "sr_gabble_p059_s2",
+    "practice_number": 59,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 59) | Doctor'S Office",
+    "topic": "Doctor'S Office",
+    "scenario": "You are learning to assist patients at a doctor's office.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "The doctor will be with you shortly.",
+    "word_count": 7,
+    "video_id": "jmFmKOLA93M",
+    "youtube_url": "https://www.youtube.com/watch?v=jmFmKOLA93M"
+  },
+  {
+    "id": "sr_gabble_p059_s3",
+    "practice_number": 59,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 59) | Doctor'S Office",
+    "topic": "Doctor'S Office",
+    "scenario": "You are learning to assist patients at a doctor's office.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Please complete this health history form before your appointment.",
+    "word_count": 9,
+    "video_id": "jmFmKOLA93M",
+    "youtube_url": "https://www.youtube.com/watch?v=jmFmKOLA93M"
+  },
+  {
+    "id": "sr_gabble_p059_s4",
+    "practice_number": 59,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 59) | Doctor'S Office",
+    "topic": "Doctor'S Office",
+    "scenario": "You are learning to assist patients at a doctor's office.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Your height and weight will be recorded before you see the doctor.",
+    "word_count": 12,
+    "video_id": "jmFmKOLA93M",
+    "youtube_url": "https://www.youtube.com/watch?v=jmFmKOLA93M"
+  },
+  {
+    "id": "sr_gabble_p059_s5",
+    "practice_number": 59,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 59) | Doctor'S Office",
+    "topic": "Doctor'S Office",
+    "scenario": "You are learning to assist patients at a doctor's office.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "We will check your blood pressure, heart rate, and temperature before your consultation begins.",
+    "word_count": 14,
+    "video_id": "jmFmKOLA93M",
+    "youtube_url": "https://www.youtube.com/watch?v=jmFmKOLA93M"
+  },
+  {
+    "id": "sr_gabble_p059_s6",
+    "practice_number": 59,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 59) | Doctor'S Office",
+    "topic": "Doctor'S Office",
+    "scenario": "You are learning to assist patients at a doctor's office.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Please inform the doctor of any allergies you have and all medications you are currently taking.",
+    "word_count": 16,
+    "video_id": "jmFmKOLA93M",
+    "youtube_url": "https://www.youtube.com/watch?v=jmFmKOLA93M"
+  },
+  {
+    "id": "sr_gabble_p059_s7",
+    "practice_number": 59,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 59) | Doctor'S Office",
+    "topic": "Doctor'S Office",
+    "scenario": "You are learning to assist patients at a doctor's office.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "The doctor may recommend a follow-up appointment or refer you to a specialist depending on your test results.",
+    "word_count": 18,
+    "video_id": "jmFmKOLA93M",
+    "youtube_url": "https://www.youtube.com/watch?v=jmFmKOLA93M"
+  },
+  {
+    "id": "sr_gabble_p060_s1",
+    "practice_number": 60,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 60) | Museum",
+    "topic": "Museum",
+    "scenario": "You are learning to guide visitors at a museum.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to the city museum.",
+    "word_count": 5,
+    "video_id": "BX-IRaTHIx0",
+    "youtube_url": "https://www.youtube.com/watch?v=BX-IRaTHIx0"
+  },
+  {
+    "id": "sr_gabble_p060_s2",
+    "practice_number": 60,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 60) | Museum",
+    "topic": "Museum",
+    "scenario": "You are learning to guide visitors at a museum.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Photography is not allowed in this hall.",
+    "word_count": 7,
+    "video_id": "BX-IRaTHIx0",
+    "youtube_url": "https://www.youtube.com/watch?v=BX-IRaTHIx0"
+  },
+  {
+    "id": "sr_gabble_p060_s3",
+    "practice_number": 60,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 60) | Museum",
+    "topic": "Museum",
+    "scenario": "You are learning to guide visitors at a museum.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Please do not touch any of the exhibits on display.",
+    "word_count": 10,
+    "video_id": "BX-IRaTHIx0",
+    "youtube_url": "https://www.youtube.com/watch?v=BX-IRaTHIx0"
+  },
+  {
+    "id": "sr_gabble_p060_s4",
+    "practice_number": 60,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 60) | Museum",
+    "topic": "Museum",
+    "scenario": "You are learning to guide visitors at a museum.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Guided tours begin at ten and two and last about one hour.",
+    "word_count": 12,
+    "video_id": "BX-IRaTHIx0",
+    "youtube_url": "https://www.youtube.com/watch?v=BX-IRaTHIx0"
+  },
+  {
+    "id": "sr_gabble_p060_s5",
+    "practice_number": 60,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 60) | Museum",
+    "topic": "Museum",
+    "scenario": "You are learning to guide visitors at a museum.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "The gift shop on the ground floor is open until thirty minutes before closing.",
+    "word_count": 14,
+    "video_id": "BX-IRaTHIx0",
+    "youtube_url": "https://www.youtube.com/watch?v=BX-IRaTHIx0"
+  },
+  {
+    "id": "sr_gabble_p060_s6",
+    "practice_number": 60,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 60) | Museum",
+    "topic": "Museum",
+    "scenario": "You are learning to guide visitors at a museum.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "As a museum member, you enjoy free unlimited entry and priority access to all special exhibitions.",
+    "word_count": 16,
+    "video_id": "BX-IRaTHIx0",
+    "youtube_url": "https://www.youtube.com/watch?v=BX-IRaTHIx0"
+  },
+  {
+    "id": "sr_gabble_p060_s7",
+    "practice_number": 60,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 60) | Museum",
+    "topic": "Museum",
+    "scenario": "You are learning to guide visitors at a museum.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you need any assistance, our trained volunteer guides are stationed throughout the museum and happy to help.",
+    "word_count": 18,
+    "video_id": "BX-IRaTHIx0",
+    "youtube_url": "https://www.youtube.com/watch?v=BX-IRaTHIx0"
+  },
+  {
+    "id": "sr_gabble_p061_s1",
+    "practice_number": 61,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 61) | Real Estate Office",
+    "topic": "Real Estate Office",
+    "scenario": "You are learning to assist clients at a real estate office.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome, please have a seat.",
+    "word_count": 5,
+    "video_id": "5R2z3l-RQH0",
+    "youtube_url": "https://www.youtube.com/watch?v=5R2z3l-RQH0"
+  },
+  {
+    "id": "sr_gabble_p061_s2",
+    "practice_number": 61,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 61) | Real Estate Office",
+    "topic": "Real Estate Office",
+    "scenario": "You are learning to assist clients at a real estate office.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "What type of property are you looking for?",
+    "word_count": 8,
+    "video_id": "5R2z3l-RQH0",
+    "youtube_url": "https://www.youtube.com/watch?v=5R2z3l-RQH0"
+  },
+  {
+    "id": "sr_gabble_p061_s3",
+    "practice_number": 61,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 61) | Real Estate Office",
+    "topic": "Real Estate Office",
+    "scenario": "You are learning to assist clients at a real estate office.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "We have several listings that match your budget and preferences.",
+    "word_count": 10,
+    "video_id": "5R2z3l-RQH0",
+    "youtube_url": "https://www.youtube.com/watch?v=5R2z3l-RQH0"
+  },
+  {
+    "id": "sr_gabble_p061_s4",
+    "practice_number": 61,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 61) | Real Estate Office",
+    "topic": "Real Estate Office",
+    "scenario": "You are learning to assist clients at a real estate office.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "I can arrange viewings for the properties you are most interested in this week.",
+    "word_count": 14,
+    "video_id": "5R2z3l-RQH0",
+    "youtube_url": "https://www.youtube.com/watch?v=5R2z3l-RQH0"
+  },
+  {
+    "id": "sr_gabble_p061_s5",
+    "practice_number": 61,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 61) | Real Estate Office",
+    "topic": "Real Estate Office",
+    "scenario": "You are learning to assist clients at a real estate office.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "It is recommended to get a mortgage pre-approval before making an offer on any property.",
+    "word_count": 15,
+    "video_id": "5R2z3l-RQH0",
+    "youtube_url": "https://www.youtube.com/watch?v=5R2z3l-RQH0"
+  },
+  {
+    "id": "sr_gabble_p061_s6",
+    "practice_number": 61,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 61) | Real Estate Office",
+    "topic": "Real Estate Office",
+    "scenario": "You are learning to assist clients at a real estate office.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Once an offer is accepted, the closing process typically takes between thirty and sixty days to complete.",
+    "word_count": 17,
+    "video_id": "5R2z3l-RQH0",
+    "youtube_url": "https://www.youtube.com/watch?v=5R2z3l-RQH0"
+  },
+  {
+    "id": "sr_gabble_p061_s7",
+    "practice_number": 61,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 61) | Real Estate Office",
+    "topic": "Real Estate Office",
+    "scenario": "You are learning to assist clients at a real estate office.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Our agency charges a standard commission fee which is paid only after the sale of the property has been successfully finalized.",
+    "word_count": 21,
+    "video_id": "5R2z3l-RQH0",
+    "youtube_url": "https://www.youtube.com/watch?v=5R2z3l-RQH0"
+  },
+  {
+    "id": "sr_gabble_p062_s1",
+    "practice_number": 62,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 62) | Government Services Office",
+    "topic": "Government Services Office",
+    "scenario": "You are learning to assist the public at a government services office.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Please take a number and wait.",
+    "word_count": 6,
+    "video_id": "9uiSolnwS0o",
+    "youtube_url": "https://www.youtube.com/watch?v=9uiSolnwS0o"
+  },
+  {
+    "id": "sr_gabble_p062_s2",
+    "practice_number": 62,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 62) | Government Services Office",
+    "topic": "Government Services Office",
+    "scenario": "You are learning to assist the public at a government services office.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Do you have an appointment today?",
+    "word_count": 6,
+    "video_id": "9uiSolnwS0o",
+    "youtube_url": "https://www.youtube.com/watch?v=9uiSolnwS0o"
+  },
+  {
+    "id": "sr_gabble_p062_s3",
+    "practice_number": 62,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 62) | Government Services Office",
+    "topic": "Government Services Office",
+    "scenario": "You are learning to assist the public at a government services office.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Please make sure all your documents are complete before approaching the counter.",
+    "word_count": 12,
+    "video_id": "9uiSolnwS0o",
+    "youtube_url": "https://www.youtube.com/watch?v=9uiSolnwS0o"
+  },
+  {
+    "id": "sr_gabble_p062_s4",
+    "practice_number": 62,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 62) | Government Services Office",
+    "topic": "Government Services Office",
+    "scenario": "You are learning to assist the public at a government services office.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Processing times vary depending on the type of application and current volume.",
+    "word_count": 12,
+    "video_id": "9uiSolnwS0o",
+    "youtube_url": "https://www.youtube.com/watch?v=9uiSolnwS0o"
+  },
+  {
+    "id": "sr_gabble_p062_s5",
+    "practice_number": 62,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 62) | Government Services Office",
+    "topic": "Government Services Office",
+    "scenario": "You are learning to assist the public at a government services office.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "You will receive a notification by email or mail once your application has been reviewed.",
+    "word_count": 15,
+    "video_id": "9uiSolnwS0o",
+    "youtube_url": "https://www.youtube.com/watch?v=9uiSolnwS0o"
+  },
+  {
+    "id": "sr_gabble_p062_s6",
+    "practice_number": 62,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 62) | Government Services Office",
+    "topic": "Government Services Office",
+    "scenario": "You are learning to assist the public at a government services office.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If your application is rejected, you have the right to appeal the decision within thirty days of receiving the notice.",
+    "word_count": 20,
+    "video_id": "9uiSolnwS0o",
+    "youtube_url": "https://www.youtube.com/watch?v=9uiSolnwS0o"
+  },
+  {
+    "id": "sr_gabble_p062_s7",
+    "practice_number": 62,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 62) | Government Services Office",
+    "topic": "Government Services Office",
+    "scenario": "You are learning to assist the public at a government services office.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Please ensure all information you submit is accurate and up to date, as errors may significantly delay the processing of your case.",
+    "word_count": 22,
+    "video_id": "9uiSolnwS0o",
+    "youtube_url": "https://www.youtube.com/watch?v=9uiSolnwS0o"
+  },
+  {
+    "id": "sr_gabble_p063_s1",
+    "practice_number": 63,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 63) | Movie Theater",
+    "topic": "Movie Theater",
+    "scenario": "You are learning to assist guests at a movie theater.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome, enjoy your film.",
+    "word_count": 4,
+    "video_id": "HGoKvbJEbSg",
+    "youtube_url": "https://www.youtube.com/watch?v=HGoKvbJEbSg"
+  },
+  {
+    "id": "sr_gabble_p063_s2",
+    "practice_number": 63,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 63) | Movie Theater",
+    "topic": "Movie Theater",
+    "scenario": "You are learning to assist guests at a movie theater.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please have your ticket ready to scan.",
+    "word_count": 7,
+    "video_id": "HGoKvbJEbSg",
+    "youtube_url": "https://www.youtube.com/watch?v=HGoKvbJEbSg"
+  },
+  {
+    "id": "sr_gabble_p063_s3",
+    "practice_number": 63,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 63) | Movie Theater",
+    "topic": "Movie Theater",
+    "scenario": "You are learning to assist guests at a movie theater.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "The film begins in approximately ten minutes.",
+    "word_count": 7,
+    "video_id": "HGoKvbJEbSg",
+    "youtube_url": "https://www.youtube.com/watch?v=HGoKvbJEbSg"
+  },
+  {
+    "id": "sr_gabble_p063_s4",
+    "practice_number": 63,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 63) | Movie Theater",
+    "topic": "Movie Theater",
+    "scenario": "You are learning to assist guests at a movie theater.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Outside food and beverages are not allowed inside the screening rooms.",
+    "word_count": 11,
+    "video_id": "HGoKvbJEbSg",
+    "youtube_url": "https://www.youtube.com/watch?v=HGoKvbJEbSg"
+  },
+  {
+    "id": "sr_gabble_p063_s5",
+    "practice_number": 63,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 63) | Movie Theater",
+    "topic": "Movie Theater",
+    "scenario": "You are learning to assist guests at a movie theater.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Please silence your phone and avoid talking during the film out of respect for other guests.",
+    "word_count": 16,
+    "video_id": "HGoKvbJEbSg",
+    "youtube_url": "https://www.youtube.com/watch?v=HGoKvbJEbSg"
+  },
+  {
+    "id": "sr_gabble_p063_s6",
+    "practice_number": 63,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 63) | Movie Theater",
+    "topic": "Movie Theater",
+    "scenario": "You are learning to assist guests at a movie theater.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If you experience any issues during your visit, please speak to a staff member in the lobby immediately.",
+    "word_count": 18,
+    "video_id": "HGoKvbJEbSg",
+    "youtube_url": "https://www.youtube.com/watch?v=HGoKvbJEbSg"
+  },
+  {
+    "id": "sr_gabble_p063_s7",
+    "practice_number": 63,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 63) | Movie Theater",
+    "topic": "Movie Theater",
+    "scenario": "You are learning to assist guests at a movie theater.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Guests who purchase tickets online can use the self-service kiosks in the lobby to print their tickets quickly and avoid the line.",
+    "word_count": 22,
+    "video_id": "HGoKvbJEbSg",
+    "youtube_url": "https://www.youtube.com/watch?v=HGoKvbJEbSg"
+  },
+  {
+    "id": "sr_gabble_p064_s1",
+    "practice_number": 64,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 64) | Job Fair",
+    "topic": "Job Fair",
+    "scenario": "You are learning to represent a company at a job fair.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome, thank you for stopping by.",
+    "word_count": 6,
+    "video_id": "vA73tIFzuqQ",
+    "youtube_url": "https://www.youtube.com/watch?v=vA73tIFzuqQ"
+  },
+  {
+    "id": "sr_gabble_p064_s2",
+    "practice_number": 64,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 64) | Job Fair",
+    "topic": "Job Fair",
+    "scenario": "You are learning to represent a company at a job fair.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "We are currently hiring for several positions.",
+    "word_count": 7,
+    "video_id": "vA73tIFzuqQ",
+    "youtube_url": "https://www.youtube.com/watch?v=vA73tIFzuqQ"
+  },
+  {
+    "id": "sr_gabble_p064_s3",
+    "practice_number": 64,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 64) | Job Fair",
+    "topic": "Job Fair",
+    "scenario": "You are learning to represent a company at a job fair.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Please fill out this short interest form for us.",
+    "word_count": 9,
+    "video_id": "vA73tIFzuqQ",
+    "youtube_url": "https://www.youtube.com/watch?v=vA73tIFzuqQ"
+  },
+  {
+    "id": "sr_gabble_p064_s4",
+    "practice_number": 64,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 64) | Job Fair",
+    "topic": "Job Fair",
+    "scenario": "You are learning to represent a company at a job fair.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "We are looking for candidates with strong communication and teamwork skills.",
+    "word_count": 11,
+    "video_id": "vA73tIFzuqQ",
+    "youtube_url": "https://www.youtube.com/watch?v=vA73tIFzuqQ"
+  },
+  {
+    "id": "sr_gabble_p064_s5",
+    "practice_number": 64,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 64) | Job Fair",
+    "topic": "Job Fair",
+    "scenario": "You are learning to represent a company at a job fair.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Bring multiple copies of your resume to hand out to different employers at this event.",
+    "word_count": 15,
+    "video_id": "vA73tIFzuqQ",
+    "youtube_url": "https://www.youtube.com/watch?v=vA73tIFzuqQ"
+  },
+  {
+    "id": "sr_gabble_p064_s6",
+    "practice_number": 64,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 64) | Job Fair",
+    "topic": "Job Fair",
+    "scenario": "You are learning to represent a company at a job fair.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Our company offers competitive salaries, health benefits, and flexible work arrangements for all full-time employees.",
+    "word_count": 15,
+    "video_id": "vA73tIFzuqQ",
+    "youtube_url": "https://www.youtube.com/watch?v=vA73tIFzuqQ"
+  },
+  {
+    "id": "sr_gabble_p064_s7",
+    "practice_number": 64,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 64) | Job Fair",
+    "topic": "Job Fair",
+    "scenario": "You are learning to represent a company at a job fair.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If we feel you are a good fit, a recruiter will reach out within one week to schedule a formal interview with the team.",
+    "word_count": 24,
+    "video_id": "vA73tIFzuqQ",
+    "youtube_url": "https://www.youtube.com/watch?v=vA73tIFzuqQ"
+  },
+  {
+    "id": "sr_gabble_p065_s1",
+    "practice_number": 65,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 65) | Driver'S License Office",
+    "topic": "Driver'S License Office",
+    "scenario": "You are learning to assist applicants at a driver's license office.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Please take a number first.",
+    "word_count": 5,
+    "video_id": "S44P61gH6_U",
+    "youtube_url": "https://www.youtube.com/watch?v=S44P61gH6_U"
+  },
+  {
+    "id": "sr_gabble_p065_s2",
+    "practice_number": 65,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 65) | Driver'S License Office",
+    "topic": "Driver'S License Office",
+    "scenario": "You are learning to assist applicants at a driver's license office.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "You need two forms of identification.",
+    "word_count": 6,
+    "video_id": "S44P61gH6_U",
+    "youtube_url": "https://www.youtube.com/watch?v=S44P61gH6_U"
+  },
+  {
+    "id": "sr_gabble_p065_s3",
+    "practice_number": 65,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 65) | Driver'S License Office",
+    "topic": "Driver'S License Office",
+    "scenario": "You are learning to assist applicants at a driver's license office.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "The written test consists of forty multiple-choice questions.",
+    "word_count": 8,
+    "video_id": "S44P61gH6_U",
+    "youtube_url": "https://www.youtube.com/watch?v=S44P61gH6_U"
+  },
+  {
+    "id": "sr_gabble_p065_s4",
+    "practice_number": 65,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 65) | Driver'S License Office",
+    "topic": "Driver'S License Office",
+    "scenario": "You are learning to assist applicants at a driver's license office.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "A passing score of at least eighty percent is required to proceed to the road test.",
+    "word_count": 16,
+    "video_id": "S44P61gH6_U",
+    "youtube_url": "https://www.youtube.com/watch?v=S44P61gH6_U"
+  },
+  {
+    "id": "sr_gabble_p065_s5",
+    "practice_number": 65,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 65) | Driver'S License Office",
+    "topic": "Driver'S License Office",
+    "scenario": "You are learning to assist applicants at a driver's license office.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "If you fail the written test, you must wait seven days before you can attempt it again.",
+    "word_count": 17,
+    "video_id": "S44P61gH6_U",
+    "youtube_url": "https://www.youtube.com/watch?v=S44P61gH6_U"
+  },
+  {
+    "id": "sr_gabble_p065_s6",
+    "practice_number": 65,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 65) | Driver'S License Office",
+    "topic": "Driver'S License Office",
+    "scenario": "You are learning to assist applicants at a driver's license office.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Please bring proof of insurance and vehicle registration on the day of your behind-the-wheel driving test.",
+    "word_count": 16,
+    "video_id": "S44P61gH6_U",
+    "youtube_url": "https://www.youtube.com/watch?v=S44P61gH6_U"
+  },
+  {
+    "id": "sr_gabble_p065_s7",
+    "practice_number": 65,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 65) | Driver'S License Office",
+    "topic": "Driver'S License Office",
+    "scenario": "You are learning to assist applicants at a driver's license office.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Once you pass both tests, your temporary license will be issued immediately, and the permanent one will arrive by mail.",
+    "word_count": 20,
+    "video_id": "S44P61gH6_U",
+    "youtube_url": "https://www.youtube.com/watch?v=S44P61gH6_U"
+  },
+  {
+    "id": "sr_gabble_p066_s1",
+    "practice_number": 66,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 66) | Sports And Recreation Center",
+    "topic": "Sports And Recreation Center",
+    "scenario": "You are learning to assist visitors at a sports and recreation center.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to the sports center.",
+    "word_count": 5,
+    "video_id": "oIhIZaCZA6A",
+    "youtube_url": "https://www.youtube.com/watch?v=oIhIZaCZA6A"
+  },
+  {
+    "id": "sr_gabble_p066_s2",
+    "practice_number": 66,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 66) | Sports And Recreation Center",
+    "topic": "Sports And Recreation Center",
+    "scenario": "You are learning to assist visitors at a sports and recreation center.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please scan your membership card at the entrance.",
+    "word_count": 8,
+    "video_id": "oIhIZaCZA6A",
+    "youtube_url": "https://www.youtube.com/watch?v=oIhIZaCZA6A"
+  },
+  {
+    "id": "sr_gabble_p066_s3",
+    "practice_number": 66,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 66) | Sports And Recreation Center",
+    "topic": "Sports And Recreation Center",
+    "scenario": "You are learning to assist visitors at a sports and recreation center.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Courts must be reserved at least one day in advance.",
+    "word_count": 10,
+    "video_id": "oIhIZaCZA6A",
+    "youtube_url": "https://www.youtube.com/watch?v=oIhIZaCZA6A"
+  },
+  {
+    "id": "sr_gabble_p066_s4",
+    "practice_number": 66,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 66) | Sports And Recreation Center",
+    "topic": "Sports And Recreation Center",
+    "scenario": "You are learning to assist visitors at a sports and recreation center.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Lockers are available for a small refundable deposit during your visit.",
+    "word_count": 11,
+    "video_id": "oIhIZaCZA6A",
+    "youtube_url": "https://www.youtube.com/watch?v=oIhIZaCZA6A"
+  },
+  {
+    "id": "sr_gabble_p066_s5",
+    "practice_number": 66,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 66) | Sports And Recreation Center",
+    "topic": "Sports And Recreation Center",
+    "scenario": "You are learning to assist visitors at a sports and recreation center.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "All equipment rentals must be returned to the front desk before you leave the facility.",
+    "word_count": 15,
+    "video_id": "oIhIZaCZA6A",
+    "youtube_url": "https://www.youtube.com/watch?v=oIhIZaCZA6A"
+  },
+  {
+    "id": "sr_gabble_p066_s6",
+    "practice_number": 66,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 66) | Sports And Recreation Center",
+    "topic": "Sports And Recreation Center",
+    "scenario": "You are learning to assist visitors at a sports and recreation center.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Group fitness classes are included in the standard membership and can be booked through our mobile app.",
+    "word_count": 17,
+    "video_id": "oIhIZaCZA6A",
+    "youtube_url": "https://www.youtube.com/watch?v=oIhIZaCZA6A"
+  },
+  {
+    "id": "sr_gabble_p066_s7",
+    "practice_number": 66,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 66) | Sports And Recreation Center",
+    "topic": "Sports And Recreation Center",
+    "scenario": "You are learning to assist visitors at a sports and recreation center.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Proper athletic footwear must be worn at all times in the gym and on the courts for safety and hygiene reasons.",
+    "word_count": 21,
+    "video_id": "oIhIZaCZA6A",
+    "youtube_url": "https://www.youtube.com/watch?v=oIhIZaCZA6A"
+  },
+  {
+    "id": "sr_gabble_p067_s1",
+    "practice_number": 67,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 67) | Police Station",
+    "topic": "Police Station",
+    "scenario": "You are learning to assist the public at a police station.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Please have a seat here.",
+    "word_count": 5,
+    "video_id": "NG6-G3bnO9A",
+    "youtube_url": "https://www.youtube.com/watch?v=NG6-G3bnO9A"
+  },
+  {
+    "id": "sr_gabble_p067_s2",
+    "practice_number": 67,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 67) | Police Station",
+    "topic": "Police Station",
+    "scenario": "You are learning to assist the public at a police station.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Can you describe what happened?",
+    "word_count": 5,
+    "video_id": "NG6-G3bnO9A",
+    "youtube_url": "https://www.youtube.com/watch?v=NG6-G3bnO9A"
+  },
+  {
+    "id": "sr_gabble_p067_s3",
+    "practice_number": 67,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 67) | Police Station",
+    "topic": "Police Station",
+    "scenario": "You are learning to assist the public at a police station.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Please provide the date, time, and location of the incident.",
+    "word_count": 10,
+    "video_id": "NG6-G3bnO9A",
+    "youtube_url": "https://www.youtube.com/watch?v=NG6-G3bnO9A"
+  },
+  {
+    "id": "sr_gabble_p067_s4",
+    "practice_number": 67,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 67) | Police Station",
+    "topic": "Police Station",
+    "scenario": "You are learning to assist the public at a police station.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "We will need a list of any items that were stolen or damaged.",
+    "word_count": 13,
+    "video_id": "NG6-G3bnO9A",
+    "youtube_url": "https://www.youtube.com/watch?v=NG6-G3bnO9A"
+  },
+  {
+    "id": "sr_gabble_p067_s5",
+    "practice_number": 67,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 67) | Police Station",
+    "topic": "Police Station",
+    "scenario": "You are learning to assist the public at a police station.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "A case number will be assigned to your report so you can follow up later.",
+    "word_count": 15,
+    "video_id": "NG6-G3bnO9A",
+    "youtube_url": "https://www.youtube.com/watch?v=NG6-G3bnO9A"
+  },
+  {
+    "id": "sr_gabble_p067_s6",
+    "practice_number": 67,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 67) | Police Station",
+    "topic": "Police Station",
+    "scenario": "You are learning to assist the public at a police station.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If you have any photos, videos, or witnesses, please share that information with the officer today.",
+    "word_count": 16,
+    "video_id": "NG6-G3bnO9A",
+    "youtube_url": "https://www.youtube.com/watch?v=NG6-G3bnO9A"
+  },
+  {
+    "id": "sr_gabble_p067_s7",
+    "practice_number": 67,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 67) | Police Station",
+    "topic": "Police Station",
+    "scenario": "You are learning to assist the public at a police station.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Once the report is filed, an officer will be assigned to investigate and will contact you if further information is needed.",
+    "word_count": 21,
+    "video_id": "NG6-G3bnO9A",
+    "youtube_url": "https://www.youtube.com/watch?v=NG6-G3bnO9A"
+  },
+  {
+    "id": "sr_gabble_p068_s1",
+    "practice_number": 68,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 68) | Language School",
+    "topic": "Language School",
+    "scenario": "You are learning to assist students at a language school.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to our language school.",
+    "word_count": 5,
+    "video_id": "I_ZJK5gN3qQ",
+    "youtube_url": "https://www.youtube.com/watch?v=I_ZJK5gN3qQ"
+  },
+  {
+    "id": "sr_gabble_p068_s2",
+    "practice_number": 68,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 68) | Language School",
+    "topic": "Language School",
+    "scenario": "You are learning to assist students at a language school.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "We offer morning and evening class options.",
+    "word_count": 7,
+    "video_id": "I_ZJK5gN3qQ",
+    "youtube_url": "https://www.youtube.com/watch?v=I_ZJK5gN3qQ"
+  },
+  {
+    "id": "sr_gabble_p068_s3",
+    "practice_number": 68,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 68) | Language School",
+    "topic": "Language School",
+    "scenario": "You are learning to assist students at a language school.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "All students take a placement test before joining a class.",
+    "word_count": 10,
+    "video_id": "I_ZJK5gN3qQ",
+    "youtube_url": "https://www.youtube.com/watch?v=I_ZJK5gN3qQ"
+  },
+  {
+    "id": "sr_gabble_p068_s4",
+    "practice_number": 68,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 68) | Language School",
+    "topic": "Language School",
+    "scenario": "You are learning to assist students at a language school.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Each course runs for eight weeks and meets three times per week.",
+    "word_count": 12,
+    "video_id": "I_ZJK5gN3qQ",
+    "youtube_url": "https://www.youtube.com/watch?v=I_ZJK5gN3qQ"
+  },
+  {
+    "id": "sr_gabble_p068_s5",
+    "practice_number": 68,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 68) | Language School",
+    "topic": "Language School",
+    "scenario": "You are learning to assist students at a language school.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "You are encouraged to practice speaking English outside of class as much as possible.",
+    "word_count": 14,
+    "video_id": "I_ZJK5gN3qQ",
+    "youtube_url": "https://www.youtube.com/watch?v=I_ZJK5gN3qQ"
+  },
+  {
+    "id": "sr_gabble_p068_s6",
+    "practice_number": 68,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 68) | Language School",
+    "topic": "Language School",
+    "scenario": "You are learning to assist students at a language school.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Students who miss more than three sessions may be required to repeat the level before advancing.",
+    "word_count": 16,
+    "video_id": "I_ZJK5gN3qQ",
+    "youtube_url": "https://www.youtube.com/watch?v=I_ZJK5gN3qQ"
+  },
+  {
+    "id": "sr_gabble_p068_s7",
+    "practice_number": 68,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 68) | Language School",
+    "topic": "Language School",
+    "scenario": "You are learning to assist students at a language school.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "At the end of each term, students who pass the final assessment will receive an official certificate of completion.",
+    "word_count": 19,
+    "video_id": "I_ZJK5gN3qQ",
+    "youtube_url": "https://www.youtube.com/watch?v=I_ZJK5gN3qQ"
+  },
+  {
+    "id": "sr_gabble_p069_s1",
+    "practice_number": 69,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 69) | School",
+    "topic": "School",
+    "scenario": "You are learning to coordinate parent-teacher meetings at a school.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Thank you for coming in today.",
+    "word_count": 6,
+    "video_id": "XUYnRKxrhoM",
+    "youtube_url": "https://www.youtube.com/watch?v=XUYnRKxrhoM"
+  },
+  {
+    "id": "sr_gabble_p069_s2",
+    "practice_number": 69,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 69) | School",
+    "topic": "School",
+    "scenario": "You are learning to coordinate parent-teacher meetings at a school.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Your child has been doing well this semester.",
+    "word_count": 8,
+    "video_id": "XUYnRKxrhoM",
+    "youtube_url": "https://www.youtube.com/watch?v=XUYnRKxrhoM"
+  },
+  {
+    "id": "sr_gabble_p069_s3",
+    "practice_number": 69,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 69) | School",
+    "topic": "School",
+    "scenario": "You are learning to coordinate parent-teacher meetings at a school.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Here is a summary of their recent test scores and class participation.",
+    "word_count": 12,
+    "video_id": "XUYnRKxrhoM",
+    "youtube_url": "https://www.youtube.com/watch?v=XUYnRKxrhoM"
+  },
+  {
+    "id": "sr_gabble_p069_s4",
+    "practice_number": 69,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 69) | School",
+    "topic": "School",
+    "scenario": "You are learning to coordinate parent-teacher meetings at a school.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "We encourage students to read for at least thirty minutes each evening at home.",
+    "word_count": 14,
+    "video_id": "XUYnRKxrhoM",
+    "youtube_url": "https://www.youtube.com/watch?v=XUYnRKxrhoM"
+  },
+  {
+    "id": "sr_gabble_p069_s5",
+    "practice_number": 69,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 69) | School",
+    "topic": "School",
+    "scenario": "You are learning to coordinate parent-teacher meetings at a school.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "If your child is struggling in any subject, we can arrange additional support sessions after school.",
+    "word_count": 16,
+    "video_id": "XUYnRKxrhoM",
+    "youtube_url": "https://www.youtube.com/watch?v=XUYnRKxrhoM"
+  },
+  {
+    "id": "sr_gabble_p069_s6",
+    "practice_number": 69,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 69) | School",
+    "topic": "School",
+    "scenario": "You are learning to coordinate parent-teacher meetings at a school.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Open communication between parents and teachers plays a key role in supporting each student's progress throughout the year.",
+    "word_count": 18,
+    "video_id": "XUYnRKxrhoM",
+    "youtube_url": "https://www.youtube.com/watch?v=XUYnRKxrhoM"
+  },
+  {
+    "id": "sr_gabble_p069_s7",
+    "practice_number": 69,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 69) | School",
+    "topic": "School",
+    "scenario": "You are learning to coordinate parent-teacher meetings at a school.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Please feel free to contact me by email at any time if you have questions or concerns about your child's performance.",
+    "word_count": 21,
+    "video_id": "XUYnRKxrhoM",
+    "youtube_url": "https://www.youtube.com/watch?v=XUYnRKxrhoM"
+  },
+  {
+    "id": "sr_gabble_p070_s1",
+    "practice_number": 70,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 70) | Car Repair Shop",
+    "topic": "Car Repair Shop",
+    "scenario": "You are learning to assist customers at a car repair shop.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "What seems to be the problem?",
+    "word_count": 6,
+    "video_id": "ttY9JVlbg-w",
+    "youtube_url": "https://www.youtube.com/watch?v=ttY9JVlbg-w"
+  },
+  {
+    "id": "sr_gabble_p070_s2",
+    "practice_number": 70,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 70) | Car Repair Shop",
+    "topic": "Car Repair Shop",
+    "scenario": "You are learning to assist customers at a car repair shop.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "We will run a full diagnostic check.",
+    "word_count": 7,
+    "video_id": "ttY9JVlbg-w",
+    "youtube_url": "https://www.youtube.com/watch?v=ttY9JVlbg-w"
+  },
+  {
+    "id": "sr_gabble_p070_s3",
+    "practice_number": 70,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 70) | Car Repair Shop",
+    "topic": "Car Repair Shop",
+    "scenario": "You are learning to assist customers at a car repair shop.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "The repair should take about two to three hours.",
+    "word_count": 9,
+    "video_id": "ttY9JVlbg-w",
+    "youtube_url": "https://www.youtube.com/watch?v=ttY9JVlbg-w"
+  },
+  {
+    "id": "sr_gabble_p070_s4",
+    "practice_number": 70,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 70) | Car Repair Shop",
+    "topic": "Car Repair Shop",
+    "scenario": "You are learning to assist customers at a car repair shop.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "We will call you as soon as your vehicle is ready for pickup.",
+    "word_count": 13,
+    "video_id": "ttY9JVlbg-w",
+    "youtube_url": "https://www.youtube.com/watch?v=ttY9JVlbg-w"
+  },
+  {
+    "id": "sr_gabble_p070_s5",
+    "practice_number": 70,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 70) | Car Repair Shop",
+    "topic": "Car Repair Shop",
+    "scenario": "You are learning to assist customers at a car repair shop.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Oil changes and tire rotations are recommended every five thousand miles for most vehicles.",
+    "word_count": 14,
+    "video_id": "ttY9JVlbg-w",
+    "youtube_url": "https://www.youtube.com/watch?v=ttY9JVlbg-w"
+  },
+  {
+    "id": "sr_gabble_p070_s6",
+    "practice_number": 70,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 70) | Car Repair Shop",
+    "topic": "Car Repair Shop",
+    "scenario": "You are learning to assist customers at a car repair shop.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If additional repairs are needed, we will contact you for approval before any work is started.",
+    "word_count": 16,
+    "video_id": "ttY9JVlbg-w",
+    "youtube_url": "https://www.youtube.com/watch?v=ttY9JVlbg-w"
+  },
+  {
+    "id": "sr_gabble_p070_s7",
+    "practice_number": 70,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 70) | Car Repair Shop",
+    "topic": "Car Repair Shop",
+    "scenario": "You are learning to assist customers at a car repair shop.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "All parts and labor performed at our shop are covered by a twelve-month warranty from the date of service.",
+    "word_count": 19,
+    "video_id": "ttY9JVlbg-w",
+    "youtube_url": "https://www.youtube.com/watch?v=ttY9JVlbg-w"
+  },
+  {
+    "id": "sr_gabble_p071_s1",
+    "practice_number": 71,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 71) | Online Learning Platform",
+    "topic": "Online Learning Platform",
+    "scenario": "You are learning to assist students at an online learning platform.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to our learning platform.",
+    "word_count": 5,
+    "video_id": "nEFdHoh__X8",
+    "youtube_url": "https://www.youtube.com/watch?v=nEFdHoh__X8"
+  },
+  {
+    "id": "sr_gabble_p071_s2",
+    "practice_number": 71,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 71) | Online Learning Platform",
+    "topic": "Online Learning Platform",
+    "scenario": "You are learning to assist students at an online learning platform.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please create an account to get started.",
+    "word_count": 7,
+    "video_id": "nEFdHoh__X8",
+    "youtube_url": "https://www.youtube.com/watch?v=nEFdHoh__X8"
+  },
+  {
+    "id": "sr_gabble_p071_s3",
+    "practice_number": 71,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 71) | Online Learning Platform",
+    "topic": "Online Learning Platform",
+    "scenario": "You are learning to assist students at an online learning platform.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "All courses include video lectures, readings, and graded assignments.",
+    "word_count": 9,
+    "video_id": "nEFdHoh__X8",
+    "youtube_url": "https://www.youtube.com/watch?v=nEFdHoh__X8"
+  },
+  {
+    "id": "sr_gabble_p071_s4",
+    "practice_number": 71,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 71) | Online Learning Platform",
+    "topic": "Online Learning Platform",
+    "scenario": "You are learning to assist students at an online learning platform.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "You can access your course materials at any time from any device.",
+    "word_count": 12,
+    "video_id": "nEFdHoh__X8",
+    "youtube_url": "https://www.youtube.com/watch?v=nEFdHoh__X8"
+  },
+  {
+    "id": "sr_gabble_p071_s5",
+    "practice_number": 71,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 71) | Online Learning Platform",
+    "topic": "Online Learning Platform",
+    "scenario": "You are learning to assist students at an online learning platform.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Some courses offer a verified certificate upon completion for a small additional fee.",
+    "word_count": 13,
+    "video_id": "nEFdHoh__X8",
+    "youtube_url": "https://www.youtube.com/watch?v=nEFdHoh__X8"
+  },
+  {
+    "id": "sr_gabble_p071_s6",
+    "practice_number": 71,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 71) | Online Learning Platform",
+    "topic": "Online Learning Platform",
+    "scenario": "You are learning to assist students at an online learning platform.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If you are not satisfied within the first seven days, you are eligible for a full refund of your enrollment fee.",
+    "word_count": 21,
+    "video_id": "nEFdHoh__X8",
+    "youtube_url": "https://www.youtube.com/watch?v=nEFdHoh__X8"
+  },
+  {
+    "id": "sr_gabble_p071_s7",
+    "practice_number": 71,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 71) | Online Learning Platform",
+    "topic": "Online Learning Platform",
+    "scenario": "You are learning to assist students at an online learning platform.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Our platform also offers live office hours where students can interact directly with instructors to get feedback on their work.",
+    "word_count": 20,
+    "video_id": "nEFdHoh__X8",
+    "youtube_url": "https://www.youtube.com/watch?v=nEFdHoh__X8"
+  },
+  {
+    "id": "sr_gabble_p072_s1",
+    "practice_number": 72,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 72) | Customer Service Center",
+    "topic": "Customer Service Center",
+    "scenario": "You are learning to handle calls at a customer service center.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Thank you for calling, how can I help?",
+    "word_count": 8,
+    "video_id": "ITKgFfF_hf8",
+    "youtube_url": "https://www.youtube.com/watch?v=ITKgFfF_hf8"
+  },
+  {
+    "id": "sr_gabble_p072_s2",
+    "practice_number": 72,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 72) | Customer Service Center",
+    "topic": "Customer Service Center",
+    "scenario": "You are learning to handle calls at a customer service center.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Can I have your account number, please?",
+    "word_count": 7,
+    "video_id": "ITKgFfF_hf8",
+    "youtube_url": "https://www.youtube.com/watch?v=ITKgFfF_hf8"
+  },
+  {
+    "id": "sr_gabble_p072_s3",
+    "practice_number": 72,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 72) | Customer Service Center",
+    "topic": "Customer Service Center",
+    "scenario": "You are learning to handle calls at a customer service center.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "I see your order was placed on the fifteenth of this month.",
+    "word_count": 12,
+    "video_id": "ITKgFfF_hf8",
+    "youtube_url": "https://www.youtube.com/watch?v=ITKgFfF_hf8"
+  },
+  {
+    "id": "sr_gabble_p072_s4",
+    "practice_number": 72,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 72) | Customer Service Center",
+    "topic": "Customer Service Center",
+    "scenario": "You are learning to handle calls at a customer service center.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "I will place a replacement request for you right away at no extra charge.",
+    "word_count": 14,
+    "video_id": "ITKgFfF_hf8",
+    "youtube_url": "https://www.youtube.com/watch?v=ITKgFfF_hf8"
+  },
+  {
+    "id": "sr_gabble_p072_s5",
+    "practice_number": 72,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 72) | Customer Service Center",
+    "topic": "Customer Service Center",
+    "scenario": "You are learning to handle calls at a customer service center.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Please allow three to five business days for the replacement item to arrive at your address.",
+    "word_count": 16,
+    "video_id": "ITKgFfF_hf8",
+    "youtube_url": "https://www.youtube.com/watch?v=ITKgFfF_hf8"
+  },
+  {
+    "id": "sr_gabble_p072_s6",
+    "practice_number": 72,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 72) | Customer Service Center",
+    "topic": "Customer Service Center",
+    "scenario": "You are learning to handle calls at a customer service center.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Is there anything else I can assist you with today before I close out this support ticket?",
+    "word_count": 17,
+    "video_id": "ITKgFfF_hf8",
+    "youtube_url": "https://www.youtube.com/watch?v=ITKgFfF_hf8"
+  },
+  {
+    "id": "sr_gabble_p072_s7",
+    "practice_number": 72,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 72) | Customer Service Center",
+    "topic": "Customer Service Center",
+    "scenario": "You are learning to handle calls at a customer service center.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If your issue is not resolved after the replacement arrives, please do not hesitate to call us again and we will escalate your case.",
+    "word_count": 24,
+    "video_id": "ITKgFfF_hf8",
+    "youtube_url": "https://www.youtube.com/watch?v=ITKgFfF_hf8"
+  },
+  {
+    "id": "sr_gabble_p073_s1",
+    "practice_number": 73,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 73) | Farmer'S Market",
+    "topic": "Farmer'S Market",
+    "scenario": "You are learning to assist shoppers at a farmer's market.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome, feel free to look around.",
+    "word_count": 6,
+    "video_id": "ePt_xST1imQ",
+    "youtube_url": "https://www.youtube.com/watch?v=ePt_xST1imQ"
+  },
+  {
+    "id": "sr_gabble_p073_s2",
+    "practice_number": 73,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 73) | Farmer'S Market",
+    "topic": "Farmer'S Market",
+    "scenario": "You are learning to assist shoppers at a farmer's market.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Everything here is locally grown and in season.",
+    "word_count": 8,
+    "video_id": "ePt_xST1imQ",
+    "youtube_url": "https://www.youtube.com/watch?v=ePt_xST1imQ"
+  },
+  {
+    "id": "sr_gabble_p073_s3",
+    "practice_number": 73,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 73) | Farmer'S Market",
+    "topic": "Farmer'S Market",
+    "scenario": "You are learning to assist shoppers at a farmer's market.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "We pick our produce fresh every morning before the market opens.",
+    "word_count": 11,
+    "video_id": "ePt_xST1imQ",
+    "youtube_url": "https://www.youtube.com/watch?v=ePt_xST1imQ"
+  },
+  {
+    "id": "sr_gabble_p073_s4",
+    "practice_number": 73,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 73) | Farmer'S Market",
+    "topic": "Farmer'S Market",
+    "scenario": "You are learning to assist shoppers at a farmer's market.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "All of our fruits and vegetables are grown without the use of synthetic pesticides.",
+    "word_count": 14,
+    "video_id": "ePt_xST1imQ",
+    "youtube_url": "https://www.youtube.com/watch?v=ePt_xST1imQ"
+  },
+  {
+    "id": "sr_gabble_p073_s5",
+    "practice_number": 73,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 73) | Farmer'S Market",
+    "topic": "Farmer'S Market",
+    "scenario": "You are learning to assist shoppers at a farmer's market.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "We accept cash and most mobile payment apps, but we do not accept credit cards.",
+    "word_count": 15,
+    "video_id": "ePt_xST1imQ",
+    "youtube_url": "https://www.youtube.com/watch?v=ePt_xST1imQ"
+  },
+  {
+    "id": "sr_gabble_p073_s6",
+    "practice_number": 73,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 73) | Farmer'S Market",
+    "topic": "Farmer'S Market",
+    "scenario": "You are learning to assist shoppers at a farmer's market.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If you buy more than ten dollars worth of produce, you will receive a small free sample of our seasonal jam.",
+    "word_count": 21,
+    "video_id": "ePt_xST1imQ",
+    "youtube_url": "https://www.youtube.com/watch?v=ePt_xST1imQ"
+  },
+  {
+    "id": "sr_gabble_p073_s7",
+    "practice_number": 73,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 73) | Farmer'S Market",
+    "topic": "Farmer'S Market",
+    "scenario": "You are learning to assist shoppers at a farmer's market.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "We are here every Saturday and Sunday morning, and you can also find us online for pre-orders and home delivery.",
+    "word_count": 20,
+    "video_id": "ePt_xST1imQ",
+    "youtube_url": "https://www.youtube.com/watch?v=ePt_xST1imQ"
+  },
+  {
+    "id": "sr_gabble_p074_s1",
+    "practice_number": 74,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 74) | Coffee Shop",
+    "topic": "Coffee Shop",
+    "scenario": "You are learning to serve customers at a coffee shop.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "What can I get for you?",
+    "word_count": 6,
+    "video_id": "iYA98KDpCco",
+    "youtube_url": "https://www.youtube.com/watch?v=iYA98KDpCco"
+  },
+  {
+    "id": "sr_gabble_p074_s2",
+    "practice_number": 74,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 74) | Coffee Shop",
+    "topic": "Coffee Shop",
+    "scenario": "You are learning to serve customers at a coffee shop.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "We have hot, iced, and blended options.",
+    "word_count": 7,
+    "video_id": "iYA98KDpCco",
+    "youtube_url": "https://www.youtube.com/watch?v=iYA98KDpCco"
+  },
+  {
+    "id": "sr_gabble_p074_s3",
+    "practice_number": 74,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 74) | Coffee Shop",
+    "topic": "Coffee Shop",
+    "scenario": "You are learning to serve customers at a coffee shop.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Would you like whole milk or a non-dairy alternative?",
+    "word_count": 9,
+    "video_id": "iYA98KDpCco",
+    "youtube_url": "https://www.youtube.com/watch?v=iYA98KDpCco"
+  },
+  {
+    "id": "sr_gabble_p074_s4",
+    "practice_number": 74,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 74) | Coffee Shop",
+    "topic": "Coffee Shop",
+    "scenario": "You are learning to serve customers at a coffee shop.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Your order will be ready in about three to five minutes.",
+    "word_count": 11,
+    "video_id": "iYA98KDpCco",
+    "youtube_url": "https://www.youtube.com/watch?v=iYA98KDpCco"
+  },
+  {
+    "id": "sr_gabble_p074_s5",
+    "practice_number": 74,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 74) | Coffee Shop",
+    "topic": "Coffee Shop",
+    "scenario": "You are learning to serve customers at a coffee shop.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "We offer a rewards card that gives you one free drink for every ten purchases.",
+    "word_count": 15,
+    "video_id": "iYA98KDpCco",
+    "youtube_url": "https://www.youtube.com/watch?v=iYA98KDpCco"
+  },
+  {
+    "id": "sr_gabble_p074_s6",
+    "practice_number": 74,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 74) | Coffee Shop",
+    "topic": "Coffee Shop",
+    "scenario": "You are learning to serve customers at a coffee shop.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If your drink does not taste right, please bring it back and we will be happy to remake it.",
+    "word_count": 19,
+    "video_id": "iYA98KDpCco",
+    "youtube_url": "https://www.youtube.com/watch?v=iYA98KDpCco"
+  },
+  {
+    "id": "sr_gabble_p074_s7",
+    "practice_number": 74,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 74) | Coffee Shop",
+    "topic": "Coffee Shop",
+    "scenario": "You are learning to serve customers at a coffee shop.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Customers who use their own reusable cup receive a ten cent discount on every beverage they order.",
+    "word_count": 17,
+    "video_id": "iYA98KDpCco",
+    "youtube_url": "https://www.youtube.com/watch?v=iYA98KDpCco"
+  },
+  {
+    "id": "sr_gabble_p075_s1",
+    "practice_number": 75,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 75) | Laundromat",
+    "topic": "Laundromat",
+    "scenario": "You are learning to assist customers at a laundromat.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "The machines accept coins only.",
+    "word_count": 5,
+    "video_id": "wK-gmVfrISk",
+    "youtube_url": "https://www.youtube.com/watch?v=wK-gmVfrISk"
+  },
+  {
+    "id": "sr_gabble_p075_s2",
+    "practice_number": 75,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 75) | Laundromat",
+    "topic": "Laundromat",
+    "scenario": "You are learning to assist customers at a laundromat.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please sort your clothes by color before washing.",
+    "word_count": 8,
+    "video_id": "wK-gmVfrISk",
+    "youtube_url": "https://www.youtube.com/watch?v=wK-gmVfrISk"
+  },
+  {
+    "id": "sr_gabble_p075_s3",
+    "practice_number": 75,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 75) | Laundromat",
+    "topic": "Laundromat",
+    "scenario": "You are learning to assist customers at a laundromat.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Washing takes about thirty minutes and drying takes forty-five.",
+    "word_count": 9,
+    "video_id": "wK-gmVfrISk",
+    "youtube_url": "https://www.youtube.com/watch?v=wK-gmVfrISk"
+  },
+  {
+    "id": "sr_gabble_p075_s4",
+    "practice_number": 75,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 75) | Laundromat",
+    "topic": "Laundromat",
+    "scenario": "You are learning to assist customers at a laundromat.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Use the correct amount of detergent to avoid oversudsing the machine.",
+    "word_count": 11,
+    "video_id": "wK-gmVfrISk",
+    "youtube_url": "https://www.youtube.com/watch?v=wK-gmVfrISk"
+  },
+  {
+    "id": "sr_gabble_p075_s5",
+    "practice_number": 75,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 75) | Laundromat",
+    "topic": "Laundromat",
+    "scenario": "You are learning to assist customers at a laundromat.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Please remove your laundry promptly when the cycle ends to free the machine for others.",
+    "word_count": 15,
+    "video_id": "wK-gmVfrISk",
+    "youtube_url": "https://www.youtube.com/watch?v=wK-gmVfrISk"
+  },
+  {
+    "id": "sr_gabble_p075_s6",
+    "practice_number": 75,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 75) | Laundromat",
+    "topic": "Laundromat",
+    "scenario": "You are learning to assist customers at a laundromat.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If a machine stops working during your cycle, let the attendant know and we will issue a refund.",
+    "word_count": 18,
+    "video_id": "wK-gmVfrISk",
+    "youtube_url": "https://www.youtube.com/watch?v=wK-gmVfrISk"
+  },
+  {
+    "id": "sr_gabble_p075_s7",
+    "practice_number": 75,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 75) | Laundromat",
+    "topic": "Laundromat",
+    "scenario": "You are learning to assist customers at a laundromat.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Customers are responsible for any items left unattended, as the laundromat cannot be held liable for lost belongings.",
+    "word_count": 18,
+    "video_id": "wK-gmVfrISk",
+    "youtube_url": "https://www.youtube.com/watch?v=wK-gmVfrISk"
+  },
+  {
+    "id": "sr_gabble_p076_s1",
+    "practice_number": 76,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 76) | Passport Office",
+    "topic": "Passport Office",
+    "scenario": "You are learning to assist applicants at a passport office.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Do you have an appointment?",
+    "word_count": 5,
+    "video_id": "UCKYWm7Hkos",
+    "youtube_url": "https://www.youtube.com/watch?v=UCKYWm7Hkos"
+  },
+  {
+    "id": "sr_gabble_p076_s2",
+    "practice_number": 76,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 76) | Passport Office",
+    "topic": "Passport Office",
+    "scenario": "You are learning to assist applicants at a passport office.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please fill out the application form completely.",
+    "word_count": 7,
+    "video_id": "UCKYWm7Hkos",
+    "youtube_url": "https://www.youtube.com/watch?v=UCKYWm7Hkos"
+  },
+  {
+    "id": "sr_gabble_p076_s3",
+    "practice_number": 76,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 76) | Passport Office",
+    "topic": "Passport Office",
+    "scenario": "You are learning to assist applicants at a passport office.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Two recent passport-sized photos are required with your application.",
+    "word_count": 9,
+    "video_id": "UCKYWm7Hkos",
+    "youtube_url": "https://www.youtube.com/watch?v=UCKYWm7Hkos"
+  },
+  {
+    "id": "sr_gabble_p076_s4",
+    "practice_number": 76,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 76) | Passport Office",
+    "topic": "Passport Office",
+    "scenario": "You are learning to assist applicants at a passport office.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Standard processing takes four to six weeks from the date your application is received.",
+    "word_count": 14,
+    "video_id": "UCKYWm7Hkos",
+    "youtube_url": "https://www.youtube.com/watch?v=UCKYWm7Hkos"
+  },
+  {
+    "id": "sr_gabble_p076_s5",
+    "practice_number": 76,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 76) | Passport Office",
+    "topic": "Passport Office",
+    "scenario": "You are learning to assist applicants at a passport office.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Expedited processing is available for an extra fee if you need your passport within two to three weeks.",
+    "word_count": 18,
+    "video_id": "UCKYWm7Hkos",
+    "youtube_url": "https://www.youtube.com/watch?v=UCKYWm7Hkos"
+  },
+  {
+    "id": "sr_gabble_p076_s6",
+    "practice_number": 76,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 76) | Passport Office",
+    "topic": "Passport Office",
+    "scenario": "You are learning to assist applicants at a passport office.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Please double-check that all information on the form is accurate, as errors can cause significant delays in processing.",
+    "word_count": 18,
+    "video_id": "UCKYWm7Hkos",
+    "youtube_url": "https://www.youtube.com/watch?v=UCKYWm7Hkos"
+  },
+  {
+    "id": "sr_gabble_p076_s7",
+    "practice_number": 76,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 76) | Passport Office",
+    "topic": "Passport Office",
+    "scenario": "You are learning to assist applicants at a passport office.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Once your passport is ready, it will be mailed to the address you provided on the application form within three to five business days.",
+    "word_count": 24,
+    "video_id": "UCKYWm7Hkos",
+    "youtube_url": "https://www.youtube.com/watch?v=UCKYWm7Hkos"
+  },
+  {
+    "id": "sr_gabble_p077_s1",
+    "practice_number": 77,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 77) | Medical Clinic",
+    "topic": "Medical Clinic",
+    "scenario": "You are learning to manage appointments at a medical clinic.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "How can I help you?",
+    "word_count": 5,
+    "video_id": "NXNwsrKFqrE",
+    "youtube_url": "https://www.youtube.com/watch?v=NXNwsrKFqrE"
+  },
+  {
+    "id": "sr_gabble_p077_s2",
+    "practice_number": 77,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 77) | Medical Clinic",
+    "topic": "Medical Clinic",
+    "scenario": "You are learning to manage appointments at a medical clinic.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "The next available slot is Thursday at two.",
+    "word_count": 8,
+    "video_id": "NXNwsrKFqrE",
+    "youtube_url": "https://www.youtube.com/watch?v=NXNwsrKFqrE"
+  },
+  {
+    "id": "sr_gabble_p077_s3",
+    "practice_number": 77,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 77) | Medical Clinic",
+    "topic": "Medical Clinic",
+    "scenario": "You are learning to manage appointments at a medical clinic.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Please bring your insurance card and a valid photo ID.",
+    "word_count": 10,
+    "video_id": "NXNwsrKFqrE",
+    "youtube_url": "https://www.youtube.com/watch?v=NXNwsrKFqrE"
+  },
+  {
+    "id": "sr_gabble_p077_s4",
+    "practice_number": 77,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 77) | Medical Clinic",
+    "topic": "Medical Clinic",
+    "scenario": "You are learning to manage appointments at a medical clinic.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "If you need to cancel, please call at least twenty-four hours before your appointment.",
+    "word_count": 14,
+    "video_id": "NXNwsrKFqrE",
+    "youtube_url": "https://www.youtube.com/watch?v=NXNwsrKFqrE"
+  },
+  {
+    "id": "sr_gabble_p077_s5",
+    "practice_number": 77,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 77) | Medical Clinic",
+    "topic": "Medical Clinic",
+    "scenario": "You are learning to manage appointments at a medical clinic.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "New patients are asked to arrive fifteen minutes early to complete their registration paperwork.",
+    "word_count": 14,
+    "video_id": "NXNwsrKFqrE",
+    "youtube_url": "https://www.youtube.com/watch?v=NXNwsrKFqrE"
+  },
+  {
+    "id": "sr_gabble_p077_s6",
+    "practice_number": 77,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 77) | Medical Clinic",
+    "topic": "Medical Clinic",
+    "scenario": "You are learning to manage appointments at a medical clinic.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Please let us know in advance if you require a translator or any other special accommodation.",
+    "word_count": 16,
+    "video_id": "NXNwsrKFqrE",
+    "youtube_url": "https://www.youtube.com/watch?v=NXNwsrKFqrE"
+  },
+  {
+    "id": "sr_gabble_p077_s7",
+    "practice_number": 77,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 77) | Medical Clinic",
+    "topic": "Medical Clinic",
+    "scenario": "You are learning to manage appointments at a medical clinic.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "After your visit, the doctor may send prescriptions directly to your preferred pharmacy, so please provide that information.",
+    "word_count": 18,
+    "video_id": "NXNwsrKFqrE",
+    "youtube_url": "https://www.youtube.com/watch?v=NXNwsrKFqrE"
+  },
+  {
+    "id": "sr_gabble_p078_s1",
+    "practice_number": 78,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 78) | Recycling Center",
+    "topic": "Recycling Center",
+    "scenario": "You are learning to assist visitors at a recycling center.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to the recycling center.",
+    "word_count": 5,
+    "video_id": "cx8tvScFyk0",
+    "youtube_url": "https://www.youtube.com/watch?v=cx8tvScFyk0"
+  },
+  {
+    "id": "sr_gabble_p078_s2",
+    "practice_number": 78,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 78) | Recycling Center",
+    "topic": "Recycling Center",
+    "scenario": "You are learning to assist visitors at a recycling center.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please separate your items by material type.",
+    "word_count": 7,
+    "video_id": "cx8tvScFyk0",
+    "youtube_url": "https://www.youtube.com/watch?v=cx8tvScFyk0"
+  },
+  {
+    "id": "sr_gabble_p078_s3",
+    "practice_number": 78,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 78) | Recycling Center",
+    "topic": "Recycling Center",
+    "scenario": "You are learning to assist visitors at a recycling center.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Glass, paper, plastic, and metal must each go in different bins.",
+    "word_count": 11,
+    "video_id": "cx8tvScFyk0",
+    "youtube_url": "https://www.youtube.com/watch?v=cx8tvScFyk0"
+  },
+  {
+    "id": "sr_gabble_p078_s4",
+    "practice_number": 78,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 78) | Recycling Center",
+    "topic": "Recycling Center",
+    "scenario": "You are learning to assist visitors at a recycling center.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Hazardous waste such as batteries and paint must be dropped off at the dedicated hazardous waste station.",
+    "word_count": 17,
+    "video_id": "cx8tvScFyk0",
+    "youtube_url": "https://www.youtube.com/watch?v=cx8tvScFyk0"
+  },
+  {
+    "id": "sr_gabble_p078_s5",
+    "practice_number": 78,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 78) | Recycling Center",
+    "topic": "Recycling Center",
+    "scenario": "You are learning to assist visitors at a recycling center.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Electronic devices like phones and computers can be recycled for free at our e-waste collection point.",
+    "word_count": 16,
+    "video_id": "cx8tvScFyk0",
+    "youtube_url": "https://www.youtube.com/watch?v=cx8tvScFyk0"
+  },
+  {
+    "id": "sr_gabble_p078_s6",
+    "practice_number": 78,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 78) | Recycling Center",
+    "topic": "Recycling Center",
+    "scenario": "You are learning to assist visitors at a recycling center.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Items that are still in usable condition can be donated at the thrift store located just next to the main facility.",
+    "word_count": 21,
+    "video_id": "cx8tvScFyk0",
+    "youtube_url": "https://www.youtube.com/watch?v=cx8tvScFyk0"
+  },
+  {
+    "id": "sr_gabble_p078_s7",
+    "practice_number": 78,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 78) | Recycling Center",
+    "topic": "Recycling Center",
+    "scenario": "You are learning to assist visitors at a recycling center.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "By recycling correctly today, you are helping reduce landfill waste and contributing to a healthier environment for future generations.",
+    "word_count": 19,
+    "video_id": "cx8tvScFyk0",
+    "youtube_url": "https://www.youtube.com/watch?v=cx8tvScFyk0"
+  },
+  {
+    "id": "sr_gabble_p079_s1",
+    "practice_number": 79,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 79) | Electronics Store",
+    "topic": "Electronics Store",
+    "scenario": "You are learning to assist customers at an electronics store.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome, how can I help?",
+    "word_count": 5,
+    "video_id": "3DJh1tW2hK8",
+    "youtube_url": "https://www.youtube.com/watch?v=3DJh1tW2hK8"
+  },
+  {
+    "id": "sr_gabble_p079_s2",
+    "practice_number": 79,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 79) | Electronics Store",
+    "topic": "Electronics Store",
+    "scenario": "You are learning to assist customers at an electronics store.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "What type of device are you looking for?",
+    "word_count": 8,
+    "video_id": "3DJh1tW2hK8",
+    "youtube_url": "https://www.youtube.com/watch?v=3DJh1tW2hK8"
+  },
+  {
+    "id": "sr_gabble_p079_s3",
+    "practice_number": 79,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 79) | Electronics Store",
+    "topic": "Electronics Store",
+    "scenario": "You are learning to assist customers at an electronics store.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "This model has the best battery life in its price range.",
+    "word_count": 11,
+    "video_id": "3DJh1tW2hK8",
+    "youtube_url": "https://www.youtube.com/watch?v=3DJh1tW2hK8"
+  },
+  {
+    "id": "sr_gabble_p079_s4",
+    "practice_number": 79,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 79) | Electronics Store",
+    "topic": "Electronics Store",
+    "scenario": "You are learning to assist customers at an electronics store.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "We offer a two-year extended warranty for an additional charge.",
+    "word_count": 10,
+    "video_id": "3DJh1tW2hK8",
+    "youtube_url": "https://www.youtube.com/watch?v=3DJh1tW2hK8"
+  },
+  {
+    "id": "sr_gabble_p079_s5",
+    "practice_number": 79,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 79) | Electronics Store",
+    "topic": "Electronics Store",
+    "scenario": "You are learning to assist customers at an electronics store.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "All purchases can be returned within thirty days provided the item is in its original condition.",
+    "word_count": 16,
+    "video_id": "3DJh1tW2hK8",
+    "youtube_url": "https://www.youtube.com/watch?v=3DJh1tW2hK8"
+  },
+  {
+    "id": "sr_gabble_p079_s6",
+    "practice_number": 79,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 79) | Electronics Store",
+    "topic": "Electronics Store",
+    "scenario": "You are learning to assist customers at an electronics store.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Our technicians are available in store to help you set up your new device before you leave.",
+    "word_count": 17,
+    "video_id": "3DJh1tW2hK8",
+    "youtube_url": "https://www.youtube.com/watch?v=3DJh1tW2hK8"
+  },
+  {
+    "id": "sr_gabble_p079_s7",
+    "practice_number": 79,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 79) | Electronics Store",
+    "topic": "Electronics Store",
+    "scenario": "You are learning to assist customers at an electronics store.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you are trading in an old device, bring it with you and we will apply the trade-in value toward your new purchase.",
+    "word_count": 23,
+    "video_id": "3DJh1tW2hK8",
+    "youtube_url": "https://www.youtube.com/watch?v=3DJh1tW2hK8"
+  },
+  {
+    "id": "sr_gabble_p080_s1",
+    "practice_number": 80,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 80) | Veterinary Clinic",
+    "topic": "Veterinary Clinic",
+    "scenario": "You are learning to assist pet owners at a veterinary clinic.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Please have a seat here.",
+    "word_count": 5,
+    "video_id": "0dfdRjsmskA",
+    "youtube_url": "https://www.youtube.com/watch?v=0dfdRjsmskA"
+  },
+  {
+    "id": "sr_gabble_p080_s2",
+    "practice_number": 80,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 80) | Veterinary Clinic",
+    "topic": "Veterinary Clinic",
+    "scenario": "You are learning to assist pet owners at a veterinary clinic.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "What seems to be wrong with your pet?",
+    "word_count": 8,
+    "video_id": "0dfdRjsmskA",
+    "youtube_url": "https://www.youtube.com/watch?v=0dfdRjsmskA"
+  },
+  {
+    "id": "sr_gabble_p080_s3",
+    "practice_number": 80,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 80) | Veterinary Clinic",
+    "topic": "Veterinary Clinic",
+    "scenario": "You are learning to assist pet owners at a veterinary clinic.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "We will take your pet's weight and temperature first.",
+    "word_count": 9,
+    "video_id": "0dfdRjsmskA",
+    "youtube_url": "https://www.youtube.com/watch?v=0dfdRjsmskA"
+  },
+  {
+    "id": "sr_gabble_p080_s4",
+    "practice_number": 80,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 80) | Veterinary Clinic",
+    "topic": "Veterinary Clinic",
+    "scenario": "You are learning to assist pet owners at a veterinary clinic.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Please keep your pet on a leash or in its carrier while in the waiting area.",
+    "word_count": 16,
+    "video_id": "0dfdRjsmskA",
+    "youtube_url": "https://www.youtube.com/watch?v=0dfdRjsmskA"
+  },
+  {
+    "id": "sr_gabble_p080_s5",
+    "practice_number": 80,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 80) | Veterinary Clinic",
+    "topic": "Veterinary Clinic",
+    "scenario": "You are learning to assist pet owners at a veterinary clinic.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Annual vaccinations and parasite prevention are important parts of keeping your pet healthy.",
+    "word_count": 13,
+    "video_id": "0dfdRjsmskA",
+    "youtube_url": "https://www.youtube.com/watch?v=0dfdRjsmskA"
+  },
+  {
+    "id": "sr_gabble_p080_s6",
+    "practice_number": 80,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 80) | Veterinary Clinic",
+    "topic": "Veterinary Clinic",
+    "scenario": "You are learning to assist pet owners at a veterinary clinic.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "The vet may recommend some diagnostic tests such as blood work or an X-ray to make a diagnosis.",
+    "word_count": 18,
+    "video_id": "0dfdRjsmskA",
+    "youtube_url": "https://www.youtube.com/watch?v=0dfdRjsmskA"
+  },
+  {
+    "id": "sr_gabble_p080_s7",
+    "practice_number": 80,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 80) | Veterinary Clinic",
+    "topic": "Veterinary Clinic",
+    "scenario": "You are learning to assist pet owners at a veterinary clinic.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If your pet requires surgery, you will need to sign a consent form and leave your pet with us for the day.",
+    "word_count": 22,
+    "video_id": "0dfdRjsmskA",
+    "youtube_url": "https://www.youtube.com/watch?v=0dfdRjsmskA"
+  },
+  {
+    "id": "sr_gabble_p081_s1",
+    "practice_number": 81,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 81) | Community College Registration Office",
+    "topic": "Community College Registration Office",
+    "scenario": "You are learning to assist students at a community college registration office.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome, do you have a student ID?",
+    "word_count": 7,
+    "video_id": "bhpWPFMASS4",
+    "youtube_url": "https://www.youtube.com/watch?v=bhpWPFMASS4"
+  },
+  {
+    "id": "sr_gabble_p081_s2",
+    "practice_number": 81,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 81) | Community College Registration Office",
+    "topic": "Community College Registration Office",
+    "scenario": "You are learning to assist students at a community college registration office.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Which course are you looking to register for?",
+    "word_count": 8,
+    "video_id": "bhpWPFMASS4",
+    "youtube_url": "https://www.youtube.com/watch?v=bhpWPFMASS4"
+  },
+  {
+    "id": "sr_gabble_p081_s3",
+    "practice_number": 81,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 81) | Community College Registration Office",
+    "topic": "Community College Registration Office",
+    "scenario": "You are learning to assist students at a community college registration office.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "That class still has open seats this semester.",
+    "word_count": 8,
+    "video_id": "bhpWPFMASS4",
+    "youtube_url": "https://www.youtube.com/watch?v=bhpWPFMASS4"
+  },
+  {
+    "id": "sr_gabble_p081_s4",
+    "practice_number": 81,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 81) | Community College Registration Office",
+    "topic": "Community College Registration Office",
+    "scenario": "You are learning to assist students at a community college registration office.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Some courses have prerequisites that must be completed before enrolling.",
+    "word_count": 10,
+    "video_id": "bhpWPFMASS4",
+    "youtube_url": "https://www.youtube.com/watch?v=bhpWPFMASS4"
+  },
+  {
+    "id": "sr_gabble_p081_s5",
+    "practice_number": 81,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 81) | Community College Registration Office",
+    "topic": "Community College Registration Office",
+    "scenario": "You are learning to assist students at a community college registration office.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "You can register online, by phone, or in person at this office.",
+    "word_count": 12,
+    "video_id": "bhpWPFMASS4",
+    "youtube_url": "https://www.youtube.com/watch?v=bhpWPFMASS4"
+  },
+  {
+    "id": "sr_gabble_p081_s6",
+    "practice_number": 81,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 81) | Community College Registration Office",
+    "topic": "Community College Registration Office",
+    "scenario": "You are learning to assist students at a community college registration office.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Tuition payment is due within one week of registration to secure your spot in the class.",
+    "word_count": 16,
+    "video_id": "bhpWPFMASS4",
+    "youtube_url": "https://www.youtube.com/watch?v=bhpWPFMASS4"
+  },
+  {
+    "id": "sr_gabble_p081_s7",
+    "practice_number": 81,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 81) | Community College Registration Office",
+    "topic": "Community College Registration Office",
+    "scenario": "You are learning to assist students at a community college registration office.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you need to withdraw from a course, please do so before the official deadline to avoid receiving a failing grade on your academic record.",
+    "word_count": 25,
+    "video_id": "bhpWPFMASS4",
+    "youtube_url": "https://www.youtube.com/watch?v=bhpWPFMASS4"
+  },
+  {
+    "id": "sr_gabble_p082_s1",
+    "practice_number": 82,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 82) | Hardware Store",
+    "topic": "Hardware Store",
+    "scenario": "You are learning to assist customers at a hardware store.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome, what are you working on today?",
+    "word_count": 7,
+    "video_id": "hidAYydRZOs",
+    "youtube_url": "https://www.youtube.com/watch?v=hidAYydRZOs"
+  },
+  {
+    "id": "sr_gabble_p082_s2",
+    "practice_number": 82,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 82) | Hardware Store",
+    "topic": "Hardware Store",
+    "scenario": "You are learning to assist customers at a hardware store.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Those items are in aisle seven.",
+    "word_count": 6,
+    "video_id": "hidAYydRZOs",
+    "youtube_url": "https://www.youtube.com/watch?v=hidAYydRZOs"
+  },
+  {
+    "id": "sr_gabble_p082_s3",
+    "practice_number": 82,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 82) | Hardware Store",
+    "topic": "Hardware Store",
+    "scenario": "You are learning to assist customers at a hardware store.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "This drill is our best seller for home use.",
+    "word_count": 9,
+    "video_id": "hidAYydRZOs",
+    "youtube_url": "https://www.youtube.com/watch?v=hidAYydRZOs"
+  },
+  {
+    "id": "sr_gabble_p082_s4",
+    "practice_number": 82,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 82) | Hardware Store",
+    "topic": "Hardware Store",
+    "scenario": "You are learning to assist customers at a hardware store.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Make sure to wear safety goggles when cutting or sanding materials.",
+    "word_count": 11,
+    "video_id": "hidAYydRZOs",
+    "youtube_url": "https://www.youtube.com/watch?v=hidAYydRZOs"
+  },
+  {
+    "id": "sr_gabble_p082_s5",
+    "practice_number": 82,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 82) | Hardware Store",
+    "topic": "Hardware Store",
+    "scenario": "You are learning to assist customers at a hardware store.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "We offer free equipment rental for large tools if you only need them for one job.",
+    "word_count": 16,
+    "video_id": "hidAYydRZOs",
+    "youtube_url": "https://www.youtube.com/watch?v=hidAYydRZOs"
+  },
+  {
+    "id": "sr_gabble_p082_s6",
+    "practice_number": 82,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 82) | Hardware Store",
+    "topic": "Hardware Store",
+    "scenario": "You are learning to assist customers at a hardware store.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If you are not sure which materials to buy, our staff can help you create a list based on your project.",
+    "word_count": 21,
+    "video_id": "hidAYydRZOs",
+    "youtube_url": "https://www.youtube.com/watch?v=hidAYydRZOs"
+  },
+  {
+    "id": "sr_gabble_p082_s7",
+    "practice_number": 82,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 82) | Hardware Store",
+    "topic": "Hardware Store",
+    "scenario": "You are learning to assist customers at a hardware store.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "All power tools purchased in store come with a thirty-day return policy, provided the item has not been damaged and the original packaging is intact.",
+    "word_count": 25,
+    "video_id": "hidAYydRZOs",
+    "youtube_url": "https://www.youtube.com/watch?v=hidAYydRZOs"
+  },
+  {
+    "id": "sr_gabble_p083_s1",
+    "practice_number": 83,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 83) | Dental Clinic",
+    "topic": "Dental Clinic",
+    "scenario": "You are learning to assist patients at a dental clinic.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Please fill out this health form.",
+    "word_count": 6,
+    "video_id": "91_bUlW84BY",
+    "youtube_url": "https://www.youtube.com/watch?v=91_bUlW84BY"
+  },
+  {
+    "id": "sr_gabble_p083_s2",
+    "practice_number": 83,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 83) | Dental Clinic",
+    "topic": "Dental Clinic",
+    "scenario": "You are learning to assist patients at a dental clinic.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "When did you last visit a dentist?",
+    "word_count": 7,
+    "video_id": "91_bUlW84BY",
+    "youtube_url": "https://www.youtube.com/watch?v=91_bUlW84BY"
+  },
+  {
+    "id": "sr_gabble_p083_s3",
+    "practice_number": 83,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 83) | Dental Clinic",
+    "topic": "Dental Clinic",
+    "scenario": "You are learning to assist patients at a dental clinic.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "The dentist will take a few X-rays first.",
+    "word_count": 8,
+    "video_id": "91_bUlW84BY",
+    "youtube_url": "https://www.youtube.com/watch?v=91_bUlW84BY"
+  },
+  {
+    "id": "sr_gabble_p083_s4",
+    "practice_number": 83,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 83) | Dental Clinic",
+    "topic": "Dental Clinic",
+    "scenario": "You are learning to assist patients at a dental clinic.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Please rinse your mouth with this solution before we begin.",
+    "word_count": 10,
+    "video_id": "91_bUlW84BY",
+    "youtube_url": "https://www.youtube.com/watch?v=91_bUlW84BY"
+  },
+  {
+    "id": "sr_gabble_p083_s5",
+    "practice_number": 83,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 83) | Dental Clinic",
+    "topic": "Dental Clinic",
+    "scenario": "You are learning to assist patients at a dental clinic.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "It is recommended to brush twice a day and floss at least once a day.",
+    "word_count": 15,
+    "video_id": "91_bUlW84BY",
+    "youtube_url": "https://www.youtube.com/watch?v=91_bUlW84BY"
+  },
+  {
+    "id": "sr_gabble_p083_s6",
+    "practice_number": 83,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 83) | Dental Clinic",
+    "topic": "Dental Clinic",
+    "scenario": "You are learning to assist patients at a dental clinic.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If you experience sensitivity or pain after the procedure, please contact us right away.",
+    "word_count": 14,
+    "video_id": "91_bUlW84BY",
+    "youtube_url": "https://www.youtube.com/watch?v=91_bUlW84BY"
+  },
+  {
+    "id": "sr_gabble_p083_s7",
+    "practice_number": 83,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 83) | Dental Clinic",
+    "topic": "Dental Clinic",
+    "scenario": "You are learning to assist patients at a dental clinic.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "We recommend scheduling a routine cleaning and checkup every six months to help detect any issues early and maintain good oral health.",
+    "word_count": 22,
+    "video_id": "91_bUlW84BY",
+    "youtube_url": "https://www.youtube.com/watch?v=91_bUlW84BY"
+  },
+  {
+    "id": "sr_gabble_p084_s1",
+    "practice_number": 84,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 84) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome, do you have a reservation?",
+    "word_count": 6,
+    "video_id": "Rgk1MZyk3KU",
+    "youtube_url": "https://www.youtube.com/watch?v=Rgk1MZyk3KU"
+  },
+  {
+    "id": "sr_gabble_p084_s2",
+    "practice_number": 84,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 84) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "May I see your photo ID and credit card?",
+    "word_count": 9,
+    "video_id": "Rgk1MZyk3KU",
+    "youtube_url": "https://www.youtube.com/watch?v=Rgk1MZyk3KU"
+  },
+  {
+    "id": "sr_gabble_p084_s3",
+    "practice_number": 84,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 84) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Check-out time is eleven in the morning.",
+    "word_count": 7,
+    "video_id": "Rgk1MZyk3KU",
+    "youtube_url": "https://www.youtube.com/watch?v=Rgk1MZyk3KU"
+  },
+  {
+    "id": "sr_gabble_p084_s4",
+    "practice_number": 84,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 84) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Breakfast is served in the dining room from six to ten each morning.",
+    "word_count": 13,
+    "video_id": "Rgk1MZyk3KU",
+    "youtube_url": "https://www.youtube.com/watch?v=Rgk1MZyk3KU"
+  },
+  {
+    "id": "sr_gabble_p084_s5",
+    "practice_number": 84,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 84) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "If you need extra towels or pillows, please call housekeeping from your room phone.",
+    "word_count": 14,
+    "video_id": "Rgk1MZyk3KU",
+    "youtube_url": "https://www.youtube.com/watch?v=Rgk1MZyk3KU"
+  },
+  {
+    "id": "sr_gabble_p084_s6",
+    "practice_number": 84,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 84) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "The hotel gym and swimming pool are open twenty-four hours and are accessible with your room key card.",
+    "word_count": 18,
+    "video_id": "Rgk1MZyk3KU",
+    "youtube_url": "https://www.youtube.com/watch?v=Rgk1MZyk3KU"
+  },
+  {
+    "id": "sr_gabble_p084_s7",
+    "practice_number": 84,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 84) | Hotel Front Desk",
+    "topic": "Hotel Front Desk",
+    "scenario": "You are learning to assist guests at a hotel front desk.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Please be aware that any damages to the room or incidental charges will be settled automatically against the credit card on file at checkout.",
+    "word_count": 24,
+    "video_id": "Rgk1MZyk3KU",
+    "youtube_url": "https://www.youtube.com/watch?v=Rgk1MZyk3KU"
+  },
+  {
+    "id": "sr_gabble_p085_s1",
+    "practice_number": 85,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 85) | Community Food Bank",
+    "topic": "Community Food Bank",
+    "scenario": "You are learning to assist visitors at a community food bank.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome, we are glad you are here.",
+    "word_count": 7,
+    "video_id": "dIhVT4n45u0",
+    "youtube_url": "https://www.youtube.com/watch?v=dIhVT4n45u0"
+  },
+  {
+    "id": "sr_gabble_p085_s2",
+    "practice_number": 85,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 85) | Community Food Bank",
+    "topic": "Community Food Bank",
+    "scenario": "You are learning to assist visitors at a community food bank.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please sign in at the front table.",
+    "word_count": 7,
+    "video_id": "dIhVT4n45u0",
+    "youtube_url": "https://www.youtube.com/watch?v=dIhVT4n45u0"
+  },
+  {
+    "id": "sr_gabble_p085_s3",
+    "practice_number": 85,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 85) | Community Food Bank",
+    "topic": "Community Food Bank",
+    "scenario": "You are learning to assist visitors at a community food bank.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Food is distributed on Tuesdays and Fridays from nine to noon.",
+    "word_count": 11,
+    "video_id": "dIhVT4n45u0",
+    "youtube_url": "https://www.youtube.com/watch?v=dIhVT4n45u0"
+  },
+  {
+    "id": "sr_gabble_p085_s4",
+    "practice_number": 85,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 85) | Community Food Bank",
+    "topic": "Community Food Bank",
+    "scenario": "You are learning to assist visitors at a community food bank.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Each household receives one bag of groceries per visit per week.",
+    "word_count": 11,
+    "video_id": "dIhVT4n45u0",
+    "youtube_url": "https://www.youtube.com/watch?v=dIhVT4n45u0"
+  },
+  {
+    "id": "sr_gabble_p085_s5",
+    "practice_number": 85,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 85) | Community Food Bank",
+    "topic": "Community Food Bank",
+    "scenario": "You are learning to assist visitors at a community food bank.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Please let us know if anyone in your household has a food allergy or dietary requirement.",
+    "word_count": 16,
+    "video_id": "dIhVT4n45u0",
+    "youtube_url": "https://www.youtube.com/watch?v=dIhVT4n45u0"
+  },
+  {
+    "id": "sr_gabble_p085_s6",
+    "practice_number": 85,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 85) | Community Food Bank",
+    "topic": "Community Food Bank",
+    "scenario": "You are learning to assist visitors at a community food bank.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "We also have a clothing section and hygiene supply station available for families in need.",
+    "word_count": 15,
+    "video_id": "dIhVT4n45u0",
+    "youtube_url": "https://www.youtube.com/watch?v=dIhVT4n45u0"
+  },
+  {
+    "id": "sr_gabble_p085_s7",
+    "practice_number": 85,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 85) | Community Food Bank",
+    "topic": "Community Food Bank",
+    "scenario": "You are learning to assist visitors at a community food bank.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you would like to volunteer or make a donation, please speak with the coordinator at the desk, as we rely entirely on community support to serve our neighbors.",
+    "word_count": 29,
+    "video_id": "dIhVT4n45u0",
+    "youtube_url": "https://www.youtube.com/watch?v=dIhVT4n45u0"
+  },
+  {
+    "id": "sr_gabble_p086_s1",
+    "practice_number": 86,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 86) | Blood Donation Center",
+    "topic": "Blood Donation Center",
+    "scenario": "You are learning to assist donors at a blood donation center.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Thank you so much for coming in today.",
+    "word_count": 8,
+    "video_id": "G_sIvrMNq2E",
+    "youtube_url": "https://www.youtube.com/watch?v=G_sIvrMNq2E"
+  },
+  {
+    "id": "sr_gabble_p086_s2",
+    "practice_number": 86,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 86) | Blood Donation Center",
+    "topic": "Blood Donation Center",
+    "scenario": "You are learning to assist donors at a blood donation center.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please fill out this health screening form.",
+    "word_count": 7,
+    "video_id": "G_sIvrMNq2E",
+    "youtube_url": "https://www.youtube.com/watch?v=G_sIvrMNq2E"
+  },
+  {
+    "id": "sr_gabble_p086_s3",
+    "practice_number": 86,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 86) | Blood Donation Center",
+    "topic": "Blood Donation Center",
+    "scenario": "You are learning to assist donors at a blood donation center.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Have you eaten and had plenty of water today?",
+    "word_count": 9,
+    "video_id": "G_sIvrMNq2E",
+    "youtube_url": "https://www.youtube.com/watch?v=G_sIvrMNq2E"
+  },
+  {
+    "id": "sr_gabble_p086_s4",
+    "practice_number": 86,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 86) | Blood Donation Center",
+    "topic": "Blood Donation Center",
+    "scenario": "You are learning to assist donors at a blood donation center.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "The donation itself takes about 10 minutes once you are settled.",
+    "word_count": 11,
+    "video_id": "G_sIvrMNq2E",
+    "youtube_url": "https://www.youtube.com/watch?v=G_sIvrMNq2E"
+  },
+  {
+    "id": "sr_gabble_p086_s5",
+    "practice_number": 86,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 86) | Blood Donation Center",
+    "topic": "Blood Donation Center",
+    "scenario": "You are learning to assist donors at a blood donation center.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Please wait in the recovery area for 15 minutes after your donation.",
+    "word_count": 12,
+    "video_id": "G_sIvrMNq2E",
+    "youtube_url": "https://www.youtube.com/watch?v=G_sIvrMNq2E"
+  },
+  {
+    "id": "sr_gabble_p086_s6",
+    "practice_number": 86,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 86) | Blood Donation Center",
+    "topic": "Blood Donation Center",
+    "scenario": "You are learning to assist donors at a blood donation center.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Donors are asked to avoid strenuous exercise for the remainder of the day after giving blood.",
+    "word_count": 16,
+    "video_id": "G_sIvrMNq2E",
+    "youtube_url": "https://www.youtube.com/watch?v=G_sIvrMNq2E"
+  },
+  {
+    "id": "sr_gabble_p086_s7",
+    "practice_number": 86,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 86) | Blood Donation Center",
+    "topic": "Blood Donation Center",
+    "scenario": "You are learning to assist donors at a blood donation center.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "You are eligible to donate whole blood once every 56 days, and your contribution can help save up to three lives with a single donation.",
+    "word_count": 25,
+    "video_id": "G_sIvrMNq2E",
+    "youtube_url": "https://www.youtube.com/watch?v=G_sIvrMNq2E"
+  },
+  {
+    "id": "sr_gabble_p087_s1",
+    "practice_number": 87,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 87) | Fitness Gym",
+    "topic": "Fitness Gym",
+    "scenario": "You are learning to sign up new members at a fitness gym.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to our fitness center.",
+    "word_count": 5,
+    "video_id": "I7r7ngnwaB4",
+    "youtube_url": "https://www.youtube.com/watch?v=I7r7ngnwaB4"
+  },
+  {
+    "id": "sr_gabble_p087_s2",
+    "practice_number": 87,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 87) | Fitness Gym",
+    "topic": "Fitness Gym",
+    "scenario": "You are learning to sign up new members at a fitness gym.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "We offer monthly and annual membership plans.",
+    "word_count": 7,
+    "video_id": "I7r7ngnwaB4",
+    "youtube_url": "https://www.youtube.com/watch?v=I7r7ngnwaB4"
+  },
+  {
+    "id": "sr_gabble_p087_s3",
+    "practice_number": 87,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 87) | Fitness Gym",
+    "topic": "Fitness Gym",
+    "scenario": "You are learning to sign up new members at a fitness gym.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "All new members receive a free session with a personal trainer.",
+    "word_count": 11,
+    "video_id": "I7r7ngnwaB4",
+    "youtube_url": "https://www.youtube.com/watch?v=I7r7ngnwaB4"
+  },
+  {
+    "id": "sr_gabble_p087_s4",
+    "practice_number": 87,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 87) | Fitness Gym",
+    "topic": "Fitness Gym",
+    "scenario": "You are learning to sign up new members at a fitness gym.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "The gym is open 7 days a week from 5:00 in the morning until midnight.",
+    "word_count": 15,
+    "video_id": "I7r7ngnwaB4",
+    "youtube_url": "https://www.youtube.com/watch?v=I7r7ngnwaB4"
+  },
+  {
+    "id": "sr_gabble_p087_s5",
+    "practice_number": 87,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 87) | Fitness Gym",
+    "topic": "Fitness Gym",
+    "scenario": "You are learning to sign up new members at a fitness gym.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Members are asked to wipe down all equipment after use as a courtesy to others.",
+    "word_count": 15,
+    "video_id": "I7r7ngnwaB4",
+    "youtube_url": "https://www.youtube.com/watch?v=I7r7ngnwaB4"
+  },
+  {
+    "id": "sr_gabble_p087_s6",
+    "practice_number": 87,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 87) | Fitness Gym",
+    "topic": "Fitness Gym",
+    "scenario": "You are learning to sign up new members at a fitness gym.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If you decide to cancel your membership, written notice must be provided at least 30 days in advance.",
+    "word_count": 18,
+    "video_id": "I7r7ngnwaB4",
+    "youtube_url": "https://www.youtube.com/watch?v=I7r7ngnwaB4"
+  },
+  {
+    "id": "sr_gabble_p087_s7",
+    "practice_number": 87,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 87) | Fitness Gym",
+    "topic": "Fitness Gym",
+    "scenario": "You are learning to sign up new members at a fitness gym.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Our premium plan includes unlimited group fitness classes, access to the sauna, and priority booking for personal training appointments throughout the year.",
+    "word_count": 22,
+    "video_id": "I7r7ngnwaB4",
+    "youtube_url": "https://www.youtube.com/watch?v=I7r7ngnwaB4"
+  },
+  {
+    "id": "sr_gabble_p088_s1",
+    "practice_number": 88,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 88) | Public Aquatic Center",
+    "topic": "Public Aquatic Center",
+    "scenario": "You are learning to assist visitors at a public aquatic center.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to the aquatic center.",
+    "word_count": 5,
+    "video_id": "gUcLaUM8oiE",
+    "youtube_url": "https://www.youtube.com/watch?v=gUcLaUM8oiE"
+  },
+  {
+    "id": "sr_gabble_p088_s2",
+    "practice_number": 88,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 88) | Public Aquatic Center",
+    "topic": "Public Aquatic Center",
+    "scenario": "You are learning to assist visitors at a public aquatic center.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please shower before entering the pool.",
+    "word_count": 6,
+    "video_id": "gUcLaUM8oiE",
+    "youtube_url": "https://www.youtube.com/watch?v=gUcLaUM8oiE"
+  },
+  {
+    "id": "sr_gabble_p088_s3",
+    "practice_number": 88,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 88) | Public Aquatic Center",
+    "topic": "Public Aquatic Center",
+    "scenario": "You are learning to assist visitors at a public aquatic center.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Running on the pool deck is strictly prohibited.",
+    "word_count": 8,
+    "video_id": "gUcLaUM8oiE",
+    "youtube_url": "https://www.youtube.com/watch?v=gUcLaUM8oiE"
+  },
+  {
+    "id": "sr_gabble_p088_s4",
+    "practice_number": 88,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 88) | Public Aquatic Center",
+    "topic": "Public Aquatic Center",
+    "scenario": "You are learning to assist visitors at a public aquatic center.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Children under 12 must be accompanied by an adult at all times.",
+    "word_count": 12,
+    "video_id": "gUcLaUM8oiE",
+    "youtube_url": "https://www.youtube.com/watch?v=gUcLaUM8oiE"
+  },
+  {
+    "id": "sr_gabble_p088_s5",
+    "practice_number": 88,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 88) | Public Aquatic Center",
+    "topic": "Public Aquatic Center",
+    "scenario": "You are learning to assist visitors at a public aquatic center.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Lane swimming is available during lap hours from 6:00 to 8:00 every morning.",
+    "word_count": 13,
+    "video_id": "gUcLaUM8oiE",
+    "youtube_url": "https://www.youtube.com/watch?v=gUcLaUM8oiE"
+  },
+  {
+    "id": "sr_gabble_p088_s6",
+    "practice_number": 88,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 88) | Public Aquatic Center",
+    "topic": "Public Aquatic Center",
+    "scenario": "You are learning to assist visitors at a public aquatic center.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Proper swimwear is required and street clothes are not permitted in the pool.",
+    "word_count": 13,
+    "video_id": "gUcLaUM8oiE",
+    "youtube_url": "https://www.youtube.com/watch?v=gUcLaUM8oiE"
+  },
+  {
+    "id": "sr_gabble_p088_s7",
+    "practice_number": 88,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 88) | Public Aquatic Center",
+    "topic": "Public Aquatic Center",
+    "scenario": "You are learning to assist visitors at a public aquatic center.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Swimming lessons for children and adults are offered in 6-week sessions, and registration opens online on the 1st of each month.",
+    "word_count": 21,
+    "video_id": "gUcLaUM8oiE",
+    "youtube_url": "https://www.youtube.com/watch?v=gUcLaUM8oiE"
+  },
+  {
+    "id": "sr_gabble_p089_s1",
+    "practice_number": 89,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 89) | Immigration Office",
+    "topic": "Immigration Office",
+    "scenario": "You are learning to assist applicants at an immigration office.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Please take a number and wait.",
+    "word_count": 6,
+    "video_id": "nGMSs8FDccE",
+    "youtube_url": "https://www.youtube.com/watch?v=nGMSs8FDccE"
+  },
+  {
+    "id": "sr_gabble_p089_s2",
+    "practice_number": 89,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 89) | Immigration Office",
+    "topic": "Immigration Office",
+    "scenario": "You are learning to assist applicants at an immigration office.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Do you have an appointment scheduled?",
+    "word_count": 6,
+    "video_id": "nGMSs8FDccE",
+    "youtube_url": "https://www.youtube.com/watch?v=nGMSs8FDccE"
+  },
+  {
+    "id": "sr_gabble_p089_s3",
+    "practice_number": 89,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 89) | Immigration Office",
+    "topic": "Immigration Office",
+    "scenario": "You are learning to assist applicants at an immigration office.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Please submit all original documents along with one copy of each.",
+    "word_count": 11,
+    "video_id": "nGMSs8FDccE",
+    "youtube_url": "https://www.youtube.com/watch?v=nGMSs8FDccE"
+  },
+  {
+    "id": "sr_gabble_p089_s4",
+    "practice_number": 89,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 89) | Immigration Office",
+    "topic": "Immigration Office",
+    "scenario": "You are learning to assist applicants at an immigration office.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Your current visa status must remain valid throughout the application process.",
+    "word_count": 11,
+    "video_id": "nGMSs8FDccE",
+    "youtube_url": "https://www.youtube.com/watch?v=nGMSs8FDccE"
+  },
+  {
+    "id": "sr_gabble_p089_s5",
+    "practice_number": 89,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 89) | Immigration Office",
+    "topic": "Immigration Office",
+    "scenario": "You are learning to assist applicants at an immigration office.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Processing times depend on the type of application and the volume of cases being handled.",
+    "word_count": 15,
+    "video_id": "nGMSs8FDccE",
+    "youtube_url": "https://www.youtube.com/watch?v=nGMSs8FDccE"
+  },
+  {
+    "id": "sr_gabble_p089_s6",
+    "practice_number": 89,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 89) | Immigration Office",
+    "topic": "Immigration Office",
+    "scenario": "You are learning to assist applicants at an immigration office.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "You will receive a written notice by mail once a decision has been made on your application.",
+    "word_count": 17,
+    "video_id": "nGMSs8FDccE",
+    "youtube_url": "https://www.youtube.com/watch?v=nGMSs8FDccE"
+  },
+  {
+    "id": "sr_gabble_p089_s7",
+    "practice_number": 89,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 89) | Immigration Office",
+    "topic": "Immigration Office",
+    "scenario": "You are learning to assist applicants at an immigration office.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If your circumstances change after submitting your application, such as a change of address or employment, you must notify this office in writing as soon as possible.",
+    "word_count": 27,
+    "video_id": "nGMSs8FDccE",
+    "youtube_url": "https://www.youtube.com/watch?v=nGMSs8FDccE"
+  },
+  {
+    "id": "sr_gabble_p090_s1",
+    "practice_number": 90,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 90) | Yoga Studio",
+    "topic": "Yoga Studio",
+    "scenario": "You are learning to welcome students at a yoga studio.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome. Please remove your shoes at the door.",
+    "word_count": 8,
+    "video_id": "wGPINNjw_7Y",
+    "youtube_url": "https://www.youtube.com/watch?v=wGPINNjw_7Y"
+  },
+  {
+    "id": "sr_gabble_p090_s2",
+    "practice_number": 90,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 90) | Yoga Studio",
+    "topic": "Yoga Studio",
+    "scenario": "You are learning to welcome students at a yoga studio.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Mats are available to borrow at the front desk.",
+    "word_count": 9,
+    "video_id": "wGPINNjw_7Y",
+    "youtube_url": "https://www.youtube.com/watch?v=wGPINNjw_7Y"
+  },
+  {
+    "id": "sr_gabble_p090_s3",
+    "practice_number": 90,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 90) | Yoga Studio",
+    "topic": "Yoga Studio",
+    "scenario": "You are learning to welcome students at a yoga studio.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Please arrive a few minutes early to settle in.",
+    "word_count": 9,
+    "video_id": "wGPINNjw_7Y",
+    "youtube_url": "https://www.youtube.com/watch?v=wGPINNjw_7Y"
+  },
+  {
+    "id": "sr_gabble_p090_s4",
+    "practice_number": 90,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 90) | Yoga Studio",
+    "topic": "Yoga Studio",
+    "scenario": "You are learning to welcome students at a yoga studio.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Let me know if you have any injuries I should be aware of.",
+    "word_count": 13,
+    "video_id": "wGPINNjw_7Y",
+    "youtube_url": "https://www.youtube.com/watch?v=wGPINNjw_7Y"
+  },
+  {
+    "id": "sr_gabble_p090_s5",
+    "practice_number": 90,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 90) | Yoga Studio",
+    "topic": "Yoga Studio",
+    "scenario": "You are learning to welcome students at a yoga studio.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Focus on your breathing throughout the class and move at your own pace.",
+    "word_count": 13,
+    "video_id": "wGPINNjw_7Y",
+    "youtube_url": "https://www.youtube.com/watch?v=wGPINNjw_7Y"
+  },
+  {
+    "id": "sr_gabble_p090_s6",
+    "practice_number": 90,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 90) | Yoga Studio",
+    "topic": "Yoga Studio",
+    "scenario": "You are learning to welcome students at a yoga studio.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "We ask that you turn off your phone or put it on silent before entering the studio.",
+    "word_count": 17,
+    "video_id": "wGPINNjw_7Y",
+    "youtube_url": "https://www.youtube.com/watch?v=wGPINNjw_7Y"
+  },
+  {
+    "id": "sr_gabble_p090_s7",
+    "practice_number": 90,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 90) | Yoga Studio",
+    "topic": "Yoga Studio",
+    "scenario": "You are learning to welcome students at a yoga studio.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "New students are welcome to try their first class for free, and we offer a range of weekly membership plans to suit different schedules and budgets.",
+    "word_count": 26,
+    "video_id": "wGPINNjw_7Y",
+    "youtube_url": "https://www.youtube.com/watch?v=wGPINNjw_7Y"
+  },
+  {
+    "id": "sr_gabble_p091_s1",
+    "practice_number": 91,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 91) | Bakery",
+    "topic": "Bakery",
+    "scenario": "You are learning to serve customers at a bakery.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Good morning. What can I get you?",
+    "word_count": 7,
+    "video_id": "h1Dxi0VRRQk",
+    "youtube_url": "https://www.youtube.com/watch?v=h1Dxi0VRRQk"
+  },
+  {
+    "id": "sr_gabble_p091_s2",
+    "practice_number": 91,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 91) | Bakery",
+    "topic": "Bakery",
+    "scenario": "You are learning to serve customers at a bakery.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Our sourdough is fresh out of the oven.",
+    "word_count": 8,
+    "video_id": "h1Dxi0VRRQk",
+    "youtube_url": "https://www.youtube.com/watch?v=h1Dxi0VRRQk"
+  },
+  {
+    "id": "sr_gabble_p091_s3",
+    "practice_number": 91,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 91) | Bakery",
+    "topic": "Bakery",
+    "scenario": "You are learning to serve customers at a bakery.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "We bake new batches every morning at 6:00.",
+    "word_count": 8,
+    "video_id": "h1Dxi0VRRQk",
+    "youtube_url": "https://www.youtube.com/watch?v=h1Dxi0VRRQk"
+  },
+  {
+    "id": "sr_gabble_p091_s4",
+    "practice_number": 91,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 91) | Bakery",
+    "topic": "Bakery",
+    "scenario": "You are learning to serve customers at a bakery.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Custom cakes require at least three days notice to prepare.",
+    "word_count": 10,
+    "video_id": "h1Dxi0VRRQk",
+    "youtube_url": "https://www.youtube.com/watch?v=h1Dxi0VRRQk"
+  },
+  {
+    "id": "sr_gabble_p091_s5",
+    "practice_number": 91,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 91) | Bakery",
+    "topic": "Bakery",
+    "scenario": "You are learning to serve customers at a bakery.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "All of our pastries are made with locally sourced butter and organic flour.",
+    "word_count": 13,
+    "video_id": "h1Dxi0VRRQk",
+    "youtube_url": "https://www.youtube.com/watch?v=h1Dxi0VRRQk"
+  },
+  {
+    "id": "sr_gabble_p091_s6",
+    "practice_number": 91,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 91) | Bakery",
+    "topic": "Bakery",
+    "scenario": "You are learning to serve customers at a bakery.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If you have any dietary restrictions, such as gluten or nut allergies, please let us know before ordering.",
+    "word_count": 18,
+    "video_id": "h1Dxi0VRRQk",
+    "youtube_url": "https://www.youtube.com/watch?v=h1Dxi0VRRQk"
+  },
+  {
+    "id": "sr_gabble_p091_s7",
+    "practice_number": 91,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 91) | Bakery",
+    "topic": "Bakery",
+    "scenario": "You are learning to serve customers at a bakery.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "We also offer a subscription service where you can pre-order your weekly bread and pick it up every Saturday morning without waiting in line.",
+    "word_count": 24,
+    "video_id": "h1Dxi0VRRQk",
+    "youtube_url": "https://www.youtube.com/watch?v=h1Dxi0VRRQk"
+  },
+  {
+    "id": "sr_gabble_p092_s1",
+    "practice_number": 92,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 92) | Pharmacy",
+    "topic": "Pharmacy",
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Can I have your prescription, please?",
+    "word_count": 6,
+    "video_id": "dIPXdRP_XzY",
+    "youtube_url": "https://www.youtube.com/watch?v=dIPXdRP_XzY"
+  },
+  {
+    "id": "sr_gabble_p092_s2",
+    "practice_number": 92,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 92) | Pharmacy",
+    "topic": "Pharmacy",
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Your medication will be ready in about 15 minutes.",
+    "word_count": 9,
+    "video_id": "dIPXdRP_XzY",
+    "youtube_url": "https://www.youtube.com/watch?v=dIPXdRP_XzY"
+  },
+  {
+    "id": "sr_gabble_p092_s3",
+    "practice_number": 92,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 92) | Pharmacy",
+    "topic": "Pharmacy",
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Take one tablet twice a day with food.",
+    "word_count": 8,
+    "video_id": "dIPXdRP_XzY",
+    "youtube_url": "https://www.youtube.com/watch?v=dIPXdRP_XzY"
+  },
+  {
+    "id": "sr_gabble_p092_s4",
+    "practice_number": 92,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 92) | Pharmacy",
+    "topic": "Pharmacy",
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Do not take this medication with alcohol or certain other drugs.",
+    "word_count": 11,
+    "video_id": "dIPXdRP_XzY",
+    "youtube_url": "https://www.youtube.com/watch?v=dIPXdRP_XzY"
+  },
+  {
+    "id": "sr_gabble_p092_s5",
+    "practice_number": 92,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 92) | Pharmacy",
+    "topic": "Pharmacy",
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Please let me know if you experience any unusual side effects after starting this prescription.",
+    "word_count": 15,
+    "video_id": "dIPXdRP_XzY",
+    "youtube_url": "https://www.youtube.com/watch?v=dIPXdRP_XzY"
+  },
+  {
+    "id": "sr_gabble_p092_s6",
+    "practice_number": 92,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 92) | Pharmacy",
+    "topic": "Pharmacy",
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If you are taking other medications, it is important to inform your pharmacist to check for possible interactions.",
+    "word_count": 18,
+    "video_id": "dIPXdRP_XzY",
+    "youtube_url": "https://www.youtube.com/watch?v=dIPXdRP_XzY"
+  },
+  {
+    "id": "sr_gabble_p092_s7",
+    "practice_number": 92,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 92) | Pharmacy",
+    "topic": "Pharmacy",
+    "scenario": "You are learning to assist patients at a pharmacy.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "For chronic conditions, we offer an automatic refill service so your medication is ready for pickup before you run out.",
+    "word_count": 20,
+    "video_id": "dIPXdRP_XzY",
+    "youtube_url": "https://www.youtube.com/watch?v=dIPXdRP_XzY"
+  },
+  {
+    "id": "sr_gabble_p093_s1",
+    "practice_number": 93,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 93) | Bank",
+    "topic": "Bank",
+    "scenario": "You are learning to assist customers at a bank.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "How can I help you today?",
+    "word_count": 6,
+    "video_id": "CpXndlNfv5U",
+    "youtube_url": "https://www.youtube.com/watch?v=CpXndlNfv5U"
+  },
+  {
+    "id": "sr_gabble_p093_s2",
+    "practice_number": 93,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 93) | Bank",
+    "topic": "Bank",
+    "scenario": "You are learning to assist customers at a bank.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please provide your account number and ID.",
+    "word_count": 7,
+    "video_id": "CpXndlNfv5U",
+    "youtube_url": "https://www.youtube.com/watch?v=CpXndlNfv5U"
+  },
+  {
+    "id": "sr_gabble_p093_s3",
+    "practice_number": 93,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 93) | Bank",
+    "topic": "Bank",
+    "scenario": "You are learning to assist customers at a bank.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Your balance as of this morning is shown on the screen.",
+    "word_count": 11,
+    "video_id": "CpXndlNfv5U",
+    "youtube_url": "https://www.youtube.com/watch?v=CpXndlNfv5U"
+  },
+  {
+    "id": "sr_gabble_p093_s4",
+    "practice_number": 93,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 93) | Bank",
+    "topic": "Bank",
+    "scenario": "You are learning to assist customers at a bank.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "There is a daily withdrawal limit of $500 at the ATM.",
+    "word_count": 11,
+    "video_id": "CpXndlNfv5U",
+    "youtube_url": "https://www.youtube.com/watch?v=CpXndlNfv5U"
+  },
+  {
+    "id": "sr_gabble_p093_s5",
+    "practice_number": 93,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 93) | Bank",
+    "topic": "Bank",
+    "scenario": "You are learning to assist customers at a bank.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "If you would like to open a savings account, I can connect you with one of our advisers.",
+    "word_count": 18,
+    "video_id": "CpXndlNfv5U",
+    "youtube_url": "https://www.youtube.com/watch?v=CpXndlNfv5U"
+  },
+  {
+    "id": "sr_gabble_p093_s6",
+    "practice_number": 93,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 93) | Bank",
+    "topic": "Bank",
+    "scenario": "You are learning to assist customers at a bank.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Please sign here to confirm the transaction and I will provide you with a printed receipt.",
+    "word_count": 16,
+    "video_id": "CpXndlNfv5U",
+    "youtube_url": "https://www.youtube.com/watch?v=CpXndlNfv5U"
+  },
+  {
+    "id": "sr_gabble_p093_s7",
+    "practice_number": 93,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 93) | Bank",
+    "topic": "Bank",
+    "scenario": "You are learning to assist customers at a bank.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you notice any unauthorized charges on your account, please contact us immediately so we can place a temporary hold and begin an investigation.",
+    "word_count": 24,
+    "video_id": "CpXndlNfv5U",
+    "youtube_url": "https://www.youtube.com/watch?v=CpXndlNfv5U"
+  },
+  {
+    "id": "sr_gabble_p094_s1",
+    "practice_number": 94,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 94) | Tax Preparation Office",
+    "topic": "Tax Preparation Office",
+    "scenario": "You are learning to assist clients at a tax preparation office.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Please have a seat.",
+    "word_count": 4,
+    "video_id": "xGwvM5n6kFs",
+    "youtube_url": "https://www.youtube.com/watch?v=xGwvM5n6kFs"
+  },
+  {
+    "id": "sr_gabble_p094_s2",
+    "practice_number": 94,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 94) | Tax Preparation Office",
+    "topic": "Tax Preparation Office",
+    "scenario": "You are learning to assist clients at a tax preparation office.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Did you bring all your income documents?",
+    "word_count": 7,
+    "video_id": "xGwvM5n6kFs",
+    "youtube_url": "https://www.youtube.com/watch?v=xGwvM5n6kFs"
+  },
+  {
+    "id": "sr_gabble_p094_s3",
+    "practice_number": 94,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 94) | Tax Preparation Office",
+    "topic": "Tax Preparation Office",
+    "scenario": "You are learning to assist clients at a tax preparation office.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "We will need your W-2 forms and any records of additional income.",
+    "word_count": 12,
+    "video_id": "xGwvM5n6kFs",
+    "youtube_url": "https://www.youtube.com/watch?v=xGwvM5n6kFs"
+  },
+  {
+    "id": "sr_gabble_p094_s4",
+    "practice_number": 94,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 94) | Tax Preparation Office",
+    "topic": "Tax Preparation Office",
+    "scenario": "You are learning to assist clients at a tax preparation office.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Filing your return early helps avoid delays and reduces the risk of identity fraud.",
+    "word_count": 14,
+    "video_id": "xGwvM5n6kFs",
+    "youtube_url": "https://www.youtube.com/watch?v=xGwvM5n6kFs"
+  },
+  {
+    "id": "sr_gabble_p094_s5",
+    "practice_number": 94,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 94) | Tax Preparation Office",
+    "topic": "Tax Preparation Office",
+    "scenario": "You are learning to assist clients at a tax preparation office.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "If you are self-employed, please bring receipts for all business-related expenses you wish to deduct.",
+    "word_count": 15,
+    "video_id": "xGwvM5n6kFs",
+    "youtube_url": "https://www.youtube.com/watch?v=xGwvM5n6kFs"
+  },
+  {
+    "id": "sr_gabble_p094_s6",
+    "practice_number": 94,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 94) | Tax Preparation Office",
+    "topic": "Tax Preparation Office",
+    "scenario": "You are learning to assist clients at a tax preparation office.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Any taxes owed must be paid by the official deadline to avoid late payment penalties and interest charges.",
+    "word_count": 18,
+    "video_id": "xGwvM5n6kFs",
+    "youtube_url": "https://www.youtube.com/watch?v=xGwvM5n6kFs"
+  },
+  {
+    "id": "sr_gabble_p094_s7",
+    "practice_number": 94,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 94) | Tax Preparation Office",
+    "topic": "Tax Preparation Office",
+    "scenario": "You are learning to assist clients at a tax preparation office.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "We recommend keeping copies of your tax returns and supporting documents for at least 7 years in case of a future audit by the tax authority.",
+    "word_count": 26,
+    "video_id": "xGwvM5n6kFs",
+    "youtube_url": "https://www.youtube.com/watch?v=xGwvM5n6kFs"
+  },
+  {
+    "id": "sr_gabble_p095_s1",
+    "practice_number": 95,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 95) | Post Office",
+    "topic": "Post Office",
+    "scenario": "You are learning to assist customers at a post office.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Next in line, please.",
+    "word_count": 4,
+    "video_id": "ZZLKgREtgig",
+    "youtube_url": "https://www.youtube.com/watch?v=ZZLKgREtgig"
+  },
+  {
+    "id": "sr_gabble_p095_s2",
+    "practice_number": 95,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 95) | Post Office",
+    "topic": "Post Office",
+    "scenario": "You are learning to assist customers at a post office.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Where would you like to send this package?",
+    "word_count": 8,
+    "video_id": "ZZLKgREtgig",
+    "youtube_url": "https://www.youtube.com/watch?v=ZZLKgREtgig"
+  },
+  {
+    "id": "sr_gabble_p095_s3",
+    "practice_number": 95,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 95) | Post Office",
+    "topic": "Post Office",
+    "scenario": "You are learning to assist customers at a post office.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Please place the parcel on the scale.",
+    "word_count": 7,
+    "video_id": "ZZLKgREtgig",
+    "youtube_url": "https://www.youtube.com/watch?v=ZZLKgREtgig"
+  },
+  {
+    "id": "sr_gabble_p095_s4",
+    "practice_number": 95,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 95) | Post Office",
+    "topic": "Post Office",
+    "scenario": "You are learning to assist customers at a post office.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Standard delivery takes 3 to 5 business days.",
+    "word_count": 8,
+    "video_id": "ZZLKgREtgig",
+    "youtube_url": "https://www.youtube.com/watch?v=ZZLKgREtgig"
+  },
+  {
+    "id": "sr_gabble_p095_s5",
+    "practice_number": 95,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 95) | Post Office",
+    "topic": "Post Office",
+    "scenario": "You are learning to assist customers at a post office.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "You can track your package online using the tracking number on your receipt.",
+    "word_count": 13,
+    "video_id": "ZZLKgREtgig",
+    "youtube_url": "https://www.youtube.com/watch?v=ZZLKgREtgig"
+  },
+  {
+    "id": "sr_gabble_p095_s6",
+    "practice_number": 95,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 95) | Post Office",
+    "topic": "Post Office",
+    "scenario": "You are learning to assist customers at a post office.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Fragile items should be wrapped in bubble wrap and surrounded by packing materials to prevent damage.",
+    "word_count": 16,
+    "video_id": "ZZLKgREtgig",
+    "youtube_url": "https://www.youtube.com/watch?v=ZZLKgREtgig"
+  },
+  {
+    "id": "sr_gabble_p095_s7",
+    "practice_number": 95,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 95) | Post Office",
+    "topic": "Post Office",
+    "scenario": "You are learning to assist customers at a post office.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If your package exceeds the maximum weight or size limits, it will need to be sent through our freight service at a different rate.",
+    "word_count": 24,
+    "video_id": "ZZLKgREtgig",
+    "youtube_url": "https://www.youtube.com/watch?v=ZZLKgREtgig"
+  },
+  {
+    "id": "sr_gabble_p096_s1",
+    "practice_number": 96,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 96) | Pet Store",
+    "topic": "Pet Store",
+    "scenario": "You are learning to assist customers at a pet store.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome. Are you looking for anything specific?",
+    "word_count": 7,
+    "video_id": "c3hsHwCFkRI",
+    "youtube_url": "https://www.youtube.com/watch?v=c3hsHwCFkRI"
+  },
+  {
+    "id": "sr_gabble_p096_s2",
+    "practice_number": 96,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 96) | Pet Store",
+    "topic": "Pet Store",
+    "scenario": "You are learning to assist customers at a pet store.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "What kind of pet do you have at home?",
+    "word_count": 9,
+    "video_id": "c3hsHwCFkRI",
+    "youtube_url": "https://www.youtube.com/watch?v=c3hsHwCFkRI"
+  },
+  {
+    "id": "sr_gabble_p096_s3",
+    "practice_number": 96,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 96) | Pet Store",
+    "topic": "Pet Store",
+    "scenario": "You are learning to assist customers at a pet store.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "This brand is highly recommended by veterinarians.",
+    "word_count": 7,
+    "video_id": "c3hsHwCFkRI",
+    "youtube_url": "https://www.youtube.com/watch?v=c3hsHwCFkRI"
+  },
+  {
+    "id": "sr_gabble_p096_s4",
+    "practice_number": 96,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 96) | Pet Store",
+    "topic": "Pet Store",
+    "scenario": "You are learning to assist customers at a pet store.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Small animals and reptiles require a controlled temperature environment at home.",
+    "word_count": 11,
+    "video_id": "c3hsHwCFkRI",
+    "youtube_url": "https://www.youtube.com/watch?v=c3hsHwCFkRI"
+  },
+  {
+    "id": "sr_gabble_p096_s5",
+    "practice_number": 96,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 96) | Pet Store",
+    "topic": "Pet Store",
+    "scenario": "You are learning to assist customers at a pet store.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "We offer free nutrition consultations for pet owners who want guidance on the right diet.",
+    "word_count": 15,
+    "video_id": "c3hsHwCFkRI",
+    "youtube_url": "https://www.youtube.com/watch?v=c3hsHwCFkRI"
+  },
+  {
+    "id": "sr_gabble_p096_s6",
+    "practice_number": 96,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 96) | Pet Store",
+    "topic": "Pet Store",
+    "scenario": "You are learning to assist customers at a pet store.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "All animals sold in our store come with a health guarantee and veterinary health check certificate.",
+    "word_count": 16,
+    "video_id": "c3hsHwCFkRI",
+    "youtube_url": "https://www.youtube.com/watch?v=c3hsHwCFkRI"
+  },
+  {
+    "id": "sr_gabble_p096_s7",
+    "practice_number": 96,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 96) | Pet Store",
+    "topic": "Pet Store",
+    "scenario": "You are learning to assist customers at a pet store.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you are adopting a pet for the first time, we recommend speaking with one of our specialists who can walk you through everything you will need to get started.",
+    "word_count": 30,
+    "video_id": "c3hsHwCFkRI",
+    "youtube_url": "https://www.youtube.com/watch?v=c3hsHwCFkRI"
+  },
+  {
+    "id": "sr_gabble_p097_s1",
+    "practice_number": 97,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 97) | City Hall Office",
+    "topic": "City Hall Office",
+    "scenario": "You are learning to assist applicants at a city hall office.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Please take a number and wait.",
+    "word_count": 6,
+    "video_id": "g957rD1gKLI",
+    "youtube_url": "https://www.youtube.com/watch?v=g957rD1gKLI"
+  },
+  {
+    "id": "sr_gabble_p097_s2",
+    "practice_number": 97,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 97) | City Hall Office",
+    "topic": "City Hall Office",
+    "scenario": "You are learning to assist applicants at a city hall office.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Both applicants must be present to apply.",
+    "word_count": 7,
+    "video_id": "g957rD1gKLI",
+    "youtube_url": "https://www.youtube.com/watch?v=g957rD1gKLI"
+  },
+  {
+    "id": "sr_gabble_p097_s3",
+    "practice_number": 97,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 97) | City Hall Office",
+    "topic": "City Hall Office",
+    "scenario": "You are learning to assist applicants at a city hall office.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "You each need to provide a valid government-issued photo ID.",
+    "word_count": 10,
+    "video_id": "g957rD1gKLI",
+    "youtube_url": "https://www.youtube.com/watch?v=g957rD1gKLI"
+  },
+  {
+    "id": "sr_gabble_p097_s4",
+    "practice_number": 97,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 97) | City Hall Office",
+    "topic": "City Hall Office",
+    "scenario": "You are learning to assist applicants at a city hall office.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "The license is valid for 60 days from the date it is issued.",
+    "word_count": 13,
+    "video_id": "g957rD1gKLI",
+    "youtube_url": "https://www.youtube.com/watch?v=g957rD1gKLI"
+  },
+  {
+    "id": "sr_gabble_p097_s5",
+    "practice_number": 97,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 97) | City Hall Office",
+    "topic": "City Hall Office",
+    "scenario": "You are learning to assist applicants at a city hall office.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "There is a standard fee of $75 payable by cash or card.",
+    "word_count": 12,
+    "video_id": "g957rD1gKLI",
+    "youtube_url": "https://www.youtube.com/watch?v=g957rD1gKLI"
+  },
+  {
+    "id": "sr_gabble_p097_s6",
+    "practice_number": 97,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 97) | City Hall Office",
+    "topic": "City Hall Office",
+    "scenario": "You are learning to assist applicants at a city hall office.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If either applicant was previously married, you must provide a copy of the divorce decree or death certificate.",
+    "word_count": 18,
+    "video_id": "g957rD1gKLI",
+    "youtube_url": "https://www.youtube.com/watch?v=g957rD1gKLI"
+  },
+  {
+    "id": "sr_gabble_p097_s7",
+    "practice_number": 97,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 97) | City Hall Office",
+    "topic": "City Hall Office",
+    "scenario": "You are learning to assist applicants at a city hall office.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Once the license is issued, the ceremony must be performed by an authorized officiant, and the signed license must be returned to this office within 10 days.",
+    "word_count": 27,
+    "video_id": "g957rD1gKLI",
+    "youtube_url": "https://www.youtube.com/watch?v=g957rD1gKLI"
+  },
+  {
+    "id": "sr_gabble_p098_s1",
+    "practice_number": 98,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 98) | Child Care Center",
+    "topic": "Child Care Center",
+    "scenario": "You are learning to assist parents at a child care center.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome. Is this your first visit?",
+    "word_count": 6,
+    "video_id": "FvkBWftd4Bw",
+    "youtube_url": "https://www.youtube.com/watch?v=FvkBWftd4Bw"
+  },
+  {
+    "id": "sr_gabble_p098_s2",
+    "practice_number": 98,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 98) | Child Care Center",
+    "topic": "Child Care Center",
+    "scenario": "You are learning to assist parents at a child care center.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please complete the enrollment form today.",
+    "word_count": 6,
+    "video_id": "FvkBWftd4Bw",
+    "youtube_url": "https://www.youtube.com/watch?v=FvkBWftd4Bw"
+  },
+  {
+    "id": "sr_gabble_p098_s3",
+    "practice_number": 98,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 98) | Child Care Center",
+    "topic": "Child Care Center",
+    "scenario": "You are learning to assist parents at a child care center.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Drop off is between 7:00 and 9:00 each morning.",
+    "word_count": 9,
+    "video_id": "FvkBWftd4Bw",
+    "youtube_url": "https://www.youtube.com/watch?v=FvkBWftd4Bw"
+  },
+  {
+    "id": "sr_gabble_p098_s4",
+    "practice_number": 98,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 98) | Child Care Center",
+    "topic": "Child Care Center",
+    "scenario": "You are learning to assist parents at a child care center.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "We ask that you pack a labeled lunch and two snacks for your child.",
+    "word_count": 14,
+    "video_id": "FvkBWftd4Bw",
+    "youtube_url": "https://www.youtube.com/watch?v=FvkBWftd4Bw"
+  },
+  {
+    "id": "sr_gabble_p098_s5",
+    "practice_number": 98,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 98) | Child Care Center",
+    "topic": "Child Care Center",
+    "scenario": "You are learning to assist parents at a child care center.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Please notify us in advance if someone other than a parent will be picking up your child.",
+    "word_count": 17,
+    "video_id": "FvkBWftd4Bw",
+    "youtube_url": "https://www.youtube.com/watch?v=FvkBWftd4Bw"
+  },
+  {
+    "id": "sr_gabble_p098_s6",
+    "practice_number": 98,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 98) | Child Care Center",
+    "topic": "Child Care Center",
+    "scenario": "You are learning to assist parents at a child care center.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Children with a fever or contagious illness must stay home until they have been symptom-free for at least 24 hours.",
+    "word_count": 20,
+    "video_id": "FvkBWftd4Bw",
+    "youtube_url": "https://www.youtube.com/watch?v=FvkBWftd4Bw"
+  },
+  {
+    "id": "sr_gabble_p098_s7",
+    "practice_number": 98,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 98) | Child Care Center",
+    "topic": "Child Care Center",
+    "scenario": "You are learning to assist parents at a child care center.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Al Story Fuller's a structured daily routine that includes outdoor play, learning activities, story time, and rest time to support each child's development.",
+    "word_count": 23,
+    "video_id": "FvkBWftd4Bw",
+    "youtube_url": "https://www.youtube.com/watch?v=FvkBWftd4Bw"
+  },
+  {
+    "id": "sr_gabble_p099_s1",
+    "practice_number": 99,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 99) | Bicycle Shop",
+    "topic": "Bicycle Shop",
+    "scenario": "You are learning to assist customers at a bicycle shop.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome. What brings you in today?",
+    "word_count": 6,
+    "video_id": "6zTZapdn2G4",
+    "youtube_url": "https://www.youtube.com/watch?v=6zTZapdn2G4"
+  },
+  {
+    "id": "sr_gabble_p099_s2",
+    "practice_number": 99,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 99) | Bicycle Shop",
+    "topic": "Bicycle Shop",
+    "scenario": "You are learning to assist customers at a bicycle shop.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Is this for commuting or recreational riding?",
+    "word_count": 7,
+    "video_id": "6zTZapdn2G4",
+    "youtube_url": "https://www.youtube.com/watch?v=6zTZapdn2G4"
+  },
+  {
+    "id": "sr_gabble_p099_s3",
+    "practice_number": 99,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 99) | Bicycle Shop",
+    "topic": "Bicycle Shop",
+    "scenario": "You are learning to assist customers at a bicycle shop.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "I will do a quick safety check on your bike.",
+    "word_count": 10,
+    "video_id": "6zTZapdn2G4",
+    "youtube_url": "https://www.youtube.com/watch?v=6zTZapdn2G4"
+  },
+  {
+    "id": "sr_gabble_p099_s4",
+    "practice_number": 99,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 99) | Bicycle Shop",
+    "topic": "Bicycle Shop",
+    "scenario": "You are learning to assist customers at a bicycle shop.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Your brake pads are worn and should be replaced soon.",
+    "word_count": 10,
+    "video_id": "6zTZapdn2G4",
+    "youtube_url": "https://www.youtube.com/watch?v=6zTZapdn2G4"
+  },
+  {
+    "id": "sr_gabble_p099_s5",
+    "practice_number": 99,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 99) | Bicycle Shop",
+    "topic": "Bicycle Shop",
+    "scenario": "You are learning to assist customers at a bicycle shop.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "We recommend servicing your bike at least once a year to keep it running smoothly.",
+    "word_count": 15,
+    "video_id": "6zTZapdn2G4",
+    "youtube_url": "https://www.youtube.com/watch?v=6zTZapdn2G4"
+  },
+  {
+    "id": "sr_gabble_p099_s6",
+    "practice_number": 99,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 99) | Bicycle Shop",
+    "topic": "Bicycle Shop",
+    "scenario": "You are learning to assist customers at a bicycle shop.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Helmets and lights are required by law in many areas, so make sure you have both before riding.",
+    "word_count": 18,
+    "video_id": "6zTZapdn2G4",
+    "youtube_url": "https://www.youtube.com/watch?v=6zTZapdn2G4"
+  },
+  {
+    "id": "sr_gabble_p099_s7",
+    "practice_number": 99,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 99) | Bicycle Shop",
+    "topic": "Bicycle Shop",
+    "scenario": "You are learning to assist customers at a bicycle shop.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If you are buying a new bike, we offer a free 30-day tune-up after purchase to make any adjustments once you have had a chance to ride it regularly.",
+    "word_count": 29,
+    "video_id": "6zTZapdn2G4",
+    "youtube_url": "https://www.youtube.com/watch?v=6zTZapdn2G4"
+  },
+  {
+    "id": "sr_gabble_p100_s1",
+    "practice_number": 100,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 100) | Dry Cleaning Shop",
+    "topic": "Dry Cleaning Shop",
+    "scenario": "You are learning to assist customers at a dry cleaning shop.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "What items do you need cleaned today?",
+    "word_count": 7,
+    "video_id": "tFAEQJFp0xM",
+    "youtube_url": "https://www.youtube.com/watch?v=tFAEQJFp0xM"
+  },
+  {
+    "id": "sr_gabble_p100_s2",
+    "practice_number": 100,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 100) | Dry Cleaning Shop",
+    "topic": "Dry Cleaning Shop",
+    "scenario": "You are learning to assist customers at a dry cleaning shop.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please check your pockets before leaving garments with us.",
+    "word_count": 9,
+    "video_id": "tFAEQJFp0xM",
+    "youtube_url": "https://www.youtube.com/watch?v=tFAEQJFp0xM"
+  },
+  {
+    "id": "sr_gabble_p100_s3",
+    "practice_number": 100,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 100) | Dry Cleaning Shop",
+    "topic": "Dry Cleaning Shop",
+    "scenario": "You are learning to assist customers at a dry cleaning shop.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "This suit will be ready for pick up by Thursday.",
+    "word_count": 10,
+    "video_id": "tFAEQJFp0xM",
+    "youtube_url": "https://www.youtube.com/watch?v=tFAEQJFp0xM"
+  },
+  {
+    "id": "sr_gabble_p100_s4",
+    "practice_number": 100,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 100) | Dry Cleaning Shop",
+    "topic": "Dry Cleaning Shop",
+    "scenario": "You are learning to assist customers at a dry cleaning shop.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "We recommend dry cleaning wool and silk items rather than washing them at home.",
+    "word_count": 14,
+    "video_id": "tFAEQJFp0xM",
+    "youtube_url": "https://www.youtube.com/watch?v=tFAEQJFp0xM"
+  },
+  {
+    "id": "sr_gabble_p100_s5",
+    "practice_number": 100,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 100) | Dry Cleaning Shop",
+    "topic": "Dry Cleaning Shop",
+    "scenario": "You are learning to assist customers at a dry cleaning shop.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Please point out any stains when you drop off so we can treat them properly.",
+    "word_count": 15,
+    "video_id": "tFAEQJFp0xM",
+    "youtube_url": "https://www.youtube.com/watch?v=tFAEQJFp0xM"
+  },
+  {
+    "id": "sr_gabble_p100_s6",
+    "practice_number": 100,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 100) | Dry Cleaning Shop",
+    "topic": "Dry Cleaning Shop",
+    "scenario": "You are learning to assist customers at a dry cleaning shop.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Items not picked up within 30 days will be donated to charity after we attempt to contact you.",
+    "word_count": 18,
+    "video_id": "tFAEQJFp0xM",
+    "youtube_url": "https://www.youtube.com/watch?v=tFAEQJFp0xM"
+  },
+  {
+    "id": "sr_gabble_p100_s7",
+    "practice_number": 100,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 100) | Dry Cleaning Shop",
+    "topic": "Dry Cleaning Shop",
+    "scenario": "You are learning to assist customers at a dry cleaning shop.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "For delicate or designer garments, we offer a premium hand finishing service that ensures every detail is carefully pressed and inspected before return.",
+    "word_count": 23,
+    "video_id": "tFAEQJFp0xM",
+    "youtube_url": "https://www.youtube.com/watch?v=tFAEQJFp0xM"
+  },
+  {
+    "id": "sr_gabble_p101_s1",
+    "practice_number": 101,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 101) | Public Library",
+    "topic": "Public Library",
+    "scenario": "You are learning to assist visitors at a public library.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to the library.",
+    "word_count": 4,
+    "video_id": "v92TsuTw0y0",
+    "youtube_url": "https://www.youtube.com/watch?v=v92TsuTw0y0"
+  },
+  {
+    "id": "sr_gabble_p101_s2",
+    "practice_number": 101,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 101) | Public Library",
+    "topic": "Public Library",
+    "scenario": "You are learning to assist visitors at a public library.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Do you have a library card with us?",
+    "word_count": 8,
+    "video_id": "v92TsuTw0y0",
+    "youtube_url": "https://www.youtube.com/watch?v=v92TsuTw0y0"
+  },
+  {
+    "id": "sr_gabble_p101_s3",
+    "practice_number": 101,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 101) | Public Library",
+    "topic": "Public Library",
+    "scenario": "You are learning to assist visitors at a public library.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Books can be borrowed for up to 3 weeks.",
+    "word_count": 9,
+    "video_id": "v92TsuTw0y0",
+    "youtube_url": "https://www.youtube.com/watch?v=v92TsuTw0y0"
+  },
+  {
+    "id": "sr_gabble_p101_s4",
+    "practice_number": 101,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 101) | Public Library",
+    "topic": "Public Library",
+    "scenario": "You are learning to assist visitors at a public library.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Please keep your voice low to avoid disturbing other visitors.",
+    "word_count": 10,
+    "video_id": "v92TsuTw0y0",
+    "youtube_url": "https://www.youtube.com/watch?v=v92TsuTw0y0"
+  },
+  {
+    "id": "sr_gabble_p101_s5",
+    "practice_number": 101,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 101) | Public Library",
+    "topic": "Public Library",
+    "scenario": "You are learning to assist visitors at a public library.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "You can renew your books online, by phone, or in person before the due date.",
+    "word_count": 15,
+    "video_id": "v92TsuTw0y0",
+    "youtube_url": "https://www.youtube.com/watch?v=v92TsuTw0y0"
+  },
+  {
+    "id": "sr_gabble_p101_s6",
+    "practice_number": 101,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 101) | Public Library",
+    "topic": "Public Library",
+    "scenario": "You are learning to assist visitors at a public library.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If a book you need is not available, you can place a hold and we will notify you when it is ready.",
+    "word_count": 22,
+    "video_id": "v92TsuTw0y0",
+    "youtube_url": "https://www.youtube.com/watch?v=v92TsuTw0y0"
+  },
+  {
+    "id": "sr_gabble_p101_s7",
+    "practice_number": 101,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 101) | Public Library",
+    "topic": "Public Library",
+    "scenario": "You are learning to assist visitors at a public library.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Our library also offers free access to digital newspapers, audiobooks, and academic databases for all registered cardholders.",
+    "word_count": 17,
+    "video_id": "v92TsuTw0y0",
+    "youtube_url": "https://www.youtube.com/watch?v=v92TsuTw0y0"
+  },
+  {
+    "id": "sr_gabble_p102_s1",
+    "practice_number": 102,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 102) | Catering Company",
+    "topic": "Catering Company",
+    "scenario": "You are learning to assist clients at a catering company.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome. Tell us about your event.",
+    "word_count": 6,
+    "video_id": "LWW7Fgl-OdQ",
+    "youtube_url": "https://www.youtube.com/watch?v=LWW7Fgl-OdQ"
+  },
+  {
+    "id": "sr_gabble_p102_s2",
+    "practice_number": 102,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 102) | Catering Company",
+    "topic": "Catering Company",
+    "scenario": "You are learning to assist clients at a catering company.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "How many guests are you expecting?",
+    "word_count": 6,
+    "video_id": "LWW7Fgl-OdQ",
+    "youtube_url": "https://www.youtube.com/watch?v=LWW7Fgl-OdQ"
+  },
+  {
+    "id": "sr_gabble_p102_s3",
+    "practice_number": 102,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 102) | Catering Company",
+    "topic": "Catering Company",
+    "scenario": "You are learning to assist clients at a catering company.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "We offer buffet, plated, and family-style service options.",
+    "word_count": 8,
+    "video_id": "LWW7Fgl-OdQ",
+    "youtube_url": "https://www.youtube.com/watch?v=LWW7Fgl-OdQ"
+  },
+  {
+    "id": "sr_gabble_p102_s4",
+    "practice_number": 102,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 102) | Catering Company",
+    "topic": "Catering Company",
+    "scenario": "You are learning to assist clients at a catering company.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "A tasting session can be arranged once you have selected your preferred menu.",
+    "word_count": 13,
+    "video_id": "LWW7Fgl-OdQ",
+    "youtube_url": "https://www.youtube.com/watch?v=LWW7Fgl-OdQ"
+  },
+  {
+    "id": "sr_gabble_p102_s5",
+    "practice_number": 102,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 102) | Catering Company",
+    "topic": "Catering Company",
+    "scenario": "You are learning to assist clients at a catering company.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "We require a deposit of 30% to confirm and reserve your event date.",
+    "word_count": 13,
+    "video_id": "LWW7Fgl-OdQ",
+    "youtube_url": "https://www.youtube.com/watch?v=LWW7Fgl-OdQ"
+  },
+  {
+    "id": "sr_gabble_p102_s6",
+    "practice_number": 102,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 102) | Catering Company",
+    "topic": "Catering Company",
+    "scenario": "You are learning to assist clients at a catering company.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Please inform us of any dietary restrictions or allergies at least one week before the event.",
+    "word_count": 16,
+    "video_id": "LWW7Fgl-OdQ",
+    "youtube_url": "https://www.youtube.com/watch?v=LWW7Fgl-OdQ"
+  },
+  {
+    "id": "sr_gabble_p102_s7",
+    "practice_number": 102,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 102) | Catering Company",
+    "topic": "Catering Company",
+    "scenario": "You are learning to assist clients at a catering company.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Our team will arrive 2 hours before your event to set up, and we handle all cleanup and equipment removal once the event has concluded.",
+    "word_count": 25,
+    "video_id": "LWW7Fgl-OdQ",
+    "youtube_url": "https://www.youtube.com/watch?v=LWW7Fgl-OdQ"
+  },
+  {
+    "id": "sr_gabble_p104_s1",
+    "practice_number": 104,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 104) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Do you have a reservation with us?",
+    "word_count": 7,
+    "video_id": "bZeWfCqC2do",
+    "youtube_url": "https://www.youtube.com/watch?v=bZeWfCqC2do"
+  },
+  {
+    "id": "sr_gabble_p104_s2",
+    "practice_number": 104,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 104) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "May I see your driver's license and credit card?",
+    "word_count": 9,
+    "video_id": "bZeWfCqC2do",
+    "youtube_url": "https://www.youtube.com/watch?v=bZeWfCqC2do"
+  },
+  {
+    "id": "sr_gabble_p104_s3",
+    "practice_number": 104,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 104) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Please inspect the car for existing damage before driving off.",
+    "word_count": 10,
+    "video_id": "bZeWfCqC2do",
+    "youtube_url": "https://www.youtube.com/watch?v=bZeWfCqC2do"
+  },
+  {
+    "id": "sr_gabble_p104_s4",
+    "practice_number": 104,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 104) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "The vehicle must be returned with a full tank of gas.",
+    "word_count": 11,
+    "video_id": "bZeWfCqC2do",
+    "youtube_url": "https://www.youtube.com/watch?v=bZeWfCqC2do"
+  },
+  {
+    "id": "sr_gabble_p104_s5",
+    "practice_number": 104,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 104) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "We offer optional insurance coverage for an additional daily fee.",
+    "word_count": 10,
+    "video_id": "bZeWfCqC2do",
+    "youtube_url": "https://www.youtube.com/watch?v=bZeWfCqC2do"
+  },
+  {
+    "id": "sr_gabble_p104_s6",
+    "practice_number": 104,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 104) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Returning the vehicle late may result in an additional charge based on our hourly rate.",
+    "word_count": 15,
+    "video_id": "bZeWfCqC2do",
+    "youtube_url": "https://www.youtube.com/watch?v=bZeWfCqC2do"
+  },
+  {
+    "id": "sr_gabble_p104_s7",
+    "practice_number": 104,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 104) | Car Rental Agency",
+    "topic": "Car Rental Agency",
+    "scenario": "You are learning to assist customers at a car rental agency.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If the car breaks down during your rental period, please call our 24-hour roadside assistance line and a representative will be dispatched to help you.",
+    "word_count": 25,
+    "video_id": "bZeWfCqC2do",
+    "youtube_url": "https://www.youtube.com/watch?v=bZeWfCqC2do"
+  },
+  {
+    "id": "sr_gabble_p105_s1",
+    "practice_number": 105,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 105) | Flower Shop",
+    "topic": "Flower Shop",
+    "scenario": "You are learning to assist customers at a flower shop.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome. What is the occasion?",
+    "word_count": 5,
+    "video_id": "gNSX_6zppbo",
+    "youtube_url": "https://www.youtube.com/watch?v=gNSX_6zppbo"
+  },
+  {
+    "id": "sr_gabble_p105_s2",
+    "practice_number": 105,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 105) | Flower Shop",
+    "topic": "Flower Shop",
+    "scenario": "You are learning to assist customers at a flower shop.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "These roses are freshly delivered this morning.",
+    "word_count": 7,
+    "video_id": "gNSX_6zppbo",
+    "youtube_url": "https://www.youtube.com/watch?v=gNSX_6zppbo"
+  },
+  {
+    "id": "sr_gabble_p105_s3",
+    "practice_number": 105,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 105) | Flower Shop",
+    "topic": "Flower Shop",
+    "scenario": "You are learning to assist customers at a flower shop.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "We can add a personalized card to any arrangement.",
+    "word_count": 9,
+    "video_id": "gNSX_6zppbo",
+    "youtube_url": "https://www.youtube.com/watch?v=gNSX_6zppbo"
+  },
+  {
+    "id": "sr_gabble_p105_s4",
+    "practice_number": 105,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 105) | Flower Shop",
+    "topic": "Flower Shop",
+    "scenario": "You are learning to assist customers at a flower shop.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Same-day delivery is available for orders placed before noon.",
+    "word_count": 9,
+    "video_id": "gNSX_6zppbo",
+    "youtube_url": "https://www.youtube.com/watch?v=gNSX_6zppbo"
+  },
+  {
+    "id": "sr_gabble_p105_s5",
+    "practice_number": 105,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 105) | Flower Shop",
+    "topic": "Flower Shop",
+    "scenario": "You are learning to assist customers at a flower shop.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "For weddings and events, we recommend booking your flowers at least 4 weeks in advance.",
+    "word_count": 15,
+    "video_id": "gNSX_6zppbo",
+    "youtube_url": "https://www.youtube.com/watch?v=gNSX_6zppbo"
+  },
+  {
+    "id": "sr_gabble_p105_s6",
+    "practice_number": 105,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 105) | Flower Shop",
+    "topic": "Flower Shop",
+    "scenario": "You are learning to assist customers at a flower shop.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Keep your flowers in fresh water and trim the stems every 2 days to extend their life.",
+    "word_count": 17,
+    "video_id": "gNSX_6zppbo",
+    "youtube_url": "https://www.youtube.com/watch?v=gNSX_6zppbo"
+  },
+  {
+    "id": "sr_gabble_p105_s7",
+    "practice_number": 105,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 105) | Flower Shop",
+    "topic": "Flower Shop",
+    "scenario": "You are learning to assist customers at a flower shop.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "We also offer a weekly subscription service where a fresh seasonal arrangement is delivered to your home or office every Monday morning.",
+    "word_count": 22,
+    "video_id": "gNSX_6zppbo",
+    "youtube_url": "https://www.youtube.com/watch?v=gNSX_6zppbo"
+  },
+  {
+    "id": "sr_gabble_p106_s1",
+    "practice_number": 106,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 106) | Museum",
+    "topic": "Museum",
+    "scenario": "You are learning to guide visitors at a museum.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to the museum.",
+    "word_count": 4,
+    "video_id": "4L-fQYZWOuY",
+    "youtube_url": "https://www.youtube.com/watch?v=4L-fQYZWOuY"
+  },
+  {
+    "id": "sr_gabble_p106_s2",
+    "practice_number": 106,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 106) | Museum",
+    "topic": "Museum",
+    "scenario": "You are learning to guide visitors at a museum.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Please keep your voice low inside the galleries.",
+    "word_count": 8,
+    "video_id": "4L-fQYZWOuY",
+    "youtube_url": "https://www.youtube.com/watch?v=4L-fQYZWOuY"
+  },
+  {
+    "id": "sr_gabble_p106_s3",
+    "practice_number": 106,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 106) | Museum",
+    "topic": "Museum",
+    "scenario": "You are learning to guide visitors at a museum.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Photography is allowed, but flash is not permitted.",
+    "word_count": 8,
+    "video_id": "4L-fQYZWOuY",
+    "youtube_url": "https://www.youtube.com/watch?v=4L-fQYZWOuY"
+  },
+  {
+    "id": "sr_gabble_p106_s4",
+    "practice_number": 106,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 106) | Museum",
+    "topic": "Museum",
+    "scenario": "You are learning to guide visitors at a museum.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "The special exhibition on the second floor closes at 4:00 today.",
+    "word_count": 11,
+    "video_id": "4L-fQYZWOuY",
+    "youtube_url": "https://www.youtube.com/watch?v=4L-fQYZWOuY"
+  },
+  {
+    "id": "sr_gabble_p106_s5",
+    "practice_number": 106,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 106) | Museum",
+    "topic": "Museum",
+    "scenario": "You are learning to guide visitors at a museum.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Audio guides are available at the entrance desk for a small rental fee.",
+    "word_count": 13,
+    "video_id": "4L-fQYZWOuY",
+    "youtube_url": "https://www.youtube.com/watch?v=4L-fQYZWOuY"
+  },
+  {
+    "id": "sr_gabble_p106_s6",
+    "practice_number": 106,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 106) | Museum",
+    "topic": "Museum",
+    "scenario": "You are learning to guide visitors at a museum.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Please do not touch any of the artifacts or artworks as the oils from your hands can cause damage over time.",
+    "word_count": 21,
+    "video_id": "4L-fQYZWOuY",
+    "youtube_url": "https://www.youtube.com/watch?v=4L-fQYZWOuY"
+  },
+  {
+    "id": "sr_gabble_p106_s7",
+    "practice_number": 106,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 106) | Museum",
+    "topic": "Museum",
+    "scenario": "You are learning to guide visitors at a museum.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "School groups and organized tours are asked to check in with the education department at least 2 weeks before their scheduled visit.",
+    "word_count": 22,
+    "video_id": "4L-fQYZWOuY",
+    "youtube_url": "https://www.youtube.com/watch?v=4L-fQYZWOuY"
+  },
+  {
+    "id": "sr_gabble_p107_s1",
+    "practice_number": 107,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 107) | University Admissions Office",
+    "topic": "University Admissions Office",
+    "scenario": "You are learning to assist students at a university admissions office.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome to the admissions office.",
+    "word_count": 5,
+    "video_id": "dQE_qT1dZUU",
+    "youtube_url": "https://www.youtube.com/watch?v=dQE_qT1dZUU"
+  },
+  {
+    "id": "sr_gabble_p107_s2",
+    "practice_number": 107,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 107) | University Admissions Office",
+    "topic": "University Admissions Office",
+    "scenario": "You are learning to assist students at a university admissions office.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Have you submitted all required documents?",
+    "word_count": 6,
+    "video_id": "dQE_qT1dZUU",
+    "youtube_url": "https://www.youtube.com/watch?v=dQE_qT1dZUU"
+  },
+  {
+    "id": "sr_gabble_p107_s3",
+    "practice_number": 107,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 107) | University Admissions Office",
+    "topic": "University Admissions Office",
+    "scenario": "You are learning to assist students at a university admissions office.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "The application deadline is the 31st of this month.",
+    "word_count": 9,
+    "video_id": "dQE_qT1dZUU",
+    "youtube_url": "https://www.youtube.com/watch?v=dQE_qT1dZUU"
+  },
+  {
+    "id": "sr_gabble_p107_s4",
+    "practice_number": 107,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 107) | University Admissions Office",
+    "topic": "University Admissions Office",
+    "scenario": "You are learning to assist students at a university admissions office.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "You will receive a decision letter within 4 to 6 weeks of submission.",
+    "word_count": 13,
+    "video_id": "dQE_qT1dZUU",
+    "youtube_url": "https://www.youtube.com/watch?v=dQE_qT1dZUU"
+  },
+  {
+    "id": "sr_gabble_p107_s5",
+    "practice_number": 107,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 107) | University Admissions Office",
+    "topic": "University Admissions Office",
+    "scenario": "You are learning to assist students at a university admissions office.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "International students must also provide proof of English language proficiency.",
+    "word_count": 10,
+    "video_id": "dQE_qT1dZUU",
+    "youtube_url": "https://www.youtube.com/watch?v=dQE_qT1dZUU"
+  },
+  {
+    "id": "sr_gabble_p107_s6",
+    "practice_number": 107,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 107) | University Admissions Office",
+    "topic": "University Admissions Office",
+    "scenario": "You are learning to assist students at a university admissions office.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Financial aid applications should be submitted at the same time as your admissions application for priority consideration.",
+    "word_count": 17,
+    "video_id": "dQE_qT1dZUU",
+    "youtube_url": "https://www.youtube.com/watch?v=dQE_qT1dZUU"
+  },
+  {
+    "id": "sr_gabble_p107_s7",
+    "practice_number": 107,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 107) | University Admissions Office",
+    "topic": "University Admissions Office",
+    "scenario": "You are learning to assist students at a university admissions office.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "Once you are accepted and confirm your enrollment, you will receive instructions for course registration, student ID issuance, and orientation week attendance.",
+    "word_count": 22,
+    "video_id": "dQE_qT1dZUU",
+    "youtube_url": "https://www.youtube.com/watch?v=dQE_qT1dZUU"
+  },
+  {
+    "id": "sr_gabble_p108_s1",
+    "practice_number": 108,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 108) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "scenario": "You are learning to assist travelers at an airport check-in counter.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "May I see your passport and booking reference?",
+    "word_count": 8,
+    "video_id": "IUHLHuQ8WCY",
+    "youtube_url": "https://www.youtube.com/watch?v=IUHLHuQ8WCY"
+  },
+  {
+    "id": "sr_gabble_p108_s2",
+    "practice_number": 108,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 108) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "scenario": "You are learning to assist travelers at an airport check-in counter.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "Would you prefer a window or aisle seat?",
+    "word_count": 8,
+    "video_id": "IUHLHuQ8WCY",
+    "youtube_url": "https://www.youtube.com/watch?v=IUHLHuQ8WCY"
+  },
+  {
+    "id": "sr_gabble_p108_s3",
+    "practice_number": 108,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 108) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "scenario": "You are learning to assist travelers at an airport check-in counter.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Your bag is slightly over the weight limit.",
+    "word_count": 8,
+    "video_id": "IUHLHuQ8WCY",
+    "youtube_url": "https://www.youtube.com/watch?v=IUHLHuQ8WCY"
+  },
+  {
+    "id": "sr_gabble_p108_s4",
+    "practice_number": 108,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 108) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "scenario": "You are learning to assist travelers at an airport check-in counter.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Please proceed to gate 14 after clearing security.",
+    "word_count": 8,
+    "video_id": "IUHLHuQ8WCY",
+    "youtube_url": "https://www.youtube.com/watch?v=IUHLHuQ8WCY"
+  },
+  {
+    "id": "sr_gabble_p108_s5",
+    "practice_number": 108,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 108) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "scenario": "You are learning to assist travelers at an airport check-in counter.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Boarding begins 45 minutes before departure, so please do not arrive late.",
+    "word_count": 12,
+    "video_id": "IUHLHuQ8WCY",
+    "youtube_url": "https://www.youtube.com/watch?v=IUHLHuQ8WCY"
+  },
+  {
+    "id": "sr_gabble_p108_s6",
+    "practice_number": 108,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 108) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "scenario": "You are learning to assist travelers at an airport check-in counter.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "Liquids in your carry-on bag must be in containers of 100 ml or less and placed in a clear zip lock bag.",
+    "word_count": 22,
+    "video_id": "IUHLHuQ8WCY",
+    "youtube_url": "https://www.youtube.com/watch?v=IUHLHuQ8WCY"
+  },
+  {
+    "id": "sr_gabble_p108_s7",
+    "practice_number": 108,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 108) | Airport Check-In Counter",
+    "topic": "Airport Check-In Counter",
+    "scenario": "You are learning to assist travelers at an airport check-in counter.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "If your flight is delayed or cancelled, please proceed to the airline service desk in the main terminal for rebooking assistance and information.",
+    "word_count": 23,
+    "video_id": "IUHLHuQ8WCY",
+    "youtube_url": "https://www.youtube.com/watch?v=IUHLHuQ8WCY"
+  },
+  {
+    "id": "sr_gabble_p109_s1",
+    "practice_number": 109,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 109) | Grocery Store",
+    "topic": "Grocery Store",
+    "scenario": "You are learning to assist shoppers at a grocery store.",
+    "level": 1,
+    "sentence_index": 1,
+    "text": "Welcome. Can I help you find something?",
+    "word_count": 7,
+    "video_id": "oEkPMOODpPQ",
+    "youtube_url": "https://www.youtube.com/watch?v=oEkPMOODpPQ"
+  },
+  {
+    "id": "sr_gabble_p109_s2",
+    "practice_number": 109,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 109) | Grocery Store",
+    "topic": "Grocery Store",
+    "scenario": "You are learning to assist shoppers at a grocery store.",
+    "level": 1,
+    "sentence_index": 2,
+    "text": "The dairy section is in the back of the store.",
+    "word_count": 10,
+    "video_id": "oEkPMOODpPQ",
+    "youtube_url": "https://www.youtube.com/watch?v=oEkPMOODpPQ"
+  },
+  {
+    "id": "sr_gabble_p109_s3",
+    "practice_number": 109,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 109) | Grocery Store",
+    "topic": "Grocery Store",
+    "scenario": "You are learning to assist shoppers at a grocery store.",
+    "level": 2,
+    "sentence_index": 3,
+    "text": "Weekly sale items are marked with a yellow tag.",
+    "word_count": 9,
+    "video_id": "oEkPMOODpPQ",
+    "youtube_url": "https://www.youtube.com/watch?v=oEkPMOODpPQ"
+  },
+  {
+    "id": "sr_gabble_p109_s4",
+    "practice_number": 109,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 109) | Grocery Store",
+    "topic": "Grocery Store",
+    "scenario": "You are learning to assist shoppers at a grocery store.",
+    "level": 2,
+    "sentence_index": 4,
+    "text": "Please check the expiration dates on perishable items before placing them in your cart.",
+    "word_count": 14,
+    "video_id": "oEkPMOODpPQ",
+    "youtube_url": "https://www.youtube.com/watch?v=oEkPMOODpPQ"
+  },
+  {
+    "id": "sr_gabble_p109_s5",
+    "practice_number": 109,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 109) | Grocery Store",
+    "topic": "Grocery Store",
+    "scenario": "You are learning to assist shoppers at a grocery store.",
+    "level": 2,
+    "sentence_index": 5,
+    "text": "Our loyalty card gives you access to member only discounts on hundreds of products every week.",
+    "word_count": 16,
+    "video_id": "oEkPMOODpPQ",
+    "youtube_url": "https://www.youtube.com/watch?v=oEkPMOODpPQ"
+  },
+  {
+    "id": "sr_gabble_p109_s6",
+    "practice_number": 109,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 109) | Grocery Store",
+    "topic": "Grocery Store",
+    "scenario": "You are learning to assist shoppers at a grocery store.",
+    "level": 3,
+    "sentence_index": 6,
+    "text": "If an item on your receipt rings up at the wrong price, please bring it to the customer service desk.",
+    "word_count": 20,
+    "video_id": "oEkPMOODpPQ",
+    "youtube_url": "https://www.youtube.com/watch?v=oEkPMOODpPQ"
+  },
+  {
+    "id": "sr_gabble_p109_s7",
+    "practice_number": 109,
+    "practice_title": "TOEFL (2026) Speaking Task 1 (Practice 109) | Grocery Store",
+    "topic": "Grocery Store",
+    "scenario": "You are learning to assist shoppers at a grocery store.",
+    "level": 3,
+    "sentence_index": 7,
+    "text": "We also offer online ordering with same-day delivery or curbside pickup, which you can set up through our store website or mobile app.",
+    "word_count": 23,
+    "video_id": "oEkPMOODpPQ",
+    "youtube_url": "https://www.youtube.com/watch?v=oEkPMOODpPQ"
+  }
+];
+
+export default SPEAKING_87_PRACTICES;

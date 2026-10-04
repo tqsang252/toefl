@@ -92,6 +92,17 @@ const MASTERY_HUBS = [
     glow: 'shadow-emerald-500/10'
   },
   {
+    id: 'listen_repeat',
+    label: 'LISTEN & REPEAT 2026',
+    subtitle: '87 Đề Task 1 ETS • 609 Câu Shadowing',
+    icon: Headphones,
+    borderColor: 'border-[#0284c7]',
+    activeBorder: 'border-[#0284c7] ring-3 ring-sky-400/30 shadow-lg',
+    textColor: 'text-[#0284c7]',
+    iconBg: 'bg-[#0284c7]',
+    glow: 'shadow-sky-500/10'
+  },
+  {
     id: 'skill_notes',
     label: 'SKILL NOTES HUB',
     subtitle: 'Sổ tay bí kíp & Số hóa ảnh/PDF AI',

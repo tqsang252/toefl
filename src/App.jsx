@@ -12,6 +12,7 @@ import VocabularyHub from './components/vocabulary/VocabularyHub';
 import ContextVocabTrainer from './components/exam/ContextVocabTrainer';
 import SpeakingLab from './components/exam/SpeakingLab';
 import CompleteTheWordsTrainer from './components/exam/CompleteTheWordsTrainer';
+import ListenRepeatTrainer from './components/exam/ListenRepeatTrainer';
 import SkillNotesHub from './components/notes/SkillNotesHub';
 import WritingSamplesHub from './components/writing/WritingSamplesHub';
 import DictionaryWidget from './components/dictionary/DictionaryWidget';
@@ -84,7 +85,7 @@ function MainApp() {
     const viewToUse = overrideView !== undefined ? overrideView : currentView;
     const skillToUse = overrideSkill !== undefined ? overrideSkill : activeSkill;
 
-    if ((['vocabulary', 'context_vocab', 'writing_email_samples', 'writing_discussion_samples'].includes(skillToUse)) && viewToUse === 'practice') {
+    if ((['vocabulary', 'context_vocab', 'writing_email_samples', 'writing_discussion_samples', 'complete_the_words', 'listen_repeat', 'speaking_lab', 'skill_notes'].includes(skillToUse)) && viewToUse === 'practice') {
       setIsLoading(false);
       return;
     }
@@ -262,7 +263,9 @@ function MainApp() {
               onSelectSkill={(skillId) => setActiveSkill(skillId)}
             />
 
-            {activeSkill === 'complete_the_words' ? (
+            {activeSkill === 'listen_repeat' ? (
+              <ListenRepeatTrainer />
+            ) : activeSkill === 'complete_the_words' ? (
               <CompleteTheWordsTrainer />
             ) : activeSkill === 'vocabulary' ? (
               <VocabularyHub />
