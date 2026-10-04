@@ -279,7 +279,62 @@ export default function ListenRepeatTrainer() {
     }
   };
 
+  // Release all hardware microphone tracks immediately
+  const releaseMicrophoneStream = () => {
+    if (recordingStreamRef.current) {
+      try {
+        recordingStreamRef.current.getTracks().forEach((track) => {
+          track.stop();
+        });
+      } catch (err) {
+        console.warn('Error stopping microphone track:', err);
+      }
+      recordingStreamRef.current = null;
+    }
+  };
+
+  const autoStopTimerRef = useRef(null);
+
   // --- Speech Recognition & MediaRecorder ---
+  const stopRecording = () => {
+    if (autoStopTimerRef.current) {
+      clearTimeout(autoStopTimerRef.current);
+      autoStopTimerRef.current = null;
+    }
+
+    setIsRecording(false);
+
+    // 1. Stop and abort Web Speech Recognition immediately
+    if (recognitionRef.current) {
+      const rec = recognitionRef.current;
+      recognitionRef.current = null;
+      try { rec.stop(); } catch (e) {}
+      try { rec.abort(); } catch (e) {}
+    }
+
+    // 2. Stop MediaRecorder
+    if (mediaRecorderRef.current) {
+      const mr = mediaRecorderRef.current;
+      mediaRecorderRef.current = null;
+      if (mr.state === 'recording' || mr.state === 'paused') {
+        try {
+          mr.stop();
+        } catch (e) {
+          releaseMicrophoneStream();
+        }
+      } else {
+        releaseMicrophoneStream();
+      }
+    } else {
+      releaseMicrophoneStream();
+    }
+
+    // Safety timeout: Ensure all tracks are definitely ended
+    setTimeout(() => {
+      releaseMicrophoneStream();
+    }, 250);
+  };
+
   const startRecording = async () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
@@ -287,14 +342,11 @@ export default function ListenRepeatTrainer() {
       return;
     }
 
-    try {
-      if (recognitionRef.current) {
-        try { recognitionRef.current.abort(); } catch (e) {}
-      }
-      if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
-        try { mediaRecorderRef.current.stop(); } catch (e) {}
-      }
+    // Clear previous sessions/hardware connections first
+    stopRecording();
+    releaseMicrophoneStream();
 
+    try {
       // 1. Microphone MediaRecorder
       if (navigator.mediaDevices?.getUserMedia) {
         try {
@@ -323,10 +375,8 @@ export default function ListenRepeatTrainer() {
               };
             });
 
-            if (recordingStreamRef.current) {
-              recordingStreamRef.current.getTracks().forEach((t) => t.stop());
-              recordingStreamRef.current = null;
-            }
+            // Cleanly kill audio stream tracks once recording blob is assembled
+            releaseMicrophoneStream();
           };
           mediaRecorderRef.current = mr;
           recordingStartTimeRef.current = Date.now();
@@ -356,30 +406,27 @@ export default function ListenRepeatTrainer() {
       };
 
       recognition.onend = () => {
-        setIsRecording(false);
+        // Automatically shut down MediaRecorder and release browser microphone
+        stopRecording();
       };
 
       recognition.onerror = (err) => {
         console.warn('Speech recognition error:', err);
-        setIsRecording(false);
+        stopRecording();
       };
 
       recognitionRef.current = recognition;
       recognition.start();
+
+      // Auto-stop timeout safety (15s max per sentence)
+      if (autoStopTimerRef.current) clearTimeout(autoStopTimerRef.current);
+      autoStopTimerRef.current = setTimeout(() => {
+        stopRecording();
+      }, 15000);
     } catch (err) {
       console.error('Failed to start recording:', err);
-      setIsRecording(false);
+      stopRecording();
     }
-  };
-
-  const stopRecording = () => {
-    if (recognitionRef.current) {
-      try { recognitionRef.current.stop(); } catch (e) {}
-    }
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
-      try { mediaRecorderRef.current.stop(); } catch (e) {}
-    }
-    setIsRecording(false);
   };
 
   // Evaluate user transcript against current target sentence
@@ -453,15 +500,8 @@ export default function ListenRepeatTrainer() {
     return () => {
       stopAudio();
       stopUserRecording();
-      if (recognitionRef.current) {
-        try { recognitionRef.current.abort(); } catch (e) {}
-      }
-      if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
-        try { mediaRecorderRef.current.stop(); } catch (e) {}
-      }
-      if (recordingStreamRef.current) {
-        recordingStreamRef.current.getTracks().forEach((t) => t.stop());
-      }
+      stopRecording();
+      releaseMicrophoneStream();
       if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
     };
   }, []);
@@ -470,6 +510,8 @@ export default function ListenRepeatTrainer() {
   const handleOpenPractice = (practice) => {
     stopAudio();
     stopUserRecording();
+    stopRecording();
+    releaseMicrophoneStream();
     setActivePractice(practice);
     setActiveSentenceIndex(0);
     setUserTranscript('');
@@ -487,6 +529,8 @@ export default function ListenRepeatTrainer() {
   const handleExitPractice = () => {
     stopAudio();
     stopUserRecording();
+    stopRecording();
+    releaseMicrophoneStream();
     setActivePractice(null);
     setIsContinuousExam(false);
   };
