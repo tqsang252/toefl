@@ -7,11 +7,221 @@ import { GPT_COMPLETE_THE_WORDS_BANK } from './gptCompleteWordsBank.js';
 
 export const CTW_DOMAINS = [
   "All Domains",
+  "GabbleAI",
   "GPT - 20 Đề Mới (Đợt 1)",
   "Natural Sciences",
   "Social Sciences",
   "Arts & Humanities",
   "Applied Tech & Engineering"
+];
+
+export const GABBLE_AI_CTW_BANK = [
+  {
+    "id": "gabble_ctw_01",
+    "title": "GabbleAI - Oral Epic Tradition",
+    "topic": "Oral Literature",
+    "category": "GabbleAI",
+    "source": "Gabble.ai TOEFL 2026 Reading Task 1 (Practice 6)",
+    "youtube_url": "https://www.youtube.com/watch?v=nwivFW97x7c",
+    "leadSentence": "Long before writing systems became widespread, epic poems were preserved entirely through oral performance.",
+    "bodyTemplate": "Skilled bards [memo|rized] thousands of lines by relying on [recu|rring] phrases, rhythmic patterns, and familiar narrative [struc|tures]. Each [perfo|rmance] was slightly different, as poets [ada|pted] details to suit [parti|cular] audiences and occasions. Scholars now [bel|ieve] that works such as the Iliad bear clear [tra|ces] of this [improvi|sational] tradition, which was only later fixed in [wri|tten] form by scribes.",
+    "fullText": "Long before writing systems became widespread, epic poems were preserved entirely through oral performance. Skilled bards memorized thousands of lines by relying on recurring phrases, rhythmic patterns, and familiar narrative structures. Each performance was slightly different, as poets adapted details to suit particular audiences and occasions. Scholars now believe that works such as the Iliad bear clear traces of this improvisational tradition, which was only later fixed in written form by scribes.",
+    "blanks": [
+      {
+        "index": 1,
+        "prefix": "memo",
+        "missing": "rized",
+        "fullWord": "memorized",
+        "missingLength": 5,
+        "pos": "Verb",
+        "hint": "Động từ quá khứ 'ghi nhớ hàng nghìn câu thơ'"
+      },
+      {
+        "index": 2,
+        "prefix": "recu",
+        "missing": "rring",
+        "fullWord": "recurring",
+        "missingLength": 5,
+        "pos": "Adjective",
+        "hint": "Tính từ 'các cụm từ lặp đi lặp lại'"
+      },
+      {
+        "index": 3,
+        "prefix": "struc",
+        "missing": "tures",
+        "fullWord": "structures",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'cấu trúc tự sự quen thuộc'"
+      },
+      {
+        "index": 4,
+        "prefix": "perfo",
+        "missing": "rmance",
+        "fullWord": "performance",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ 'mỗi buổi biểu diễn/diễn xướng'"
+      },
+      {
+        "index": 5,
+        "prefix": "ada",
+        "missing": "pted",
+        "fullWord": "adapted",
+        "missingLength": 4,
+        "pos": "Verb",
+        "hint": "Động từ quá khứ 'thích ứng/biến tấu chi tiết'"
+      },
+      {
+        "index": 6,
+        "prefix": "parti",
+        "missing": "cular",
+        "fullWord": "particular",
+        "missingLength": 5,
+        "pos": "Adjective",
+        "hint": "Tính từ 'khán giả và dịp cụ thể'"
+      },
+      {
+        "index": 7,
+        "prefix": "bel",
+        "missing": "ieve",
+        "fullWord": "believe",
+        "missingLength": 4,
+        "pos": "Verb",
+        "hint": "Động từ 'các học giả hiện nay tin rằng'"
+      },
+      {
+        "index": 8,
+        "prefix": "tra",
+        "missing": "ces",
+        "fullWord": "traces",
+        "missingLength": 3,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'mang dấu vết rõ rệt'"
+      },
+      {
+        "index": 9,
+        "prefix": "improvi",
+        "missing": "sational",
+        "fullWord": "improvisational",
+        "missingLength": 8,
+        "pos": "Adjective",
+        "hint": "Tính từ 'truyền thống diễn xướng mang tính ngẫu hứng'"
+      },
+      {
+        "index": 10,
+        "prefix": "wri",
+        "missing": "tten",
+        "fullWord": "written",
+        "missingLength": 4,
+        "pos": "Adjective",
+        "hint": "Dạng quá khứ phân từ/tính từ 'hình thức văn bản viết'"
+      }
+    ]
+  },
+  {
+    "id": "gabble_ctw_02",
+    "title": "GabbleAI - The Epistolary Novel",
+    "topic": "Literary Studies",
+    "category": "GabbleAI",
+    "source": "Gabble.ai TOEFL 2026 Reading Task 1 (Practice 6)",
+    "youtube_url": "https://www.youtube.com/watch?v=nwivFW97x7c",
+    "leadSentence": "The epistolary novel, which tells its story through a series of letters, flourished in eighteenth-century Europe.",
+    "bodyTemplate": "This format granted readers [inti|mate] access to the private [thou|ghts] of several narrators, each revealing [infor|mation] the others lacked. Consequently, the genre [encou|raged] audiences to weigh competing [perspe|ctives] and question the [relia|bility] of any single voice. Later writers adapted the [tech|nique] to diaries, emails, and even text [mess|ages]. Such [exper|iments] demonstrate the enduring appeal of stories told through personal [docu|ments].",
+    "fullText": "The epistolary novel, which tells its story through a series of letters, flourished in eighteenth-century Europe. This format granted readers intimate access to the private thoughts of several narrators, each revealing information the others lacked. Consequently, the genre encouraged audiences to weigh competing perspectives and question the reliability of any single voice. Later writers adapted the technique to diaries, emails, and even text messages. Such experiments demonstrate the enduring appeal of stories told through personal documents.",
+    "blanks": [
+      {
+        "index": 1,
+        "prefix": "inti",
+        "missing": "mate",
+        "fullWord": "intimate",
+        "missingLength": 4,
+        "pos": "Adjective",
+        "hint": "Tính từ 'tiếp cận thân mật/sâu kín'"
+      },
+      {
+        "index": 2,
+        "prefix": "thou",
+        "missing": "ghts",
+        "fullWord": "thoughts",
+        "missingLength": 4,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'suy nghĩ riêng tư'"
+      },
+      {
+        "index": 3,
+        "prefix": "infor",
+        "missing": "mation",
+        "fullWord": "information",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ không đếm được 'tiết lộ thông tin'"
+      },
+      {
+        "index": 4,
+        "prefix": "encou",
+        "missing": "raged",
+        "fullWord": "encouraged",
+        "missingLength": 5,
+        "pos": "Verb",
+        "hint": "Động từ quá khứ 'khuyến khích độc giả'"
+      },
+      {
+        "index": 5,
+        "prefix": "perspe",
+        "missing": "ctives",
+        "fullWord": "perspectives",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'cân nhắc các góc nhìn đối nghịch'"
+      },
+      {
+        "index": 6,
+        "prefix": "relia",
+        "missing": "bility",
+        "fullWord": "reliability",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ 'độ tin cậy của bất kỳ giọng kể nào'"
+      },
+      {
+        "index": 7,
+        "prefix": "tech",
+        "missing": "nique",
+        "fullWord": "technique",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ 'áp dụng thủ pháp/kỹ thuật này'"
+      },
+      {
+        "index": 8,
+        "prefix": "mess",
+        "missing": "ages",
+        "fullWord": "messages",
+        "missingLength": 4,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'tin nhắn văn bản (text messages)'"
+      },
+      {
+        "index": 9,
+        "prefix": "exper",
+        "missing": "iments",
+        "fullWord": "experiments",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'những thử nghiệm sáng tác như vậy'"
+      },
+      {
+        "index": 10,
+        "prefix": "docu",
+        "missing": "ments",
+        "fullWord": "documents",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'tài liệu/chứng từ cá nhân'"
+      }
+    ]
+  }
 ];
 
 const ORIGINAL_BANK = [
@@ -10118,6 +10328,8 @@ const ORIGINAL_BANK = [
 ];
 
 export const COMPLETE_THE_WORDS_BANK = [
+  ...GABBLE_AI_CTW_BANK,
   ...GPT_COMPLETE_THE_WORDS_BANK,
   ...ORIGINAL_BANK
 ];
+

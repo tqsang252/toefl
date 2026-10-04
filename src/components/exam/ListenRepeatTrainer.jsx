@@ -256,6 +256,25 @@ export default function ListenRepeatTrainer() {
       window.speechSynthesis.cancel();
     }
     setIsPlayingAudio(false);
+    setActiveSpeakingWord(null);
+  };
+
+  // State to highlight the single word being spoken
+  const [activeSpeakingWord, setActiveSpeakingWord] = useState(null);
+
+  // Pronounce an individual clicked word
+  const speakWord = (rawWord, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const cleanWord = String(rawWord || '').replace(/[^a-zA-Z0-9'-]/g, '').trim();
+    if (!cleanWord) return;
+
+    setActiveSpeakingWord(cleanWord.toLowerCase());
+    playNativeTTS(cleanWord, 0.9, () => {
+      setActiveSpeakingWord(null);
+    });
   };
 
   // --- Play recorded voice ---
@@ -1027,9 +1046,41 @@ export default function ListenRepeatTrainer() {
                       </div>
                     </div>
                   ) : (
-                    <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-snug max-w-3xl mx-auto">
-                      "{currentSentence.text}"
-                    </h3>
+                    <div className="space-y-2 max-w-3xl mx-auto">
+                      <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-snug">
+                        <span className="text-sky-400 font-serif select-none mr-1">“</span>
+                        {currentSentence.text.split(/(\s+)/).map((segment, idx) => {
+                          if (/^\s+$/.test(segment)) {
+                            return <span key={idx}>{segment}</span>;
+                          }
+                          const cleanWord = segment.replace(/[^a-zA-Z0-9'-]/g, '');
+                          const isBeingSpoken =
+                            activeSpeakingWord &&
+                            cleanWord &&
+                            activeSpeakingWord === cleanWord.toLowerCase();
+
+                          return (
+                            <span
+                              key={idx}
+                              onClick={(e) => speakWord(segment, e)}
+                              className={`inline-block cursor-pointer px-1 py-0.5 rounded-lg transition-all duration-150 select-none ${
+                                isBeingSpoken
+                                  ? 'bg-amber-400 text-slate-950 font-black scale-110 shadow-lg ring-2 ring-amber-300'
+                                  : 'hover:text-amber-300 hover:bg-sky-500/20 active:scale-95 hover:underline decoration-amber-400/60 underline-offset-4'
+                              }`}
+                              title={`Bấm để nghe phát âm từ "${cleanWord || segment}"`}
+                            >
+                              {segment}
+                            </span>
+                          );
+                        })}
+                        <span className="text-sky-400 font-serif select-none ml-1">”</span>
+                      </h3>
+                      <div className="text-[11px] text-sky-400/80 font-medium flex items-center justify-center gap-1.5 pt-0.5">
+                        <Volume2 className="w-3.5 h-3.5 text-sky-400 animate-pulse" />
+                        <span>Bấm vào từng chữ trong câu để nghe phát âm riêng</span>
+                      </div>
+                    </div>
                   )}
                 </div>
 
@@ -1140,21 +1191,35 @@ export default function ListenRepeatTrainer() {
                     {/* Word-by-word Match Highlight */}
                     {recognitionScore && (
                       <div className="text-xs space-y-1.5">
-                        <div className="text-slate-400 text-[11px] font-semibold">Đối chiếu với câu gốc:</div>
+                        <div className="text-slate-400 text-[11px] font-semibold flex items-center justify-between">
+                          <span>Đối chiếu với câu gốc:</span>
+                          <span className="text-sky-400/80 text-[10px] flex items-center gap-1 font-medium">
+                            <Volume2 className="w-3 h-3 text-sky-400" />
+                            <span>Bấm vào từ để nghe đọc mẫu</span>
+                          </span>
+                        </div>
                         <div className="flex flex-wrap gap-1.5 p-2.5 bg-slate-900 rounded-xl">
                           {recognitionScore.targetWords.map((word, wIdx) => {
                             const isMatched = recognitionScore.spokenWords.includes(word);
+                            const isBeingSpoken =
+                              activeSpeakingWord && activeSpeakingWord === word.toLowerCase();
                             return (
-                              <span
+                              <button
                                 key={wIdx}
-                                className={`px-2 py-0.5 rounded text-xs font-extrabold ${
-                                  isMatched
-                                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                                    : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                                type="button"
+                                onClick={(e) => speakWord(word, e)}
+                                className={`px-2.5 py-1 rounded-lg text-xs font-extrabold cursor-pointer transition-all active:scale-95 flex items-center gap-1.5 select-none ${
+                                  isBeingSpoken
+                                    ? 'bg-amber-400 text-slate-950 font-black scale-105 shadow-md ring-2 ring-amber-300'
+                                    : isMatched
+                                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30'
+                                    : 'bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30'
                                 }`}
+                                title={`Bấm để nghe phát âm từ "${word}"`}
                               >
-                                {word}
-                              </span>
+                                <span>{word}</span>
+                                <Volume2 className="w-3 h-3 opacity-60" />
+                              </button>
                             );
                           })}
                         </div>
@@ -1269,14 +1334,19 @@ export default function ListenRepeatTrainer() {
                                 return (
                                   <div
                                     key={wIdx}
-                                    className={`p-2 rounded-xl text-left border ${
+                                    onClick={(e) => speakWord(w.word, e)}
+                                    className={`p-2.5 rounded-xl text-left border cursor-pointer hover:ring-2 hover:ring-purple-400/60 transition-all active:scale-95 select-none ${
                                       isCorrect
                                         ? 'bg-emerald-950/30 border-emerald-800/40 text-emerald-200'
                                         : 'bg-rose-950/40 border-rose-800/50 text-rose-200'
                                     }`}
+                                    title={`Bấm để nghe phát âm từ "${w.word}"`}
                                   >
                                     <div className="flex items-center justify-between text-xs font-black">
-                                      <span>{w.word}</span>
+                                      <span className="flex items-center gap-1">
+                                        <span>{w.word}</span>
+                                        <Volume2 className="w-3 h-3 opacity-60" />
+                                      </span>
                                       <span>{isCorrect ? '✓' : '✗'}</span>
                                     </div>
                                     {w.target_ipa && (
