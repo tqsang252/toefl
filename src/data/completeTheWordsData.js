@@ -221,6 +221,212 @@ export const GABBLE_AI_CTW_BANK = [
         "hint": "Danh từ số nhiều 'tài liệu/chứng từ cá nhân'"
       }
     ]
+  },
+  {
+    "id": "gabble_ctw_03",
+    "title": "GabbleAI - Linear Perspective in Renaissance Art",
+    "topic": "Art History & Renaissance Techniques",
+    "category": "GabbleAI",
+    "source": "Gabble.ai TOEFL 2026 Reading Task 1 (Practice 5)",
+    "youtube_url": "https://www.youtube.com/watch?v=dImfB43TArA",
+    "leadSentence": "During the Italian Renaissance, painters developed linear perspective to create a convincing illusion of depth on a flat surface.",
+    "bodyTemplate": "By [arra|nging] parallel lines so that they converge toward one [vani|shing] point, artists could [posi|tion] figures and buildings in [mathema|tically] consistent space. The [arch|itect] Filippo Brunelleschi is often credited with [demons|trating] the technique, although its [princ|iples] were soon codified in written treatises. The method [profo|undly] influenced European art for centuries, until modern painters [delibe|rately] abandoned it in favor of flatter, more [expre|ssive] compositions.",
+    "fullText": "During the Italian Renaissance, painters developed linear perspective to create a convincing illusion of depth on a flat surface. By arranging parallel lines so that they converge toward one vanishing point, artists could position figures and buildings in mathematically consistent space. The architect Filippo Brunelleschi is often credited with demonstrating the technique, although its principles were soon codified in written treatises. The method profoundly influenced European art for centuries, until modern painters deliberately abandoned it in favor of flatter, more expressive compositions.",
+    "blanks": [
+      {
+        "index": 1,
+        "prefix": "arra",
+        "missing": "nging",
+        "fullWord": "arranging",
+        "missingLength": 5,
+        "pos": "Gerund",
+        "hint": "Danh từ V-ing 'bằng cách sắp xếp các đường thẳng song song'"
+      },
+      {
+        "index": 2,
+        "prefix": "vani",
+        "missing": "shing",
+        "fullWord": "vanishing",
+        "missingLength": 5,
+        "pos": "Adjective",
+        "hint": "Tính từ/thuật ngữ nghệ thuật 'điểm biến mất (vanishing point)'"
+      },
+      {
+        "index": 3,
+        "prefix": "posi",
+        "missing": "tion",
+        "fullWord": "position",
+        "missingLength": 4,
+        "pos": "Verb",
+        "hint": "Động từ nguyên mẫu 'có thể định vị các nhân vật và tòa nhà'"
+      },
+      {
+        "index": 4,
+        "prefix": "mathema",
+        "missing": "tically",
+        "fullWord": "mathematically",
+        "missingLength": 7,
+        "pos": "Adverb",
+        "hint": "Trạng từ 'không gian nhất quán về mặt toán học'"
+      },
+      {
+        "index": 5,
+        "prefix": "arch",
+        "missing": "itect",
+        "fullWord": "architect",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ chỉ người 'kiến trúc sư Filippo Brunelleschi'"
+      },
+      {
+        "index": 6,
+        "prefix": "demons",
+        "missing": "trating",
+        "fullWord": "demonstrating",
+        "missingLength": 6,
+        "pos": "Gerund",
+        "hint": "Danh từ V-ing sau giới từ 'chứng minh/minh họa kỹ thuật'"
+      },
+      {
+        "index": 7,
+        "prefix": "princ",
+        "missing": "iples",
+        "fullWord": "principles",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'các nguyên lý của nó'"
+      },
+      {
+        "index": 8,
+        "prefix": "profo",
+        "missing": "undly",
+        "fullWord": "profoundly",
+        "missingLength": 5,
+        "pos": "Adverb",
+        "hint": "Trạng từ 'ảnh hưởng sâu sắc đến nghệ thuật châu Âu'"
+      },
+      {
+        "index": 9,
+        "prefix": "delibe",
+        "missing": "rately",
+        "fullWord": "deliberately",
+        "missingLength": 6,
+        "pos": "Adverb",
+        "hint": "Trạng từ 'cố ý/chủ động từ bỏ nó'"
+      },
+      {
+        "index": 10,
+        "prefix": "expre",
+        "missing": "ssive",
+        "fullWord": "expressive",
+        "missingLength": 5,
+        "pos": "Adjective",
+        "hint": "Tính từ 'bố cục giàu tính biểu cảm hơn'"
+      }
+    ]
+  },
+  {
+    "id": "gabble_ctw_04",
+    "title": "GabbleAI - The Impressionist Movement",
+    "topic": "19th Century French Art",
+    "category": "GabbleAI",
+    "source": "Gabble.ai TOEFL 2026 Reading Task 1 (Practice 5)",
+    "youtube_url": "https://www.youtube.com/watch?v=dImfB43TArA",
+    "leadSentence": "In the 1870s, a group of French painters challenged the rigid conventions promoted by the official art academies.",
+    "bodyTemplate": "Rejecting [care|fully] blended surfaces, the Impressionists applied loose, visible [brushs|trokes] to capture fleeting effects of light and [atmos|phere]. They [frequ|ently] worked outdoors, where changing [condi|tions] forced them to paint quickly. Although critics [init|ially] dismissed their canvases as [unfin|ished] sketches, the movement ultimately reshaped modern ideas about what a [pain|ting] could be. Today, [th|eir] works rank among the most [celeb|rated] in the world.",
+    "fullText": "In the 1870s, a group of French painters challenged the rigid conventions promoted by the official art academies. Rejecting carefully blended surfaces, the Impressionists applied loose, visible brushstrokes to capture fleeting effects of light and atmosphere. They frequently worked outdoors, where changing conditions forced them to paint quickly. Although critics initially dismissed their canvases as unfinished sketches, the movement ultimately reshaped modern ideas about what a painting could be. Today, their works rank among the most celebrated in the world.",
+    "blanks": [
+      {
+        "index": 1,
+        "prefix": "care",
+        "missing": "fully",
+        "fullWord": "carefully",
+        "missingLength": 5,
+        "pos": "Adverb",
+        "hint": "Trạng từ 'bề mặt được pha trộn cẩn thận/tỉ mỉ'"
+      },
+      {
+        "index": 2,
+        "prefix": "brushs",
+        "missing": "trokes",
+        "fullWord": "brushstrokes",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'những nét cọ'"
+      },
+      {
+        "index": 3,
+        "prefix": "atmos",
+        "missing": "phere",
+        "fullWord": "atmosphere",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ 'hiệu ứng ánh sáng và bầu không khí'"
+      },
+      {
+        "index": 4,
+        "prefix": "frequ",
+        "missing": "ently",
+        "fullWord": "frequently",
+        "missingLength": 5,
+        "pos": "Adverb",
+        "hint": "Trạng từ 'họ thường xuyên làm việc ngoài trời'"
+      },
+      {
+        "index": 5,
+        "prefix": "condi",
+        "missing": "tions",
+        "fullWord": "conditions",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'điều kiện thay đổi buộc họ phải vẽ nhanh'"
+      },
+      {
+        "index": 6,
+        "prefix": "init",
+        "missing": "ially",
+        "fullWord": "initially",
+        "missingLength": 5,
+        "pos": "Adverb",
+        "hint": "Trạng từ 'giới phê bình ban đầu gạt bỏ'"
+      },
+      {
+        "index": 7,
+        "prefix": "unfin",
+        "missing": "ished",
+        "fullWord": "unfinished",
+        "missingLength": 5,
+        "pos": "Adjective",
+        "hint": "Tính từ 'những bản phác thảo chưa hoàn thành'"
+      },
+      {
+        "index": 8,
+        "prefix": "pain",
+        "missing": "ting",
+        "fullWord": "painting",
+        "missingLength": 4,
+        "pos": "Noun",
+        "hint": "Danh từ 'một bức tranh có thể là gì'"
+      },
+      {
+        "index": 9,
+        "prefix": "th",
+        "missing": "eir",
+        "fullWord": "their",
+        "missingLength": 3,
+        "pos": "Pronoun",
+        "hint": "Tính từ sở hữu 'các tác phẩm của họ'"
+      },
+      {
+        "index": 10,
+        "prefix": "celeb",
+        "missing": "rated",
+        "fullWord": "celebrated",
+        "missingLength": 5,
+        "pos": "Adjective",
+        "hint": "Tính từ 'nổi tiếng/được tôn vinh nhất trên thế giới'"
+      }
+    ]
   }
 ];
 
