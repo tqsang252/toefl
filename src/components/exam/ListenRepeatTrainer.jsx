@@ -26,9 +26,20 @@ import {
   TrendingUp,
   Clock,
   BookOpen,
-  Shuffle
+  Shuffle,
+  Loader2,
+  Trophy,
+  X,
+  FileText,
+  Activity,
+  Flame,
+  HelpCircle
 } from 'lucide-react';
 import { SPEAKING_87_PRACTICES, SPEAKING_REPEAT_GABBLE_609 } from '../../data/speaking87PracticesData.js';
+import {
+  evaluateSentencePronunciationAndStress,
+  evaluateListenRepeatFullPractice
+} from '../../lib/gemini.js';
 
 // Local storage key for manual star markings
 const STARRED_STORAGE_KEY = 'toefl_listen_repeat_starred_practices';
@@ -117,11 +128,33 @@ export default function ListenRepeatTrainer() {
   const [playbackRate, setPlaybackRate] = useState(1.0);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
-  // Speech Recognition (Microphone) States
+  // Per-sentence recording & AI evaluations cache:
+  // { [sentenceIndex]: { userTranscript, recognitionScore, audioUrl, audioBlob, durationSeconds, aiEvaluation } }
+  const [practiceRecordings, setPracticeRecordings] = useState({});
+
+  // Current sentence live Speech Recognition & Recording states
   const [isRecording, setIsRecording] = useState(false);
   const [userTranscript, setUserTranscript] = useState('');
   const [recognitionScore, setRecognitionScore] = useState(null);
   const recognitionRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
+  const recordingStreamRef = useRef(null);
+  const recordingStartTimeRef = useRef(0);
+
+  // Playback of user's recorded audio
+  const [isPlayingUserAudio, setIsPlayingUserAudio] = useState(false);
+  const userAudioElementRef = useRef(null);
+
+  // Single Sentence AI Evaluation States
+  const [isEvaluatingSentence, setIsEvaluatingSentence] = useState(false);
+  const [sentenceAiError, setSentenceAiError] = useState(null);
+
+  // Full 7-Sentence Test AI Evaluation States
+  const [isEvaluatingFullTest, setIsEvaluatingFullTest] = useState(false);
+  const [fullTestAiReport, setFullTestAiReport] = useState(null);
+  const [isFullReportModalOpen, setIsFullReportModalOpen] = useState(false);
+  const [fullTestAiError, setFullTestAiError] = useState(null);
 
   // Auto exam runner state (continuous 7-question exam mode)
   const [isContinuousExam, setIsContinuousExam] = useState(false);
@@ -141,7 +174,6 @@ export default function ListenRepeatTrainer() {
   // Filtered Practices
   const filteredPractices = useMemo(() => {
     return SPEAKING_87_PRACTICES.filter((p) => {
-      // 1. Search Query
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
         const matchTitle = p.title.toLowerCase().includes(q);
@@ -153,17 +185,12 @@ export default function ListenRepeatTrainer() {
           return false;
         }
       }
-
-      // 2. Topic
       if (selectedTopic !== 'All Topics' && p.topic !== selectedTopic) {
         return false;
       }
-
-      // 3. Status
       const isStarred = Boolean(starredPractices[p.practice_number]);
       if (selectedStatus === 'starred' && !isStarred) return false;
       if (selectedStatus === 'unstarred' && isStarred) return false;
-
       return true;
     });
   }, [searchQuery, selectedTopic, selectedStatus, starredPractices]);
@@ -200,9 +227,15 @@ export default function ListenRepeatTrainer() {
     utterance.lang = 'en-US';
     utterance.rate = rate;
 
-    // Try finding US English voices
     const voices = window.speechSynthesis.getVoices();
-    const usVoice = voices.find((v) => v.lang === 'en-US' && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Zira')));
+    const usVoice = voices.find(
+      (v) =>
+        v.lang === 'en-US' &&
+        (v.name.includes('Natural') ||
+          v.name.includes('Google') ||
+          v.name.includes('Samantha') ||
+          v.name.includes('Zira'))
+    );
     if (usVoice) utterance.voice = usVoice;
 
     setIsPlayingAudio(true);
@@ -225,8 +258,29 @@ export default function ListenRepeatTrainer() {
     setIsPlayingAudio(false);
   };
 
-  // --- Speech Recognition ---
-  const startRecording = () => {
+  // --- Play recorded voice ---
+  const playUserRecording = (url) => {
+    if (!url) return;
+    if (userAudioElementRef.current) {
+      userAudioElementRef.current.pause();
+    }
+    const audio = new Audio(url);
+    userAudioElementRef.current = audio;
+    setIsPlayingUserAudio(true);
+    audio.onended = () => setIsPlayingUserAudio(false);
+    audio.onerror = () => setIsPlayingUserAudio(false);
+    audio.play();
+  };
+
+  const stopUserRecording = () => {
+    if (userAudioElementRef.current) {
+      userAudioElementRef.current.pause();
+      setIsPlayingUserAudio(false);
+    }
+  };
+
+  // --- Speech Recognition & MediaRecorder ---
+  const startRecording = async () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       showToast('Trình duyệt chưa hỗ trợ ghi âm trực tiếp. Hãy dùng Chrome hoặc Edge.');
@@ -235,8 +289,54 @@ export default function ListenRepeatTrainer() {
 
     try {
       if (recognitionRef.current) {
-        recognitionRef.current.abort();
+        try { recognitionRef.current.abort(); } catch (e) {}
       }
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+        try { mediaRecorderRef.current.stop(); } catch (e) {}
+      }
+
+      // 1. Microphone MediaRecorder
+      if (navigator.mediaDevices?.getUserMedia) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          recordingStreamRef.current = stream;
+          const mr = new MediaRecorder(stream);
+          audioChunksRef.current = [];
+          mr.ondataavailable = (e) => {
+            if (e.data.size > 0) audioChunksRef.current.push(e.data);
+          };
+          mr.onstop = () => {
+            const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+            const url = URL.createObjectURL(blob);
+            const duration = Math.max(1, Math.round((Date.now() - recordingStartTimeRef.current) / 1000));
+            
+            setPracticeRecordings((prev) => {
+              const currentRec = prev[activeSentenceIndex] || {};
+              return {
+                ...prev,
+                [activeSentenceIndex]: {
+                  ...currentRec,
+                  audioUrl: url,
+                  audioBlob: blob,
+                  durationSeconds: duration
+                }
+              };
+            });
+
+            if (recordingStreamRef.current) {
+              recordingStreamRef.current.getTracks().forEach((t) => t.stop());
+              recordingStreamRef.current = null;
+            }
+          };
+          mediaRecorderRef.current = mr;
+          recordingStartTimeRef.current = Date.now();
+          mr.start();
+        } catch (mErr) {
+          console.warn('Microphone stream warning:', mErr);
+        }
+      }
+
+      // 2. SpeechRecognition
       const recognition = new SpeechRecognition();
       recognition.lang = 'en-US';
       recognition.continuous = false;
@@ -244,6 +344,7 @@ export default function ListenRepeatTrainer() {
 
       setUserTranscript('');
       setRecognitionScore(null);
+      setSentenceAiError(null);
       setIsRecording(true);
 
       recognition.onresult = (event) => {
@@ -266,14 +367,17 @@ export default function ListenRepeatTrainer() {
       recognitionRef.current = recognition;
       recognition.start();
     } catch (err) {
-      console.error('Failed to start speech recognition:', err);
+      console.error('Failed to start recording:', err);
       setIsRecording(false);
     }
   };
 
   const stopRecording = () => {
     if (recognitionRef.current) {
-      recognitionRef.current.stop();
+      try { recognitionRef.current.stop(); } catch (e) {}
+    }
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+      try { mediaRecorderRef.current.stop(); } catch (e) {}
     }
     setIsRecording(false);
   };
@@ -283,7 +387,6 @@ export default function ListenRepeatTrainer() {
 
   useEffect(() => {
     if (!userTranscript || !currentSentence) {
-      setRecognitionScore(null);
       return;
     }
 
@@ -307,20 +410,58 @@ export default function ListenRepeatTrainer() {
     });
 
     const percent = Math.min(100, Math.round((matched / targetWords.length) * 100));
-    setRecognitionScore({
+    const scoreObj = {
       percent,
       matched,
       total: targetWords.length,
       targetWords,
       spokenWords
-    });
-  }, [userTranscript, currentSentence]);
+    };
+    setRecognitionScore(scoreObj);
+
+    // Save to practice recordings store
+    setPracticeRecordings((prev) => ({
+      ...prev,
+      [activeSentenceIndex]: {
+        ...(prev[activeSentenceIndex] || {}),
+        userTranscript,
+        recognitionScore: scoreObj
+      }
+    }));
+  }, [userTranscript, currentSentence, activeSentenceIndex]);
+
+  // Switch between sentences and restore previous work
+  const navigateToSentence = (idx) => {
+    if (!activePractice || idx < 0 || idx >= activePractice.sentences.length) return;
+    stopAudio();
+    stopRecording();
+    stopUserRecording();
+    setActiveSentenceIndex(idx);
+    const saved = practiceRecordings[idx];
+    if (saved) {
+      setUserTranscript(saved.userTranscript || '');
+      setRecognitionScore(saved.recognitionScore || null);
+    } else {
+      setUserTranscript('');
+      setRecognitionScore(null);
+    }
+    setSentenceAiError(null);
+  };
 
   // Clean up audio/timers when switching practice or unmounting
   useEffect(() => {
     return () => {
       stopAudio();
-      if (recognitionRef.current) recognitionRef.current.abort();
+      stopUserRecording();
+      if (recognitionRef.current) {
+        try { recognitionRef.current.abort(); } catch (e) {}
+      }
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+        try { mediaRecorderRef.current.stop(); } catch (e) {}
+      }
+      if (recordingStreamRef.current) {
+        recordingStreamRef.current.getTracks().forEach((t) => t.stop());
+      }
       if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
     };
   }, []);
@@ -328,17 +469,24 @@ export default function ListenRepeatTrainer() {
   // Open Practice Studio
   const handleOpenPractice = (practice) => {
     stopAudio();
+    stopUserRecording();
     setActivePractice(practice);
     setActiveSentenceIndex(0);
     setUserTranscript('');
     setRecognitionScore(null);
+    setPracticeRecordings({});
+    setFullTestAiReport(null);
+    setIsFullReportModalOpen(false);
     setIsTextHidden(false);
     setIsContinuousExam(false);
+    setSentenceAiError(null);
+    setFullTestAiError(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleExitPractice = () => {
     stopAudio();
+    stopUserRecording();
     setActivePractice(null);
     setIsContinuousExam(false);
   };
@@ -346,21 +494,15 @@ export default function ListenRepeatTrainer() {
   // Step between sentences
   const handleNextSentence = () => {
     if (!activePractice) return;
-    stopAudio();
-    setUserTranscript('');
-    setRecognitionScore(null);
     if (activeSentenceIndex < activePractice.sentences.length - 1) {
-      setActiveSentenceIndex((prev) => prev + 1);
+      navigateToSentence(activeSentenceIndex + 1);
     }
   };
 
   const handlePrevSentence = () => {
     if (!activePractice) return;
-    stopAudio();
-    setUserTranscript('');
-    setRecognitionScore(null);
     if (activeSentenceIndex > 0) {
-      setActiveSentenceIndex((prev) => prev - 1);
+      navigateToSentence(activeSentenceIndex - 1);
     }
   };
 
@@ -368,9 +510,7 @@ export default function ListenRepeatTrainer() {
   const handleStartContinuousExam = () => {
     if (!activePractice) return;
     setIsContinuousExam(true);
-    setActiveSentenceIndex(0);
-    setUserTranscript('');
-    setRecognitionScore(null);
+    navigateToSentence(0);
     runContinuousStep(0);
   };
 
@@ -378,13 +518,11 @@ export default function ListenRepeatTrainer() {
     const s = activePractice?.sentences?.[sIdx];
     if (!s) {
       setIsContinuousExam(false);
-      showToast('Đã hoàn thành toàn bộ 7 câu của đề thi! 🎉');
+      showToast('Đã hoàn thành toàn bộ 7 câu của đề thi! 🎉 Bấm "Chấm Toàn Bộ 7 Câu Bằng AI" để xem điểm!');
       return;
     }
-    setActiveSentenceIndex(sIdx);
+    navigateToSentence(sIdx);
     setContinuousExamPhase('listening');
-    setUserTranscript('');
-    setRecognitionScore(null);
 
     // 1. Play native audio
     playNativeTTS(s.text, playbackRate, () => {
@@ -409,13 +547,13 @@ export default function ListenRepeatTrainer() {
           playETSBeep(450, 200); // End beep
           setContinuousExamPhase('feedback');
 
-          // Pause 2s to view score, then advance
+          // Pause 2.5s to review sentence score, then advance
           setTimeout(() => {
             if (sIdx + 1 < activePractice.sentences.length) {
               runContinuousStep(sIdx + 1);
             } else {
               setIsContinuousExam(false);
-              showToast('Đã hoàn thành xuất sắc toàn bộ 7 câu! 🎉');
+              showToast('Đã hoàn thành xuất sắc toàn bộ 7 câu! 🎉 Bấm "Chấm Toàn Bộ 7 Câu Bằng AI" ngay!');
             }
           }, 2500);
         }
@@ -423,12 +561,113 @@ export default function ListenRepeatTrainer() {
     });
   };
 
+  // =========================================================================
+  // AI EVALUATION 1: SINGLE SENTENCE (CHẤM PHÁT ÂM VÀ NGỮ ĐIỆU TỪNG CÂU)
+  // =========================================================================
+  const handleEvaluateSingleSentence = async () => {
+    if (!currentSentence) return;
+    const currentRec = practiceRecordings[activeSentenceIndex] || {};
+    const textToEvaluate = userTranscript || currentRec.userTranscript || '';
+    const audioUrlToEvaluate = currentRec.audioUrl || null;
+    const duration = currentRec.durationSeconds || 0;
+
+    if (!textToEvaluate && !audioUrlToEvaluate) {
+      showToast('Vui lòng ghi âm câu trước khi bấm chấm điểm AI.');
+      return;
+    }
+
+    setIsEvaluatingSentence(true);
+    setSentenceAiError(null);
+    try {
+      const result = await evaluateSentencePronunciationAndStress({
+        targetSentence: currentSentence.text,
+        audioUrl: audioUrlToEvaluate,
+        spokenTranscript: textToEvaluate,
+        durationSeconds: duration
+      });
+
+      setPracticeRecordings((prev) => ({
+        ...prev,
+        [activeSentenceIndex]: {
+          ...(prev[activeSentenceIndex] || {}),
+          userTranscript: textToEvaluate,
+          aiEvaluation: result
+        }
+      }));
+      showToast('Đã có kết quả AI chấm điểm phát âm câu này! 🎉');
+    } catch (err) {
+      console.error('Lỗi AI chấm điểm câu:', err);
+      setSentenceAiError(err.message || 'Không thể chấm điểm lúc này. Vui lòng kiểm tra API Key hoặc thử lại.');
+    } finally {
+      setIsEvaluatingSentence(false);
+    }
+  };
+
+  // =========================================================================
+  // AI EVALUATION 2: FULL 7-SENTENCE PRACTICE (CHẤM TOÀN BỘ 7 CÂU BẰNG AI)
+  // =========================================================================
+  const recordedSentencesCount = useMemo(() => {
+    if (!activePractice) return 0;
+    return activePractice.sentences.filter((_, idx) => {
+      const rec = practiceRecordings[idx];
+      return Boolean(rec?.userTranscript || rec?.audioUrl);
+    }).length;
+  }, [activePractice, practiceRecordings]);
+
+  const handleEvaluateFullTest = async () => {
+    if (!activePractice) return;
+
+    if (recordedSentencesCount === 0) {
+      showToast('Bạn chưa ghi âm câu nào. Hãy ghi âm ít nhất một vài câu để AI chấm điểm!');
+      return;
+    }
+
+    setIsEvaluatingFullTest(true);
+    setFullTestAiError(null);
+    try {
+      const sentenceResults = activePractice.sentences.map((s, idx) => {
+        const rec = practiceRecordings[idx] || {};
+        return {
+          index: s.index || idx + 1,
+          text: s.text,
+          level: s.level,
+          word_count: s.word_count,
+          userTranscript: rec.userTranscript || '',
+          audioUrl: rec.audioUrl || null,
+          sentenceScore: rec.recognitionScore || null,
+          aiEvaluation: rec.aiEvaluation || null
+        };
+      });
+
+      const report = await evaluateListenRepeatFullPractice({
+        practiceNumber: activePractice.practice_number,
+        practiceTitle: activePractice.title,
+        topic: activePractice.topic,
+        scenario: activePractice.scenario,
+        sentenceResults
+      });
+
+      setFullTestAiReport(report);
+      setIsFullReportModalOpen(true);
+      showToast('Đã hoàn thành chấm điểm toàn bộ 7 câu bằng AI! 🏆');
+    } catch (err) {
+      console.error('Lỗi chấm full test:', err);
+      setFullTestAiError(err.message || 'Có lỗi khi chấm điểm toàn bài. Vui lòng thử lại.');
+      showToast('Lỗi khi chấm điểm AI toàn bài. Vui lòng kiểm tra API Key hoặc thử lại.');
+    } finally {
+      setIsEvaluatingFullTest(false);
+    }
+  };
+
+  const currentSentenceRec = practiceRecordings[activeSentenceIndex] || {};
+  const currentSentenceAi = currentSentenceRec.aiEvaluation;
+
   return (
     <div className="space-y-6 pb-16">
       {/* Toast Alert */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl border border-slate-700 text-xs font-bold flex items-center gap-2 animate-bounce">
-          <span>✨</span>
+          <Sparkles className="w-4 h-4 text-amber-400" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -452,7 +691,7 @@ export default function ListenRepeatTrainer() {
               </span>
             </h1>
             <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-              Luyện nghe và nhắc lại chuẩn ngữ điệu & trọng âm với 87 tình huống giao tiếp đời sống và học thuật thực tế. Mỗi đề bài gồm 7 câu có độ khó tăng dần từ Level 1 đến Level 3.
+              Luyện nghe và nhắc lại chuẩn ngữ điệu & trọng âm với 87 tình huống giao tiếp đời sống và học thuật thực tế. Tích hợp AI chấm điểm phát âm từng câu & toàn bộ 7 câu chuẩn thang điểm TOEFL 2026.
             </p>
           </div>
 
@@ -502,8 +741,42 @@ export default function ListenRepeatTrainer() {
               </h2>
             </div>
 
-            {/* Top Controls: Manual Star & Video Link */}
+            {/* Top Action Controls: AI Grade Full Test & Manual Star */}
             <div className="flex items-center gap-2.5 flex-wrap self-end md:self-auto">
+              {/* NÚT CHẤM TOÀN BỘ 7 CÂU BẰNG AI */}
+              <button
+                onClick={handleEvaluateFullTest}
+                disabled={isEvaluatingFullTest}
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white text-xs font-black transition-all shadow-md active:scale-95 flex items-center gap-2 cursor-pointer disabled:opacity-60"
+                title="Gửi bài thi gồm 7 câu để AI chấm điểm quy đổi theo thang 30 ETS"
+              >
+                {isEvaluatingFullTest ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin text-white" />
+                    <span>AI đang chấm 7 câu...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trophy className="w-4 h-4 text-amber-300" />
+                    <span>Chấm Toàn Bộ 7 Câu AI</span>
+                    <span className="px-1.5 py-0.5 rounded-full bg-white/20 text-[10px]">
+                      {recordedSentencesCount}/7
+                    </span>
+                  </>
+                )}
+              </button>
+
+              {/* Xem lại báo cáo full test nếu đã có */}
+              {fullTestAiReport && (
+                <button
+                  onClick={() => setIsFullReportModalOpen(true)}
+                  className="px-3 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Xem Báo Cáo AI ({fullTestAiReport.score_30}/30)</span>
+                </button>
+              )}
+
               {/* Star toggle */}
               <button
                 onClick={(e) => handleToggleStar(activePractice.practice_number, e)}
@@ -536,7 +809,7 @@ export default function ListenRepeatTrainer() {
                 className="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition-all flex items-center gap-1.5"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
-                <span>Xem clip YouTube gốc</span>
+                <span>YouTube gốc</span>
               </a>
             </div>
           </div>
@@ -558,38 +831,49 @@ export default function ListenRepeatTrainer() {
               </div>
             </div>
 
-            {/* 7-Step Navigation Indicator */}
+            {/* 7-Step Navigation Indicator with Recording & AI status */}
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs font-bold text-slate-500 px-1">
                 <span>Chọn câu luyện tập:</span>
                 <span className="text-sky-700 font-extrabold">
-                  Câu {activeSentenceIndex + 1} / 7
+                  Câu {activeSentenceIndex + 1} / 7 • Đã ghi âm: {recordedSentencesCount}/7 câu
                 </span>
               </div>
               <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
                 {activePractice.sentences.map((sent, idx) => {
                   const isActive = idx === activeSentenceIndex;
+                  const rec = practiceRecordings[idx];
+                  const hasRecorded = Boolean(rec?.userTranscript || rec?.audioUrl);
+                  const hasAi = Boolean(rec?.aiEvaluation);
+
                   return (
                     <button
                       key={sent.index}
-                      onClick={() => {
-                        stopAudio();
-                        setUserTranscript('');
-                        setRecognitionScore(null);
-                        setActiveSentenceIndex(idx);
-                      }}
-                      className={`py-2 px-1 rounded-xl text-center text-xs font-extrabold transition-all cursor-pointer border ${
+                      onClick={() => navigateToSentence(idx)}
+                      className={`relative py-2.5 px-1 rounded-xl text-center text-xs font-extrabold transition-all cursor-pointer border ${
                         isActive
                           ? 'bg-sky-700 text-white border-sky-700 shadow-md ring-2 ring-sky-300'
+                          : hasRecorded
+                          ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100'
                           : sent.level === 1
-                          ? 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100'
+                          ? 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                           : sent.level === 2
-                          ? 'bg-sky-50 text-sky-800 border-sky-200 hover:bg-sky-100'
-                          : 'bg-amber-50 text-amber-800 border-amber-200 hover:bg-amber-100'
+                          ? 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                          : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                       }`}
                     >
-                      <div className="truncate">Câu {sent.index}</div>
-                      <div className="text-[10px] opacity-75 font-medium">{sent.word_count}w</div>
+                      <div className="flex items-center justify-center gap-1 truncate">
+                        <span>Câu {sent.index}</span>
+                        {hasRecorded && <Check className="w-3 h-3 text-emerald-500 shrink-0" />}
+                      </div>
+                      <div className="text-[10px] opacity-80 font-medium">
+                        L{sent.level} • {sent.word_count}w
+                      </div>
+                      {hasAi && (
+                        <span className="absolute -top-1.5 -right-1.5 px-1 py-0.2 rounded-full bg-purple-600 text-[9px] text-white font-black shadow-xs">
+                          AI
+                        </span>
+                      )}
                     </button>
                   );
                 })}
@@ -600,23 +884,33 @@ export default function ListenRepeatTrainer() {
             {/* ACTIVE SENTENCE STUDIO (DARK MODE CARD) */}
             {/* ========================================================================= */}
             {currentSentence && (
-              <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 space-y-6 text-center relative overflow-hidden shadow-2xl border border-slate-800">
-                {/* Level Header & Text Controls */}
-                <div className="flex items-center justify-between text-xs text-slate-400 font-bold border-b border-slate-800 pb-3 flex-wrap gap-2">
-                  <span
-                    className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase ${
-                      currentSentence.level === 1
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                        : currentSentence.level === 2
-                        ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
-                        : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                    }`}
-                  >
-                    <span className="w-2 h-2 rounded-full bg-current animate-pulse" />
-                    Level {currentSentence.level} • {currentSentence.word_count} Từ
-                  </span>
+              <div className="bg-slate-900 rounded-3xl p-6 sm:p-8 text-white space-y-6 relative overflow-hidden shadow-2xl border border-slate-800">
+                <div className="absolute top-0 right-0 w-80 h-80 bg-sky-600/10 rounded-full blur-3xl pointer-events-none" />
 
+                {/* Question Info Bar */}
+                <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
                   <div className="flex items-center gap-2">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-black tracking-wide uppercase ${
+                        currentSentence.level === 1
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                          : currentSentence.level === 2
+                          ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
+                          : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                      }`}
+                    >
+                      Level {currentSentence.level} ({currentSentence.word_count} từ)
+                    </span>
+                    <span className="text-xs text-slate-400 font-semibold">
+                      {currentSentence.level === 1
+                        ? 'Câu ngắn (4-6 từ) • Phản xạ nhanh'
+                        : currentSentence.level === 2
+                        ? 'Câu vừa (7-11 từ) • Trọng âm & nối từ'
+                        : 'Câu dài (12-25 từ) • Cấu trúc phức & trí nhớ thính giác'}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2.5">
                     {/* Hide Text Toggle */}
                     <button
                       onClick={() => setIsTextHidden(!isTextHidden)}
@@ -645,7 +939,7 @@ export default function ListenRepeatTrainer() {
                 </div>
 
                 {/* Sentence Display Area */}
-                <div className="py-4 space-y-2">
+                <div className="py-4 space-y-2 text-center">
                   <div className="text-xs text-sky-400 font-black tracking-widest uppercase">
                     Câu số {currentSentence.index} trên 7 câu
                   </div>
@@ -709,38 +1003,59 @@ export default function ListenRepeatTrainer() {
                   </button>
                 </div>
 
-                {/* Real-time Recognition Speech Feedback Card */}
-                {userTranscript && (
-                  <div className="bg-slate-800/80 rounded-2xl p-4 sm:p-5 border border-slate-700 text-left space-y-3 max-w-2xl mx-auto shadow-inner">
-                    <div className="flex items-center justify-between text-xs font-bold">
+                {/* ========================================================================= */}
+                {/* USER RECORDING FEEDBACK & AI CHẤM TỪNG CÂU */}
+                {/* ========================================================================= */}
+                {(userTranscript || currentSentenceRec.audioUrl) && (
+                  <div className="bg-slate-800/80 rounded-2xl p-5 border border-slate-700 text-left space-y-4 max-w-3xl mx-auto shadow-inner">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold">
                       <span className="text-slate-300 flex items-center gap-1.5">
                         <Sparkles className="w-4 h-4 text-emerald-400" />
-                        <span>Nhận diện giọng nói của bạn:</span>
+                        <span>Kết quả giọng nói của bạn:</span>
                       </span>
-                      {recognitionScore && (
-                        <span
-                          className={`font-black px-2.5 py-0.5 rounded-md ${
-                            recognitionScore.percent >= 80
-                              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                              : recognitionScore.percent >= 50
-                              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                              : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
-                          }`}
-                        >
-                          Chính xác: {recognitionScore.percent}% ({recognitionScore.matched}/{recognitionScore.total} từ)
-                        </span>
-                      )}
+
+                      <div className="flex items-center gap-2">
+                        {/* Play recorded voice */}
+                        {currentSentenceRec.audioUrl && (
+                          <button
+                            onClick={() => {
+                              if (isPlayingUserAudio) stopUserRecording();
+                              else playUserRecording(currentSentenceRec.audioUrl);
+                            }}
+                            className="px-3 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold flex items-center gap-1 cursor-pointer transition-all"
+                          >
+                            {isPlayingUserAudio ? <Pause className="w-3 h-3 text-amber-400" /> : <Play className="w-3 h-3 text-emerald-400" />}
+                            <span>{isPlayingUserAudio ? 'Dừng phát' : 'Nghe lại giọng bạn'}</span>
+                          </button>
+                        )}
+
+                        {recognitionScore && (
+                          <span
+                            className={`font-black px-2.5 py-0.5 rounded-md ${
+                              recognitionScore.percent >= 80
+                                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                                : recognitionScore.percent >= 50
+                                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                                : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                            }`}
+                          >
+                            Độ khớp: {recognitionScore.percent}% ({recognitionScore.matched}/{recognitionScore.total} từ)
+                          </span>
+                        )}
+                      </div>
                     </div>
 
-                    <div className="bg-slate-950/80 p-3 rounded-xl text-xs sm:text-sm font-bold text-slate-200 leading-relaxed border border-slate-800">
-                      "{userTranscript}"
-                    </div>
+                    {userTranscript && (
+                      <div className="bg-slate-950/80 p-3.5 rounded-xl text-xs sm:text-sm font-bold text-slate-200 leading-relaxed border border-slate-800">
+                        "{userTranscript}"
+                      </div>
+                    )}
 
                     {/* Word-by-word Match Highlight */}
                     {recognitionScore && (
-                      <div className="text-xs space-y-1">
+                      <div className="text-xs space-y-1.5">
                         <div className="text-slate-400 text-[11px] font-semibold">Đối chiếu với câu gốc:</div>
-                        <div className="flex flex-wrap gap-1.5 p-2 bg-slate-900 rounded-lg">
+                        <div className="flex flex-wrap gap-1.5 p-2.5 bg-slate-900 rounded-xl">
                           {recognitionScore.targetWords.map((word, wIdx) => {
                             const isMatched = recognitionScore.spokenWords.includes(word);
                             return (
@@ -748,8 +1063,8 @@ export default function ListenRepeatTrainer() {
                                 key={wIdx}
                                 className={`px-2 py-0.5 rounded text-xs font-extrabold ${
                                   isMatched
-                                    ? 'bg-emerald-950 text-emerald-400 border border-emerald-700/50'
-                                    : 'bg-rose-950/80 text-rose-400 border border-rose-800/50'
+                                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                                    : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
                                 }`}
                               >
                                 {word}
@@ -759,65 +1074,255 @@ export default function ListenRepeatTrainer() {
                         </div>
                       </div>
                     )}
+
+                    {/* Action Bar for AI Grading of this sentence */}
+                    <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-slate-700/60">
+                      <div className="text-[11px] text-slate-400">
+                        Chấm điểm chuyên sâu ngữ âm, trọng âm và ngữ điệu bằng AI:
+                      </div>
+
+                      <button
+                        onClick={handleEvaluateSingleSentence}
+                        disabled={isEvaluatingSentence}
+                        className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-black transition-all shadow-md active:scale-95 flex items-center gap-1.5 cursor-pointer disabled:opacity-60"
+                      >
+                        {isEvaluatingSentence ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin text-white" />
+                            <span>AI đang phân tích câu...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles className="w-4 h-4 text-amber-300" />
+                            <span>Chấm Phát Âm Câu Này Bằng AI</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    {/* AI Error Alert */}
+                    {sentenceAiError && (
+                      <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium flex items-center gap-2">
+                        <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+                        <span>{sentenceAiError}</span>
+                      </div>
+                    )}
+
+                    {/* AI Sentence Result Box */}
+                    {currentSentenceAi && (
+                      <div className="mt-4 p-5 rounded-2xl bg-gradient-to-b from-purple-950/40 to-slate-900 border-2 border-purple-500/30 space-y-4 shadow-xl animate-fadeIn">
+                        {/* Title & 4 Metrics */}
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-purple-500/20">
+                          <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 rounded-lg bg-purple-600 text-white flex items-center justify-center font-black text-sm">
+                              AI
+                            </div>
+                            <div>
+                              <h5 className="text-sm font-black text-purple-200">
+                                Báo Cáo Chấm Phát Âm Chuẩn ETS (Câu {currentSentence.index})
+                              </h5>
+                              <p className="text-[11px] text-slate-400">
+                                Phân tích phổ âm học, trọng âm và nối từ
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-purple-300 font-bold">Điểm tổng câu:</span>
+                            <span className="px-3 py-1 rounded-xl bg-purple-600 text-white font-black text-base shadow-sm">
+                              {currentSentenceAi.overall_score || 0}/100
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* 3 Metric Cards */}
+                        <div className="grid grid-cols-3 gap-2.5 text-center">
+                          <div className="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800">
+                            <div className="text-[10px] text-slate-400 font-bold uppercase">Phát Âm</div>
+                            <div className="text-lg font-black text-emerald-400">
+                              {currentSentenceAi.pronunciation_score || 0}%
+                            </div>
+                          </div>
+                          <div className="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800">
+                            <div className="text-[10px] text-slate-400 font-bold uppercase">Trọng Âm</div>
+                            <div className="text-lg font-black text-sky-400">
+                              {currentSentenceAi.stress_score || 0}%
+                            </div>
+                          </div>
+                          <div className="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800">
+                            <div className="text-[10px] text-slate-400 font-bold uppercase">Độ Lưu Loát</div>
+                            <div className="text-lg font-black text-amber-400">
+                              {currentSentenceAi.fluency_score || 0}%
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Intonation Analysis */}
+                        {currentSentenceAi.intonation_analysis && (
+                          <div className="p-3.5 rounded-xl bg-sky-950/30 border border-sky-800/40 space-y-1">
+                            <div className="text-xs font-black text-sky-300 flex items-center gap-1.5">
+                              <Activity className="w-3.5 h-3.5 text-sky-400" />
+                              <span>Ngữ Điệu & Cao Độ (Intonation Contour):</span>
+                            </div>
+                            <p className="text-xs text-slate-300 leading-relaxed">
+                              {currentSentenceAi.intonation_analysis}
+                            </p>
+                          </div>
+                        )}
+
+                        {/* Words Breakdown Grid */}
+                        {currentSentenceAi.words_analysis && currentSentenceAi.words_analysis.length > 0 && (
+                          <div className="space-y-2">
+                            <div className="text-xs font-black text-slate-300 flex items-center gap-1.5">
+                              <BookOpen className="w-3.5 h-3.5 text-purple-400" />
+                              <span>Chi tiết từng từ trong câu:</span>
+                            </div>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                              {currentSentenceAi.words_analysis.map((w, wIdx) => {
+                                const isCorrect = w.status === 'correct';
+                                return (
+                                  <div
+                                    key={wIdx}
+                                    className={`p-2 rounded-xl text-left border ${
+                                      isCorrect
+                                        ? 'bg-emerald-950/30 border-emerald-800/40 text-emerald-200'
+                                        : 'bg-rose-950/40 border-rose-800/50 text-rose-200'
+                                    }`}
+                                  >
+                                    <div className="flex items-center justify-between text-xs font-black">
+                                      <span>{w.word}</span>
+                                      <span>{isCorrect ? '✓' : '✗'}</span>
+                                    </div>
+                                    {w.target_ipa && (
+                                      <div className="text-[10px] text-slate-400 font-mono mt-0.5">
+                                        {w.target_ipa}
+                                      </div>
+                                    )}
+                                    {w.error_detail && (
+                                      <div className="text-[10px] text-rose-300 font-medium mt-1 leading-tight">
+                                        {w.error_detail}
+                                      </div>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Pronunciation & Stress Errors (if any) */}
+                        {((currentSentenceAi.pronunciation_errors && currentSentenceAi.pronunciation_errors.length > 0) ||
+                          (currentSentenceAi.stress_errors && currentSentenceAi.stress_errors.length > 0)) && (
+                          <div className="p-3.5 rounded-xl bg-amber-950/30 border border-amber-800/40 space-y-2">
+                            <div className="text-xs font-black text-amber-300 flex items-center gap-1.5">
+                              <AlertCircle className="w-3.5 h-3.5 text-amber-400" />
+                              <span>Các điểm cần sửa khẩu hình & trọng âm:</span>
+                            </div>
+                            <div className="space-y-1.5 text-xs text-slate-300">
+                              {currentSentenceAi.pronunciation_errors?.map((err, eIdx) => (
+                                <div key={eIdx} className="bg-slate-900/60 p-2 rounded-lg">
+                                  <span className="font-bold text-amber-200">Từ "{err.word}": </span>
+                                  <span>{err.issue} → </span>
+                                  <span className="text-emerald-300 font-medium">{err.fix}</span>
+                                </div>
+                              ))}
+                              {currentSentenceAi.stress_errors?.map((err, eIdx) => (
+                                <div key={eIdx} className="bg-slate-900/60 p-2 rounded-lg">
+                                  <span className="font-bold text-sky-200">Trọng âm "{err.word}": </span>
+                                  <span>{err.issue} → </span>
+                                  <span className="text-emerald-300 font-medium">{err.fix}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Coach Feedback & Native Pacing */}
+                        {currentSentenceAi.coach_feedback && (
+                          <div className="p-3 rounded-xl bg-purple-900/30 border border-purple-800/30 text-xs text-purple-200 leading-relaxed">
+                            <span className="font-black text-purple-300">💡 Huấn luyện viên nhận xét: </span>
+                            {currentSentenceAi.coach_feedback}
+                          </div>
+                        )}
+
+                        {currentSentenceAi.native_pacing_tip && (
+                          <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-800/30 text-xs text-emerald-200 leading-relaxed">
+                            <span className="font-black text-emerald-300">🎙️ Mẹo nối âm người bản xứ: </span>
+                            {currentSentenceAi.native_pacing_tip}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
 
-                {/* Continuous Exam Runner Banner (Nút Chạy Thi Thật 7 Câu) */}
-                <div className="pt-2 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3">
-                  <div className="text-left">
-                    <div className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-sky-400" />
-                      <span>Chế độ mô phỏng phòng thi liên tục (Full 7 câu):</span>
+                {/* Continuous Exam Status Banner */}
+                {isContinuousExam && (
+                  <div className="p-4 rounded-2xl bg-indigo-950 border border-indigo-700/60 text-center space-y-2 animate-pulse">
+                    <div className="text-xs font-black text-indigo-300 uppercase tracking-widest">
+                      CHẾ ĐỘ THI LIÊN TỤC (EXAM RUNNER)
                     </div>
-                    <div className="text-[11px] text-slate-500">
-                      Tự động phát âm, bíp chuông ETS, đếm ngược thời gian nói cho từng câu.
+                    <div className="text-sm font-bold text-white">
+                      {continuousExamPhase === 'listening' && '🔊 Đang phát âm câu mẫu... Hãy chú ý lắng nghe!'}
+                      {continuousExamPhase === 'speaking' && `🎙️ HÃY NHẮC LẠI NGAY! (Còn ${countdownSeconds}s)`}
+                      {continuousExamPhase === 'feedback' && '✨ Hoàn tất câu này, chuẩn bị chuyển sang câu tiếp theo...'}
+                    </div>
+                    <div className="flex justify-center pt-1">
+                      <button
+                        onClick={() => {
+                          setIsContinuousExam(false);
+                          stopRecording();
+                          stopAudio();
+                        }}
+                        className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold cursor-pointer transition-all"
+                      >
+                        Dừng chế độ thi
+                      </button>
                     </div>
                   </div>
+                )}
 
-                  {isContinuousExam ? (
-                    <button
-                      onClick={() => setIsContinuousExam(false)}
-                      className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold cursor-pointer transition-all"
-                    >
-                      Dừng chế độ thi
-                    </button>
-                  ) : (
-                    <button
-                      onClick={handleStartContinuousExam}
-                      className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black shadow-md cursor-pointer transition-all flex items-center gap-1.5"
-                    >
-                      <Play className="w-3.5 h-3.5" />
-                      <span>Bắt đầu thi 7 câu liên tục</span>
-                    </button>
-                  )}
+                {/* Bottom Step Navigators & Action to grade full test */}
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-800">
+                  <button
+                    onClick={handlePrevSentence}
+                    disabled={activeSentenceIndex === 0}
+                    className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-700 text-slate-300 font-bold text-xs hover:bg-slate-800 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-1.5"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    <span>Câu trước</span>
+                  </button>
+
+                  {/* Button to grade all 7 sentences */}
+                  <button
+                    onClick={handleEvaluateFullTest}
+                    disabled={isEvaluatingFullTest}
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                  >
+                    {isEvaluatingFullTest ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-white" />
+                        <span>Đang chấm 7 câu...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Trophy className="w-4 h-4 text-amber-300" />
+                        <span>Chấm Điểm Toàn Bộ 7 Câu Bằng AI</span>
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    onClick={handleNextSentence}
+                    disabled={activeSentenceIndex === activePractice.sentences.length - 1}
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-sky-700 hover:bg-sky-800 text-white font-black text-xs transition-all shadow-xs flex items-center justify-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    <span>Câu tiếp theo</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
             )}
-
-            {/* Bottom Step Navigators */}
-            <div className="flex items-center justify-between pt-2">
-              <button
-                onClick={handlePrevSentence}
-                disabled={activeSentenceIndex === 0}
-                className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-50 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center gap-1.5"
-              >
-                <ChevronLeft className="w-4 h-4" />
-                <span>Câu trước</span>
-              </button>
-
-              <div className="text-xs text-slate-500 font-semibold text-center">
-                Câu {activeSentenceIndex + 1} / {activePractice.sentences.length} • Practice {activePractice.practice_number}
-              </div>
-
-              <button
-                onClick={handleNextSentence}
-                disabled={activeSentenceIndex === activePractice.sentences.length - 1}
-                className="px-5 py-2.5 rounded-xl bg-sky-700 hover:bg-sky-800 text-white font-black text-xs transition-all shadow-xs flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-              >
-                <span>Câu tiếp theo</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
           </div>
         </div>
       ) : (
@@ -862,40 +1367,39 @@ export default function ListenRepeatTrainer() {
                   className="px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
                 >
                   <option value="all">Tất cả trạng thái</option>
-                  <option value="starred">⭐ Đã thực hành rồi ({completedCount})</option>
-                  <option value="unstarred">Chưa thực hành ({87 - completedCount})</option>
+                  <option value="starred">Đã luyện xong (⭐)</option>
+                  <option value="unstarred">Chưa hoàn thành</option>
                 </select>
               ) : (
-                /* Level Filter (In Sentences Bank view) */
                 <select
                   value={selectedLevel}
                   onChange={(e) => setSelectedLevel(e.target.value)}
                   className="px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
                 >
-                  <option value="all">Tất cả cấp độ (Level 1-3)</option>
-                  <option value="1">Level 1: Câu ngắn (5-10 từ)</option>
-                  <option value="2">Level 2: Câu vừa (8-16 từ)</option>
-                  <option value="3">Level 3: Câu dài (15-25 từ)</option>
+                  <option value="all">Tất cả độ dài (Level 1-3)</option>
+                  <option value="1">Level 1 (4-6 từ - Ngắn)</option>
+                  <option value="2">Level 2 (7-11 từ - Vừa)</option>
+                  <option value="3">Level 3 (12-25 từ - Dài)</option>
                 </select>
               )}
             </div>
 
-            {/* View Switcher: Practices vs Sentences */}
-            <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl shrink-0 self-end md:self-auto">
+            {/* View Switcher: 87 Practices vs 609 Sentences */}
+            <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-bold shrink-0">
               <button
                 onClick={() => setActiveView('practices')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                   activeView === 'practices'
                     ? 'bg-white text-slate-900 shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 <Layers className="w-3.5 h-3.5" />
-                <span>87 Bộ Đề Thi</span>
+                <span>87 Đề Thực Hành</span>
               </button>
               <button
                 onClick={() => setActiveView('sentences')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                   activeView === 'sentences'
                     ? 'bg-white text-slate-900 shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
@@ -978,7 +1482,7 @@ export default function ListenRepeatTrainer() {
                         </span>
 
                         <span className="text-sky-700 font-black group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5">
-                          <span>Luyện ngay</span>
+                          <span>Vào luyện ngay</span>
                           <ChevronRight className="w-3.5 h-3.5" />
                         </span>
                       </div>
@@ -986,14 +1490,6 @@ export default function ListenRepeatTrainer() {
                   );
                 })}
               </div>
-
-              {filteredPractices.length === 0 && (
-                <div className="bg-white rounded-2xl p-12 text-center border border-slate-200 text-slate-500 space-y-2">
-                  <div className="text-3xl">🔍</div>
-                  <div className="text-sm font-bold text-slate-800">Không tìm thấy đề thi phù hợp</div>
-                  <div className="text-xs text-slate-400">Hãy thử thay đổi từ khóa hoặc bộ lọc của bạn.</div>
-                </div>
-              )}
             </div>
           )}
 
@@ -1056,7 +1552,7 @@ export default function ListenRepeatTrainer() {
                           const target = SPEAKING_87_PRACTICES.find((p) => p.practice_number === sent.practice_number);
                           if (target) {
                             handleOpenPractice(target);
-                            setActiveSentenceIndex(sent.sentence_index - 1);
+                            navigateToSentence(sent.sentence_index - 1);
                           }
                         }}
                         className="text-sky-700 font-bold hover:underline cursor-pointer"
@@ -1069,6 +1565,292 @@ export default function ListenRepeatTrainer() {
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 4. MODAL: FULL 7-SENTENCE AI EVALUATION REPORT */}
+      {/* ========================================================================= */}
+      {isFullReportModalOpen && fullTestAiReport && activePractice && (
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-fadeIn">
+          <div className="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 space-y-6 p-6 sm:p-8">
+            {/* Modal Header */}
+            <div className="flex items-start justify-between gap-4 border-b border-slate-100 pb-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-0.5 rounded-md bg-purple-100 text-purple-800 text-[11px] font-black uppercase">
+                    BÁO CÁO GIÁM KHẢO ETS 2026
+                  </span>
+                  <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[11px] font-bold">
+                    Practice {activePractice.practice_number}
+                  </span>
+                </div>
+                <h3 className="text-xl font-black text-slate-900">
+                  Kết Quả Chấm Điểm AI: {activePractice.title}
+                </h3>
+              </div>
+
+              <button
+                onClick={() => setIsFullReportModalOpen(false)}
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Hero Scaled Score Box */}
+            <div className="bg-gradient-to-r from-indigo-900 via-purple-900 to-slate-900 text-white rounded-2xl p-6 sm:p-7 relative overflow-hidden shadow-lg">
+              <div className="absolute right-0 top-0 w-60 h-60 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
+
+              <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center sm:text-left items-center">
+                <div className="space-y-1">
+                  <div className="text-xs uppercase font-extrabold text-purple-300 tracking-wider">
+                    Điểm Task 1 (Quy đổi 30)
+                  </div>
+                  <div className="text-4xl sm:text-5xl font-black text-amber-300">
+                    {fullTestAiReport.score_30 || 25}
+                    <span className="text-xl text-slate-400 font-bold"> / 30</span>
+                  </div>
+                  <div className="text-xs text-slate-300 font-semibold">
+                    Thang điểm chuẩn TOEFL iBT
+                  </div>
+                </div>
+
+                <div className="space-y-1 sm:border-x sm:border-white/10 sm:px-6">
+                  <div className="text-xs uppercase font-extrabold text-sky-300 tracking-wider">
+                    TOEFL Speaking Band
+                  </div>
+                  <div className="text-3xl sm:text-4xl font-black text-emerald-300">
+                    Band {fullTestAiReport.toefl_band_6 ? Number(fullTestAiReport.toefl_band_6).toFixed(1) : '5.0'}
+                  </div>
+                  <div className="text-xs text-slate-300 font-semibold">
+                    Thang điểm 6.0 mới ETS 2026
+                  </div>
+                </div>
+
+                <div className="space-y-1 sm:pl-4">
+                  <div className="text-xs uppercase font-extrabold text-emerald-300 tracking-wider">
+                    Độ chuẩn xác âm học
+                  </div>
+                  <div className="text-3xl sm:text-4xl font-black text-sky-300">
+                    {fullTestAiReport.accuracy_percentage || 85}%
+                  </div>
+                  <div className="text-xs text-slate-300 font-semibold">
+                    Tỷ lệ khớp phụ âm & ngữ điệu
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Rubric Breakdown (3 Core Criteria) */}
+            {fullTestAiReport.rubric_breakdown && (
+              <div className="space-y-3">
+                <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <Activity className="w-4 h-4 text-purple-600" />
+                  <span>3 Tiêu Chí Chấm Điểm Âm Học ETS:</span>
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                    <div className="flex items-center justify-between text-xs font-black">
+                      <span className="text-slate-700">Độ Rõ Âm Tiết</span>
+                      <span className="text-purple-700">{fullTestAiReport.rubric_breakdown.acoustic_clarity?.score}/5.0</span>
+                    </div>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      {fullTestAiReport.rubric_breakdown.acoustic_clarity?.feedback}
+                    </p>
+                  </div>
+                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                    <div className="flex items-center justify-between text-xs font-black">
+                      <span className="text-slate-700">Trọng Âm & Ngữ Điệu</span>
+                      <span className="text-sky-700">{fullTestAiReport.rubric_breakdown.stress_intonation?.score}/5.0</span>
+                    </div>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      {fullTestAiReport.rubric_breakdown.stress_intonation?.feedback}
+                    </p>
+                  </div>
+                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                    <div className="flex items-center justify-between text-xs font-black">
+                      <span className="text-slate-700">Trí Nhớ Thính Giác</span>
+                      <span className="text-emerald-700">{fullTestAiReport.rubric_breakdown.working_memory_recall?.score}/5.0</span>
+                    </div>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      {fullTestAiReport.rubric_breakdown.working_memory_recall?.feedback}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Level Breakdown (L1, L2, L3) */}
+            {fullTestAiReport.level_breakdown && (
+              <div className="space-y-3">
+                <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <Layers className="w-4 h-4 text-sky-600" />
+                  <span>Hiệu Suất Theo 3 Cấp Độ Câu:</span>
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1">
+                    <div className="flex items-center justify-between text-xs font-black text-emerald-900">
+                      <span>Level 1 (Câu ngắn)</span>
+                      <span>{fullTestAiReport.level_breakdown.level_1?.score}%</span>
+                    </div>
+                    <div className="text-[11px] font-bold text-emerald-700">
+                      {fullTestAiReport.level_breakdown.level_1?.status}
+                    </div>
+                    <p className="text-[11px] text-emerald-800 leading-relaxed">
+                      {fullTestAiReport.level_breakdown.level_1?.feedback}
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-200 space-y-1">
+                    <div className="flex items-center justify-between text-xs font-black text-sky-900">
+                      <span>Level 2 (Câu vừa)</span>
+                      <span>{fullTestAiReport.level_breakdown.level_2?.score}%</span>
+                    </div>
+                    <div className="text-[11px] font-bold text-sky-700">
+                      {fullTestAiReport.level_breakdown.level_2?.status}
+                    </div>
+                    <p className="text-[11px] text-sky-800 leading-relaxed">
+                      {fullTestAiReport.level_breakdown.level_2?.feedback}
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 space-y-1">
+                    <div className="flex items-center justify-between text-xs font-black text-amber-900">
+                      <span>Level 3 (Câu dài)</span>
+                      <span>{fullTestAiReport.level_breakdown.level_3?.score}%</span>
+                    </div>
+                    <div className="text-[11px] font-bold text-amber-700">
+                      {fullTestAiReport.level_breakdown.level_3?.status}
+                    </div>
+                    <p className="text-[11px] text-amber-800 leading-relaxed">
+                      {fullTestAiReport.level_breakdown.level_3?.feedback}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Sentence Details List */}
+            {fullTestAiReport.sentence_details && fullTestAiReport.sentence_details.length > 0 && (
+              <div className="space-y-3">
+                <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <span>Chi Tiết Đánh Giá Cả 7 Câu:</span>
+                </h4>
+                <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+                  {fullTestAiReport.sentence_details.map((sd, sIdx) => {
+                    const originalSentence = activePractice.sentences?.[sIdx];
+                    const rec = practiceRecordings[sIdx];
+                    return (
+                      <div
+                        key={sIdx}
+                        className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5"
+                      >
+                        <div className="flex items-center justify-between font-black">
+                          <span className="text-sky-800">
+                            Câu {sd.index || sIdx + 1} ({originalSentence?.word_count} từ):
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-white text-slate-800 border border-slate-200">
+                            Điểm: {sd.score}%
+                          </span>
+                        </div>
+                        <div className="text-slate-800 font-semibold">
+                          Gốc: "{originalSentence?.text}"
+                        </div>
+                        {rec?.userTranscript && (
+                          <div className="text-slate-600">
+                            Bạn nói: <span className="italic">"{rec.userTranscript}"</span>
+                          </div>
+                        )}
+                        <p className="text-purple-800 font-medium">
+                          Nhận xét: {sd.feedback}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Recurring Phonetic Issues & Strengths */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {fullTestAiReport.key_strengths && (
+                <div className="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-2">
+                  <div className="text-xs font-black text-emerald-900 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Điểm Mạnh Ghi Nhận:</span>
+                  </div>
+                  <ul className="text-xs text-emerald-800 space-y-1 list-disc pl-4">
+                    {fullTestAiReport.key_strengths.map((str, idx) => (
+                      <li key={idx}>{str}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {fullTestAiReport.recurring_phonetic_issues && (
+                <div className="p-4 rounded-xl bg-rose-50/70 border border-rose-200 space-y-2">
+                  <div className="text-xs font-black text-rose-900 flex items-center gap-1.5">
+                    <AlertCircle className="w-3.5 h-3.5 text-rose-600" />
+                    <span>Các Lỗi Cần Khắc Phục:</span>
+                  </div>
+                  <ul className="text-xs text-rose-800 space-y-1 list-disc pl-4">
+                    {fullTestAiReport.recurring_phonetic_issues.map((iss, idx) => (
+                      <li key={idx}>{iss}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* Coach Recommendation */}
+            {fullTestAiReport.coach_recommendation && (
+              <div className="p-4 rounded-2xl bg-purple-50 border border-purple-200 space-y-1.5">
+                <div className="text-xs font-black text-purple-900 flex items-center gap-1.5">
+                  <Trophy className="w-4 h-4 text-purple-600" />
+                  <span>Lời Khuyên Chiến Lược Từ Trưởng Ban Giám Khảo ETS:</span>
+                </div>
+                <p className="text-xs text-purple-800 leading-relaxed">
+                  {fullTestAiReport.coach_recommendation}
+                </p>
+              </div>
+            )}
+
+            {/* Modal Bottom Actions */}
+            <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+              <button
+                onClick={() => {
+                  handleToggleStar(activePractice.practice_number);
+                }}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border ${
+                  starredPractices[activePractice.practice_number]
+                    ? 'bg-amber-100 text-amber-900 border-amber-300'
+                    : 'bg-white text-slate-700 border-slate-300 hover:border-amber-400'
+                }`}
+              >
+                <Star
+                  className={`w-4 h-4 ${
+                    starredPractices[activePractice.practice_number]
+                      ? 'fill-amber-400 text-amber-500'
+                      : 'text-slate-400'
+                  }`}
+                />
+                <span>
+                  {starredPractices[activePractice.practice_number]
+                    ? 'Đã đánh dấu hoàn thành ⭐'
+                    : 'Đánh dấu sao hoàn thành đề này'}
+                </span>
+              </button>
+
+              <button
+                onClick={() => setIsFullReportModalOpen(false)}
+                className="px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-all shadow-xs cursor-pointer"
+              >
+                Đóng Báo Cáo
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

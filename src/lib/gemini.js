@@ -1075,6 +1075,112 @@ Respond strictly with valid JSON with this exact schema:
 }
 
 /**
+ * ====================================================================
+ * GEMINI AI FULL 7-SENTENCE PRACTICE EVALUATION (LISTEN & REPEAT TASK 1)
+ * Chấm điểm toàn diện cả bộ 7 câu của đề thi Listen & Repeat theo rubric ETS 2026
+ * ====================================================================
+ */
+export async function evaluateListenRepeatFullPractice({
+  practiceNumber = 1,
+  practiceTitle = '',
+  topic = '',
+  scenario = '',
+  sentenceResults = []
+}) {
+  if (!sentenceResults || sentenceResults.length === 0) {
+    throw new Error('Chưa có dữ liệu bài làm 7 câu để chấm điểm.');
+  }
+
+  const audioParts = [];
+  for (const s of sentenceResults) {
+    if (s.audioUrl && typeof s.audioUrl === 'string' && s.audioUrl.startsWith('blob:') && audioParts.length < 2) {
+      try {
+        const b64 = await blobUrlToBase64(s.audioUrl);
+        if (b64) {
+          audioParts.push({
+            inline_data: {
+              mime_type: 'audio/webm',
+              data: b64
+            }
+          });
+        }
+      } catch (err) {
+        console.warn('Cannot attach audio sample for full practice evaluation:', err);
+      }
+    }
+  }
+
+  const promptText = `
+You are a Senior Chief TOEFL Speaking Examiner and Acoustic Phonetician at ETS, grading the new TOEFL iBT 2026 Speaking Task 1 "Listen and Repeat".
+A candidate has completed all 7 sentences of the following official practice test:
+
+[PRACTICE INFO]:
+- Practice Number: ${practiceNumber}
+- Title: "${practiceTitle}"
+- Topic: "${topic}"
+- Scenario: "${scenario}"
+
+[PERFORMANCE DATA ON 7 SENTENCES]:
+${JSON.stringify(sentenceResults.map((s, idx) => ({
+  sentence_number: s.index || idx + 1,
+  difficulty_level: `Level ${s.level || 1} (${s.word_count || 0} words)`,
+  target_text: s.text,
+  student_transcript: s.userTranscript || '(No speech detected / skipped)',
+  has_audio: Boolean(s.audioUrl),
+  auto_match_percent: s.sentenceScore?.percent ?? 0
+})), null, 2)}
+
+[SCORING RUBRIC ACCORDING TO ETS TOEFL 2026 GUIDELINES]:
+1. Scaled Score (0 - 30): Standard ETS TOEFL scaled score based on the rubric for Task 1.
+2. TOEFL Band (1.0 - 6.0): 29-30 -> 6.0, 27-28 -> 5.5, 24-26 -> 5.0, 21-23 -> 4.5, 18-20 -> 4.0, 14-17 -> 3.5, 10-13 -> 3.0, 6-9 -> 2.5, 1-5 -> 2.0.
+3. Diagnostic by Sentence Difficulty:
+   - Level 1 (Sentences 1-2, 4-6 words): Basic acoustic mimicry & clear consonants.
+   - Level 2 (Sentences 3-4, 7-11 words): Connected speech, function word reduction, correct lexical stress.
+   - Level 3 (Sentences 5-7, 12-25 words): Long-term auditory working memory, clause-level intonation, sentence melody.
+4. Detailed breakdown of key pronunciation strengths & recurring phonetic weaknesses.
+
+Respond strictly with valid JSON with this exact schema:
+{
+  "practice_number": ${practiceNumber},
+  "score_30": 26,
+  "toefl_band_6": 5.0,
+  "accuracy_percentage": 88,
+  "rubric_breakdown": {
+    "acoustic_clarity": { "score": 4.5, "feedback": "Nhận xét tiếng Việt về độ rõ ràng âm tiết, nguyên âm và phụ âm..." },
+    "stress_intonation": { "score": 4.2, "feedback": "Nhận xét tiếng Việt về trọng âm câu và ngữ điệu lên xuống..." },
+    "working_memory_recall": { "score": 4.0, "feedback": "Nhận xét tiếng Việt về khả năng bắt chước trọn vẹn câu dài không bị rơi rụng từ..." }
+  },
+  "level_breakdown": {
+    "level_1": { "score": 95, "status": "Xuất sắc", "feedback": "Đạt độ chính xác rất cao ở các câu ngắn..." },
+    "level_2": { "score": 86, "status": "Tốt", "feedback": "Xử lý tốt các cụm từ trung bình..." },
+    "level_3": { "score": 78, "status": "Cần cải thiện", "feedback": "Ở các câu phức dài, cần lưu ý giữ hơi và ngắt nhịp đúng cụm từ..." }
+  },
+  "sentence_details": [
+    {
+      "index": 1,
+      "score": 95,
+      "status": "correct",
+      "feedback": "Nhận xét 1 câu ngắn gọn tiếng Việt"
+    }
+  ],
+  "recurring_phonetic_issues": [
+    "Lỗi 1...",
+    "Lỗi 2..."
+  ],
+  "key_strengths": [
+    "Điểm mạnh 1...",
+    "Điểm mạnh 2..."
+  ],
+  "coach_recommendation": "Lời khuyên tổng thể bằng tiếng Việt mang tính chuyên môn cao, giúp thí sinh bứt phá điểm số trong Task 1."
+}
+`;
+
+  const parts = [...audioParts, { text: promptText }];
+  const parsed = await generateGeminiJson(parts, 'You are an elite ETS TOEFL Speaking Assessment Director and Acoustic Phonetician.');
+  return parsed;
+}
+
+/**
  * Đánh giá chi tiết phát âm của MỘT TỪ ĐƠN bằng AI (Phát âm, Trọng âm, Âm vị, Khẩu hình)
  */
 export async function evaluateSingleWordPronunciation({
