@@ -261,25 +261,39 @@ export default function ListenRepeatTrainer() {
   // --- Play recorded voice ---
   const playUserRecording = (url) => {
     if (!url) return;
-    if (userAudioElementRef.current) {
-      userAudioElementRef.current.pause();
+    try {
+      if (userAudioElementRef.current) {
+        userAudioElementRef.current.pause();
+        userAudioElementRef.current.currentTime = 0;
+      }
+      const audio = new Audio(url);
+      userAudioElementRef.current = audio;
+      setIsPlayingUserAudio(true);
+      audio.onended = () => setIsPlayingUserAudio(false);
+      audio.onerror = (e) => {
+        console.error('Audio playback error:', e);
+        setIsPlayingUserAudio(false);
+        showToast('Không thể phát file ghi âm. Hãy thử thu âm lại câu này.');
+      };
+      audio.play().catch((err) => {
+        console.warn('Audio play() rejected:', err);
+        setIsPlayingUserAudio(false);
+      });
+    } catch (err) {
+      console.error('playUserRecording exception:', err);
+      setIsPlayingUserAudio(false);
     }
-    const audio = new Audio(url);
-    userAudioElementRef.current = audio;
-    setIsPlayingUserAudio(true);
-    audio.onended = () => setIsPlayingUserAudio(false);
-    audio.onerror = () => setIsPlayingUserAudio(false);
-    audio.play();
   };
 
   const stopUserRecording = () => {
     if (userAudioElementRef.current) {
       userAudioElementRef.current.pause();
+      userAudioElementRef.current.currentTime = 0;
       setIsPlayingUserAudio(false);
     }
   };
 
-  // Release all hardware microphone tracks immediately
+  // Release hardware microphone tracks immediately
   const releaseMicrophoneStream = () => {
     if (recordingStreamRef.current) {
       try {
@@ -304,7 +318,7 @@ export default function ListenRepeatTrainer() {
 
     setIsRecording(false);
 
-    // 1. Stop and abort Web Speech Recognition immediately
+    // 1. Stop and abort Web Speech Recognition
     if (recognitionRef.current) {
       const rec = recognitionRef.current;
       recognitionRef.current = null;
@@ -312,7 +326,7 @@ export default function ListenRepeatTrainer() {
       try { rec.abort(); } catch (e) {}
     }
 
-    // 2. Stop MediaRecorder
+    // 2. Stop MediaRecorder (which will fire onstop and release stream cleanly)
     if (mediaRecorderRef.current) {
       const mr = mediaRecorderRef.current;
       mediaRecorderRef.current = null;
@@ -328,11 +342,6 @@ export default function ListenRepeatTrainer() {
     } else {
       releaseMicrophoneStream();
     }
-
-    // Safety timeout: Ensure all tracks are definitely ended
-    setTimeout(() => {
-      releaseMicrophoneStream();
-    }, 250);
   };
 
   const startRecording = async () => {
@@ -342,9 +351,12 @@ export default function ListenRepeatTrainer() {
       return;
     }
 
-    // Clear previous sessions/hardware connections first
+    // Clean up any ongoing audio playback and stop previous recordings
+    stopUserRecording();
     stopRecording();
     releaseMicrophoneStream();
+
+    const currentSentenceIdx = activeSentenceIndex;
 
     try {
       // 1. Microphone MediaRecorder
@@ -352,21 +364,35 @@ export default function ListenRepeatTrainer() {
         try {
           const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
           recordingStreamRef.current = stream;
-          const mr = new MediaRecorder(stream);
+
+          const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+            ? 'audio/webm;codecs=opus'
+            : MediaRecorder.isTypeSupported('audio/webm')
+            ? 'audio/webm'
+            : MediaRecorder.isTypeSupported('audio/mp4')
+            ? 'audio/mp4'
+            : '';
+
+          const mr = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
           audioChunksRef.current = [];
+
           mr.ondataavailable = (e) => {
-            if (e.data.size > 0) audioChunksRef.current.push(e.data);
+            if (e.data && e.data.size > 0) {
+              audioChunksRef.current.push(e.data);
+            }
           };
+
           mr.onstop = () => {
-            const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+            const finalType = mr.mimeType || 'audio/webm';
+            const blob = new Blob(audioChunksRef.current, { type: finalType });
             const url = URL.createObjectURL(blob);
             const duration = Math.max(1, Math.round((Date.now() - recordingStartTimeRef.current) / 1000));
-            
+
             setPracticeRecordings((prev) => {
-              const currentRec = prev[activeSentenceIndex] || {};
+              const currentRec = prev[currentSentenceIdx] || {};
               return {
                 ...prev,
-                [activeSentenceIndex]: {
+                [currentSentenceIdx]: {
                   ...currentRec,
                   audioUrl: url,
                   audioBlob: blob,
@@ -375,12 +401,17 @@ export default function ListenRepeatTrainer() {
               };
             });
 
-            // Cleanly kill audio stream tracks once recording blob is assembled
-            releaseMicrophoneStream();
+            // Turn off microphone tracks for this stream cleanly
+            stream.getTracks().forEach((track) => track.stop());
+            if (recordingStreamRef.current === stream) {
+              recordingStreamRef.current = null;
+            }
           };
+
           mediaRecorderRef.current = mr;
           recordingStartTimeRef.current = Date.now();
-          mr.start();
+          // Start with 100ms timeslice to ensure audio chunks are captured continuously
+          mr.start(100);
         } catch (mErr) {
           console.warn('Microphone stream warning:', mErr);
         }
@@ -406,7 +437,7 @@ export default function ListenRepeatTrainer() {
       };
 
       recognition.onend = () => {
-        // Automatically shut down MediaRecorder and release browser microphone
+        // Automatically stop MediaRecorder and turn off browser microphone
         stopRecording();
       };
 
@@ -1061,16 +1092,27 @@ export default function ListenRepeatTrainer() {
                       <div className="flex items-center gap-2">
                         {/* Play recorded voice */}
                         {currentSentenceRec.audioUrl && (
-                          <button
-                            onClick={() => {
-                              if (isPlayingUserAudio) stopUserRecording();
-                              else playUserRecording(currentSentenceRec.audioUrl);
-                            }}
-                            className="px-3 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold flex items-center gap-1 cursor-pointer transition-all"
-                          >
-                            {isPlayingUserAudio ? <Pause className="w-3 h-3 text-amber-400" /> : <Play className="w-3 h-3 text-emerald-400" />}
-                            <span>{isPlayingUserAudio ? 'Dừng phát' : 'Nghe lại giọng bạn'}</span>
-                          </button>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <button
+                              onClick={() => {
+                                if (isPlayingUserAudio) stopUserRecording();
+                                else playUserRecording(currentSentenceRec.audioUrl);
+                              }}
+                              className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black flex items-center gap-1.5 cursor-pointer transition-all shadow-xs active:scale-95"
+                            >
+                              {isPlayingUserAudio ? (
+                                <Pause className="w-3.5 h-3.5 text-white" />
+                              ) : (
+                                <Play className="w-3.5 h-3.5 text-white" />
+                              )}
+                              <span>{isPlayingUserAudio ? 'Dừng phát' : 'Nghe lại giọng bạn'}</span>
+                            </button>
+                            <audio
+                              src={currentSentenceRec.audioUrl}
+                              controls
+                              className="h-7 w-36 sm:w-44 rounded-lg bg-slate-900 border border-slate-700 opacity-90 hover:opacity-100 transition-opacity"
+                            />
+                          </div>
                         )}
 
                         {recognitionScore && (
