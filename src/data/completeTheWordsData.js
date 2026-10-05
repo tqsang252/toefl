@@ -427,6 +427,830 @@ export const GABBLE_AI_CTW_BANK = [
         "hint": "Tính từ 'nổi tiếng/được tôn vinh nhất trên thế giới'"
       }
     ]
+  },
+  {
+    "id": "gabble_ctw_05",
+    "title": "GabbleAI - Gothic Cathedrals and Medieval Engineering",
+    "topic": "Gothic Cathedrals & Medieval Architecture",
+    "category": "GabbleAI",
+    "source": "Gabble.ai TOEFL 2026 Reading Task 1 (Practice 4)",
+    "youtube_url": "https://www.youtube.com/watch?v=spFW3JwsKiE",
+    "leadSentence": "Gothic cathedrals, with their soaring vaults and luminous interiors, represented a remarkable leap in medieval engineering.",
+    "bodyTemplate": "Builders [redir|ected] the immense weight of stone roofs [out|ward] through pointed arches and external supports called flying [buttr|esses]. This [innov|ation] allowed walls to be pierced by [enor|mous] stained-glass windows, flooding [sanct|uaries] with colored light. For [worsh|ippers], the effect was intended to evoke a sense of the [div|ine]. Similar [princ|iples] continue to inform the design of large public [buil|dings] today.",
+    "fullText": "Gothic cathedrals, with their soaring vaults and luminous interiors, represented a remarkable leap in medieval engineering. Builders redirected the immense weight of stone roofs outward through pointed arches and external supports called flying buttresses. This innovation allowed walls to be pierced by enormous stained-glass windows, flooding sanctuaries with colored light. For worshippers, the effect was intended to evoke a sense of the divine. Similar principles continue to inform the design of large public buildings today.",
+    "blanks": [
+      {
+        "index": 1,
+        "prefix": "redir",
+        "missing": "ected",
+        "fullWord": "redirected",
+        "missingLength": 5,
+        "pos": "Verb",
+        "hint": "Động từ quá khứ 'chuyển hướng trọng lượng khổng lồ'"
+      },
+      {
+        "index": 2,
+        "prefix": "out",
+        "missing": "ward",
+        "fullWord": "outward",
+        "missingLength": 4,
+        "pos": "Adverb",
+        "hint": "Trạng từ 'hướng ra phía ngoài qua các vòm nhọn'"
+      },
+      {
+        "index": 3,
+        "prefix": "buttr",
+        "missing": "esses",
+        "fullWord": "buttresses",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Thuật ngữ kiến trúc 'trụ chống bay (flying buttresses)'"
+      },
+      {
+        "index": 4,
+        "prefix": "innov",
+        "missing": "ation",
+        "fullWord": "innovation",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ 'sự đổi mới/cải tiến kỹ thuật này'"
+      },
+      {
+        "index": 5,
+        "prefix": "enor",
+        "missing": "mous",
+        "fullWord": "enormous",
+        "missingLength": 4,
+        "pos": "Adjective",
+        "hint": "Tính từ 'những ô cửa kính màu khổng lồ'"
+      },
+      {
+        "index": 6,
+        "prefix": "sanct",
+        "missing": "uaries",
+        "fullWord": "sanctuaries",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'nơi tôn nghiêm/thánh đường'"
+      },
+      {
+        "index": 7,
+        "prefix": "worsh",
+        "missing": "ippers",
+        "fullWord": "worshippers",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'đối với những người đi lễ/tín đồ'"
+      },
+      {
+        "index": 8,
+        "prefix": "div",
+        "missing": "ine",
+        "fullWord": "divine",
+        "missingLength": 3,
+        "pos": "Noun",
+        "hint": "Danh từ/tính từ 'cảm giác về sự thiêng liêng/thần thánh'"
+      },
+      {
+        "index": 9,
+        "prefix": "princ",
+        "missing": "iples",
+        "fullWord": "principles",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'các nguyên lý tương tự'"
+      },
+      {
+        "index": 10,
+        "prefix": "buil",
+        "missing": "dings",
+        "fullWord": "buildings",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'các công trình công cộng lớn'"
+      }
+    ]
+  },
+  {
+    "id": "gabble_ctw_06",
+    "title": "GabbleAI - Passive Cooling in Hot, Arid Regions",
+    "topic": "Vernacular Architecture & Passive Cooling",
+    "category": "GabbleAI",
+    "source": "Gabble.ai TOEFL 2026 Reading Task 1 (Practice 4)",
+    "youtube_url": "https://www.youtube.com/watch?v=spFW3JwsKiE",
+    "leadSentence": "Long before electric air conditioning, builders in hot, arid regions devised ingenious methods of passive cooling.",
+    "bodyTemplate": "Traditional wind [catc|hers], tall towers rising above [roof|tops], capture passing breezes and channel them down into [inte|rior] rooms. Some [des|igns] even direct air over [under|ground] water channels, cooling it through [evapo|ration] before it circulates indoors. Architects today are [revis|iting] these principles to reduce the energy [consu|mption] of modern buildings. In an era of rising [temper|atures], such low-energy solutions appear [increa|singly] attractive.",
+    "fullText": "Long before electric air conditioning, builders in hot, arid regions devised ingenious methods of passive cooling. Traditional wind catchers, tall towers rising above rooftops, capture passing breezes and channel them down into interior rooms. Some designs even direct air over underground water channels, cooling it through evaporation before it circulates indoors. Architects today are revisiting these principles to reduce the energy consumption of modern buildings. In an era of rising temperatures, such low-energy solutions appear increasingly attractive.",
+    "blanks": [
+      {
+        "index": 1,
+        "prefix": "catc",
+        "missing": "hers",
+        "fullWord": "catchers",
+        "missingLength": 4,
+        "pos": "Noun",
+        "hint": "Danh từ ghép 'tháp đón gió truyền thống (wind catchers)'"
+      },
+      {
+        "index": 2,
+        "prefix": "roof",
+        "missing": "tops",
+        "fullWord": "rooftops",
+        "missingLength": 4,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'nhô cao trên các mái nhà'"
+      },
+      {
+        "index": 3,
+        "prefix": "inte",
+        "missing": "rior",
+        "fullWord": "interior",
+        "missingLength": 4,
+        "pos": "Adjective",
+        "hint": "Tính từ 'dẫn luồng gió vào các phòng bên trong'"
+      },
+      {
+        "index": 4,
+        "prefix": "des",
+        "missing": "igns",
+        "fullWord": "designs",
+        "missingLength": 4,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'một số thiết kế'"
+      },
+      {
+        "index": 5,
+        "prefix": "under",
+        "missing": "ground",
+        "fullWord": "underground",
+        "missingLength": 6,
+        "pos": "Adjective",
+        "hint": "Tính từ 'các kênh nước ngầm dưới lòng đất'"
+      },
+      {
+        "index": 6,
+        "prefix": "evapo",
+        "missing": "ration",
+        "fullWord": "evaporation",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ 'làm mát thông qua sự bay hơi nước'"
+      },
+      {
+        "index": 7,
+        "prefix": "revis",
+        "missing": "iting",
+        "fullWord": "revisiting",
+        "missingLength": 5,
+        "pos": "Gerund",
+        "hint": "Dạng V-ing 'đang xem xét/áp dụng lại các nguyên lý này'"
+      },
+      {
+        "index": 8,
+        "prefix": "consu",
+        "missing": "mption",
+        "fullWord": "consumption",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ 'giảm lượng tiêu thụ năng lượng'"
+      },
+      {
+        "index": 9,
+        "prefix": "temper",
+        "missing": "atures",
+        "fullWord": "temperatures",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'trong thời kỳ nhiệt độ gia tăng'"
+      },
+      {
+        "index": 10,
+        "prefix": "increa",
+        "missing": "singly",
+        "fullWord": "increasingly",
+        "missingLength": 6,
+        "pos": "Adverb",
+        "hint": "Trạng từ 'ngày càng trở nên hấp dẫn'"
+      }
+    ]
+  },
+  {
+    "id": "gabble_ctw_07",
+    "title": "GabbleAI - Radiocarbon Dating",
+    "topic": "Archaeological Science & Chronology",
+    "category": "GabbleAI",
+    "source": "Gabble.ai TOEFL 2026 Reading Task 1 (Practice 3)",
+    "youtube_url": "https://www.youtube.com/watch?v=-Ml55J8nceg",
+    "leadSentence": "Before the mid-twentieth century, archaeologists struggled to assign reliable dates to organic remains.",
+    "bodyTemplate": "Radiocarbon dating [trans|formed] the field by [meas|uring] the gradual decay of an [unst|able] isotope absorbed by every living organism. Once an [orga|nism] dies, it stops taking in carbon, and the remaining isotope decreases at a [predi|ctable] rate. Nevertheless, results must be [calib|rated] against tree rings and other records, because [atmos|pheric] carbon levels have [fluct|uated] considerably over time. Despite these [compli|cations], the method remains [indisp|ensable] to the discipline.",
+    "fullText": "Before the mid-twentieth century, archaeologists struggled to assign reliable dates to organic remains. Radiocarbon dating transformed the field by measuring the gradual decay of an unstable isotope absorbed by every living organism. Once an organism dies, it stops taking in carbon, and the remaining isotope decreases at a predictable rate. Nevertheless, results must be calibrated against tree rings and other records, because atmospheric carbon levels have fluctuated considerably over time. Despite these complications, the method remains indispensable to the discipline.",
+    "blanks": [
+      {
+        "index": 1,
+        "prefix": "trans",
+        "missing": "formed",
+        "fullWord": "transformed",
+        "missingLength": 6,
+        "pos": "Verb",
+        "hint": "Động từ quá khứ 'đã biến đổi hoàn toàn lĩnh vực này'"
+      },
+      {
+        "index": 2,
+        "prefix": "meas",
+        "missing": "uring",
+        "fullWord": "measuring",
+        "missingLength": 5,
+        "pos": "Gerund",
+        "hint": "Danh từ V-ing 'bằng cách đo lường sự phân rã dần dần'"
+      },
+      {
+        "index": 3,
+        "prefix": "unst",
+        "missing": "able",
+        "fullWord": "unstable",
+        "missingLength": 4,
+        "pos": "Adjective",
+        "hint": "Tính từ 'một đồng vị phóng xạ không bền'"
+      },
+      {
+        "index": 4,
+        "prefix": "orga",
+        "missing": "nism",
+        "fullWord": "organism",
+        "missingLength": 4,
+        "pos": "Noun",
+        "hint": "Danh từ 'một khi sinh vật chết đi'"
+      },
+      {
+        "index": 5,
+        "prefix": "predi",
+        "missing": "ctable",
+        "fullWord": "predictable",
+        "missingLength": 6,
+        "pos": "Adjective",
+        "hint": "Tính từ 'suy giảm ở một tốc độ có thể dự đoán được'"
+      },
+      {
+        "index": 6,
+        "prefix": "calib",
+        "missing": "rated",
+        "fullWord": "calibrated",
+        "missingLength": 5,
+        "pos": "Verb",
+        "hint": "Dạng bị động 'kết quả phải được hiệu chuẩn đối chiếu'"
+      },
+      {
+        "index": 7,
+        "prefix": "atmos",
+        "missing": "pheric",
+        "fullWord": "atmospheric",
+        "missingLength": 6,
+        "pos": "Adjective",
+        "hint": "Tính từ 'nồng độ carbon trong khí quyển'"
+      },
+      {
+        "index": 8,
+        "prefix": "fluct",
+        "missing": "uated",
+        "fullWord": "fluctuated",
+        "missingLength": 5,
+        "pos": "Verb",
+        "hint": "Động từ hiện tại hoàn thành 'đã dao động đáng kể theo thời gian'"
+      },
+      {
+        "index": 9,
+        "prefix": "compli",
+        "missing": "cations",
+        "fullWord": "complications",
+        "missingLength": 7,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'bất chấp những phức tạp/trở ngại này'"
+      },
+      {
+        "index": 10,
+        "prefix": "indisp",
+        "missing": "ensable",
+        "fullWord": "indispensable",
+        "missingLength": 7,
+        "pos": "Adjective",
+        "hint": "Tính từ 'vẫn là phương pháp không thể thiếu'"
+      }
+    ]
+  },
+  {
+    "id": "gabble_ctw_08",
+    "title": "GabbleAI - Underwater Archaeology & Shipwrecks",
+    "topic": "Marine Archaeology & Preservation",
+    "category": "GabbleAI",
+    "source": "Gabble.ai TOEFL 2026 Reading Task 1 (Practice 3)",
+    "youtube_url": "https://www.youtube.com/watch?v=-Ml55J8nceg",
+    "leadSentence": "Shipwrecks resting on the seabed can function as remarkably well-preserved time capsules.",
+    "bodyTemplate": "Cold, dark water limits the [acti|vity] of [orga|nisms] that would otherwise consume wooden hulls, cargo, and even [text|iles]. Excavating such sites, however, demands [speci|alized] equipment and [pains|taking] documentation, since every artifact must be [map|ped] before it is raised. Once exposed to air, [water|logged] materials can [deter|iorate] rapidly unless they are carefully conserved. For this reason, many [resea|rchers] now prefer to study wrecks where they lie rather than [rec|over] them.",
+    "fullText": "Shipwrecks resting on the seabed can function as remarkably well-preserved time capsules. Cold, dark water limits the activity of organisms that would otherwise consume wooden hulls, cargo, and even textiles. Excavating such sites, however, demands specialized equipment and painstaking documentation, since every artifact must be mapped before it is raised. Once exposed to air, waterlogged materials can deteriorate rapidly unless they are carefully conserved. For this reason, many researchers now prefer to study wrecks where they lie rather than recover them.",
+    "blanks": [
+      {
+        "index": 1,
+        "prefix": "acti",
+        "missing": "vity",
+        "fullWord": "activity",
+        "missingLength": 4,
+        "pos": "Noun",
+        "hint": "Danh từ 'hạn chế hoạt động của sinh vật'"
+      },
+      {
+        "index": 2,
+        "prefix": "orga",
+        "missing": "nisms",
+        "fullWord": "organisms",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'các vi sinh vật ăn mòn'"
+      },
+      {
+        "index": 3,
+        "prefix": "text",
+        "missing": "iles",
+        "fullWord": "textiles",
+        "missingLength": 4,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'hàng hóa và thậm chí cả đồ dệt may'"
+      },
+      {
+        "index": 4,
+        "prefix": "speci",
+        "missing": "alized",
+        "fullWord": "specialized",
+        "missingLength": 6,
+        "pos": "Adjective",
+        "hint": "Tính từ 'đòi hỏi trang thiết bị chuyên dụng'"
+      },
+      {
+        "index": 5,
+        "prefix": "pains",
+        "missing": "taking",
+        "fullWord": "painstaking",
+        "missingLength": 6,
+        "pos": "Adjective",
+        "hint": "Tính từ 'tài liệu ghi chép cực kỳ tỉ mỉ/công phu'"
+      },
+      {
+        "index": 6,
+        "prefix": "map",
+        "missing": "ped",
+        "fullWord": "mapped",
+        "missingLength": 3,
+        "pos": "Verb",
+        "hint": "Dạng bị động 'mọi hiện vật phải được lập bản đồ vị trí'"
+      },
+      {
+        "index": 7,
+        "prefix": "water",
+        "missing": "logged",
+        "fullWord": "waterlogged",
+        "missingLength": 6,
+        "pos": "Adjective",
+        "hint": "Tính từ 'các vật liệu ngấm no nước'"
+      },
+      {
+        "index": 8,
+        "prefix": "deter",
+        "missing": "iorate",
+        "fullWord": "deteriorate",
+        "missingLength": 6,
+        "pos": "Verb",
+        "hint": "Động từ nguyên mẫu 'có thể phân rã/hư hại nhanh chóng'"
+      },
+      {
+        "index": 9,
+        "prefix": "resea",
+        "missing": "rchers",
+        "fullWord": "researchers",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'nhiều nhà nghiên cứu hiện nay'"
+      },
+      {
+        "index": 10,
+        "prefix": "rec",
+        "missing": "over",
+        "fullWord": "recover",
+        "missingLength": 4,
+        "pos": "Verb",
+        "hint": "Động từ nguyên mẫu 'thay vì trục vớt/thu hồi chúng lên bờ'"
+      }
+    ]
+  },
+  {
+    "id": "gabble_ctw_09",
+    "title": "GabbleAI - Potlatch and Gift Economics",
+    "topic": "Anthropology & Gift Economies",
+    "category": "GabbleAI",
+    "source": "Gabble.ai TOEFL 2026 Reading Task 1 (Practice 2)",
+    "youtube_url": "https://www.youtube.com/watch?v=AqQJveL75Uk",
+    "leadSentence": "Anthropologists have long been fascinated by societies in which wealth is measured less by accumulation than by generosity.",
+    "bodyTemplate": "In such [commu|nities], gifts are rarely free of [oblig|ation]; accepting one [cre|ates] a debt that must [event|ually] be repaid, often with interest. The famous potlatch [cerem|onies] of the Pacific Northwest, for instance, involved chiefs [distri|buting] enormous [quant|ities] of goods to affirm their status. Such [exch|anges] reveal that economic behavior is deeply embedded in social [relati|onships] rather than driven purely by [indiv|idual] profit.",
+    "fullText": "Anthropologists have long been fascinated by societies in which wealth is measured less by accumulation than by generosity. In such communities, gifts are rarely free of obligation; accepting one creates a debt that must eventually be repaid, often with interest. The famous potlatch ceremonies of the Pacific Northwest, for instance, involved chiefs distributing enormous quantities of goods to affirm their status. Such exchanges reveal that economic behavior is deeply embedded in social relationships rather than driven purely by individual profit.",
+    "blanks": [
+      {
+        "index": 1,
+        "prefix": "commu",
+        "missing": "nities",
+        "fullWord": "communities",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'trong những cộng đồng như vậy'"
+      },
+      {
+        "index": 2,
+        "prefix": "oblig",
+        "missing": "ation",
+        "fullWord": "obligation",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ 'hiếm khi không kèm theo nghĩa vụ ràng buộc'"
+      },
+      {
+        "index": 3,
+        "prefix": "cre",
+        "missing": "ates",
+        "fullWord": "creates",
+        "missingLength": 4,
+        "pos": "Verb",
+        "hint": "Động từ số ít 'tạo ra một món nợ'"
+      },
+      {
+        "index": 4,
+        "prefix": "event",
+        "missing": "ually",
+        "fullWord": "eventually",
+        "missingLength": 5,
+        "pos": "Adverb",
+        "hint": "Trạng từ 'cuối cùng sẽ phải được hoàn trả'"
+      },
+      {
+        "index": 5,
+        "prefix": "cerem",
+        "missing": "onies",
+        "fullWord": "ceremonies",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'các nghi lễ potlatch nổi tiếng'"
+      },
+      {
+        "index": 6,
+        "prefix": "distri",
+        "missing": "buting",
+        "fullWord": "distributing",
+        "missingLength": 6,
+        "pos": "Gerund",
+        "hint": "Dạng V-ing 'các tù trưởng phân phát khối lượng hàng hóa lớn'"
+      },
+      {
+        "index": 7,
+        "prefix": "quant",
+        "missing": "ities",
+        "fullWord": "quantities",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'số lượng khổng lồ hàng hóa'"
+      },
+      {
+        "index": 8,
+        "prefix": "exch",
+        "missing": "anges",
+        "fullWord": "exchanges",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'những cuộc trao đổi như vậy'"
+      },
+      {
+        "index": 9,
+        "prefix": "relati",
+        "missing": "onships",
+        "fullWord": "relationships",
+        "missingLength": 7,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'gắn liền với các mối quan hệ xã hội'"
+      },
+      {
+        "index": 10,
+        "prefix": "indiv",
+        "missing": "idual",
+        "fullWord": "individual",
+        "missingLength": 5,
+        "pos": "Adjective",
+        "hint": "Tính từ 'thay vì lợi nhuận cá nhân đơn thuần'"
+      }
+    ]
+  },
+  {
+    "id": "gabble_ctw_10",
+    "title": "GabbleAI - Pastoral Nomadism",
+    "topic": "Human Geography & Nomadism",
+    "category": "GabbleAI",
+    "source": "Gabble.ai TOEFL 2026 Reading Task 1 (Practice 2)",
+    "youtube_url": "https://www.youtube.com/watch?v=AqQJveL75Uk",
+    "leadSentence": "Pastoral nomads, who move seasonally with their herds, have adapted to some of the harshest environments on the planet.",
+    "bodyTemplate": "Rather than [culti|vating] crops, they depend on [ani|mals] that convert sparse [veget|ation] into milk, meat, and wool. Their [migra|tions] follow predictable routes dictated by rainfall and pasture [availa|bility]. Although [gover|nments] have often viewed mobility as a problem to be solved, [resea|rchers] increasingly recognize it as a [sophis|ticated] strategy for managing unpredictable landscapes. Forced [settl|ement], by contrast, has [frequ|ently] led to overgrazing and poverty.",
+    "fullText": "Pastoral nomads, who move seasonally with their herds, have adapted to some of the harshest environments on the planet. Rather than cultivating crops, they depend on animals that convert sparse vegetation into milk, meat, and wool. Their migrations follow predictable routes dictated by rainfall and pasture availability. Although governments have often viewed mobility as a problem to be solved, researchers increasingly recognize it as a sophisticated strategy for managing unpredictable landscapes. Forced settlement, by contrast, has frequently led to overgrazing and poverty.",
+    "blanks": [
+      {
+        "index": 1,
+        "prefix": "culti",
+        "missing": "vating",
+        "fullWord": "cultivating",
+        "missingLength": 6,
+        "pos": "Gerund",
+        "hint": "Dạng V-ing 'thay vì trồng trọt hoa màu'"
+      },
+      {
+        "index": 2,
+        "prefix": "ani",
+        "missing": "mals",
+        "fullWord": "animals",
+        "missingLength": 4,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'họ phụ thuộc vào các loài động vật'"
+      },
+      {
+        "index": 3,
+        "prefix": "veget",
+        "missing": "ation",
+        "fullWord": "vegetation",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ 'chuyển hóa thảm thực vật thưa thớt'"
+      },
+      {
+        "index": 4,
+        "prefix": "migra",
+        "missing": "tions",
+        "fullWord": "migrations",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'các chuyến di cư của họ'"
+      },
+      {
+        "index": 5,
+        "prefix": "availa",
+        "missing": "bility",
+        "fullWord": "availability",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ 'sự sẵn có của đồng cỏ và lượng mưa'"
+      },
+      {
+        "index": 6,
+        "prefix": "gover",
+        "missing": "nments",
+        "fullWord": "governments",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'chính phủ các nước thường xem việc di cư là vấn đề'"
+      },
+      {
+        "index": 7,
+        "prefix": "resea",
+        "missing": "rchers",
+        "fullWord": "researchers",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'các nhà nghiên cứu ngày càng nhìn nhận'"
+      },
+      {
+        "index": 8,
+        "prefix": "sophis",
+        "missing": "ticated",
+        "fullWord": "sophisticated",
+        "missingLength": 7,
+        "pos": "Adjective",
+        "hint": "Tính từ 'một chiến lược tinh vi/thông minh'"
+      },
+      {
+        "index": 9,
+        "prefix": "settl",
+        "missing": "ement",
+        "fullWord": "settlement",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ 'việc định cư ép buộc'"
+      },
+      {
+        "index": 10,
+        "prefix": "frequ",
+        "missing": "ently",
+        "fullWord": "frequently",
+        "missingLength": 5,
+        "pos": "Adverb",
+        "hint": "Trạng từ 'thường xuyên dẫn đến chăn thả quá mức'"
+      }
+    ]
+  },
+  {
+    "id": "gabble_ctw_11",
+    "title": "GabbleAI - Conventional Plowing vs. No-Till Farming",
+    "topic": "Soil Science & Agriculture",
+    "category": "GabbleAI",
+    "source": "Gabble.ai TOEFL 2026 Reading Task 1 (Practice 1)",
+    "youtube_url": "https://www.youtube.com/watch?v=rkFVxdN_OCk",
+    "leadSentence": "Conventional plowing, once regarded as essential to productive farming, is now increasingly questioned by soil scientists.",
+    "bodyTemplate": "Repeated tillage disrupts the [intr|icate] networks of fungi that bind soil [part|icles] together, leaving the surface [vulne|rable] to [ero|sion] and runoff during heavy storms. No-till systems, by [cont|rast], leave crop residue on the field, which [cons|erves] moisture, moderates [tempe|rature], and gradually rebuilds organic carbon. Critics note, [how|ever], that such methods often depend heavily on [herbi|cides] to suppress weeds that plowing would [othe|rwise] have buried.",
+    "fullText": "Conventional plowing, once regarded as essential to productive farming, is now increasingly questioned by soil scientists. Repeated tillage disrupts the intricate networks of fungi that bind soil particles together, leaving the surface vulnerable to erosion and runoff during heavy storms. No-till systems, by contrast, leave crop residue on the field, which conserves moisture, moderates temperature, and gradually rebuilds organic carbon. Critics note, however, that such methods often depend heavily on herbicides to suppress weeds that plowing would otherwise have buried.",
+    "blanks": [
+      {
+        "index": 1,
+        "prefix": "intr",
+        "missing": "icate",
+        "fullWord": "intricate",
+        "missingLength": 5,
+        "pos": "Adjective",
+        "hint": "Tính từ 'phá vỡ mạng lưới nấm phức tạp/chằng chịt'"
+      },
+      {
+        "index": 2,
+        "prefix": "part",
+        "missing": "icles",
+        "fullWord": "particles",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'liên kết các hạt đất lại với nhau'"
+      },
+      {
+        "index": 3,
+        "prefix": "vulne",
+        "missing": "rable",
+        "fullWord": "vulnerable",
+        "missingLength": 5,
+        "pos": "Adjective",
+        "hint": "Tính từ 'khiến bề mặt dễ bị tổn thương trước xói mòn'"
+      },
+      {
+        "index": 4,
+        "prefix": "ero",
+        "missing": "sion",
+        "fullWord": "erosion",
+        "missingLength": 4,
+        "pos": "Noun",
+        "hint": "Danh từ 'xói mòn và rửa trôi đất'"
+      },
+      {
+        "index": 5,
+        "prefix": "cont",
+        "missing": "rast",
+        "fullWord": "contrast",
+        "missingLength": 4,
+        "pos": "Noun",
+        "hint": "Cụm danh từ 'ngược lại (by contrast)'"
+      },
+      {
+        "index": 6,
+        "prefix": "cons",
+        "missing": "erves",
+        "fullWord": "conserves",
+        "missingLength": 5,
+        "pos": "Verb",
+        "hint": "Động từ số ít 'bảo tồn độ ẩm của đất'"
+      },
+      {
+        "index": 7,
+        "prefix": "tempe",
+        "missing": "rature",
+        "fullWord": "temperature",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ 'điều hòa nhiệt độ'"
+      },
+      {
+        "index": 8,
+        "prefix": "how",
+        "missing": "ever",
+        "fullWord": "however",
+        "missingLength": 4,
+        "pos": "Adverb",
+        "hint": "Trạng từ liên kết 'tuy nhiên (however)'"
+      },
+      {
+        "index": 9,
+        "prefix": "herbi",
+        "missing": "cides",
+        "fullWord": "herbicides",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'phụ thuộc nhiều vào thuốc diệt cỏ'"
+      },
+      {
+        "index": 10,
+        "prefix": "othe",
+        "missing": "rwise",
+        "fullWord": "otherwise",
+        "missingLength": 5,
+        "pos": "Adverb",
+        "hint": "Trạng từ 'nếu không thì đã bị việc cày xới chôn vùi'"
+      }
+    ]
+  },
+  {
+    "id": "gabble_ctw_12",
+    "title": "GabbleAI - Terrace Farming in Mountainous Regions",
+    "topic": "Ancient Agronomy & Mountain Terracing",
+    "category": "GabbleAI",
+    "source": "Gabble.ai TOEFL 2026 Reading Task 1 (Practice 1)",
+    "youtube_url": "https://www.youtube.com/watch?v=rkFVxdN_OCk",
+    "leadSentence": "In steep mountainous regions, farmers have long relied on terraces to transform unusable slopes into productive land.",
+    "bodyTemplate": "These stepped [plat|forms] slow the descent of rainwater, allowing it to [infil|trate] the soil [grad|ually] rather than washing away valuable nutrients. In the Andes, the Inca [comb|ined] terraces with stone-lined [chan|nels] and layers of gravel that [impr|oved] drainage and stored heat. Today, [agron|omists] study these ancient structures as models for resilient [agric|ulture] in regions threatened by erratic rainfall. Some [commu|nities] still maintain them using [techn|iques] passed down for generations.",
+    "fullText": "In steep mountainous regions, farmers have long relied on terraces to transform unusable slopes into productive land. These stepped platforms slow the descent of rainwater, allowing it to infiltrate the soil gradually rather than washing away valuable nutrients. In the Andes, the Inca combined terraces with stone-lined channels and layers of gravel that improved drainage and stored heat. Today, agronomists study these ancient structures as models for resilient agriculture in regions threatened by erratic rainfall. Some communities still maintain them using techniques passed down for generations.",
+    "blanks": [
+      {
+        "index": 1,
+        "prefix": "plat",
+        "missing": "forms",
+        "fullWord": "platforms",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'những bậc thềm/bình đài này'"
+      },
+      {
+        "index": 2,
+        "prefix": "infil",
+        "missing": "trate",
+        "fullWord": "infiltrate",
+        "missingLength": 5,
+        "pos": "Verb",
+        "hint": "Động từ nguyên mẫu 'cho phép nước ngấm/thấm vào đất'"
+      },
+      {
+        "index": 3,
+        "prefix": "grad",
+        "missing": "ually",
+        "fullWord": "gradually",
+        "missingLength": 5,
+        "pos": "Adverb",
+        "hint": "Trạng từ 'thấm vào đất một cách từ từ/dần dần'"
+      },
+      {
+        "index": 4,
+        "prefix": "comb",
+        "missing": "ined",
+        "fullWord": "combined",
+        "missingLength": 4,
+        "pos": "Verb",
+        "hint": "Động từ quá khứ 'người Inca đã kết hợp ruộng bậc thang'"
+      },
+      {
+        "index": 5,
+        "prefix": "chan",
+        "missing": "nels",
+        "fullWord": "channels",
+        "missingLength": 4,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'với các mương/kênh dẫn lót đá'"
+      },
+      {
+        "index": 6,
+        "prefix": "impr",
+        "missing": "oved",
+        "fullWord": "improved",
+        "missingLength": 4,
+        "pos": "Verb",
+        "hint": "Động từ quá khứ 'cải thiện khả năng thoát nước'"
+      },
+      {
+        "index": 7,
+        "prefix": "agron",
+        "missing": "omists",
+        "fullWord": "agronomists",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'các nhà nông học ngày nay'"
+      },
+      {
+        "index": 8,
+        "prefix": "agric",
+        "missing": "ulture",
+        "fullWord": "agriculture",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ 'mô hình cho nền nông nghiệp kiên cường'"
+      },
+      {
+        "index": 9,
+        "prefix": "commu",
+        "missing": "nities",
+        "fullWord": "communities",
+        "missingLength": 6,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'một số cộng đồng vẫn duy trì chúng'"
+      },
+      {
+        "index": 10,
+        "prefix": "techn",
+        "missing": "iques",
+        "fullWord": "techniques",
+        "missingLength": 5,
+        "pos": "Noun",
+        "hint": "Danh từ số nhiều 'bằng các kỹ thuật gia truyền'"
+      }
+    ]
   }
 ];
 

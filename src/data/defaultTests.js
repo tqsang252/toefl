@@ -269,6 +269,380 @@ const readingTest01 = {
 };
 
 // =================================================================
+// 1.2 READING PRACTICE TEST 02 (TOEFL 2026 OFFICIAL YOUTUBE PRACTICE 1)
+// =================================================================
+export const readingTest02 = {
+  id: "reading-practice-02",
+  title: "Reading Practice Test 02 (TOEFL 2026 - Amazon & Sunk Costs)",
+  skill: "reading",
+  is_default: true,
+  duration_seconds: 1800, // 30 phút tổng
+  source: "YouTube TOEFL 2026 Reading Practice 1",
+  youtube_url: "https://www.youtube.com/watch?v=iAAuHU30Xns",
+  description: "Bộ đề TOEFL iBT Reading 2026 chuẩn ETS: Module 1 (Complete the Words Rừng Amazon, Đổi trả hàng, Giảm rác thải văn phòng, Lý sinh định vị từ trường) & Module 2 (Complete the Words Ngôn ngữ và tư duy, Tình nguyện trạm cứu hộ, Hẹn cà phê, Chi phí chìm Sunk Costs).",
+  stages: [
+    {
+      id: "read2_stage_1",
+      title: "Reading - Module 1 (Stage 1)",
+      duration_seconds: 900,
+      description: "Module 1 gồm 4 thành phần: Complete the Words, Read a notice, Read an announcement, và Academic passage. Hãy hoàn thành trước khi hết 15 phút.",
+      tasks: [
+        {
+          id: "read2_m1_t1",
+          title: "Task 1: Complete the Words",
+          task_type: "complete_words",
+          content: {
+            instructions: "Điền các chữ cái còn thiếu vào vị trí dấu gạch dưới `_` trong đoạn văn học thuật dưới đây.",
+            paragraph: "The Amazon rainforest is one of the most biodiverse regions on Earth. It produ[ces] a signi[ficant] amount o[f] the planet's ox[ygen] and regu[lates] global tempe[ratures]. However, defore[station] caused by logg[ing], agriculture, and ur[ban] expansion threa[tens] this delicate ecosystem. As trees are cut down, many species lose their habitats, and carbon dioxide levels rise. Conservation efforts focus on promoting sustainable practices, reforestation, and international cooperation to protect this vital natural resource for future generations.",
+            blanks: [
+              { id: "read2_m1_t1_b1", prefix: "produ", missing: "ces", full: "produces" },
+              { id: "read2_m1_t1_b2", prefix: "signi", missing: "ficant", full: "significant" },
+              { id: "read2_m1_t1_b3", prefix: "o", missing: "f", full: "of" },
+              { id: "read2_m1_t1_b4", prefix: "ox", missing: "ygen", full: "oxygen" },
+              { id: "read2_m1_t1_b5", prefix: "regu", missing: "lates", full: "regulates" },
+              { id: "read2_m1_t1_b6", prefix: "tempe", missing: "ratures", full: "temperatures" },
+              { id: "read2_m1_t1_b7", prefix: "defore", missing: "station", full: "deforestation" },
+              { id: "read2_m1_t1_b8", prefix: "logg", missing: "ing", full: "logging" },
+              { id: "read2_m1_t1_b9", prefix: "ur", missing: "ban", full: "urban" },
+              { id: "read2_m1_t1_b10", prefix: "threa", missing: "tens", full: "threatens" }
+            ]
+          }
+        },
+        {
+          id: "read2_m1_t2",
+          title: "Task 2: Read a Notice",
+          task_type: "daily_life",
+          content: {
+            document_type: "Customer Notice - Return Policy",
+            passage: "Subject: Important update\n\nDear Customers,\nStarting October 20, all returns must be initiated within 14 days of delivery. Items must be unused, in their original packaging, and accompanied by the receipt. For your convenience, online purchases can now be returned directly to any of our physical stores. Refunds will be processed within 5-7 business days.\nWe appreciate your understanding as we continue to improve your shopping experience.",
+            questions: [
+              {
+                id: "read2_m1_q11",
+                type: "multiple_choice",
+                prompt: "What is the main purpose of the notice?",
+                options: {
+                  A: "To clarify how to track shipped orders",
+                  B: "To thank customers for their recent purchases",
+                  C: "To inform customers about updated return procedures",
+                  D: "To remind customers about online shopping benefits"
+                },
+                correct_answer: "C",
+                explanation: "Thông báo cập nhật thủ tục và quy định đổi trả hàng mới (thời hạn 14 ngày, đổi trả trực tiếp tại cửa hàng, hoàn tiền trong 5-7 ngày)."
+              },
+              {
+                id: "read2_m1_q12",
+                type: "multiple_choice",
+                prompt: "What new option is available to customers?",
+                options: {
+                  A: "They can return items after the 14-day period",
+                  B: "They can exchange items without a receipt",
+                  C: "They can request a refund by phone only",
+                  D: "They can return online orders at store locations"
+                },
+                correct_answer: "D",
+                explanation: "Thông báo nêu rõ: 'online purchases can now be returned directly to any of our physical stores'."
+              }
+            ]
+          }
+        },
+        {
+          id: "read2_m1_t3",
+          title: "Task 3: Read an Announcement",
+          task_type: "daily_life",
+          content: {
+            document_type: "Workplace Sustainability Announcement",
+            passage: "Attention!\n\nIn an effort to reduce waste, our company is eliminating disposable cups and utensils in the break room. Employees are encouraged to bring reusable mugs and containers. Recycling bins for paper and plastic have also been added on each floor. These small steps will help us lower our environmental impact and create a more sustainable workplace.",
+            questions: [
+              {
+                id: "read2_m1_q13",
+                type: "multiple_choice",
+                prompt: "What is the main goal of the new initiative?",
+                options: {
+                  A: "To make the office look more modern",
+                  B: "To reduce the company's negative effect on the environment",
+                  C: "To introduce new rules for employee behavior",
+                  D: "To promote teamwork through shared spaces"
+                },
+                correct_answer: "B",
+                explanation: "Mục tiêu trọng tâm nêu ở đầu và cuối: 'In an effort to reduce waste' và 'lower our environmental impact and create a more sustainable workplace'."
+              },
+              {
+                id: "read2_m1_q14",
+                type: "multiple_choice",
+                prompt: "What are employees expected to do under the new policy?",
+                options: {
+                  A: "Use their own mugs and containers instead of disposable ones",
+                  B: "Avoid eating in the office during work hours",
+                  C: "Purchase all their meals from outside vendors",
+                  D: "Bring extra utensils for their coworkers"
+                },
+                correct_answer: "A",
+                explanation: "Thông báo nêu rõ: 'Employees are encouraged to bring reusable mugs and containers' thay cho cốc và dụng cụ dùng 1 lần bị loại bỏ."
+              }
+            ]
+          }
+        },
+        {
+          id: "read2_m1_t4",
+          title: "Task 4: Academic Passage",
+          task_type: "academic_passage",
+          content: {
+            document_type: "Biophysics & Animal Navigation Passage",
+            passage: "The Enigma of Animal Magnetoreception\n\nMany species, from migratory birds to sea turtles, navigate vast distances with astonishing precision, a feat believed to be enabled by magnetoreception—the ability to detect Earth's magnetic field. The exact biological mechanism, however, remains one of science's most enduring mysteries.\n\nOne leading hypothesis posits the use of cryptochromes, light-sensitive proteins in the retina that may form a radical pair upon photon absorption, creating a quantum-entangled state whose chemistry is influenced by the geomagnetic field, effectively allowing the animal to \"see\" magnetic lines as visual patterns.\n\nA competing theory suggests the presence of magnetite, a magnetic iron oxide, in certain cells, which could act like a microscopic compass needle, translating magnetic information into neural signals.\n\nIntriguingly, these mechanisms are not necessarily mutually exclusive; an organism might employ both for different purposes, such as using a magnetite-based compass for a directional sense and a cryptochrome-based map for positional awareness. Unraveling this sensory modality not only illuminates animal behavior but also pushes the boundaries of biophysics and quantum biology.",
+            questions: [
+              {
+                id: "read2_m1_q15",
+                type: "multiple_choice",
+                prompt: "What is the primary purpose of the passage?",
+                options: {
+                  A: "To argue for the superiority of the cryptochrome hypothesis over the magnetite theory.",
+                  B: "To describe competing scientific explanations for a biological navigation ability.",
+                  C: "To detail the migratory patterns of specific bird and turtle species.",
+                  D: "To explain the quantum mechanical principles of radical pairs."
+                },
+                correct_answer: "B",
+                explanation: "Bài đọc trình bày hai giả thuyết khoa học cạnh tranh (cryptochromes vs magnetite) giải thích cơ chế định vị từ trường ở động vật."
+              },
+              {
+                id: "read2_m1_q16",
+                type: "multiple_choice",
+                prompt: "The word \"posits\" in the passage is closest in meaning to",
+                options: {
+                  A: "disproves.",
+                  B: "questions.",
+                  C: "proposes.",
+                  D: "complicates."
+                },
+                correct_answer: "C",
+                explanation: "Từ 'posits' mang nghĩa đề xuất, đưa ra giả thuyết (proposes)."
+              },
+              {
+                id: "read2_m1_q17",
+                type: "multiple_choice",
+                prompt: "According to the passage, how might cryptochromes allow an animal to perceive magnetic fields?",
+                options: {
+                  A: "By creating a physical compass needle within the eye.",
+                  B: "By converting magnetic signals directly into sound.",
+                  C: "By influencing visual patterns through quantum chemistry.",
+                  D: "By storing iron oxide particles in retinal cells."
+                },
+                correct_answer: "C",
+                explanation: "Đoạn 2 giải thích phản ứng quang hóa lượng tử của cryptochrome tạo ra các họa tiết thị giác giúp con vật 'nhìn thấy' từ trường."
+              },
+              {
+                id: "read2_m1_q18",
+                type: "multiple_choice",
+                prompt: "What can be inferred from the statement that the two mechanisms are \"not necessarily mutually exclusive\"?",
+                options: {
+                  A: "Most scientists now agree that magnetite is the primary mechanism.",
+                  B: "An animal could potentially use both a magnetic map and a compass.",
+                  C: "The cryptochrome theory has been definitively proven.",
+                  D: "Magnetoreception is a simple, well-understood process."
+                },
+                correct_answer: "B",
+                explanation: "'Not necessarily mutually exclusive' có nghĩa là hai cơ chế không loại trừ nhau mà một sinh vật có thể kết hợp cả hai."
+              },
+              {
+                id: "read2_m1_q19",
+                type: "multiple_choice",
+                prompt: "The author mentions \"biophysics and quantum biology\" primarily to",
+                options: {
+                  A: "suggest that magnetoreception is an implausible phenomenon.",
+                  B: "highlight the interdisciplinary significance of the research.",
+                  C: "criticize the complexity of modern scientific theories.",
+                  D: "list the only two fields capable of solving the mystery."
+                },
+                correct_answer: "B",
+                explanation: "Tác giả nhắc đến hai ngành này để nhấn mạnh tầm quan trọng liên ngành (interdisciplinary significance) của việc giải mã bí ẩn."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      id: "read2_stage_2",
+      title: "Reading - Module 2 (Stage 2 - Adaptive)",
+      duration_seconds: 900,
+      description: "Module 2 gồm 4 thành phần: Complete the Words, Read a post, Read a chain of messages, và Academic passage. Hãy hoàn thành trước khi hết 15 phút.",
+      tasks: [
+        {
+          id: "read2_m2_t1",
+          title: "Task 1: Complete the Words",
+          task_type: "complete_words",
+          content: {
+            instructions: "Điền các chữ cái còn thiếu vào vị trí dấu gạch dưới `_` trong đoạn văn ngôn ngữ học dưới đây.",
+            paragraph: "Language plays a crucial role in shaping how humans think and interact. Some lingu[ists] argue th[at] the stru[cture] of a lan[guage] influences the w[ay] its spea[kers] perceive the wo[rld]. For ex[ample], languages that have m[any] words f[or] colors may help speakers distinguish subtle shades more easily. Others claim that thought exists independently of language. Despite this debate, most researchers agree that language enables abstract thinking, social organization, and the transmission of culture across generations.",
+            blanks: [
+              { id: "read2_m2_t1_b1", prefix: "lingu", missing: "ists", full: "linguists" },
+              { id: "read2_m2_t1_b2", prefix: "th", missing: "at", full: "that" },
+              { id: "read2_m2_t1_b3", prefix: "stru", missing: "cture", full: "structure" },
+              { id: "read2_m2_t1_b4", prefix: "lan", missing: "guage", full: "language" },
+              { id: "read2_m2_t1_b5", prefix: "w", missing: "ay", full: "way" },
+              { id: "read2_m2_t1_b6", prefix: "spea", missing: "kers", full: "speakers" },
+              { id: "read2_m2_t1_b7", prefix: "wo", missing: "rld", full: "world" },
+              { id: "read2_m2_t1_b8", prefix: "ex", missing: "ample", full: "example" },
+              { id: "read2_m2_t1_b9", prefix: "m", missing: "any", full: "many" },
+              { id: "read2_m2_t1_b10", prefix: "f", missing: "or", full: "for" }
+            ]
+          }
+        },
+        {
+          id: "read2_m2_t2",
+          title: "Task 2: Read a Post",
+          task_type: "daily_life",
+          content: {
+            document_type: "Community Animal Shelter Post",
+            passage: "Stella:\n\"Just finished my first day volunteering at the animal shelter — what an amazing experience! The staff were welcoming, and the animals are so full of energy. It's heartbreaking to see how many are waiting for adoption, but the team works hard to find each one a loving home. Can't wait to go back next weekend!\"",
+            questions: [
+              {
+                id: "read2_m2_q11",
+                type: "multiple_choice",
+                prompt: "What is the writer's attitude toward volunteering at the shelter?",
+                options: {
+                  A: "She thinks the work is meaningful but too emotionally difficult.",
+                  B: "She feels grateful for the experience and plans to continue.",
+                  C: "She is still getting used to the new environment.",
+                  D: "She believes the shelter could be better organized."
+                },
+                correct_answer: "B",
+                explanation: "Stella cảm thấy trải nghiệm tuyệt vời và hào hứng mong chờ quay lại tuần sau ('Can't wait to go back next weekend!')."
+              },
+              {
+                id: "read2_m2_q12",
+                type: "multiple_choice",
+                prompt: "What can be inferred about the animal shelter?",
+                options: {
+                  A: "It limits volunteer participation to special events.",
+                  B: "It mainly focuses on providing medical treatment to animals.",
+                  C: "It recently moved to a new location.",
+                  D: "It depends on volunteers as part of its daily operations."
+                },
+                correct_answer: "D",
+                explanation: "Trạm cứu hộ đón nhận các tình nguyện viên vào làm việc cùng đội ngũ nhân viên để hỗ trợ các hoạt động hàng ngày và tìm gia đình nhận nuôi."
+              }
+            ]
+          }
+        },
+        {
+          id: "read2_m2_t3",
+          title: "Task 3: Read a Chain of Messages",
+          task_type: "daily_life",
+          content: {
+            document_type: "Instant Message Exchange",
+            passage: "Liam: Hey, are we still meeting at the café at 5?\n\nNora: Let's make it 5:30. Traffic is awful today.\n\nLiam: No problem. Should I get us a table?\n\nNora: Yes, please! I'll be there as soon as I can.",
+            questions: [
+              {
+                id: "read2_m2_q13",
+                type: "multiple_choice",
+                prompt: "What does Liam agree to do?",
+                options: {
+                  A: "Arrive first to secure a place for them",
+                  B: "Wait for Nora outside the café",
+                  C: "Choose the best table",
+                  D: "Change the meeting place"
+                },
+                correct_answer: "A",
+                explanation: "Liam đề nghị vào lấy bàn trước ('Should I get us a table?') và Nora đồng ý."
+              },
+              {
+                id: "read2_m2_q14",
+                type: "multiple_choice",
+                prompt: "Why is Nora going to arrive later than planned?",
+                options: {
+                  A: "She is worried about the traffic",
+                  B: "She has another appointment before meeting Liam",
+                  C: "She's running behind because of traffic",
+                  D: "She had to take a different route to the café"
+                },
+                correct_answer: "C",
+                explanation: "Nora giải thích: 'Traffic is awful today' dẫn đến việc cô ấy bị trễ và xin dời lịch sang 5:30."
+              }
+            ]
+          }
+        },
+        {
+          id: "read2_m2_t4",
+          title: "Task 4: Academic Passage",
+          task_type: "academic_passage",
+          content: {
+            document_type: "Cognitive Psychology & Behavioral Economics Passage",
+            passage: "The Fallacy of Sunk Costs\n\nThe sunk cost fallacy is a cognitive bias where individuals continue a behavior or endeavor based on previously invested resources (time, money, effort) rather than a rational assessment of future outcomes. This fallacy arises from an emotional aversion to loss, leading people to \"throw good money after bad\" to avoid feeling that their initial investment was wasted. For instance, someone might sit through a terrible movie because they paid for the ticket, even though leaving would free up time for a more enjoyable activity.\n\nEconomists argue that rational decision-making requires ignoring sunk costs, as they are irrecoverable and should not factor into marginal decisions.\n\nThe fallacy has significant implications in business, where projects with diminishing returns are often prolonged due to substantial prior investment, and in public policy, where governments may continue funding failing initiatives to avoid political embarrassment. Overcoming this bias requires a conscious shift in focus from past expenditures to prospective costs and benefits.",
+            questions: [
+              {
+                id: "read2_m2_q15",
+                type: "multiple_choice",
+                prompt: "Which of the following best summarizes the main idea of the passage?",
+                options: {
+                  A: "Financial investments should always be pursued to completion.",
+                  B: "Emotional attachment to past investments can lead to irrational decisions.",
+                  C: "Economists have successfully eliminated the sunk cost fallacy in business.",
+                  D: "Public policy is immune to cognitive biases like the sunk cost fallacy."
+                },
+                correct_answer: "B",
+                explanation: "Ý chính tóm tắt việc sự gắn bó cảm xúc với những nguồn lực đã bỏ ra khiến con người đưa ra các quyết định phi lý trí."
+              },
+              {
+                id: "read2_m2_q16",
+                type: "multiple_choice",
+                prompt: "The phrase \"throw good money after bad\" in the passage refers to",
+                options: {
+                  A: "making a wise investment based on past success.",
+                  B: "investing more in a failing venture due to prior losses.",
+                  C: "donating money to a charitable cause.",
+                  D: "carefully calculating future returns."
+                },
+                correct_answer: "B",
+                explanation: "Thành ngữ 'throw good money after bad' chỉ hành động tiếp tục đổ thêm tiền bạc vào dự án thua lỗ vì tiếc tiền đã mất."
+              },
+              {
+                id: "read2_m2_q17",
+                type: "multiple_choice",
+                prompt: "According to the passage, a rational economic decision is one that",
+                options: {
+                  A: "prioritizes the recovery of all initial costs.",
+                  B: "is based solely on the amount of money already spent.",
+                  C: "considers the emotional weight of past investments.",
+                  D: "focuses on future outcomes, ignoring irrecoverable costs."
+                },
+                correct_answer: "D",
+                explanation: "Quyết định kinh tế hợp lý đòi hỏi phớt lờ chi phí đã mất và chỉ tập trung đánh giá kết quả tương lai."
+              },
+              {
+                id: "read2_m2_q18",
+                type: "multiple_choice",
+                prompt: "Why does the author mention public policy?",
+                options: {
+                  A: "To provide an example of a domain where the sunk cost fallacy is irrelevant.",
+                  B: "To illustrate the broad applicability and negative consequences of the bias.",
+                  C: "To argue that political embarrassment is a rational reason to continue projects.",
+                  D: "To suggest that governments are better at avoiding the fallacy than businesses."
+                },
+                correct_answer: "B",
+                explanation: "Tác giả nêu ví dụ về chính sách công để minh chứng sự ảnh hưởng sâu rộng và hậu quả tiêu cực của thiên kiến này ở cấp độ chính phủ."
+              },
+              {
+                id: "read2_m2_q19",
+                type: "multiple_choice",
+                prompt: "It can be inferred from the passage that overcoming the sunk cost fallacy involves",
+                options: {
+                  A: "increasing one's emotional attachment to past decisions.",
+                  B: "conducting a more thorough analysis of already-spent resources.",
+                  C: "re-evaluating decisions based on their future potential.",
+                  D: "avoiding any project that requires significant initial investment."
+                },
+                correct_answer: "C",
+                explanation: "Đoạn cuối nhấn mạnh: vượt qua thiên kiến đòi hỏi chuyển hướng từ nhìn về chi phí quá khứ sang đánh giá tiềm năng và lợi ích tương lai."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+};
+
+// =================================================================
 // 2. FULL LISTENING SECTION (MULTISTAGE ADAPTIVE: MODULE 1 & MODULE 2)
 // =================================================================
 const listeningTest01 = {
@@ -1198,6 +1572,7 @@ const fullMockTest01 = {
 export const DEFAULT_TESTS = [
   fullMockTest01,
   readingTest01,
+  readingTest02,
   listeningTest01,
   writingTest01,
   writingSentenceTest01,
