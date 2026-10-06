@@ -647,6 +647,46 @@ export const DEFAULT_STUDY_NOTES = [
 ];
 
 const STORAGE_KEY = 'toefl_study_notes_v1';
+const DELETED_KEY = 'toefl_deleted_study_notes_v1';
+
+/**
+ * Lấy danh sách ID các ghi chú mà người dùng đã bấm xóa
+ */
+export function getDeletedNoteIds() {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = localStorage.getItem(DELETED_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+/**
+ * Đánh dấu một note ID đã bị xóa
+ */
+export function markNoteAsDeleted(noteId) {
+  if (typeof window === 'undefined') return;
+  try {
+    const current = getDeletedNoteIds();
+    if (!current.includes(noteId)) {
+      current.push(noteId);
+      localStorage.setItem(DELETED_KEY, JSON.stringify(current));
+    }
+  } catch (e) {}
+}
+
+/**
+ * Bỏ đánh dấu xóa (khi lưu đè hoặc khôi phục)
+ */
+export function unmarkNoteAsDeleted(noteId) {
+  if (typeof window === 'undefined') return;
+  try {
+    const current = getDeletedNoteIds();
+    const updated = current.filter(id => id !== noteId);
+    localStorage.setItem(DELETED_KEY, JSON.stringify(updated));
+  } catch (e) {}
+}
 
 /**
  * Lấy toàn bộ danh sách ghi chú học tập (từ LocalStorage ngay lập tức)
@@ -654,23 +694,31 @@ const STORAGE_KEY = 'toefl_study_notes_v1';
 export function getStoredNotes() {
   if (typeof window === 'undefined') return DEFAULT_STUDY_NOTES;
   try {
+    const deletedIds = getDeletedNoteIds();
     const raw = localStorage.getItem(STORAGE_KEY);
+    
     if (!raw) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_STUDY_NOTES));
-      return DEFAULT_STUDY_NOTES;
+      const initial = DEFAULT_STUDY_NOTES.filter(n => !deletedIds.includes(n.id));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
+      return initial;
     }
+    
     const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed) || parsed.length === 0) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_STUDY_NOTES));
-      return DEFAULT_STUDY_NOTES;
+    if (!Array.isArray(parsed)) {
+      const initial = DEFAULT_STUDY_NOTES.filter(n => !deletedIds.includes(n.id));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
+      return initial;
     }
 
-    // Đảm bảo mọi note trong DEFAULT_STUDY_NOTES luôn có mặt trong danh sách
-    let hasChanges = false;
-    const merged = [...parsed];
+    // 1. Luôn loại bỏ các note mà người dùng đã bấm xóa
+    const filteredParsed = parsed.filter(n => !deletedIds.includes(n.id));
+
+    // 2. Chỉ bổ sung note mặc định MỚI nếu người dùng chưa từng xóa nó
+    let hasChanges = filteredParsed.length !== parsed.length;
+    const merged = [...filteredParsed];
     for (const defNote of DEFAULT_STUDY_NOTES) {
-      if (!merged.some(n => n.id === defNote.id)) {
-        merged.unshift(defNote);
+      if (!deletedIds.includes(defNote.id) && !merged.some(n => n.id === defNote.id)) {
+        merged.push(defNote);
         hasChanges = true;
       }
     }
@@ -682,7 +730,8 @@ export function getStoredNotes() {
     return merged;
   } catch (err) {
     console.error('Lỗi khi đọc study notes từ localStorage:', err);
-    return DEFAULT_STUDY_NOTES;
+    const deletedIds = getDeletedNoteIds();
+    return DEFAULT_STUDY_NOTES.filter(n => !deletedIds.includes(n.id));
   }
 }
 
@@ -693,30 +742,28 @@ export async function syncNotesFromSupabase() {
   const client = getSupabaseClient();
   if (!isSupabaseConfigured() || !client) return getStoredNotes();
   try {
+    const deletedIds = getDeletedNoteIds();
     const { data, error } = await client
       .from('study_notes')
       .select('*')
       .order('created_at', { ascending: false });
 
     if (!error && Array.isArray(data)) {
-      // Giữ lại tất cả ghi chú từ Supabase VÀ đảm bảo các ghi chú mẫu mặc định luôn có mặt
-      const combined = [...data];
+      // 1. Nếu trên Supabase còn lưu note mà người dùng đã xóa ở local, xóa triệt để trên Supabase
+      for (const item of data) {
+        if (deletedIds.includes(item.id)) {
+          client.from('study_notes').delete().eq('id', item.id).then(() => {}).catch(() => {});
+        }
+      }
+
+      // 2. Chỉ giữ lại các note chưa bị người dùng xóa
+      const validFromSupabase = data.filter(n => !deletedIds.includes(n.id));
+      const combined = [...validFromSupabase];
+
+      // 3. Đảm bảo các note mẫu mặc định (chưa bị xóa) có mặt
       for (const defNote of DEFAULT_STUDY_NOTES) {
-        if (!combined.some(n => n.id === defNote.id)) {
-          combined.unshift(defNote);
-          // Tự động đẩy lên Supabase để lưu vĩnh viễn trên Cloud
-          try {
-            client.from('study_notes').upsert({
-              id: defNote.id,
-              title: defNote.title,
-              category: defNote.category,
-              summary: defNote.summary,
-              tags: defNote.tags || [],
-              items: defNote.items || [],
-              original_image_url: defNote.original_image_url || null,
-              created_at: defNote.created_at || new Date().toISOString()
-            }).then(() => {}).catch(() => {});
-          } catch (e) {}
+        if (!deletedIds.includes(defNote.id) && !combined.some(n => n.id === defNote.id)) {
+          combined.push(defNote);
         }
       }
       localStorage.setItem(STORAGE_KEY, JSON.stringify(combined));
@@ -733,6 +780,9 @@ export async function syncNotesFromSupabase() {
  */
 export function saveStudyNote(newNote) {
   if (typeof window === 'undefined') return;
+  // Bỏ đánh dấu xóa nếu lưu/tạo lại note này
+  unmarkNoteAsDeleted(newNote.id);
+
   const current = getStoredNotes();
   const index = current.findIndex(n => n.id === newNote.id);
   let updated;
@@ -774,11 +824,14 @@ export function saveStudyNote(newNote) {
  */
 export function deleteStudyNote(noteId) {
   if (typeof window === 'undefined') return;
+  // Đánh dấu ID này đã bị xóa để không bao giờ tự động load lại khi reload trang
+  markNoteAsDeleted(noteId);
+
   const current = getStoredNotes();
   const updated = current.filter(n => n.id !== noteId);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
 
-  // Xóa trên Supabase nếu có cấu hình
+  // Xóa vĩnh viễn trên Supabase nếu có cấu hình
   try {
     const client = getSupabaseClient();
     if (isSupabaseConfigured() && client) {
@@ -796,11 +849,14 @@ export function deleteStudyNote(noteId) {
 }
 
 /**
- * Reset về dữ liệu mẫu mặc định
+ * Reset về dữ liệu mẫu mặc định (Xóa sạch danh sách đánh dấu đã xóa)
  */
 export function resetStudyNotes() {
   if (typeof window === 'undefined') return DEFAULT_STUDY_NOTES;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_STUDY_NOTES));
+  try {
+    localStorage.removeItem(DELETED_KEY);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_STUDY_NOTES));
+  } catch (e) {}
   return DEFAULT_STUDY_NOTES;
 }
 
