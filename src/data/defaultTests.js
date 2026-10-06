@@ -31,6 +31,21 @@ import {
   writingPractice12,
   ALL_WRITING_PRACTICE_TESTS
 } from './writingPracticeTests.js';
+import {
+  speakingPractice01,
+  speakingPractice02,
+  speakingPractice03,
+  speakingPractice04,
+  speakingPractice05,
+  speakingPractice06,
+  speakingPractice07,
+  speakingPractice08,
+  speakingPractice09,
+  speakingPractice10,
+  speakingPractice11,
+  speakingPractice12,
+  ALL_SPEAKING_PRACTICE_TESTS
+} from './speakingPracticeTests.js';
 
 export {
   listeningPractice01,
@@ -59,7 +74,20 @@ export {
   writingPractice10,
   writingPractice11,
   writingPractice12,
-  ALL_WRITING_PRACTICE_TESTS
+  ALL_WRITING_PRACTICE_TESTS,
+  speakingPractice01,
+  speakingPractice02,
+  speakingPractice03,
+  speakingPractice04,
+  speakingPractice05,
+  speakingPractice06,
+  speakingPractice07,
+  speakingPractice08,
+  speakingPractice09,
+  speakingPractice10,
+  speakingPractice11,
+  speakingPractice12,
+  ALL_SPEAKING_PRACTICE_TESTS
 };
 
 // Dữ liệu bộ đề thi TOEFL 2026 chuẩn ETS:
@@ -7788,6 +7816,7 @@ export const DEFAULT_TESTS = [
   writingEmailTest01,
   writingDiscussionTest01,
   speakingTest01,
+  ...ALL_SPEAKING_PRACTICE_TESTS,
   ...GPT_COMPLETE_WORDS_TESTS
 ];
 
