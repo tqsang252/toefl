@@ -636,10 +636,12 @@ export const INITIAL_PREPOSITION_NOTE = {
 
 import { getSupabaseClient, isSupabaseConfigured } from './supabase.js';
 import { INITIAL_SYNONYMS_NOTE } from './synonymsNoteData.js';
+import { IELTS_101_UNITS_NOTE } from '../data/ielts101UnitsNoteData.js';
 
-export { INITIAL_SYNONYMS_NOTE };
+export { INITIAL_SYNONYMS_NOTE, IELTS_101_UNITS_NOTE };
 
 export const DEFAULT_STUDY_NOTES = [
+  IELTS_101_UNITS_NOTE,
   INITIAL_PREPOSITION_NOTE,
   INITIAL_SYNONYMS_NOTE
 ];
@@ -800,4 +802,55 @@ export function resetStudyNotes() {
   if (typeof window === 'undefined') return DEFAULT_STUDY_NOTES;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_STUDY_NOTES));
   return DEFAULT_STUDY_NOTES;
+}
+
+/**
+ * Đẩy toàn bộ danh sách ghi chú học tập lên Supabase
+ */
+export async function pushAllNotesToSupabase() {
+  const client = getSupabaseClient();
+  if (!isSupabaseConfigured() || !client) {
+    return { 
+      success: false, 
+      error: 'Chưa cấu hình kết nối Supabase (URL hoặc Anon Key). Vui lòng vào Cài đặt để điền thông tin hoặc dán file SQL Seed trực tiếp trên Supabase SQL Editor.' 
+    };
+  }
+
+  const allNotes = getStoredNotes();
+  const results = [];
+  let successCount = 0;
+  let totalItemsSynced = 0;
+
+  for (const note of allNotes) {
+    try {
+      const { error } = await client.from('study_notes').upsert({
+        id: note.id,
+        title: note.title,
+        category: note.category,
+        summary: note.summary,
+        tags: note.tags || [],
+        items: note.items || [],
+        original_image_url: note.original_image_url || null,
+        created_at: note.created_at || new Date().toISOString()
+      });
+
+      if (error) {
+        results.push({ id: note.id, title: note.title, success: false, error: error.message });
+      } else {
+        results.push({ id: note.id, title: note.title, success: true });
+        successCount++;
+        totalItemsSynced += (note.items?.length || 0);
+      }
+    } catch (err) {
+      results.push({ id: note.id, title: note.title, success: false, error: err.message });
+    }
+  }
+
+  return {
+    success: successCount > 0,
+    successCount,
+    totalNotes: allNotes.length,
+    totalItemsSynced,
+    results
+  };
 }

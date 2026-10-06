@@ -26,6 +26,34 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
   const items = Array.isArray(note?.items) ? note.items : [];
   const [activeTab, setActiveTab] = useState(initialTab || 'cheatsheet');
   const [searchFilter, setSearchFilter] = useState('');
+  const [selectedUnit, setSelectedUnit] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 50;
+
+  // Trích xuất danh sách chuyên đề / Unit nếu note có cấu trúc unit
+  const availableUnits = useMemo(() => {
+    const map = new Map();
+    for (const it of items) {
+      if (it.unit) {
+        if (!map.has(it.unit)) {
+          map.set(it.unit, {
+            unit: it.unit,
+            title: it.unit_title?.replace(/^Unit \d+:\s*/i, '') || `Unit ${it.unit}`,
+            titleVn: it.unit_title_vn || '',
+            count: 0
+          });
+        }
+        map.get(it.unit).count++;
+      }
+    }
+    return Array.from(map.values()).sort((a, b) => a.unit - b.unit);
+  }, [items]);
+
+  // Danh sách từ trong phạm vi Unit được chọn
+  const activeScopeItems = useMemo(() => {
+    if (selectedUnit === 'all') return items;
+    return items.filter(it => it.unit === Number(selectedUnit));
+  }, [items, selectedUnit]);
   
   // Flashcard state
   const [currentCardIdx, setCurrentCardIdx] = useState(0);
@@ -53,17 +81,23 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
   // Hook tra từ khi bôi đen văn bản trong Cheatsheet
   const { selectionData, handleTextMouseUp, clearSelection } = useTextSelectionLookup();
 
+  const resetStudyProgress = () => {
+    setCurrentCardIdx(0);
+    setIsFlipped(false);
+    setQuizIdx(0);
+    setQuizSelectedOption(null);
+    setQuizAnswered(false);
+    setQuizScore(0);
+    setQuizFinished(false);
+    setCurrentPage(1);
+  };
+
   useEffect(() => {
     if (note?.id) {
       setActiveTab(initialTab || 'cheatsheet');
-      setCurrentCardIdx(0);
-      setIsFlipped(false);
-      setQuizIdx(0);
-      setQuizSelectedOption(null);
-      setQuizAnswered(false);
-      setQuizScore(0);
-      setQuizFinished(false);
+      setSelectedUnit('all');
       setSearchFilter('');
+      resetStudyProgress();
     }
   }, [note?.id, isOpen]);
 
@@ -79,18 +113,18 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
         setIsFlipped((prev) => !prev);
       } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
         e.preventDefault();
-        setCurrentCardIdx((prev) => (prev + 1 < items.length ? prev + 1 : 0));
+        setCurrentCardIdx((prev) => (prev + 1 < activeScopeItems.length ? prev + 1 : 0));
         setIsFlipped(false);
       } else if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
         e.preventDefault();
-        setCurrentCardIdx((prev) => (prev > 0 ? prev - 1 : items.length - 1));
+        setCurrentCardIdx((prev) => (prev > 0 ? prev - 1 : activeScopeItems.length - 1));
         setIsFlipped(false);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, activeTab, items.length]);
+  }, [isOpen, activeTab, activeScopeItems.length]);
 
   // Lưu trạng thái thẻ đã thuộc vào localStorage
   const toggleMastered = (itemId) => {
@@ -114,21 +148,29 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
     }
   };
 
-
-
   // Lọc bảng cheatsheet
-  const filteredItems = items.filter((it) => {
-    if (!searchFilter.trim()) return true;
-    const q = searchFilter.toLowerCase();
-    return (
-      it.term?.toLowerCase().includes(q) ||
-      it.meaning?.toLowerCase().includes(q) ||
-      it.example?.toLowerCase().includes(q)
-    );
-  });
+  const filteredItems = useMemo(() => {
+    return activeScopeItems.filter((it) => {
+      if (!searchFilter.trim()) return true;
+      const q = searchFilter.toLowerCase();
+      return (
+        it.term?.toLowerCase().includes(q) ||
+        it.phonetic?.toLowerCase().includes(q) ||
+        it.meaning?.toLowerCase().includes(q) ||
+        it.example?.toLowerCase().includes(q)
+      );
+    });
+  }, [activeScopeItems, searchFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredItems.length / PAGE_SIZE));
+  const paginatedItems = useMemo(() => {
+    if (filteredItems.length <= PAGE_SIZE) return filteredItems;
+    const start = (currentPage - 1) * PAGE_SIZE;
+    return filteredItems.slice(start, start + PAGE_SIZE);
+  }, [filteredItems, currentPage]);
 
   // Xử lý Quiz
-  const currentQuizItem = items[quizIdx];
+  const currentQuizItem = activeScopeItems[quizIdx];
   const handleSelectQuizOption = (opt) => {
     if (quizAnswered) return;
     setQuizSelectedOption(opt);
@@ -141,7 +183,7 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
   };
 
   const handleNextQuiz = () => {
-    if (quizIdx + 1 < items.length) {
+    if (quizIdx + 1 < activeScopeItems.length) {
       setQuizIdx((prev) => prev + 1);
       setQuizSelectedOption(null);
       setQuizAnswered(false);
@@ -158,7 +200,7 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
     setQuizFinished(false);
   };
 
-  const currentFlashcard = items[currentCardIdx];
+  const currentFlashcard = activeScopeItems[currentCardIdx];
   const isCurrentMastered = masteredIds.includes(currentFlashcard?.id);
 
   const handleCopyMarkdown = () => {
@@ -194,7 +236,7 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
                 {note.category || 'Skill Note'}
               </span>
               <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
-                {items.length} mục kiến thức
+                {activeScopeItems.length} mục kiến thức {selectedUnit !== 'all' ? `(Unit ${selectedUnit})` : ''}
               </span>
               {masteredIds.length > 0 && (
                 <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 flex items-center gap-1">
@@ -237,56 +279,79 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
           </div>
         </div>
 
-        {/* 4 Chế độ học tập (Tabs) */}
-        <div className="flex items-center gap-1.5 px-4 sm:px-6 py-2.5 bg-slate-50 border-b border-slate-200 overflow-x-auto text-xs font-bold">
-          <button
-            onClick={() => setActiveTab('cheatsheet')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap ${
-              activeTab === 'cheatsheet'
-                ? 'bg-sky-600 text-white shadow-xs font-black'
-                : 'text-slate-600 hover:bg-slate-200/70'
-            }`}
-          >
-            <BookOpen className="w-4 h-4" />
-            <span>1. Bảng Tra Cứu (Cheatsheet)</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('flashcards')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap ${
-              activeTab === 'flashcards'
-                ? 'bg-sky-600 text-white shadow-xs font-black'
-                : 'text-slate-600 hover:bg-slate-200/70'
-            }`}
-          >
-            <Layers className="w-4 h-4" />
-            <span>2. Lật Thẻ Nhớ (Flashcards)</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('quiz')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap ${
-              activeTab === 'quiz'
-                ? 'bg-sky-600 text-white shadow-xs font-black'
-                : 'text-slate-600 hover:bg-slate-200/70'
-            }`}
-          >
-            <PenLine className="w-4 h-4" />
-            <span>3. Luyện Tập (Practice Quiz)</span>
-          </button>
-
-          {note.original_image_url && (
+        {/* 4 Chế độ học tập (Tabs) & Bộ lọc Chuyên đề */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-4 sm:px-6 py-2.5 bg-slate-50 border-b border-slate-200">
+          <div className="flex items-center gap-1.5 overflow-x-auto text-xs font-bold scrollbar-none">
             <button
-              onClick={() => setActiveTab('original')}
+              onClick={() => setActiveTab('cheatsheet')}
               className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap ${
-                activeTab === 'original'
+                activeTab === 'cheatsheet'
                   ? 'bg-sky-600 text-white shadow-xs font-black'
                   : 'text-slate-600 hover:bg-slate-200/70'
               }`}
             >
-              <ImageIcon className="w-4 h-4" />
-              <span>4. Ảnh Gốc / Tài Liệu</span>
+              <BookOpen className="w-4 h-4" />
+              <span>1. Bảng Tra Cứu (Cheatsheet)</span>
             </button>
+
+            <button
+              onClick={() => setActiveTab('flashcards')}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap ${
+                activeTab === 'flashcards'
+                  ? 'bg-sky-600 text-white shadow-xs font-black'
+                  : 'text-slate-600 hover:bg-slate-200/70'
+              }`}
+            >
+              <Layers className="w-4 h-4" />
+              <span>2. Lật Thẻ Nhớ (Flashcards)</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('quiz')}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap ${
+                activeTab === 'quiz'
+                  ? 'bg-sky-600 text-white shadow-xs font-black'
+                  : 'text-slate-600 hover:bg-slate-200/70'
+              }`}
+            >
+              <PenLine className="w-4 h-4" />
+              <span>3. Luyện Tập (Practice Quiz)</span>
+            </button>
+
+            {note.original_image_url && (
+              <button
+                onClick={() => setActiveTab('original')}
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap ${
+                  activeTab === 'original'
+                    ? 'bg-sky-600 text-white shadow-xs font-black'
+                    : 'text-slate-600 hover:bg-slate-200/70'
+                }`}
+              >
+                <ImageIcon className="w-4 h-4" />
+                <span>4. Ảnh Gốc / Tài Liệu</span>
+              </button>
+            )}
+          </div>
+
+          {availableUnits.length > 0 && (
+            <div className="flex items-center gap-1.5 shrink-0 self-end sm:self-center">
+              <span className="text-[11px] font-bold text-slate-500 whitespace-nowrap">Chuyên đề:</span>
+              <select
+                value={selectedUnit}
+                onChange={(e) => {
+                  setSelectedUnit(e.target.value);
+                  resetStudyProgress();
+                }}
+                className="text-xs font-semibold py-1.5 px-3 rounded-xl border border-slate-300 bg-white text-slate-800 shadow-2xs focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer max-w-[240px] truncate"
+              >
+                <option value="all">Tất cả {availableUnits.length} Chuyên đề ({items.length} từ)</option>
+                {availableUnits.map((u) => (
+                  <option key={u.unit} value={u.unit}>
+                    Unit {u.unit}: {u.title} ({u.count} từ)
+                  </option>
+                ))}
+              </select>
+            </div>
           )}
         </div>
 
@@ -340,8 +405,9 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
-                      {filteredItems.map((item, idx) => {
+                      {paginatedItems.map((item, idx) => {
                         const isMastered = masteredIds.includes(item.id);
+                        const continuousIdx = (currentPage - 1) * PAGE_SIZE + idx + 1;
                         return (
                           <tr 
                             key={item.id || idx}
@@ -350,11 +416,16 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
                             }`}
                           >
                             <td className="py-3 px-3.5 text-center font-bold text-slate-400">
-                              {idx + 1}
+                              {continuousIdx}
                             </td>
 
                             <td className="py-3 px-4 font-black text-slate-900 text-sm">
                               <span className="text-sky-900">{item.term}</span>
+                              {item.phonetic && (
+                                <div className="text-[11px] font-mono font-medium text-slate-400 mt-0.5">
+                                  {item.phonetic}
+                                </div>
+                              )}
                             </td>
 
                             <td className="py-3 px-3.5">
@@ -392,6 +463,31 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
                     Không tìm thấy mục nào khớp với từ khóa "{searchFilter}".
                   </div>
                 )}
+
+                {/* Phân trang khi danh sách lớn */}
+                {totalPages > 1 && (
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-2 px-4 py-3 bg-slate-50 border-t border-slate-200 text-xs text-slate-600">
+                    <div>
+                      Trang <b>{currentPage}</b> / <b>{totalPages}</b> (Hiển thị {paginatedItems.length} trong tổng số {filteredItems.length} từ)
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                        disabled={currentPage === 1}
+                        className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white font-bold text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 cursor-pointer shadow-2xs"
+                      >
+                        ← Trang trước
+                      </button>
+                      <button
+                        onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                        disabled={currentPage === totalPages}
+                        className="px-3 py-1.5 rounded-lg border border-slate-200 bg-white font-bold text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 cursor-pointer shadow-2xs"
+                      >
+                        Trang sau →
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -404,14 +500,14 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
               
               {/* Thanh tiến trình Flashcard */}
               <div className="flex items-center justify-between text-xs font-bold text-slate-500">
-                <span>Thẻ {currentCardIdx + 1} / {items.length}</span>
+                <span>Thẻ {currentCardIdx + 1} / {activeScopeItems.length}</span>
                 <div className="flex items-center gap-2">
                   <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                     Đã thuộc: {masteredIds.length}
                   </span>
                   <button
                     onClick={() => {
-                      const randIdx = Math.floor(Math.random() * items.length);
+                      const randIdx = Math.floor(Math.random() * activeScopeItems.length);
                       setCurrentCardIdx(randIdx);
                       setIsFlipped(false);
                     }}
@@ -465,6 +561,11 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
                       <h3 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
                         {currentFlashcard?.term}
                       </h3>
+                      {currentFlashcard?.phonetic && (
+                        <p className="text-sm font-mono font-bold text-sky-600 tracking-wide">
+                          {currentFlashcard.phonetic}
+                        </p>
+                      )}
                       <p className="text-[11px] text-slate-400 font-medium">
                         (Bấm vào thẻ hoặc nhấn phím Space để xem nghĩa)
                       </p>
@@ -537,7 +638,7 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
               <div className="flex items-center justify-between gap-3">
                 <button
                   onClick={() => {
-                    setCurrentCardIdx((prev) => (prev > 0 ? prev - 1 : items.length - 1));
+                    setCurrentCardIdx((prev) => (prev > 0 ? prev - 1 : activeScopeItems.length - 1));
                     setIsFlipped(false);
                   }}
                   className="flex items-center gap-1 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-xs font-bold text-slate-700 cursor-pointer shadow-xs active:scale-95"
@@ -560,7 +661,7 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
 
                 <button
                   onClick={() => {
-                    setCurrentCardIdx((prev) => (prev + 1 < items.length ? prev + 1 : 0));
+                    setCurrentCardIdx((prev) => (prev + 1 < activeScopeItems.length ? prev + 1 : 0));
                     setIsFlipped(false);
                   }}
                   className="flex items-center gap-1 px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-xs font-bold text-slate-700 cursor-pointer shadow-xs active:scale-95"
@@ -583,7 +684,7 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
                 <>
                   {/* Thanh tiến độ câu hỏi */}
                   <div className="flex items-center justify-between text-xs font-bold text-slate-500">
-                    <span>Câu hỏi {quizIdx + 1} / {items.length}</span>
+                    <span>Câu hỏi {quizIdx + 1} / {activeScopeItems.length}</span>
                     <span className="text-sky-700 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-200">
                       Điểm: {quizScore} / {quizIdx + (quizAnswered ? 1 : 0)}
                     </span>
@@ -655,7 +756,7 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
                         onClick={handleNextQuiz}
                         className="w-full py-3 bg-sky-600 hover:bg-sky-700 text-white font-black text-xs rounded-xl shadow-md transition-all cursor-pointer active:scale-98"
                       >
-                        {quizIdx + 1 < items.length ? 'Câu Tiếp Theo →' : 'Xem Kết Quả Tổng Kết 🏆'}
+                        {quizIdx + 1 < activeScopeItems.length ? 'Câu Tiếp Theo →' : 'Xem Kết Quả Tổng Kết 🏆'}
                       </button>
                     )}
                   </div>
@@ -670,7 +771,7 @@ export default function NoteStudyModal({ note, isOpen, onClose, onUpdateNote, in
                     Hoàn Thành Bài Luyện Tập!
                   </h3>
                   <p className="text-sm text-slate-600">
-                    Bạn đã trả lời đúng <b className="text-sky-700 text-base">{quizScore}</b> / {items.length} câu hỏi ({Math.round((quizScore / items.length) * 100)}%).
+                    Bạn đã trả lời đúng <b className="text-sky-700 text-base">{quizScore}</b> / {activeScopeItems.length} câu hỏi ({Math.round((quizScore / activeScopeItems.length) * 100)}%).
                   </p>
                   <button
                     onClick={handleRestartQuiz}

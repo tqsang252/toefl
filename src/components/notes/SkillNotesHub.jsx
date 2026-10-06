@@ -14,14 +14,20 @@ import {
   FileText, 
   Image as ImageIcon,
   RotateCcw,
-  Volume2
+  Volume2,
+  CloudUpload,
+  Loader2,
+  Check,
+  AlertCircle,
+  Copy
 } from 'lucide-react';
 import { 
   getStoredNotes, 
   saveStudyNote, 
   deleteStudyNote, 
   resetStudyNotes,
-  syncNotesFromSupabase
+  syncNotesFromSupabase,
+  pushAllNotesToSupabase
 } from '../../lib/notesStorage';
 import AddNoteModal from './AddNoteModal';
 import NoteStudyModal from './NoteStudyModal';
@@ -42,6 +48,8 @@ export default function SkillNotesHub() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [studyingNote, setStudyingNote] = useState(null);
   const [activeStudyTab, setActiveStudyTab] = useState('cheatsheet');
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncFeedback, setSyncFeedback] = useState(null);
 
   const handleOpenStudy = (note, tab = 'cheatsheet') => {
     setActiveStudyTab(tab);
@@ -74,8 +82,35 @@ export default function SkillNotesHub() {
     }
   };
 
+  const handlePushToSupabase = async () => {
+    setIsSyncing(true);
+    setSyncFeedback(null);
+    try {
+      const res = await pushAllNotesToSupabase();
+      if (res.success) {
+        setSyncFeedback({
+          type: 'success',
+          message: `Đã đồng bộ thành công ${res.successCount} bộ sổ tay (${res.totalItemsSynced.toLocaleString()} mục từ vựng) lên bảng 'study_notes' trên Supabase Cloud!`
+        });
+      } else {
+        setSyncFeedback({
+          type: 'error',
+          message: res.error || 'Chưa thể đồng bộ lên Supabase.',
+          needConfig: res.error?.includes('Chưa cấu hình')
+        });
+      }
+    } catch (err) {
+      setSyncFeedback({
+        type: 'error',
+        message: err.message || 'Lỗi kết nối tới Supabase.'
+      });
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
   const handleReset = () => {
-    if (confirm('Khôi phục lại các sổ tay mẫu mặc định (62 Cụm giới từ & 50 Nhóm từ đồng nghĩa)?')) {
+    if (confirm('Khôi phục lại các sổ tay mẫu mặc định (101 Chuyên đề IELTS, 62 Cụm giới từ & 50 Nhóm từ đồng nghĩa)?')) {
       const updated = resetStudyNotes();
       setNotes(updated);
     }
@@ -115,38 +150,80 @@ export default function SkillNotesHub() {
                 Knowledge & Cheat Sheets Hub
               </span>
               <span className="text-[10px] font-bold text-sky-300">
-                Số hóa tài liệu AI Vision
+                101 Chuyên Đề & Số Hóa AI
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-serif">
               SKILL NOTES & CHEAT SHEETS
             </h1>
             <p className="text-xs sm:text-sm text-sky-100/90 leading-relaxed font-normal">
-              Lưu trữ mọi bí kíp học tập, mẹo thi TOEFL và tài liệu ảnh/PDF sưu tầm trên mạng. Hệ thống AI Vision tự động nhận diện chữ, tạo bảng tra cứu, bộ flashcards và câu hỏi thực hành tương tác.
+              Lưu trữ mọi bí kíp học tập, mẹo thi TOEFL/IELTS và tài liệu ảnh/PDF sưu tầm. Hệ thống tích hợp 101 chuyên đề từ vựng The Real IELTS với hơn 3,200 từ vựng tra cứu, Flashcard 3D và Quiz tương tác.
             </p>
 
             <div className="flex items-center gap-4 pt-1 text-xs text-sky-200/80 font-medium">
               <div>📚 <b>{notes.length}</b> bộ sổ tay</div>
               <div>•</div>
-              <div>✨ <b>{totalItemsCount}</b> mục kiến thức đã số hóa</div>
+              <div>✨ <b>{totalItemsCount.toLocaleString()}</b> mục kiến thức đã số hóa</div>
             </div>
           </div>
 
           {/* Action buttons */}
-          <div className="flex flex-col items-center sm:items-end gap-1.5 shrink-0">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0">
+            <button
+              onClick={handlePushToSupabase}
+              disabled={isSyncing}
+              className="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-sky-500/30 hover:bg-sky-500/40 border border-sky-400/40 text-white active:scale-95 text-xs font-black shadow-lg transition-all cursor-pointer backdrop-blur-xs disabled:opacity-50"
+              title="Đồng bộ toàn bộ sổ tay kiến thức lên bảng study_notes trên Supabase Cloud"
+            >
+              {isSyncing ? (
+                <Loader2 className="w-4 h-4 animate-spin text-sky-200" />
+              ) : (
+                <CloudUpload className="w-4 h-4 text-sky-300" />
+              )}
+              <span>{isSyncing ? 'Đang Đẩy Lên...' : 'Đẩy Lên Supabase'}</span>
+            </button>
+
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-white text-sky-900 hover:bg-sky-50 active:scale-95 text-xs font-black shadow-lg transition-all cursor-pointer w-full sm:w-auto"
+              className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-white text-sky-900 hover:bg-sky-50 active:scale-95 text-xs font-black shadow-lg transition-all cursor-pointer"
             >
               <Sparkles className="w-4 h-4 text-sky-600 animate-pulse" />
-              <span>+ Số Hóa Tài Liệu (Ảnh / PDF / Ctrl+V)</span>
+              <span>+ Số Hóa Tài Liệu (AI)</span>
             </button>
-            <p className="text-[11px] text-sky-100/90 font-medium text-center sm:text-right">
-              Hỗ trợ: <span className="font-bold text-white">Ảnh &lt; 10MB</span> • <span className="font-bold text-white">PDF &lt; 4MB</span>
-            </p>
           </div>
         </div>
       </div>
+
+      {/* Thông báo kết quả đồng bộ Supabase */}
+      {syncFeedback && (
+        <div className={`p-4 rounded-2xl border text-xs flex items-start justify-between gap-3 animate-in fade-in ${
+          syncFeedback.type === 'success' 
+            ? 'bg-emerald-50 border-emerald-200 text-emerald-900' 
+            : 'bg-amber-50 border-amber-200 text-amber-900'
+        }`}>
+          <div className="flex items-start gap-2.5">
+            {syncFeedback.type === 'success' ? (
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+            ) : (
+              <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+            )}
+            <div className="space-y-1">
+              <p className="font-bold">{syncFeedback.message}</p>
+              {syncFeedback.type === 'error' && (
+                <p className="text-[11px] text-amber-700">
+                  Gợi ý: Bạn có thể cấu hình Supabase URL & Key trong mục Cài đặt (Settings), hoặc sao chép file <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">supabase_seed_skill_notes.sql</code> và dán trực tiếp vào Supabase SQL Editor.
+                </p>
+              )}
+            </div>
+          </div>
+          <button 
+            onClick={() => setSyncFeedback(null)}
+            className="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* 2. Thanh lọc chuyên mục & Tìm kiếm */}
       <div className="bg-white rounded-2xl p-4 border border-[#e2ddd3] shadow-xs space-y-3">
@@ -290,7 +367,7 @@ export default function SkillNotesHub() {
           className="text-xs text-slate-400 hover:text-slate-600 underline cursor-pointer flex items-center justify-center gap-1 mx-auto"
         >
           <RotateCcw className="w-3 h-3" />
-          <span>Khôi phục các sổ tay mẫu mặc định (Giới từ & 50 Nhóm từ đồng nghĩa)</span>
+          <span>Khôi phục các sổ tay mẫu mặc định (101 Chuyên đề IELTS, 62 Cụm giới từ & 50 Nhóm từ đồng nghĩa)</span>
         </button>
       </div>
 
