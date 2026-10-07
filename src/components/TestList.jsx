@@ -72,6 +72,36 @@ const getTestTimestamp = (t) => {
   return 0;
 };
 
+const getSortRank = (t) => {
+  if (!t) return { group: 99, num: 999 };
+  const id = String(t.id || '').toLowerCase();
+  const title = String(t.title || '').toLowerCase();
+  
+  // 1. Bài thi do người dùng tự tạo hoặc AI sinh ra (ưu tiên hiển thị theo thời gian mới nhất)
+  const isCustom = !t.is_default && (t.created_at_ms || t.content?.created_at_ms || id.includes('test_ai_') || id.includes('test_custom_'));
+  if (isCustom) {
+    const ms = t.created_at_ms || t.content?.created_at_ms || (t.created_at ? new Date(t.created_at).getTime() : 0);
+    return { group: 1, num: -ms };
+  }
+  
+  // 2. Bộ đề Practice trích xuất từ YouTube chuẩn (ưu tiên hiển thị trên trang đầu, xếp theo số thứ tự Practice 01 -> Practice 30)
+  const directPracticeMatch = id.match(/^(sentence|listening|writing|speaking)-practice-(\d+)$/i);
+  if (directPracticeMatch) {
+    return { group: 2, num: parseInt(directPracticeMatch[2], 10) };
+  }
+  
+  // 3. Các đề Practice chung khác (Practice 01, Practice 02,...)
+  const generalPracticeMatch = id.match(/practice-(\d+)/i) || title.match(/practice\s*(\d+)/i);
+  if (generalPracticeMatch) {
+    return { group: 3, num: parseInt(generalPracticeMatch[1], 10) };
+  }
+  
+  // 4. Các đề mặc định hệ thống khác (xếp theo số thứ tự)
+  const numMatch = id.match(/(\d+)/);
+  const num = numMatch ? parseInt(numMatch[1], 10) : 999;
+  return { group: 4, num };
+};
+
 const getTestCreatedAt = (t) => {
   if (!t) return null;
   const ts = getTestTimestamp(t);
@@ -157,15 +187,19 @@ export default function TestList({
   const [currentPage, setCurrentPage] = useState(1);
   const PAGE_SIZE = 8;
 
-  // Sắp xếp bài thi theo thời gian tạo gần nhất (Newest first)
+  // Sắp xếp bài thi: Ưu tiên bộ đề Practice trích xuất YouTube ở các trang đầu theo thứ tự Practice 01 -> 30,
+  // và các đề AI mới tạo gần nhất lên đầu
   const sortedTests = useMemo(() => {
     return [...(tests || [])].sort((a, b) => {
-      const timeA = getTestTimestamp(a);
-      const timeB = getTestTimestamp(b);
-      if (timeB !== timeA) {
-        return timeB - timeA;
+      const rankA = getSortRank(a);
+      const rankB = getSortRank(b);
+      if (rankA.group !== rankB.group) {
+        return rankA.group - rankB.group;
       }
-      return String(b.id || '').localeCompare(String(a.id || ''));
+      if (rankA.num !== rankB.num) {
+        return rankA.num - rankB.num;
+      }
+      return String(a.id || '').localeCompare(String(b.id || ''));
     });
   }, [tests]);
 

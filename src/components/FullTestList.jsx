@@ -50,6 +50,30 @@ const getTestTimestamp = (t) => {
   return 0;
 };
 
+const getSortRank = (t) => {
+  if (!t) return { group: 99, num: 999 };
+  const id = String(t.id || '').toLowerCase();
+  const title = String(t.title || '').toLowerCase();
+
+  // 1. Bài thi do người dùng tự tạo hoặc AI sinh ra (mới nhất lên đầu)
+  const isCustom = !t.is_default && (t.created_at_ms || t.content?.created_at_ms || id.includes('test_ai_') || id.includes('test_custom_'));
+  if (isCustom) {
+    const ms = t.created_at_ms || t.content?.created_at_ms || (t.created_at ? new Date(t.created_at).getTime() : 0);
+    return { group: 1, num: -ms };
+  }
+
+  // 2. Bộ đề Practice trích xuất chuẩn (Practice 01 -> Practice 30)
+  const practiceMatch = id.match(/practice-(\d+)/i) || title.match(/practice\s*(\d+)/i);
+  if (practiceMatch) {
+    return { group: 2, num: parseInt(practiceMatch[1], 10) };
+  }
+
+  // 3. Các đề Full Mock chuẩn hệ thống (Mock 01, Mock 02,...)
+  const numMatch = id.match(/(\d+)/);
+  const num = numMatch ? parseInt(numMatch[1], 10) : 999;
+  return { group: 3, num };
+};
+
 export default function FullTestList({ 
   tests = [], 
   onStartTest, 
@@ -62,15 +86,19 @@ export default function FullTestList({
   const [currentPage, setCurrentPage] = useState(1);
   const PAGE_SIZE = 8;
 
-  // Sắp xếp bài thi theo thời gian tạo gần nhất (Newest first)
+  // Sắp xếp bài thi: Ưu tiên bộ đề Practice ở các trang đầu theo thứ tự Practice 01 -> 30,
+  // và các đề AI mới tạo gần nhất lên đầu
   const sortedTests = useMemo(() => {
     return [...(tests || [])].sort((a, b) => {
-      const timeA = getTestTimestamp(a);
-      const timeB = getTestTimestamp(b);
-      if (timeB !== timeA) {
-        return timeB - timeA;
+      const rankA = getSortRank(a);
+      const rankB = getSortRank(b);
+      if (rankA.group !== rankB.group) {
+        return rankA.group - rankB.group;
       }
-      return String(b.id || '').localeCompare(String(a.id || ''));
+      if (rankA.num !== rankB.num) {
+        return rankA.num - rankB.num;
+      }
+      return String(a.id || '').localeCompare(String(b.id || ''));
     });
   }, [tests]);
 
