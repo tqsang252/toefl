@@ -11,7 +11,8 @@ import {
   Headphones, 
   PenTool, 
   Mic,
-  ChevronRight
+  ChevronRight,
+  Trash2
 } from 'lucide-react';
 
 export default function ExamHistoryModal({ 
@@ -19,7 +20,8 @@ export default function ExamHistoryModal({
   onClose, 
   test, 
   histories = [], 
-  onViewResultDetail 
+  onViewResultDetail,
+  onDeleteHistoryAttempt
 }) {
   if (!isOpen || !test) return null;
 
@@ -170,6 +172,22 @@ export default function ExamHistoryModal({
                         <Eye className="w-3.5 h-3.5" />
                         <span>Xem lại bài làm</span>
                       </button>
+
+                      {/* Nút Xóa Lần Thi Này */}
+                      {onDeleteHistoryAttempt && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (confirm(`Bạn có chắc muốn xóa kết quả lần thi thứ ${attemptNum} này khỏi lịch sử?`)) {
+                              onDeleteHistoryAttempt(hist.id, test.id);
+                            }
+                          }}
+                          className="p-2 rounded-xl bg-slate-50 hover:bg-rose-50 text-slate-400 hover:text-rose-600 border border-slate-200 hover:border-rose-200 transition-all cursor-pointer shadow-2xs active:scale-95"
+                          title="Xóa lần thi này khỏi lịch sử"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      )}
                     </div>
 
                   </div>

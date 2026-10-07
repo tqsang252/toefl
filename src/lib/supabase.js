@@ -554,11 +554,12 @@ export async function getTestsBySkill(skill) {
 
   // 2.1. Tự động phục hồi đề thi từ bài làm thực tế (nếu học viên đã từng làm và lưu kết quả)
   try {
+    const deletedTestsSet = new Set(JSON.parse(localStorage.getItem('toefl_deleted_tests') || '[]'));
     const examResults = JSON.parse(localStorage.getItem('toefl_exam_results') || '[]');
     let hasRecovered = false;
     examResults.forEach((res) => {
       const testId = res.test_id;
-      if (!testId || testsMap.has(testId)) return;
+      if (!testId || testsMap.has(testId) || deletedTestsSet.has(testId)) return;
 
       const isSamplePractice = testId.startsWith('practice_from_sample_') || testId.startsWith('test_sample_');
       if (isSamplePractice) {
@@ -982,6 +983,8 @@ export async function deleteTest(testId) {
   if (isSupabaseConfigured()) {
     try {
       await supabaseInstance.from('tests').delete().eq('id', testId);
+      // Xóa đồng thời các bản ghi kết quả của đề thi này trên Supabase
+      await supabaseInstance.from('test_results').delete().eq('test_id', testId);
     } catch (e) {
       console.error('Lỗi khi xóa đề trên Supabase:', e);
     }
@@ -991,12 +994,58 @@ export async function deleteTest(testId) {
   const updated = local.filter((t) => t.id !== testId);
   localStorage.setItem('toefl_local_tests', JSON.stringify(updated));
 
-  // Ghi nhận ID đã xóa để không bị bộ đề mặc định nạp lại
+  // Ghi nhận ID đã xóa để không bị bộ đề mặc định hay cơ chế auto-recovery nạp lại
   const deleted = JSON.parse(localStorage.getItem('toefl_deleted_tests') || '[]');
   if (!deleted.includes(testId)) {
     deleted.push(testId);
     localStorage.setItem('toefl_deleted_tests', JSON.stringify(deleted));
   }
+
+  // Xóa kết quả làm bài của đề đã xóa khỏi LocalStorage để tránh phục hồi tự động khi tải lại trang
+  try {
+    const examResults = JSON.parse(localStorage.getItem('toefl_exam_results') || '[]');
+    const filteredResults = examResults.filter((r) => r.test_id !== testId);
+    localStorage.setItem('toefl_exam_results', JSON.stringify(filteredResults));
+  } catch (e) {
+    // ignore
+  }
+
+  return true;
+}
+
+// Xóa 1 lần làm bài cụ thể trong lịch sử (từ cả LocalStorage và Supabase Cloud)
+export async function deleteExamResult(resultId, testId) {
+  if (!resultId) return false;
+
+  // 1. Xóa trong LocalStorage
+  try {
+    const results = JSON.parse(localStorage.getItem('toefl_exam_results') || '[]');
+    const updated = results.filter((r) => r.id !== resultId);
+    localStorage.setItem('toefl_exam_results', JSON.stringify(updated));
+  } catch (e) {
+    console.error('Lỗi khi xóa kết quả thi trong LocalStorage:', e);
+  }
+
+  // 2. Xóa trong Dedicated AI Cache
+  try {
+    const cache = JSON.parse(localStorage.getItem('toefl_ai_eval_cache') || '{}');
+    if (cache[resultId]) {
+      delete cache[resultId];
+      localStorage.setItem('toefl_ai_eval_cache', JSON.stringify(cache));
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  // 3. Xóa trên Cloud Supabase
+  if (isSupabaseConfigured()) {
+    try {
+      await supabaseInstance.from('test_results').delete().eq('id', resultId);
+    } catch (e) {
+      console.warn('Lỗi khi xóa kết quả trên Supabase:', e);
+    }
+  }
+
   return true;
 }
 
@@ -1033,20 +1082,116 @@ export function storeAIEvaluation(testId, resultId, completedAt, evaluations) {
   }
 }
 
-// 4. Lưu kết quả thi (Tự động lưu song song lên Cloud Database, LocalStorage và AI Cache)
+// Hàm nhận diện 2 bản ghi kết quả có thuộc về CÙNG 1 LẦN THI (khử trùng lặp thông minh)
+export function isSameExamAttempt(a, b) {
+  if (!a || !b) return false;
+  // 1. Cùng id chính xác
+  if (a.id && b.id && a.id === b.id) return true;
+
+  // Nếu khác test_id thì chắc chắn là 2 bài khác nhau
+  if (a.test_id && b.test_id && a.test_id !== b.test_id) return false;
+
+  const timeA = new Date(a.completed_at || 0).getTime();
+  const timeB = new Date(b.completed_at || 0).getTime();
+
+  // 2. Cùng test_id và thời gian nộp bài cách nhau <= 90 giây -> Chắc chắn cùng 1 lần thi (do AI sync hoặc double-save)
+  if (!isNaN(timeA) && !isNaN(timeB) && timeA > 0 && timeB > 0) {
+    if (Math.abs(timeA - timeB) <= 90000) {
+      return true;
+    }
+
+    // 3. Nếu trong vòng 5 phút (300 giây) mà cùng số điểm raw, cùng tổng số câu và thời gian làm bài xấp xỉ nhau
+    if (Math.abs(timeA - timeB) <= 300000) {
+      const sameRaw = a.score_raw !== undefined && b.score_raw !== undefined && a.score_raw === b.score_raw;
+      const sameTotal = a.total_questions !== undefined && b.total_questions !== undefined && a.total_questions === b.total_questions;
+      const sameTimeSpent = a.time_spent_seconds && b.time_spent_seconds && Math.abs(a.time_spent_seconds - b.time_spent_seconds) <= 10;
+      if (sameRaw && sameTotal && (sameTimeSpent || a.score_band === b.score_band)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+// Hợp nhất 2 bản ghi kết quả của cùng 1 lần thi, bảo toàn toàn bộ kết quả AI và điểm số chi tiết nhất
+export function mergeAttemptRecords(primary, incoming) {
+  if (!primary) return incoming;
+  if (!incoming) return primary;
+
+  const aiWriting = incoming.ai_writing_result || incoming.skill_scores?.ai_writing_result || primary.ai_writing_result || primary.skill_scores?.ai_writing_result || null;
+  const aiSpeaking = incoming.ai_speaking_result || incoming.skill_scores?.ai_speaking_result || primary.ai_speaking_result || primary.skill_scores?.ai_speaking_result || null;
+  const aiObjective = incoming.ai_objective_result || incoming.skill_scores?.ai_objective_result || primary.ai_objective_result || primary.skill_scores?.ai_objective_result || null;
+  const aiFull = incoming.ai_full_result || incoming.skill_scores?.ai_full_result || primary.ai_full_result || primary.skill_scores?.ai_full_result || null;
+
+  const speakingSubmissions = incoming.speaking_submissions || incoming.skill_scores?.speaking_submissions || primary.speaking_submissions || primary.skill_scores?.speaking_submissions || null;
+  const writingSubmissions = incoming.writing_submissions || incoming.skill_scores?.writing_submissions || primary.writing_submissions || primary.skill_scores?.writing_submissions || null;
+
+  const scoreBand = incoming.score_band ?? primary.score_band;
+  const scoreRaw = incoming.score_raw ?? primary.score_raw;
+  const totalQuestions = incoming.total_questions || primary.total_questions;
+  const timeSpent = incoming.time_spent_seconds || primary.time_spent_seconds;
+
+  // Giữ lại id ưu tiên (nếu có id của Supabase hoặc id đã lưu)
+  const chosenId = primary.id || incoming.id;
+
+  // Chọn mốc thời gian hoàn thành sớm hơn (thời điểm nộp bài ban đầu)
+  const timeA = new Date(primary.completed_at || 0).getTime();
+  const timeB = new Date(incoming.completed_at || 0).getTime();
+  const chosenCompletedAt = (timeA > 0 && timeB > 0)
+    ? (timeA <= timeB ? primary.completed_at : incoming.completed_at)
+    : (primary.completed_at || incoming.completed_at);
+
+  return {
+    ...primary,
+    ...incoming,
+    id: chosenId,
+    test_id: primary.test_id || incoming.test_id,
+    completed_at: chosenCompletedAt,
+    score_band: scoreBand,
+    score_raw: scoreRaw,
+    total_questions: totalQuestions,
+    time_spent_seconds: timeSpent,
+    ai_writing_result: aiWriting,
+    ai_speaking_result: aiSpeaking,
+    ai_objective_result: aiObjective,
+    ai_full_result: aiFull,
+    speaking_submissions: speakingSubmissions,
+    writing_submissions: writingSubmissions,
+    skill_scores: {
+      ...(primary.skill_scores || {}),
+      ...(incoming.skill_scores || {}),
+      ai_writing_result: aiWriting,
+      ai_speaking_result: aiSpeaking,
+      ai_objective_result: aiObjective,
+      ai_full_result: aiFull,
+      speaking_submissions: speakingSubmissions,
+      writing_submissions: writingSubmissions
+    }
+  };
+}
+
+// 4. Lưu kết quả thi (Tự động hợp nhất tránh trùng lặp, lưu song song Cloud Database, LocalStorage và AI Cache)
 export async function saveExamResult(resultPayload) {
-  const resultRecord = {
+  const nowIso = new Date().toISOString();
+  let resultRecord = {
     ...resultPayload,
     id: resultPayload.id || `res_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-    completed_at: resultPayload.completed_at || new Date().toISOString()
+    completed_at: resultPayload.completed_at || nowIso
   };
 
-  // 1. Luôn lưu vào LocalStorage để đảm bảo kết quả không bao giờ bị mất (kể cả khi mất mạng)
+  // 1. Luôn lưu vào LocalStorage - Kiểm tra & Cập nhật in-place nếu đã có bản ghi thuộc cùng lần thi
   try {
     const results = JSON.parse(localStorage.getItem('toefl_exam_results') || '[]');
-    const filtered = results.filter((r) => r.id !== resultRecord.id);
-    filtered.unshift(resultRecord);
-    localStorage.setItem('toefl_exam_results', JSON.stringify(filtered));
+    const existingIndex = results.findIndex((r) => isSameExamAttempt(r, resultRecord));
+
+    if (existingIndex >= 0) {
+      resultRecord = mergeAttemptRecords(results[existingIndex], resultRecord);
+      results[existingIndex] = resultRecord;
+    } else {
+      results.unshift(resultRecord);
+    }
+    localStorage.setItem('toefl_exam_results', JSON.stringify(results));
   } catch (e) {
     console.error('Lỗi khi lưu kết quả vào LocalStorage:', e);
   }
@@ -1116,7 +1261,7 @@ export async function saveExamResult(resultPayload) {
   return resultRecord;
 }
 
-// 5. Lấy lịch sử làm bài của 1 đề thi (Hợp nhất thông minh Supabase + LocalStorage + AI Cache)
+// 5. Lấy lịch sử làm bài của 1 đề thi (Hợp nhất khử trùng lặp thông minh Supabase + LocalStorage + AI Cache)
 export async function getExamHistory(testId) {
   let supabaseRecords = [];
 
@@ -1139,52 +1284,52 @@ export async function getExamHistory(testId) {
   const localResults = JSON.parse(localStorage.getItem('toefl_exam_results') || '[]');
   const localRecords = localResults.filter((r) => r.test_id === testId);
 
-  // Hợp nhất thông minh theo Map ID
-  const recordMap = new Map();
+  // Hợp nhất và khử trùng lặp (Deduplicate) tất cả bản ghi từ Supabase và LocalStorage
+  const deduplicatedList = [];
+  const allCandidates = [...supabaseRecords, ...localRecords];
 
-  // 1. Nạp từ Supabase
-  supabaseRecords.forEach((r) => {
-    const aiCached = getStoredAIEvaluation(testId, r.id, r.completed_at);
-    recordMap.set(r.id, {
-      ...r,
-      ai_writing_result: r.ai_writing_result || r.skill_scores?.ai_writing_result || aiCached?.ai_writing_result || null,
-      ai_speaking_result: r.ai_speaking_result || r.skill_scores?.ai_speaking_result || aiCached?.ai_speaking_result || null,
-      ai_objective_result: r.ai_objective_result || r.skill_scores?.ai_objective_result || aiCached?.ai_objective_result || null,
-      ai_full_result: r.ai_full_result || r.skill_scores?.ai_full_result || aiCached?.ai_full_result || null,
-      speaking_submissions: r.speaking_submissions || r.skill_scores?.speaking_submissions || null,
-      writing_submissions: r.writing_submissions || r.skill_scores?.writing_submissions || null
-    });
-  });
-
-  // 2. Gộp từ LocalStorage (bổ sung hoặc cập nhật trường AI nếu LocalStorage có dữ liệu mới hơn)
-  localRecords.forEach((lr) => {
-    const existing = recordMap.get(lr.id);
-    const aiCached = getStoredAIEvaluation(testId, lr.id, lr.completed_at);
-    if (!existing) {
-      recordMap.set(lr.id, {
-        ...lr,
-        ai_writing_result: lr.ai_writing_result || aiCached?.ai_writing_result || null,
-        ai_speaking_result: lr.ai_speaking_result || aiCached?.ai_speaking_result || null,
-        ai_objective_result: lr.ai_objective_result || aiCached?.ai_objective_result || null,
-        ai_full_result: lr.ai_full_result || aiCached?.ai_full_result || null
-      });
+  for (const cand of allCandidates) {
+    if (!cand) continue;
+    const existingIndex = deduplicatedList.findIndex((ex) => isSameExamAttempt(ex, cand));
+    if (existingIndex >= 0) {
+      deduplicatedList[existingIndex] = mergeAttemptRecords(deduplicatedList[existingIndex], cand);
     } else {
-      recordMap.set(lr.id, {
-        ...existing,
-        ...lr,
-        ai_writing_result: lr.ai_writing_result || existing.ai_writing_result || aiCached?.ai_writing_result || null,
-        ai_speaking_result: lr.ai_speaking_result || existing.ai_speaking_result || aiCached?.ai_speaking_result || null,
-        ai_objective_result: lr.ai_objective_result || existing.ai_objective_result || aiCached?.ai_objective_result || null,
-        ai_full_result: lr.ai_full_result || existing.ai_full_result || aiCached?.ai_full_result || null,
-        score_band: lr.score_band || existing.score_band,
-        score_raw: lr.score_raw || existing.score_raw
+      const aiCached = getStoredAIEvaluation(testId, cand.id, cand.completed_at);
+      deduplicatedList.push({
+        ...cand,
+        ai_writing_result: cand.ai_writing_result || cand.skill_scores?.ai_writing_result || aiCached?.ai_writing_result || null,
+        ai_speaking_result: cand.ai_speaking_result || cand.skill_scores?.ai_speaking_result || aiCached?.ai_speaking_result || null,
+        ai_objective_result: cand.ai_objective_result || cand.skill_scores?.ai_objective_result || aiCached?.ai_objective_result || null,
+        ai_full_result: cand.ai_full_result || cand.skill_scores?.ai_full_result || aiCached?.ai_full_result || null,
+        speaking_submissions: cand.speaking_submissions || cand.skill_scores?.speaking_submissions || null,
+        writing_submissions: cand.writing_submissions || cand.skill_scores?.writing_submissions || null
       });
     }
-  });
+  }
 
-  const merged = Array.from(recordMap.values());
-  merged.sort((a, b) => new Date(b.completed_at || 0) - new Date(a.completed_at || 0));
-  return merged;
+  // Tự động quét và dọn sạch các bản ghi trùng lặp trong toefl_exam_results (LocalStorage) để dứt điểm triệt để
+  try {
+    let hasLocalDuplicates = false;
+    const allLocal = JSON.parse(localStorage.getItem('toefl_exam_results') || '[]');
+    const cleanedLocal = [];
+    for (const item of allLocal) {
+      const idx = cleanedLocal.findIndex((ex) => isSameExamAttempt(ex, item));
+      if (idx >= 0) {
+        cleanedLocal[idx] = mergeAttemptRecords(cleanedLocal[idx], item);
+        hasLocalDuplicates = true;
+      } else {
+        cleanedLocal.push(item);
+      }
+    }
+    if (hasLocalDuplicates) {
+      localStorage.setItem('toefl_exam_results', JSON.stringify(cleanedLocal));
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  deduplicatedList.sort((a, b) => new Date(b.completed_at || 0) - new Date(a.completed_at || 0));
+  return deduplicatedList;
 }
 
 // 6. Đẩy toàn bộ bộ đề mẫu lên Supabase (Seed)

@@ -17,7 +17,7 @@ import SkillNotesHub from './components/notes/SkillNotesHub';
 import WritingSamplesHub from './components/writing/WritingSamplesHub';
 import DictionaryWidget from './components/dictionary/DictionaryWidget';
 import ExamCountdown from './components/ExamCountdown';
-import { getTestsBySkill, getFullTests, deleteTest, getExamHistory } from './lib/supabase';
+import { getTestsBySkill, getFullTests, deleteTest, getExamHistory, deleteExamResult } from './lib/supabase';
 import { MessageCircle, X } from 'lucide-react';
 
 class ErrorBoundary extends React.Component {
@@ -169,6 +169,16 @@ function MainApp() {
   const handleDeleteTest = async (testId) => {
     await deleteTest(testId);
     loadTests();
+  };
+
+  // Xóa 1 lần làm bài cụ thể trong lịch sử thi
+  const handleDeleteHistoryAttempt = async (resultId, testId) => {
+    await deleteExamResult(resultId, testId);
+    const updated = await getExamHistory(testId);
+    setTestHistories((prev) => ({
+      ...prev,
+      [testId]: updated || []
+    }));
   };
 
   // Mở màn hình xem lại chi tiết bài làm trong quá khứ
@@ -391,6 +401,7 @@ function MainApp() {
         test={historyModalTest}
         histories={historyModalTest ? (testHistories[historyModalTest.id] || []) : []}
         onViewResultDetail={handleOpenReview}
+        onDeleteHistoryAttempt={handleDeleteHistoryAttempt}
       />
 
     </>

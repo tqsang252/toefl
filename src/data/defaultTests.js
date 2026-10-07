@@ -46,6 +46,9 @@ import {
   speakingPractice12,
   ALL_SPEAKING_PRACTICE_TESTS
 } from './speakingPracticeTests.js';
+import {
+  ALL_SENTENCE_PRACTICE_TESTS
+} from './sentencePracticeTests.js';
 
 export {
   listeningPractice01,
@@ -87,7 +90,8 @@ export {
   speakingPractice10,
   speakingPractice11,
   speakingPractice12,
-  ALL_SPEAKING_PRACTICE_TESTS
+  ALL_SPEAKING_PRACTICE_TESTS,
+  ALL_SENTENCE_PRACTICE_TESTS
 };
 
 // Dữ liệu bộ đề thi TOEFL 2026 chuẩn ETS:
@@ -7813,6 +7817,7 @@ export const DEFAULT_TESTS = [
   writingTest01,
   ...ALL_WRITING_PRACTICE_TESTS,
   writingSentenceTest01,
+  ...ALL_SENTENCE_PRACTICE_TESTS,
   writingEmailTest01,
   writingDiscussionTest01,
   speakingTest01,
