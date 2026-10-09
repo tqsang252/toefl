@@ -26,7 +26,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m1_q1",
                 "type": "choose_response",
-                "audio_text": ". Do you know if the library is still open?",
+                "audio_text": "Do you know if the library is still open?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The library is very old.",
@@ -40,7 +40,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m1_q2",
                 "type": "choose_response",
-                "audio_text": "Do you know if the library is still open? Do you know if the library is still open? Do you know if the library is still open? Where should I Where should I Where should I return this book?",
+                "audio_text": "Do you know if the library is still open?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "At the circulation desk.",
@@ -54,7 +54,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m1_q3",
                 "type": "choose_response",
-                "audio_text": "return this book? return this book? Can I borrow more than three books at a time? Can I borrow more than three books at a time?",
+                "audio_text": "Can I borrow more than three books at a time?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "You need to show your ID.",
@@ -68,7 +68,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m1_q4",
                 "type": "choose_response",
-                "audio_text": "Can I borrow more than three books at a time? I do I do I do n't see a reference section. When are the study",
+                "audio_text": "Can I borrow more than three books at a time?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I bought a reference book.",
@@ -82,7 +82,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m1_q5",
                 "type": "choose_response",
-                "audio_text": "n't see a reference section. When are the study n't see a reference section. When are the study n't see a reference section. When are the study rooms available ?",
+                "audio_text": "When are the study rooms available?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The chairs are very comfortable.",
@@ -96,7 +96,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m1_q6",
                 "type": "choose_response",
-                "audio_text": "? Do I need a password to use the computers? Do I need a password to use the computers?",
+                "audio_text": "Do I need a password to use the computers?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It's near the bus stop.",
@@ -110,7 +110,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m1_q7",
                 "type": "choose_response",
-                "audio_text": "Sorry. What's up? Is What's up? Is What's up? Is printing free here? free here?",
+                "audio_text": "Is printing free here?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Computers are everywhere.",
@@ -124,7 +124,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m1_q8",
                 "type": "choose_response",
-                "audio_text": "free here? Where to ask for help with research? Listen to a",
+                "audio_text": "Where to ask for help with research?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "That's a long book.",
@@ -144,7 +144,7 @@ export const listeningPractice01 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại khuôn viên trường đại học",
-            "audio_text": "Where to ask for help with research? Listen to a to ask for help with research? Listen to a to ask for help with research? Listen to a conversation . Hey, do you want to Hey, do you want to Hey, do you want to eat in the cafeteria eat in the cafeteria eat in the cafeteria ? I will, but it will be I will, but it will be very crowded there at this time very crowded there at this time very crowded there at this time . True. If we True. If we True. If we wait 20 minutes wait 20 minutes wait 20 minutes , the crowd will , the crowd will , the crowd will thin out. thin out. thin out. Okay, let Okay, let Okay, let 's do that. 's do that. 's do that. I will finish reading this by then I will finish reading this by then . Good . Good . Good idea. I'll find a place for us when the crowds clear up I'll find a place for us when the crowds clear up . Listen to a",
+            "audio_text": "Listen to a conversation. Hey, do you want to eat in the cafeteria? I will, but it will be very crowded there at this time. True. If we wait 20 minutes, the crowd will thin out. Okay, let 's do that. I will finish reading this by then. Good idea. I'll find a place for us when the crowds clear up.",
             "questions": [
               {
                 "id": "list1_m1_q9",
@@ -179,7 +179,7 @@ export const listeningPractice01 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại dịch vụ sinh viên",
-            "audio_text": ". Listen to a . Listen to a . Listen to a conversation . Have you . Have you . Have you booked a doctor's appointment booked a doctor's appointment booked a doctor's appointment ? Not ? Not ? Not yet. The yet. The yet. The office closes early today, closes early today, closes early today, so I'll so I'll so I'll call tomorrow call tomorrow call tomorrow . I thought it would be open until 6:00. That's I thought it would be open until 6:00. That's I thought it would be open until 6:00. That's usually the case usually the case usually the case , but on but on but on Fridays they close at 3:00. Oh, they close at 3:00. Oh, they close at 3:00. Oh, I did I did I did n't know that. n't know that. Listen.",
+            "audio_text": "Listen to a conversation. Have you booked a doctor's appointment? Not yet. The office closes early today, so I'll call tomorrow. I thought it would be open until 6:00. That's usually the case, but on Fridays they close at 3:00. Oh, I did n't know that.",
             "questions": [
               {
                 "id": "list1_m1_q11",
@@ -214,7 +214,7 @@ export const listeningPractice01 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo nội bộ trường đại học",
-            "audio_text": "Listen. Listen to an announcement in the classroom. Dear Listen to an announcement in the classroom. Dear Listen to an announcement in the classroom. Dear students , the Sociology 2011 , the Sociology 2011 , the Sociology 2011 midterm exam will be held next exam will be held next exam will be held next Thursday at Thursday at Thursday at 9:00 AM 9:00 AM 9:00 AM in Room 214 of the Humanities Building in Room 214 of the Humanities Building in Room 214 of the Humanities Building . Please bring photo Please bring photo Please bring photo ID and ID and ID and two pencils . Calculators are Calculators are Calculators are not allowed. If not allowed. If not allowed. If you have any difficulty with this new you have any difficulty with this new you have any difficulty with this new date , please , please , please contact the department office immediately. contact the department office immediately. contact the department office immediately. Hey, listen to",
+            "audio_text": "Listen to an announcement in the classroom. Dear students, the Sociology 2011 midterm exam will be held next Thursday at 9:00 AM in Room 214 of the Humanities Building. Please bring photo ID and two pencils. Calculators are not allowed. If you have any difficulty with this new date, please contact the department office immediately.",
             "questions": [
               {
                 "id": "list1_m1_q13",
@@ -249,7 +249,7 @@ export const listeningPractice01 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật",
-            "audio_text": "contact the department office immediately. Hey, listen to Hey, listen to Hey, listen to a speech in history class a speech in history class a speech in history class . The Silk . The Silk . The Silk Road was actually Road was actually not a single road, but a not a single road, but a not a single road, but a system of trade routes connecting China with the Mediterranean region. Goods such as silk, system of trade routes connecting China with the Mediterranean region. Goods such as silk, system of trade routes connecting China with the Mediterranean region. Goods such as silk, spices, and precious and precious and precious stones traveled through these routes, traveled through these routes, traveled through these routes, but ideas but ideas but ideas also spread. For example, For example, For example, Buddhism spread from India to China through these Buddhism spread from India to China through these Buddhism spread from India to China through these routes . The importance of the Silk Road was not just . The importance of the Silk Road was not just . The importance of the Silk Road was not just trade . This is a This is a This is a cultural exchange. Now, one of the results of these Now, one of the results of these Now, one of the results of these interactions is the interactions is the interactions is the fusion of artistic traditions. fusion of artistic traditions. fusion of artistic traditions. For example, For example, Buddha statues found in western China Buddha statues found in western China Buddha statues found in western China often have Greek- often have Greek- often have Greek- style clothing . Another was the Another was the Another was the sharing of technology like paper, which sharing of technology like paper, which sharing of technology like paper, which traveled west and traveled west and traveled west and eventually transformed European education. transformed European education. transformed European education. So when we So when we So when we talk about globalization today talk about globalization today , the Silk Road , the Silk Road , the Silk Road reminds us that reminds us that this connection is this connection is this connection is not new. not new. not new. It has been It has been It has been shaping societies for centuries shaping societies for centuries . When does breakfast",
+            "audio_text": "listen to a speech in history class. The Silk Road was actually not a single road, but a system of trade routes connecting China with the Mediterranean region. Goods such as silk, spices, and precious stones traveled through these routes, but ideas also spread. For example, Buddhism spread from India to China through these routes. The importance of the Silk Road was not just trade. This is a cultural exchange. Now, one of the results of these interactions is the fusion of artistic traditions. For example, Buddha statues found in western China often have Greek- style clothing. Another was the sharing of technology like paper, which traveled west and eventually transformed European education. So when we talk about globalization today, the Silk Road reminds us that this connection is not new. It has been shaping societies for centuries.",
             "questions": [
               {
                 "id": "list1_m1_q15",
@@ -320,7 +320,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m2_q1",
                 "type": "choose_response",
-                "audio_text": "shaping societies for centuries . When does breakfast . When does breakfast . When does breakfast end?",
+                "audio_text": "When does breakfast end?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "At ten thirty.",
@@ -334,7 +334,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m2_q2",
                 "type": "choose_response",
-                "audio_text": "end? Are vegetarian options available? Can I",
+                "audio_text": "Are vegetarian options available?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I walk to class.",
@@ -348,7 +348,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m2_q3",
                 "type": "choose_response",
-                "audio_text": "Are vegetarian options available? Can I Are vegetarian options available? Can I pay with my student card pay with my student card ? Should we return the trays",
+                "audio_text": "Are vegetarian options available?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, it's accepted.",
@@ -362,7 +362,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m2_q4",
                 "type": "choose_response",
-                "audio_text": "pay with my student card ? Should we return the trays ? Should we return the trays ? Should we return the trays ?",
+                "audio_text": "Should we return the trays?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, it's very cheap.",
@@ -376,7 +376,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m2_q5",
                 "type": "choose_response",
-                "audio_text": "? Where can I see the weekly menu? can I see the weekly menu?",
+                "audio_text": "Where can I see the weekly menu?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I'm not very hungry.",
@@ -390,7 +390,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m2_q6",
                 "type": "choose_response",
-                "audio_text": "can I see the weekly menu? Is dinner available here? Can Is dinner available here? Can",
+                "audio_text": "Can I see the weekly menu?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "No, it's expensive.",
@@ -404,7 +404,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m2_q7",
                 "type": "choose_response",
-                "audio_text": "Is dinner available here? Can I bring food from outside I bring food from outside I bring food from outside ?",
+                "audio_text": "Can I bring food from outside?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I like sandwiches.",
@@ -418,7 +418,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m2_q8",
                 "type": "choose_response",
-                "audio_text": "? Where is the register? Where is the register?",
+                "audio_text": "Where is the register?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It's very interesting.",
@@ -438,7 +438,7 @@ export const listeningPractice01 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại tình huống sinh viên",
-            "audio_text": "Where is the register? Listen to a conversation. Did you Listen to a conversation. Did you Listen to a conversation. Did you return the library book? return the library book? return the library book? Yes, but it Yes, but it was delayed by 2 days. was delayed by 2 days. was delayed by 2 days. I had to pay a fine I had to pay a fine I had to pay a fine . That is very That is very That is very sad. Is it sad. Is it sad. Is it expensive? Just expensive? Just expensive? Just a few a few a few dollars, but dollars, but dollars, but they add up they add up they add up . I'll set a reminder next time I'll set a reminder next time I'll set a reminder next time . Listen to . Listen to",
+            "audio_text": "Listen to a conversation. Did you return the library book? Yes, but it was delayed by 2 days. I had to pay a fine. That is very sad. Is it expensive? Just a few dollars, but they add up. I'll set a reminder next time.",
             "questions": [
               {
                 "id": "list1_m2_q9",
@@ -473,7 +473,7 @@ export const listeningPractice01 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo hành chính đại học",
-            "audio_text": ". Listen to the announcement in the campus library. the announcement in the campus library. the announcement in the campus library. Good morning. Due to upgrades to our Good morning. Due to upgrades to our Good morning. Due to upgrades to our computer system , the , the , the online catalog will be unavailable catalog will be unavailable from 6pm tonight until noon tomorrow from 6pm tonight until noon tomorrow from 6pm tonight until noon tomorrow . At this time . At this time , you , you , you cannot renew or hold books online. Please cannot renew or hold books online. Please complete any urgent transactions by 6pm complete any urgent transactions by 6pm complete any urgent transactions by 6pm . Sorry for the inconvenience, Sorry for the inconvenience, Sorry for the inconvenience, thank you for your patience. thank you for your patience. Listen to",
+            "audio_text": "Listen to the announcement in the campus library. Good morning. Due to upgrades to our computer system, the online catalog will be unavailable from 6pm tonight until noon tomorrow. At this time, you cannot renew or hold books online. Please complete any urgent transactions by 6pm. Sorry for the inconvenience, thank you for your patience.",
             "questions": [
               {
                 "id": "list1_m2_q11",
@@ -508,7 +508,7 @@ export const listeningPractice01 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật chuyên sâu",
-            "audio_text": "Listen to Listen to Listen to the lecture in biology class. the lecture in biology class. the lecture in biology class. Photosynthesis is the process by which plants is the process by which plants convert light energy into chemical energy convert light energy into chemical energy convert light energy into chemical energy . Most people Most people Most people know that plants absorb carbon dioxide and release oxygen. But what is know that plants absorb carbon dioxide and release oxygen. But what is know that plants absorb carbon dioxide and release oxygen. But what is less discussed is that discussed is that photosynthesis occurs in two main stages. occurs in two main stages. occurs in two main stages. Actions that depend on light and Actions that depend on light and Actions that depend on light and actions that do not depend on light. actions that do not depend on light. actions that do not depend on light. Light- dependent processes occur in chloroplasts, occur in chloroplasts, occur in chloroplasts, where sunlight is sunlight is sunlight is absorbed by chlorophyll and absorbed by chlorophyll and converted into two forms of energy, ATP and NADPH. converted into two forms of energy, ATP and NADPH. converted into two forms of energy, ATP and NADPH. The processes that do not depend on light are The processes that do not depend on light are The processes that do not depend on light are often called the Calvin cycle, called the Calvin cycle, called the Calvin cycle, which uses that energy to which uses that energy to which uses that energy to convert carbon dioxide into glucose. This convert carbon dioxide into glucose. This convert carbon dioxide into glucose. This two-stage system is very system is very system is very efficient . Without it, . Without it, . Without it, plants would plants would not be able to store energy and the not be able to store energy and the not be able to store energy and the food chains that depend on them, chains that depend on them, chains that depend on them, ultimately including humans, including humans, including humans, would collapse would collapse . Oops.",
+            "audio_text": "Listen to the lecture in biology class. Photosynthesis is the process by which plants convert light energy into chemical energy. Most people know that plants absorb carbon dioxide and release oxygen. But what is less discussed is that photosynthesis occurs in two main stages. Actions that depend on light and actions that do not depend on light. Light- dependent processes occur in chloroplasts, where sunlight is absorbed by chlorophyll and converted into two forms of energy, ATP and NADPH. The processes that do not depend on light are often called the Calvin cycle, which uses that energy to convert carbon dioxide into glucose. This two-stage system is very efficient. Without it, plants would not be able to store energy and the food chains that depend on them, ultimately including humans, would collapse.",
             "questions": [
               {
                 "id": "list1_m2_q13",
@@ -592,7 +592,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m1_q1",
                 "type": "choose_response",
-                "audio_text": "could you send",
+                "audio_text": "Could you send?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I don't think the slides need updating.",
@@ -606,7 +606,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m1_q2",
                 "type": "choose_response",
-                "audio_text": "do you mind if I borrow your",
+                "audio_text": "Do you mind if I borrow your?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I already turned it in yesterday.",
@@ -620,7 +620,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m1_q3",
                 "type": "choose_response",
-                "audio_text": "I thought the library closed at 8:00",
+                "audio_text": "I thought the library closed at 8:00?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It's on the second floor, near the exit.",
@@ -634,7 +634,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m1_q4",
                 "type": "choose_response",
-                "audio_text": "how's your research proposal coming along",
+                "audio_text": "How's your research proposal coming along?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I've been revising the literature review section.",
@@ -648,7 +648,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m1_q5",
                 "type": "choose_response",
-                "audio_text": "you look tired been studying all night",
+                "audio_text": "You look tired been studying all night?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "No, I'm not interested in studying.",
@@ -662,7 +662,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m1_q6",
                 "type": "choose_response",
-                "audio_text": "could you remind me when the registration period ends",
+                "audio_text": "Could you remind me when the registration period ends?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I'll check the university website for you.",
@@ -676,7 +676,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m1_q7",
                 "type": "choose_response",
-                "audio_text": "err: ",
+                "audio_text": "Err:?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It's at IO a.m. every Tuesday.",
@@ -690,7 +690,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m1_q8",
                 "type": "choose_response",
-                "audio_text": "please report by tomorrow",
+                "audio_text": "Please report by tomorrow?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, I submitted mine early.",
@@ -780,7 +780,7 @@ export const listeningPractice02 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo nội bộ trường đại học",
-            "audio_text": "don't forget tomorrow is the deadline to apply for Study Abroad scholarships for the upcoming summer session applications must be submitted online by 11:59 p.m. late submissions will not be accepted if you need assistance visit the international programs office before 5:00 p.m. today office before 5:00 p.m. today",
+            "audio_text": "don't forget tomorrow is the deadline to apply for Study Abroad scholarships for the upcoming summer session applications must be submitted online by 11:59 p. m. late submissions will not be accepted if you need assistance visit the international programs office before 5:00 p. m.",
             "questions": [
               {
                 "id": "list2_m1_q13",
@@ -886,7 +886,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m2_q1",
                 "type": "choose_response",
-                "audio_text": "who's leading the campus sustainability project",
+                "audio_text": "Who's leading the campus sustainability project?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I think Professor Ramos is in charge.",
@@ -900,7 +900,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m2_q2",
                 "type": "choose_response",
-                "audio_text": "can I still apply for the internship program",
+                "audio_text": "Can I still apply for the internship program?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The deadline was last Friday, unfortunately.",
@@ -914,7 +914,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m2_q3",
                 "type": "choose_response",
-                "audio_text": "I left my student ID at home again",
+                "audio_text": "I left my student ID at home again?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I lost mine last semester.",
@@ -928,7 +928,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m2_q4",
                 "type": "choose_response",
-                "audio_text": "what do you think of the new cafeteria menu",
+                "audio_text": "What do you think of the new cafeteria menu?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, that's my favorite subject.",
@@ -942,7 +942,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m2_q5",
                 "type": "choose_response",
-                "audio_text": "would you like me to proofread your essay",
+                "audio_text": "Would you like me to proofread your essay?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "That'd be really helpful, thanks.",
@@ -956,7 +956,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m2_q6",
                 "type": "choose_response",
-                "audio_text": "I didn't see you in class yesterday",
+                "audio_text": "I didn't see you in class yesterday?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "No, I didn't take attendance.",
@@ -970,7 +970,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m2_q7",
                 "type": "choose_response",
-                "audio_text": "I might take an extra elective next term",
+                "audio_text": "I might take an extra elective next term?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "NO, I'm only taking three courses.",
@@ -984,7 +984,7 @@ export const listeningPractice02 = {
               {
                 "id": "list2_m2_q8",
                 "type": "choose_response",
-                "audio_text": "would you like to join our study group",
+                "audio_text": "Would you like to join our study group?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "No, I already bought the textbook.",
@@ -1039,7 +1039,7 @@ export const listeningPractice02 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo hành chính đại học",
-            "audio_text": "attention all students the fitness center will be closed this Saturday for equipment maintenance and cleaning it will reopen at 7:00 a.m. on Sunday we apologize for any inconvenience and encourage you to use the outdoor track during the closure",
+            "audio_text": "attention all students the fitness center will be closed this Saturday for equipment maintenance and cleaning it will reopen at 7:00 a. m. on Sunday we apologize for any inconvenience and encourage you to use the outdoor track during the closure",
             "questions": [
               {
                 "id": "list2_m2_q11",
@@ -1074,7 +1074,7 @@ export const listeningPractice02 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật chuyên sâu",
-            "audio_text": "inflation refers to the general increase in prices over time a small amount of inflation is considered normal in a healthy economy but when inflation Rises too quickly it can cause problems one reason inflation occurs is demand pull inflation when consumer demand exceeds Supply another is cost-push inflation when the cost of when the cost of production such as wages or raw materials goes up central banks try to control inflation by adjusting interest rates higher interest rates make borrowing more expensive which slows spending and investment lower rates in Courage borrowing and stimulate the economy managing inflation inflation higher",
+            "audio_text": "inflation refers to the general increase in prices over time a small amount of inflation is considered normal in a healthy economy but when inflation Rises too quickly it can cause problems one reason inflation occurs is demand pull inflation when consumer demand exceeds Supply another is cost-push inflation when the cost of production such as wages or raw materials goes up central banks try to control inflation by adjusting interest rates higher interest rates make borrowing more expensive which slows spending and investment lower rates in Courage borrowing and stimulate the economy managing inflation higher",
             "questions": [
               {
                 "id": "list2_m2_q13",
@@ -1158,7 +1158,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m1_q1",
                 "type": "choose_response",
-                "audio_text": "Can you save me a seat in the lecture Can you save me a seat in the lecture Can you save me a seat in the lecture hall?",
+                "audio_text": "Can you save me a seat in the lecture hall?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It's in room 204.",
@@ -1172,7 +1172,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m1_q2",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Do you know where the student health &gt;&gt; Do you know where the student health &gt;&gt; Do you know where the student health center is?",
+                "audio_text": "Do you know where the student health center is?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I forgot my ID card.",
@@ -1186,7 +1186,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m1_q3",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; I'm worried I won't finish the &gt;&gt; I'm worried I won't finish the &gt;&gt; I'm worried I won't finish the assignment on time.",
+                "audio_text": "I'm worried I won't finish the assignment on time.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, the deadline is today.",
@@ -1200,7 +1200,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m1_q4",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Are you coming to the orientation tour &gt;&gt; Are you coming to the orientation tour &gt;&gt; Are you coming to the orientation tour tomorrow?",
+                "audio_text": "Are you coming to the orientation tour tomorrow?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It's in the main library.",
@@ -1214,7 +1214,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m1_q5",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Excuse me, does this bus go to the stadium?",
+                "audio_text": "Excuse me, does this bus go to the stadium?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, but it makes several stops first.",
@@ -1228,7 +1228,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m1_q6",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Could you lend me your calculator?",
+                "audio_text": "Could you lend me your calculator?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "He didn't explain the formula.",
@@ -1242,7 +1242,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m1_q7",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; I didn't see you at the club meeting yesterday.",
+                "audio_text": "I didn't see you at the club meeting yesterday.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, I joined last week.",
@@ -1256,7 +1256,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m1_q8",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Did you hear about the canceled concert?",
+                "audio_text": "Did you hear about the canceled concert?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yeah, it's being rescheduled for",
@@ -1276,7 +1276,7 @@ export const listeningPractice03 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại khuôn viên trường đại học",
-            "audio_text": "movie? &gt;&gt; Not yet. I wanted to run it by you &gt;&gt; Not yet. I wanted to run it by you &gt;&gt; Not yet. I wanted to run it by you first. I wasn't sure which showtime you first. I wasn't sure which showtime you first. I wasn't sure which showtime you had in mind. had in mind. had in mind. &gt;&gt; Let's go to the earlier one. That way we &gt;&gt; Let's go to the earlier one. That way we &gt;&gt; Let's go to the earlier one. That way we won't be dragging our feet tomorrow won't be dragging our feet tomorrow won't be dragging our feet tomorrow morning. &gt;&gt; Sounds good. I'll grab them online right &gt;&gt; Sounds good. I'll grab them online right &gt;&gt; Sounds good. I'll grab them online right now. Have you made any progress on the group Have you made any progress on the group Have you made any progress on the group project yet? project yet? project yet? &gt;&gt; Just a bit, but I'm still waiting to &gt;&gt; Just a bit, but I'm still waiting to &gt;&gt; Just a bit, but I'm still waiting to hear back from the others. They've been hear back from the others. They've been hear back from the others. They've been radio silent all week. radio silent all week. radio silent all week. &gt;&gt; Same here. I've messaged them twice, but &gt;&gt; Same here. I've messaged them twice, but &gt;&gt; Same here. I've messaged them twice, but no one's replied. no one's replied. no one's replied. &gt;&gt; Maybe we should just split up the work &gt;&gt; Maybe we should just split up the work &gt;&gt; Maybe we should just split up the work ourselves and let them know what part ourselves and let them know what part ourselves and let them know what part they've got. they've got. they've got. &gt;&gt; Yeah, that might be the only way to get &gt;&gt; Yeah, that might be the only way to get &gt;&gt; Yeah, that might be the only way to get the ball rolling.",
+            "audio_text": "movie? Not yet. I wanted to run it by you first. I wasn't sure which showtime you had in mind. Let's go to the earlier one. That way we won't be dragging our feet tomorrow morning. Sounds good. I'll grab them online right now. Have you made any progress on the group project yet? Just a bit, but I'm still waiting to hear back from the others. They've been radio silent all week. Same here. I've messaged them twice, but no one's replied. Maybe we should just split up the work ourselves and let them know what part they've got. Yeah, that might be the only way to get the ball rolling.",
             "questions": [
               {
                 "id": "list3_m1_q9",
@@ -1311,7 +1311,7 @@ export const listeningPractice03 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại dịch vụ sinh viên",
-            "audio_text": "&gt;&gt; Yeah, that might be the only way to get the ball rolling. &gt;&gt; Before we dive into today's lecture, I'd &gt;&gt; Before we dive into today's lecture, I'd &gt;&gt; Before we dive into today's lecture, I'd like to take a moment to recognize our like to take a moment to recognize our like to take a moment to recognize our university's debate team. university's debate team. university's debate team. They took first place at the regional They took first place at the regional They took first place at the regional championship last weekend, quite an championship last weekend, quite an championship last weekend, quite an impressive achievement. Their dedication impressive achievement. Their dedication impressive achievement. Their dedication and teamwork really paid off, and teamwork really paid off, and teamwork really paid off, and they've made us proud. they've made us proud. they've made us proud. Let's give them a well-deserved round of Let's give them a well-deserved round of Let's give them a well-deserved round of applause.",
+            "audio_text": "Yeah, that might be the only way to get the ball rolling. Before we dive into today's lecture, I'd like to take a moment to recognize our university's debate team. They took first place at the regional championship last weekend, quite an impressive achievement. Their dedication and teamwork really paid off, and they've made us proud. Let's give them a well-deserved round of applause.",
             "questions": [
               {
                 "id": "list3_m1_q11",
@@ -1346,7 +1346,7 @@ export const listeningPractice03 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo nội bộ trường đại học",
-            "audio_text": "Let's give them a well-deserved round of applause. &gt;&gt; Social norms are the unwritten rules &gt;&gt; Social norms are the unwritten rules &gt;&gt; Social norms are the unwritten rules that guide behavior in society. For that guide behavior in society. For that guide behavior in society. For example, in many cultures, shaking hands example, in many cultures, shaking hands example, in many cultures, shaking hands is a way to greet someone, while in is a way to greet someone, while in is a way to greet someone, while in others, bowing is the norm. These others, bowing is the norm. These others, bowing is the norm. These expectations influence how people act expectations influence how people act expectations influence how people act without being explicitly taught. When without being explicitly taught. When without being explicitly taught. When norms are broken, the result can be norms are broken, the result can be norms are broken, the result can be disapproval, embarrassment, or even disapproval, embarrassment, or even disapproval, embarrassment, or even punishment. It's also important to note punishment. It's also important to note punishment. It's also important to note that norms change over time. For that norms change over time. For that norms change over time. For instance, smoking in public was once",
+            "audio_text": "Let's give them a well-deserved round of applause. Social norms are the unwritten rules that guide behavior in society. For example, in many cultures, shaking hands is a way to greet someone, while in others, bowing is the norm. These expectations influence how people act without being explicitly taught. When norms are broken, the result can be disapproval, embarrassment, or even punishment. It's also important to note that norms change over time. For instance, smoking in public was once",
             "questions": [
               {
                 "id": "list3_m1_q13",
@@ -1381,7 +1381,7 @@ export const listeningPractice03 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật",
-            "audio_text": "that norms change over time. For instance, smoking in public was once instance, smoking in public was once instance, smoking in public was once common, but now it's restricted in many common, but now it's restricted in many common, but now it's restricted in many countries. What's polite in one culture might be What's polite in one culture might be What's polite in one culture might be seen as rude in another. By studying seen as rude in another. By studying seen as rude in another. By studying norms, sociologists can better norms, sociologists can better norms, sociologists can better understand how societies maintain order understand how societies maintain order understand how societies maintain order and how cultural differences shape and how cultural differences shape and how cultural differences shape behavior. &gt;&gt; Do you know how to print from these &gt;&gt; Do you know how to print from these &gt;&gt; Do you know how to print from these computers? &gt;&gt; Could you explain this math problem to &gt;&gt; Could you explain this math problem to &gt;&gt; Could you explain this math problem to me? &gt;&gt; Are we supposed to register online or in &gt;&gt; Are we supposed to register online or in &gt;&gt; Are we supposed to register online or in person?",
+            "audio_text": "that norms change over time. For instance, smoking in public was once common, but now it's restricted in many countries. What's polite in one culture might be seen as rude in another. By studying norms, sociologists can better understand how societies maintain order and how cultural differences shape behavior. Do you know how to print from these computers? Could you explain this math problem to me? Are we supposed to register online or in person?",
             "questions": [
               {
                 "id": "list3_m1_q15",
@@ -1452,7 +1452,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m2_q1",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Are we supposed to register online or in person?",
+                "audio_text": "Are we supposed to register online or in person?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I think you need your student card.",
@@ -1466,7 +1466,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m2_q2",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; What did you think of the professor's lecture?",
+                "audio_text": "What did you think of the professor's lecture?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I like history more than math.",
@@ -1480,7 +1480,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m2_q3",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Did you remember to submit the form?",
+                "audio_text": "Did you remember to submit the form?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Online, the link is on the website.",
@@ -1494,7 +1494,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m2_q4",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; How do you usually get to campus?",
+                "audio_text": "How do you usually get to campus?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It was really clear and interesting.",
@@ -1508,7 +1508,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m2_q5",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; The cafeteria was packed today.",
+                "audio_text": "The cafeteria was packed today.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, I emailed it to the office.",
@@ -1522,7 +1522,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m2_q6",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Would you mind if I borrow your notes?",
+                "audio_text": "Would you mind if I borrow your notes?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, I can't wait.",
@@ -1536,7 +1536,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m2_q7",
                 "type": "choose_response",
-                "audio_text": "tables left. &gt;&gt; Oh, so what now? Should we look for &gt;&gt; Oh, so what now? Should we look for &gt;&gt; Oh, so what now? Should we look for another spot? another spot? another spot? &gt;&gt; Yeah, there's a new place around the &gt;&gt; Yeah, there's a new place around the &gt;&gt; Yeah, there's a new place around the corner. I'll give them a ring and see if corner. I'll give them a ring and see if corner. I'll give them a ring and see if they've got room.",
+                "audio_text": "Oh, so what now?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I forgot to bring my book.",
@@ -1550,7 +1550,7 @@ export const listeningPractice03 = {
               {
                 "id": "list3_m2_q8",
                 "type": "choose_response",
-                "audio_text": "corner. I'll give them a ring and see if they've got room.",
+                "audio_text": "I'll give them a ring and see if they've got room.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Not at all, I'll send them to you.",
@@ -1570,7 +1570,7 @@ export const listeningPractice03 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại tình huống sinh viên",
-            "audio_text": "corner. I'll give them a ring and see if they've got room. &gt;&gt; Attention everyone, a quick notice about &gt;&gt; Attention everyone, a quick notice about &gt;&gt; Attention everyone, a quick notice about an upcoming change. Starting next an upcoming change. Starting next an upcoming change. Starting next Monday, the cafeteria will move to a Monday, the cafeteria will move to a Monday, the cafeteria will move to a completely cash-free payment system. completely cash-free payment system. completely cash-free payment system. From that date onward, only student ID From that date onward, only student ID From that date onward, only student ID cards and bank cards will be accepted. cards and bank cards will be accepted. cards and bank cards will be accepted. Please make sure your accounts are Please make sure your accounts are Please make sure your accounts are active to avoid any inconvenience at the active to avoid any inconvenience at the active to avoid any inconvenience at the checkout. Thanks for your understanding.",
+            "audio_text": "corner. I'll give them a ring and see if they've got room. Attention everyone, a quick notice about an upcoming change. Starting next Monday, the cafeteria will move to a completely cash-free payment system. From that date onward, only student ID cards and bank cards will be accepted. Please make sure your accounts are active to avoid any inconvenience at the checkout. Thanks for your understanding.",
             "questions": [
               {
                 "id": "list3_m2_q9",
@@ -1605,7 +1605,7 @@ export const listeningPractice03 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo hành chính đại học",
-            "audio_text": "active to avoid any inconvenience at the checkout. Thanks for your understanding. Today, we'll explore mutualism, a type Today, we'll explore mutualism, a type Today, we'll explore mutualism, a type of symbiotic relationship in which both of symbiotic relationship in which both of symbiotic relationship in which both species benefit. One classic example species benefit. One classic example species benefit. One classic example involves bees and flowering plants. Bees involves bees and flowering plants. Bees involves bees and flowering plants. Bees collect nectar for food and in doing so, collect nectar for food and in doing so, collect nectar for food and in doing so, transfer pollen from one flower to transfer pollen from one flower to transfer pollen from one flower to another, enabling plant reproduction. another, enabling plant reproduction. another, enabling plant reproduction. Another example is the clownfish and the Another example is the clownfish and the Another example is the clownfish and the sea anemone. The clownfish finds shelter sea anemone. The clownfish finds shelter sea anemone. The clownfish finds shelter among the anemone's tentacles, which among the anemone's tentacles, which among the anemone's tentacles, which protects it from predators. In return, protects it from predators. In return, protects it from predators. In return, the anemone benefits because the fish the anemone benefits because the fish the anemone benefits because the fish removes debris and sometimes attracts removes debris and sometimes attracts removes debris and sometimes attracts prey. Mutualism highlights how deeply species Mutualism highlights how deeply species Mutualism highlights how deeply species depend on one another, showing that depend on one another, showing that depend on one another, showing that survival often relies on cooperation, survival often relies on cooperation, survival often relies on cooperation, not just competition. This perspective not just competition. This perspective not just competition. This perspective changes how we view evolution, not only",
+            "audio_text": "active to avoid any inconvenience at the checkout. Thanks for your understanding. Today, we'll explore mutualism, a type of symbiotic relationship in which both species benefit. One classic example involves bees and flowering plants. Bees collect nectar for food and in doing so, transfer pollen from one flower to another, enabling plant reproduction. Another example is the clownfish and the sea anemone. The clownfish finds shelter among the anemone's tentacles, which protects it from predators. In return, the anemone benefits because the fish removes debris and sometimes attracts prey. Mutualism highlights how deeply species depend on one another, showing that survival often relies on cooperation, not just competition. This perspective changes how we view evolution, not only",
             "questions": [
               {
                 "id": "list3_m2_q11",
@@ -1640,7 +1640,7 @@ export const listeningPractice03 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật chuyên sâu",
-            "audio_text": "not just competition. This perspective changes how we view evolution, not only changes how we view evolution, not only changes how we view evolution, not only as a struggle for existence, but also as a struggle for existence, but also as a struggle for existence, but also as a network of partnerships. &gt;&gt; 10",
+            "audio_text": "not just competition. This perspective changes how we view evolution, not only as a struggle for existence, but also as a network of partnerships.",
             "questions": [
               {
                 "id": "list3_m2_q13",
@@ -1724,7 +1724,7 @@ export const listeningPractice04 = {
               {
                 "id": "list4_m1_q1",
                 "type": "choose_response",
-                "audio_text": "module one. &gt;&gt; How do I sign up for the language club?",
+                "audio_text": "How do I sign up for the language club?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I speak Spanish.",
@@ -1842,7 +1842,7 @@ export const listeningPractice04 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại khuôn viên trường đại học",
-            "audio_text": "&gt;&gt; Listen to a conversation. Any idea why the printer isn't working? Any idea why the printer isn't working? Any idea why the printer isn't working? &gt;&gt; Pretty sure it's running on empty. I &gt;&gt; Pretty sure it's running on empty. I &gt;&gt; Pretty sure it's running on empty. I didn't see any paper left in the tray. didn't see any paper left in the tray. didn't see any paper left in the tray. &gt;&gt; Oh, that explains it. I'll grab some &gt;&gt; Oh, that explains it. I'll grab some &gt;&gt; Oh, that explains it. I'll grab some from the supply room. from the supply room. from the supply room. &gt;&gt; Thanks. I need to print this essay &gt;&gt; Thanks. I need to print this essay &gt;&gt; Thanks. I need to print this essay before class and I don't want to be before class and I don't want to be before class and I don't want to be late. &gt;&gt; No worries. I'll be back in a minute. &gt;&gt; No worries. I'll be back in a minute. &gt;&gt; No worries. I'll be back in a minute. Fingers crossed it starts working again. listen to a conversation. listen to a conversation. listen to a conversation. &gt;&gt; Did you see my umbrella anywhere? I &gt;&gt; Did you see my umbrella anywhere? I &gt;&gt; Did you see my umbrella anywhere? I could have sworn I had it this morning. could have sworn I had it this morning. could have sworn I had it this morning. &gt;&gt; No, I haven't seen it, but you might &gt;&gt; No, I haven't seen it, but you might &gt;&gt; No, I haven't seen it, but you might have left it in the lecture hall. have left it in the lecture hall. have left it in the lecture hall. &gt;&gt; Oh, that rings a bell. I remember &gt;&gt; Oh, that rings a bell. I remember &gt;&gt; Oh, that rings a bell. I remember putting it under my seat. I'll check",
+            "audio_text": "Listen to a conversation. Any idea why the printer isn't working? Pretty sure it's running on empty. I didn't see any paper left in the tray. Oh, that explains it. I'll grab some from the supply room. Thanks. I need to print this essay before class and I don't want to be late. No worries. I'll be back in a minute. Fingers crossed it starts working again. listen to a conversation. Did you see my umbrella anywhere? I could have sworn I had it this morning. No, I haven't seen it, but you might have left it in the lecture hall. Oh, that rings a bell. I remember putting it under my seat.",
             "questions": [
               {
                 "id": "list4_m1_q9",
@@ -1877,7 +1877,7 @@ export const listeningPractice04 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại dịch vụ sinh viên",
-            "audio_text": "&gt;&gt; Oh, that rings a bell. I remember putting it under my seat. I'll check putting it under my seat. I'll check putting it under my seat. I'll check after class. after class. after class. &gt;&gt; Hopefully, no one walked off with it. &gt;&gt; Hopefully, no one walked off with it. &gt;&gt; Hopefully, no one walked off with it. It's raining hard today. It's raining hard today. It's raining hard today. &gt;&gt; Tell me about it. Without an umbrella, &gt;&gt; Tell me about it. Without an umbrella, &gt;&gt; Tell me about it. Without an umbrella, I'll be soaked. Listen to an announcement on the campus radio. to an announcement on the campus radio. to an announcement on the campus radio. This Friday, the career services office This Friday, the career services office This Friday, the career services office will host its annual job fair in the will host its annual job fair in the will host its annual job fair in the main gym from 10:00 a.m. to 3:00 p.m. main gym from 10:00 a.m. to 3:00 p.m. main gym from 10:00 a.m. to 3:00 p.m. Over 50 companies will be present, Over 50 companies will be present, Over 50 companies will be present, offering internships and full-time offering internships and full-time offering internships and full-time positions. Students of all majors are",
+            "audio_text": "Oh, that rings a bell. I remember putting it under my seat. I'll check after class. Hopefully, no one walked off with it. It's raining hard today. Tell me about it. Without an umbrella, I'll be soaked. Listen to an announcement on the campus radio. This Friday, the career services office will host its annual job fair in the main gym from 10:00 a. m. to 3:00 p. m. Over 50 companies will be present, offering internships and full-time positions.",
             "questions": [
               {
                 "id": "list4_m1_q11",
@@ -1912,7 +1912,7 @@ export const listeningPractice04 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo nội bộ trường đại học",
-            "audio_text": "offering internships and full-time positions. Students of all majors are positions. Students of all majors are positions. Students of all majors are encouraged to attend and bring copies of encouraged to attend and bring copies of encouraged to attend and bring copies of their resumes. is Listen to part of a geology class. to part of a geology class. to part of a geology class. Earthquakes occur when stress builds up Earthquakes occur when stress builds up Earthquakes occur when stress builds up along fault lines in the Earth's crust, along fault lines in the Earth's crust, along fault lines in the Earth's crust, eventually releasing energy in the form eventually releasing energy in the form eventually releasing energy in the form of seismic waves. These waves travel of seismic waves. These waves travel of seismic waves. These waves travel through the ground, shaking the surface. through the ground, shaking the surface. through the ground, shaking the surface. The RTOR scale, once commonly used to",
+            "audio_text": "offering internships and full-time positions. Students of all majors are encouraged to attend and bring copies of their resumes. is Listen to part of a geology class. Earthquakes occur when stress builds up along fault lines in the Earth's crust, eventually releasing energy in the form of seismic waves. These waves travel through the ground, shaking the surface. The RTOR scale, once commonly used to",
             "questions": [
               {
                 "id": "list4_m1_q13",
@@ -1947,7 +1947,7 @@ export const listeningPractice04 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật",
-            "audio_text": "through the ground, shaking the surface. The RTOR scale, once commonly used to The RTOR scale, once commonly used to The RTOR scale, once commonly used to measure earthquake magnitude, has measure earthquake magnitude, has measure earthquake magnitude, has largely been replaced by the moment largely been replaced by the moment largely been replaced by the moment magnitude scale, which provides a more magnitude scale, which provides a more magnitude scale, which provides a more accurate assessment of energy released. accurate assessment of energy released. accurate assessment of energy released. Interestingly, most earthquakes are Interestingly, most earthquakes are Interestingly, most earthquakes are small and go unnoticed, but large ones small and go unnoticed, but large ones small and go unnoticed, but large ones can reshape landscapes and cause immense can reshape landscapes and cause immense can reshape landscapes and cause immense damage. Aftershocks, which are smaller damage. Aftershocks, which are smaller damage. Aftershocks, which are smaller quakes following the main event, can quakes following the main event, can quakes following the main event, can continue for days or even months. continue for days or even months. continue for days or even months. They're caused by the crust adjusting to They're caused by the crust adjusting to They're caused by the crust adjusting to new positions after the initial rupture. new positions after the initial rupture. new positions after the initial rupture. While predicting the exact time and While predicting the exact time and While predicting the exact time and place of an earthquake remains place of an earthquake remains place of an earthquake remains impossible, scientists study seismic impossible, scientists study seismic impossible, scientists study seismic activity to identify regions at higher activity to identify regions at higher activity to identify regions at higher risk, helping communities prepare and risk, helping communities prepare and risk, helping communities prepare and reduce potential harm. While we can't reduce potential harm. While we can't reduce potential harm. While we can't predict exactly when earthquakes will predict exactly when earthquakes will predict exactly when earthquakes will strike, understanding where they are strike, understanding where they are strike, understanding where they are most likely to occur is crucial. That's most likely to occur is crucial. That's most likely to occur is crucial. That's why researchers now focus not only on why researchers now focus not only on why researchers now focus not only on past seismic activity, but also on how past seismic activity, but also on how past seismic activity, but also on how population density and infrastructure population density and infrastructure population density and infrastructure affect the overall impact of affect the overall impact of affect the overall impact of earthquakes.",
+            "audio_text": "through the ground, shaking the surface. The RTOR scale, once commonly used to measure earthquake magnitude, has largely been replaced by the moment magnitude scale, which provides a more accurate assessment of energy released. Interestingly, most earthquakes are small and go unnoticed, but large ones can reshape landscapes and cause immense damage. Aftershocks, which are smaller quakes following the main event, can continue for days or even months. They're caused by the crust adjusting to new positions after the initial rupture. While predicting the exact time and place of an earthquake remains impossible, scientists study seismic activity to identify regions at higher risk, helping communities prepare and reduce potential harm. While we can't predict exactly when earthquakes will strike, understanding where they are most likely to occur is crucial. That's why researchers now focus not only on past seismic activity, but also on how population density and infrastructure affect the overall impact of earthquakes.",
             "questions": [
               {
                 "id": "list4_m1_q15",
@@ -2018,7 +2018,7 @@ export const listeningPractice04 = {
               {
                 "id": "list4_m2_q1",
                 "type": "choose_response",
-                "audio_text": "affect the overall impact of earthquakes. Module two. Module two. Module two. When do we register for spring classes?",
+                "audio_text": "When do we register for spring classes?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "No, I dropped the class.",
@@ -2032,7 +2032,7 @@ export const listeningPractice04 = {
               {
                 "id": "list4_m2_q2",
                 "type": "choose_response",
-                "audio_text": "Module two. When do we register for spring classes? Have you finished reading the Have you finished reading the Have you finished reading the assignment?",
+                "audio_text": "Have you finished reading the assignment?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "You can sign in online.",
@@ -2046,7 +2046,7 @@ export const listeningPractice04 = {
               {
                 "id": "list4_m2_q3",
                 "type": "choose_response",
-                "audio_text": "Have you finished reading the assignment? Where should we meet for the group Where should we meet for the group Where should we meet for the group project?",
+                "audio_text": "Where should we meet for the group project?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I joined the club.",
@@ -2060,7 +2060,7 @@ export const listeningPractice04 = {
               {
                 "id": "list4_m2_q4",
                 "type": "choose_response",
-                "audio_text": "Where should we meet for the group project? Could you explain this word to me?",
+                "audio_text": "Where should we meet for the group project?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Sure, it means \"necessary.\"",
@@ -2074,7 +2074,7 @@ export const listeningPractice04 = {
               {
                 "id": "list4_m2_q5",
                 "type": "choose_response",
-                "audio_text": "Could you explain this word to me? Is the sports center open on Sundays?",
+                "audio_text": "Is the sports center open on Sundays?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I already bought my ticket.",
@@ -2088,7 +2088,7 @@ export const listeningPractice04 = {
               {
                 "id": "list4_m2_q6",
                 "type": "choose_response",
-                "audio_text": "Is the sports center open on Sundays? Did you like the guest speaker talk?",
+                "audio_text": "Is the sports center open on Sundays?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I didn't invite him.",
@@ -2102,7 +2102,7 @@ export const listeningPractice04 = {
               {
                 "id": "list4_m2_q7",
                 "type": "choose_response",
-                "audio_text": "Did you like the guest speaker talk? What time is the lab session tomorrow?",
+                "audio_text": "What time is the lab session tomorrow?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "At 3 0'clock in the afternoon.",
@@ -2116,7 +2116,7 @@ export const listeningPractice04 = {
               {
                 "id": "list4_m2_q8",
                 "type": "choose_response",
-                "audio_text": "What time is the lab session tomorrow? Can you recommend a good place to study?",
+                "audio_text": "What time is the lab session tomorrow?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, I'm very busy.",
@@ -2136,7 +2136,7 @@ export const listeningPractice04 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại tình huống sinh viên",
-            "audio_text": "Can you recommend a good place to study? listen to a conversation. listen to a conversation. listen to a conversation. &gt;&gt; Do you have your bus pass ready? &gt;&gt; Do you have your bus pass ready? &gt;&gt; Do you have your bus pass ready? &gt;&gt; Oh no, looks like I left it in my other &gt;&gt; Oh no, looks like I left it in my other &gt;&gt; Oh no, looks like I left it in my other bag. Talk about careless. bag. Talk about careless. bag. Talk about careless. &gt;&gt; You can pay cash this time, but this is &gt;&gt; You can pay cash this time, but this is &gt;&gt; You can pay cash this time, but this is a one-time exception. a one-time exception. a one-time exception. &gt;&gt; Fair enough. I don't want to push my &gt;&gt; Fair enough. I don't want to push my &gt;&gt; Fair enough. I don't want to push my luck. Listen to an announcement in a lecture hall. to an announcement in a lecture hall. to an announcement in a lecture hall. &gt;&gt; Students, before we start, I want to let",
+            "audio_text": "listen to a conversation. Do you have your bus pass ready? Oh no, looks like I left it in my other bag. Talk about careless. You can pay cash this time, but this is a one-time exception. Fair enough. I don't want to push my luck. Listen to an announcement in a lecture hall. Students, before we start, I want to let",
             "questions": [
               {
                 "id": "list4_m2_q9",
@@ -2171,7 +2171,7 @@ export const listeningPractice04 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo hành chính đại học",
-            "audio_text": "to an announcement in a lecture hall. &gt;&gt; Students, before we start, I want to let &gt;&gt; Students, before we start, I want to let &gt;&gt; Students, before we start, I want to let you know that next Wednesday's lecture you know that next Wednesday's lecture you know that next Wednesday's lecture will be moved from this hall to the will be moved from this hall to the will be moved from this hall to the science building, room 305, to science building, room 305, to science building, room 305, to accommodate a larger audience. Please accommodate a larger audience. Please accommodate a larger audience. Please make sure to arrive on time as seating make sure to arrive on time as seating make sure to arrive on time as seating will be limited. listen to part of a psychology class. listen to part of a psychology class. listen to part of a psychology class. &gt;&gt; Cognitive biases are systematic patterns",
+            "audio_text": "to an announcement in a lecture hall. Students, before we start, I want to let you know that next Wednesday's lecture will be moved from this hall to the science building, room 305, to accommodate a larger audience. Please make sure to arrive on time as seating will be limited.",
             "questions": [
               {
                 "id": "list4_m2_q11",
@@ -2206,7 +2206,7 @@ export const listeningPractice04 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật chuyên sâu",
-            "audio_text": "listen to part of a psychology class. &gt;&gt; Cognitive biases are systematic patterns &gt;&gt; Cognitive biases are systematic patterns &gt;&gt; Cognitive biases are systematic patterns of thinking that deviate from rational of thinking that deviate from rational of thinking that deviate from rational judgment. One of the most common is judgment. One of the most common is judgment. One of the most common is confirmation bias, the tendency to confirmation bias, the tendency to confirmation bias, the tendency to search for or interpret information in search for or interpret information in search for or interpret information in ways that support our existing beliefs. ways that support our existing beliefs. ways that support our existing beliefs. For example, if someone believes that For example, if someone believes that For example, if someone believes that left-handed people are more creative, left-handed people are more creative, left-handed people are more creative, they may pay more attention to they may pay more attention to they may pay more attention to successful left-handed artists while successful left-handed artists while successful left-handed artists while ignoring right-handed ones. Another bias ignoring right-handed ones. Another bias ignoring right-handed ones. Another bias is anchoring, where individuals rely too is anchoring, where individuals rely too is anchoring, where individuals rely too heavily on the first piece of heavily on the first piece of heavily on the first piece of information they receive. If you're told information they receive. If you're told information they receive. If you're told that a product originally cost $500, but that a product originally cost $500, but that a product originally cost $500, but is now on sale for $300, you may think is now on sale for $300, you may think is now on sale for $300, you may think it's a bargain, even if it's not it's a bargain, even if it's not it's a bargain, even if it's not actually worth that much. These biases actually worth that much. These biases actually worth that much. These biases affect everyday decisions from shopping affect everyday decisions from shopping affect everyday decisions from shopping to voting, often without us realizing to voting, often without us realizing to voting, often without us realizing it. Understanding them is a first step it. Understanding them is a first step it. Understanding them is a first step toward making more rational choices.",
+            "audio_text": "listen to part of a psychology class. Cognitive biases are systematic patterns of thinking that deviate from rational judgment. One of the most common is confirmation bias, the tendency to search for or interpret information in ways that support our existing beliefs. For example, if someone believes that left-handed people are more creative, they may pay more attention to successful left-handed artists while ignoring right-handed ones. Another bias is anchoring, where individuals rely too heavily on the first piece of information they receive. If you're told that a product originally cost $500, but is now on sale for $300, you may think it's a bargain, even if it's not actually worth that much. These biases affect everyday decisions from shopping to voting, often without us realizing it. Understanding them is a first step toward making more rational choices.",
             "questions": [
               {
                 "id": "list4_m2_q13",
@@ -2290,7 +2290,7 @@ export const listeningPractice05 = {
               {
                 "id": "list5_m1_q1",
                 "type": "choose_response",
-                "audio_text": "you will answer 40 to 50 questions to demonstrate how well you understand demonstrate how well you understand demonstrate how well you understand spoken English. There are four types of spoken English. There are four types of spoken English. There are four types of tasks. You will hear the audios only tasks. You will hear the audios only tasks. You will hear the audios only once. You will not be able to return to",
+                "audio_text": "You will hear the audios only once.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I submitted it online.",
@@ -2304,7 +2304,7 @@ export const listeningPractice05 = {
               {
                 "id": "list5_m1_q2",
                 "type": "choose_response",
-                "audio_text": "if you answer 60% or more of the questions in the first module correctly, questions in the first module correctly, questions in the first module correctly, you will advance to the hard second you will advance to the hard second you will advance to the hard second module. In this practice test, the module. In this practice test, the module. In this practice test, the second module is hard. Module one.",
+                "audio_text": "In this practice test, the second module is hard.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "They have already joined.",
@@ -2318,7 +2318,7 @@ export const listeningPractice05 = {
               {
                 "id": "list5_m1_q3",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Is the professor holding office hours this afternoon?",
+                "audio_text": "Is the professor holding office hours this afternoon?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Not until next week.",
@@ -2346,7 +2346,7 @@ export const listeningPractice05 = {
               {
                 "id": "list5_m1_q5",
                 "type": "choose_response",
-                "audio_text": "I can't log in to the course portal. Do we need to buy the textbook right Do we need to buy the textbook right Do we need to buy the textbook right away?",
+                "audio_text": "Do we need to buy the textbook right away?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, the building is old.",
@@ -2408,7 +2408,7 @@ export const listeningPractice05 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "I'm thinking of switching majors. Where can I park my bike on campus? The group meeting was moved to Friday. Did you understand today's lecture? Would it be possible to borrow your Would it be possible to borrow your Would it be possible to borrow your notes from yesterday's lecture? I had to notes from yesterday's lecture? I had to notes from yesterday's lecture? I had to step out earlier than expected. step out earlier than expected. step out earlier than expected. &gt;&gt; Sure, that's fine. But I should warn &gt;&gt; Sure, that's fine. But I should warn &gt;&gt; Sure, that's fine. But I should warn you, my handwriting isn't very legible. you, my handwriting isn't very legible. you, my handwriting isn't very legible. &gt;&gt; That's not an issue. I mainly need the &gt;&gt; That's not an issue. I mainly need the &gt;&gt; That's not an issue. I mainly need the key concepts and overall structure. key concepts and overall structure. key concepts and overall structure. &gt;&gt; In that case, I can either bring them &gt;&gt; In that case, I can either bring them &gt;&gt; In that case, I can either bring them tomorrow or scan them and send them tomorrow or scan them and send them tomorrow or scan them and send them later today. later today. later today. &gt;&gt; Tomorrow works perfectly. Thanks. I",
+            "audio_text": "I'm thinking of switching majors. Where can I park my bike on campus? The group meeting was moved to Friday. Did you understand today's lecture? Would it be possible to borrow your notes from yesterday's lecture? I had to step out earlier than expected. Sure, that's fine. But I should warn you, my handwriting isn't very legible. That's not an issue. I mainly need the key concepts and overall structure. In that case, I can either bring them tomorrow or scan them and send them later today. Tomorrow works perfectly. Thanks.",
             "questions": [
               {
                 "id": "list5_m1_q9",
@@ -2443,7 +2443,7 @@ export const listeningPractice05 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "later today. &gt;&gt; Tomorrow works perfectly. Thanks. I &gt;&gt; Tomorrow works perfectly. Thanks. I &gt;&gt; Tomorrow works perfectly. Thanks. I really appreciate it. Do you have any plans to travel this Do you have any plans to travel this Do you have any plans to travel this summer or are you staying in town? summer or are you staying in town? summer or are you staying in town? &gt;&gt; I'll be traveling. I'm planning to spend &gt;&gt; I'll be traveling. I'm planning to spend &gt;&gt; I'll be traveling. I'm planning to spend a couple of weeks visiting my a couple of weeks visiting my a couple of weeks visiting my grandparents. &gt;&gt; That sounds lovely. It must be nice to &gt;&gt; That sounds lovely. It must be nice to &gt;&gt; That sounds lovely. It must be nice to have some quality time with family. have some quality time with family. have some quality time with family. &gt;&gt; Absolutely. I don't get to see them as &gt;&gt; Absolutely. I don't get to see them as &gt;&gt; Absolutely. I don't get to see them as often as I'd like. often as I'd like. often as I'd like. &gt;&gt; How long will you be away? roughly 2 &gt;&gt; How long will you be away? roughly 2 &gt;&gt; How long will you be away? roughly 2 weeks. I'll make sure to return before weeks. I'll make sure to return before weeks. I'll make sure to return before classes resume.",
+            "audio_text": "later today. Tomorrow works perfectly. Thanks. I really appreciate it. Do you have any plans to travel this summer or are you staying in town? I'll be traveling. I'm planning to spend a couple of weeks visiting my grandparents. That sounds lovely. It must be nice to have some quality time with family. Absolutely. I don't get to see them as often as I'd like. How long will you be away? roughly 2 weeks. I'll make sure to return before classes resume.",
             "questions": [
               {
                 "id": "list5_m1_q11",
@@ -2478,7 +2478,7 @@ export const listeningPractice05 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 1",
-            "audio_text": "weeks. I'll make sure to return before classes resume. Attention residents, please be advised that quiet residents, please be advised that quiet residents, please be advised that quiet hours will be temporarily extended hours will be temporarily extended hours will be temporarily extended during final exam week. From 8:00 p.m. during final exam week. From 8:00 p.m. during final exam week. From 8:00 p.m. to 8:00 a.m., residents are asked to 8:00 a.m., residents are asked to 8:00 a.m., residents are asked to refrain from loud conversations, music, refrain from loud conversations, music, refrain from loud conversations, music, or group gatherings in all common areas or group gatherings in all common areas or group gatherings in all common areas and rooms. This measure is intended to and rooms. This measure is intended to and rooms. This measure is intended to create a more supportive environment for create a more supportive environment for create a more supportive environment for studying and rest. We appreciate your studying and rest. We appreciate your studying and rest. We appreciate your understanding and cooperation.",
+            "audio_text": "weeks. I'll make sure to return before classes resume. Attention residents, please be advised that quiet hours will be temporarily extended during final exam week. From 8:00 p. m. to 8:00 a. m., residents are asked to refrain from loud conversations, music, or group gatherings in all common areas and rooms. This measure is intended to create a more supportive environment for studying and rest. We appreciate your understanding and cooperation.",
             "questions": [
               {
                 "id": "list5_m1_q13",
@@ -2513,7 +2513,7 @@ export const listeningPractice05 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 2",
-            "audio_text": "studying and rest. We appreciate your understanding and cooperation. Before we begin today's session, I'd Before we begin today's session, I'd Before we begin today's session, I'd like to inform you of a change to next like to inform you of a change to next like to inform you of a change to next week's schedule. The originally week's schedule. The originally week's schedule. The originally scheduled guest speaker, Professor Lang, scheduled guest speaker, Professor Lang, scheduled guest speaker, Professor Lang, will unfortunately be unable to attend will unfortunately be unable to attend will unfortunately be unable to attend due to unexpected travel delays. As a due to unexpected travel delays. As a due to unexpected travel delays. As a result, Dr. Ramirez from the department result, Dr. Ramirez from the department result, Dr. Ramirez from the department of sociology has agreed to deliver a of sociology has agreed to deliver a of sociology has agreed to deliver a lecture on the same topic, social lecture on the same topic, social lecture on the same topic, social movements and political change. Please movements and political change. Please movements and political change. Please note that while the lecture will take note that while the lecture will take note that while the lecture will take place at the usual time, it has been place at the usual time, it has been place at the usual time, it has been relocated to room 112, which offers relocated to room 112, which offers relocated to room 112, which offers additional seating capacity.",
+            "audio_text": "studying and rest. We appreciate your understanding and cooperation. Before we begin today's session, I'd like to inform you of a change to next week's schedule. The originally scheduled guest speaker, Professor Lang, will unfortunately be unable to attend due to unexpected travel delays. As a result, Dr. Ramirez from the department of sociology has agreed to deliver a lecture on the same topic, social movements and political change. Please note that while the lecture will take place at the usual time, it has been relocated to room 112, which offers additional seating capacity.",
             "questions": [
               {
                 "id": "list5_m1_q15",
@@ -2548,7 +2548,7 @@ export const listeningPractice05 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật đại học",
-            "audio_text": "relocated to room 112, which offers additional seating capacity. In the mid- 15th century, Johannes In the mid- 15th century, Johannes In the mid- 15th century, Johannes Gutenberg revolutionized communication Gutenberg revolutionized communication Gutenberg revolutionized communication with the invention of the movable type with the invention of the movable type with the invention of the movable type printing press. Before this, books were printing press. Before this, books were printing press. Before this, books were copied by hand, which was slow and copied by hand, which was slow and copied by hand, which was slow and expensive. Gutenberg's system allowed expensive. Gutenberg's system allowed expensive. Gutenberg's system allowed texts to be reproduced much faster and texts to be reproduced much faster and texts to be reproduced much faster and at lower cost, making books more widely at lower cost, making books more widely at lower cost, making books more widely available. One of the most famous works available. One of the most famous works available. One of the most famous works he printed was the Gutenberg Bible, he printed was the Gutenberg Bible, he printed was the Gutenberg Bible, which demonstrated the press's ability which demonstrated the press's ability which demonstrated the press's ability to produce high-quality texts. Beyond to produce high-quality texts. Beyond to produce high-quality texts. Beyond religion, the printing press spread religion, the printing press spread religion, the printing press spread scientific ideas, political pamphlets, scientific ideas, political pamphlets, scientific ideas, political pamphlets, and literature across Europe. This rapid and literature across Europe. This rapid and literature across Europe. This rapid distribution of knowledge contributed to distribution of knowledge contributed to distribution of knowledge contributed to major cultural shifts such as the major cultural shifts such as the major cultural shifts such as the Renaissance and the Reformation. In many Renaissance and the Reformation. In many Renaissance and the Reformation. In many ways, the printing press can be seen as ways, the printing press can be seen as ways, the printing press can be seen as a technological breakthrough that a technological breakthrough that a technological breakthrough that reshaped society much like the internet reshaped society much like the internet reshaped society much like the internet does today. module two. module two. module two. &gt;&gt; Can you remind me when the quiz is &gt;&gt; Can you remind me when the quiz is &gt;&gt; Can you remind me when the quiz is scheduled?",
+            "audio_text": "relocated to room 112, which offers additional seating capacity. In the mid- 15th century, Johannes Gutenberg revolutionized communication with the invention of the movable type printing press. Before this, books were copied by hand, which was slow and expensive. Gutenberg's system allowed texts to be reproduced much faster and at lower cost, making books more widely available. One of the most famous works he printed was the Gutenberg Bible, which demonstrated the press's ability to produce high-quality texts. Beyond religion, the printing press spread scientific ideas, political pamphlets, and literature across Europe. This rapid distribution of knowledge contributed to major cultural shifts such as the Renaissance and the Reformation. In many ways, the printing press can be seen as a technological breakthrough that reshaped society much like the internet does today. module two. Can you remind me when the quiz is scheduled?",
             "questions": [
               {
                 "id": "list5_m1_q17",
@@ -2619,7 +2619,7 @@ export const listeningPractice05 = {
               {
                 "id": "list5_m2_q1",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Can you remind me when the quiz is scheduled?",
+                "audio_text": "Can you remind me when the quiz is scheduled?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I left my notebook at home.",
@@ -2647,7 +2647,7 @@ export const listeningPractice05 = {
               {
                 "id": "list5_m2_q3",
                 "type": "choose_response",
-                "audio_text": "I never received the email about the workshop. Is attendance compulsory for this Is attendance compulsory for this Is attendance compulsory for this course?",
+                "audio_text": "Is attendance compulsory for this course?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I arrived late this morning.",
@@ -2661,7 +2661,7 @@ export const listeningPractice05 = {
               {
                 "id": "list5_m2_q4",
                 "type": "choose_response",
-                "audio_text": "Is attendance compulsory for this course? Do you feel like studying together later",
+                "audio_text": "Is attendance compulsory for this course?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I've already passed the course.",
@@ -2703,7 +2703,7 @@ export const listeningPractice05 = {
               {
                 "id": "list5_m2_q7",
                 "type": "choose_response",
-                "audio_text": "Do you know how long the orientation Do you know how long the orientation Do you know how long the orientation runs?",
+                "audio_text": "Do you know how long the orientation runs?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I've attached the document.",
@@ -2717,7 +2717,7 @@ export const listeningPractice05 = {
               {
                 "id": "list5_m2_q8",
                 "type": "choose_response",
-                "audio_text": "Do you know how long the orientation runs? The deadline's been pushed back again. The deadline's been pushed back again.",
+                "audio_text": "Do you know how long the orientation runs?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "No, they're not very detailed.",
@@ -2737,7 +2737,7 @@ export const listeningPractice05 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "The deadline's been pushed back again. Any chance I could borrow your notes from chance I could borrow your notes from chance I could borrow your notes from yesterday's lecture? Do we have sufficient markers for Do we have sufficient markers for Do we have sufficient markers for tomorrow's presentation or are we tomorrow's presentation or are we tomorrow's presentation or are we cutting it a bit close? cutting it a bit close? cutting it a bit close? &gt;&gt; I doubt it. The last one appears to have &gt;&gt; I doubt it. The last one appears to have &gt;&gt; I doubt it. The last one appears to have dried up entirely and it's barely dried up entirely and it's barely dried up entirely and it's barely usable. &gt;&gt; That's unfortunate. I'll swing by the &gt;&gt; That's unfortunate. I'll swing by the &gt;&gt; That's unfortunate. I'll swing by the store on my way home and restock. store on my way home and restock. store on my way home and restock. &gt;&gt; I appreciate it. While you're at it, &gt;&gt; I appreciate it. While you're at it, &gt;&gt; I appreciate it. While you're at it, could you pick up some paper as well, could you pick up some paper as well, could you pick up some paper as well, just to cover all bases? just to cover all bases? just to cover all bases? &gt;&gt; Absolutely. I'd rather be overprepared &gt;&gt; Absolutely. I'd rather be overprepared &gt;&gt; Absolutely. I'd rather be overprepared than risk any last minute issues. Attention",
+            "audio_text": "The deadline's been pushed back again. Any chance I could borrow your notes from yesterday's lecture? Do we have sufficient markers for tomorrow's presentation or are we cutting it a bit close? I doubt it. The last one appears to have dried up entirely and it's barely usable. That's unfortunate. I'll swing by the store on my way home and restock. I appreciate it. While you're at it, could you pick up some paper as well, just to cover all bases? Absolutely. I'd rather be overprepared than risk any last minute issues.",
             "questions": [
               {
                 "id": "list5_m2_q9",
@@ -2772,7 +2772,7 @@ export const listeningPractice05 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường (Phần nâng cao)",
-            "audio_text": "Attention students, Career Services has announced students, Career Services has announced students, Career Services has announced a one-time extension of the deadline for a one-time extension of the deadline for a one-time extension of the deadline for spring internship applications, which spring internship applications, which spring internship applications, which will now close on March 1st. This will now close on March 1st. This will now close on March 1st. This adjustment was made in response to adjustment was made in response to adjustment was made in response to reports that a significant number of reports that a significant number of reports that a significant number of applicants encountered delays in applicants encountered delays in applicants encountered delays in obtaining required recommendation obtaining required recommendation obtaining required recommendation letters. That said, the revised deadline letters. That said, the revised deadline letters. That said, the revised deadline is final and submissions received after is final and submissions received after is final and submissions received after March 1st will not be considered under March 1st will not be considered under March 1st will not be considered under any circumstances. any circumstances. any circumstances. To minimize the risk of technical or To minimize the risk of technical or To minimize the risk of technical or administrative complications, students administrative complications, students administrative complications, students are strongly advised to submit all are strongly advised to submit all are strongly advised to submit all application materials well in advance. application materials well in advance. application materials well in advance. In addition, Career Services is offering In addition, Career Services is offering In addition, Career Services is offering a series of CV writing workshops a series of CV writing workshops a series of CV writing workshops throughout the week. Further details can throughout the week. Further details can throughout the week. Further details can be found on their site.",
+            "audio_text": "Attention students, Career Services has announced a one-time extension of the deadline for spring internship applications, which will now close on March 1st. This adjustment was made in response to reports that a significant number of applicants encountered delays in obtaining required recommendation letters. That said, the revised deadline is final and submissions received after March 1st will not be considered under any circumstances. To minimize the risk of technical or administrative complications, students are strongly advised to submit all application materials well in advance. In addition, Career Services is offering a series of CV writing workshops throughout the week. Further details can be found on their site.",
             "questions": [
               {
                 "id": "list5_m2_q11",
@@ -2807,7 +2807,7 @@ export const listeningPractice05 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 1 (HARD Module)",
-            "audio_text": "throughout the week. Further details can be found on their site. impressionism emerged in France in the impressionism emerged in France in the impressionism emerged in France in the late 19th century as a deliberate late 19th century as a deliberate late 19th century as a deliberate departure from the conventions of departure from the conventions of departure from the conventions of academic painting. Rather than producing academic painting. Rather than producing academic painting. Rather than producing carefully polished studio works, carefully polished studio works, carefully polished studio works, impressionist artists chose to paint impressionist artists chose to paint impressionist artists chose to paint outdoors, emphasizing transient effects outdoors, emphasizing transient effects outdoors, emphasizing transient effects of light, color, and movement. Their use of light, color, and movement. Their use of light, color, and movement. Their use of loose visible brush strokes and of loose visible brush strokes and of loose visible brush strokes and unconventional compositions was intended unconventional compositions was intended unconventional compositions was intended to capture immediacy rather than to capture immediacy rather than to capture immediacy rather than precision. Claude Monet exemplifies this precision. Claude Monet exemplifies this precision. Claude Monet exemplifies this approach through his repeated depictions approach through his repeated depictions approach through his repeated depictions of the same subject under varying of the same subject under varying of the same subject under varying atmospheric conditions, highlighting how atmospheric conditions, highlighting how atmospheric conditions, highlighting how perception shifts over time. At the perception shifts over time. At the perception shifts over time. At the time, many critics dismissed time, many critics dismissed time, many critics dismissed impressionist works as incomplete or impressionist works as incomplete or impressionist works as incomplete or technically flawed. Nevertheless, the technically flawed. Nevertheless, the technically flawed. Nevertheless, the movement ultimately reshaped artistic movement ultimately reshaped artistic movement ultimately reshaped artistic priorities and laid important groundwork priorities and laid important groundwork priorities and laid important groundwork for later developments in modern art. for later developments in modern art. for later developments in modern art. Today, impressionism is widely Today, impressionism is widely Today, impressionism is widely recognized for redefining how everyday recognized for redefining how everyday recognized for redefining how everyday experiences can be represented visually. In economic analysis, opportunity cost In economic analysis, opportunity cost In economic analysis, opportunity cost refers to the benefits an individual or refers to the benefits an individual or refers to the benefits an individual or organization for goes when choosing one organization for goes when choosing one organization for goes when choosing one option over another. Importantly, these option over another. Importantly, these option over another. Importantly, these costs are not always monetary. For costs are not always monetary. For costs are not always monetary. For instance, when a student decides to instance, when a student decides to instance, when a student decides to dedicate an evening to studying rather",
+            "audio_text": "throughout the week. Further details can be found on their site. impressionism emerged in France in the late 19th century as a deliberate departure from the conventions of academic painting. Rather than producing carefully polished studio works, impressionist artists chose to paint outdoors, emphasizing transient effects of light, color, and movement. Their use of loose visible brush strokes and unconventional compositions was intended to capture immediacy rather than precision. Claude Monet exemplifies this approach through his repeated depictions of the same subject under varying atmospheric conditions, highlighting how perception shifts over time. At the time, many critics dismissed impressionist works as incomplete or technically flawed. Nevertheless, the movement ultimately reshaped artistic priorities and laid important groundwork for later developments in modern art. Today, impressionism is widely recognized for redefining how everyday experiences can be represented visually. In economic analysis, opportunity cost refers to the benefits an individual or organization for goes when choosing one option over another. Importantly, these costs are not always monetary. For instance, when a student decides to dedicate an evening to studying rather",
             "questions": [
               {
                 "id": "list5_m2_q13",
@@ -2866,7 +2866,7 @@ export const listeningPractice05 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 2 (HARD Module)",
-            "audio_text": "instance, when a student decides to dedicate an evening to studying rather dedicate an evening to studying rather dedicate an evening to studying rather than working, the opportunity cost may than working, the opportunity cost may than working, the opportunity cost may include lost income, but also lost include lost income, but also lost include lost income, but also lost professional experience or leisure time. professional experience or leisure time. professional experience or leisure time. The same principle applies to The same principle applies to The same principle applies to businesses. Allocating resources to one businesses. Allocating resources to one businesses. Allocating resources to one project inevitably limits investment project inevitably limits investment project inevitably limits investment elsewhere. By recognizing opportunity elsewhere. By recognizing opportunity elsewhere. By recognizing opportunity costs, decision-makers can better costs, decision-makers can better costs, decision-makers can better evaluate trade-offs and avoid focusing evaluate trade-offs and avoid focusing evaluate trade-offs and avoid focusing solely on immediate or visible outcomes. solely on immediate or visible outcomes. solely on immediate or visible outcomes. Ultimately, this concept underscores a Ultimately, this concept underscores a Ultimately, this concept underscores a fundamental reality of economics. fundamental reality of economics. fundamental reality of economics. Resources are finite and every choice Resources are finite and every choice Resources are finite and every choice entails sacrifice. entails sacrifice. entails sacrifice. Once we acknowledge that every decision Once we acknowledge that every decision Once we acknowledge that every decision involves tradeoffs, the next challenge involves tradeoffs, the next challenge involves tradeoffs, the next challenge lies in understanding how individuals lies in understanding how individuals lies in understanding how individuals and organizations attempt to manage and organizations attempt to manage and organizations attempt to manage these constraints in practice. This these constraints in practice. This these constraints in practice. This often requires frameworks that go beyond often requires frameworks that go beyond often requires frameworks that go beyond isolated choices and consider how isolated choices and consider how isolated choices and consider how priorities are set when resources must priorities are set when resources must priorities are set when resources must be distributed across multiple competing be distributed across multiple competing be distributed across multiple competing needs. &gt;&gt; [music]",
+            "audio_text": "instance, when a student decides to dedicate an evening to studying rather than working, the opportunity cost may include lost income, but also lost professional experience or leisure time. The same principle applies to businesses. Allocating resources to one project inevitably limits investment elsewhere. By recognizing opportunity costs, decision-makers can better evaluate trade-offs and avoid focusing solely on immediate or visible outcomes. Ultimately, this concept underscores a fundamental reality of economics. Resources are finite and every choice entails sacrifice. Once we acknowledge that every decision involves tradeoffs, the next challenge lies in understanding how individuals and organizations attempt to manage these constraints in practice. This often requires frameworks that go beyond isolated choices and consider how priorities are set when resources must be distributed across multiple competing needs.",
             "questions": [
               {
                 "id": "list5_m2_q17",
@@ -2950,7 +2950,7 @@ export const listeningPractice06 = {
               {
                 "id": "list6_m1_q1",
                 "type": "choose_response",
-                "audio_text": "you will answer 40 to 50 questions to demonstrate how well you understand demonstrate how well you understand demonstrate how well you understand spoken English. There are four types of spoken English. There are four types of spoken English. There are four types of tasks. You will hear the audios only tasks. You will hear the audios only tasks. You will hear the audios only once. You will not be able to return to",
+                "audio_text": "There are four types of tasks.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Finals are stressful.",
@@ -2964,7 +2964,7 @@ export const listeningPractice06 = {
               {
                 "id": "list6_m1_q2",
                 "type": "choose_response",
-                "audio_text": "questions in the first module correctly, you will advance to the hard second you will advance to the hard second you will advance to the hard second module. In this practice test, the module. In this practice test, the module. In this practice test, the second module is hard. second module is hard. second module is hard. Module one.",
+                "audio_text": "Questions in the first module correctly, you will advance to the hard second module.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "My schedule is busy.",
@@ -2978,7 +2978,7 @@ export const listeningPractice06 = {
               {
                 "id": "list6_m1_q3",
                 "type": "choose_response",
-                "audio_text": "Module one. Where do we submit the final project?",
+                "audio_text": "Where do we submit the final project?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, on the first floor.",
@@ -3034,7 +3034,7 @@ export const listeningPractice06 = {
               {
                 "id": "list6_m1_q7",
                 "type": "choose_response",
-                "audio_text": "Do we need to print the assignment? Why was the lecture recorded?",
+                "audio_text": "Do we need to print the assignment?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It starts at eight.",
@@ -3048,7 +3048,7 @@ export const listeningPractice06 = {
               {
                 "id": "list6_m1_q8",
                 "type": "choose_response",
-                "audio_text": "Why was the lecture recorded? &gt;&gt; I'm running late for class.",
+                "audio_text": "Why was the lecture recorded?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, I joined the debate club.",
@@ -3068,7 +3068,7 @@ export const listeningPractice06 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "&gt;&gt; I'm running late for class. Have you joined any campus clubs yet? Listen to a conversation. Listen to a conversation. Listen to a conversation. I'm heading to the cafe before class. Do I'm heading to the cafe before class. Do I'm heading to the cafe before class. Do you feel like having something? you feel like having something? you feel like having something? Maybe, but I don't want anything too Maybe, but I don't want anything too Maybe, but I don't want anything too strong. I had espresso earlier. strong. I had espresso earlier. strong. I had espresso earlier. They make a mild latte with less They make a mild latte with less They make a mild latte with less caffeine. Would that work? caffeine. Would that work? caffeine. Would that work? Yes, a small one is perfect. And please Yes, a small one is perfect. And please Yes, a small one is perfect. And please don't add sweetener. The milk is enough.",
+            "audio_text": "Listen to a conversation. I'm heading to the cafe before class. Do you feel like having something? Maybe, but I don't want anything too strong. I had espresso earlier. They make a mild latte with less caffeine. Would that work? Yes, a small one is perfect. And please don't add sweetener. The milk is enough.",
             "questions": [
               {
                 "id": "list6_m1_q9",
@@ -3103,7 +3103,7 @@ export const listeningPractice06 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "Yes, a small one is perfect. And please don't add sweetener. The milk is enough. Listen to a conversation. Listen to a conversation. Listen to a conversation. My laptop became unresponsive again My laptop became unresponsive again My laptop became unresponsive again while I was editing my paper. while I was editing my paper. while I was editing my paper. That sounds frustrating. Did the system That sounds frustrating. Did the system That sounds frustrating. Did the system recover after you rebooted? Only recover after you rebooted? Only recover after you rebooted? Only temporarily. It shuts down whenever I temporarily. It shuts down whenever I temporarily. It shuts down whenever I open large files. In that case, the open large files. In that case, the open large files. In that case, the campus technicians might need to check campus technicians might need to check campus technicians might need to check whether it's a hardware issue. Listen to an announcement at the Listen to an announcement at the Listen to an announcement at the university. I'd like to remind students that voting I'd like to remind students that voting I'd like to remind students that voting in the upcoming student government in the upcoming student government in the upcoming student government elections will be held online next elections will be held online next elections will be held online next Wednesday and Thursday. Wednesday and Thursday. Wednesday and Thursday. To participate, you will need your",
+            "audio_text": "Listen to a conversation. My laptop became unresponsive again while I was editing my paper. That sounds frustrating. Did the system recover after you rebooted? Only temporarily. It shuts down whenever I open large files. In that case, the campus technicians might need to check whether it's a hardware issue. Listen to an announcement at the university. I'd like to remind students that voting in the upcoming student government elections will be held online next Wednesday and Thursday. To participate, you will need your",
             "questions": [
               {
                 "id": "list6_m1_q11",
@@ -3138,7 +3138,7 @@ export const listeningPractice06 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 1",
-            "audio_text": "Wednesday and Thursday. To participate, you will need your To participate, you will need your To participate, you will need your student ID number and campus email student ID number and campus email student ID number and campus email account. Election results will be posted Friday Election results will be posted Friday Election results will be posted Friday afternoon on the student government afternoon on the student government afternoon on the student government website. Before voting, students are encouraged Before voting, students are encouraged Before voting, students are encouraged to review the candidates' profiles so to review the candidates' profiles so to review the candidates' profiles so they understand each person's ideas and they understand each person's ideas and they understand each person's ideas and goals. Active participation helps create a Active participation helps create a Active participation helps create a stronger campus community. &gt;&gt; Listen to an announcement in a campus &gt;&gt; Listen to an announcement in a campus &gt;&gt; Listen to an announcement in a campus theater. Good evening, everyone. We would like to Good evening, everyone. We would like to Good evening, everyone. We would like to inform you that tonight's student inform you that tonight's student inform you that tonight's student musical will start about 30 minutes",
+            "audio_text": "Wednesday and Thursday. To participate, you will need your student ID number and campus email account. Election results will be posted Friday afternoon on the student government website. Before voting, students are encouraged to review the candidates' profiles so they understand each person's ideas and goals. Active participation helps create a stronger campus community. Listen to an announcement in a campus theater. Good evening, everyone. We would like to inform you that tonight's student musical will start about 30 minutes",
             "questions": [
               {
                 "id": "list6_m1_q13",
@@ -3173,7 +3173,7 @@ export const listeningPractice06 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 2",
-            "audio_text": "inform you that tonight's student musical will start about 30 minutes musical will start about 30 minutes musical will start about 30 minutes later than originally planned due to a later than originally planned due to a later than originally planned due to a problem with the theater's lighting problem with the theater's lighting problem with the theater's lighting equipment. The technical team is equipment. The technical team is equipment. The technical team is currently working to resolve the issue. currently working to resolve the issue. currently working to resolve the issue. During this time, the lobby area will During this time, the lobby area will During this time, the lobby area will remain open and snacks and drinks will remain open and snacks and drinks will remain open and snacks and drinks will be available for purchase. be available for purchase. be available for purchase. If the new start time creates a conflict If the new start time creates a conflict If the new start time creates a conflict for you, ticket exchanges for a later for you, ticket exchanges for a later for you, ticket exchanges for a later performance can be arranged at the box performance can be arranged at the box performance can be arranged at the box office in the lobby. Thank you for your office in the lobby. Thank you for your office in the lobby. Thank you for your understanding. Please note that the understanding. Please note that the understanding. Please note that the performance itself will not be shortened performance itself will not be shortened performance itself will not be shortened and will take place in full after the and will take place in full after the and will take place in full after the delay.",
+            "audio_text": "inform you that tonight's student musical will start about 30 minutes later than originally planned due to a problem with the theater's lighting equipment. The technical team is currently working to resolve the issue. During this time, the lobby area will remain open and snacks and drinks will be available for purchase. If the new start time creates a conflict for you, ticket exchanges for a later performance can be arranged at the box office in the lobby. Thank you for your understanding. Please note that the performance itself will not be shortened and will take place in full after the delay.",
             "questions": [
               {
                 "id": "list6_m1_q15",
@@ -3208,7 +3208,7 @@ export const listeningPractice06 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật đại học",
-            "audio_text": "and will take place in full after the delay. &gt;&gt; Listen to part of a sociology class. &gt;&gt; Listen to part of a sociology class. &gt;&gt; Listen to part of a sociology class. Urbanization is the process by which Urbanization is the process by which Urbanization is the process by which increasing numbers of people move from increasing numbers of people move from increasing numbers of people move from rural areas to cities. rural areas to cities. rural areas to cities. This shift has taken place for many This shift has taken place for many This shift has taken place for many decades and continues in most parts of decades and continues in most parts of decades and continues in most parts of the world today. the world today. the world today. Cities often attract people because they Cities often attract people because they Cities often attract people because they offer greater access to universities, a offer greater access to universities, a offer greater access to universities, a wider range of jobs, and more cultural wider range of jobs, and more cultural wider range of jobs, and more cultural and social opportunities. and social opportunities. and social opportunities. As a result, many individuals believe As a result, many individuals believe As a result, many individuals believe that moving to an urban area will that moving to an urban area will that moving to an urban area will improve their quality of life and future improve their quality of life and future improve their quality of life and future prospects. Historically, industrialization played a Historically, industrialization played a Historically, industrialization played a major role in encouraging urban growth. major role in encouraging urban growth. major role in encouraging urban growth. When factories were built in cities, When factories were built in cities, When factories were built in cities, they created employment opportunities they created employment opportunities they created employment opportunities that drew rural populations into urban that drew rural populations into urban that drew rural populations into urban centers. Over time, this movement changed not Over time, this movement changed not Over time, this movement changed not only where people lived, but also how only where people lived, but also how only where people lived, but also how communities were organized and how communities were organized and how communities were organized and how economies functioned. economies functioned. economies functioned. Despite these advantages, rapid urban Despite these advantages, rapid urban Despite these advantages, rapid urban growth can create several challenges. growth can create several challenges. growth can create several challenges. Cities may struggle to provide enough Cities may struggle to provide enough Cities may struggle to provide enough affordable housing, efficient affordable housing, efficient affordable housing, efficient transportation, and clean environments transportation, and clean environments transportation, and clean environments for expanding populations. for expanding populations. for expanding populations. Traffic congestion and air pollution are Traffic congestion and air pollution are Traffic congestion and air pollution are common concerns in densely populated common concerns in densely populated common concerns in densely populated areas. To respond to these issues, many cities To respond to these issues, many cities To respond to these issues, many cities are investing in improved public are investing in improved public are investing in improved public transportation and developing parks and transportation and developing parks and transportation and developing parks and green spaces. green spaces. green spaces. These efforts aim to make urban These efforts aim to make urban These efforts aim to make urban environments healthier and more environments healthier and more environments healthier and more sustainable while preserving the sustainable while preserving the sustainable while preserving the economic and educational benefits cities economic and educational benefits cities economic and educational benefits cities provide. &gt;&gt; Module two. &gt;&gt; Module two. &gt;&gt; Module two. The Wi-Fi is malfunctioning in the dorm.",
+            "audio_text": "Listen to part of a sociology class. Urbanization is the process by which increasing numbers of people move from rural areas to cities. This shift has taken place for many decades and continues in most parts of the world today. Cities often attract people because they offer greater access to universities, a wider range of jobs, and more cultural and social opportunities. As a result, many individuals believe that moving to an urban area will improve their quality of life and future prospects. Historically, industrialization played a major role in encouraging urban growth. When factories were built in cities, they created employment opportunities that drew rural populations into urban centers. Over time, this movement changed not only where people lived, but also how communities were organized and how economies functioned. Despite these advantages, rapid urban growth can create several challenges. Cities may struggle to provide enough affordable housing, efficient transportation, and clean environments for expanding populations. Traffic congestion and air pollution are common concerns in densely populated areas. To respond to these issues, many cities are investing in improved public transportation and developing parks and green spaces. These efforts aim to make urban environments healthier and more sustainable while preserving the economic and educational benefits cities provide. Module two. The Wi-Fi is malfunctioning in the dorm.",
             "questions": [
               {
                 "id": "list6_m1_q17",
@@ -3279,7 +3279,7 @@ export const listeningPractice06 = {
               {
                 "id": "list6_m2_q1",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Module two. The Wi-Fi is malfunctioning in the dorm.",
+                "audio_text": "The Wi-Fi is malfunctioning in the dorm.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The dorm is old.",
@@ -3377,7 +3377,7 @@ export const listeningPractice06 = {
               {
                 "id": "list6_m2_q8",
                 "type": "choose_response",
-                "audio_text": "I think I failed the quiz. &gt;&gt; Listen to a conversation.",
+                "audio_text": "I think I failed the quiz.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "In my opinion, the more, the better.",
@@ -3397,7 +3397,7 @@ export const listeningPractice06 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "thought today's lecture was supposed to be intense. It was, but it turns out the be intense. It was, but it turns out the be intense. It was, but it turns out the professor pulled the plug at the last professor pulled the plug at the last professor pulled the plug at the last minute. She dropped a message in the minute. She dropped a message in the minute. She dropped a message in the course portal early this morning. course portal early this morning. course portal early this morning. Seriously? I've been buried in Seriously? I've been buried in Seriously? I've been buried in back-to-back meetings and completely out back-to-back meetings and completely out back-to-back meetings and completely out of the loop. I guess that explains why of the loop. I guess that explains why of the loop. I guess that explains why the classroom was empty. the classroom was empty. the classroom was empty. Yeah, apparently she wasn't feeling Yeah, apparently she wasn't feeling Yeah, apparently she wasn't feeling well. Still, she made it clear the well. Still, she made it clear the well. Still, she made it clear the change doesn't give us any breathing change doesn't give us any breathing change doesn't give us any breathing room. The assignment deadline hasn't room. The assignment deadline hasn't room. The assignment deadline hasn't budged. That's frustrating. I was secretly That's frustrating. I was secretly That's frustrating. I was secretly hoping for a bit of wiggle room. Same hoping for a bit of wiggle room. Same hoping for a bit of wiggle room. Same here, but no such luck. She even here, but no such luck. She even here, but no such luck. She even emphasized that we shouldn't take the emphasized that we shouldn't take the emphasized that we shouldn't take the cancellation as a green light to slow cancellation as a green light to slow cancellation as a green light to slow down. Good thing you told me, otherwise I Good thing you told me, otherwise I Good thing you told me, otherwise I would have been caught off guard. Trust would have been caught off guard. Trust would have been caught off guard. Trust me, I almost missed it, too. The me, I almost missed it, too. The me, I almost missed it, too. The notification was easy to overlook if you notification was easy to overlook if you notification was easy to overlook if you weren't keeping an eye on the platform. Listen to an announcement in a Listen to an announcement in a Listen to an announcement in a university library.",
+            "audio_text": "thought today's lecture was supposed to be intense. It was, but it turns out the professor pulled the plug at the last minute. She dropped a message in the course portal early this morning. Seriously? I've been buried in back-to-back meetings and completely out of the loop. I guess that explains why the classroom was empty. Yeah, apparently she wasn't feeling well. Still, she made it clear the change doesn't give us any breathing room. The assignment deadline hasn't budged. That's frustrating. I was secretly hoping for a bit of wiggle room. Same here, but no such luck. She even emphasized that we shouldn't take the cancellation as a green light to slow down. Good thing you told me, otherwise I would have been caught off guard. Trust me, I almost missed it, too. The notification was easy to overlook if you weren't keeping an eye on the platform.",
             "questions": [
               {
                 "id": "list6_m2_q9",
@@ -3432,7 +3432,7 @@ export const listeningPractice06 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường (Phần nâng cao)",
-            "audio_text": "Listen to an announcement in a university library. university library. university library. Attention library users. Please note Attention library users. Please note Attention library users. Please note that access to the third floor will be that access to the third floor will be that access to the third floor will be restricted throughout the day tomorrow restricted throughout the day tomorrow restricted throughout the day tomorrow while facility staff carry out flooring while facility staff carry out flooring while facility staff carry out flooring maintenance. As a result, the study maintenance. As a result, the study maintenance. As a result, the study rooms and computer workstations located rooms and computer workstations located rooms and computer workstations located on that level will be temporarily out of on that level will be temporarily out of on that level will be temporarily out of service. Any bookings previously made for those Any bookings previously made for those Any bookings previously made for those rooms have been reassigned to comparable rooms have been reassigned to comparable rooms have been reassigned to comparable spaces on the second floor and spaces on the second floor and spaces on the second floor and directional signage will be in place to directional signage will be in place to directional signage will be in place to assist you. assist you. assist you. We understand this may cause some We understand this may cause some We understand this may cause some disruption and appreciate your patience disruption and appreciate your patience disruption and appreciate your patience while the work is completed. Listen to part of an anthropology class.",
+            "audio_text": "Listen to an announcement in a university library. Attention library users. Please note that access to the third floor will be restricted throughout the day tomorrow while facility staff carry out flooring maintenance. As a result, the study rooms and computer workstations located on that level will be temporarily out of service. Any bookings previously made for those rooms have been reassigned to comparable spaces on the second floor and directional signage will be in place to assist you. We understand this may cause some disruption and appreciate your patience while the work is completed.",
             "questions": [
               {
                 "id": "list6_m2_q11",
@@ -3467,7 +3467,7 @@ export const listeningPractice06 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 1 (HARD Module)",
-            "audio_text": "Listen to part of an anthropology class. Listen to part of an anthropology class. Listen to part of an anthropology class. Rituals are organized actions that carry Rituals are organized actions that carry Rituals are organized actions that carry symbolic meaning across cultures. symbolic meaning across cultures. symbolic meaning across cultures. They may be religious, such as They may be religious, such as They may be religious, such as ceremonies connected to birth or death, ceremonies connected to birth or death, ceremonies connected to birth or death, or secular, like graduation events or secular, like graduation events or secular, like graduation events or national celebrations. national celebrations. national celebrations. Although rituals often mark important Although rituals often mark important Although rituals often mark important life events, their function goes beyond life events, their function goes beyond life events, their function goes beyond simple celebration. They help strengthen simple celebration. They help strengthen simple celebration. They help strengthen group identity and reinforce shared group identity and reinforce shared group identity and reinforce shared expectations about behavior and social expectations about behavior and social expectations about behavior and social roles. By participating in common rituals, By participating in common rituals, By participating in common rituals, individuals develop a sense of belonging individuals develop a sense of belonging individuals develop a sense of belonging and continuity within their community. and continuity within their community. and continuity within their community. One clear example is coming-of-age One clear example is coming-of-age One clear example is coming-of-age rituals. These ceremonies formally recognize a These ceremonies formally recognize a These ceremonies formally recognize a person's transition from childhood to person's transition from childhood to person's transition from childhood to adulthood. In many societies, they adulthood. In many societies, they adulthood. In many societies, they signal that the individual is ready to signal that the individual is ready to signal that the individual is ready to take on new responsibilities and take on new responsibilities and take on new responsibilities and participate more fully in community participate more fully in community participate more fully in community life. Through public recognition and symbolic Through public recognition and symbolic Through public recognition and symbolic actions, these rituals communicate how a actions, these rituals communicate how a actions, these rituals communicate how a culture defines maturity and culture defines maturity and culture defines maturity and responsibility. Ritualistic behavior also appears in Ritualistic behavior also appears in Ritualistic behavior also appears in everyday interactions. everyday interactions. everyday interactions. Simple acts such as shaking hands or Simple acts such as shaking hands or Simple acts such as shaking hands or following greeting routines may seem following greeting routines may seem following greeting routines may seem minor, yet they serve important social minor, yet they serve important social minor, yet they serve important social functions. They express respect, establish trust, They express respect, establish trust, They express respect, establish trust, and create predictable patterns of and create predictable patterns of and create predictable patterns of interaction that make communication interaction that make communication interaction that make communication smoother. For this reason, anthropologists study For this reason, anthropologists study For this reason, anthropologists study rituals not only by describing what rituals not only by describing what rituals not only by describing what people do, but by analyzing what those people do, but by analyzing what those people do, but by analyzing what those actions represent. actions represent. actions represent. Researchers are especially interested in Researchers are especially interested in Researchers are especially interested in how rituals reflect underlying beliefs, how rituals reflect underlying beliefs, how rituals reflect underlying beliefs, values, and social structures within a values, and social structures within a values, and social structures within a society.",
+            "audio_text": "Listen to part of an anthropology class. Rituals are organized actions that carry symbolic meaning across cultures. They may be religious, such as ceremonies connected to birth or death, or secular, like graduation events or national celebrations. Although rituals often mark important life events, their function goes beyond simple celebration. They help strengthen group identity and reinforce shared expectations about behavior and social roles. By participating in common rituals, individuals develop a sense of belonging and continuity within their community. One clear example is coming-of-age rituals. These ceremonies formally recognize a person's transition from childhood to adulthood. In many societies, they signal that the individual is ready to take on new responsibilities and participate more fully in community life. Through public recognition and symbolic actions, these rituals communicate how a culture defines maturity and responsibility. Ritualistic behavior also appears in everyday interactions. Simple acts such as shaking hands or following greeting routines may seem minor, yet they serve important social functions. They express respect, establish trust, and create predictable patterns of interaction that make communication smoother. For this reason, anthropologists study rituals not only by describing what people do, but by analyzing what those actions represent. Researchers are especially interested in how rituals reflect underlying beliefs, values, and social structures within a society.",
             "questions": [
               {
                 "id": "list6_m2_q13",
@@ -3526,7 +3526,7 @@ export const listeningPractice06 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 2 (HARD Module)",
-            "audio_text": "values, and social structures within a society. &gt;&gt; Listen to part of a literature class. &gt;&gt; Listen to part of a literature class. &gt;&gt; Listen to part of a literature class. Myths are traditional stories that Myths are traditional stories that Myths are traditional stories that societies used to explain natural societies used to explain natural societies used to explain natural events, shared experiences, and events, shared experiences, and events, shared experiences, and important human questions. important human questions. important human questions. These narratives often include gods, These narratives often include gods, These narratives often include gods, heroes, or supernatural forces, but heroes, or supernatural forces, but heroes, or supernatural forces, but their purpose goes far beyond their purpose goes far beyond their purpose goes far beyond entertainment. Myths act as symbolic systems that Myths act as symbolic systems that Myths act as symbolic systems that communicate cultural knowledge and communicate cultural knowledge and communicate cultural knowledge and strengthen commonly held beliefs. strengthen commonly held beliefs. strengthen commonly held beliefs. In many traditional communities, myths In many traditional communities, myths In many traditional communities, myths were closely connected to religion, were closely connected to religion, were closely connected to religion, rituals, and the passing of values from rituals, and the passing of values from rituals, and the passing of values from one generation to another, one generation to another, one generation to another, helping people make sense of events that helping people make sense of events that helping people make sense of events that seemed confusing or unpredictable. seemed confusing or unpredictable. seemed confusing or unpredictable. A well-known example is the Greek myth A well-known example is the Greek myth A well-known example is the Greek myth of Demeter and Persephone. of Demeter and Persephone. of Demeter and Persephone. This story provides a symbolic This story provides a symbolic This story provides a symbolic explanation for the changing seasons by explanation for the changing seasons by explanation for the changing seasons by linking agricultural cycles to the linking agricultural cycles to the linking agricultural cycles to the emotional experience of separation and emotional experience of separation and emotional experience of separation and reunion. Persephone's movement between the Persephone's movement between the Persephone's movement between the underworld and the surface world underworld and the surface world underworld and the surface world reflects the transition from winter to reflects the transition from winter to reflects the transition from winter to spring, showing how myths transform spring, showing how myths transform spring, showing how myths transform observation of nature into meaningful observation of nature into meaningful observation of nature into meaningful stories. In addition to explaining natural In addition to explaining natural In addition to explaining natural phenomena, myths often serve as moral phenomena, myths often serve as moral phenomena, myths often serve as moral guides. Hero stories highlight qualities such as Hero stories highlight qualities such as Hero stories highlight qualities such as courage, loyalty, perseverance, and courage, loyalty, perseverance, and courage, loyalty, perseverance, and self-sacrifice, encouraging behaviors self-sacrifice, encouraging behaviors self-sacrifice, encouraging behaviors that societies consider admirable. that societies consider admirable. that societies consider admirable. By comparing myths across cultures, By comparing myths across cultures, By comparing myths across cultures, scholars can identify recurring themes scholars can identify recurring themes scholars can identify recurring themes like transformation, conflict, and like transformation, conflict, and like transformation, conflict, and renewal, while also recognizing renewal, while also recognizing renewal, while also recognizing culturally specific meanings. culturally specific meanings. culturally specific meanings. Some researchers even suggest that the Some researchers even suggest that the Some researchers even suggest that the narrative patterns shaping myths narrative patterns shaping myths narrative patterns shaping myths resemble early scientific thinking, resemble early scientific thinking, resemble early scientific thinking, leading to further discussion about how leading to further discussion about how leading to further discussion about how humans interpret knowledge.",
+            "audio_text": "Listen to part of a literature class. Myths are traditional stories that societies used to explain natural events, shared experiences, and important human questions. These narratives often include gods, heroes, or supernatural forces, but their purpose goes far beyond entertainment. Myths act as symbolic systems that communicate cultural knowledge and strengthen commonly held beliefs. In many traditional communities, myths were closely connected to religion, rituals, and the passing of values from one generation to another, helping people make sense of events that seemed confusing or unpredictable. A well-known example is the Greek myth of Demeter and Persephone. This story provides a symbolic explanation for the changing seasons by linking agricultural cycles to the emotional experience of separation and reunion. Persephone's movement between the underworld and the surface world reflects the transition from winter to spring, showing how myths transform observation of nature into meaningful stories. In addition to explaining natural phenomena, myths often serve as moral guides. Hero stories highlight qualities such as courage, loyalty, perseverance, and self-sacrifice, encouraging behaviors that societies consider admirable. By comparing myths across cultures, scholars can identify recurring themes like transformation, conflict, and renewal, while also recognizing culturally specific meanings. Some researchers even suggest that the narrative patterns shaping myths resemble early scientific thinking, leading to further discussion about how humans interpret knowledge.",
             "questions": [
               {
                 "id": "list6_m2_q17",
@@ -3610,7 +3610,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m1_q1",
                 "type": "choose_response",
-                "audio_text": "you will answer 40 to 50 questions to demonstrate how well you understand demonstrate how well you understand demonstrate how well you understand spoken English. There are four types of spoken English. There are four types of spoken English. There are four types of tasks. You will hear the audios only tasks. You will hear the audios only tasks. You will hear the audios only once. You will not be able to return to",
+                "audio_text": "You will hear the audios only once.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I'm a real bookworm.",
@@ -3624,7 +3624,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m1_q2",
                 "type": "choose_response",
-                "audio_text": "if you answer 60% or more of the questions in the first module correctly, questions in the first module correctly, questions in the first module correctly, you will advance to the hard second you will advance to the hard second you will advance to the hard second module. In this practice test, the module. In this practice test, the module. In this practice test, the second module is hard. second module is hard. second module is hard. Module one.",
+                "audio_text": "If you answer 60% or more of the questions in the first module correctly, you will advance to the hard second module.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, it's open until midnight.",
@@ -3638,7 +3638,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m1_q3",
                 "type": "choose_response",
-                "audio_text": "Module one. Can you help me carry these books?",
+                "audio_text": "Can you help me carry these books?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I skimmed through the article.",
@@ -3680,7 +3680,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m1_q6",
                 "type": "choose_response",
-                "audio_text": "Did you attend the career fair? The exam room was changed.",
+                "audio_text": "Did you attend the career fair?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The class drags on.",
@@ -3694,7 +3694,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m1_q7",
                 "type": "choose_response",
-                "audio_text": "The exam room was changed. Why are you leaving early?",
+                "audio_text": "Why are you leaving early?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I usually go it alone.",
@@ -3708,7 +3708,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m1_q8",
                 "type": "choose_response",
-                "audio_text": "Why are you leaving early? Do you want to join our study group?",
+                "audio_text": "Why are you leaving early?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It's in Building C, just around the corner.",
@@ -3728,7 +3728,7 @@ export const listeningPractice07 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "Do you want to join our study group? I can't find my classroom. Listen to a conversation. Listen to a conversation. Listen to a conversation. Did you order already? Not yet. I was Did you order already? Not yet. I was Did you order already? Not yet. I was waiting for you. Thanks. I think I'll waiting for you. Thanks. I think I'll waiting for you. Thanks. I think I'll get the soup and salad. Good choice. get the soup and salad. Good choice. get the soup and salad. Good choice. I'll have the same. Great minds think I'll have the same. Great minds think I'll have the same. Great minds think alike.",
+            "audio_text": "Listen to a conversation. Did you order already? Not yet. I was waiting for you. Thanks. I think I'll get the soup and salad. Good choice. I'll have the same. Great minds think alike.",
             "questions": [
               {
                 "id": "list7_m1_q9",
@@ -3763,7 +3763,7 @@ export const listeningPractice07 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "I'll have the same. Great minds think alike. Listen to a conversation. Listen to a conversation. Listen to a conversation. Did you get the concert tickets? Yes, Did you get the concert tickets? Yes, Did you get the concert tickets? Yes, but they were almost sold out. Wow, we but they were almost sold out. Wow, we but they were almost sold out. Wow, we were lucky then. Yeah, I had to book were lucky then. Yeah, I had to book were lucky then. Yeah, I had to book them quickly. We got seats near the them quickly. We got seats near the them quickly. We got seats near the back, but beggars can't be choosers. back, but beggars can't be choosers. back, but beggars can't be choosers. True. I'm just glad we're going. Listen to an announcement at a campus Listen to an announcement at a campus Listen to an announcement at a campus athletics office. athletics office. athletics office. Registration for the university's Registration for the university's Registration for the university's intramural soccer league opens Monday. intramural soccer league opens Monday. intramural soccer league opens Monday. Teams must sign up by the end of next Teams must sign up by the end of next Teams must sign up by the end of next week to be included in the season week to be included in the season week to be included in the season schedule. Games will be played on Wednesday Games will be played on Wednesday Games will be played on Wednesday evenings at the South Field beginning in evenings at the South Field beginning in evenings at the South Field beginning in 2 weeks. 2 weeks. 2 weeks. If you don't have a full team, you can",
+            "audio_text": "Listen to a conversation. Did you get the concert tickets? Yes, but they were almost sold out. Wow, we were lucky then. Yeah, I had to book them quickly. We got seats near the back, but beggars can't be choosers. True. I'm just glad we're going. Listen to an announcement at a campus athletics office. Registration for the university's intramural soccer league opens Monday. Teams must sign up by the end of next week to be included in the season schedule. Games will be played on Wednesday evenings at the South Field beginning in 2 weeks. If you don't have a full team, you can",
             "questions": [
               {
                 "id": "list7_m1_q11",
@@ -3798,7 +3798,7 @@ export const listeningPractice07 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 1",
-            "audio_text": "2 weeks. If you don't have a full team, you can If you don't have a full team, you can If you don't have a full team, you can still register individually and we'll still register individually and we'll still register individually and we'll match you with others. match you with others. match you with others. Don't miss the chance to participate. Listen to an announcement on campus Listen to an announcement on campus Listen to an announcement on campus radio. The university bookstore will host a The university bookstore will host a The university bookstore will host a textbook buyback event this Friday from textbook buyback event this Friday from textbook buyback event this Friday from 9:00 a.m. to 5:00 p.m. Students can 9:00 a.m. to 5:00 p.m. Students can 9:00 a.m. to 5:00 p.m. Students can bring in used textbooks and receive cash bring in used textbooks and receive cash bring in used textbooks and receive cash or store credit depending on the book's or store credit depending on the book's or store credit depending on the book's resale value. Please note that only resale value. Please note that only resale value. Please note that only recent editions and good condition will recent editions and good condition will recent editions and good condition will be accepted. Store credit may be worth",
+            "audio_text": "2 weeks. If you don't have a full team, you can still register individually and we'll match you with others. Don't miss the chance to participate. Listen to an announcement on campus radio. The university bookstore will host a textbook buyback event this Friday from 9:00 a. m. to 5:00 p. m. Students can bring in used textbooks and receive cash or store credit depending on the book's resale value. Please note that only recent editions and good condition will be accepted.",
             "questions": [
               {
                 "id": "list7_m1_q13",
@@ -3833,7 +3833,7 @@ export const listeningPractice07 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 2",
-            "audio_text": "recent editions and good condition will be accepted. Store credit may be worth be accepted. Store credit may be worth be accepted. Store credit may be worth slightly more than cash. Don't forget to slightly more than cash. Don't forget to slightly more than cash. Don't forget to bring your student ID with you. Listen to part of a psychology class. Listen to part of a psychology class. Listen to part of a psychology class. Habits are behaviors that become Habits are behaviors that become Habits are behaviors that become automatic through repetition. At first, automatic through repetition. At first, automatic through repetition. At first, performing a new action requires performing a new action requires performing a new action requires conscious effort and attention, but over conscious effort and attention, but over conscious effort and attention, but over time, the brain builds mental shortcuts time, the brain builds mental shortcuts time, the brain builds mental shortcuts that allow the behavior to occur with that allow the behavior to occur with that allow the behavior to occur with very little thought. This process is very little thought. This process is very little thought. This process is efficient because it conserves mental efficient because it conserves mental efficient because it conserves mental energy. People do not have to make fresh",
+            "audio_text": "recent editions and good condition will be accepted. Store credit may be worth slightly more than cash. Don't forget to bring your student ID with you. Listen to part of a psychology class. Habits are behaviors that become automatic through repetition. At first, performing a new action requires conscious effort and attention, but over time, the brain builds mental shortcuts that allow the behavior to occur with very little thought. This process is efficient because it conserves mental energy. People do not have to make fresh",
             "questions": [
               {
                 "id": "list7_m1_q15",
@@ -3868,7 +3868,7 @@ export const listeningPractice07 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật đại học",
-            "audio_text": "efficient because it conserves mental energy. People do not have to make fresh energy. People do not have to make fresh energy. People do not have to make fresh decisions about routine activities every decisions about routine activities every decisions about routine activities every day, which frees up attention for more day, which frees up attention for more day, which frees up attention for more complex tasks. complex tasks. complex tasks. However, the same mechanism that forms However, the same mechanism that forms However, the same mechanism that forms helpful habits can also create helpful habits can also create helpful habits can also create undesirable ones that are difficult to undesirable ones that are difficult to undesirable ones that are difficult to break. Researchers often describe habit Researchers often describe habit Researchers often describe habit formation using what is known as the formation using what is known as the formation using what is known as the cue, routine, reward cycle. cue, routine, reward cycle. cue, routine, reward cycle. A cue is a trigger that tells the brain A cue is a trigger that tells the brain A cue is a trigger that tells the brain to start a behavior. to start a behavior. to start a behavior. The routine is the action itself, and The routine is the action itself, and The routine is the action itself, and the reward is the benefit that the reward is the benefit that the reward is the benefit that reinforces the pattern. reinforces the pattern. reinforces the pattern. For instance, feeling stressed after For instance, feeling stressed after For instance, feeling stressed after work may serve as a cue that leads work may serve as a cue that leads work may serve as a cue that leads someone to snack with the reward being a someone to snack with the reward being a someone to snack with the reward being a brief sense of comfort or relief. brief sense of comfort or relief. brief sense of comfort or relief. If this sequence happens repeatedly, it If this sequence happens repeatedly, it If this sequence happens repeatedly, it gradually becomes automatic. gradually becomes automatic. gradually becomes automatic. Understanding this cycle can help people Understanding this cycle can help people Understanding this cycle can help people change their habits more effectively. change their habits more effectively. change their habits more effectively. Rather than trying to remove a habit Rather than trying to remove a habit Rather than trying to remove a habit entirely, psychologists suggest keeping entirely, psychologists suggest keeping entirely, psychologists suggest keeping the same cue and reward, but replacing the same cue and reward, but replacing the same cue and reward, but replacing the routine with a more beneficial the routine with a more beneficial the routine with a more beneficial action, allowing the brain to maintain action, allowing the brain to maintain action, allowing the brain to maintain satisfaction while adopting healthier satisfaction while adopting healthier satisfaction while adopting healthier behavior. Before we move on, it is important to Before we move on, it is important to Before we move on, it is important to note that habits do not form in note that habits do not form in note that habits do not form in isolation. The environment around us, such as our The environment around us, such as our The environment around us, such as our surroundings, schedules, and social surroundings, schedules, and social surroundings, schedules, and social influences, often shapes the cues that influences, often shapes the cues that influences, often shapes the cues that trigger our routines. trigger our routines. trigger our routines. In the next part of the lecture, we will In the next part of the lecture, we will In the next part of the lecture, we will examine how much &gt;&gt; Module two. &gt;&gt; Module two. &gt;&gt; Module two. Did you finish the reading for today?",
+            "audio_text": "efficient because it conserves mental energy. People do not have to make fresh decisions about routine activities every day, which frees up attention for more complex tasks. However, the same mechanism that forms helpful habits can also create undesirable ones that are difficult to break. Researchers often describe habit formation using what is known as the cue, routine, reward cycle. A cue is a trigger that tells the brain to start a behavior. The routine is the action itself, and the reward is the benefit that reinforces the pattern. For instance, feeling stressed after work may serve as a cue that leads someone to snack with the reward being a brief sense of comfort or relief. If this sequence happens repeatedly, it gradually becomes automatic. Understanding this cycle can help people change their habits more effectively. Rather than trying to remove a habit entirely, psychologists suggest keeping the same cue and reward, but replacing the routine with a more beneficial action, allowing the brain to maintain satisfaction while adopting healthier behavior. Before we move on, it is important to note that habits do not form in isolation. The environment around us, such as our surroundings, schedules, and social influences, often shapes the cues that trigger our routines. In the next part of the lecture, we will examine how much Module two. Did you finish the reading for today?",
             "questions": [
               {
                 "id": "list7_m1_q17",
@@ -3939,7 +3939,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m2_q1",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Module two. Did you finish the reading for today? Where should we meet for the group Where should we meet for the group Where should we meet for the group project?",
+                "audio_text": "Did you finish the reading for today?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The book weighs a ton.",
@@ -3953,7 +3953,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m2_q2",
                 "type": "choose_response",
-                "audio_text": "Where should we meet for the group project? The assignment instructions are unclear.",
+                "audio_text": "Where should we meet for the group project?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "This project is no walk in the park.",
@@ -3967,7 +3967,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m2_q3",
                 "type": "choose_response",
-                "audio_text": "The assignment instructions are unclear. Is the lecture being recorded today?",
+                "audio_text": "Is the lecture being recorded today?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I'm really into this class too.",
@@ -3981,7 +3981,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m2_q4",
                 "type": "choose_response",
-                "audio_text": "Is the lecture being recorded today? I'm nervous about speaking in class.",
+                "audio_text": "Is the lecture being recorded today?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I got there behind schedule.",
@@ -3995,7 +3995,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m2_q5",
                 "type": "choose_response",
-                "audio_text": "I'm nervous about speaking in class. How many credits is this course worth?",
+                "audio_text": "I'm nervous about speaking in class.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Speaking up is part of the deal.",
@@ -4009,7 +4009,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m2_q6",
                 "type": "choose_response",
-                "audio_text": "How many credits is this course worth? The bus was late again this morning.",
+                "audio_text": "How many credits is this course worth?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Credits cost an arm and a leg.",
@@ -4037,7 +4037,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m2_q8",
                 "type": "choose_response",
-                "audio_text": "Listen to a conversation. Listen to a conversation. Listen to a conversation. Are we still on for today to work on the Are we still on for today to work on the Are we still on for today to work on the group project? Yes, but we're starting group project? Yes, but we're starting group project? Yes, but we're starting an hour later than planned. The",
+                "audio_text": "Are we still on for today to work on the group project?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Be my guest.",
@@ -4057,7 +4057,7 @@ export const listeningPractice07 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "update. Where are we meeting now? In the library, study room 203. It should be library, study room 203. It should be library, study room 203. It should be quieter there. Good idea. I'll bring the quieter there. Good idea. I'll bring the quieter there. Good idea. I'll bring the outline we worked on so we can stay on outline we worked on so we can stay on outline we worked on so we can stay on the same page. the same page. the same page. Perfect. I'll bring the draft slides and Perfect. I'll bring the draft slides and Perfect. I'll bring the draft slides and we can polish them together. No need to we can polish them together. No need to we can polish them together. No need to reinvent the wheel. Listen to an announcement at a student Listen to an announcement at a student Listen to an announcement at a student orientation. Welcome to all new students. To help you Welcome to all new students. To help you Welcome to all new students. To help you see what the campus has to offer, guided see what the campus has to offer, guided see what the campus has to offer, guided tours will run every afternoon this week tours will run every afternoon this week tours will run every afternoon this week at 2:00 p.m. at 2:00 p.m. at 2:00 p.m. Each tour sets off from the student Each tour sets off from the student Each tour sets off from the student union, lasts roughly 45 minutes, and union, lasts roughly 45 minutes, and union, lasts roughly 45 minutes, and covers key locations such as lecture covers key locations such as lecture covers key locations such as lecture halls, dining facilities, and halls, dining facilities, and halls, dining facilities, and recreational spaces. recreational spaces. recreational spaces. There's no need to register in advance. There's no need to register in advance. There's no need to register in advance. Just make sure to arrive a few minutes Just make sure to arrive a few minutes Just make sure to arrive a few minutes early so you don't miss the group.",
+            "audio_text": "update. Where are we meeting now? In the library, study room 203. It should be quieter there. Good idea. I'll bring the outline we worked on so we can stay on the same page. Perfect. I'll bring the draft slides and we can polish them together. No need to reinvent the wheel. Listen to an announcement at a student orientation. Welcome to all new students. To help you see what the campus has to offer, guided tours will run every afternoon this week at 2:00 p. m. Each tour sets off from the student union, lasts roughly 45 minutes, and covers key locations such as lecture halls, dining facilities, and recreational spaces. There's no need to register in advance. Just make sure to arrive a few minutes early so you don't miss the group.",
             "questions": [
               {
                 "id": "list7_m2_q9",
@@ -4092,7 +4092,7 @@ export const listeningPractice07 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường (Phần nâng cao)",
-            "audio_text": "Just make sure to arrive a few minutes early so you don't miss the group. Listen to part of a history class. Listen to part of a history class. Listen to part of a history class. Historians rely heavily on primary Historians rely heavily on primary Historians rely heavily on primary sources such as letters, photographs, sources such as letters, photographs, sources such as letters, photographs, official documents, newspapers, and official documents, newspapers, and official documents, newspapers, and personal diaries to reconstruct past personal diaries to reconstruct past personal diaries to reconstruct past events. These materials offer direct evidence These materials offer direct evidence These materials offer direct evidence created during the time period being created during the time period being created during the time period being studied, allowing researchers to access studied, allowing researchers to access studied, allowing researchers to access voices and perspectives that might voices and perspectives that might voices and perspectives that might otherwise be lost. otherwise be lost. otherwise be lost. However, working with primary sources However, working with primary sources However, working with primary sources requires careful interpretation. requires careful interpretation. requires careful interpretation. Because they were produced by Because they were produced by Because they were produced by individuals or institutions with individuals or institutions with individuals or institutions with particular viewpoints, these sources particular viewpoints, these sources particular viewpoints, these sources often contain bias, omissions, or often contain bias, omissions, or often contain bias, omissions, or selective descriptions of events.",
+            "audio_text": "Listen to part of a history class. Historians rely heavily on primary sources such as letters, photographs, official documents, newspapers, and personal diaries to reconstruct past events. These materials offer direct evidence created during the time period being studied, allowing researchers to access voices and perspectives that might otherwise be lost. However, working with primary sources requires careful interpretation. Because they were produced by individuals or institutions with particular viewpoints, these sources often contain bias, omissions, or selective descriptions of events.",
             "questions": [
               {
                 "id": "list7_m2_q11",
@@ -4127,7 +4127,7 @@ export const listeningPractice07 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 1 (HARD Module)",
-            "audio_text": "often contain bias, omissions, or selective descriptions of events. selective descriptions of events. selective descriptions of events. To develop a more accurate To develop a more accurate To develop a more accurate understanding, historians compare understanding, historians compare understanding, historians compare multiple sources and examine the context multiple sources and examine the context multiple sources and examine the context in which each one was created. in which each one was created. in which each one was created. They ask questions about who produced They ask questions about who produced They ask questions about who produced the document, for what purpose, and the document, for what purpose, and the document, for what purpose, and under what circumstances. under what circumstances. under what circumstances. For instance, For instance, For instance, a government report and a personal diary a government report and a personal diary a government report and a personal diary describing the same historical event may describing the same historical event may describing the same historical event may present very different accounts. One may present very different accounts. One may present very different accounts. One may emphasize official actions and policies, emphasize official actions and policies, emphasize official actions and policies, while the other highlights personal while the other highlights personal while the other highlights personal experiences and emotions. experiences and emotions. experiences and emotions. By analyzing these contrasting By analyzing these contrasting By analyzing these contrasting perspectives, historians gain deeper not perspectives, historians gain deeper not perspectives, historians gain deeper not only into what happened, but also into only into what happened, but also into only into what happened, but also into how people understood and reacted to how people understood and reacted to how people understood and reacted to those events. those events. those events. This careful comparison helps historians This careful comparison helps historians This careful comparison helps historians avoid drawing conclusions based on avoid drawing conclusions based on avoid drawing conclusions based on incomplete, misleading, or one-sided incomplete, misleading, or one-sided incomplete, misleading, or one-sided information and leads to a more balanced information and leads to a more balanced information and leads to a more balanced interpretation of the past. &gt;&gt; Listen to part of a biology class. &gt;&gt; Listen to part of a biology class. &gt;&gt; Listen to part of a biology class. Pollinators, such as bees, butterflies, Pollinators, such as bees, butterflies, Pollinators, such as bees, butterflies, and birds, play a crucial role in and birds, play a crucial role in and birds, play a crucial role in ecosystems by facilitating plant ecosystems by facilitating plant ecosystems by facilitating plant reproduction. They transfer pollen from one flower to They transfer pollen from one flower to They transfer pollen from one flower to another, enabling plants to produce another, enabling plants to produce another, enabling plants to produce fruits, seeds, and subsequent fruits, seeds, and subsequent fruits, seeds, and subsequent generations. This process supports biodiversity and This process supports biodiversity and This process supports biodiversity and ensures the survival of many plant ensures the survival of many plant ensures the survival of many plant species, which in turn sustains animals species, which in turn sustains animals species, which in turn sustains animals that rely on plants for food. that rely on plants for food. that rely on plants for food. In agricultural systems, pollinators are In agricultural systems, pollinators are In agricultural systems, pollinators are especially important because they especially important because they especially important because they directly contribute to the production of",
+            "audio_text": "often contain bias, omissions, or selective descriptions of events. To develop a more accurate understanding, historians compare multiple sources and examine the context in which each one was created. They ask questions about who produced the document, for what purpose, and under what circumstances. For instance, a government report and a personal diary describing the same historical event may present very different accounts. One may emphasize official actions and policies, while the other highlights personal experiences and emotions. By analyzing these contrasting perspectives, historians gain deeper not only into what happened, but also into how people understood and reacted to those events. This careful comparison helps historians avoid drawing conclusions based on incomplete, misleading, or one-sided information and leads to a more balanced interpretation of the past. Listen to part of a biology class. Pollinators, such as bees, butterflies, and birds, play a crucial role in ecosystems by facilitating plant reproduction. They transfer pollen from one flower to another, enabling plants to produce fruits, seeds, and subsequent generations. This process supports biodiversity and ensures the survival of many plant species, which in turn sustains animals that rely on plants for food. In agricultural systems, pollinators are especially important because they directly contribute to the production of",
             "questions": [
               {
                 "id": "list7_m2_q13",
@@ -4186,7 +4186,7 @@ export const listeningPractice07 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 2 (HARD Module)",
-            "audio_text": "especially important because they directly contribute to the production of directly contribute to the production of directly contribute to the production of crops that humans eat, such as fruits, crops that humans eat, such as fruits, crops that humans eat, such as fruits, vegetables, and nuts. vegetables, and nuts. vegetables, and nuts. Without these species, global food Without these species, global food Without these species, global food supplies would be severely affected, and supplies would be severely affected, and supplies would be severely affected, and entire ecosystems could become entire ecosystems could become entire ecosystems could become destabilized. Unfortunately, pollinator populations Unfortunately, pollinator populations Unfortunately, pollinator populations worldwide are declining due to several worldwide are declining due to several worldwide are declining due to several factors. Habitat loss caused by urbanization and Habitat loss caused by urbanization and Habitat loss caused by urbanization and intensive agriculture reduces the intensive agriculture reduces the intensive agriculture reduces the availability of flowers and nesting availability of flowers and nesting availability of flowers and nesting sites. Pesticides, particularly insecticides, Pesticides, particularly insecticides, Pesticides, particularly insecticides, can harm pollinators directly or disrupt can harm pollinators directly or disrupt can harm pollinators directly or disrupt their foraging behavior. their foraging behavior. their foraging behavior. Climate change also alters the timing of Climate change also alters the timing of Climate change also alters the timing of flowering and migration, making it flowering and migration, making it flowering and migration, making it harder for pollinators to find food. harder for pollinators to find food. harder for pollinators to find food. Scientists and conservationists are Scientists and conservationists are Scientists and conservationists are investigating ways to protect these investigating ways to protect these investigating ways to protect these essential species. essential species. essential species. Strategies include planting Strategies include planting Strategies include planting pollinator-friendly gardens, creating pollinator-friendly gardens, creating pollinator-friendly gardens, creating wildlife corridors, and reducing wildlife corridors, and reducing wildlife corridors, and reducing chemical use in agriculture. chemical use in agriculture. chemical use in agriculture. Public awareness campaigns encourage Public awareness campaigns encourage Public awareness campaigns encourage individuals and communities to provide individuals and communities to provide individuals and communities to provide safe spaces for pollinators. safe spaces for pollinators. safe spaces for pollinators. Protecting pollinators not only Protecting pollinators not only Protecting pollinators not only preserves biodiversity, but also helps preserves biodiversity, but also helps preserves biodiversity, but also helps maintain stable food systems and maintain stable food systems and maintain stable food systems and resilient ecosystems in the face of resilient ecosystems in the face of resilient ecosystems in the face of environmental changes. &gt;&gt; [music]",
+            "audio_text": "especially important because they directly contribute to the production of crops that humans eat, such as fruits, vegetables, and nuts. Without these species, global food supplies would be severely affected, and entire ecosystems could become destabilized. Unfortunately, pollinator populations worldwide are declining due to several factors. Habitat loss caused by urbanization and intensive agriculture reduces the availability of flowers and nesting sites. Pesticides, particularly insecticides, can harm pollinators directly or disrupt their foraging behavior. Climate change also alters the timing of flowering and migration, making it harder for pollinators to find food. Scientists and conservationists are investigating ways to protect these essential species. Strategies include planting pollinator-friendly gardens, creating wildlife corridors, and reducing chemical use in agriculture. Public awareness campaigns encourage individuals and communities to provide safe spaces for pollinators. Protecting pollinators not only preserves biodiversity, but also helps maintain stable food systems and resilient ecosystems in the face of environmental changes.",
             "questions": [
               {
                 "id": "list7_m2_q17",
@@ -4270,7 +4270,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m1_q1",
                 "type": "choose_response",
-                "audio_text": "instructions. Let's begin. Module one. Module one. Module one. Do we have class during finals week?",
+                "audio_text": "Do we have class during finals week?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I already hit the books.",
@@ -4284,7 +4284,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m1_q2",
                 "type": "choose_response",
-                "audio_text": "Module one. Do we have class during finals week? I lost my campus map.",
+                "audio_text": "Do we have class during finals week?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "You can get one at the info desk.",
@@ -4298,7 +4298,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m1_q3",
                 "type": "choose_response",
-                "audio_text": "I lost my campus map. Are laptops allowed during the exam?",
+                "audio_text": "Are laptops allowed during the exam?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I brought my laptop just in case.",
@@ -4312,7 +4312,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m1_q4",
                 "type": "choose_response",
-                "audio_text": "Are laptops allowed during the exam? What did you think of the guest lecture?",
+                "audio_text": "Are laptops allowed during the exam?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Guests stayed until late.",
@@ -4326,7 +4326,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m1_q5",
                 "type": "choose_response",
-                "audio_text": "What did you think of the guest lecture? I need help choosing my classes.",
+                "audio_text": "What did you think of the guest lecture?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "You should meet with your advisor.",
@@ -4340,7 +4340,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m1_q6",
                 "type": "choose_response",
-                "audio_text": "I need help choosing my classes. The study room is already reserved.",
+                "audio_text": "The study room is already reserved.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I'll check the schedule later.",
@@ -4354,7 +4354,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m1_q7",
                 "type": "choose_response",
-                "audio_text": "The study room is already reserved. It completely slipped my mind to upload It completely slipped my mind to upload It completely slipped my mind to upload the file.",
+                "audio_text": "It completely slipped my mind to upload the file.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Your score is 60%.",
@@ -4368,7 +4368,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m1_q8",
                 "type": "choose_response",
-                "audio_text": "It completely slipped my mind to upload the file. Is the campus gym crowded in the Is the campus gym crowded in the Is the campus gym crowded in the evenings?",
+                "audio_text": "Is the campus gym crowded in the evenings?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It's very noisy.",
@@ -4388,7 +4388,7 @@ export const listeningPractice08 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "Is the campus gym crowded in the evenings? Listen to a conversation. Listen to a conversation. Listen to a conversation. Did you ever sign up for a gym Did you ever sign up for a gym Did you ever sign up for a gym membership? Not yet. I'm still comparing membership? Not yet. I'm still comparing membership? Not yet. I'm still comparing prices. I heard students get a discount at the I heard students get a discount at the I heard students get a discount at the campus gym. Really? That makes it a lot campus gym. Really? That makes it a lot campus gym. Really? That makes it a lot more affordable. Plus, the gym has new more affordable. Plus, the gym has new more affordable. Plus, the gym has new equipment and classes. Sounds like I equipment and classes. Sounds like I equipment and classes. Sounds like I should sign up this week.",
+            "audio_text": "Listen to a conversation. Did you ever sign up for a gym membership? Not yet. I'm still comparing prices. I heard students get a discount at the campus gym. Really? That makes it a lot more affordable. Plus, the gym has new equipment and classes. Sounds like I should sign up this week.",
             "questions": [
               {
                 "id": "list8_m1_q9",
@@ -4423,7 +4423,7 @@ export const listeningPractice08 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "equipment and classes. Sounds like I should sign up this week. Did you return the library book on time? Did you return the library book on time? Did you return the library book on time? No, it completely slipped my mind. No, it completely slipped my mind. No, it completely slipped my mind. You know there's a fine for late You know there's a fine for late You know there's a fine for late returns, right? returns, right? returns, right? Yeah, but I think it's just a small fee. Yeah, but I think it's just a small fee. Yeah, but I think it's just a small fee. True, but those charges add up before True, but those charges add up before True, but those charges add up before you know it. you know it. you know it. I'll drop it off after class today.",
+            "audio_text": "equipment and classes. Sounds like I should sign up this week. Did you return the library book on time? No, it completely slipped my mind. You know there's a fine for late returns, right? Yeah, but I think it's just a small fee. True, but those charges add up before you know it. I'll drop it off after class today.",
             "questions": [
               {
                 "id": "list8_m1_q11",
@@ -4458,7 +4458,7 @@ export const listeningPractice08 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 1",
-            "audio_text": "you know it. I'll drop it off after class today. &gt;&gt; Listen to an announcement in a &gt;&gt; Listen to an announcement in a &gt;&gt; Listen to an announcement in a dormitory. A reminder for all residents. Tomorrow A reminder for all residents. Tomorrow A reminder for all residents. Tomorrow morning, pest control staff will be morning, pest control staff will be morning, pest control staff will be inspecting and treating rooms on the inspecting and treating rooms on the inspecting and treating rooms on the first and second floors. first and second floors. first and second floors. Please make sure your belongings are off Please make sure your belongings are off Please make sure your belongings are off the floor and that food is properly the floor and that food is properly the floor and that food is properly sealed. Staff will begin at 9:00 a.m. and expect Staff will begin at 9:00 a.m. and expect Staff will begin at 9:00 a.m. and expect to finish by noon. to finish by noon. to finish by noon. Thank you for preparing in advance and Thank you for preparing in advance and Thank you for preparing in advance and helping us maintain a safe and healthy helping us maintain a safe and healthy helping us maintain a safe and healthy living environment.",
+            "audio_text": "Listen to an announcement in a dormitory. A reminder for all residents. Tomorrow morning, pest control staff will be inspecting and treating rooms on the first and second floors. Please make sure your belongings are off the floor and that food is properly sealed. Staff will begin at 9:00 a. m. and expect to finish by noon. Thank you for preparing in advance and helping us maintain a safe and healthy living environment.",
             "questions": [
               {
                 "id": "list8_m1_q13",
@@ -4493,7 +4493,7 @@ export const listeningPractice08 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 2",
-            "audio_text": "helping us maintain a safe and healthy living environment. Listen to an announcement at a student Listen to an announcement at a student Listen to an announcement at a student awards ceremony. awards ceremony. awards ceremony. Before we begin tonight's presentations, Before we begin tonight's presentations, Before we begin tonight's presentations, I'd like to highlight one of our I'd like to highlight one of our I'd like to highlight one of our distinguished students, Li Achen, who distinguished students, Li Achen, who distinguished students, Li Achen, who recently published her research on recently published her research on recently published her research on renewable energy in a leading academic renewable energy in a leading academic renewable energy in a leading academic journal. This is a rare achievement for journal. This is a rare achievement for journal. This is a rare achievement for an undergraduate, and it reflects both an undergraduate, and it reflects both an undergraduate, and it reflects both her dedication and the mentorship she's her dedication and the mentorship she's her dedication and the mentorship she's received here. Please join me in received here. Please join me in received here. Please join me in recognizing her accomplishment.",
+            "audio_text": "Listen to an announcement at a student awards ceremony. Before we begin tonight's presentations, I'd like to highlight one of our distinguished students, Li Achen, who recently published her research on renewable energy in a leading academic journal. This is a rare achievement for an undergraduate, and it reflects both her dedication and the mentorship she's received here. Please join me in recognizing her accomplishment.",
             "questions": [
               {
                 "id": "list8_m1_q15",
@@ -4528,7 +4528,7 @@ export const listeningPractice08 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật đại học",
-            "audio_text": "received here. Please join me in recognizing her accomplishment. Listen to a talk in a psychology class. Listen to a talk in a psychology class. Listen to a talk in a psychology class. To begin, it's important to understand To begin, it's important to understand To begin, it's important to understand that memory is often divided into that memory is often divided into that memory is often divided into short-term and long-term storage. short-term and long-term storage. short-term and long-term storage. Short-term memory briefly holds small Short-term memory briefly holds small Short-term memory briefly holds small amounts of information for immediate amounts of information for immediate amounts of information for immediate use, while long-term memory allows us to use, while long-term memory allows us to use, while long-term memory allows us to retain knowledge, experiences, retain knowledge, experiences, retain knowledge, experiences, and skills over extended periods. and skills over extended periods. and skills over extended periods. However, remembering is only part of the However, remembering is only part of the However, remembering is only part of the story. An equally important and often An equally important and often An equally important and often misunderstood process is forgetting. misunderstood process is forgetting. misunderstood process is forgetting. Psychologists have found that forgetting Psychologists have found that forgetting Psychologists have found that forgetting is not simply a failure of memory, but a is not simply a failure of memory, but a is not simply a failure of memory, but a natural and necessary function of the natural and necessary function of the natural and necessary function of the brain. In many cases, information is forgotten In many cases, information is forgotten In many cases, information is forgotten because it was never encoded properly. because it was never encoded properly. because it was never encoded properly. If we do not pay enough attention when If we do not pay enough attention when If we do not pay enough attention when learning something, the brain may fail learning something, the brain may fail learning something, the brain may fail to store it in long-term memory. to store it in long-term memory. to store it in long-term memory. As a result, the information quickly As a result, the information quickly As a result, the information quickly disappears. Another common cause of forgetting is Another common cause of forgetting is Another common cause of forgetting is interference. New information can replace or block New information can replace or block New information can replace or block older memories, especially when the two older memories, especially when the two older memories, especially when the two are similar. are similar. are similar. For example, learning a new password may For example, learning a new password may For example, learning a new password may make it harder to recall an old one. make it harder to recall an old one. make it harder to recall an old one. Over time, memories may also fade Over time, memories may also fade Over time, memories may also fade through a process known as decay, through a process known as decay, through a process known as decay, particularly if they are not reviewed or particularly if they are not reviewed or particularly if they are not reviewed or used regularly. used regularly. used regularly. By studying why forgetting occurs, By studying why forgetting occurs, By studying why forgetting occurs, psychologists can develop strategies to psychologists can develop strategies to psychologists can develop strategies to improve learning. improve learning. improve learning. Techniques such as reviewing material, Techniques such as reviewing material, Techniques such as reviewing material, making meaningful connections, and making meaningful connections, and making meaningful connections, and spacing out study sessions are designed spacing out study sessions are designed spacing out study sessions are designed to reduce forgetting and strengthen to reduce forgetting and strengthen to reduce forgetting and strengthen long-term retention.",
+            "audio_text": "Listen to a talk in a psychology class. To begin, it's important to understand that memory is often divided into short-term and long-term storage. Short-term memory briefly holds small amounts of information for immediate use, while long-term memory allows us to retain knowledge, experiences, and skills over extended periods. However, remembering is only part of the story. An equally important and often misunderstood process is forgetting Psychologists have found that forgetting is not simply a failure of memory, but a natural and necessary function of the brain. In many cases, information is forgotten because it was never encoded properly. If we do not pay enough attention when learning something, the brain may fail to store it in long-term memory. As a result, the information quickly disappears. Another common cause of forgetting is interference. New information can replace or block older memories, especially when the two are similar. For example, learning a new password may make it harder to recall an old one. Over time, memories may also fade through a process known as decay, particularly if they are not reviewed or used regularly. By studying why forgetting occurs, psychologists can develop strategies to improve learning. Techniques such as reviewing material, making meaningful connections, and spacing out study sessions are designed to reduce forgetting and strengthen long-term retention.",
             "questions": [
               {
                 "id": "list8_m1_q17",
@@ -4599,7 +4599,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m2_q1",
                 "type": "choose_response",
-                "audio_text": "to reduce forgetting and strengthen long-term retention. &gt;&gt; Module two. &gt;&gt; Module two. &gt;&gt; Module two. The deadline feels too soon.",
+                "audio_text": "The deadline feels too soon.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The deadline is not tomorrow.",
@@ -4613,7 +4613,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m2_q2",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Module two. The deadline feels too soon. Did the professor mention extra credit?",
+                "audio_text": "Did the professor mention extra credit?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The class ran over time.",
@@ -4627,7 +4627,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m2_q3",
                 "type": "choose_response",
-                "audio_text": "Did the professor mention extra credit? I can't focus in my dorm room.",
+                "audio_text": "Did the professor mention extra credit?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "My friend is laser-focused when she studies.",
@@ -4641,7 +4641,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m2_q4",
                 "type": "choose_response",
-                "audio_text": "I can't focus in my dorm room. Where do we return library books?",
+                "audio_text": "Where do we return library books?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "You should keep them.",
@@ -4655,7 +4655,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m2_q5",
                 "type": "choose_response",
-                "audio_text": "Where do we return library books? I'm thinking of dropping this course.",
+                "audio_text": "Where do we return library books?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Enrolling early could help.",
@@ -4669,7 +4669,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m2_q6",
                 "type": "choose_response",
-                "audio_text": "I'm thinking of dropping this course. Are group presentations graded Are group presentations graded Are group presentations graded individually?",
+                "audio_text": "Are group presentations graded individually?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, two heads are better than one.",
@@ -4683,7 +4683,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m2_q7",
                 "type": "choose_response",
-                "audio_text": "Are group presentations graded individually? The room number isn't on the schedule.",
+                "audio_text": "Are group presentations graded individually?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I am not confused at all.",
@@ -4697,7 +4697,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m2_q8",
                 "type": "choose_response",
-                "audio_text": "The room number isn't on the schedule. Can you explain this chart?",
+                "audio_text": "Can you explain this chart?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Graphs are better than pie charts.",
@@ -4717,7 +4717,7 @@ export const listeningPractice08 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "Listen to a conversation. Listen to a conversation. Listen to a conversation. Do you want to see a movie tonight? I Do you want to see a movie tonight? I Do you want to see a movie tonight? I could use a break. could use a break. could use a break. Sure. What's playing? Sure. What's playing? Sure. What's playing? There's a comedy and a new action film There's a comedy and a new action film There's a comedy and a new action film everyone's talking about. Hmm, comedies everyone's talking about. Hmm, comedies everyone's talking about. Hmm, comedies are usually more my cup of tea. are usually more my cup of tea. are usually more my cup of tea. I don't mind. The action one looks I don't mind. The action one looks I don't mind. The action one looks exciting, but I'm not in the mood for exciting, but I'm not in the mood for exciting, but I'm not in the mood for that. Then let's not overthink it. Then let's not overthink it. Then let's not overthink it. What time should we go? What time should we go? What time should we go? I'll check the schedule online and book I'll check the schedule online and book I'll check the schedule online and book the tickets before they sell out.",
+            "audio_text": "Listen to a conversation. Do you want to see a movie tonight? I could use a break. Sure. What's playing? There's a comedy and a new action film everyone's talking about. Hmm, comedies are usually more my cup of tea. I don't mind. The action one looks exciting, but I'm not in the mood for that. Then let's not overthink it. What time should we go? I'll check the schedule online and book the tickets before they sell out.",
             "questions": [
               {
                 "id": "list8_m2_q9",
@@ -4752,7 +4752,7 @@ export const listeningPractice08 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường (Phần nâng cao)",
-            "audio_text": "I'll check the schedule online and book the tickets before they sell out. Listen to an announcement at a student Listen to an announcement at a student Listen to an announcement at a student health center. health center. health center. This Friday, the campus health center This Friday, the campus health center This Friday, the campus health center will be offering free flu vaccinations will be offering free flu vaccinations will be offering free flu vaccinations from 9:00 a.m. to 3:00 p.m. in room 204. from 9:00 a.m. to 3:00 p.m. in room 204. from 9:00 a.m. to 3:00 p.m. in room 204. No appointment is required, but you must No appointment is required, but you must No appointment is required, but you must present your university ID upon arrival. present your university ID upon arrival. present your university ID upon arrival. Please note that supplies are limited, Please note that supplies are limited, Please note that supplies are limited, so students are strongly advised to come so students are strongly advised to come so students are strongly advised to come early. Getting vaccinated is one of the Getting vaccinated is one of the Getting vaccinated is one of the simplest ways to protect both yourself simplest ways to protect both yourself simplest ways to protect both yourself and those around you during flu season. &gt;&gt; Listen to a talk in a environmental",
+            "audio_text": "Listen to an announcement at a student health center This Friday, the campus health center will be offering free flu vaccinations from 9:00 a. m. to 3:00 p. m. in room 204. No appointment is required, but you must present your university ID upon arrival. Please note that supplies are limited, so students are strongly advised to come early. Getting vaccinated is one of the simplest ways to protect both yourself and those around you during flu season.",
             "questions": [
               {
                 "id": "list8_m2_q11",
@@ -4787,7 +4787,7 @@ export const listeningPractice08 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 1 (HARD Module)",
-            "audio_text": "&gt;&gt; Listen to a talk in a environmental &gt;&gt; Listen to a talk in a environmental &gt;&gt; Listen to a talk in a environmental science class. science class. science class. Coastal wetlands, including marshes and Coastal wetlands, including marshes and Coastal wetlands, including marshes and mangrove forests, play a vital role in mangrove forests, play a vital role in mangrove forests, play a vital role in maintaining healthy ecosystems along maintaining healthy ecosystems along maintaining healthy ecosystems along shorelines. These areas act as natural barriers that These areas act as natural barriers that These areas act as natural barriers that reduce the impact of waves and storms, reduce the impact of waves and storms, reduce the impact of waves and storms, helping to prevent coastal erosion. helping to prevent coastal erosion. helping to prevent coastal erosion. Wetlands also filter pollutants and Wetlands also filter pollutants and Wetlands also filter pollutants and excess nutrients from the water before excess nutrients from the water before excess nutrients from the water before they reach the ocean, improving overall they reach the ocean, improving overall they reach the ocean, improving overall water quality. water quality. water quality. In addition, they provide habitats for a In addition, they provide habitats for a In addition, they provide habitats for a wide variety of birds, fish, and other wide variety of birds, fish, and other wide variety of birds, fish, and other wildlife that depend on these wildlife that depend on these wildlife that depend on these environments for survival. environments for survival. environments for survival. Despite their importance, coastal Despite their importance, coastal Despite their importance, coastal wetlands are disappearing at an alarming wetlands are disappearing at an alarming wetlands are disappearing at an alarming rate. Many of these areas are drained or Many of these areas are drained or Many of these areas are drained or filled to create space for agriculture, filled to create space for agriculture, filled to create space for agriculture, housing, and urban infrastructure. housing, and urban infrastructure. housing, and urban infrastructure. As a result, ecosystems are disrupted, As a result, ecosystems are disrupted, As a result, ecosystems are disrupted, biodiversity declines, and coastal biodiversity declines, and coastal biodiversity declines, and coastal regions become more vulnerable to regions become more vulnerable to regions become more vulnerable to natural disasters such as flooding and natural disasters such as flooding and natural disasters such as flooding and powerful storms. powerful storms. powerful storms. In response, conservationists and In response, conservationists and In response, conservationists and scientists are working to restore scientists are working to restore scientists are working to restore damaged wetlands and protect those that damaged wetlands and protect those that damaged wetlands and protect those that remain. Restoration projects often involve Restoration projects often involve Restoration projects often involve replanting.",
+            "audio_text": "Listen to a talk in a environmental science class. Coastal wetlands, including marshes and mangrove forests, play a vital role in maintaining healthy ecosystems along shorelines. These areas act as natural barriers that reduce the impact of waves and storms, helping to prevent coastal erosion. Wetlands also filter pollutants and excess nutrients from the water before they reach the ocean, improving overall water quality. In addition, they provide habitats for a wide variety of birds, fish, and other wildlife that depend on these environments for survival. Despite their importance, coastal wetlands are disappearing at an alarming rate. Many of these areas are drained or filled to create space for agriculture, housing, and urban infrastructure. As a result, ecosystems are disrupted, biodiversity declines, and coastal regions become more vulnerable to natural disasters such as flooding and powerful storms. In response, conservationists and scientists are working to restore damaged wetlands and protect those that remain. Restoration projects often involve replanting.",
             "questions": [
               {
                 "id": "list8_m2_q13",
@@ -4846,7 +4846,7 @@ export const listeningPractice08 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 2 (HARD Module)",
-            "audio_text": "Restoration projects often involve replanting. &gt;&gt; Listen to a talk in a public health &gt;&gt; Listen to a talk in a public health &gt;&gt; Listen to a talk in a public health class. Antibiotics have saved millions of lives Antibiotics have saved millions of lives Antibiotics have saved millions of lives by treating bacterial infections that by treating bacterial infections that by treating bacterial infections that were once deadly. were once deadly. were once deadly. These medicines work by killing bacteria These medicines work by killing bacteria These medicines work by killing bacteria or stopping them from multiplying inside or stopping them from multiplying inside or stopping them from multiplying inside the body. the body. the body. However, over time, many types of However, over time, many types of However, over time, many types of bacteria have developed resistance to bacteria have developed resistance to bacteria have developed resistance to antibiotics, which means the drugs no antibiotics, which means the drugs no antibiotics, which means the drugs no longer work effectively against them. longer work effectively against them. longer work effectively against them. This resistance develops when This resistance develops when This resistance develops when antibiotics are overused, used antibiotics are overused, used antibiotics are overused, used incorrectly, or taken when they are not incorrectly, or taken when they are not incorrectly, or taken when they are not needed, such as for viral infections. needed, such as for viral infections. needed, such as for viral infections. When some bacteria survive exposure to When some bacteria survive exposure to When some bacteria survive exposure to antibiotics, they can adapt and pass on antibiotics, they can adapt and pass on antibiotics, they can adapt and pass on their resistant traits to future their resistant traits to future their resistant traits to future generations. As a result, infections that were once As a result, infections that were once As a result, infections that were once easy to treat become more difficult, easy to treat become more difficult, easy to treat become more difficult, longer-lasting, and sometimes dangerous. longer-lasting, and sometimes dangerous. longer-lasting, and sometimes dangerous. In hospitals, this creates a serious In hospitals, this creates a serious In hospitals, this creates a serious threat, especially for patients with threat, especially for patients with threat, especially for patients with weakened immune systems who are less weakened immune systems who are less weakened immune systems who are less able to fight infections on their own. able to fight infections on their own. able to fight infections on their own. The development of new antibiotics is a The development of new antibiotics is a The development of new antibiotics is a slow and expensive process, which makes slow and expensive process, which makes slow and expensive process, which makes prevention essential. prevention essential. prevention essential. Health organizations recommend using Health organizations recommend using Health organizations recommend using antibiotics only when prescribed by a antibiotics only when prescribed by a antibiotics only when prescribed by a doctor and completing the full course of doctor and completing the full course of doctor and completing the full course of treatment. In addition, good hygiene practices, In addition, good hygiene practices, In addition, good hygiene practices, vaccination, and careful monitoring of vaccination, and careful monitoring of vaccination, and careful monitoring of infections help limit the spread of infections help limit the spread of infections help limit the spread of resistant bacteria in communities and resistant bacteria in communities and resistant bacteria in communities and health care settings. health care settings. health care settings. To support these efforts, several To support these efforts, several To support these efforts, several international programs have been created international programs have been created international programs have been created to address antibiotic resistance on a to address antibiotic resistance on a to address antibiotic resistance on a global scale.",
+            "audio_text": "Listen to a talk in a public health class. Antibiotics have saved millions of lives by treating bacterial infections that were once deadly. These medicines work by killing bacteria or stopping them from multiplying inside the body. However, over time, many types of bacteria have developed resistance to antibiotics, which means the drugs no longer work effectively against them. This resistance develops when antibiotics are overused, used incorrectly, or taken when they are not needed, such as for viral infections. When some bacteria survive exposure to antibiotics, they can adapt and pass on their resistant traits to future generations. As a result, infections that were once easy to treat become more difficult, longer-lasting, and sometimes dangerous. In hospitals, this creates a serious threat, especially for patients with weakened immune systems who are less able to fight infections on their own. The development of new antibiotics is a slow and expensive process, which makes prevention essential. Health organizations recommend using antibiotics only when prescribed by a doctor and completing the full course of treatment. In addition, good hygiene practices, vaccination, and careful monitoring of infections help limit the spread of resistant bacteria in communities and health care settings. To support these efforts, several international programs have been created to address antibiotic resistance on a global scale.",
             "questions": [
               {
                 "id": "list8_m2_q17",
@@ -4930,7 +4930,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m1_q1",
                 "type": "choose_response",
-                "audio_text": "instructions. Let's begin. &gt;&gt; Module one. &gt;&gt; I'm having trouble finding the &gt;&gt; I'm having trouble finding the &gt;&gt; I'm having trouble finding the conference room.",
+                "audio_text": "I'm having trouble finding the conference room.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I attended the conference last year.",
@@ -4944,7 +4944,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m1_q2",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; I'm having trouble finding the conference room. &gt;&gt; I forgot to bring my lunch today.",
+                "audio_text": "I'm having trouble finding the conference room.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Lunch is my favorite meal.",
@@ -4958,7 +4958,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m1_q3",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; I forgot to bring my lunch today. &gt;&gt; Do you know where I can scan these &gt;&gt; Do you know where I can scan these &gt;&gt; Do you know where I can scan these documents?",
+                "audio_text": "Do you know where I can scan these documents?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I scanned twenty pages yesterday.",
@@ -4972,7 +4972,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m1_q4",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Do you know where I can scan these documents? &gt;&gt; My car won't start this morning.",
+                "audio_text": "Do you know where I can scan these documents?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Have you tried calling a mechanic?",
@@ -4986,7 +4986,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m1_q5",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; My car won't start this morning. &gt;&gt; Do you mind holding the elevator for me?",
+                "audio_text": "Do you mind holding the elevator for me?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I usually take the stairs.",
@@ -5000,7 +5000,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m1_q6",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Do you mind holding the elevator for me? Why is the train delayed?",
+                "audio_text": "Do you mind holding the elevator for me?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It worked fine yesterday.",
@@ -5014,7 +5014,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m1_q7",
                 "type": "choose_response",
-                "audio_text": "Why is the train delayed? &gt;&gt; I can't decide what to order.",
+                "audio_text": "Why is the train delayed?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The pasta is really good.",
@@ -5028,7 +5028,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m1_q8",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; I can't decide what to order. I'm going to the grocery store after I'm going to the grocery store after I'm going to the grocery store after work.",
+                "audio_text": "I'm going to the grocery store after work.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I went shopping last weekend.",
@@ -5048,7 +5048,7 @@ export const listeningPractice09 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "I'm going to the grocery store after work. &gt;&gt; Listen to a conversation. &gt;&gt; Listen to a conversation. &gt;&gt; Listen to a conversation. I saw you with a new backpack yesterday. I saw you with a new backpack yesterday. I saw you with a new backpack yesterday. &gt;&gt; Yeah, my old one finally broke after a &gt;&gt; Yeah, my old one finally broke after a &gt;&gt; Yeah, my old one finally broke after a few years. few years. few years. &gt;&gt; That's too bad. Did you get the new one &gt;&gt; That's too bad. Did you get the new one &gt;&gt; That's too bad. Did you get the new one at the bookstore? at the bookstore? at the bookstore? &gt;&gt; No, I bought it at a sporting goods &gt;&gt; No, I bought it at a sporting goods &gt;&gt; No, I bought it at a sporting goods store downtown. It was a lot cheaper store downtown. It was a lot cheaper store downtown. It was a lot cheaper there. &gt;&gt; Nice. It looks pretty sturdy. How much &gt;&gt; Nice. It looks pretty sturdy. How much &gt;&gt; Nice. It looks pretty sturdy. How much did it cost? did it cost? did it cost? &gt;&gt; Around $40. &gt;&gt; Around $40. &gt;&gt; Around $40. &gt;&gt; That's not bad at all. Some backpacks &gt;&gt; That's not bad at all. Some backpacks &gt;&gt; That's not bad at all. Some backpacks cost twice that much. cost twice that much. cost twice that much. &gt;&gt; I know, right? &gt;&gt; I know, right? &gt;&gt; I know, right? &gt;&gt; Are you happy with it so far? &gt;&gt; Are you happy with it so far? &gt;&gt; Are you happy with it so far? &gt;&gt; Definitely. It has plenty of space and &gt;&gt; Definitely. It has plenty of space and &gt;&gt; Definitely. It has plenty of space and the straps are really comfortable. the straps are really comfortable. the straps are really comfortable. &gt;&gt; Sounds like you got a good deal. &gt;&gt; Sounds like you got a good deal. &gt;&gt; Sounds like you got a good deal. &gt;&gt; Yeah, I think it's good value for the &gt;&gt; Yeah, I think it's good value for the &gt;&gt; Yeah, I think it's good value for the money.",
+            "audio_text": "Listen to a conversation. I saw you with a new backpack yesterday. Yeah, my old one finally broke after a few years. That's too bad. Did you get the new one at the bookstore? No, I bought it at a sporting goods store downtown. It was a lot cheaper there. Nice. It looks pretty sturdy. How much did it cost? Around $40. That's not bad at all. Some backpacks cost twice that much. I know, right? Are you happy with it so far? Definitely. It has plenty of space and the straps are really comfortable. Sounds like you got a good deal. Yeah, I think it's good value for the money.",
             "questions": [
               {
                 "id": "list9_m1_q9",
@@ -5083,7 +5083,7 @@ export const listeningPractice09 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "&gt;&gt; Yeah, I think it's good value for the money. &gt;&gt; Listen to a conversation. &gt;&gt; Listen to a conversation. &gt;&gt; Listen to a conversation. &gt;&gt; Why isn't the Wi-Fi working in this &gt;&gt; Why isn't the Wi-Fi working in this &gt;&gt; Why isn't the Wi-Fi working in this Starbucks? &gt;&gt; I'm not sure. Their router might be &gt;&gt; I'm not sure. Their router might be &gt;&gt; I'm not sure. Their router might be down. &gt;&gt; That's annoying. I really needed to &gt;&gt; That's annoying. I really needed to &gt;&gt; That's annoying. I really needed to finish my essay today. finish my essay today. finish my essay today. &gt;&gt; Would you like me to go ask them what's &gt;&gt; Would you like me to go ask them what's &gt;&gt; Would you like me to go ask them what's going on? going on? going on? &gt;&gt; No, that's okay. I'll try using my &gt;&gt; No, that's okay. I'll try using my &gt;&gt; No, that's okay. I'll try using my phone's hotspot instead. phone's hotspot instead. phone's hotspot instead. &gt;&gt; That might do the trick. &gt;&gt; That might do the trick. &gt;&gt; That might do the trick. &gt;&gt; Hopefully. I only have a couple more &gt;&gt; Hopefully. I only have a couple more &gt;&gt; Hopefully. I only have a couple more pages to write. pages to write. pages to write. &gt;&gt; Well, if it doesn't work, we can always &gt;&gt; Well, if it doesn't work, we can always &gt;&gt; Well, if it doesn't work, we can always pack up and go somewhere else. pack up and go somewhere else. pack up and go somewhere else. &gt;&gt; True. Next time, we'd probably be better &gt;&gt; True. Next time, we'd probably be better &gt;&gt; True. Next time, we'd probably be better off meeting at the library. off meeting at the library. off meeting at the library. &gt;&gt; Yeah, that's a good idea. At least their &gt;&gt; Yeah, that's a good idea. At least their &gt;&gt; Yeah, that's a good idea. At least their internet is usually reliable.",
+            "audio_text": "Listen to a conversation. Why isn't the Wi-Fi working in this Starbucks? I'm not sure. Their router might be down. That's annoying. I really needed to finish my essay today. Would you like me to go ask them what's going on? No, that's okay. I'll try using my phone's hotspot instead. That might do the trick. Hopefully. I only have a couple more pages to write. Well, if it doesn't work, we can always pack up and go somewhere else. True. Next time, we'd probably be better off meeting at the library. Yeah, that's a good idea. At least their internet is usually reliable.",
             "questions": [
               {
                 "id": "list9_m1_q11",
@@ -5118,7 +5118,7 @@ export const listeningPractice09 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 1",
-            "audio_text": "&gt;&gt; Yeah, that's a good idea. At least their internet is usually reliable. &gt;&gt; Listen to an announcement in a residence &gt;&gt; Listen to an announcement in a residence &gt;&gt; Listen to an announcement in a residence hall. &gt;&gt; Attention residents. &gt;&gt; Attention residents. &gt;&gt; Attention residents. Due to planned maintenance, the hot Due to planned maintenance, the hot Due to planned maintenance, the hot water supply will be shut off tomorrow water supply will be shut off tomorrow water supply will be shut off tomorrow between 6:00 a.m. and 1:00 p.m. between 6:00 a.m. and 1:00 p.m. between 6:00 a.m. and 1:00 p.m. Please plan your showers and laundry Please plan your showers and laundry Please plan your showers and laundry accordingly. We apologize for the inconvenience and We apologize for the inconvenience and We apologize for the inconvenience and thank you for your cooperation. &gt;&gt; Listen to an announcement in a computer",
+            "audio_text": "Listen to an announcement in a residence hall. Attention residents. Due to planned maintenance, the hot water supply will be shut off tomorrow between 6:00 a. m. and 1:00 p. m. Please plan your showers and laundry accordingly. We apologize for the inconvenience and thank you for your cooperation.",
             "questions": [
               {
                 "id": "list9_m1_q13",
@@ -5153,7 +5153,7 @@ export const listeningPractice09 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 2",
-            "audio_text": "&gt;&gt; Listen to an announcement in a computer &gt;&gt; Listen to an announcement in a computer &gt;&gt; Listen to an announcement in a computer lab. &gt;&gt; Starting this Saturday, all university &gt;&gt; Starting this Saturday, all university &gt;&gt; Starting this Saturday, all university computer labs will require students to computer labs will require students to computer labs will require students to log in using their university email log in using their university email log in using their university email accounts. This change is being made to accounts. This change is being made to accounts. This change is being made to improve security and prevent improve security and prevent improve security and prevent unauthorized use. If you have trouble unauthorized use. If you have trouble unauthorized use. If you have trouble accessing your account, please visit the accessing your account, please visit the accessing your account, please visit the IT help desk in the library. &gt;&gt; Listen to part of an environmental &gt;&gt; Listen to part of an environmental &gt;&gt; Listen to part of an environmental science class. science class. science class. &gt;&gt; Renewable energy sources such as solar",
+            "audio_text": "Listen to an announcement in a computer lab. Starting this Saturday, all university computer labs will require students to log in using their university email accounts. This change is being made to improve security and prevent unauthorized use. If you have trouble accessing your account, please visit the IT help desk in the library. Listen to part of an environmental science class. Renewable energy sources such as solar",
             "questions": [
               {
                 "id": "list9_m1_q15",
@@ -5188,7 +5188,7 @@ export const listeningPractice09 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật đại học",
-            "audio_text": "science class. &gt;&gt; Renewable energy sources such as solar &gt;&gt; Renewable energy sources such as solar &gt;&gt; Renewable energy sources such as solar and wind power are becoming increasingly and wind power are becoming increasingly and wind power are becoming increasingly important as countries look for ways to important as countries look for ways to important as countries look for ways to reduce greenhouse gas emissions and reduce greenhouse gas emissions and reduce greenhouse gas emissions and limit their dependence on fossil fuels. limit their dependence on fossil fuels. limit their dependence on fossil fuels. However, one major challenge associated However, one major challenge associated However, one major challenge associated with these energy sources is that they with these energy sources is that they with these energy sources is that they do not generate electricity do not generate electricity do not generate electricity consistently. Solar panels produce power only when Solar panels produce power only when Solar panels produce power only when sunlight is available and wind turbines sunlight is available and wind turbines sunlight is available and wind turbines depend on weather conditions that can depend on weather conditions that can depend on weather conditions that can change unexpectedly. change unexpectedly. change unexpectedly. As a result, energy storage has become a As a result, energy storage has become a As a result, energy storage has become a critical area of research and critical area of research and critical area of research and development. Storage systems allow excess energy Storage systems allow excess energy Storage systems allow excess energy generated during periods of high generated during periods of high generated during periods of high production to be saved and used later production to be saved and used later production to be saved and used later when demand is high or renewable sources when demand is high or renewable sources when demand is high or renewable sources are temporarily unavailable. are temporarily unavailable. are temporarily unavailable. One common solution involves large-scale One common solution involves large-scale One common solution involves large-scale battery facilities, which can store battery facilities, which can store battery facilities, which can store electricity and supply power to entire electricity and supply power to entire electricity and supply power to entire neighborhoods during peak usage periods. neighborhoods during peak usage periods. neighborhoods during peak usage periods. Scientists are also investigating Scientists are also investigating Scientists are also investigating alternative storage methods. For alternative storage methods. For alternative storage methods. For example, excess electricity can be used example, excess electricity can be used example, excess electricity can be used to pump water into elevated reservoirs, to pump water into elevated reservoirs, to pump water into elevated reservoirs, where it can later generate where it can later generate where it can later generate hydroelectric power. hydroelectric power. hydroelectric power. Another promising approach involves Another promising approach involves Another promising approach involves converting surplus energy into hydrogen converting surplus energy into hydrogen converting surplus energy into hydrogen fuel for future use. fuel for future use. fuel for future use. As storage technologies continue to As storage technologies continue to As storage technologies continue to improve, renewable energy is expected to improve, renewable energy is expected to improve, renewable energy is expected to become more reliable, efficient, and become more reliable, efficient, and become more reliable, efficient, and cost-effective. This could accelerate the transition This could accelerate the transition This could accelerate the transition toward cleaner and more sustainable toward cleaner and more sustainable toward cleaner and more sustainable energy systems worldwide. &gt;&gt; Module two.",
+            "audio_text": "science class. Renewable energy sources such as solar and wind power are becoming increasingly important as countries look for ways to reduce greenhouse gas emissions and limit their dependence on fossil fuels. However, one major challenge associated with these energy sources is that they do not generate electricity consistently. Solar panels produce power only when sunlight is available and wind turbines depend on weather conditions that can change unexpectedly. As a result, energy storage has become a critical area of research and development. Storage systems allow excess energy generated during periods of high production to be saved and used later when demand is high or renewable sources are temporarily unavailable. One common solution involves large-scale battery facilities, which can store electricity and supply power to entire neighborhoods during peak usage periods. Scientists are also investigating alternative storage methods. For example, excess electricity can be used to pump water into elevated reservoirs, where it can later generate hydroelectric power. Another promising approach involves converting surplus energy into hydrogen fuel for future use. As storage technologies continue to improve, renewable energy is expected to become more reliable, efficient, and cost-effective. This could accelerate the transition toward cleaner and more sustainable energy systems worldwide. Module two.",
             "questions": [
               {
                 "id": "list9_m1_q17",
@@ -5259,7 +5259,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m2_q1",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Module two. &gt;&gt; Module two. &gt;&gt; Module two. &gt;&gt; I'm thinking about taking a photography &gt;&gt; I'm thinking about taking a photography &gt;&gt; I'm thinking about taking a photography class.",
+                "audio_text": "I'm thinking about taking a photography class.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "That sounds interesting. Have you found",
@@ -5273,7 +5273,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m2_q2",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; I'm thinking about taking a photography class. &gt;&gt; Have you seen my keys anywhere?",
+                "audio_text": "Have you seen my keys anywhere?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I locked the door earlier.",
@@ -5287,7 +5287,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m2_q3",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Have you seen my keys anywhere? &gt;&gt; I heard you're moving next month.",
+                "audio_text": "I heard you're moving next month.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Next month is usually warm.",
@@ -5301,7 +5301,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m2_q4",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; I heard you're moving next month. &gt;&gt; Do you want to join us for dinner &gt;&gt; Do you want to join us for dinner &gt;&gt; Do you want to join us for dinner tonight?",
+                "audio_text": "Do you want to join us for dinner tonight?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Dinner is my favorite meal.",
@@ -5315,7 +5315,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m2_q5",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Do you want to join us for dinner tonight? &gt;&gt; I need to finish this report by &gt;&gt; I need to finish this report by &gt;&gt; I need to finish this report by tomorrow.",
+                "audio_text": "I need to finish this report by tomorrow.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Is there anything I can help with?",
@@ -5329,7 +5329,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m2_q6",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; The movie starts in 10 minutes.",
+                "audio_text": "The movie starts in 10 minutes.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I saw this movie last month.",
@@ -5343,7 +5343,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m2_q7",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; The elevator seems crowded already.",
+                "audio_text": "The elevator seems crowded already.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I agree, this elevator is very old.",
@@ -5357,7 +5357,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m2_q8",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; I just started my new job, and I'm a &gt;&gt; I just started my new job, and I'm a &gt;&gt; I just started my new job, and I'm a little nervous.",
+                "audio_text": "I just started my new job, and I'm a little nervous.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Most jobs in this field require experience.",
@@ -5377,7 +5377,7 @@ export const listeningPractice09 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "&gt;&gt; Listen to a conversation. &gt;&gt; Listen to a conversation. &gt;&gt; Listen to a conversation. &gt;&gt; What are you doing this weekend? &gt;&gt; What are you doing this weekend? &gt;&gt; What are you doing this weekend? &gt;&gt; I was thinking of going hiking if the &gt;&gt; I was thinking of going hiking if the &gt;&gt; I was thinking of going hiking if the weather holds up. weather holds up. weather holds up. &gt;&gt; That sounds fun. Do you have a &gt;&gt; That sounds fun. Do you have a &gt;&gt; That sounds fun. Do you have a particular trail in mind? particular trail in mind? particular trail in mind? &gt;&gt; Yeah, there's a trail about an hour away &gt;&gt; Yeah, there's a trail about an hour away &gt;&gt; Yeah, there's a trail about an hour away by bus. by bus. by bus. The views from the top are well worth The views from the top are well worth The views from the top are well worth the effort. the effort. the effort. &gt;&gt; Have you been there before? &gt;&gt; Have you been there before? &gt;&gt; Have you been there before? &gt;&gt; No, but a friend of mine went last month &gt;&gt; No, but a friend of mine went last month &gt;&gt; No, but a friend of mine went last month and highly recommended it. and highly recommended it. and highly recommended it. He said it's a bit challenging, but He said it's a bit challenging, but He said it's a bit challenging, but nothing too difficult. nothing too difficult. nothing too difficult. &gt;&gt; Are you going on your own? &gt;&gt; Are you going on your own? &gt;&gt; Are you going on your own? &gt;&gt; Probably. &gt;&gt; Probably. &gt;&gt; Probably. A couple of friends were interested at A couple of friends were interested at A couple of friends were interested at first, but they backed out at the last first, but they backed out at the last first, but they backed out at the last minute. &gt;&gt; Isn't it dangerous to go on your own &gt;&gt; Isn't it dangerous to go on your own &gt;&gt; Isn't it dangerous to go on your own though? &gt;&gt; Not really. The trail is pretty popular. &gt;&gt; Not really. The trail is pretty popular. &gt;&gt; Not really. The trail is pretty popular. Plus, I'll let my family know where I'm Plus, I'll let my family know where I'm Plus, I'll let my family know where I'm going. &gt;&gt; It's always better to be cautious. &gt;&gt; It's always better to be cautious. &gt;&gt; It's always better to be cautious. &gt;&gt; For sure. Besides, I'll bring a fully &gt;&gt; For sure. Besides, I'll bring a fully &gt;&gt; For sure. Besides, I'll bring a fully charged phone and a portable charger charged phone and a portable charger charged phone and a portable charger just in case. &gt;&gt; Listen to an announcement in a",
+            "audio_text": "Listen to a conversation. What are you doing this weekend? I was thinking of going hiking if the weather holds up. That sounds fun. Do you have a particular trail in mind? Yeah, there's a trail about an hour away by bus. The views from the top are well worth the effort. Have you been there before? No, but a friend of mine went last month and highly recommended it. He said it's a bit challenging, but nothing too difficult. Are you going on your own? Probably. A couple of friends were interested at first, but they backed out at the last minute. Isn't it dangerous to go on your own though? Not really. The trail is pretty popular. Plus, I'll let my family know where I'm going. It's always better to be cautious. For sure. Besides, I'll bring a fully charged phone and a portable charger just in case.",
             "questions": [
               {
                 "id": "list9_m2_q9",
@@ -5412,7 +5412,7 @@ export const listeningPractice09 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường (Phần nâng cao)",
-            "audio_text": "&gt;&gt; Listen to an announcement in a &gt;&gt; Listen to an announcement in a &gt;&gt; Listen to an announcement in a classroom. &gt;&gt; Before we begin today's lecture, I'd &gt;&gt; Before we begin today's lecture, I'd &gt;&gt; Before we begin today's lecture, I'd like to remind everyone that your like to remind everyone that your like to remind everyone that your midterm essays are due this Friday by midterm essays are due this Friday by midterm essays are due this Friday by 5:00 p.m. through the online submission 5:00 p.m. through the online submission 5:00 p.m. through the online submission portal. Unless you've already received approval Unless you've already received approval Unless you've already received approval due to exceptional circumstances, you due to exceptional circumstances, you due to exceptional circumstances, you should assume that the deadline is should assume that the deadline is should assume that the deadline is final. When uploading your essay, please verify When uploading your essay, please verify When uploading your essay, please verify that you've attached the correct file. that you've attached the correct file. that you've attached the correct file. Every semester, some students Every semester, some students Every semester, some students accidentally submit an earlier draft or accidentally submit an earlier draft or accidentally submit an earlier draft or the wrong document altogether. the wrong document altogether. the wrong document altogether. Also, keep in mind that the online Also, keep in mind that the online Also, keep in mind that the online system tends to be busiest shortly system tends to be busiest shortly system tends to be busiest shortly before the deadline, so I recommend before the deadline, so I recommend before the deadline, so I recommend submitting your work well in advance. &gt;&gt; Listen to part of an astronomy class.",
+            "audio_text": "Listen to an announcement in a classroom. Before we begin today's lecture, I'd like to remind everyone that your midterm essays are due this Friday by 5:00 p. m. through the online submission portal. Unless you've already received approval due to exceptional circumstances, you should assume that the deadline is final. When uploading your essay, please verify that you've attached the correct file. Every semester, some students accidentally submit an earlier draft or the wrong document altogether. Also, keep in mind that the online system tends to be busiest shortly before the deadline, so I recommend submitting your work well in advance.",
             "questions": [
               {
                 "id": "list9_m2_q11",
@@ -5447,7 +5447,7 @@ export const listeningPractice09 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 1 (HARD Module)",
-            "audio_text": "&gt;&gt; Listen to part of an astronomy class. &gt;&gt; Listen to part of an astronomy class. &gt;&gt; Listen to part of an astronomy class. &gt;&gt; Thousands of satellites orbit Earth &gt;&gt; Thousands of satellites orbit Earth &gt;&gt; Thousands of satellites orbit Earth providing services that people rely on providing services that people rely on providing services that people rely on every day, including communication, every day, including communication, every day, including communication, navigation, weather forecasting, and navigation, weather forecasting, and navigation, weather forecasting, and scientific research. scientific research. scientific research. However, not everything currently in However, not everything currently in However, not everything currently in orbit is operational. orbit is operational. orbit is operational. Over the past several decades, inactive Over the past several decades, inactive Over the past several decades, inactive satellites, discarded rocket components, satellites, discarded rocket components, satellites, discarded rocket components, and fragments from collisions have and fragments from collisions have and fragments from collisions have accumulated in space, creating what is accumulated in space, creating what is accumulated in space, creating what is known as space debris. known as space debris. known as space debris. One of the main concerns is that these One of the main concerns is that these One of the main concerns is that these objects travel at extremely high speeds, objects travel at extremely high speeds, objects travel at extremely high speeds, often several kilometers per second. often several kilometers per second. often several kilometers per second. As a result, even a relatively small As a result, even a relatively small As a result, even a relatively small piece of debris can damage a functioning piece of debris can damage a functioning piece of debris can damage a functioning satellite or spacecraft if a collision satellite or spacecraft if a collision satellite or spacecraft if a collision occurs. As more governments and private As more governments and private As more governments and private companies launch satellites into orbit, companies launch satellites into orbit, companies launch satellites into orbit, experts worry that the risk of experts worry that the risk of experts worry that the risk of collisions will continue to increase. collisions will continue to increase. collisions will continue to increase. To address this issue, scientists and To address this issue, scientists and To address this issue, scientists and engineers are developing a variety of engineers are developing a variety of engineers are developing a variety of solutions. These include tracking debris more These include tracking debris more These include tracking debris more accurately, designing satellites that accurately, designing satellites that accurately, designing satellites that safely re-enter Earth's atmosphere after safely re-enter Earth's atmosphere after safely re-enter Earth's atmosphere after completing their missions, and testing completing their missions, and testing completing their missions, and testing technologies capable of removing debris technologies capable of removing debris technologies capable of removing debris from orbit. from orbit. from orbit. Although these efforts can be expensive Although these efforts can be expensive Although these efforts can be expensive and technically challenging, many and technically challenging, many and technically challenging, many experts argue that they are necessary. experts argue that they are necessary. experts argue that they are necessary. Without effective debris management, Without effective debris management, Without effective debris management, future space missions and future space missions and future space missions and satellite-based services could face satellite-based services could face satellite-based services could face growing risks and operational growing risks and operational growing risks and operational difficulties. &gt;&gt; Listen to part of an Earth Science &gt;&gt; Listen to part of an Earth Science &gt;&gt; Listen to part of an Earth Science class. &gt;&gt; The water cycle is a complete natural",
+            "audio_text": "Listen to part of an astronomy class. Thousands of satellites orbit Earth providing services that people rely on every day, including communication, navigation, weather forecasting, and scientific research. However, not everything currently in orbit is operational. Over the past several decades, inactive satellites, discarded rocket components, and fragments from collisions have accumulated in space, creating what is known as space debris. One of the main concerns is that these objects travel at extremely high speeds, often several kilometers per second. As a result, even a relatively small piece of debris can damage a functioning satellite or spacecraft if a collision occurs. As more governments and private companies launch satellites into orbit, experts worry that the risk of collisions will continue to increase. To address this issue, scientists and engineers are developing a variety of solutions. These include tracking debris more accurately, designing satellites that safely re-enter Earth's atmosphere after completing their missions, and testing technologies capable of removing debris from orbit. Although these efforts can be expensive and technically challenging, many experts argue that they are necessary. Without effective debris management, future space missions and satellite-based services could face growing risks and operational difficulties. Listen to part of an Earth Science class. The water cycle is a complete natural",
             "questions": [
               {
                 "id": "list9_m2_q13",
@@ -5506,7 +5506,7 @@ export const listeningPractice09 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 2 (HARD Module)",
-            "audio_text": "class. &gt;&gt; The water cycle is a complete natural &gt;&gt; The water cycle is a complete natural &gt;&gt; The water cycle is a complete natural process that continuously circulates process that continuously circulates process that continuously circulates water between the Earth's surface, the water between the Earth's surface, the water between the Earth's surface, the atmosphere, and underground reservoirs. atmosphere, and underground reservoirs. atmosphere, and underground reservoirs. It begins with evaporation, during which It begins with evaporation, during which It begins with evaporation, during which solar energy causes water from oceans, solar energy causes water from oceans, solar energy causes water from oceans, lakes, and other bodies of water to lakes, and other bodies of water to lakes, and other bodies of water to change into vapor. change into vapor. change into vapor. Plants also contribute through a process Plants also contribute through a process Plants also contribute through a process known as transpiration, releasing known as transpiration, releasing known as transpiration, releasing moisture into the atmosphere through moisture into the atmosphere through moisture into the atmosphere through their leaves. their leaves. their leaves. As water vapor rises, it cools and As water vapor rises, it cools and As water vapor rises, it cools and condenses into tiny droplets, eventually condenses into tiny droplets, eventually condenses into tiny droplets, eventually forming clouds. forming clouds. forming clouds. Under suitable atmospheric conditions, Under suitable atmospheric conditions, Under suitable atmospheric conditions, these droplets combine and fall to the these droplets combine and fall to the these droplets combine and fall to the Earth's surface as precipitation, Earth's surface as precipitation, Earth's surface as precipitation, including rain, snow, or hail. including rain, snow, or hail. including rain, snow, or hail. Once precipitation reaches the ground, Once precipitation reaches the ground, Once precipitation reaches the ground, some water flows into rivers and lakes, some water flows into rivers and lakes, some water flows into rivers and lakes, while some infiltrates the soil and while some infiltrates the soil and while some infiltrates the soil and replenishes underground aquifers. replenishes underground aquifers. replenishes underground aquifers. The water cycle plays a crucial role in The water cycle plays a crucial role in The water cycle plays a crucial role in regulating climate, distributing fresh regulating climate, distributing fresh regulating climate, distributing fresh water resources, and sustaining water resources, and sustaining water resources, and sustaining ecosystems. However, human activities can alter However, human activities can alter However, human activities can alter natural water flows. natural water flows. natural water flows. For example, urban development often For example, urban development often For example, urban development often replaces permeable surfaces with replaces permeable surfaces with replaces permeable surfaces with concrete, reducing groundwater recharge, concrete, reducing groundwater recharge, concrete, reducing groundwater recharge, and increasing surface runoff. and increasing surface runoff. and increasing surface runoff. In addition, deforestation can affect In addition, deforestation can affect In addition, deforestation can affect regional rainfall patterns by decreasing regional rainfall patterns by decreasing regional rainfall patterns by decreasing the amount of moisture released into the amount of moisture released into the amount of moisture released into the atmosphere. For these reasons, understanding the For these reasons, understanding the For these reasons, understanding the water cycle is essential for effective water cycle is essential for effective water cycle is essential for effective environmental management and long-term environmental management and long-term environmental management and long-term water security.",
+            "audio_text": "class. The water cycle is a complete natural process that continuously circulates water between the Earth's surface, the atmosphere, and underground reservoirs. It begins with evaporation, during which solar energy causes water from oceans, lakes, and other bodies of water to change into vapor. Plants also contribute through a process known as transpiration, releasing moisture into the atmosphere through their leaves. As water vapor rises, it cools and condenses into tiny droplets, eventually forming clouds. Under suitable atmospheric conditions, these droplets combine and fall to the Earth's surface as precipitation, including rain, snow, or hail. Once precipitation reaches the ground, some water flows into rivers and lakes, while some infiltrates the soil and replenishes underground aquifers. The water cycle plays a crucial role in regulating climate, distributing fresh water resources, and sustaining ecosystems. However, human activities can alter natural water flows. For example, urban development often replaces permeable surfaces with concrete, reducing groundwater recharge, and increasing surface runoff. In addition, deforestation can affect regional rainfall patterns by decreasing the amount of moisture released into the atmosphere. For these reasons, understanding the water cycle is essential for effective environmental management and long-term water security.",
             "questions": [
               {
                 "id": "list9_m2_q17",
@@ -5590,7 +5590,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m1_q1",
                 "type": "choose_response",
-                "audio_text": "module 1 I didn't understand the grading policy",
+                "audio_text": "Module 1 I didn't understand the grading policy?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Grades are important.",
@@ -5604,7 +5604,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m1_q2",
                 "type": "choose_response",
-                "audio_text": "the classroom projector isn't working",
+                "audio_text": "The classroom projector isn't working?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Projectors are expensive.",
@@ -5618,7 +5618,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m1_q3",
                 "type": "choose_response",
-                "audio_text": "how early should we arrive for the interview",
+                "audio_text": "How early should we arrive for the interview?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "At least 15 minutes early.",
@@ -5632,7 +5632,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m1_q4",
                 "type": "choose_response",
-                "audio_text": "I'm unsure how to format the paper",
+                "audio_text": "I'm unsure how to format the paper?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I typed mine.",
@@ -5646,7 +5646,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m1_q5",
                 "type": "choose_response",
-                "audio_text": "did you sign up for the workshop",
+                "audio_text": "Did you sign up for the workshop?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "You didn't need to sign the document.",
@@ -5660,7 +5660,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m1_q6",
                 "type": "choose_response",
-                "audio_text": "the professor hasn't replied yet",
+                "audio_text": "The professor hasn't replied yet?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Maybe wait another day.",
@@ -5674,7 +5674,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m1_q7",
                 "type": "choose_response",
-                "audio_text": "is there a deadline to add classes",
+                "audio_text": "Is there a deadline to add classes?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, by the end of this week.",
@@ -5688,7 +5688,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m1_q8",
                 "type": "choose_response",
-                "audio_text": "discussion section was canceled",
+                "audio_text": "Discussion section was canceled?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Not necessarily.",
@@ -5708,7 +5708,7 @@ export const listeningPractice10 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "did you buy a gift for Emma's birthday yet not yet I've been thinking about it all week but I still can't make up my mind I had a few ideas but none of them felt right I want to get her something special I'm not sure what kind of books she likes these days that makes sense then maybe play it safe and get her a gift card for the bookstore that way she can choose what she wants that's actually a great idea it's simple but still thoughtful and it saves but still thoughtful and it saves you from stressing over the choice true thanks I think I finally made up my mind",
+            "audio_text": "did you buy a gift for Emma's birthday yet not yet I've been thinking about it all week but I still can't make up my mind I had a few ideas but none of them felt right I want to get her something special I'm not sure what kind of books she likes these days that makes sense then maybe play it safe and get her a gift card for the bookstore that way she can choose what she wants that's actually a great idea it's simple but still thoughtful and it saves you from stressing over the choice true thanks I think I finally made up my mind",
             "questions": [
               {
                 "id": "list10_m1_q9",
@@ -5743,7 +5743,7 @@ export const listeningPractice10 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "I can't find my student ID card anywhere and I'm starting to panic are you sure did you check your backpack and all your pockets yeah I checked everything twice it's nowhere to be found when was the last time you used it this morning I think I used it to enter the library before class I hope so but I needed to enter the dorm and borrow books I can't really wait then you should go to the student services office and request a replacement do they charge for that yes but only a small fee that's good I was worried it would be expensive I was worried it would be expensive the better you're right I'll head there after class",
+            "audio_text": "I can't find my student ID card anywhere and I'm starting to panic are you sure did you check your backpack and all your pockets yeah I checked everything twice it's nowhere to be found when was the last time you used it this morning I think I used it to enter the library before class I hope so but I needed to enter the dorm and borrow books I can't really wait then you should go to the student services office and request a replacement do they charge for that yes but only a small fee that's good I was worried it would be expensive the better you're right I'll head there after class",
             "questions": [
               {
                 "id": "list10_m1_q11",
@@ -5778,7 +5778,7 @@ export const listeningPractice10 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 1",
-            "audio_text": "listen to an announcement during a campus tour as we approach The West Wing of the science building Please be aware that this section is under renovation access to the main Laboratories will be restricted until mid-april classes scheduled in these Labs have been temporarily moved to the north Wing maps with updated classroom locations with updated classroom locations are available at the information desk",
+            "audio_text": "listen to an announcement during a campus tour as we approach The West Wing of the science building Please be aware that this section is under renovation access to the main Laboratories will be restricted until mid-april classes scheduled in these Labs have been temporarily moved to the north Wing maps with updated classroom locations are available at the information desk",
             "questions": [
               {
                 "id": "list10_m1_q13",
@@ -5813,7 +5813,7 @@ export const listeningPractice10 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 2",
-            "audio_text": "listen to an announcement in a supermarket attention shoppers due to a temporary issue with our payment system card transactions at self-checkout stations are currently unavailable please proceed to register 3 through 8 for assisted checkout our technical team is working to resolve the issue as is working to resolve the issue as quickly as possible we apologize for the inconvenience and appreciate your patience",
+            "audio_text": "listen to an announcement in a supermarket attention shoppers due to a temporary issue with our payment system card transactions at self-checkout stations are currently unavailable please proceed to register 3 through 8 for assisted checkout our technical team is working to resolve the issue as quickly as possible we apologize for the inconvenience and appreciate your patience",
             "questions": [
               {
                 "id": "list10_m1_q15",
@@ -5848,7 +5848,7 @@ export const listeningPractice10 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật đại học",
-            "audio_text": "listen to part of a Linguistics class around the world thousands of languages are spoken today yet many are at risk of Disappearing linguists estimate that a large percentage of the languages currently spoken may vanish within the next Century this often happens when younger Generations stop what happens when younger generation stop learning their communities native language and instead adopt a more widely spoken one language loss effects more than communication languages often contain unique ways of understanding the world including cultural knowledge oral history and traditional practices traditional practices when a language disappears communities may lose important parts of their identity to address this issue language preservation programs have expanded some communities record Elders speaking the language so future Generations can study pronunciation and vocabulary educational apps and school programs designed to encourage children to use the language in daily life still preservation efforts face challenges Reviving a language requires long-term Commitment Community involvement Community involvement and sufficient resources some experts argue that documentation alone is not enough a language truly survives only if people actively use it in everyday communication as technology improves preservation may become easier however the however the future of endangered languages will depend largely on whether younger Generations choose to keep them alive",
+            "audio_text": "listen to part of a Linguistics class around the world thousands of languages are spoken today yet many are at risk of Disappearing linguists estimate that a large percentage of the languages currently spoken may vanish within the next Century this often happens when younger Generations stop what happens when younger generation stop learning their communities native language and instead adopt a more widely spoken one language loss effects more than communication languages often contain unique ways of understanding the world including cultural knowledge oral history and traditional practices when a language disappears communities may lose important parts of their identity to address this issue language preservation programs have expanded some communities record Elders speaking the language so future Generations can study pronunciation and vocabulary educational apps and school programs designed to encourage children to use the language in daily life still preservation efforts face challenges Reviving a language requires long-term Commitment Community involvement and sufficient resources some experts argue that documentation alone is not enough a language truly survives only if people actively use it in everyday communication as technology improves preservation may become easier however the future of endangered languages will depend largely on whether younger Generations choose to keep them alive",
             "questions": [
               {
                 "id": "list10_m1_q17",
@@ -5919,7 +5919,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m2_q1",
                 "type": "choose_response",
-                "audio_text": "module 2 can I retake the quiz",
+                "audio_text": "Module 2 can I retake the quiz?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Quizzes are short.",
@@ -5933,7 +5933,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m2_q2",
                 "type": "choose_response",
-                "audio_text": "where can I get tutoring for math",
+                "audio_text": "Where can I get tutoring for math?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I need to hit the books too.",
@@ -5947,7 +5947,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m2_q3",
                 "type": "choose_response",
-                "audio_text": "did you save me a seat",
+                "audio_text": "Did you save me a seat?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, it's right here.",
@@ -5961,7 +5961,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m2_q4",
                 "type": "choose_response",
-                "audio_text": "I'm struggling with this research paper",
+                "audio_text": "I'm struggling with this research paper?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Hang in there - you're almost done.",
@@ -5975,7 +5975,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m2_q5",
                 "type": "choose_response",
-                "audio_text": "I'm not sure I can solve this problem",
+                "audio_text": "I'm not sure I can solve this problem?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Give it a shot first.",
@@ -5989,7 +5989,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m2_q6",
                 "type": "choose_response",
-                "audio_text": "I don't understand this feedback",
+                "audio_text": "I don't understand this feedback?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I'm sure it's clear.",
@@ -6003,7 +6003,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m2_q7",
                 "type": "choose_response",
-                "audio_text": "I forgot to save my work and my computer crashed",
+                "audio_text": "I forgot to save my work and my computer crashed?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I bought mine online.",
@@ -6017,7 +6017,7 @@ export const listeningPractice10 = {
               {
                 "id": "list10_m2_q8",
                 "type": "choose_response",
-                "audio_text": "are late submissions accepted",
+                "audio_text": "Are late submissions accepted?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I turned mine in early.",
@@ -6037,7 +6037,7 @@ export const listeningPractice10 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "did you hand in your history paper yet I just submitted mine a few minutes ago not yet I'm planning to go over mine One Last Time seriously I thought you finished it yesterday I did more or less but I'm still not fully satisfied with some of my arguments a few paragraphs feel slightly repetitive honestly I doubt the professor will notice minor wording issues your papers are always strong maybe but I know myself the deadline is this afternoon at 3:00 isn't it yes I have isn't it yes I have plenty of time I'll submit it right after my biology class you really do double-check everything I wish I were that discipline exactly better safe than sorry that's hard to argue with maybe I should start doing the same",
+            "audio_text": "did you hand in your history paper yet I just submitted mine a few minutes ago not yet I'm planning to go over mine One Last Time seriously I thought you finished it yesterday I did more or less but I'm still not fully satisfied with some of my arguments a few paragraphs feel slightly repetitive honestly I doubt the professor will notice minor wording issues your papers are always strong maybe but I know myself the deadline is this afternoon at 3:00 isn't it yes I have plenty of time I'll submit it right after my biology class you really do double-check everything I wish I were that discipline exactly better safe than sorry that's hard to argue with maybe I should start doing the same",
             "questions": [
               {
                 "id": "list10_m2_q9",
@@ -6072,7 +6072,7 @@ export const listeningPractice10 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường (Phần nâng cao)",
-            "audio_text": "listen to an announcement in a medical clinic good afternoon patience due to an unexpected Staffing shortage we are currently operating with reduced capacity as a result wait times are significantly longer than usual and patience with scheduled appointments should expect delays of approximately is it expect delays of approximately 30 to 45 minutes please be assured that all appointments will still be honored today however if this delay creates a scheduling conflict we encourage you to speak with reception to discuss alternative appointment times we sincerely apologize for the inconvenience and appreciate your patience appreciate your patience",
+            "audio_text": "listen to an announcement in a medical clinic good afternoon patience due to an unexpected Staffing shortage we are currently operating with reduced capacity as a result wait times are significantly longer than usual and patience with scheduled appointments should expect delays of approximately is it expect delays of approximately 30 to 45 minutes please be assured that all appointments will still be honored today however if this delay creates a scheduling conflict we encourage you to speak with reception to discuss alternative appointment times we sincerely apologize for the inconvenience and appreciate your patience",
             "questions": [
               {
                 "id": "list10_m2_q11",
@@ -6107,7 +6107,7 @@ export const listeningPractice10 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 1 (HARD Module)",
-            "audio_text": "listen to part of an Agricultural Science class as urban populations continue to grow cities facing pressure to produce more food using limited Land one solution receiving significant attention is vertical farming unlike traditional agriculture vertical farming involves growing crops in stacked involves growing crops in stacked layers inside controlled indoor environments these systems often use artificial lighting automated irrigation and climate control to optimize plant growth one major advantage of vertical farming is efficiency because crops are grown vertically much more food can be produced in a smaller area food can be produced in a smaller area in addition indoor systems reduce exposure to pests decreasing the need for chemical pesticides water usage can also be significantly lower because irrigation systems recycle water instead of allowing it to evaporate or drain away however vertical farming has limit vertical farming has limitations operating these facilities can be expensive due to electricity costs especially for lighting and temperature regulation as a result many vertical Farms focus on high-value crops such as leafy greens rather than grains or fruit trees despite these challenges researchers believe improvements in researchers believe improvements in Energy Efficiency and automation may make vertical farming increasingly practical in the future such systems could help cities improve food security while reducing Transportation costs and environmental impact",
+            "audio_text": "listen to part of an Agricultural Science class as urban populations continue to grow cities facing pressure to produce more food using limited Land one solution receiving significant attention is vertical farming unlike traditional agriculture vertical farming involves growing crops in stacked layers inside controlled indoor environments these systems often use artificial lighting automated irrigation and climate control to optimize plant growth one major advantage of vertical farming is efficiency because crops are grown vertically much more food can be produced in a smaller area in addition indoor systems reduce exposure to pests decreasing the need for chemical pesticides water usage can also be significantly lower because irrigation systems recycle water instead of allowing it to evaporate or drain away however vertical farming has limit vertical farming has limitations operating these facilities can be expensive due to electricity costs especially for lighting and temperature regulation as a result many vertical Farms focus on high-value crops such as leafy greens rather than grains or fruit trees despite these challenges researchers believe improvements in Energy Efficiency and automation may make vertical farming increasingly practical in the future such systems could help cities improve food security while reducing Transportation costs and environmental impact",
             "questions": [
               {
                 "id": "list10_m2_q13",
@@ -6166,7 +6166,7 @@ export const listeningPractice10 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 2 (HARD Module)",
-            "audio_text": "listen to part of a macroeconomics class modern economies rely heavily on Global Supply chains which are complex networks linking raw material suppliers manufacturers Transportation infrastructure Distributors and retailers across multiple regions these systems allow these systems allow companies to reduce costs and improve efficiency by sourcing components from wherever production is most economical for instance a single smartphone may contain semiconductors produced in one country Rare Minerals extracted in another and final assembly completed elsewhere this inter elsewhere this interconnected structure offers clear economic advantages but it also creates vulnerability because Supply chains operate as tightly coordinated systems disruption at one point can trigger consequences far beyond the original source of the problem natural disasters labor natural disasters labor shortages Port congestion trade restrictions and geopolitical tensions can all interrupt the movement of goods in some cases even a short-lived disruption at a major shipping hub can cause delays across entire Industries recent Global disruptions have made these Global disruptions have made these weaknesses especially visible delayed shipments can lead to inventory shortages Rising operational costs production slowdowns and declining customer satisfaction in response many firms are reassessing long-standing strategies centered almost exclusively on efficiency what's exclusively on efficiency this has shifted attention toward resilience the capacity of a system to absorb shocks and recover quickly increasingly experts argue that minimizing costs should no longer be the sole objective future Supply chains may be intentionally less cost efficient in exchange for greater fishing in exchange for greater flexibility redundancy and long-term stability during periods of uncertainty",
+            "audio_text": "listen to part of a macroeconomics class modern economies rely heavily on Global Supply chains which are complex networks linking raw material suppliers manufacturers Transportation infrastructure Distributors and retailers across multiple regions these systems allow companies to reduce costs and improve efficiency by sourcing components from wherever production is most economical for instance a single smartphone may contain semiconductors produced in one country Rare Minerals extracted in another and final assembly completed elsewhere this inter elsewhere this interconnected structure offers clear economic advantages but it also creates vulnerability because Supply chains operate as tightly coordinated systems disruption at one point can trigger consequences far beyond the original source of the problem natural disasters labor shortages Port congestion trade restrictions and geopolitical tensions can all interrupt the movement of goods in some cases even a short-lived disruption at a major shipping hub can cause delays across entire Industries recent Global disruptions have made these weaknesses especially visible delayed shipments can lead to inventory shortages Rising operational costs production slowdowns and declining customer satisfaction in response many firms are reassessing long-standing strategies centered almost exclusively on efficiency what's exclusively on efficiency this has shifted attention toward resilience the capacity of a system to absorb shocks and recover quickly increasingly experts argue that minimizing costs should no longer be the sole objective future Supply chains may be intentionally less cost efficient in exchange for greater fishing in exchange for greater flexibility redundancy and long-term stability during periods of uncertainty",
             "questions": [
               {
                 "id": "list10_m2_q17",
@@ -6250,7 +6250,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m1_q1",
                 "type": "choose_response",
-                "audio_text": "the instructions. Let's begin. Module one. Module one. The elevator is not working. Did you",
+                "audio_text": "The elevator is not working.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Elevators are unreliable.",
@@ -6264,7 +6264,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m1_q2",
                 "type": "choose_response",
-                "audio_text": "The elevator is not working. Did you The elevator is not working. Did you The elevator is not working. Did you check the check the check the audience number again? I can't",
+                "audio_text": "Did you check the audience number again?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I arrived early.",
@@ -6278,7 +6278,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m1_q3",
                 "type": "choose_response",
-                "audio_text": "check the audience number again? I can't audience number again? I can't audience number again? I can't hear the sound in this hear the sound in this hear the sound in this video. The list of",
+                "audio_text": "Check the audience number again?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I watched it already.",
@@ -6292,7 +6292,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m1_q4",
                 "type": "choose_response",
-                "audio_text": "hear the sound in this video. The list of video. The list of video. The list of references looks references looks references looks long. Is",
+                "audio_text": "The list of references looks long.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I enjoy it.",
@@ -6306,7 +6306,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m1_q5",
                 "type": "choose_response",
-                "audio_text": "references looks long. Is long. Is long. Is activity assessed in this activity assessed in this activity assessed in this course? I'm not sure",
+                "audio_text": "Is activity assessed in this course?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I always participate during class.",
@@ -6320,7 +6320,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m1_q6",
                 "type": "choose_response",
-                "audio_text": "activity assessed in this course? I'm not sure course? I'm not sure course? I'm not sure how to start my essay. Did",
+                "audio_text": "Activity assessed in this course?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I finished mine already.",
@@ -6334,7 +6334,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m1_q7",
                 "type": "choose_response",
-                "audio_text": "course? I'm not sure how to start my essay. Did how to start my essay. Did how to start my essay. Did the professor show the professor show the professor show the slides? What",
+                "audio_text": "Did the professor show the slides?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "He did, they're on the course page.",
@@ -6348,7 +6348,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m1_q8",
                 "type": "choose_response",
-                "audio_text": "the professor show the slides? What the slides? What the slides? What time does time does time does the library close today? the library close today?",
+                "audio_text": "What time does the library close today?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I was there earlier.",
@@ -6368,7 +6368,7 @@ export const listeningPractice11 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "the library close today? Hey, want Hey, want Hey, want to join us for some to join us for some to join us for some football this football this football this weekend? I would love to, but my I would love to, but my ankle still hurts from last ankle still hurts from last ankle still hurts from last time. Oh no. Have you seen a Oh no. Have you seen a Oh no. Have you seen a doctor? Not yet. I thought it would Not yet. I thought it would Not yet. I thought it would heal on its own, but it heal on its own, but it heal on its own, but it still hurts when I still hurts when I still hurts when I walk. You shouldn't You shouldn't You shouldn't ignore this. ignore this. ignore this. God protects the protected. protects the protected. protects the protected. You're probably right. I You're probably right. I You're probably right. I was hoping it would was hoping it would was hoping it would go away on its own. go away on its own. go away on its own. It may be a minor It may be a minor It may be a minor sprain, but it's sprain, but it's sprain, but it's worth showing it worth showing it worth showing it to a doctor. to a doctor. to a doctor. You are right. I'll make an You are right. I'll make an You are right. I'll make an appointment tomorrow and appointment tomorrow and appointment tomorrow and miss the game this miss the game this miss the game this weekend. Are you still",
+            "audio_text": "the library close today? Hey, want to join us for some football this weekend? I would love to, but my ankle still hurts from last time. Oh no. Have you seen a doctor? Not yet. I thought it would heal on its own, but it still hurts when I walk. You shouldn't ignore this. God protects the protected. You're probably right. I was hoping it would go away on its own. It may be a minor sprain, but it's worth showing it to a doctor. You are right. I'll make an appointment tomorrow and miss the game this weekend.",
             "questions": [
               {
                 "id": "list11_m1_q9",
@@ -6403,7 +6403,7 @@ export const listeningPractice11 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "miss the game this weekend. Are you still weekend. Are you still weekend. Are you still thinking about thinking about thinking about getting a dog? getting a dog? getting a dog? Actually, yes. I'm Actually, yes. I'm Actually, yes. I'm looking at shelters looking at shelters looking at shelters online, but I'm not online, but I'm not online, but I'm not sure if now is a sure if now is a sure if now is a good time. good time. good time. I thought you really I thought you really I thought you really wanted this. What makes you wanted this. What makes you wanted this. What makes you hesitate? I really want to, but I'm I really want to, but I'm I really want to, but I'm worried I won't worried I won't worried I won't have enough have enough have enough time to properly time to properly time to properly care for it. care for it. care for it. That's true, but you're That's true, but you're That's true, but you're home most home most home most evenings. I think you would be a evenings. I think you would be a evenings. I think you would be a great host. Maybe, but dogs Maybe, but dogs Maybe, but dogs need a lot of need a lot of need a lot of attention. I don't want to get attention. I don't want to get attention. I don't want to get a dog and then a dog and then a dog and then realize I can't realize I can't realize I can't handle the handle the handle the responsibility. I understand. You could I understand. You could I understand. You could start by start by start by volunteering at an volunteering at an volunteering at an animal shelter. animal shelter. animal shelter. This way you can This way you can This way you can see what it's like to see what it's like to take care of take care of take care of a dog. a dog. a dog. This is actually This is actually This is actually not a bad idea. I didn't not a bad idea. I didn't not a bad idea. I didn't think about think about think about trying it at first. trying it at first. trying it at first. This will help you This will help you This will help you decide without making any decide without making any long-term commitments right away. commitments right away. commitments right away. Ultimately, you shouldn't Ultimately, you shouldn't Ultimately, you shouldn't take on more take on more take on more than you can handle. than you can handle. than you can handle. You are right. I'll You are right. I'll You are right. I'll sign up to sign up to sign up to volunteer this volunteer this volunteer this weekend and see weekend and see weekend and see how it goes. how it goes. Listen to Listen to",
+            "audio_text": "miss the game this weekend. Are you still thinking about getting a dog? Actually, yes. I'm looking at shelters online, but I'm not sure if now is a good time. I thought you really wanted this. What makes you hesitate? I really want to, but I'm worried I won't have enough time to properly care for it. That's true, but you're home most evenings. I think you would be a great host. Maybe, but dogs need a lot of attention. I don't want to get a dog and then realize I can't handle the responsibility. I understand. You could start by volunteering at an animal shelter. This way you can see what it's like to take care of a dog. This is actually not a bad idea. I didn't think about trying it at first. This will help you decide without making any long-term commitments right away. Ultimately, you shouldn't take on more than you can handle. You are right. I'll sign up to volunteer this weekend and see how it goes.",
             "questions": [
               {
                 "id": "list11_m1_q11",
@@ -6438,7 +6438,7 @@ export const listeningPractice11 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 1",
-            "audio_text": "Listen to the announcement in the announcement in the announcement in the clothing store. Attention clothing store. Attention clothing store. Attention buyers, don't buyers, don't buyers, don't miss our miss our miss our special weekend promotion. weekend promotion. weekend promotion. This Saturday and Sunday only, This Saturday and Sunday only, This Saturday and Sunday only, all winter jackets on the all winter jackets on the all winter jackets on the second floor second floor second floor are available at a discount of 40 are available at a discount of 40 % off the regular price. % off the regular price. % off the regular price. We have a wide selection of We have a wide selection of We have a wide selection of styles and sizes, styles and sizes, styles and sizes, but some popular but some popular but some popular items can items can items can sell out quickly. Please sell out quickly. Please sell out quickly. Please note that promotional note that promotional note that promotional items can be items can be items can be exchanged within 7 exchanged within 7 exchanged within 7 days with a check, but they are days with a check, but they are days with a check, but they are non- refundable. If refundable. If refundable. If you need you need you need assistance in choosing assistance in choosing assistance in choosing a size or style, a size or style, a size or style, please contact any contact any store employee. Listen to store employee. Listen to",
+            "audio_text": "Listen to the announcement in the clothing store. Attention buyers, don't miss our special weekend promotion. This Saturday and Sunday only, all winter jackets on the second floor are available at a discount of 40 % off the regular price. We have a wide selection of styles and sizes, but some popular items can sell out quickly. Please note that promotional items can be exchanged within 7 days with a check, but they are non- refundable. If you need assistance in choosing a size or style, please contact any store employee.",
             "questions": [
               {
                 "id": "list11_m1_q13",
@@ -6473,7 +6473,7 @@ export const listeningPractice11 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 2",
-            "audio_text": "store employee. Listen to the announcement at the announcement at the announcement at the aquarium. the aquarium. Attention, visitors! Attention, visitors! Attention, visitors! Please note: The penguin feeding note: The penguin feeding scheduled for 2:00 PM scheduled for 2:00 PM scheduled for 2:00 PM has been postponed to 2:30 PM has been postponed to 2:30 PM has been postponed to 2:30 PM due to scheduled due to scheduled due to scheduled maintenance work in maintenance work in maintenance work in their enclosure. During their enclosure. During their enclosure. During this time, this time, this time, staff will inspect the enclosure and will inspect the enclosure and will inspect the enclosure and perform a number of perform a number of perform a number of tasks to tasks to tasks to ensure a safe ensure a safe ensure a safe and appropriate and appropriate and appropriate environment for the environment for the environment for the animals. Visitors animals. Visitors animals. Visitors who have purchased who have purchased who have purchased premium tickets can premium tickets can premium tickets can continue to use their to use their to use their passes, no additional action is no additional action is no additional action is required. Thank you for required. Thank you for required. Thank you for your patience and your patience and your patience and understanding while these understanding while these understanding while these procedures are ongoing. procedures are ongoing. Listen to part",
+            "audio_text": "Listen to the announcement at the aquarium. Attention, visitors! Please note: The penguin feeding scheduled for 2:00 PM has been postponed to 2:30 PM due to scheduled maintenance work in their enclosure. During this time, staff will inspect the enclosure and perform a number of tasks to ensure a safe and appropriate environment for the animals. Visitors who have purchased premium tickets can continue to use their passes, no additional action is required. Thank you for your patience and understanding while these procedures are ongoing.",
             "questions": [
               {
                 "id": "list11_m1_q15",
@@ -6508,7 +6508,7 @@ export const listeningPractice11 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật đại học",
-            "audio_text": "Listen to part Listen to part Listen to part of the ecology lesson. of the ecology lesson. Packaging plays an Packaging plays an Packaging plays an important role in important role in important role in modern commerce, modern commerce, modern commerce, protecting goods protecting goods protecting goods during transportation during transportation during transportation and providing and providing and providing consumers with useful consumers with useful consumers with useful information. However, information. However, information. However, packaging also packaging also packaging also creates a huge creates a huge creates a huge amount of waste, amount of waste, amount of waste, especially when especially when especially when the materials the materials the materials are used are used are used only once and then only once and then only once and then thrown away. thrown away. thrown away. Single-use plastic is a Single-use plastic is a Single-use plastic is a major concern because it can because it can because it can remain in the remain in the remain in the environment for decades or for decades or for decades or even centuries. even centuries. even centuries. Even recyclable materials Even recyclable materials pose problems, pose problems, pose problems, as many as many as many consumers do not consumers do not consumers do not sort waste sort waste sort waste properly and properly and properly and recycling systems recycling systems recycling systems vary greatly vary greatly vary greatly by region. by region. by region. As a result, a large As a result, a large As a result, a large amount of packaging amount of packaging amount of packaging still ends up in still ends up in still ends up in landfills. To reduce landfills. To reduce landfills. To reduce waste, companies are experimenting with are experimenting with are experimenting with alternative materials and materials and materials and designs. Some designs. Some designs. Some use biodegradable packaging made from made from made from plant-based materials. Others are materials. Others are materials. Others are recycling products to products to products to use less material less material less material overall. Reusable packaging systems packaging systems packaging systems are also becoming more are also becoming more are also becoming more common, especially common, especially common, especially in online shopping in online shopping in online shopping and food delivery services and food delivery services and food delivery services . However, reducing . However, reducing . However, reducing packaging use is not always a packaging use is not always a packaging use is not always a simple task. simple task. simple task. Less packaging can packaging can packaging can increase the risk of increase the risk of increase the risk of damage to the product damage to the product damage to the product during transportation, which transportation, which transportation, which will lead to other will lead to other will lead to other types of waste. Therefore, types of waste. Therefore, types of waste. Therefore, businesses must businesses must businesses must balance environmental concerns environmental concerns environmental concerns with product protection and product protection and product protection and economic efficiency. Experts suggest Experts suggest that long-term that long-term that long-term solutions will require solutions will require solutions will require both innovation and both innovation and both innovation and consumer participation. consumer participation. consumer participation. Even the most Even the most Even the most sustainable packaging systems are less packaging systems are less packaging systems are less effective if effective if effective if consumers do not consumers do not consumers do not use them use them use them properly.",
+            "audio_text": "Listen to part of the ecology lesson. Packaging plays an important role in modern commerce, protecting goods during transportation and providing consumers with useful information. However, packaging also creates a huge amount of waste, especially when the materials are used only once and then thrown away. Single-use plastic is a major concern because it can remain in the environment for decades or even centuries. Even recyclable materials pose problems, as many consumers do not sort waste properly and recycling systems vary greatly by region. As a result, a large amount of packaging still ends up in landfills. To reduce waste, companies are experimenting with alternative materials and designs. Some use biodegradable packaging made from plant-based materials. Others are recycling products to use less material overall. Reusable packaging systems are also becoming more common, especially in online shopping and food delivery services. However, reducing packaging use is not always a simple task. Less packaging can increase the risk of damage to the product during transportation, which will lead to other types of waste. Therefore, businesses must balance environmental concerns with product protection and economic efficiency. Experts suggest that long-term solutions will require both innovation and consumer participation. Even the most sustainable packaging systems are less effective if consumers do not use them properly.",
             "questions": [
               {
                 "id": "list11_m1_q17",
@@ -6579,7 +6579,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m2_q1",
                 "type": "choose_response",
-                "audio_text": "properly. Second module. I've",
+                "audio_text": "Properly.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "This isn't acceptable.",
@@ -6593,7 +6593,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m2_q2",
                 "type": "choose_response",
-                "audio_text": "not much progress. It's",
+                "audio_text": "Not much progress.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Cold weather is the best.",
@@ -6607,7 +6607,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m2_q3",
                 "type": "choose_response",
-                "audio_text": "not much progress. It's too cold in the classroom.",
+                "audio_text": "Not much progress.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I studied alone.",
@@ -6621,7 +6621,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m2_q4",
                 "type": "choose_response",
-                "audio_text": "your study group? We have been practicing for",
+                "audio_text": "Your study group?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Let's call it a day.",
@@ -6635,7 +6635,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m2_q5",
                 "type": "choose_response",
-                "audio_text": "group? We have been practicing for 5 hours. I",
+                "audio_text": "We have been practicing for 5 hours.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Shoot, looks like you'll need to start over.",
@@ -6649,7 +6649,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m2_q6",
                 "type": "choose_response",
-                "audio_text": "accidentally deleted the entire file. I'm nervous",
+                "audio_text": "Accidentally deleted the entire file.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Tomorrow will be busy.",
@@ -6663,7 +6663,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m2_q7",
                 "type": "choose_response",
-                "audio_text": "about tomorrow's presentation. Do you",
+                "audio_text": "About tomorrow's presentation.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It's worth a shot to ask.",
@@ -6677,7 +6677,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m2_q8",
                 "type": "choose_response",
-                "audio_text": "will extend the deadline?",
+                "audio_text": "Will extend the deadline?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Are you sure?",
@@ -6697,7 +6697,7 @@ export const listeningPractice11 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "making sense. Have you already started you already started you already started planning your group planning your group planning your group presentation? Not quite. I thought we could Not quite. I thought we could Not quite. I thought we could wait until the wait until the wait until the end of this week. I end of this week. I work better when a work better when a work better when a deadline is approaching deadline is approaching . I'm not sure this is a I'm not sure this is a I'm not sure this is a good idea. We good idea. We good idea. We need to decide need to decide need to decide who is responsible for who is responsible for who is responsible for each section, and once each section, and once each section, and once everyone has finished their everyone has finished their everyone has finished their parts, make sure the ideas make sure the ideas make sure the ideas are in harmony with each are in harmony with each are in harmony with each other. This will take other. This will take other. This will take some time. some time. some time. I understand your I understand your I understand your point, but I worry that point, but I worry that point, but I worry that if we start if we start if we start too early, we'll too early, we'll too early, we'll start rethinking everything rethinking everything rethinking everything . We can . We can . We can spend hours on spend hours on spend hours on small details that won't matter small details that won't matter small details that won't matter much . I just don't . I just don't . I just don't want us to want us to want us to rush at the rush at the rush at the last minute. In last minute. In last minute. In addition, we will need addition, we will need addition, we will need time to rehearse the time to rehearse the time to rehearse the performance. This is a valid observation. This is a valid observation. This is a valid observation. I didn't take into account I didn't take into account I didn't take into account how long the how long the how long the rehearsal would take. rehearsal would take. rehearsal would take. What if we What if we What if we meet today after today after today after class and divide up class and divide up class and divide up the tasks? Then everyone the tasks? Then everyone the tasks? Then everyone can work can work can work independently when they independently when they independently when they have time. have time. have time. This actually sounds This actually sounds This actually sounds like a good compromise. like a good compromise. like a good compromise. We can get We can get We can get organized now organized now without trying without trying without trying to finish everything to finish everything to finish everything at once. at once. at once. That's right. I'll create a That's right. I'll create a That's right. I'll create a group chat now group chat now group chat now so we can define so we can define so we can define everyone's responsibilities. everyone's responsibilities. everyone's responsibilities. Perfectly. I will also Perfectly. I will also Perfectly. I will also review the review the review the assignment requirements again before our assignment requirements again before our assignment requirements again before our meeting.",
+            "audio_text": "making sense. Have you already started planning your group presentation? Not quite. I thought we could wait until the end of this week. I work better when a deadline is approaching. I'm not sure this is a good idea. We need to decide who is responsible for each section, and once everyone has finished their parts, make sure the ideas are in harmony with each other. This will take some time. I understand your point, but I worry that if we start too early, we'll start rethinking everything. We can spend hours on small details that won't matter much. I just don't want us to rush at the last minute. In addition, we will need time to rehearse the performance. This is a valid observation. I didn't take into account how long the rehearsal would take. What if we meet today after class and divide up the tasks? Then everyone can work independently when they have time. This actually sounds like a good compromise. We can get organized now without trying to finish everything at once. That's right. I'll create a group chat now so we can define everyone's responsibilities. Perfectly. I will also review the assignment requirements again before our meeting.",
             "questions": [
               {
                 "id": "list11_m2_q9",
@@ -6732,7 +6732,7 @@ export const listeningPractice11 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường (Phần nâng cao)",
-            "audio_text": "meeting. Listen to Listen to the announcement in the mail. the announcement in the mail. the announcement in the mail. Customers shipping international packages international packages international packages today should today should today should expect delivery delays of up to five delivery delays of up to five delivery delays of up to five business days due to business days due to business days due to weather affecting weather affecting weather affecting routes. Priority shipping Priority shipping Priority shipping remains available, although available, although available, although arrival dates cannot arrival dates cannot arrival dates cannot be guaranteed during be guaranteed during be guaranteed during this period. Customers this period. Customers this period. Customers are advised are advised are advised to check to check tracking information regularly or tracking information regularly or tracking information regularly or contact support regarding support regarding support regarding specific shipments.",
+            "audio_text": "Listen to the announcement in the mail. Customers shipping international packages today should expect delivery delays of up to five business days due to weather affecting routes. Priority shipping remains available, although arrival dates cannot be guaranteed during this period. Customers are advised to check tracking information regularly or contact support regarding specific shipments.",
             "questions": [
               {
                 "id": "list11_m2_q11",
@@ -6767,7 +6767,7 @@ export const listeningPractice11 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 1 (HARD Module)",
-            "audio_text": "shipments. Listen to part Listen to part Listen to part of the business of the business of the business communication class. communication class. Remote work Remote work Remote work has become increasingly has become increasingly has become increasingly common in many common in many common in many industries due to industries due to industries due to the development of the development of the development of digital communication technologies. digital communication technologies. Employees can now collaborate can now collaborate can now collaborate through video conferencing, video conferencing, video conferencing, shared documents, and shared documents, and shared documents, and instant messaging without having to be instant messaging without having to be instant messaging without having to be physically in the same location. Such an in the same location. Such an in the same location. Such an organization offers organization offers organization offers several advantages. several advantages. several advantages. Employees often Employees often Employees often save time save time save time by avoiding daily by avoiding daily by avoiding daily commutes, and companies commutes, and companies commutes, and companies can cut can cut can cut office costs. office costs. office costs. Many employees also employees also employees also report greater flexibility and a greater flexibility and a greater flexibility and a better work- life balance. However, life balance. However, life balance. However, remote work remote work remote work also has its challenges. also has its challenges. also has its challenges. Communication can Communication can Communication can become less become less become less effective when effective when effective when communication relies heavily on relies heavily on relies heavily on digital tools. Misunderstandings can become Misunderstandings can become Misunderstandings can become more common, more common, more common, especially when especially when especially when teams work in teams work in teams work in different time different time different time zones. Some zones. Some zones. Some employees also employees also employees also experience isolation experience isolation experience isolation and reduced and reduced and reduced motivation due to motivation due to motivation due to limited social limited social limited social interaction. Because of these interaction. Because of these interaction. Because of these trade-offs, many trade-offs, many trade-offs, many organizations are moving to are moving to are moving to hybrid models that hybrid models that hybrid models that combine remote combine remote combine remote and office work. This and office work. This and office work. This approach aims to approach aims to approach aims to maintain flexibility while maintain flexibility while maintain flexibility while supporting collaboration and collaboration and collaboration and team cohesion. Researchers team cohesion. Researchers team cohesion. Researchers continue to study the continue to study the continue to study the long-term impact long-term impact long-term impact on employee productivity and on employee productivity and on employee productivity and well-being . Preliminary evidence . Preliminary evidence . Preliminary evidence suggests that suggests that suggests that remote work remote work remote work can be very can be very can be very effective, but success effective, but success effective, but success depends on depends on depends on management, the type of management, the type of management, the type of work, and work, and work, and employee preferences. In addition to employee preferences. In addition to employee preferences. In addition to individual working conditions, researchers working conditions, researchers working conditions, researchers are studying how these changes are studying how these changes are studying how these changes affect the performance of affect the performance of affect the performance of organizations as a whole. organizations as a whole.",
+            "audio_text": "Listen to part of the business communication class. Remote work has become increasingly common in many industries due to the development of digital communication technologies. Employees can now collaborate through video conferencing, shared documents, and instant messaging without having to be physically in the same location. Such an organization offers several advantages. Employees often save time by avoiding daily commutes, and companies can cut office costs. Many employees also report greater flexibility and a better work- life balance. However, remote work also has its challenges. Communication can become less effective when communication relies heavily on digital tools. Misunderstandings can become more common, especially when teams work in different time zones. Some employees also experience isolation and reduced motivation due to limited social interaction. Because of these trade-offs, many organizations are moving to hybrid models that combine remote and office work. This approach aims to maintain flexibility while supporting collaboration and team cohesion. Researchers continue to study the long-term impact on employee productivity and well-being. Preliminary evidence suggests that remote work can be very effective, but success depends on management, the type of work, and employee preferences. In addition to individual working conditions, researchers are studying how these changes affect the performance of organizations as a whole.",
             "questions": [
               {
                 "id": "list11_m2_q13",
@@ -6826,7 +6826,7 @@ export const listeningPractice11 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 2 (HARD Module)",
-            "audio_text": "organizations as a whole. Listen to part Listen to part Listen to part of the of the of the transportation engineering class. engineering class. engineering class. Autonomous vehicles, often called often called often called driverless cars, driverless cars, driverless cars, use sensors and artificial sensors and artificial sensors and artificial intelligence to navigate intelligence to navigate intelligence to navigate the roads with the roads with the roads with minimal human intervention. human intervention. Proponents argue that these argue that these argue that these devices could devices could devices could transform transportation, transform transportation, transform transportation, improving safety improving safety improving safety and efficiency. The and efficiency. The and efficiency. The human factor is the human factor is the human factor is the cause of many cause of many cause of many road accidents. Autonomous systems Autonomous systems Autonomous systems can reduce can reduce can reduce the number of such the number of such the number of such accidents by responding accidents by responding accidents by responding faster and maintaining faster and maintaining faster and maintaining constant attention. constant attention. Driverless cars could also improve could also improve could also improve mobility for the mobility for the mobility for the elderly and people with and people with and people with disabilities. Despite disabilities. Despite disabilities. Despite these potential these potential these potential benefits, certain challenges remain. Road conditions are challenges remain. Road conditions are challenges remain. Road conditions are unpredictable. Roadworks, bad weather and bad weather and bad weather and unusual road unusual road unusual road conditions can make conditions can make decision-making difficult for decision-making difficult for decision-making difficult for automated systems. There are systems. There are systems. There are also ethical questions also ethical questions also ethical questions about how about how about how vehicles should respond in should respond in should respond in dangerous situations where harm is situations where harm is situations where harm is inevitable. Another inevitable. Another inevitable. Another obstacle remains public trust. public trust. public trust. Even if Even if Even if self-driving cars self-driving cars self-driving cars become statistically become statistically become statistically safer than safer than safer than human drivers, many will human drivers, many will human drivers, many will be hesitant to be hesitant to be hesitant to fully rely fully rely fully rely on machine decisions. As on machine decisions. As technologies improve, their technologies improve, their technologies improve, their implementation may implementation may implementation may gradually increase. gradually increase. gradually increase. Experts predict Experts predict that autonomous that autonomous that autonomous systems will initially spread in will initially spread in will initially spread in controlled environments, such as environments, such as environments, such as logistics routes logistics routes logistics routes or public transport networks.",
+            "audio_text": "Listen to part of the transportation engineering class. Autonomous vehicles, often called driverless cars, use sensors and artificial intelligence to navigate the roads with minimal human intervention. Proponents argue that these devices could transform transportation, improving safety and efficiency. the human factor is the cause of many road accidents. Autonomous systems can reduce the number of such accidents by responding faster and maintaining constant attention. Driverless cars could also improve mobility for the elderly and people with disabilities. Despite these potential benefits, certain challenges remain. Road conditions are unpredictable. Roadworks, bad weather and unusual road conditions can make decision-making difficult for automated systems. There are also ethical questions about how vehicles should respond in dangerous situations where harm is inevitable. Another obstacle remains public trust. Even if self-driving cars become statistically safer than human drivers, many will be hesitant to fully rely on machine decisions. As technologies improve, their implementation may gradually increase. Experts predict that autonomous systems will initially spread in controlled environments, such as logistics routes or public transport networks.",
             "questions": [
               {
                 "id": "list11_m2_q17",
@@ -6910,7 +6910,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m1_q1",
                 "type": "choose_response",
-                "audio_text": "could you email me the notes later",
+                "audio_text": "Could you email me the notes later?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Sure thing.",
@@ -6924,7 +6924,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m1_q2",
                 "type": "choose_response",
-                "audio_text": "you were right the answer was saying",
+                "audio_text": "You were right the answer was saying?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Multiple choice is tricky.",
@@ -6938,7 +6938,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m1_q3",
                 "type": "choose_response",
-                "audio_text": "I got accepted into graduate school",
+                "audio_text": "I got accepted into graduate school?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Happy holidays!",
@@ -6952,7 +6952,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m1_q4",
                 "type": "choose_response",
-                "audio_text": "is the lecture hall accessible",
+                "audio_text": "Is the lecture hall accessible?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Accessibility is important.",
@@ -6966,7 +6966,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m1_q5",
                 "type": "choose_response",
-                "audio_text": "I missed the deadline by one day",
+                "audio_text": "I missed the deadline by one day?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "You should email the instructor.",
@@ -6980,7 +6980,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m1_q6",
                 "type": "choose_response",
-                "audio_text": "I got a perfect score on the exam",
+                "audio_text": "I got a perfect score on the exam?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I studied all night.",
@@ -6994,7 +6994,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m1_q7",
                 "type": "choose_response",
-                "audio_text": "the instructions mentioned APA style",
+                "audio_text": "The instructions mentioned APA style?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Then you should follow APA format.",
@@ -7008,7 +7008,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m1_q8",
                 "type": "choose_response",
-                "audio_text": "you missed class yesterday everything okay",
+                "audio_text": "You missed class yesterday everything okay?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I was feeling under the weather.",
@@ -7028,7 +7028,7 @@ export const listeningPractice12 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "did you hear the library is closing earlier tonight no I didn't I was planning to stay there until 10:00 because I need to finish my reading assignment they're shutting down at 7:00 for maintenance the staff needs time to update the computer system and check some equipment I need those books for I need those books for tomorrow's class and I haven't finished taking notes yet why don't you check if the books are available through the online database some of the same materials might be there good idea I'll look for digital copies when I get home if I can't find them I'll come early tomorrow morning good morning",
+            "audio_text": "did you hear the library is closing earlier tonight no I didn't I was planning to stay there until 10:00 because I need to finish my reading assignment they're shutting down at 7:00 for maintenance the staff needs time to update the computer system and check some equipment I need those books for tomorrow's class and I haven't finished taking notes yet why don't you check if the books are available through the online database some of the same materials might be there good idea I'll look for digital copies when I get home if I can't find them I'll come early tomorrow morning good morning",
             "questions": [
               {
                 "id": "list12_m1_q9",
@@ -7098,7 +7098,7 @@ export const listeningPractice12 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 1",
-            "audio_text": "listen to an announcement on campus the campus printing center will be unavailable this Friday morning while new printers are installed students who need to print documents before noon should use the machines in the library or Student Union existing printing balances will remain active and no additional charges will be applied during the additional charges will be applied during the maintenance period the center is expected to reopen at 1 p.m.",
+            "audio_text": "listen to an announcement on campus the campus printing center will be unavailable this Friday morning while new printers are installed students who need to print documents before noon should use the machines in the library or Student Union existing printing balances will remain active and no additional charges will be applied during the maintenance period the center is expected to reopen at 1 p. m.",
             "questions": [
               {
                 "id": "list12_m1_q13",
@@ -7133,7 +7133,7 @@ export const listeningPractice12 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 2",
-            "audio_text": "listen to an announcement in a lecture hall the history department is changing the location of Friday's guest lecture the event will now take place in arts hall 201 instead of the main Auditorium because of a scheduling conflict the starting time remains 5:00 p.m. and students who already registered can students who already registered do not need to sign up again additional seats will be available on a first-come first-served basis",
+            "audio_text": "listen to an announcement in a lecture hall the history department is changing the location of Friday's guest lecture the event will now take place in arts hall 201 instead of the main Auditorium because of a scheduling conflict the starting time remains 5:00 p. m. and students who already registered can students who already registered do not need to sign up again additional seats will be available on a first-come first-served basis",
             "questions": [
               {
                 "id": "list12_m1_q15",
@@ -7239,7 +7239,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m2_q1",
                 "type": "choose_response",
-                "audio_text": "could you print these slides before class",
+                "audio_text": "Could you print these slides before class?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I'll send them to the printer right away.",
@@ -7253,7 +7253,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m2_q2",
                 "type": "choose_response",
-                "audio_text": "I can't remember my locker combination",
+                "audio_text": "I can't remember my locker combination?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The lockers were installed last semester.",
@@ -7267,7 +7267,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m2_q3",
                 "type": "choose_response",
-                "audio_text": "have you seen my calculator anywhere",
+                "audio_text": "Have you seen my calculator anywhere?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I borrowed a ruler from the library.",
@@ -7281,7 +7281,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m2_q4",
                 "type": "choose_response",
-                "audio_text": "I'm running a little late for the meeting",
+                "audio_text": "I'm running a little late for the meeting?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Several new employees joined this week.",
@@ -7295,7 +7295,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m2_q5",
                 "type": "choose_response",
-                "audio_text": "do you know when the bookstore opens",
+                "audio_text": "Do you know when the bookstore opens?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The bookstore sells used textbooks.",
@@ -7309,7 +7309,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m2_q6",
                 "type": "choose_response",
-                "audio_text": "I think I left my water bottle in the lecture hall",
+                "audio_text": "I think I left my water bottle in the lecture hall?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The lecture hall has comfortable seats.",
@@ -7323,7 +7323,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m2_q7",
                 "type": "choose_response",
-                "audio_text": "can you help me move these boxes",
+                "audio_text": "Can you help me move these boxes?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The boxes contain old project files.",
@@ -7337,7 +7337,7 @@ export const listeningPractice12 = {
               {
                 "id": "list12_m2_q8",
                 "type": "choose_response",
-                "audio_text": "I haven't received the assignment instructions yet",
+                "audio_text": "I haven't received the assignment instructions yet?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The deadline is next Friday.",
@@ -7357,7 +7357,7 @@ export const listeningPractice12 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "my presentation file won't open on the classroom computer that's strange did you check whether the file was damaged I opened it successfully on my laptop so I think the problem is with the classroom computer still has the previous version of the software installed so it may not support some of the is there a quick solution I have to present in less than an hour yes open the file on another computer and save it as a PDF that should prevent compatibility issues and preserve the formatting that makes sense I'll use the library computers before I'll use the library computers before class and create a new copy their good just make sure you test the PDF before your presentation starts",
+            "audio_text": "my presentation file won't open on the classroom computer that's strange did you check whether the file was damaged I opened it successfully on my laptop so I think the problem is with the classroom computer still has the previous version of the software installed so it may not support some of the is there a quick solution I have to present in less than an hour yes open the file on another computer and save it as a PDF that should prevent compatibility issues and preserve the formatting that makes sense I'll use the library computers before class and create a new copy their good just make sure you test the PDF before your presentation starts",
             "questions": [
               {
                 "id": "list12_m2_q9",
@@ -7427,7 +7427,7 @@ export const listeningPractice12 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 1 (HARD Module)",
-            "audio_text": "listen to part of a business administration class many companies are increasingly adopting subscription-based business models in which customers make regular payments to access products or Services rather than purchasing them permanently this approach has expanded Beyond traditional areas such as magazines and memberships and is now common in software entertainment and other Industries for businesses subscriptions provide a more stable source of Revenue making it easier to plan Investments and predict future earnings they also encourage companies to focus on maintaining customer satisfaction because long-term success depends on retaining subscribers friends on retaining subscribers however this model can create challenges for consumers because payments are often small and recurring people may lose track of their total spending or continue paying for services they no longer use a subscription models continue to grow experts argue that companies will need to prioritize companies will need to prioritize transparency and demonstrate clear value to maintain consumer Trust",
+            "audio_text": "listen to part of a business administration class many companies are increasingly adopting subscription-based business models in which customers make regular payments to access products or Services rather than purchasing them permanently this approach has expanded Beyond traditional areas such as magazines and memberships and is now common in software entertainment and other Industries for businesses subscriptions provide a more stable source of Revenue making it easier to plan Investments and predict future earnings they also encourage companies to focus on maintaining customer satisfaction because long-term success depends on retaining subscribers friends on retaining subscribers however this model can create challenges for consumers because payments are often small and recurring people may lose track of their total spending or continue paying for services they no longer use a subscription models continue to grow experts argue that companies will need to prioritize transparency and demonstrate clear value to maintain consumer Trust",
             "questions": [
               {
                 "id": "list12_m2_q13",
@@ -7486,7 +7486,7 @@ export const listeningPractice12 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 2 (HARD Module)",
-            "audio_text": "listen to part of a public health class noise pollution refers to excessive or unwanted sound that interferes with human activities and well-being although it is often considered less serious than other forms of pollution researchers have found that prolonged exposure to high noise levels can have significant consequences levels can have significant consequences in urban environments major sources include Transportation Systems Construction industrial operations and densely populated areas studies indicate that continuous exposure to excessive noise can contribute to increased stress sleep disruption and sleep disruption and reduced ability to concentrate overtime it may also be associated with health concerns including cardiovascular conditions such as elevated blood pressure to address these problems cities have introduced various strategies including redesigning Urban spaces redesigning Urban spaces limiting construction hours and installing barriers that block or absorb sound however experts emphasized that the goal is not to eliminate all noise which would be unrealistic in active communities instead effective sound management aims to create healthier environments while all healthier environments while allowing cities to continue functioning",
+            "audio_text": "listen to part of a public health class noise pollution refers to excessive or unwanted sound that interferes with human activities and well-being although it is often considered less serious than other forms of pollution researchers have found that prolonged exposure to high noise levels can have significant consequences in urban environments major sources include Transportation Systems Construction industrial operations and densely populated areas studies indicate that continuous exposure to excessive noise can contribute to increased stress sleep disruption and reduced ability to concentrate overtime it may also be associated with health concerns including cardiovascular conditions such as elevated blood pressure to address these problems cities have introduced various strategies including redesigning Urban spaces limiting construction hours and installing barriers that block or absorb sound however experts emphasized that the goal is not to eliminate all noise which would be unrealistic in active communities instead effective sound management aims to create healthier environments while all healthier environments while allowing cities to continue functioning",
             "questions": [
               {
                 "id": "list12_m2_q17",
@@ -7570,7 +7570,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m1_q1",
                 "type": "choose_response",
-                "audio_text": "should we include references on the slides",
+                "audio_text": "Should we include references on the slides?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I personally did.",
@@ -7584,7 +7584,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m1_q2",
                 "type": "choose_response",
-                "audio_text": "the course description doesn't match the syllabus",
+                "audio_text": "The course description doesn't match the syllabus?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "That's strange — maybe ask the instructor.",
@@ -7598,7 +7598,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m1_q3",
                 "type": "choose_response",
-                "audio_text": "could we reschedule our study session",
+                "audio_text": "Could we reschedule our study session?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Our biology exam is next week.",
@@ -7612,7 +7612,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m1_q4",
                 "type": "choose_response",
-                "audio_text": "would you mind watering my plants this weekend",
+                "audio_text": "Would you mind watering my plants this weekend?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Your apartment gets plenty of sunlight.",
@@ -7626,7 +7626,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m1_q5",
                 "type": "choose_response",
-                "audio_text": "the seminar overlaps with my lab",
+                "audio_text": "The seminar overlaps with my lab?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Never mind!",
@@ -7640,7 +7640,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m1_q6",
                 "type": "choose_response",
-                "audio_text": "I can't get this vending machine to work",
+                "audio_text": "I can't get this vending machine to work?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Try using a different payment method.",
@@ -7654,7 +7654,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m1_q7",
                 "type": "choose_response",
-                "audio_text": "I feel behind in this class",
+                "audio_text": "I feel behind in this class?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I feel fine.",
@@ -7668,7 +7668,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m1_q8",
                 "type": "choose_response",
-                "audio_text": "can you recommend a place for lunch nearby",
+                "audio_text": "Can you recommend a place for lunch nearby?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Several restaurants offer student discounts.",
@@ -7688,7 +7688,7 @@ export const listeningPractice13 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "I reserved a study room but someone else is using it let me check the reservation schedule what time did you reserve the room for from 3 to 6:00 could there be two bookings for the same time so the room so the room I reserved is actually available yes it's available until 6:00 great I'll move to the correct room",
+            "audio_text": "I reserved a study room but someone else is using it let me check the reservation schedule what time did you reserve the room for from 3 to 6:00 could there be two bookings for the same time so the room I reserved is actually available yes it's available until 6:00 great I'll move to the correct room",
             "questions": [
               {
                 "id": "list13_m1_q9",
@@ -7723,7 +7723,7 @@ export const listeningPractice13 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "my research interview was canceled at the last minute I see should I change my project schedule then okay I'll prepare a new okay I'll prepare a new consent form tonight great please print two copies before the interview",
+            "audio_text": "my research interview was canceled at the last minute I see should I change my project schedule then okay I'll prepare a new consent form tonight great please print two copies before the interview",
             "questions": [
               {
                 "id": "list13_m1_q11",
@@ -7793,7 +7793,7 @@ export const listeningPractice13 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 2",
-            "audio_text": "listen to an announcement before a concert welcome everyone before tonight's performance begins please silence all mobile devices and refrain from recording audio or video during the show we also ask that you remain in your seats whenever possible once the performance has started late arrivals will be seated during late arrivals will be seated during an appropriate pause to avoid disturbing other guests thank you for your cooperation and we hope you enjoy tonight's performance",
+            "audio_text": "listen to an announcement before a concert welcome everyone before tonight's performance begins please silence all mobile devices and refrain from recording audio or video during the show we also ask that you remain in your seats whenever possible once the performance has started late arrivals will be seated during an appropriate pause to avoid disturbing other guests thank you for your cooperation and we hope you enjoy tonight's performance",
             "questions": [
               {
                 "id": "list13_m1_q15",
@@ -7828,7 +7828,7 @@ export const listeningPractice13 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật đại học",
-            "audio_text": "listen to part of a social history class public libraries have played an important role in expanding access to information but the idea of making books widely available developed gradually in earlier periods books were expensive to produce and were often kept in private collections or institutions or institutions as printing became more efficient and literacy increased more communities began looking for ways to provide books and educational materials to a broader population early public libraries did not always resemble modern libraries some were supported by membership fees or donations While others financial support from local governments their collections were also more limited and visitors sometimes had to follow strict rules about which materials they could borrow or consult the development of public libraries gave people who could not afford books greater access to educational resources access to educational resources libraries also became places where people could study attend lectures and participate in community activities today libraries provide many services Beyond lending printed books including digital resources internet access educational programs and public SPAC no programs and public spaces although the services have changed the Central purpose remains similar providing communities with access to information and opportunities for learning as communities continue to change however libraries face new questions about how they can best serve the people who depend on them list of the people who depend on them these questions have become particularly important as the ways people find and use information have changed module 2",
+            "audio_text": "listen to part of a social history class public libraries have played an important role in expanding access to information but the idea of making books widely available developed gradually in earlier periods books were expensive to produce and were often kept in private collections or institutions as printing became more efficient and literacy increased more communities began looking for ways to provide books and educational materials to a broader population early public libraries did not always resemble modern libraries some were supported by membership fees or donations While others financial support from local governments their collections were also more limited and visitors sometimes had to follow strict rules about which materials they could borrow or consult the development of public libraries gave people who could not afford books greater access to educational resources libraries also became places where people could study attend lectures and participate in community activities today libraries provide many services Beyond lending printed books including digital resources internet access educational programs and public SPAC no programs and public spaces although the services have changed the Central purpose remains similar providing communities with access to information and opportunities for learning as communities continue to change however libraries face new questions about how they can best serve the people who depend on them list of the people who depend on them these questions have become particularly important as the ways people find and use information have changed module 2",
             "questions": [
               {
                 "id": "list13_m1_q17",
@@ -7899,7 +7899,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m2_q1",
                 "type": "choose_response",
-                "audio_text": "I think I left my umbrella on the bus",
+                "audio_text": "I think I left my umbrella on the bus?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "That umbrella was a birthday gift.",
@@ -7913,7 +7913,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m2_q2",
                 "type": "choose_response",
-                "audio_text": "I'm looking for the nearest bus stop",
+                "audio_text": "I'm looking for the nearest bus stop?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Walk two blocks and turn left at the traffic light.",
@@ -7927,7 +7927,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m2_q3",
                 "type": "choose_response",
-                "audio_text": "my phone battery is almost dead",
+                "audio_text": "My phone battery is almost dead?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Your phone case looks brand new.",
@@ -7941,7 +7941,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m2_q4",
                 "type": "choose_response",
-                "audio_text": "is there a penalty for late arrival",
+                "audio_text": "Is there a penalty for late arrival?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "We always arrive early.",
@@ -7955,7 +7955,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m2_q5",
                 "type": "choose_response",
-                "audio_text": "could you watch my suitcase for a minute",
+                "audio_text": "Could you watch my suitcase for a minute?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The suitcase has a blue luggage tag.",
@@ -7969,7 +7969,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m2_q6",
                 "type": "choose_response",
-                "audio_text": "I don't think my microphone is working",
+                "audio_text": "I don't think my microphone is working?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Why do you think this is happening?",
@@ -7983,7 +7983,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m2_q7",
                 "type": "choose_response",
-                "audio_text": "the classroom is locked",
+                "audio_text": "The classroom is locked?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The lesson usually ends at noon.",
@@ -7997,7 +7997,7 @@ export const listeningPractice13 = {
               {
                 "id": "list13_m2_q8",
                 "type": "choose_response",
-                "audio_text": "I forgot to bring my swimming goggles",
+                "audio_text": "I forgot to bring my swimming goggles?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Swimming is excellent exercise.",
@@ -8017,7 +8017,7 @@ export const listeningPractice13 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "my poster tube arrived damage after shipping and the poster inside is creased I'm sorry about that we can have the printing center that would be great will it be ready before the conference so there's do I need to submit the file again no we still have your original proof before printing perfect I'll review it immediately and let you know if everything looks correct great will notify you as soon as it's printed notify you as soon as it's printed and you can pick it up at the printing center",
+            "audio_text": "my poster tube arrived damage after shipping and the poster inside is creased I'm sorry about that we can have the printing center that would be great will it be ready before the conference so there's do I need to submit the file again no we still have your original proof before printing perfect I'll review it immediately and let you know if everything looks correct great will notify you as soon as it's printed and you can pick it up at the printing center",
             "questions": [
               {
                 "id": "list13_m2_q9",
@@ -8087,7 +8087,7 @@ export const listeningPractice13 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 1 (HARD Module)",
-            "audio_text": "listen to part of an archeology class archaeologists to determine the age of objects and structures discovered at excavation sites establishing accurate dates helps researchers understand when people lived in an area and how their activities changed over time some methods estimate age some methods estimate age by examining an object's position within layers of soil While others analyze the physical or chemical properties of the material itself one widely used technique is radiocarbon dating which can be applied to organic materials such as wood bone and plant remains while an organism is alive while an organism is alive it contains a particular form of carbon after it dies the amount of this carbon gradually decreases at a predictable rate by measuring how much remains scientists can estimate when the organism died however radiocarbon dating has limitations it cannot be used to directly date materials such materials such as most Stone objects and it becomes less reliable when extremely old materials are examined therefore archaeologists often combined several dating methods to obtain more reliable results",
+            "audio_text": "listen to part of an archeology class archaeologists to determine the age of objects and structures discovered at excavation sites establishing accurate dates helps researchers understand when people lived in an area and how their activities changed over time some methods estimate age by examining an object's position within layers of soil While others analyze the physical or chemical properties of the material itself one widely used technique is radiocarbon dating which can be applied to organic materials such as wood bone and plant remains while an organism is alive it contains a particular form of carbon after it dies the amount of this carbon gradually decreases at a predictable rate by measuring how much remains scientists can estimate when the organism died however radiocarbon dating has limitations it cannot be used to directly date materials such as most Stone objects and it becomes less reliable when extremely old materials are examined therefore archaeologists often combined several dating methods to obtain more reliable results",
             "questions": [
               {
                 "id": "list13_m2_q13",
@@ -8146,7 +8146,7 @@ export const listeningPractice13 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 2 (HARD Module)",
-            "audio_text": "listen to part of an earth science class volcanic eruptions can be difficult to predict precisely but scientists monitor several warning signs that may indicate changes within a volcano one important sign is increased seismic activity as magma moves beneath the surface check my moods beneath the surface it can produce more earthquakes or vibrations that monitoring instruments can detect scientists also monitor changes in volcanic gases magma contains gases that can escape through openings in the Earth's crust changes in the amount or composition of these gases May provide mission of these gases May provide information about what is happening underground researchers may also observe changes in the shape of a volcano as accumulating magma can cause parts of it to expand slightly modern monitoring systems combine information from several sources instruments can measure ground movement movement seismic activity and gas emissions while satellite images can detect changes in the shape or temperature of volcanic areas by comparing measurements over time researchers can identify unusual patterns however monitoring cannot determine exactly will it rain cannot determine exactly when an eruption will occur some warning signs appear without an eruption While others may occur with little warning therefore monitoring mainly helps authorities assess volcanic activity and prepare for possible emergencies",
+            "audio_text": "listen to part of an earth science class volcanic eruptions can be difficult to predict precisely but scientists monitor several warning signs that may indicate changes within a volcano one important sign is increased seismic activity as magma moves beneath the surface check my moods beneath the surface it can produce more earthquakes or vibrations that monitoring instruments can detect scientists also monitor changes in volcanic gases magma contains gases that can escape through openings in the Earth's crust changes in the amount or composition of these gases May provide mission of these gases May provide information about what is happening underground researchers may also observe changes in the shape of a volcano as accumulating magma can cause parts of it to expand slightly modern monitoring systems combine information from several sources instruments can measure ground movement seismic activity and gas emissions while satellite images can detect changes in the shape or temperature of volcanic areas by comparing measurements over time researchers can identify unusual patterns however monitoring cannot determine exactly will it rain cannot determine exactly when an eruption will occur some warning signs appear without an eruption While others may occur with little warning therefore monitoring mainly helps authorities assess volcanic activity and prepare for possible emergencies",
             "questions": [
               {
                 "id": "list13_m2_q17",
@@ -8230,7 +8230,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m1_q1",
                 "type": "choose_response",
-                "audio_text": "instructions. Let's begin. Let's begin. Let's begin. &gt;&gt; Module one. &gt;&gt; Module one. &gt;&gt; Module one. You want to meet at 8, but I prefer 6.",
+                "audio_text": "You want to meet at 8, but I prefer 6.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I arrived at eight.",
@@ -8244,7 +8244,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m1_q2",
                 "type": "choose_response",
-                "audio_text": "&gt;&gt; Module one. You want to meet at 8, but I prefer 6. Is the seminar required for firstear Is the seminar required for firstear Is the seminar required for firstear students?",
+                "audio_text": "Is the seminar required for firstear students?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I attended this seminar once.",
@@ -8258,7 +8258,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m1_q3",
                 "type": "choose_response",
-                "audio_text": "Is the seminar required for firstear students? Do you know where the nearest pharmacy Do you know where the nearest pharmacy Do you know where the nearest pharmacy is?",
+                "audio_text": "Is the seminar required for firstear students?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Our biology exam is next week.",
@@ -8272,7 +8272,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m1_q4",
                 "type": "choose_response",
-                "audio_text": "Do you know where the nearest pharmacy is? Are review sessions optional?",
+                "audio_text": "Are review sessions optional?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I attended one.",
@@ -8286,7 +8286,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m1_q5",
                 "type": "choose_response",
-                "audio_text": "Are review sessions optional? I think I ordered the wrong size.",
+                "audio_text": "I think I ordered the wrong size.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Many customers buy that model.",
@@ -8300,7 +8300,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m1_q6",
                 "type": "choose_response",
-                "audio_text": "I think I ordered the wrong size. I can't find my bicycle after class.",
+                "audio_text": "I think I ordered the wrong size.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Many students ride bicycles to campus.",
@@ -8314,7 +8314,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m1_q7",
                 "type": "choose_response",
-                "audio_text": "I can't find my bicycle after class. Has anyone returned the novel I lent Has anyone returned the novel I lent Has anyone returned the novel I lent them?",
+                "audio_text": "Has anyone returned the novel I lent them?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The cover is starting to fade.",
@@ -8328,7 +8328,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m1_q8",
                 "type": "choose_response",
-                "audio_text": "Has anyone returned the novel I lent them? I can't figure out how to use this I can't figure out how to use this I can't figure out how to use this coffee machine.",
+                "audio_text": "Has anyone returned the novel I lent them?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Press the green button to start.",
@@ -8348,7 +8348,7 @@ export const listeningPractice14 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "I can't figure out how to use this coffee machine. My experiment requires a chemical that's My experiment requires a chemical that's My experiment requires a chemical that's no longer in the cabinet. I'm sorry no longer in the cabinet. I'm sorry no longer in the cabinet. I'm sorry about that. The latest delivery was about that. The latest delivery was about that. The latest delivery was delayed by the supplier. delayed by the supplier. delayed by the supplier. &gt;&gt; Is there enough for today's lab session? &gt;&gt; Is there enough for today's lab session? &gt;&gt; Is there enough for today's lab session? &gt;&gt; Yes, another department has agreed to &gt;&gt; Yes, another department has agreed to &gt;&gt; Yes, another department has agreed to lend us a small amount. lend us a small amount. lend us a small amount. &gt;&gt; That's a relief. When can I pick it up? &gt;&gt; That's a relief. When can I pick it up? &gt;&gt; That's a relief. When can I pick it up? &gt;&gt; You can collect it from the chemistry &gt;&gt; You can collect it from the chemistry &gt;&gt; You can collect it from the chemistry department before the experiment begins. department before the experiment begins. department before the experiment begins. &gt;&gt; Okay, I'll pick it up before the lab &gt;&gt; Okay, I'll pick it up before the lab &gt;&gt; Okay, I'll pick it up before the lab starts. &gt;&gt; Good. Just make sure you return any &gt;&gt; Good. Just make sure you return any &gt;&gt; Good. Just make sure you return any unused portion this afternoon.",
+            "audio_text": "I can't figure out how to use this coffee machine. My experiment requires a chemical that's no longer in the cabinet. I'm sorry about that. The latest delivery was delayed by the supplier. Is there enough for today's lab session? Yes, another department has agreed to lend us a small amount. That's a relief. When can I pick it up? You can collect it from the chemistry department before the experiment begins. Okay, I'll pick it up before the lab starts. Good. Just make sure you return any unused portion this afternoon.",
             "questions": [
               {
                 "id": "list14_m1_q9",
@@ -8383,7 +8383,7 @@ export const listeningPractice14 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "&gt;&gt; Good. Just make sure you return any unused portion this afternoon. Have you signed up for the campus Have you signed up for the campus Have you signed up for the campus volunteer program? volunteer program? volunteer program? &gt;&gt; Not yet. What does it involve? &gt;&gt; Not yet. What does it involve? &gt;&gt; Not yet. What does it involve? &gt;&gt; We'll be tutoring local high school &gt;&gt; We'll be tutoring local high school &gt;&gt; We'll be tutoring local high school students in math and science. students in math and science. students in math and science. &gt;&gt; That sounds rewarding. Do you know the &gt;&gt; That sounds rewarding. Do you know the &gt;&gt; That sounds rewarding. Do you know the time commitment? time commitment? time commitment? &gt;&gt; Just 2 hours a week. It's pretty &gt;&gt; Just 2 hours a week. It's pretty &gt;&gt; Just 2 hours a week. It's pretty manageable. &gt;&gt; That's not too bad. When does the &gt;&gt; That's not too bad. When does the &gt;&gt; That's not too bad. When does the program start? program start? program start? &gt;&gt; Next month. There are only a few spots &gt;&gt; Next month. There are only a few spots &gt;&gt; Next month. There are only a few spots left, so you'd better get the ball left, so you'd better get the ball left, so you'd better get the ball rolling if you're interested. rolling if you're interested. rolling if you're interested. &gt;&gt; Good point. I think I'll sign up this &gt;&gt; Good point. I think I'll sign up this &gt;&gt; Good point. I think I'll sign up this week. &gt;&gt; Great. I think you'll really enjoy &gt;&gt; Great. I think you'll really enjoy &gt;&gt; Great. I think you'll really enjoy working with the students. Listen",
+            "audio_text": "Good. Just make sure you return any unused portion this afternoon. Have you signed up for the campus volunteer program? Not yet. What does it involve? We'll be tutoring local high school students in math and science. That sounds rewarding. Do you know the time commitment? Just 2 hours a week. It's pretty manageable. That's not too bad. When does the program start? Next month. There are only a few spots left, so you'd better get the ball rolling if you're interested. Good point. I think I'll sign up this week. Great. I think you'll really enjoy working with the students.",
             "questions": [
               {
                 "id": "list14_m1_q11",
@@ -8418,7 +8418,7 @@ export const listeningPractice14 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 1",
-            "audio_text": "Listen to an announcement on a university to an announcement on a university to an announcement on a university campus. &gt;&gt; Students who normally take the campus &gt;&gt; Students who normally take the campus &gt;&gt; Students who normally take the campus shuttle to the science building should shuttle to the science building should shuttle to the science building should be aware of a temporary route change. be aware of a temporary route change. be aware of a temporary route change. Beginning tomorrow morning, the shuttle Beginning tomorrow morning, the shuttle Beginning tomorrow morning, the shuttle will stop at the library instead of the will stop at the library instead of the will stop at the library instead of the student center because construction is student center because construction is student center because construction is taking place near the usual stop. The taking place near the usual stop. The taking place near the usual stop. The shuttle will continue to operate on its shuttle will continue to operate on its shuttle will continue to operate on its regular schedule, but passengers should regular schedule, but passengers should regular schedule, but passengers should allow a few extra minutes to reach the allow a few extra minutes to reach the allow a few extra minutes to reach the new stop, which is a short walk from the new stop, which is a short walk from the new stop, which is a short walk from the usual location. The original route is usual location. The original route is usual location. The original route is expected to resume next Monday. Listen",
+            "audio_text": "Listen to an announcement on a university campus Students who normally take the campus shuttle to the science building should be aware of a temporary route change. Beginning tomorrow morning, the shuttle will stop at the library instead of the student center because construction is taking place near the usual stop. The shuttle will continue to operate on its regular schedule, but passengers should allow a few extra minutes to reach the new stop, which is a short walk from the usual location. The original route is expected to resume next Monday.",
             "questions": [
               {
                 "id": "list14_m1_q13",
@@ -8453,7 +8453,7 @@ export const listeningPractice14 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường 2",
-            "audio_text": "Listen to an announcement at a museum. to an announcement at a museum. to an announcement at a museum. Visitors to the modern art gallery are Visitors to the modern art gallery are Visitors to the modern art gallery are asked to leave large bags and backpacks asked to leave large bags and backpacks asked to leave large bags and backpacks in the lockers near the main entrance. in the lockers near the main entrance. in the lockers near the main entrance. This policy is intended to protect the This policy is intended to protect the This policy is intended to protect the artwork and make it easier for visitors artwork and make it easier for visitors artwork and make it easier for visitors to move through the exhibition rooms. to move through the exhibition rooms. to move through the exhibition rooms. Small handbags may be carried inside, Small handbags may be carried inside, Small handbags may be carried inside, but they must remain close to you at all but they must remain close to you at all but they must remain close to you at all times. Please also remember that food times. Please also remember that food times. Please also remember that food and drinks are not permitted in the and drinks are not permitted in the and drinks are not permitted in the gallery. Thank you for helping us gallery. Thank you for helping us gallery. Thank you for helping us protect the exhibits.",
+            "audio_text": "Listen to an announcement at a museum. Visitors to the modern art gallery are asked to leave large bags and backpacks in the lockers near the main entrance. This policy is intended to protect the artwork and make it easier for visitors to move through the exhibition rooms. Small handbags may be carried inside, but they must remain close to you at all times. Please also remember that food and drinks are not permitted in the gallery. Thank you for helping us protect the exhibits.",
             "questions": [
               {
                 "id": "list14_m1_q15",
@@ -8488,7 +8488,7 @@ export const listeningPractice14 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật đại học",
-            "audio_text": "gallery. Thank you for helping us protect the exhibits. Listen to part of an earth science Listen to part of an earth science Listen to part of an earth science class. &gt;&gt; Soil erosion occurs when wind or water &gt;&gt; Soil erosion occurs when wind or water &gt;&gt; Soil erosion occurs when wind or water carries away the upper layer of soil. carries away the upper layer of soil. carries away the upper layer of soil. Although erosion is a natural process, Although erosion is a natural process, Although erosion is a natural process, human activities can accelerate it human activities can accelerate it human activities can accelerate it considerably. Removing vegetation, for example, can Removing vegetation, for example, can Removing vegetation, for example, can leave soil exposed to rainfall and leave soil exposed to rainfall and leave soil exposed to rainfall and strong winds. Agricultural practices, strong winds. Agricultural practices, strong winds. Agricultural practices, construction, and excessive grazing can construction, and excessive grazing can construction, and excessive grazing can also increase the risk of erosion. The also increase the risk of erosion. The also increase the risk of erosion. The loss of top soil can create several loss of top soil can create several loss of top soil can create several problems because the upper layer of soil problems because the upper layer of soil problems because the upper layer of soil often contains nutrients and organic often contains nutrients and organic often contains nutrients and organic material that plants need to grow. When material that plants need to grow. When material that plants need to grow. When this layer is removed, agricultural land this layer is removed, agricultural land this layer is removed, agricultural land may become less productive. Soil carried may become less productive. Soil carried may become less productive. Soil carried away by rain can also enter rivers and away by rain can also enter rivers and away by rain can also enter rivers and lakes where it may reduce water quality lakes where it may reduce water quality lakes where it may reduce water quality or interfere with aquatic ecosystems. or interfere with aquatic ecosystems. or interfere with aquatic ecosystems. Farmers and land managers use several Farmers and land managers use several Farmers and land managers use several strategies to reduce erosion. Planting strategies to reduce erosion. Planting strategies to reduce erosion. Planting vegetation helps hold soil in place with vegetation helps hold soil in place with vegetation helps hold soil in place with plant roots while covering exposed areas plant roots while covering exposed areas plant roots while covering exposed areas can reduce the impact of rainfall. can reduce the impact of rainfall. can reduce the impact of rainfall. Farmers may also change the way they Farmers may also change the way they Farmers may also change the way they plow fields or create terraces on slopes plow fields or create terraces on slopes plow fields or create terraces on slopes to slow the movement of water. to slow the movement of water. to slow the movement of water. However, erosion cannot be eliminated However, erosion cannot be eliminated However, erosion cannot be eliminated completely. Some amount of soil movement completely. Some amount of soil movement completely. Some amount of soil movement occurs naturally and different occurs naturally and different occurs naturally and different landscapes have different levels of landscapes have different levels of landscapes have different levels of vulnerability. Effective management vulnerability. Effective management vulnerability. Effective management therefore focuses on reducing unusually therefore focuses on reducing unusually therefore focuses on reducing unusually high rates of erosion and maintaining high rates of erosion and maintaining high rates of erosion and maintaining the long-term productivity of the land.",
+            "audio_text": "Listen to part of an earth science class. Soil erosion occurs when wind or water carries away the upper layer of soil. Although erosion is a natural process, human activities can accelerate it considerably. Removing vegetation, for example, can leave soil exposed to rainfall and strong winds. Agricultural practices, construction, and excessive grazing can also increase the risk of erosion. The loss of top soil can create several problems because the upper layer of soil often contains nutrients and organic material that plants need to grow. When this layer is removed, agricultural land may become less productive. Soil carried away by rain can also enter rivers and lakes where it may reduce water quality or interfere with aquatic ecosystems. Farmers and land managers use several strategies to reduce erosion. Planting vegetation helps hold soil in place with plant roots while covering exposed areas can reduce the impact of rainfall. Farmers may also change the way they plow fields or create terraces on slopes to slow the movement of water. However, erosion cannot be eliminated completely. Some amount of soil movement occurs naturally and different landscapes have different levels of vulnerability. Effective management therefore focuses on reducing unusually high rates of erosion and maintaining the long-term productivity of the land.",
             "questions": [
               {
                 "id": "list14_m1_q17",
@@ -8559,7 +8559,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m2_q1",
                 "type": "choose_response",
-                "audio_text": "high rates of erosion and maintaining the long-term productivity of the land. module two. module two. module two. &gt;&gt; I didn't receive the Zoom link.",
+                "audio_text": "I didn't receive the Zoom link.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I joined already.",
@@ -8573,7 +8573,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m2_q2",
                 "type": "choose_response",
-                "audio_text": "module two. &gt;&gt; I didn't receive the Zoom link. I'm unsure which topic to choose.",
+                "audio_text": "I didn't receive the Zoom link.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I chose mine last week.",
@@ -8587,7 +8587,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m2_q3",
                 "type": "choose_response",
-                "audio_text": "I'm unsure which topic to choose. Is the final cumulative? Is the final cumulative? Is the final cumulative? Could",
+                "audio_text": "Is the final cumulative?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, it covers all units.",
@@ -8601,7 +8601,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m2_q4",
                 "type": "choose_response",
-                "audio_text": "Is the final cumulative? Could you take a picture of us?",
+                "audio_text": "Is the final cumulative?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The weather couldn't be better today.",
@@ -8615,7 +8615,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m2_q5",
                 "type": "choose_response",
-                "audio_text": "you take a picture of us? I didn't catch the last point.",
+                "audio_text": "You take a picture of us?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "All this information is important.",
@@ -8629,7 +8629,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m2_q6",
                 "type": "choose_response",
-                "audio_text": "I didn't catch the last point. This course requires a lot of reading.",
+                "audio_text": "This course requires a lot of reading.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, but it's manageable.",
@@ -8643,7 +8643,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m2_q7",
                 "type": "choose_response",
-                "audio_text": "This course requires a lot of reading. Can you tell me where the nearest ATM Can you tell me where the nearest ATM Can you tell me where the nearest ATM is?",
+                "audio_text": "Can you tell me where the nearest ATM is?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I only need a small amount of cash.",
@@ -8657,7 +8657,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m2_q8",
                 "type": "choose_response",
-                "audio_text": "Can you tell me where the nearest ATM is? Is the final assignment for this course Is the final assignment for this course Is the final assignment for this course supposed to be completed individually?",
+                "audio_text": "Can you tell me where the nearest ATM Is the final assignment for this course supposed to be completed individually?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It accounts for 70% of our overall grade.",
@@ -8677,7 +8677,7 @@ export const listeningPractice14 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "Is the final assignment for this course supposed to be completed individually? I'm having trouble accessing the article I'm having trouble accessing the article I'm having trouble accessing the article I need for my presentation. I need for my presentation. I need for my presentation. &gt;&gt; What happens when you try to open it? &gt;&gt; What happens when you try to open it? &gt;&gt; What happens when you try to open it? &gt;&gt; It says I don't have permission to view &gt;&gt; It says I don't have permission to view &gt;&gt; It says I don't have permission to view the full text. I thought students had the full text. I thought students had the full text. I thought students had access through the university library. access through the university library. access through the university library. &gt;&gt; They do, but you need to access the &gt;&gt; They do, but you need to access the &gt;&gt; They do, but you need to access the article through the library website. article through the library website. article through the library website. &gt;&gt; Will I need to search for the article &gt;&gt; Will I need to search for the article &gt;&gt; Will I need to search for the article again? Yes. Search for the article by again? Yes. Search for the article by again? Yes. Search for the article by its title in the database. Once you find its title in the database. Once you find its title in the database. Once you find it, you should be able to open the full it, you should be able to open the full it, you should be able to open the full text. &gt;&gt; Okay, I'll try that now. If I still &gt;&gt; Okay, I'll try that now. If I still &gt;&gt; Okay, I'll try that now. If I still can't access it, I'll come back. can't access it, I'll come back. can't access it, I'll come back. &gt;&gt; Sure. Let me know if you have any &gt;&gt; Sure. Let me know if you have any &gt;&gt; Sure. Let me know if you have any trouble. Listen to an announcement at a university to an announcement at a university to an announcement at a university bookstore. &gt;&gt; Students who have ordered textbooks &gt;&gt; Students who have ordered textbooks &gt;&gt; Students who have ordered textbooks online can now pick them up at the online can now pick them up at the online can now pick them up at the bookstore's customer service desk. bookstore's customer service desk. bookstore's customer service desk. Please have your student ID available Please have your student ID available Please have your student ID available when you arrive as it will be needed to when you arrive as it will be needed to when you arrive as it will be needed to verify your order. Orders placed after verify your order. Orders placed after verify your order. Orders placed after 5:00 p.m. today will not be available 5:00 p.m. today will not be available 5:00 p.m. today will not be available for pickup until tomorrow afternoon. If",
+            "audio_text": "Is the final assignment for this course supposed to be completed individually? I'm having trouble accessing the article I need for my presentation. What happens when you try to open It says I don't have permission to view the full text. I thought students had access through the university library. They do, but you need to access the article through the library website. Will I need to search for the article again? Yes. Search for the article by its title in the database. Once you find it, you should be able to open the full text. Okay, I'll try that now. If I still can't access it, I'll come back. Sure. Let me know if you have any trouble. Listen to an announcement at a university bookstore. Students who have ordered textbooks online can now pick them up at the bookstore's customer service desk. Please have your student ID available when you arrive as it will be needed to verify your order. Orders placed after 5:00 p. m. today will not be available for pickup until tomorrow afternoon.",
             "questions": [
               {
                 "id": "list14_m2_q9",
@@ -8712,7 +8712,7 @@ export const listeningPractice14 = {
           "task_type": "announcement",
           "content": {
             "context_title": "Thông báo khuôn viên trường (Phần nâng cao)",
-            "audio_text": "5:00 p.m. today will not be available for pickup until tomorrow afternoon. If for pickup until tomorrow afternoon. If for pickup until tomorrow afternoon. If you have received an email confirming you have received an email confirming you have received an email confirming that your order is ready, you may pick that your order is ready, you may pick that your order is ready, you may pick it up during the bookstore's regular it up during the bookstore's regular it up during the bookstore's regular business hours. Listen to part of an astronomy class. to part of an astronomy class. to part of an astronomy class. &gt;&gt; Gravitational lensing is an astronomical &gt;&gt; Gravitational lensing is an astronomical &gt;&gt; Gravitational lensing is an astronomical phenomenon in which the path of light is phenomenon in which the path of light is phenomenon in which the path of light is altered by the gravity of a massive altered by the gravity of a massive altered by the gravity of a massive object. According to Einstein's theory object. According to Einstein's theory object. According to Einstein's theory of general relativity, massive objects of general relativity, massive objects of general relativity, massive objects can distort the structure of space and can distort the structure of space and can distort the structure of space and time around them. When light from a time around them. When light from a time around them. When light from a distant object travels through this distant object travels through this distant object travels through this distorted region, its path can be bent.",
+            "audio_text": "5:00 p. m. today will not be available for pickup until tomorrow afternoon. If you have received an email confirming that your order is ready, you may pick it up during the bookstore's regular business hours. Listen to part of an astronomy class. Gravitational lensing is an astronomical phenomenon in which the path of light is altered by the gravity of a massive object. According to Einstein's theory of general relativity, massive objects can distort the structure of space and time around them. When light from a distant object travels through this distorted region, its path can be bent.",
             "questions": [
               {
                 "id": "list14_m2_q11",
@@ -8747,7 +8747,7 @@ export const listeningPractice14 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 1 (HARD Module)",
-            "audio_text": "distant object travels through this distorted region, its path can be bent. distorted region, its path can be bent. distorted region, its path can be bent. The effect is similar in some ways to The effect is similar in some ways to The effect is similar in some ways to the way a glass lens changes the way a glass lens changes the way a glass lens changes the direction of light. Although the direction of light. Although the direction of light. Although the underlying mechanism is very different underlying mechanism is very different underlying mechanism is very different depending on the positions of the depending on the positions of the depending on the positions of the objects involved. Gravitational lensing objects involved. Gravitational lensing objects involved. Gravitational lensing can make a distant galaxy appear can make a distant galaxy appear can make a distant galaxy appear brighter, distorted, or even duplicated brighter, distorted, or even duplicated brighter, distorted, or even duplicated in an image. Astronomers use this in an image. Astronomers use this in an image. Astronomers use this phenomenon as a tool for studying phenomenon as a tool for studying phenomenon as a tool for studying objects that would otherwise be objects that would otherwise be objects that would otherwise be difficult to observe. For example, the difficult to observe. For example, the difficult to observe. For example, the gravitational influence of an gravitational influence of an gravitational influence of an intervening galaxy cluster can reveal intervening galaxy cluster can reveal intervening galaxy cluster can reveal information about matter within the information about matter within the information about matter within the cluster. Lensing can also provide cluster. Lensing can also provide cluster. Lensing can also provide evidence for the presence of dark matter evidence for the presence of dark matter evidence for the presence of dark matter because astronomers can compare the because astronomers can compare the because astronomers can compare the observed distortion of light with the observed distortion of light with the observed distortion of light with the amount of visible matter present. amount of visible matter present. amount of visible matter present. Gravitational lensing can occur on Gravitational lensing can occur on Gravitational lensing can occur on different scales. Very massive different scales. Very massive different scales. Very massive structures can produce effects visible structures can produce effects visible structures can produce effects visible across large distances while individual across large distances while individual across large distances while individual stars can produce much smaller changes stars can produce much smaller changes stars can produce much smaller changes in the apparent brightness of background in the apparent brightness of background in the apparent brightness of background objects. These smaller events can objects. These smaller events can objects. These smaller events can sometimes help astronomers detect sometimes help astronomers detect sometimes help astronomers detect planets that would otherwise be planets that would otherwise be planets that would otherwise be difficult to observe directly. listen to part of a botany class. listen to part of a botany class. listen to part of a botany class. &gt;&gt; Circadian rhythms are internal &gt;&gt; Circadian rhythms are internal &gt;&gt; Circadian rhythms are internal biological cycles that operate on an biological cycles that operate on an biological cycles that operate on an approximately 24-hour schedule. Although approximately 24-hour schedule. Although approximately 24-hour schedule. Although they are commonly associated with sleep they are commonly associated with sleep they are commonly associated with sleep in animals, plants also possess internal in animals, plants also possess internal in animals, plants also possess internal clocks that coordinate a wide range of clocks that coordinate a wide range of clocks that coordinate a wide range of physiological processes. physiological processes. physiological processes. For instance, certain plants regulate For instance, certain plants regulate For instance, certain plants regulate the timing of leaf movements in",
+            "audio_text": "distant object travels through this distorted region, its path can be bent. The effect is similar in some ways to the way a glass lens changes the direction of light. Although the underlying mechanism is very different depending on the positions of the objects involved. Gravitational lensing can make a distant galaxy appear brighter, distorted, or even duplicated in an image. Astronomers use this phenomenon as a tool for studying objects that would otherwise be difficult to observe. For example, the gravitational influence of an intervening galaxy cluster can reveal information about matter within the cluster. Lensing can also provide evidence for the presence of dark matter because astronomers can compare the observed distortion of light with the amount of visible matter present. Gravitational lensing can occur on different scales. Very massive structures can produce effects visible across large distances while individual stars can produce much smaller changes in the apparent brightness of background objects. These smaller events can sometimes help astronomers detect planets that would otherwise be difficult to observe directly. listen to part of a botany class. Circadian rhythms are internal biological cycles that operate on an approximately 24-hour schedule. Although they are commonly associated with sleep in animals, plants also possess internal clocks that coordinate a wide range of physiological processes. For instance, certain plants regulate the timing of leaf movements in",
             "questions": [
               {
                 "id": "list14_m2_q13",
@@ -8806,7 +8806,7 @@ export const listeningPractice14 = {
           "task_type": "academic_talk",
           "content": {
             "context_title": "Bài giảng học thuật 2 (HARD Module)",
-            "audio_text": "For instance, certain plants regulate the timing of leaf movements in the timing of leaf movements in the timing of leaf movements in accordance with recurring cycles of accordance with recurring cycles of accordance with recurring cycles of light and darkness. Other processes, light and darkness. Other processes, light and darkness. Other processes, including gene activity and flower including gene activity and flower including gene activity and flower opening, can also follow circadian opening, can also follow circadian opening, can also follow circadian patterns. By coordinating these patterns. By coordinating these patterns. By coordinating these activities with predictable activities with predictable activities with predictable environmental fluctuations, plants can environmental fluctuations, plants can environmental fluctuations, plants can regulate their biological functions more regulate their biological functions more regulate their biological functions more efficiently. Importantly, a plant's internal clock Importantly, a plant's internal clock Importantly, a plant's internal clock does not merely respond passively to the does not merely respond passively to the does not merely respond passively to the appearance of light. Researchers have appearance of light. Researchers have appearance of light. Researchers have found that plants can maintain rhythmic found that plants can maintain rhythmic found that plants can maintain rhythmic patterns even under constant patterns even under constant patterns even under constant environmental conditions. This environmental conditions. This environmental conditions. This persistence suggests that the rhythms persistence suggests that the rhythms persistence suggests that the rhythms originate from an internal timing originate from an internal timing originate from an internal timing mechanism rather than being generated mechanism rather than being generated mechanism rather than being generated solely by immediate environmental cues. solely by immediate environmental cues. solely by immediate environmental cues. Nevertheless, external signals such as Nevertheless, external signals such as Nevertheless, external signals such as light and temperature can reset the light and temperature can reset the light and temperature can reset the clock when environmental conditions clock when environmental conditions clock when environmental conditions change. This ability may provide plants change. This ability may provide plants change. This ability may provide plants with an adaptive advantage because it with an adaptive advantage because it with an adaptive advantage because it enables them to anticipate recurring enables them to anticipate recurring enables them to anticipate recurring environmental changes rather than environmental changes rather than environmental changes rather than responding only after those changes have responding only after those changes have responding only after those changes have occurred. For example, a plant can occurred. For example, a plant can occurred. For example, a plant can initiate certain processes in initiate certain processes in initiate certain processes in preparation for daylight before sunrise preparation for daylight before sunrise preparation for daylight before sunrise actually takes place. actually takes place. actually takes place. Scientists investigate these mechanisms Scientists investigate these mechanisms Scientists investigate these mechanisms by manipulating environmental variables by manipulating environmental variables by manipulating environmental variables such as light exposure and temperature such as light exposure and temperature such as light exposure and temperature and then monitoring changes in plants and then monitoring changes in plants and then monitoring changes in plants biological processes. is I'm launching a new program which helps I'm launching a new program which helps I'm launching a new program which helps you improve your writing score quickly you improve your writing score quickly you improve your writing score quickly by focusing on exactly what matters. by focusing on exactly what matters. by focusing on exactly what matters. You'll get recorded lessons so you can You'll get recorded lessons so you can You'll get recorded lessons so you can study according to your own schedule, study according to your own schedule, study according to your own schedule, but we'll also have live Q&amp;A sessions but we'll also have live Q&amp;A sessions but we'll also have live Q&amp;A sessions where you can get your questions where you can get your questions where you can get your questions answered and practice with my guidance.",
+            "audio_text": "For instance, certain plants regulate the timing of leaf movements in accordance with recurring cycles of light and darkness. Other processes, including gene activity and flower opening, can also follow circadian patterns. By coordinating these activities with predictable environmental fluctuations, plants can regulate their biological functions more efficiently. Importantly, a plant's internal clock does not merely respond passively to the appearance of light. Researchers have found that plants can maintain rhythmic patterns even under constant environmental conditions. This persistence suggests that the rhythms originate from an internal timing mechanism rather than being generated solely by immediate environmental cues. Nevertheless, external signals such as light and temperature can reset the clock when environmental conditions change. This ability may provide plants with an adaptive advantage because it enables them to anticipate recurring environmental changes rather than responding only after those changes have occurred. For example, a plant can initiate certain processes in preparation for daylight before sunrise actually takes place. Scientists investigate these mechanisms by manipulating environmental variables such as light exposure and temperature and then monitoring changes in plants biological processes. is I'm launching a new program which helps you improve your writing score quickly by focusing on exactly what matters. You'll get recorded lessons so you can study according to your own schedule, but we'll also have live Q&amp;A sessions where you can get your questions answered and practice with my guidance.",
             "questions": [
               {
                 "id": "list14_m2_q17",
