@@ -409,6 +409,8 @@ export default function ExamRunner({ test, onExit }) {
             taskItems.push({
               id: q.id,
               prompt: q.prompt || q.question || 'Câu hỏi',
+              options: q.options || {},
+              audio_text: q.audio_text || '',
               user_choice: userChoice || '(Bỏ trống)',
               correct_answer: correctAns || '(Chưa có đáp án)',
               is_correct: isCorrect,

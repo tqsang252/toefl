@@ -6,6 +6,7 @@ import SpeakingAIEvaluation from './SpeakingAIEvaluation';
 import ObjectiveAIEvaluation from './ObjectiveAIEvaluation';
 import FullExamAIEvaluation from './FullExamAIEvaluation';
 import ReadingReviewSection from './ReadingReviewSection';
+import ListeningReviewSection from './ListeningReviewSection';
 import PacingAnalyticsSection from './PacingAnalyticsSection';
 import { calculatePacingAnalytics } from '../../lib/pacingCalculator';
 import { convert30ToBand6, convertRawToScale30, isGeminiConfigured } from '../../lib/gemini';
@@ -1183,6 +1184,9 @@ export default function ExamResults({ test, results, onRetake, onBackHome, isRev
               {/* Nếu là kỹ năng Reading: Sử dụng ReadingReviewSection chuyên sâu có đoạn văn & từ vựng */}
               {((mod.module_skill || '').toLowerCase() === 'reading' || (test?.skill || '').toLowerCase() === 'reading' || mod.module_title?.toLowerCase().includes('reading')) ? (
                 <ReadingReviewSection moduleData={mod} test={test} />
+              ) : ((mod.module_skill || '').toLowerCase() === 'listening' || (test?.skill || '').toLowerCase() === 'listening' || mod.module_title?.toLowerCase().includes('listening')) ? (
+                /* Kỹ năng Listening: Sử dụng ListeningReviewSection chuyên sâu có Script, Dẫn chứng & Multi-Voice */
+                <ListeningReviewSection moduleData={mod} test={test} />
               ) : (
                 /* Danh sách câu hỏi cho các kỹ năng khác (Listening, Speaking, Writing) */
                 <div className="space-y-4">
