@@ -710,7 +710,7 @@ export const listeningPractice02 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại khuôn viên trường đại học",
-            "audio_text": "are you free this weekend I was but my cousin invited me to her birthday party oh that sounds fun yeah but it's out of town so I'll be gone most of Saturday then let's meet Sunday instead",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: Are you free this weekend?\nWoman: I was, but my cousin invited me to her birthday party.\nMan: Oh, that sounds fun.\nWoman: Yeah, but it's out of town, so I'll be gone most of Saturday.\nMan: Then let's meet Sunday instead.",
             "questions": [
               {
                 "id": "list2_m1_q9",
@@ -745,7 +745,7 @@ export const listeningPractice02 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại dịch vụ sinh viên",
-            "audio_text": "Did you get the course packet? Not yet, the bookstore was sold out. Oh no, what will you do? I will borrow a copy from a friend until they restock. That is smart.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: Did you get the course packet?\nMan: Not yet, the bookstore was sold out.\nWoman: Oh no, what will you do?\nMan: I will borrow a copy from a friend until they restock.\nWoman: That is smart.",
             "questions": [
               {
                 "id": "list2_m1_q11",
@@ -1004,7 +1004,7 @@ export const listeningPractice02 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại tình huống sinh viên",
-            "audio_text": "have you renewed your gym membership not yet I'm still deciding if I'll keep it why wouldn't you I've been exercising outside more so I'm not sure it's worth the cost that makes sense",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: Have you renewed your gym membership?\nWoman: Not yet. I'm still deciding if I'll keep it.\nMan: Why wouldn't you?\nWoman: I've been exercising outside more, so I'm not sure it's worth the cost.\nMan: That makes sense.",
             "questions": [
               {
                 "id": "list2_m2_q9",
@@ -1276,7 +1276,7 @@ export const listeningPractice03 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại khuôn viên trường đại học",
-            "audio_text": "movie? Not yet. I wanted to run it by you first. I wasn't sure which showtime you had in mind. Let's go to the earlier one. That way we won't be dragging our feet tomorrow morning. Sounds good. I'll grab them online right now. Have you made any progress on the group project yet? Just a bit, but I'm still waiting to hear back from the others. They've been radio silent all week. Same here. I've messaged them twice, but no one's replied. Maybe we should just split up the work ourselves and let them know what part they've got. Yeah, that might be the only way to get the ball rolling.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: Have you bought the tickets for the movie?\nMan: Not yet. I wanted to run it by you first. I wasn't sure which showtime you had in mind.\nWoman: Let's go to the earlier one. That way we won't be dragging our feet tomorrow morning.\nMan: Sounds good. I'll grab them online right now.",
             "questions": [
               {
                 "id": "list3_m1_q9",
@@ -1311,7 +1311,7 @@ export const listeningPractice03 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại dịch vụ sinh viên",
-            "audio_text": "Yeah, that might be the only way to get the ball rolling. Before we dive into today's lecture, I'd like to take a moment to recognize our university's debate team. They took first place at the regional championship last weekend, quite an impressive achievement. Their dedication and teamwork really paid off, and they've made us proud. Let's give them a well-deserved round of applause.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: Have you made any progress on the group project yet?\nWoman: Just a bit, but I'm still waiting to hear back from the others. They've been radio silent all week.\nMan: Same here. I've messaged them twice, but no one's replied.\nWoman: Maybe we should just split up the work ourselves and let them know what part they've got.\nMan: Yeah, that might be the only way to get the ball rolling.",
             "questions": [
               {
                 "id": "list3_m1_q11",
@@ -1570,7 +1570,7 @@ export const listeningPractice03 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại tình huống sinh viên",
-            "audio_text": "corner. I'll give them a ring and see if they've got room. Attention everyone, a quick notice about an upcoming change. Starting next Monday, the cafeteria will move to a completely cash-free payment system. From that date onward, only student ID cards and bank cards will be accepted. Please make sure your accounts are active to avoid any inconvenience at the checkout. Thanks for your understanding.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: Did you manage to book a table for our study group dinner?\nMan: No, unfortunately. The restaurant was completely booked for tonight.\nWoman: Oh, what should we do now?\nMan: There's another Italian place around the corner. I'll give them a ring and see if they've got room.",
             "questions": [
               {
                 "id": "list3_m2_q9",
@@ -1842,7 +1842,7 @@ export const listeningPractice04 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại khuôn viên trường đại học",
-            "audio_text": "Listen to a conversation. Any idea why the printer isn't working? Pretty sure it's running on empty. I didn't see any paper left in the tray. Oh, that explains it. I'll grab some from the supply room. Thanks. I need to print this essay before class and I don't want to be late. No worries. I'll be back in a minute. Fingers crossed it starts working again. listen to a conversation. Did you see my umbrella anywhere? I could have sworn I had it this morning. No, I haven't seen it, but you might have left it in the lecture hall. Oh, that rings a bell. I remember putting it under my seat.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: Any idea why the printer isn't working?\nMan: Pretty sure it's running on empty. I didn't see any paper left in the tray.\nWoman: Oh, that explains it. I'll grab some from the supply room.\nMan: Thanks. I need to print this essay before class and I don't want to be late.\nWoman: No worries. I'll be back in a minute.\nMan: Fingers crossed it starts working again.",
             "questions": [
               {
                 "id": "list4_m1_q9",
@@ -1877,7 +1877,7 @@ export const listeningPractice04 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại dịch vụ sinh viên",
-            "audio_text": "Oh, that rings a bell. I remember putting it under my seat. I'll check after class. Hopefully, no one walked off with it. It's raining hard today. Tell me about it. Without an umbrella, I'll be soaked. Listen to an announcement on the campus radio. This Friday, the career services office will host its annual job fair in the main gym from 10:00 a. m. to 3:00 p. m. Over 50 companies will be present, offering internships and full-time positions.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: Did you see my umbrella anywhere? I could have sworn I had it this morning.\nMan: No, I haven't seen it, but you might have left it in the lecture hall.\nWoman: Oh, that rings a bell! I remember putting it under my seat. I'll check after class.\nMan: Hopefully no one walked off with it. It's raining hard today.\nWoman: Tell me about it! Without an umbrella, I'll be soaked.",
             "questions": [
               {
                 "id": "list4_m1_q11",
@@ -2136,7 +2136,7 @@ export const listeningPractice04 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại tình huống sinh viên",
-            "audio_text": "listen to a conversation. Do you have your bus pass ready? Oh no, looks like I left it in my other bag. Talk about careless. You can pay cash this time, but this is a one-time exception. Fair enough. I don't want to push my luck. Listen to an announcement in a lecture hall. Students, before we start, I want to let",
+            "audio_text": "Narrator: Listen to a conversation on the campus bus.\nMan: Do you have your bus pass ready?\nWoman: Oh no, looks like I left it in my other bag. Talk about careless!\nMan: You can pay cash this time, but this is a one-time exception.\nWoman: Fair enough. I don't want to push my luck.",
             "questions": [
               {
                 "id": "list4_m2_q9",
@@ -2408,7 +2408,7 @@ export const listeningPractice05 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "I'm thinking of switching majors. Where can I park my bike on campus? The group meeting was moved to Friday. Did you understand today's lecture? Would it be possible to borrow your notes from yesterday's lecture? I had to step out earlier than expected. Sure, that's fine. But I should warn you, my handwriting isn't very legible. That's not an issue. I mainly need the key concepts and overall structure. In that case, I can either bring them tomorrow or scan them and send them later today. Tomorrow works perfectly. Thanks.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: Would it be possible to borrow your notes from yesterday's lecture? I had to step out earlier than expected.\nMan: Sure, that's fine. But I should warn you, my handwriting isn't very legible.\nWoman: That's not an issue. I mainly need the key concepts and overall structure.\nMan: In that case, I can either bring them tomorrow or scan them and send them later today.\nWoman: Tomorrow works perfectly. Thanks!",
             "questions": [
               {
                 "id": "list5_m1_q9",
@@ -2443,7 +2443,7 @@ export const listeningPractice05 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "later today. Tomorrow works perfectly. Thanks. I really appreciate it. Do you have any plans to travel this summer or are you staying in town? I'll be traveling. I'm planning to spend a couple of weeks visiting my grandparents. That sounds lovely. It must be nice to have some quality time with family. Absolutely. I don't get to see them as often as I'd like. How long will you be away? roughly 2 weeks. I'll make sure to return before classes resume.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: Do you have any plans to travel this summer, or are you staying in town?\nWoman: I'll be traveling. I'm planning to spend a couple of weeks visiting my grandparents.\nMan: That sounds lovely. It must be nice to have some quality time with family.\nWoman: Absolutely. I don't get to see them as often as I'd like.\nMan: How long will you be away?\nWoman: Roughly two weeks. I'll make sure to return before classes resume.",
             "questions": [
               {
                 "id": "list5_m1_q11",
@@ -2737,7 +2737,7 @@ export const listeningPractice05 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "The deadline's been pushed back again. Any chance I could borrow your notes from yesterday's lecture? Do we have sufficient markers for tomorrow's presentation or are we cutting it a bit close? I doubt it. The last one appears to have dried up entirely and it's barely usable. That's unfortunate. I'll swing by the store on my way home and restock. I appreciate it. While you're at it, could you pick up some paper as well, just to cover all bases? Absolutely. I'd rather be overprepared than risk any last minute issues.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: Do we have sufficient markers for tomorrow's presentation, or are we cutting it a bit close?\nWoman: I doubt it. The last one appears to have dried up entirely and it's barely usable.\nMan: That's unfortunate. I'll swing by the store on my way home and restock.\nWoman: I appreciate it. While you're at it, could you pick up some paper as well, just to cover all bases?\nMan: Absolutely. I'd rather be overprepared than risk any last minute issues.",
             "questions": [
               {
                 "id": "list5_m2_q9",
@@ -3068,7 +3068,7 @@ export const listeningPractice06 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "Listen to a conversation. I'm heading to the cafe before class. Do you feel like having something? Maybe, but I don't want anything too strong. I had espresso earlier. They make a mild latte with less caffeine. Would that work? Yes, a small one is perfect. And please don't add sweetener. The milk is enough.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: I'm heading to the cafe before class. Do you feel like having something?\nWoman: Maybe, but I don't want anything too strong. I had espresso earlier.\nMan: They make a mild latte with less caffeine. Would that work?\nWoman: Yes, a small one is perfect. And please don't add sweetener. The milk is enough.",
             "questions": [
               {
                 "id": "list6_m1_q9",
@@ -3103,7 +3103,7 @@ export const listeningPractice06 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "Listen to a conversation. My laptop became unresponsive again while I was editing my paper. That sounds frustrating. Did the system recover after you rebooted? Only temporarily. It shuts down whenever I open large files. In that case, the campus technicians might need to check whether it's a hardware issue. Listen to an announcement at the university. I'd like to remind students that voting in the upcoming student government elections will be held online next Wednesday and Thursday. To participate, you will need your",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: My laptop became unresponsive again while I was editing my paper.\nMan: That sounds frustrating. Did the system recover after you rebooted?\nWoman: Only temporarily. It shuts down whenever I open large files.\nMan: In that case, the campus technicians might need to check whether it's a hardware issue.",
             "questions": [
               {
                 "id": "list6_m1_q11",
@@ -3397,7 +3397,7 @@ export const listeningPractice06 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "thought today's lecture was supposed to be intense. It was, but it turns out the professor pulled the plug at the last minute. She dropped a message in the course portal early this morning. Seriously? I've been buried in back-to-back meetings and completely out of the loop. I guess that explains why the classroom was empty. Yeah, apparently she wasn't feeling well. Still, she made it clear the change doesn't give us any breathing room. The assignment deadline hasn't budged. That's frustrating. I was secretly hoping for a bit of wiggle room. Same here, but no such luck. She even emphasized that we shouldn't take the cancellation as a green light to slow down. Good thing you told me, otherwise I would have been caught off guard. Trust me, I almost missed it, too. The notification was easy to overlook if you weren't keeping an eye on the platform.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: I thought today's lecture was supposed to be intense.\nWoman: It was, but it turns out the professor canceled it at the last minute. She dropped a message in the course portal early this morning.\nMan: Seriously? I've been buried in back-to-back meetings and completely out of the loop.\nWoman: Apparently she wasn't feeling well. Still, she made it clear the assignment deadline hasn't budged.\nMan: That's frustrating. I was secretly hoping for a bit of breathing room.",
             "questions": [
               {
                 "id": "list6_m2_q9",
@@ -3728,7 +3728,7 @@ export const listeningPractice07 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "Listen to a conversation. Did you order already? Not yet. I was waiting for you. Thanks. I think I'll get the soup and salad. Good choice. I'll have the same. Great minds think alike.",
+            "audio_text": "Narrator: Listen to a conversation in the cafeteria.\nWoman: Did you order already?\nMan: Not yet. I was waiting for you.\nWoman: Thanks. I think I'll get the soup and salad.\nMan: Good choice. I'll have the same. Great minds think alike!",
             "questions": [
               {
                 "id": "list7_m1_q9",
@@ -3763,7 +3763,7 @@ export const listeningPractice07 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "Listen to a conversation. Did you get the concert tickets? Yes, but they were almost sold out. Wow, we were lucky then. Yeah, I had to book them quickly. We got seats near the back, but beggars can't be choosers. True. I'm just glad we're going. Listen to an announcement at a campus athletics office. Registration for the university's intramural soccer league opens Monday. Teams must sign up by the end of next week to be included in the season schedule. Games will be played on Wednesday evenings at the South Field beginning in 2 weeks. If you don't have a full team, you can",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: Did you get the concert tickets?\nWoman: Yes, but they were almost sold out.\nMan: Wow, we were lucky then.\nWoman: Yeah, I had to book them quickly. We got seats near the back, but beggars can't be choosers.\nMan: True. I'm just glad we're going.",
             "questions": [
               {
                 "id": "list7_m1_q11",
@@ -4057,7 +4057,7 @@ export const listeningPractice07 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "update. Where are we meeting now? In the library, study room 203. It should be quieter there. Good idea. I'll bring the outline we worked on so we can stay on the same page. Perfect. I'll bring the draft slides and we can polish them together. No need to reinvent the wheel. Listen to an announcement at a student orientation. Welcome to all new students. To help you see what the campus has to offer, guided tours will run every afternoon this week at 2:00 p. m. Each tour sets off from the student union, lasts roughly 45 minutes, and covers key locations such as lecture halls, dining facilities, and recreational spaces. There's no need to register in advance. Just make sure to arrive a few minutes early so you don't miss the group.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: Where are we meeting now for our group presentation?\nMan: In the library, study room 203. It should be quieter there.\nWoman: Good idea. I'll bring the outline we worked on so we can stay on the same page.\nMan: Perfect. I'll bring the draft slides and we can polish them together. No need to reinvent the wheel.",
             "questions": [
               {
                 "id": "list7_m2_q9",
@@ -4388,7 +4388,7 @@ export const listeningPractice08 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "Listen to a conversation. Did you ever sign up for a gym membership? Not yet. I'm still comparing prices. I heard students get a discount at the campus gym. Really? That makes it a lot more affordable. Plus, the gym has new equipment and classes. Sounds like I should sign up this week.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: Did you ever sign up for a gym membership?\nWoman: Not yet. I'm still comparing prices.\nMan: I heard students get a discount at the campus gym.\nWoman: Really? That makes it a lot more affordable.\nMan: Plus, the gym has brand new equipment and fitness classes.\nWoman: Sounds like I should sign up this week.",
             "questions": [
               {
                 "id": "list8_m1_q9",
@@ -4423,7 +4423,7 @@ export const listeningPractice08 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "equipment and classes. Sounds like I should sign up this week. Did you return the library book on time? No, it completely slipped my mind. You know there's a fine for late returns, right? Yeah, but I think it's just a small fee. True, but those charges add up before you know it. I'll drop it off after class today.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: Did you return the library book on time?\nMan: No, it completely slipped my mind.\nWoman: You know there's a fine for late returns, right?\nMan: Yeah, but I think it's just a small fee.\nWoman: True, but those charges add up before you know it.\nMan: You're right. I'll drop it off after class today.",
             "questions": [
               {
                 "id": "list8_m1_q11",
@@ -4717,7 +4717,7 @@ export const listeningPractice08 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "Listen to a conversation. Do you want to see a movie tonight? I could use a break. Sure. What's playing? There's a comedy and a new action film everyone's talking about. Hmm, comedies are usually more my cup of tea. I don't mind. The action one looks exciting, but I'm not in the mood for that. Then let's not overthink it. What time should we go? I'll check the schedule online and book the tickets before they sell out.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: Do you want to see a movie tonight? I could use a break.\nWoman: Sure. What's playing?\nMan: There's a comedy and a new action film everyone's talking about.\nWoman: Hmm, comedies are usually more my cup of tea. The action one looks exciting, but I'm not in the mood for that.\nMan: Then let's not overthink it. What time should we go?\nWoman: I'll check the schedule online and book the tickets before they sell out.",
             "questions": [
               {
                 "id": "list8_m2_q9",
@@ -5048,7 +5048,7 @@ export const listeningPractice09 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "Listen to a conversation. I saw you with a new backpack yesterday. Yeah, my old one finally broke after a few years. That's too bad. Did you get the new one at the bookstore? No, I bought it at a sporting goods store downtown. It was a lot cheaper there. Nice. It looks pretty sturdy. How much did it cost? Around $40. That's not bad at all. Some backpacks cost twice that much. I know, right? Are you happy with it so far? Definitely. It has plenty of space and the straps are really comfortable. Sounds like you got a good deal. Yeah, I think it's good value for the money.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: I saw you with a new backpack yesterday.\nWoman: Yeah, my old one finally broke after a few years.\nMan: Did you get the new one at the campus bookstore?\nWoman: No, I bought it at a sporting goods store downtown. It was a lot cheaper there.\nMan: Nice. It looks pretty sturdy. How much did it cost?\nWoman: Around forty dollars. It has plenty of space and the straps are really comfortable. Definitely good value for the money.",
             "questions": [
               {
                 "id": "list9_m1_q9",
@@ -5083,7 +5083,7 @@ export const listeningPractice09 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "Listen to a conversation. Why isn't the Wi-Fi working in this Starbucks? I'm not sure. Their router might be down. That's annoying. I really needed to finish my essay today. Would you like me to go ask them what's going on? No, that's okay. I'll try using my phone's hotspot instead. That might do the trick. Hopefully. I only have a couple more pages to write. Well, if it doesn't work, we can always pack up and go somewhere else. True. Next time, we'd probably be better off meeting at the library. Yeah, that's a good idea. At least their internet is usually reliable.",
+            "audio_text": "Narrator: Listen to a conversation at a coffee shop.\nWoman: Why isn't the Wi-Fi working in this cafe?\nMan: I'm not sure. Their router might be down.\nWoman: That's annoying. I really needed to finish my essay today.\nMan: No problem. I'll try turning on my phone's hotspot for you.\nWoman: That might do the trick! Next time, we'd probably be better off meeting at the library where the connection is reliable.",
             "questions": [
               {
                 "id": "list9_m1_q11",
@@ -5377,7 +5377,7 @@ export const listeningPractice09 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "Listen to a conversation. What are you doing this weekend? I was thinking of going hiking if the weather holds up. That sounds fun. Do you have a particular trail in mind? Yeah, there's a trail about an hour away by bus. The views from the top are well worth the effort. Have you been there before? No, but a friend of mine went last month and highly recommended it. He said it's a bit challenging, but nothing too difficult. Are you going on your own? Probably. A couple of friends were interested at first, but they backed out at the last minute. Isn't it dangerous to go on your own though? Not really. The trail is pretty popular. Plus, I'll let my family know where I'm going. It's always better to be cautious. For sure. Besides, I'll bring a fully charged phone and a portable charger just in case.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: What are you doing this weekend?\nMan: I was thinking of going hiking if the weather holds up. The views from the top are well worth the effort.\nWoman: Are you going on your own? Isn't it dangerous?\nMan: Not really. The trail is pretty popular, and I'll let my family know where I'm going. Plus, I'll bring a fully charged phone and a portable charger just in case.",
             "questions": [
               {
                 "id": "list9_m2_q9",
@@ -5708,7 +5708,7 @@ export const listeningPractice10 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "did you buy a gift for Emma's birthday yet not yet I've been thinking about it all week but I still can't make up my mind I had a few ideas but none of them felt right I want to get her something special I'm not sure what kind of books she likes these days that makes sense then maybe play it safe and get her a gift card for the bookstore that way she can choose what she wants that's actually a great idea it's simple but still thoughtful and it saves you from stressing over the choice true thanks I think I finally made up my mind",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: Did you buy a gift for Emma's birthday yet?\nMan: Not yet. I've been thinking about it all week, but I still can't make up my mind.\nWoman: Then maybe play it safe and get her a gift card for the bookstore. That way she can choose what she wants.\nMan: That's actually a great idea! It's simple but thoughtful. Thanks, I think I've finally made up my mind.",
             "questions": [
               {
                 "id": "list10_m1_q9",
@@ -5743,7 +5743,7 @@ export const listeningPractice10 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "I can't find my student ID card anywhere and I'm starting to panic are you sure did you check your backpack and all your pockets yeah I checked everything twice it's nowhere to be found when was the last time you used it this morning I think I used it to enter the library before class I hope so but I needed to enter the dorm and borrow books I can't really wait then you should go to the student services office and request a replacement do they charge for that yes but only a small fee that's good I was worried it would be expensive the better you're right I'll head there after class",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: I can't find my student ID card anywhere and I'm starting to panic!\nWoman: Did you check your backpack and all your pockets?\nMan: Yeah, I checked everything twice. I need it to enter the dorm and borrow books.\nWoman: Then you should go to the student services office and request a replacement. It only involves a small fee.\nMan: You're right. I'll head there after class.",
             "questions": [
               {
                 "id": "list10_m1_q11",
@@ -6037,7 +6037,7 @@ export const listeningPractice10 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "did you hand in your history paper yet I just submitted mine a few minutes ago not yet I'm planning to go over mine One Last Time seriously I thought you finished it yesterday I did more or less but I'm still not fully satisfied with some of my arguments a few paragraphs feel slightly repetitive honestly I doubt the professor will notice minor wording issues your papers are always strong maybe but I know myself the deadline is this afternoon at 3:00 isn't it yes I have plenty of time I'll submit it right after my biology class you really do double-check everything I wish I were that discipline exactly better safe than sorry that's hard to argue with maybe I should start doing the same",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: Did you hand in your history paper yet? I just submitted mine a few minutes ago.\nWoman: Not yet. I'm planning to go over mine one last time before submitting.\nMan: Seriously? I thought you finished it yesterday.\nWoman: I did, but I want to double-check my arguments. Better safe than sorry!\nMan: That's hard to argue with. You're always so disciplined.",
             "questions": [
               {
                 "id": "list10_m2_q9",
@@ -6368,7 +6368,7 @@ export const listeningPractice11 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "the library close today? Hey, want to join us for some football this weekend? I would love to, but my ankle still hurts from last time. Oh no. Have you seen a doctor? Not yet. I thought it would heal on its own, but it still hurts when I walk. You shouldn't ignore this. God protects the protected. You're probably right. I was hoping it would go away on its own. It may be a minor sprain, but it's worth showing it to a doctor. You are right. I'll make an appointment tomorrow and miss the game this weekend.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: Hey, want to join us for some soccer this weekend?\nMan: I would love to, but my ankle still hurts from last time. I thought it would heal on its own, but it still hurts when I walk.\nWoman: You shouldn't ignore this. It's worth showing it to a doctor. Better safe than sorry!\nMan: You're right. I'll make an appointment tomorrow and miss the game this weekend.",
             "questions": [
               {
                 "id": "list11_m1_q9",
@@ -6403,7 +6403,7 @@ export const listeningPractice11 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "miss the game this weekend. Are you still thinking about getting a dog? Actually, yes. I'm looking at shelters online, but I'm not sure if now is a good time. I thought you really wanted this. What makes you hesitate? I really want to, but I'm worried I won't have enough time to properly care for it. That's true, but you're home most evenings. I think you would be a great host. Maybe, but dogs need a lot of attention. I don't want to get a dog and then realize I can't handle the responsibility. I understand. You could start by volunteering at an animal shelter. This way you can see what it's like to take care of a dog. This is actually not a bad idea. I didn't think about trying it at first. This will help you decide without making any long-term commitments right away. Ultimately, you shouldn't take on more than you can handle. You are right. I'll sign up to volunteer this weekend and see how it goes.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: Are you still thinking about adopting a dog?\nMan: I really want to, but I'm worried I won't have enough time to properly care for it with my classes.\nWoman: I understand. You could start by volunteering at an animal shelter first to see what it's like. You don't want to bite off more than you can chew.\nMan: That's a great idea! I'll sign up to volunteer this weekend.",
             "questions": [
               {
                 "id": "list11_m1_q11",
@@ -6697,7 +6697,7 @@ export const listeningPractice11 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "making sense. Have you already started planning your group presentation? Not quite. I thought we could wait until the end of this week. I work better when a deadline is approaching. I'm not sure this is a good idea. We need to decide who is responsible for each section, and once everyone has finished their parts, make sure the ideas are in harmony with each other. This will take some time. I understand your point, but I worry that if we start too early, we'll start rethinking everything. We can spend hours on small details that won't matter much. I just don't want us to rush at the last minute. In addition, we will need time to rehearse the performance. This is a valid observation. I didn't take into account how long the rehearsal would take. What if we meet today after class and divide up the tasks? Then everyone can work independently when they have time. This actually sounds like a good compromise. We can get organized now without trying to finish everything at once. That's right. I'll create a group chat now so we can define everyone's responsibilities. Perfectly. I will also review the assignment requirements again before our meeting.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: Have you started planning our group presentation?\nMan: Not quite. I thought we could wait until the end of this week. I work better when a deadline is approaching.\nWoman: I just don't want us to rush at the last minute. We need time to rehearse the performance.\nMan: That's a fair point. What if we meet today after class to divide up the tasks?\nWoman: Perfectly. I'll create a group chat now so we can stay organized.",
             "questions": [
               {
                 "id": "list11_m2_q9",
@@ -7028,7 +7028,7 @@ export const listeningPractice12 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "did you hear the library is closing earlier tonight no I didn't I was planning to stay there until 10:00 because I need to finish my reading assignment they're shutting down at 7:00 for maintenance the staff needs time to update the computer system and check some equipment I need those books for tomorrow's class and I haven't finished taking notes yet why don't you check if the books are available through the online database some of the same materials might be there good idea I'll look for digital copies when I get home if I can't find them I'll come early tomorrow morning good morning",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: Did you hear the library is closing early tonight?\nWoman: No, I didn't! Why are they closing?\nMan: They're shutting down at seven for system maintenance and equipment updates.\nWoman: I need those books for tomorrow's class. I'll check if digital copies are available through the online database first.",
             "questions": [
               {
                 "id": "list12_m1_q9",
@@ -7063,7 +7063,7 @@ export const listeningPractice12 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "the microscope images look much blurrier than yesterday I see did you change any of the settings or use a different sample know I used the same settings as before but the equipment be the problem after yesterday's maintenance can someone adjust it this afternoon I need to continue my experiments soon and make the necessary adjustments that's great I'll return after my chemistry seminar and see if the images improve",
+            "audio_text": "Narrator: Listen to a conversation at a science laboratory.\nWoman: Excuse me, the microscope images look much blurrier than yesterday.\nMan: Did you change any settings, or did this happen after yesterday's maintenance?\nWoman: I used the same settings as before, so the equipment might need recalibration.\nMan: I can adjust it this afternoon.\nWoman: That's great! I'll return after my chemistry seminar and see if the images improve.",
             "questions": [
               {
                 "id": "list12_m1_q11",
@@ -7357,7 +7357,7 @@ export const listeningPractice12 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "my presentation file won't open on the classroom computer that's strange did you check whether the file was damaged I opened it successfully on my laptop so I think the problem is with the classroom computer still has the previous version of the software installed so it may not support some of the is there a quick solution I have to present in less than an hour yes open the file on another computer and save it as a PDF that should prevent compatibility issues and preserve the formatting that makes sense I'll use the library computers before class and create a new copy their good just make sure you test the PDF before your presentation starts",
+            "audio_text": "Narrator: Listen to a conversation between a student and a tech assistant.\nWoman: My presentation file won't open on the classroom computer.\nMan: The classroom computer still has the previous version of the software installed.\nWoman: Is there a quick solution? I have to present in less than an hour!\nMan: Open the file on another computer and save it as a PDF. That will prevent compatibility issues.\nWoman: That makes sense. I'll use the library computers right away.",
             "questions": [
               {
                 "id": "list12_m2_q9",
@@ -7688,7 +7688,7 @@ export const listeningPractice13 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "I reserved a study room but someone else is using it let me check the reservation schedule what time did you reserve the room for from 3 to 6:00 could there be two bookings for the same time so the room I reserved is actually available yes it's available until 6:00 great I'll move to the correct room",
+            "audio_text": "Narrator: Listen to a conversation at the campus library.\nMan: I reserved a study room, but someone else is currently using it.\nWoman: Let me check the schedule. What time did you book it for?\nMan: From three to six o'clock.\nWoman: Ah, there was a minor system mix-up. Room 204 is actually yours until six.\nMan: Great, I'll move to the correct room now.",
             "questions": [
               {
                 "id": "list13_m1_q9",
@@ -7723,7 +7723,7 @@ export const listeningPractice13 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "my research interview was canceled at the last minute I see should I change my project schedule then okay I'll prepare a new consent form tonight great please print two copies before the interview",
+            "audio_text": "Narrator: Listen to a conversation between a student and a research advisor.\nWoman: Professor, my research interview was canceled at the last minute because the participant was feeling unwell.\nMan: I see. Should we reschedule the session for next Tuesday?\nWoman: Yes, I'll prepare a new consent form tonight.\nMan: Great. Please print two copies of the consent forms before the interview.",
             "questions": [
               {
                 "id": "list13_m1_q11",
@@ -8017,7 +8017,7 @@ export const listeningPractice13 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "my poster tube arrived damage after shipping and the poster inside is creased I'm sorry about that we can have the printing center that would be great will it be ready before the conference so there's do I need to submit the file again no we still have your original proof before printing perfect I'll review it immediately and let you know if everything looks correct great will notify you as soon as it's printed and you can pick it up at the printing center",
+            "audio_text": "Narrator: Listen to a conversation at the campus printing center.\nMan: My poster tube arrived damaged after shipping, and the conference poster inside is badly creased.\nWoman: I'm sorry about that! We can reprint it here at the center. Do you need to submit the file again?\nMan: No, you should still have my original approved proof.\nWoman: Perfect. We'll reprint it right away and notify you when it's ready.",
             "questions": [
               {
                 "id": "list13_m2_q9",
@@ -8348,7 +8348,7 @@ export const listeningPractice14 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 1",
-            "audio_text": "I can't figure out how to use this coffee machine. My experiment requires a chemical that's no longer in the cabinet. I'm sorry about that. The latest delivery was delayed by the supplier. Is there enough for today's lab session? Yes, another department has agreed to lend us a small amount. That's a relief. When can I pick it up? You can collect it from the chemistry department before the experiment begins. Okay, I'll pick it up before the lab starts. Good. Just make sure you return any unused portion this afternoon.",
+            "audio_text": "Narrator: Listen to a conversation at the chemistry stockroom.\nWoman: My experiment requires a chemical that's no longer in the storage cabinet.\nMan: The latest delivery was delayed by the supplier, but another department agreed to lend us a small amount.\nWoman: That's a relief! When can I pick it up?\nMan: You can collect it from the chemistry department office before your lab begins.",
             "questions": [
               {
                 "id": "list14_m1_q9",
@@ -8383,7 +8383,7 @@ export const listeningPractice14 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên 2",
-            "audio_text": "Good. Just make sure you return any unused portion this afternoon. Have you signed up for the campus volunteer program? Not yet. What does it involve? We'll be tutoring local high school students in math and science. That sounds rewarding. Do you know the time commitment? Just 2 hours a week. It's pretty manageable. That's not too bad. When does the program start? Next month. There are only a few spots left, so you'd better get the ball rolling if you're interested. Good point. I think I'll sign up this week. Great. I think you'll really enjoy working with the students.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: Have you signed up for the campus volunteer program?\nWoman: We'll be tutoring local high school students in math and science for just two hours a week.\nMan: That sounds rewarding! When does registration close?\nWoman: There are only a few spots left, so you'd better get the ball rolling and register this week.",
             "questions": [
               {
                 "id": "list14_m1_q11",
@@ -8677,7 +8677,7 @@ export const listeningPractice14 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại sinh viên (Phần nâng cao)",
-            "audio_text": "Is the final assignment for this course supposed to be completed individually? I'm having trouble accessing the article I need for my presentation. What happens when you try to open It says I don't have permission to view the full text. I thought students had access through the university library. They do, but you need to access the article through the library website. Will I need to search for the article again? Yes. Search for the article by its title in the database. Once you find it, you should be able to open the full text. Okay, I'll try that now. If I still can't access it, I'll come back. Sure. Let me know if you have any trouble. Listen to an announcement at a university bookstore. Students who have ordered textbooks online can now pick them up at the bookstore's customer service desk. Please have your student ID available when you arrive as it will be needed to verify your order. Orders placed after 5:00 p. m. today will not be available for pickup until tomorrow afternoon.",
+            "audio_text": "Narrator: Listen to a conversation at the university library.\nMan: I'm having trouble accessing the research article I need for my presentation.\nWoman: It requires logging in through the university library database portal rather than the public website.\nMan: Will I need to search for the title again in the catalog?\nWoman: Yes, search by title in the portal and you'll have full-text access. Let me know if you run into any issues.",
             "questions": [
               {
                 "id": "list14_m2_q9",

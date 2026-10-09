@@ -186,7 +186,68 @@ export default function ListeningModule({ test, answers, onAnswerChange }) {
     }
   }, [currentQIndex, isChooseResponse, autoPlayPrompt]);
 
-  // Phát từng lượt đối thoại với giọng đọc và cao độ (pitch) tương ứng
+  // State danh sách giọng đọc từ trình duyệt
+  const [systemVoices, setSystemVoices] = useState([]);
+  useEffect(() => {
+    const loadVoices = () => {
+      if (window.speechSynthesis) {
+        setSystemVoices(window.speechSynthesis.getVoices());
+      }
+    };
+    loadVoices();
+    if (window.speechSynthesis) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+  }, []);
+
+  // Chọn 2 giọng đọc riêng biệt (Nam và Nữ) từ hệ thống
+  const getDistinctVoices = () => {
+    const allVoices = systemVoices.length > 0 ? systemVoices : (window.speechSynthesis ? window.speechSynthesis.getVoices() : []);
+    const enVoices = allVoices.filter(v => v.lang && v.lang.startsWith('en'));
+
+    const isMale = (name = '') => /david|guy|mark|george|christopher|male|richard|james|alex|fred/i.test(name);
+    const isFemale = (name = '') => /zira|jenny|samantha|aria|female|susan|victoria|karen|catherine|stephanie|google us/i.test(name);
+
+    let maleVoice = enVoices.find(v => isMale(v.name));
+    let femaleVoice = enVoices.find(v => isFemale(v.name));
+
+    // Nếu không tìm thấy tên khớp, chọn 2 voice tiếng Anh khác nhau
+    if (!maleVoice && enVoices.length > 0) maleVoice = enVoices[0];
+    if (!femaleVoice && enVoices.length > 1) {
+      femaleVoice = enVoices.find(v => v !== maleVoice) || enVoices[1];
+    } else if (!femaleVoice && enVoices.length > 0) {
+      femaleVoice = enVoices[0];
+    }
+
+    return { maleVoice, femaleVoice, narratorVoice: enVoices[0] || null };
+  };
+
+  // Tính khoảng nghỉ đàm thoại tự nhiên theo ngữ cảnh bài nghe
+  const calculatePauseDuration = (currentTurn, nextTurn) => {
+    if (!currentTurn) return 800;
+
+    // 1. Sau lời dẫn đề của Narrator: nghỉ 1.2s để thí sinh chuẩn bị bước vào hội thoại
+    if (/^narrator/i.test(currentTurn.speaker)) {
+      return 1200;
+    }
+
+    const text = (currentTurn.text || '').trim();
+
+    // 2. Sau câu hỏi (?): người đối thoại cần 1 giây để tiếp nhận và phản hồi
+    if (text.endsWith('?') || text.includes('?')) {
+      return 950;
+    }
+
+    // 3. Khi đổi người nói giữa Man và Woman: khoảng nghỉ chuyển lượt tự nhiên 850ms
+    if (nextTurn && currentTurn.speaker !== nextTurn.speaker) {
+      return 850;
+    }
+
+    // 4. Khoảng nghỉ thông thường giữa các câu nói
+    return 750;
+  };
+
+  // Phát từng lượt đối thoại luân phiên giữa 2 giọng đọc thật sự khác nhau
   const playDialogueSequence = (turns, turnIndex = 0) => {
     if (!window.speechSynthesis) return;
     if (turnIndex >= turns.length || !isPlayingRef.current) {
@@ -197,45 +258,40 @@ export default function ListeningModule({ test, answers, onAnswerChange }) {
     }
 
     const turn = turns[turnIndex];
+    const nextTurn = turns[turnIndex + 1];
     setCurrentSpeaker(turn.speaker);
 
     const utterance = new SpeechSynthesisUtterance(turn.text);
     utterance.lang = 'en-US';
-    utterance.rate = playbackRate;
 
-    const voices = window.speechSynthesis.getVoices();
+    const { maleVoice, femaleVoice, narratorVoice } = getDistinctVoices();
     const isMan = /^man|^male/i.test(turn.speaker);
     const isWoman = /^woman|^female/i.test(turn.speaker);
 
     if (isMan) {
-      // Giọng Nam (Trầm ấm)
-      const maleVoice = voices.find(v => 
-        v.lang.startsWith('en') && 
-        (v.name.includes('David') || v.name.includes('Guy') || v.name.includes('Mark') || v.name.includes('Christopher') || v.name.includes('Male') || v.name.includes('George'))
-      );
+      // 👨 GIỌNG NAM: Trầm ấm, nhịp điệu từ tốn (pitch 0.72)
       if (maleVoice) utterance.voice = maleVoice;
-      utterance.pitch = 0.82; // Cao độ trầm nam tính
+      utterance.pitch = 0.72; // Trầm ấm nam giới rõ rệt
+      utterance.rate = playbackRate * 0.88; // Đĩnh đạc, tự nhiên, không vội vã
     } else if (isWoman) {
-      // Giọng Nữ (Thanh thoát)
-      const femaleVoice = voices.find(v => 
-        v.lang.startsWith('en') && 
-        (v.name.includes('Zira') || v.name.includes('Jenny') || v.name.includes('Samantha') || v.name.includes('Aria') || v.name.includes('Female') || v.name.includes('Google US'))
-      );
+      // 👩 GIỌNG NỮ: Thanh thoát, tự nhiên (pitch 1.42)
       if (femaleVoice) utterance.voice = femaleVoice;
-      utterance.pitch = 1.28; // Cao độ trong trẻo nữ tính
+      utterance.pitch = 1.42; // Cao trong trẻo nữ giới rõ rệt
+      utterance.rate = playbackRate * 0.92; // Tươi tắn, rõ từng từ
     } else {
-      // Giọng dẫn chuyện trung tính
-      const neutralVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Google')));
-      if (neutralVoice) utterance.voice = neutralVoice;
+      // 📢 DẪN ĐỀ (Narrator): Trang trọng, rõ ràng
+      if (narratorVoice) utterance.voice = narratorVoice;
       utterance.pitch = 1.0;
+      utterance.rate = playbackRate * 0.90;
     }
 
     utterance.onend = () => {
       if (!isPlayingRef.current) return;
-      // Nghỉ tự nhiên 280ms giữa các lượt nói của 2 người
+      // Khoảng nghỉ tự nhiên theo ngữ cảnh (750ms - 1200ms) thay vì nhảy câu tức thì
+      const pauseMs = calculatePauseDuration(turn, nextTurn);
       turnTimeoutRef.current = setTimeout(() => {
         playDialogueSequence(turns, turnIndex + 1);
-      }, 280);
+      }, pauseMs);
     };
 
     utterance.onerror = () => {

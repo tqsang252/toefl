@@ -264,6 +264,40 @@ export default function ListeningReviewSection({ moduleData, test }) {
     }
   };
 
+  // State danh sách giọng đọc từ trình duyệt
+  const [systemVoices, setSystemVoices] = useState([]);
+  useEffect(() => {
+    const loadVoices = () => {
+      if (window.speechSynthesis) {
+        setSystemVoices(window.speechSynthesis.getVoices());
+      }
+    };
+    loadVoices();
+    if (window.speechSynthesis) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+  }, []);
+
+  const getDistinctVoices = () => {
+    const allVoices = systemVoices.length > 0 ? systemVoices : (window.speechSynthesis ? window.speechSynthesis.getVoices() : []);
+    const enVoices = allVoices.filter(v => v.lang && v.lang.startsWith('en'));
+
+    const isMale = (name = '') => /david|guy|mark|george|christopher|male|richard|james|alex|fred/i.test(name);
+    const isFemale = (name = '') => /zira|jenny|samantha|aria|female|susan|victoria|karen|catherine|stephanie|google us/i.test(name);
+
+    let maleVoice = enVoices.find(v => isMale(v.name));
+    let femaleVoice = enVoices.find(v => isFemale(v.name));
+
+    if (!maleVoice && enVoices.length > 0) maleVoice = enVoices[0];
+    if (!femaleVoice && enVoices.length > 1) {
+      femaleVoice = enVoices.find(v => v !== maleVoice) || enVoices[1];
+    } else if (!femaleVoice && enVoices.length > 0) {
+      femaleVoice = enVoices[0];
+    }
+
+    return { maleVoice, femaleVoice, narratorVoice: enVoices[0] || null };
+  };
+
   // Đọc riêng 1 câu thoại bất kỳ
   const playSingleSentence = (text, speaker = 'Narrator') => {
     if (!window.speechSynthesis) return;
@@ -276,20 +310,23 @@ export default function ListeningReviewSection({ moduleData, test }) {
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
-    utterance.rate = 0.95;
 
-    const voices = window.speechSynthesis.getVoices();
+    const { maleVoice, femaleVoice, narratorVoice } = getDistinctVoices();
     const isMan = /^man|^male/i.test(speaker);
     const isWoman = /^woman|^female/i.test(speaker);
 
     if (isMan) {
-      const maleVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('David') || v.name.includes('Guy') || v.name.includes('Mark') || v.name.includes('Male')));
       if (maleVoice) utterance.voice = maleVoice;
-      utterance.pitch = 0.82;
+      utterance.pitch = 0.72; // Giọng nam trầm ấm
+      utterance.rate = 0.93;
     } else if (isWoman) {
-      const femaleVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Zira') || v.name.includes('Jenny') || v.name.includes('Samantha') || v.name.includes('Female')));
       if (femaleVoice) utterance.voice = femaleVoice;
-      utterance.pitch = 1.28;
+      utterance.pitch = 1.42; // Giọng nữ cao trong
+      utterance.rate = 1.0;
+    } else {
+      if (narratorVoice) utterance.voice = narratorVoice;
+      utterance.pitch = 1.0;
+      utterance.rate = 0.95;
     }
 
     utterance.onend = () => {
@@ -308,7 +345,31 @@ export default function ListeningReviewSection({ moduleData, test }) {
     window.speechSynthesis.speak(utterance);
   };
 
-  // Phát toàn bộ bài nghe từ đầu đến cuối
+  // Tính khoảng nghỉ đàm thoại tự nhiên theo ngữ cảnh bài nghe
+  const calculatePauseDuration = (rawLine, nextLine) => {
+    if (!rawLine) return 800;
+
+    // 1. Sau lời dẫn đề của Narrator: nghỉ 1.2s để chuẩn bị vào hội thoại
+    if (/^narrator/i.test(rawLine)) {
+      return 1200;
+    }
+
+    const text = rawLine.trim();
+
+    // 2. Sau câu hỏi (?): nghỉ 950ms để tiếp nhận và phản hồi
+    if (text.endsWith('?') || text.includes('?')) {
+      return 950;
+    }
+
+    // 3. Khi đổi người nói: nghỉ 850ms
+    if (nextLine && ((rawLine.includes('Man:') && nextLine.includes('Woman:')) || (rawLine.includes('Woman:') && nextLine.includes('Man:')))) {
+      return 850;
+    }
+
+    return 750;
+  };
+
+  // Phát toàn bộ bài nghe từ đầu đến cuối luân phiên 2 giọng đọc
   const playFullScript = () => {
     if (isPlaying) {
       stopAudio();
@@ -327,6 +388,7 @@ export default function ListeningReviewSection({ moduleData, test }) {
       }
 
       const rawLine = scriptLines[idx];
+      const nextLine = scriptLines[idx + 1];
       let speaker = 'Narrator';
       let spokenText = rawLine;
 
@@ -341,27 +403,31 @@ export default function ListeningReviewSection({ moduleData, test }) {
 
       const utterance = new SpeechSynthesisUtterance(spokenText || rawLine);
       utterance.lang = 'en-US';
-      utterance.rate = 0.95;
 
-      const voices = window.speechSynthesis.getVoices();
+      const { maleVoice, femaleVoice, narratorVoice } = getDistinctVoices();
       const isMan = /^man|^male/i.test(speaker);
       const isWoman = /^woman|^female/i.test(speaker);
 
       if (isMan) {
-        const maleVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('David') || v.name.includes('Guy') || v.name.includes('Male')));
         if (maleVoice) utterance.voice = maleVoice;
-        utterance.pitch = 0.82;
+        utterance.pitch = 0.72; // Giọng nam trầm ấm
+        utterance.rate = 0.88; // Đĩnh đạc, tự nhiên
       } else if (isWoman) {
-        const femaleVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Zira') || v.name.includes('Jenny') || v.name.includes('Samantha') || v.name.includes('Female')));
         if (femaleVoice) utterance.voice = femaleVoice;
-        utterance.pitch = 1.28;
+        utterance.pitch = 1.42; // Giọng nữ cao trong
+        utterance.rate = 0.92; // Tươi tắn, rõ từng từ
+      } else {
+        if (narratorVoice) utterance.voice = narratorVoice;
+        utterance.pitch = 1.0;
+        utterance.rate = 0.90;
       }
 
       utterance.onend = () => {
         if (!isPlayingRef.current) return;
+        const pauseMs = calculatePauseDuration(rawLine, nextLine);
         turnTimeoutRef.current = setTimeout(() => {
           playLineIdx(idx + 1);
-        }, 260);
+        }, pauseMs);
       };
 
       utterance.onerror = () => {
