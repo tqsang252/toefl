@@ -40,7 +40,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m1_q2",
                 "type": "choose_response",
-                "audio_text": "Do you know if the library is still open?",
+                "audio_text": "Where do I return these library books?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "At the circulation desk.",
@@ -68,7 +68,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m1_q4",
                 "type": "choose_response",
-                "audio_text": "Can I borrow more than three books at a time?",
+                "audio_text": "Where can I find the reference section?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I bought a reference book.",
@@ -144,7 +144,7 @@ export const listeningPractice01 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại khuôn viên trường đại học",
-            "audio_text": "Listen to a conversation. Hey, do you want to eat in the cafeteria? I will, but it will be very crowded there at this time. True. If we wait 20 minutes, the crowd will thin out. Okay, let 's do that. I will finish reading this by then. Good idea. I'll find a place for us when the crowds clear up.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: Hey, do you want to eat in the cafeteria?\nMan: I will, but it will be very crowded there at this time.\nWoman: True. If we wait 20 minutes, the crowd will thin out.\nMan: Okay, let's do that. I will finish reading this by then.\nWoman: Good idea. I'll find a place for us when the crowds clear up.",
             "questions": [
               {
                 "id": "list1_m1_q9",
@@ -179,7 +179,7 @@ export const listeningPractice01 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại dịch vụ sinh viên",
-            "audio_text": "Listen to a conversation. Have you booked a doctor's appointment? Not yet. The office closes early today, so I'll call tomorrow. I thought it would be open until 6:00. That's usually the case, but on Fridays they close at 3:00. Oh, I did n't know that.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nMan: Have you booked a doctor's appointment?\nWoman: Not yet. The office closes early today, so I'll call tomorrow.\nMan: I thought it would be open until 6:00.\nWoman: That's usually the case, but on Fridays they close at 3:00.\nMan: Oh, I didn't know that.",
             "questions": [
               {
                 "id": "list1_m1_q11",
@@ -348,7 +348,7 @@ export const listeningPractice01 = {
               {
                 "id": "list1_m2_q3",
                 "type": "choose_response",
-                "audio_text": "Are vegetarian options available?",
+                "audio_text": "Can I use my student meal card here?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, it's accepted.",
@@ -438,7 +438,7 @@ export const listeningPractice01 = {
           "task_type": "conversation",
           "content": {
             "context_title": "Hội thoại tình huống sinh viên",
-            "audio_text": "Listen to a conversation. Did you return the library book? Yes, but it was delayed by 2 days. I had to pay a fine. That is very sad. Is it expensive? Just a few dollars, but they add up. I'll set a reminder next time.",
+            "audio_text": "Narrator: Listen to a conversation between two students.\nWoman: Did you return the library book?\nMan: Yes, but it was delayed by 2 days. I had to pay a fine.\nWoman: That is very sad. Is it expensive?\nMan: Just a few dollars, but they add up. I'll set a reminder next time.",
             "questions": [
               {
                 "id": "list1_m2_q9",
@@ -2060,7 +2060,7 @@ export const listeningPractice04 = {
               {
                 "id": "list4_m2_q4",
                 "type": "choose_response",
-                "audio_text": "Where should we meet for the group project?",
+                "audio_text": "Could you tell me what the word \"mandatory\" means?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Sure, it means \"necessary.\"",
@@ -2088,7 +2088,7 @@ export const listeningPractice04 = {
               {
                 "id": "list4_m2_q6",
                 "type": "choose_response",
-                "audio_text": "Is the sports center open on Sundays?",
+                "audio_text": "Did you enjoy the guest speaker's lecture yesterday?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I didn't invite him.",
@@ -2116,7 +2116,7 @@ export const listeningPractice04 = {
               {
                 "id": "list4_m2_q8",
                 "type": "choose_response",
-                "audio_text": "What time is the lab session tomorrow?",
+                "audio_text": "Where is the best place on campus to study for exams?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, I'm very busy.",
@@ -2346,7 +2346,7 @@ export const listeningPractice05 = {
               {
                 "id": "list5_m1_q5",
                 "type": "choose_response",
-                "audio_text": "Do we need to buy the textbook right away?",
+                "audio_text": "I'm thinking about switching my major to economics.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Yes, the building is old.",
@@ -2360,7 +2360,7 @@ export const listeningPractice05 = {
               {
                 "id": "list5_m1_q6",
                 "type": "choose_response",
-                "audio_text": "Do we need to buy the textbook right away?",
+                "audio_text": "Where can I find the bicycle racks on campus?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It's raining today.",
@@ -2661,7 +2661,7 @@ export const listeningPractice05 = {
               {
                 "id": "list5_m2_q4",
                 "type": "choose_response",
-                "audio_text": "Is attendance compulsory for this course?",
+                "audio_text": "Can we schedule our group study session for 7 p.m. tonight?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I've already passed the course.",
@@ -2703,7 +2703,7 @@ export const listeningPractice05 = {
               {
                 "id": "list5_m2_q7",
                 "type": "choose_response",
-                "audio_text": "Do you know how long the orientation runs?",
+                "audio_text": "How many assignment deadlines do we have this week?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I've attached the document.",
@@ -2717,7 +2717,7 @@ export const listeningPractice05 = {
               {
                 "id": "list5_m2_q8",
                 "type": "choose_response",
-                "audio_text": "Do you know how long the orientation runs?",
+                "audio_text": "Could you share your lecture notes from yesterday's class?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "No, they're not very detailed.",
@@ -3694,7 +3694,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m1_q7",
                 "type": "choose_response",
-                "audio_text": "Why are you leaving early?",
+                "audio_text": "Would you like to study together for the midterm exam?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I usually go it alone.",
@@ -3708,7 +3708,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m1_q8",
                 "type": "choose_response",
-                "audio_text": "Why are you leaving early?",
+                "audio_text": "Excuse me, where is the computer lab located?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It's in Building C, just around the corner.",
@@ -3967,7 +3967,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m2_q3",
                 "type": "choose_response",
-                "audio_text": "Is the lecture being recorded today?",
+                "audio_text": "I have an urgent question about the grading rubric, but office hours just ended.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I'm really into this class too.",
@@ -3981,7 +3981,7 @@ export const listeningPractice07 = {
               {
                 "id": "list7_m2_q4",
                 "type": "choose_response",
-                "audio_text": "Is the lecture being recorded today?",
+                "audio_text": "Will today's lecture be recorded and posted online?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I got there behind schedule.",
@@ -4284,7 +4284,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m1_q2",
                 "type": "choose_response",
-                "audio_text": "Do we have class during finals week?",
+                "audio_text": "Where can I pick up a campus map?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "You can get one at the info desk.",
@@ -4312,7 +4312,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m1_q4",
                 "type": "choose_response",
-                "audio_text": "Are laptops allowed during the exam?",
+                "audio_text": "What did you think of the guest lecture this morning?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Guests stayed until late.",
@@ -4627,7 +4627,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m2_q3",
                 "type": "choose_response",
-                "audio_text": "Did the professor mention extra credit?",
+                "audio_text": "I can't seem to focus on my reading in the dorm.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "My friend is laser-focused when she studies.",
@@ -4655,7 +4655,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m2_q5",
                 "type": "choose_response",
-                "audio_text": "Where do we return library books?",
+                "audio_text": "I'm really struggling to understand why I got this grade.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Enrolling early could help.",
@@ -4683,7 +4683,7 @@ export const listeningPractice08 = {
               {
                 "id": "list8_m2_q7",
                 "type": "choose_response",
-                "audio_text": "Are group presentations graded individually?",
+                "audio_text": "Do you know if the syllabus schedule has been updated?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I am not confused at all.",
@@ -4944,7 +4944,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m1_q2",
                 "type": "choose_response",
-                "audio_text": "I'm having trouble finding the conference room.",
+                "audio_text": "Do you know what time the dining hall closes for lunch?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Lunch is my favorite meal.",
@@ -4972,7 +4972,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m1_q4",
                 "type": "choose_response",
-                "audio_text": "Do you know where I can scan these documents?",
+                "audio_text": "My car wouldn't start this morning and is making weird noises.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Have you tried calling a mechanic?",
@@ -5000,7 +5000,7 @@ export const listeningPractice09 = {
               {
                 "id": "list9_m1_q6",
                 "type": "choose_response",
-                "audio_text": "Do you mind holding the elevator for me?",
+                "audio_text": "Why was the subway delayed this morning?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "It worked fine yesterday.",
@@ -6593,7 +6593,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m2_q2",
                 "type": "choose_response",
-                "audio_text": "Not much progress.",
+                "audio_text": "Why is it so freezing cold in this classroom?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Cold weather is the best.",
@@ -6607,7 +6607,7 @@ export const listeningPractice11 = {
               {
                 "id": "list11_m2_q3",
                 "type": "choose_response",
-                "audio_text": "Not much progress.",
+                "audio_text": "Are we still meeting up for our study group this week?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I studied alone.",
@@ -8258,7 +8258,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m1_q3",
                 "type": "choose_response",
-                "audio_text": "Is the seminar required for firstear students?",
+                "audio_text": "When is our first big science exam scheduled?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Our biology exam is next week.",
@@ -8300,7 +8300,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m1_q6",
                 "type": "choose_response",
-                "audio_text": "I think I ordered the wrong size.",
+                "audio_text": "I can't seem to find where I left my bicycle this morning.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Many students ride bicycles to campus.",
@@ -8328,7 +8328,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m1_q8",
                 "type": "choose_response",
-                "audio_text": "Has anyone returned the novel I lent them?",
+                "audio_text": "Could you show me how to turn on this coffee machine?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "Press the green button to start.",
@@ -8573,7 +8573,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m2_q2",
                 "type": "choose_response",
-                "audio_text": "I didn't receive the Zoom link.",
+                "audio_text": "I can't decide which topic to choose for my presentation.",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "I chose mine last week.",
@@ -8601,7 +8601,7 @@ export const listeningPractice14 = {
               {
                 "id": "list14_m2_q4",
                 "type": "choose_response",
-                "audio_text": "Is the final cumulative?",
+                "audio_text": "Could you take a quick photo of us in front of the lake?",
                 "prompt": "Select the most appropriate response to what you heard:",
                 "options": {
                   "C": "The weather couldn't be better today.",

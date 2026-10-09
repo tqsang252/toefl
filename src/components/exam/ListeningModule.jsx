@@ -26,6 +26,7 @@ export default function ListeningModule({ test, answers, onAnswerChange }) {
 
   // Audio Playback State (Supports MP3 file or Browser SpeechSynthesis TTS)
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentSpeaker, setCurrentSpeaker] = useState(null); // 'Narrator' | 'Man' | 'Woman' | null
   const [playbackRate, setPlaybackRate] = useState(0.95); // Chuẩn tốc độ ETS
   const [showTranscript, setShowTranscript] = useState(false);
   const [autoPlayPrompt, setAutoPlayPrompt] = useState(true);
@@ -36,6 +37,8 @@ export default function ListeningModule({ test, answers, onAnswerChange }) {
   });
 
   const audioRef = useRef(null);
+  const isPlayingRef = useRef(false);
+  const turnTimeoutRef = useRef(null);
 
   // Lưu ghi chú nháp vào localStorage để không bị mất khi chuyển câu
   const handleNotesChange = (val) => {
@@ -56,12 +59,98 @@ export default function ListeningModule({ test, answers, onAnswerChange }) {
     }
   };
 
-  // Xác định văn bản audio cần phát
-  const currentAudioText = isChooseResponse ? (currentQ?.audio_text || '') : (content.audio_text || '');
+  // Xác định văn bản audio cần phát:
+  // - Với choose_response: mỗi câu có prompt audio ngắn riêng (currentQ.audio_text)
+  // - Với conversation / announcement / academic_talk: audio phát xuyên suốt cả bài (content.audio_text), không bị ngắt khi đổi câu
+  const currentAudioText = isChooseResponse 
+    ? (currentQ?.audio_text || '') 
+    : (content.audio_text || '');
   const hasAudioSource = !!(content.audio_url || currentAudioText);
+
+  // Phân tích lượt hội thoại (Narrator, Man, Woman)
+  const parseDialogueTurns = (rawText, taskType) => {
+    if (!rawText) return [];
+
+    // 1. Kiểm tra nếu văn bản đã có nhãn người nói rõ ràng (Man:, Woman:, Narrator:...)
+    const hasLabels = /(?:^|\n)(Narrator|Man|Woman|Male|Female|Student|Professor|Speaker \d+):\s*/i.test(rawText);
+    if (hasLabels) {
+      const lines = rawText.split(/\n+/);
+      const turns = [];
+      let activeSpeaker = 'Narrator';
+      let currentBuffer = [];
+
+      for (const line of lines) {
+        const match = line.match(/^(Narrator|Man|Woman|Male|Female|Student|Professor|Speaker \d+):\s*(.*)/i);
+        if (match) {
+          if (currentBuffer.length > 0) {
+            turns.push({ speaker: activeSpeaker, text: currentBuffer.join(' ').trim() });
+            currentBuffer = [];
+          }
+          activeSpeaker = match[1];
+          if (match[2].trim()) {
+            currentBuffer.push(match[2].trim());
+          }
+        } else if (line.trim()) {
+          currentBuffer.push(line.trim());
+        }
+      }
+      if (currentBuffer.length > 0) {
+        turns.push({ speaker: activeSpeaker, text: currentBuffer.join(' ').trim() });
+      }
+      return turns.filter(t => t.text);
+    }
+
+    // 2. Nếu là dạng conversation mà chưa có nhãn, tự động phân tách thông minh
+    if (taskType === 'conversation') {
+      let text = rawText.trim();
+      const turns = [];
+
+      // Dẫn nhập Narrator
+      const introMatch = text.match(/^(Listen to a conversation(?:\s+[^.]+)?\.)\s*(.*)/i);
+      if (introMatch) {
+        turns.push({ speaker: 'Narrator', text: introMatch[1].trim() });
+        text = introMatch[2].trim();
+      }
+
+      // Tách câu theo dấu ngắt
+      const sentences = text.match(/[^.!?]+[.!?]+(?:\s+|$)/g) || [text];
+      let activeSpeaker = 'Man';
+      let currentText = '';
+
+      for (let i = 0; i < sentences.length; i++) {
+        const s = sentences[i].trim();
+        if (!s) continue;
+
+        if (!currentText) {
+          currentText = s;
+        } else {
+          if (currentText.endsWith('?') || s.endsWith('?') || currentText.length > 80) {
+            turns.push({ speaker: activeSpeaker, text: currentText });
+            activeSpeaker = activeSpeaker === 'Man' ? 'Woman' : 'Man';
+            currentText = s;
+          } else {
+            currentText += ' ' + s;
+          }
+        }
+      }
+      if (currentText) {
+        turns.push({ speaker: activeSpeaker, text: currentText });
+      }
+      return turns;
+    }
+
+    return [{ speaker: 'Narrator', text: rawText }];
+  };
+
+  const dialogueTurns = parseDialogueTurns(currentAudioText, test.task_type);
 
   // Stop audio on unmount or question change
   const stopAudio = () => {
+    isPlayingRef.current = false;
+    if (turnTimeoutRef.current) {
+      clearTimeout(turnTimeoutRef.current);
+      turnTimeoutRef.current = null;
+    }
     if (window.speechSynthesis) {
       window.speechSynthesis.cancel();
     }
@@ -70,24 +159,97 @@ export default function ListeningModule({ test, answers, onAnswerChange }) {
       audioRef.current.currentTime = 0;
     }
     setIsPlaying(false);
+    setCurrentSpeaker(null);
   };
 
+  // Dừng audio khi unmount hoặc khi chuyển sang Task/Module khác
   useEffect(() => {
     return () => {
       stopAudio();
     };
-  }, []);
+  }, [test.id]);
 
-  // Khi chuyển câu ở dạng choose_response: dừng audio cũ và tự động phát câu mới nếu bật autoPlay
+  // CHỈ dừng và phát lại audio khi chuyển câu ở dạng CHOOSE_RESPONSE (vì mỗi câu có 1 audio riêng)
+  // Ở dạng Conversation, Announcement, Academic Talk: Cho phép thí sinh chuyển qua lại giữa các câu hỏi 1, 2, 3... trong lúc bài nghe vẫn tiếp tục phát liền mạch!
   useEffect(() => {
-    stopAudio();
-    if (isChooseResponse && autoPlayPrompt && currentQ?.audio_text) {
-      const timer = setTimeout(() => {
-        playAudio(currentQ.audio_text);
-      }, 300);
-      return () => clearTimeout(timer);
+    if (isChooseResponse) {
+      stopAudio();
+      if (autoPlayPrompt && currentQ?.audio_text) {
+        const timer = setTimeout(() => {
+          playAudio(currentQ.audio_text);
+        }, 300);
+        return () => {
+          clearTimeout(timer);
+          stopAudio();
+        };
+      }
     }
-  }, [currentQIndex, isChooseResponse]);
+  }, [currentQIndex, isChooseResponse, autoPlayPrompt]);
+
+  // Phát từng lượt đối thoại với giọng đọc và cao độ (pitch) tương ứng
+  const playDialogueSequence = (turns, turnIndex = 0) => {
+    if (!window.speechSynthesis) return;
+    if (turnIndex >= turns.length || !isPlayingRef.current) {
+      setIsPlaying(false);
+      setCurrentSpeaker(null);
+      isPlayingRef.current = false;
+      return;
+    }
+
+    const turn = turns[turnIndex];
+    setCurrentSpeaker(turn.speaker);
+
+    const utterance = new SpeechSynthesisUtterance(turn.text);
+    utterance.lang = 'en-US';
+    utterance.rate = playbackRate;
+
+    const voices = window.speechSynthesis.getVoices();
+    const isMan = /^man|^male/i.test(turn.speaker);
+    const isWoman = /^woman|^female/i.test(turn.speaker);
+
+    if (isMan) {
+      // Giọng Nam (Trầm ấm)
+      const maleVoice = voices.find(v => 
+        v.lang.startsWith('en') && 
+        (v.name.includes('David') || v.name.includes('Guy') || v.name.includes('Mark') || v.name.includes('Christopher') || v.name.includes('Male') || v.name.includes('George'))
+      );
+      if (maleVoice) utterance.voice = maleVoice;
+      utterance.pitch = 0.82; // Cao độ trầm nam tính
+    } else if (isWoman) {
+      // Giọng Nữ (Thanh thoát)
+      const femaleVoice = voices.find(v => 
+        v.lang.startsWith('en') && 
+        (v.name.includes('Zira') || v.name.includes('Jenny') || v.name.includes('Samantha') || v.name.includes('Aria') || v.name.includes('Female') || v.name.includes('Google US'))
+      );
+      if (femaleVoice) utterance.voice = femaleVoice;
+      utterance.pitch = 1.28; // Cao độ trong trẻo nữ tính
+    } else {
+      // Giọng dẫn chuyện trung tính
+      const neutralVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Google')));
+      if (neutralVoice) utterance.voice = neutralVoice;
+      utterance.pitch = 1.0;
+    }
+
+    utterance.onend = () => {
+      if (!isPlayingRef.current) return;
+      // Nghỉ tự nhiên 280ms giữa các lượt nói của 2 người
+      turnTimeoutRef.current = setTimeout(() => {
+        playDialogueSequence(turns, turnIndex + 1);
+      }, 280);
+    };
+
+    utterance.onerror = () => {
+      if (isPlayingRef.current && turnIndex + 1 < turns.length) {
+        playDialogueSequence(turns, turnIndex + 1);
+      } else {
+        setIsPlaying(false);
+        setCurrentSpeaker(null);
+        isPlayingRef.current = false;
+      }
+    };
+
+    window.speechSynthesis.speak(utterance);
+  };
 
   const playAudio = (textToPlay) => {
     if (content.audio_url) {
@@ -101,22 +263,34 @@ export default function ListeningModule({ test, answers, onAnswerChange }) {
         alert('Trình duyệt của bạn không hỗ trợ đọc âm thanh Web Speech API.');
         return;
       }
-      window.speechSynthesis.cancel();
+      stopAudio();
 
-      const utterance = new SpeechSynthesisUtterance(textToPlay);
-      utterance.lang = 'en-US';
-      utterance.rate = playbackRate;
-
-      // Ưu tiên chọn giọng tiếng Anh tự nhiên nếu có
-      const voices = window.speechSynthesis.getVoices();
-      const usVoice = voices.find(v => v.lang === 'en-US' && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Jenny') || v.name.includes('Guy')));
-      if (usVoice) utterance.voice = usVoice;
-
-      utterance.onend = () => setIsPlaying(false);
-      utterance.onerror = () => setIsPlaying(false);
-
-      window.speechSynthesis.speak(utterance);
+      const turns = parseDialogueTurns(textToPlay, test.task_type);
+      isPlayingRef.current = true;
       setIsPlaying(true);
+
+      if (turns.length > 1) {
+        playDialogueSequence(turns, 0);
+      } else {
+        const utterance = new SpeechSynthesisUtterance(textToPlay);
+        utterance.lang = 'en-US';
+        utterance.rate = playbackRate;
+
+        const voices = window.speechSynthesis.getVoices();
+        const usVoice = voices.find(v => v.lang === 'en-US' && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Jenny') || v.name.includes('Guy')));
+        if (usVoice) utterance.voice = usVoice;
+
+        utterance.onend = () => {
+          setIsPlaying(false);
+          isPlayingRef.current = false;
+        };
+        utterance.onerror = () => {
+          setIsPlaying(false);
+          isPlayingRef.current = false;
+        };
+
+        window.speechSynthesis.speak(utterance);
+      }
     }
   };
 
@@ -244,6 +418,27 @@ export default function ListeningModule({ test, answers, onAnswerChange }) {
                 ? 'Lắng nghe phản xạ và chọn câu đáp lại hợp lý nhất theo chuẩn ngữ cảnh đại học.'
                 : 'Hãy vừa nghe vừa ghi chú nhanh các thông tin quan trọng vào sổ tay bên dưới.'}
             </p>
+
+            {/* Hiển thị vai người đang nói (Speaker Live Indicator) */}
+            {isPlaying && currentSpeaker && (
+              <div className="flex items-center justify-center gap-2 mb-3">
+                {/^man|^male/i.test(currentSpeaker) ? (
+                  <span className="px-3.5 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold border border-blue-400/40 flex items-center gap-1.5 shadow-sm animate-pulse">
+                    <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+                    👨 Đang nói: <strong>Man (Người nam • Giọng trầm)</strong>
+                  </span>
+                ) : /^woman|^female/i.test(currentSpeaker) ? (
+                  <span className="px-3.5 py-1 rounded-full bg-pink-500/20 text-pink-300 text-xs font-bold border border-pink-400/40 flex items-center gap-1.5 shadow-sm animate-pulse">
+                    <span className="w-2 h-2 rounded-full bg-pink-400"></span>
+                    👩 Đang nói: <strong>Woman (Người nữ • Giọng thanh)</strong>
+                  </span>
+                ) : (
+                  <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-medium border border-slate-700 flex items-center gap-1.5">
+                    📢 Đang nói: <strong>Narrator (Dẫn đề)</strong>
+                  </span>
+                )}
+              </div>
+            )}
 
             {/* Sóng âm thanh động (Equalizer Animation) */}
             <div className="flex items-center justify-center gap-1.5 h-12 mb-6 px-4">
@@ -396,11 +591,59 @@ export default function ListeningModule({ test, answers, onAnswerChange }) {
               </button>
 
               {showTranscript && (
-                <div className="mt-3 p-4 bg-amber-50/50 rounded-xl border border-amber-200/80 text-xs text-slate-800 leading-relaxed max-h-56 overflow-y-auto whitespace-pre-line font-serif selection:bg-amber-200">
-                  <div className="text-[10px] font-bold text-amber-800 uppercase mb-2 tracking-wider">
-                    Audio Transcript:
+                <div className="mt-3 p-4 bg-amber-50/50 rounded-xl border border-amber-200/80 text-xs text-slate-800 leading-relaxed max-h-64 overflow-y-auto selection:bg-amber-200">
+                  <div className="flex items-center justify-between border-b border-amber-200/60 pb-2 mb-3">
+                    <div className="text-[10px] font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
+                      <span>Audio Transcript:</span>
+                      {dialogueTurns.length > 1 && (
+                        <span className="bg-amber-200/80 text-amber-900 px-1.5 py-0.5 rounded text-[9px] font-extrabold">
+                          Phân vai hội thoại
+                        </span>
+                      )}
+                    </div>
+                    {dialogueTurns.length > 1 && (
+                      <span className="text-[10px] text-slate-500 font-medium">
+                        👨 Xanh = Man • 👩 Hồng = Woman
+                      </span>
+                    )}
                   </div>
-                  {currentAudioText}
+
+                  {dialogueTurns.length > 1 ? (
+                    <div className="space-y-2.5">
+                      {dialogueTurns.map((turn, tIdx) => {
+                        const isMan = /^man|^male/i.test(turn.speaker);
+                        const isWoman = /^woman|^female/i.test(turn.speaker);
+
+                        if (isMan) {
+                          return (
+                            <div key={tIdx} className="flex items-start gap-2.5 bg-blue-50/90 p-2.5 rounded-xl border border-blue-200 text-slate-900">
+                              <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-[#153e75] text-white shrink-0 flex items-center gap-1">
+                                👨 Man
+                              </span>
+                              <span className="text-xs leading-relaxed font-medium">{turn.text}</span>
+                            </div>
+                          );
+                        }
+                        if (isWoman) {
+                          return (
+                            <div key={tIdx} className="flex items-start gap-2.5 bg-pink-50/90 p-2.5 rounded-xl border border-pink-200 text-slate-900">
+                              <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-pink-700 text-white shrink-0 flex items-center gap-1">
+                                👩 Woman
+                              </span>
+                              <span className="text-xs leading-relaxed font-medium">{turn.text}</span>
+                            </div>
+                          );
+                        }
+                        return (
+                          <div key={tIdx} className="text-[11px] italic text-slate-600 bg-slate-100/90 p-2 rounded-lg border border-slate-200">
+                            📢 <strong>{turn.speaker}:</strong> {turn.text}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="whitespace-pre-line font-serif">{currentAudioText}</div>
+                  )}
                 </div>
               )}
             </div>
